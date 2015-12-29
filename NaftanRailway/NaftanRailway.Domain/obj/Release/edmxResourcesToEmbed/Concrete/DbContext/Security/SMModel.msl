@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="NorthwindModelStoreContainer" CdmEntityContainer="NorthwindEntities">
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="NorthwindModel.Orders">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Order_ID" ColumnName="Order ID" />
+          <ScalarProperty Name="Customer_ID" ColumnName="Customer ID" />
+          <ScalarProperty Name="Employee_ID" ColumnName="Employee ID" />
+          <ScalarProperty Name="Ship_Name" ColumnName="Ship Name" />
+          <ScalarProperty Name="Ship_Address" ColumnName="Ship Address" />
+          <ScalarProperty Name="Ship_City" ColumnName="Ship City" />
+          <ScalarProperty Name="Ship_Region" ColumnName="Ship Region" />
+          <ScalarProperty Name="Ship_Postal_Code" ColumnName="Ship Postal Code" />
+          <ScalarProperty Name="Ship_Country" ColumnName="Ship Country" />
+          <ScalarProperty Name="Ship_Via" ColumnName="Ship Via" />
+          <ScalarProperty Name="Order_Date" ColumnName="Order Date" />
+          <ScalarProperty Name="Required_Date" ColumnName="Required Date" />
+          <ScalarProperty Name="Shipped_Date" ColumnName="Shipped Date" />
+          <ScalarProperty Name="Freight" ColumnName="Freight" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

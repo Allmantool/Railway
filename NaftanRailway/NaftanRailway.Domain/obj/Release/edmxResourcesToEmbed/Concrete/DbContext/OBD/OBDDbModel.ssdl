@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OBDDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="OBDDbModelStoreContainer">
+    <EntitySet Name="krt_Naftan" EntityType="OBDDbModel.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="krt_Naftan_orc_sapod" EntityType="OBDDbModel.Store.krt_Naftan_orc_sapod" store:Type="Tables" store:Schema="dbo" store:Name="krt_Naftan_orc_sapod">
+      <DefiningQuery>SELECT 
+      [krt_Naftan_orc_sapod].[keykrt] AS [keykrt], 
+      [krt_Naftan_orc_sapod].[keysbor] AS [keysbor], 
+      [krt_Naftan_orc_sapod].[nomot] AS [nomot], 
+      [krt_Naftan_orc_sapod].[dt] AS [dt], 
+      [krt_Naftan_orc_sapod].[gruname] AS [gruname], 
+      [krt_Naftan_orc_sapod].[vidsbr] AS [vidsbr], 
+      [krt_Naftan_orc_sapod].[namesbr] AS [namesbr], 
+      [krt_Naftan_orc_sapod].[sm_no_nds] AS [sm_no_nds], 
+      [krt_Naftan_orc_sapod].[sm_nds] AS [sm_nds], 
+      [krt_Naftan_orc_sapod].[sm] AS [sm], 
+      [krt_Naftan_orc_sapod].[stnds] AS [stnds], 
+      [krt_Naftan_orc_sapod].[UNI_OTPR] AS [UNI_OTPR], 
+      [krt_Naftan_orc_sapod].[nper] AS [nper], 
+      [krt_Naftan_orc_sapod].[nkrt] AS [nkrt], 
+      [krt_Naftan_orc_sapod].[p_type] AS [p_type], 
+      [krt_Naftan_orc_sapod].[DtBuhOtchet] AS [DtBuhOtchet], 
+      [krt_Naftan_orc_sapod].[date_obrabot] AS [date_obrabot], 
+      [krt_Naftan_orc_sapod].[tdoc] AS [tdoc], 
+      [krt_Naftan_orc_sapod].[ORC_ID_ED] AS [ORC_ID_ED], 
+      [krt_Naftan_orc_sapod].[id] AS [id], 
+      [krt_Naftan_orc_sapod].[id_kart] AS [id_kart], 
+      [krt_Naftan_orc_sapod].[id_otpr] AS [id_otpr], 
+      [krt_Naftan_orc_sapod].[type_doc] AS [type_doc], 
+      [krt_Naftan_orc_sapod].[cod_sbor] AS [cod_sbor], 
+      [krt_Naftan_orc_sapod].[date_raskr] AS [date_raskr], 
+      [krt_Naftan_orc_sapod].[num_doc] AS [num_doc], 
+      [krt_Naftan_orc_sapod].[cena] AS [cena], 
+      [krt_Naftan_orc_sapod].[kol] AS [kol], 
+      [krt_Naftan_orc_sapod].[summa] AS [summa], 
+      [krt_Naftan_orc_sapod].[nds] AS [nds], 
+      [krt_Naftan_orc_sapod].[textm] AS [textm], 
+      [krt_Naftan_orc_sapod].[ID_ED] AS [ID_ED]
+      FROM [dbo].[krt_Naftan_orc_sapod] AS [krt_Naftan_orc_sapod]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+  <EntityType Name="krt_Naftan">
+    <Key>
+      <PropertyRef Name="KEYKRT" />
+    </Key>
+    <Property Name="KEYKRT" Type="bigint" Nullable="false" />
+    <Property Name="NKRT" Type="int" Nullable="false" />
+    <Property Name="NTREB" Type="int" Nullable="false" />
+    <Property Name="DTBUHOTCHET" Type="date" Nullable="false" />
+    <Property Name="DTTREB" Type="date" />
+    <Property Name="DTOPEN" Type="date" />
+    <Property Name="DTCLOSE" Type="date" />
+    <Property Name="SMTREB" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="NDSTREB" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="U_KOD" Type="smallint" Nullable="false" />
+    <Property Name="P_TYPE" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="DATE_OBRABOT" Type="datetime" Nullable="false" />
+    <Property Name="IN_REAL" Type="bit" Nullable="false" />
+    <Property Name="RecordCount" Type="int" Nullable="false" />
+    <Property Name="StartDate_PER" Type="date" Nullable="false" />
+    <Property Name="EndDate_PER" Type="date" Nullable="false" />
+    <Property Name="SignAdjustment_list" Type="bit" Nullable="false" />
+    <Property Name="Scroll_Sbor" Type="nvarchar" Nullable="false" MaxLength="120" />
+  </EntityType>
+  <!--Ошибки, обнаруженные при создании:
+      предупреждение 6002: В таблице или представлении "NSD2.dbo.krt_Naftan_orc_sapod" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.
+      -->
+  <EntityType Name="krt_Naftan_orc_sapod">
+    <Key>
+      <PropertyRef Name="keykrt" />
+      <PropertyRef Name="keysbor" />
+    </Key>
+    <Property Name="keykrt" Type="bigint" Nullable="false" />
+    <Property Name="keysbor" Type="bigint" Nullable="false" />
+    <Property Name="nomot" Type="nvarchar" MaxLength="10" />
+    <Property Name="dt" Type="date" />
+    <Property Name="gruname" Type="nvarchar" MaxLength="50" />
+    <Property Name="vidsbr" Type="smallint" />
+    <Property Name="namesbr" Type="nvarchar" MaxLength="100" />
+    <Property Name="sm_no_nds" Type="decimal" Scale="2" />
+    <Property Name="sm_nds" Type="decimal" Scale="2" />
+    <Property Name="sm" Type="decimal" Scale="2" />
+    <Property Name="stnds" Type="decimal" Scale="2" />
+    <Property Name="UNI_OTPR" Type="nvarchar" MaxLength="50" />
+    <Property Name="nper" Type="int" />
+    <Property Name="nkrt" Type="nvarchar" MaxLength="10" />
+    <Property Name="p_type" Type="nvarchar" MaxLength="1" />
+    <Property Name="DtBuhOtchet" Type="date" />
+    <Property Name="date_obrabot" Type="datetime" />
+    <Property Name="tdoc" Type="tinyint" />
+    <Property Name="ORC_ID_ED" Type="int" />
+    <Property Name="id" Type="int" />
+    <Property Name="id_kart" Type="int" />
+    <Property Name="id_otpr" Type="int" />
+    <Property Name="type_doc" Type="smallint" />
+    <Property Name="cod_sbor" Type="smallint" />
+    <Property Name="date_raskr" Type="date" />
+    <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
+    <Property Name="cena" Type="decimal" Scale="2" />
+    <Property Name="kol" Type="decimal" Scale="2" />
+    <Property Name="summa" Type="decimal" Scale="2" />
+    <Property Name="nds" Type="decimal" Scale="2" />
+    <Property Name="textm" Type="nvarchar(max)" />
+    <Property Name="ID_ED" Type="int" />
+  </EntityType>
+</Schema>

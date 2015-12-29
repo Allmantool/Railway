@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="OBDEntitiesContex" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="v_akt" EntityType="Model.v_akt" />
+    <EntitySet Name="v_akt_sb" EntityType="Model.v_akt_sb" />
+    <EntitySet Name="v_kart" EntityType="Model.v_kart" />
+    <EntitySet Name="v_nach" EntityType="Model.v_nach" />
+    <EntitySet Name="v_o_v" EntityType="Model.v_o_v" />
+    <EntitySet Name="v_otprs" EntityType="Model.v_otpr" />
+    <EntitySet Name="v_pam" EntityType="Model.v_pam" />
+    <EntitySet Name="v_pam_sb" EntityType="Model.v_pam_sb" />
+    <EntitySet Name="v_pam_vag" EntityType="Model.v_pam_vag" />
+    <EntitySet Name="v_vag_sb" EntityType="Model.v_vag_sb" />
+  </EntityContainer>
+  <EntityType Name="v_akt">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="kodls" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="nakt" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="dakt" Type="DateTime" />
+    <Property Name="kodkl" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="nkrt" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="id_kart" Type="Int32" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="pr_external_work" Type="Int32" />
+  </EntityType>
+  <EntityType Name="v_akt_sb">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_akt" />
+      <PropertyRef Name="id_vag" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id_akt" Type="Int32" Nullable="false" />
+    <Property Name="id_vag" Type="Int32" Nullable="false" />
+    <Property Name="kod_sb" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="sum_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="nds_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="v_kart">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="uni_kart" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="num_kart" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="cod_stan" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="date_okrt" Type="DateTime" />
+    <Property Name="cod_pl" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="nod_pl" Type="Int16" />
+    <Property Name="mfo" Type="String" MaxLength="9" Unicode="false" FixedLength="true" />
+    <Property Name="rash" Type="String" MaxLength="13" Unicode="false" FixedLength="true" />
+    <Property Name="num_plat_por" Type="Int32" />
+    <Property Name="date_plat_por" Type="DateTime" />
+    <Property Name="type_kart" Type="Int16" />
+    <Property Name="cod_ls" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="num_dogovor" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="cod_currency" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="summa" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="state" Type="Int64" />
+    <Property Name="num_fdu93" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+    <Property Name="date_fdu93" Type="DateTime" />
+    <Property Name="pr_external_work" Type="Int32" />
+    <Property Name="state_dbf" Type="Int64" />
+    <Property Name="date_zkrt" Type="DateTime" />
+  </EntityType>
+  <EntityType Name="v_nach">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_kart" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="id_kart" Type="Int32" Nullable="false" />
+    <Property Name="id_otpr" Type="Int32" />
+    <Property Name="uni_otpr" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="cod_kl" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="nod_kl" Type="Int16" />
+    <Property Name="type_doc" Type="Int32" />
+    <Property Name="oper" Type="Int16" />
+    <Property Name="cod_sbor" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="date_raskr" Type="DateTime" />
+    <Property Name="num_doc" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="kol" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="summa" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="cod_currency" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="num_kart_sd" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="id_ed" Type="Int32" />
+  </EntityType>
+  <EntityType Name="v_o_v">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_otpr" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" />
+    <Property Name="id_otpr" Type="Int32" Nullable="false" />
+    <Property Name="n_vag" Type="String" MaxLength="8" Unicode="false" FixedLength="false" />
+    <Property Name="prov" Type="Int16" />
+    <Property Name="texn" Type="Int16" />
+    <Property Name="massa" Type="Int32" />
+    <Property Name="prim" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="pr_zam" Type="Int16" />
+    <Property Name="cod_vidot" Type="Int16" />
+    <Property Name="ves_n_ob" Type="Int32" />
+    <Property Name="n_sx" Type="Int16" />
+    <Property Name="npp" Type="Int16" />
+    <Property Name="n_vag_p" Type="String" MaxLength="12" Unicode="false" FixedLength="true" />
+    <Property Name="pr_v_k" Type="Int16" />
+    <Property Name="cod_gruz_old" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="sobs" Type="Int16" />
+    <Property Name="cod_negab" Type="String" MaxLength="4" Unicode="false" FixedLength="true" />
+    <Property Name="poluchatel" Type="String" MaxLength="20" Unicode="false" FixedLength="true" />
+    <Property Name="nom_scheme1" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="nom_scheme2" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="n_ob_in_tara" Type="Boolean" />
+    <Property Name="cod_stan_nazn" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="proveren_tara" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_v" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_v" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prib" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prov_prib" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prib" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prov_prib" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_otpr" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov_otpr" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="poniz_kof_tp" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="pr_skid" Type="Int16" />
+    <Property Name="num_tel_is_tar" Type="String" MaxLength="15" Unicode="false" FixedLength="true" />
+    <Property Name="kol_vag_metan" Type="Int32" />
+    <Property Name="is_print" Type="Boolean" />
+    <Property Name="kof_skid" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="is_skid" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="v_otpr">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="n_visas" Type="Int64" />
+    <Property Name="num_zag" Type="String" MaxLength="12" Unicode="false" FixedLength="true" />
+    <Property Name="uni_otpr" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="stan_oper" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="oper" Type="Int16" />
+    <Property Name="date_oper" Type="DateTime" />
+    <Property Name="n_otpr" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="vid_doc" Type="Int16" />
+    <Property Name="cod_vidot" Type="Int16" />
+    <Property Name="cod_v_soob" Type="Int16" />
+    <Property Name="skor" Type="Int16" />
+    <Property Name="date_p" Type="DateTime" />
+    <Property Name="date_o" Type="DateTime" />
+    <Property Name="cod_st_otpr" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="cod_coun_otpr" Type="Int16" />
+    <Property Name="cod_kl_otpr" Type="String" MaxLength="20" Unicode="false" FixedLength="true" />
+    <Property Name="nod_kl_otpr" Type="Int16" />
+    <Property Name="cod_st_nazn" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="cod_coun_nazn" Type="Int16" />
+    <Property Name="cod_klient_pol" Type="String" MaxLength="20" Unicode="false" FixedLength="true" />
+    <Property Name="nod_kl_pol" Type="Int16" />
+    <Property Name="rast_bel" Type="Int32" />
+    <Property Name="cod_currency" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="cod_o_mas" Type="Int16" />
+    <Property Name="pogr" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+    <Property Name="paragr" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="glava" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="g6" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+    <Property Name="cena" Type="Decimal" Precision="16" Scale="2" />
+    <Property Name="shema" Type="Int16" />
+    <Property Name="plata" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="rod_ps" Type="String" MaxLength="4" Unicode="false" FixedLength="true" />
+    <Property Name="cod_vidras" Type="Int16" />
+    <Property Name="cod_vidrab" Type="Int16" />
+    <Property Name="g4" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="g16" Type="String" MaxLength="34" Unicode="false" FixedLength="true" />
+    <Property Name="codrsd" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="g8" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
+    <Property Name="g91" Type="String" MaxLength="189" Unicode="false" FixedLength="false" />
+    <Property Name="cod_adm_o" Type="Int16" />
+    <Property Name="cod_adm_n" Type="Int16" />
+    <Property Name="date_dostav" Type="DateTime" />
+    <Property Name="massa_rasch" Type="Int32" />
+    <Property Name="g5" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="g11" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+    <Property Name="g18" Type="String" MaxLength="52" Unicode="false" FixedLength="false" />
+    <Property Name="g19" Type="String" MaxLength="32" Unicode="false" FixedLength="false" />
+    <Property Name="g20" Type="String" MaxLength="143" Unicode="false" FixedLength="false" />
+    <Property Name="g26" Type="String" MaxLength="72" Unicode="false" FixedLength="false" />
+    <Property Name="g1" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+    <Property Name="cod_tvk_etsng" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="cod_tvk_algng" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="massa_otpr" Type="Int32" />
+    <Property Name="cod_upak" Type="Int16" />
+    <Property Name="tvg_k_mest" Type="Int16" />
+    <Property Name="tvg_tara" Type="Int16" />
+    <Property Name="tvk_zn_otpr" Type="String" MaxLength="10" Unicode="false" FixedLength="true" />
+    <Property Name="rem_isk_tarif" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+    <Property Name="tiptarif" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="dogovor_kl_kl" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="cod_st_sort_kont" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="cod_plat" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="name_plat" Type="String" MaxLength="80" Unicode="false" FixedLength="false" />
+    <Property Name="nod_plat" Type="Int16" />
+    <Property Name="type_doc" Type="Int32" />
+    <Property Name="vid_vag_pf" Type="Int16" />
+    <Property Name="container_train" Type="Int16" />
+    <Property Name="cod_tip_tar" Type="Int32" />
+    <Property Name="pl_provoz" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_provoz" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_prov" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_dsb" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_dsb" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_all" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pr_ot" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov_ot" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prib_tranzit" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pl_ot_tran" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="pr_nds_pl_provoz" Type="Int32" />
+    <Property Name="pr_nds_dsb" Type="Int32" />
+    <Property Name="k_usr_br" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="k_rur_br" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="tp_stavka" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="g8_1" Type="String" MaxLength="125" Unicode="false" FixedLength="false" />
+    <Property Name="adr_kl_1000" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="fio_kl_1000" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="ves_one_places" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="vidkoforrr" Type="Int32" />
+    <Property Name="extract_passport" Type="Boolean" />
+    <Property Name="stan_izlom0" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="stan_izlom1" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="stan_izlom2" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="kof_tp" Type="Decimal" Precision="7" Scale="4" />
+    <Property Name="nds_tp" Type="Decimal" Precision="7" Scale="4" />
+    <Property Name="g8_stik" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="pogr_ves" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="save_dispatcher_g20" Type="Boolean" />
+    <Property Name="num_doc_reforwarding" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="stan_transfer" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="rate_divide_scales" Type="Int16" />
+    <Property Name="rem_vid_ras" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="rem_skidki" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="skidka" Type="Int16" />
+    <Property Name="kof_skid" Type="Decimal" Precision="18" Scale="4" />
+    <Property Name="pr_external_work" Type="Int32" />
+    <Property Name="adr_otpr" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+    <Property Name="adr_pol" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+    <Property Name="nam_otpr" Type="String" MaxLength="130" Unicode="false" FixedLength="false" />
+    <Property Name="nam_pol" Type="String" MaxLength="130" Unicode="false" FixedLength="false" />
+    <Property Name="fio_tk" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+    <Property Name="id_plant" Type="String" MaxLength="36" Unicode="false" FixedLength="true" />
+    <Property Name="class_dan" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="num_oon" Type="Int16" />
+    <Property Name="num_dan_kart" Type="Int16" />
+    <Property Name="id_mes_plan" Type="Int32" />
+    <Property Name="return_empty_vag" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="nds_return_empty" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="prib_return_empty" Type="Decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="v_pam">
+    <Key>
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_ved" Type="Int32" Nullable="false" />
+    <Property Name="id_ved_dbf" Type="String" MaxLength="11" Unicode="false" FixedLength="true" />
+    <Property Name="kodls" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="nved" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="dved" Type="DateTime" />
+    <Property Name="dzakr" Type="DateTime" />
+    <Property Name="kodkl" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="ndog" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+    <Property Name="r_oba" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="pr_put" Type="Int16" />
+    <Property Name="put" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="pr_lok" Type="Int16" />
+    <Property Name="pr_lokf" Type="Int16" />
+    <Property Name="prlokub" Type="Int16" />
+    <Property Name="pr_razg" Type="Int16" />
+    <Property Name="nkrt" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="id_kart" Type="Int32" />
+    <Property Name="n_tab" Type="Int16" />
+    <Property Name="v_ob" Type="Int16" />
+    <Property Name="nper" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="state" Type="Int32" />
+    <Property Name="pr_external_work" Type="Int32" />
+  </EntityType>
+  <EntityType Name="v_pam_sb">
+    <Key>
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_ved" Type="Int32" Nullable="false" />
+    <Property Name="kod_sb" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="sum_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="nds_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="kodusl" Type="Int16" />
+    <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="d_sb" Type="DateTime" />
+    <Property Name="kol_oper" Type="Int32" />
+  </EntityType>
+  <EntityType Name="v_pam_vag">
+    <Key>
+      <PropertyRef Name="id_vag" />
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_vag" Type="Int32" Nullable="false" />
+    <Property Name="id_ved" Type="Int32" Nullable="false" />
+    <Property Name="npam" Type="String" MaxLength="5" Unicode="false" FixedLength="true" />
+    <Property Name="npp" Type="Int16" />
+    <Property Name="nomvag" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+    <Property Name="sob_s" Type="String" MaxLength="2" Unicode="false" FixedLength="true" />
+    <Property Name="sob_v" Type="Int16" />
+    <Property Name="sogl" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
+    <Property Name="tipvag" Type="Int16" />
+    <Property Name="kodgr" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
+    <Property Name="kodop" Type="Int16" />
+    <Property Name="d_pod" Type="DateTime" />
+    <Property Name="d_vig" Type="DateTime" />
+    <Property Name="d_ok" Type="DateTime" />
+    <Property Name="d_ub" Type="DateTime" />
+    <Property Name="t_man" Type="Int32" />
+    <Property Name="t_nor" Type="Int32" />
+    <Property Name="t_dop" Type="Int32" />
+    <Property Name="krat" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="prim" Type="String" MaxLength="77" Unicode="false" FixedLength="false" />
+    <Property Name="prob" Type="Int32" />
+    <Property Name="prsvnor" Type="Int32" />
+    <Property Name="id_otpr1" Type="Int32" />
+    <Property Name="id_otpr2" Type="Int32" />
+    <Property Name="no_plat_podach" Type="Int32" />
+  </EntityType>
+  <EntityType Name="v_vag_sb">
+    <Key>
+      <PropertyRef Name="id_ved" />
+      <PropertyRef Name="id_vag" />
+    </Key>
+    <Property Name="id_ved" Type="Int32" Nullable="false" />
+    <Property Name="id_vag" Type="Int32" Nullable="false" />
+    <Property Name="kod_sb" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
+    <Property Name="sum_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="nds_sb" Type="Decimal" Precision="18" Scale="3" />
+    <Property Name="kodusl" Type="Int16" />
+  </EntityType>
+</Schema>

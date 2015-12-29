@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HomeDbSapodModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="HomeDbSapodModelStoreContainer">
+    <EntitySet Name="Shipping" EntityType="HomeDbSapodModel.Store.Shipping" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="Shipping">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" />
+    <Property Name="n_visas" Type="bigint" />
+    <Property Name="num_zag" Type="char" MaxLength="12" />
+    <Property Name="uni_otpr" Type="char" MaxLength="10" />
+    <Property Name="stan_oper" Type="char" MaxLength="6" />
+    <Property Name="oper" Type="smallint" />
+    <Property Name="date_oper" Type="datetime" />
+    <Property Name="n_otpr" Type="char" MaxLength="8" />
+    <Property Name="vid_doc" Type="smallint" />
+    <Property Name="cod_vidot" Type="smallint" />
+    <Property Name="cod_v_soob" Type="smallint" />
+    <Property Name="skor" Type="smallint" />
+    <Property Name="date_p" Type="datetime" />
+    <Property Name="date_o" Type="datetime" />
+    <Property Name="cod_st_otpr" Type="char" MaxLength="6" />
+    <Property Name="cod_coun_otpr" Type="smallint" />
+    <Property Name="cod_kl_otpr" Type="char" MaxLength="20" />
+    <Property Name="nod_kl_otpr" Type="smallint" />
+    <Property Name="cod_st_nazn" Type="char" MaxLength="6" />
+    <Property Name="cod_coun_nazn" Type="smallint" />
+    <Property Name="cod_klient_pol" Type="char" MaxLength="20" />
+    <Property Name="nod_kl_pol" Type="smallint" />
+    <Property Name="rast_bel" Type="int" />
+    <Property Name="cod_currency" Type="char" MaxLength="3" />
+    <Property Name="cod_o_mas" Type="smallint" />
+    <Property Name="pogr" Type="char" MaxLength="1" />
+    <Property Name="paragr" Type="char" MaxLength="2" />
+    <Property Name="glava" Type="char" MaxLength="2" />
+    <Property Name="g6" Type="varchar" MaxLength="300" />
+    <Property Name="cena" Type="numeric" Precision="16" Scale="2" />
+    <Property Name="shema" Type="smallint" />
+    <Property Name="plata" Type="numeric" Scale="2" />
+    <Property Name="rod_ps" Type="char" MaxLength="4" />
+    <Property Name="cod_vidras" Type="smallint" />
+    <Property Name="cod_vidrab" Type="smallint" />
+    <Property Name="g4" Type="text" />
+    <Property Name="g16" Type="char" MaxLength="34" />
+    <Property Name="codrsd" Type="char" MaxLength="10" />
+    <Property Name="g8" Type="varchar" MaxLength="40" />
+    <Property Name="g91" Type="varchar" MaxLength="189" />
+    <Property Name="cod_adm_o" Type="smallint" />
+    <Property Name="cod_adm_n" Type="smallint" />
+    <Property Name="date_dostav" Type="datetime" />
+    <Property Name="massa_rasch" Type="int" />
+    <Property Name="g5" Type="varchar" MaxLength="200" />
+    <Property Name="g11" Type="text" />
+    <Property Name="g18" Type="varchar" MaxLength="52" />
+    <Property Name="g19" Type="varchar" MaxLength="32" />
+    <Property Name="g20" Type="varchar" MaxLength="143" />
+    <Property Name="g26" Type="varchar" MaxLength="72" />
+    <Property Name="g1" Type="varchar" MaxLength="250" />
+    <Property Name="cod_tvk_etsng" Type="char" MaxLength="6" />
+    <Property Name="cod_tvk_algng" Type="char" MaxLength="8" />
+    <Property Name="massa_otpr" Type="int" />
+    <Property Name="cod_upak" Type="smallint" />
+    <Property Name="tvg_k_mest" Type="smallint" />
+    <Property Name="tvg_tara" Type="smallint" />
+    <Property Name="tvk_zn_otpr" Type="char" MaxLength="10" />
+    <Property Name="rem_isk_tarif" Type="varchar" MaxLength="30" />
+    <Property Name="tiptarif" Type="varchar" MaxLength="10" />
+    <Property Name="dogovor_kl_kl" Type="varchar" MaxLength="50" />
+    <Property Name="cod_st_sort_kont" Type="char" MaxLength="6" />
+    <Property Name="cod_plat" Type="char" MaxLength="8" />
+    <Property Name="name_plat" Type="varchar" MaxLength="80" />
+    <Property Name="nod_plat" Type="smallint" />
+    <Property Name="type_doc" Type="int" />
+    <Property Name="vid_vag_pf" Type="smallint" />
+    <Property Name="container_train" Type="smallint" />
+    <Property Name="cod_tip_tar" Type="int" />
+    <Property Name="pl_provoz" Type="numeric" Scale="2" />
+    <Property Name="nds_pl_provoz" Type="numeric" Scale="2" />
+    <Property Name="pl_prov" Type="numeric" Scale="2" />
+    <Property Name="nds_pl_prov" Type="numeric" Scale="2" />
+    <Property Name="pl_dsb" Type="numeric" Scale="2" />
+    <Property Name="nds_pl_dsb" Type="numeric" Scale="2" />
+    <Property Name="pl_all" Type="numeric" Scale="2" />
+    <Property Name="pl_pr_ot" Type="numeric" Scale="2" />
+    <Property Name="pl_prov_ot" Type="numeric" Scale="2" />
+    <Property Name="pl_prib_tranzit" Type="numeric" Scale="2" />
+    <Property Name="pl_ot_tran" Type="numeric" Scale="2" />
+    <Property Name="pr_nds_pl_provoz" Type="int" />
+    <Property Name="pr_nds_dsb" Type="int" />
+    <Property Name="k_usr_br" Type="numeric" Scale="2" />
+    <Property Name="k_rur_br" Type="numeric" Scale="2" />
+    <Property Name="tp_stavka" Type="numeric" Scale="4" />
+    <Property Name="g8_1" Type="varchar" MaxLength="125" />
+    <Property Name="adr_kl_1000" Type="varchar" MaxLength="200" />
+    <Property Name="fio_kl_1000" Type="varchar" MaxLength="200" />
+    <Property Name="ves_one_places" Type="numeric" Scale="3" />
+    <Property Name="vidkoforrr" Type="int" />
+    <Property Name="extract_passport" Type="bit" />
+    <Property Name="stan_izlom0" Type="char" MaxLength="6" />
+    <Property Name="stan_izlom1" Type="char" MaxLength="6" />
+    <Property Name="stan_izlom2" Type="char" MaxLength="6" />
+    <Property Name="kof_tp" Type="numeric" Precision="7" Scale="4" />
+    <Property Name="nds_tp" Type="numeric" Precision="7" Scale="4" />
+    <Property Name="g8_stik" Type="varchar" MaxLength="50" />
+    <Property Name="pogr_ves" Type="numeric" Scale="6" />
+    <Property Name="save_dispatcher_g20" Type="bit" />
+    <Property Name="num_doc_reforwarding" Type="char" MaxLength="8" />
+    <Property Name="stan_transfer" Type="char" MaxLength="6" />
+    <Property Name="rate_divide_scales" Type="smallint" />
+    <Property Name="rem_vid_ras" Type="varchar" MaxLength="200" />
+    <Property Name="rem_skidki" Type="varchar" MaxLength="200" />
+    <Property Name="skidka" Type="smallint" />
+    <Property Name="kof_skid" Type="numeric" Scale="4" />
+    <Property Name="pr_external_work" Type="int" />
+    <Property Name="adr_otpr" Type="varchar" MaxLength="250" />
+    <Property Name="adr_pol" Type="varchar" MaxLength="250" />
+    <Property Name="nam_otpr" Type="varchar" MaxLength="130" />
+    <Property Name="nam_pol" Type="varchar" MaxLength="130" />
+    <Property Name="fio_tk" Type="varchar" MaxLength="15" />
+    <Property Name="id_plant" Type="char" MaxLength="36" />
+    <Property Name="class_dan" Type="char" MaxLength="3" />
+    <Property Name="num_oon" Type="smallint" />
+    <Property Name="num_dan_kart" Type="smallint" />
+    <Property Name="id_mes_plan" Type="int" />
+    <Property Name="return_empty_vag" Type="numeric" Scale="2" />
+    <Property Name="nds_return_empty" Type="numeric" Scale="2" />
+    <Property Name="prib_return_empty" Type="numeric" Scale="2" />
+  </EntityType>
+</Schema>

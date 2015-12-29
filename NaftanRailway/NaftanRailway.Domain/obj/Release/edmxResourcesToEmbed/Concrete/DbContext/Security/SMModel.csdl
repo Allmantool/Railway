@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NorthwindModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="NorthwindEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Orders" EntityType="NorthwindModel.Orders" />
+  </EntityContainer>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Order_ID" />
+    </Key>
+    <Property Name="Order_ID" Type="Int32" Nullable="false" />
+    <Property Name="Customer_ID" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+    <Property Name="Employee_ID" Type="Int32" />
+    <Property Name="Ship_Name" Type="String" MaxLength="40" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_Address" Type="String" MaxLength="60" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_City" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_Region" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_Postal_Code" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_Country" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Ship_Via" Type="Int32" />
+    <Property Name="Order_Date" Type="DateTime" />
+    <Property Name="Required_Date" Type="DateTime" />
+    <Property Name="Shipped_Date" Type="DateTime" />
+    <Property Name="Freight" Type="Decimal" Precision="19" Scale="4" />
+  </EntityType>
+</Schema>

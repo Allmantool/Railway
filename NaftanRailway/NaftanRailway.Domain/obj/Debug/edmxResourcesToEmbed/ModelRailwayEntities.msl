@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="OBDEntitiesContex">
+    <EntitySetMapping Name="v_akt">
+      <EntityTypeMapping TypeName="Model.v_akt">
+        <MappingFragment StoreEntitySet="v_akt">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="kodls" ColumnName="kodls" />
+          <ScalarProperty Name="nakt" ColumnName="nakt" />
+          <ScalarProperty Name="dakt" ColumnName="dakt" />
+          <ScalarProperty Name="kodkl" ColumnName="kodkl" />
+          <ScalarProperty Name="nkrt" ColumnName="nkrt" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="pr_external_work" ColumnName="pr_external_work" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_akt_sb">
+      <EntityTypeMapping TypeName="Model.v_akt_sb">
+        <MappingFragment StoreEntitySet="v_akt_sb">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_akt" ColumnName="id_akt" />
+          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="kod_sb" ColumnName="kod_sb" />
+          <ScalarProperty Name="sum_sb" ColumnName="sum_sb" />
+          <ScalarProperty Name="nds_sb" ColumnName="nds_sb" />
+          <ScalarProperty Name="textm" ColumnName="textm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_kart">
+      <EntityTypeMapping TypeName="Model.v_kart">
+        <MappingFragment StoreEntitySet="v_kart">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="uni_kart" ColumnName="uni_kart" />
+          <ScalarProperty Name="num_kart" ColumnName="num_kart" />
+          <ScalarProperty Name="cod_stan" ColumnName="cod_stan" />
+          <ScalarProperty Name="date_okrt" ColumnName="date_okrt" />
+          <ScalarProperty Name="cod_pl" ColumnName="cod_pl" />
+          <ScalarProperty Name="nod_pl" ColumnName="nod_pl" />
+          <ScalarProperty Name="mfo" ColumnName="mfo" />
+          <ScalarProperty Name="rash" ColumnName="rash" />
+          <ScalarProperty Name="num_plat_por" ColumnName="num_plat_por" />
+          <ScalarProperty Name="date_plat_por" ColumnName="date_plat_por" />
+          <ScalarProperty Name="type_kart" ColumnName="type_kart" />
+          <ScalarProperty Name="cod_ls" ColumnName="cod_ls" />
+          <ScalarProperty Name="num_dogovor" ColumnName="num_dogovor" />
+          <ScalarProperty Name="cod_currency" ColumnName="cod_currency" />
+          <ScalarProperty Name="summa" ColumnName="summa" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="num_fdu93" ColumnName="num_fdu93" />
+          <ScalarProperty Name="date_fdu93" ColumnName="date_fdu93" />
+          <ScalarProperty Name="pr_external_work" ColumnName="pr_external_work" />
+          <ScalarProperty Name="state_dbf" ColumnName="state_dbf" />
+          <ScalarProperty Name="date_zkrt" ColumnName="date_zkrt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_nach">
+      <EntityTypeMapping TypeName="Model.v_nach">
+        <MappingFragment StoreEntitySet="v_nach">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="uni_otpr" ColumnName="uni_otpr" />
+          <ScalarProperty Name="cod_kl" ColumnName="cod_kl" />
+          <ScalarProperty Name="nod_kl" ColumnName="nod_kl" />
+          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="cod_sbor" ColumnName="cod_sbor" />
+          <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
+          <ScalarProperty Name="num_doc" ColumnName="num_doc" />
+          <ScalarProperty Name="cena" ColumnName="cena" />
+          <ScalarProperty Name="kol" ColumnName="kol" />
+          <ScalarProperty Name="summa" ColumnName="summa" />
+          <ScalarProperty Name="nds" ColumnName="nds" />
+          <ScalarProperty Name="cod_currency" ColumnName="cod_currency" />
+          <ScalarProperty Name="num_kart_sd" ColumnName="num_kart_sd" />
+          <ScalarProperty Name="textm" ColumnName="textm" />
+          <ScalarProperty Name="id_ed" ColumnName="id_ed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_o_v">
+      <EntityTypeMapping TypeName="Model.v_o_v">
+        <MappingFragment StoreEntitySet="v_o_v">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="n_vag" ColumnName="n_vag" />
+          <ScalarProperty Name="prov" ColumnName="prov" />
+          <ScalarProperty Name="texn" ColumnName="texn" />
+          <ScalarProperty Name="massa" ColumnName="massa" />
+          <ScalarProperty Name="prim" ColumnName="prim" />
+          <ScalarProperty Name="pr_zam" ColumnName="pr_zam" />
+          <ScalarProperty Name="cod_vidot" ColumnName="cod_vidot" />
+          <ScalarProperty Name="ves_n_ob" ColumnName="ves_n_ob" />
+          <ScalarProperty Name="n_sx" ColumnName="n_sx" />
+          <ScalarProperty Name="npp" ColumnName="npp" />
+          <ScalarProperty Name="n_vag_p" ColumnName="n_vag_p" />
+          <ScalarProperty Name="pr_v_k" ColumnName="pr_v_k" />
+          <ScalarProperty Name="cod_gruz_old" ColumnName="cod_gruz_old" />
+          <ScalarProperty Name="sobs" ColumnName="sobs" />
+          <ScalarProperty Name="cod_negab" ColumnName="cod_negab" />
+          <ScalarProperty Name="poluchatel" ColumnName="poluchatel" />
+          <ScalarProperty Name="nom_scheme1" ColumnName="nom_scheme1" />
+          <ScalarProperty Name="nom_scheme2" ColumnName="nom_scheme2" />
+          <ScalarProperty Name="n_ob_in_tara" ColumnName="n_ob_in_tara" />
+          <ScalarProperty Name="cod_stan_nazn" ColumnName="cod_stan_nazn" />
+          <ScalarProperty Name="proveren_tara" ColumnName="proveren_tara" />
+          <ScalarProperty Name="pl_v" ColumnName="pl_v" />
+          <ScalarProperty Name="pl_prov" ColumnName="pl_prov" />
+          <ScalarProperty Name="nds_pl_v" ColumnName="nds_pl_v" />
+          <ScalarProperty Name="nds_pl_prov" ColumnName="nds_pl_prov" />
+          <ScalarProperty Name="pl_pereadr_prib" ColumnName="pl_pereadr_prib" />
+          <ScalarProperty Name="pl_pereadr_prov_prib" ColumnName="pl_pereadr_prov_prib" />
+          <ScalarProperty Name="ndspl_pereadr_prib" ColumnName="ndspl_pereadr_prib" />
+          <ScalarProperty Name="ndspl_pereadr_prov_prib" ColumnName="ndspl_pereadr_prov_prib" />
+          <ScalarProperty Name="pl_otpr" ColumnName="pl_otpr" />
+          <ScalarProperty Name="pl_prov_otpr" ColumnName="pl_prov_otpr" />
+          <ScalarProperty Name="pl_pereadr" ColumnName="pl_pereadr" />
+          <ScalarProperty Name="pl_pereadr_prov" ColumnName="pl_pereadr_prov" />
+          <ScalarProperty Name="ndspl_pereadr" ColumnName="ndspl_pereadr" />
+          <ScalarProperty Name="ndspl_pereadr_prov" ColumnName="ndspl_pereadr_prov" />
+          <ScalarProperty Name="poniz_kof_tp" ColumnName="poniz_kof_tp" />
+          <ScalarProperty Name="pr_skid" ColumnName="pr_skid" />
+          <ScalarProperty Name="num_tel_is_tar" ColumnName="num_tel_is_tar" />
+          <ScalarProperty Name="kol_vag_metan" ColumnName="kol_vag_metan" />
+          <ScalarProperty Name="is_print" ColumnName="is_print" />
+          <ScalarProperty Name="kof_skid" ColumnName="kof_skid" />
+          <ScalarProperty Name="is_skid" ColumnName="is_skid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_otprs">
+      <EntityTypeMapping TypeName="Model.v_otpr">
+        <MappingFragment StoreEntitySet="v_otpr">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="n_visas" ColumnName="n_visas" />
+          <ScalarProperty Name="num_zag" ColumnName="num_zag" />
+          <ScalarProperty Name="uni_otpr" ColumnName="uni_otpr" />
+          <ScalarProperty Name="stan_oper" ColumnName="stan_oper" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="date_oper" ColumnName="date_oper" />
+          <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+          <ScalarProperty Name="vid_doc" ColumnName="vid_doc" />
+          <ScalarProperty Name="cod_vidot" ColumnName="cod_vidot" />
+          <ScalarProperty Name="cod_v_soob" ColumnName="cod_v_soob" />
+          <ScalarProperty Name="skor" ColumnName="skor" />
+          <ScalarProperty Name="date_p" ColumnName="date_p" />
+          <ScalarProperty Name="date_o" ColumnName="date_o" />
+          <ScalarProperty Name="cod_st_otpr" ColumnName="cod_st_otpr" />
+          <ScalarProperty Name="cod_coun_otpr" ColumnName="cod_coun_otpr" />
+          <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
+          <ScalarProperty Name="nod_kl_otpr" ColumnName="nod_kl_otpr" />
+          <ScalarProperty Name="cod_st_nazn" ColumnName="cod_st_nazn" />
+          <ScalarProperty Name="cod_coun_nazn" ColumnName="cod_coun_nazn" />
+          <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
+          <ScalarProperty Name="nod_kl_pol" ColumnName="nod_kl_pol" />
+          <ScalarProperty Name="rast_bel" ColumnName="rast_bel" />
+          <ScalarProperty Name="cod_currency" ColumnName="cod_currency" />
+          <ScalarProperty Name="cod_o_mas" ColumnName="cod_o_mas" />
+          <ScalarProperty Name="pogr" ColumnName="pogr" />
+          <ScalarProperty Name="paragr" ColumnName="paragr" />
+          <ScalarProperty Name="glava" ColumnName="glava" />
+          <ScalarProperty Name="g6" ColumnName="g6" />
+          <ScalarProperty Name="cena" ColumnName="cena" />
+          <ScalarProperty Name="shema" ColumnName="shema" />
+          <ScalarProperty Name="plata" ColumnName="plata" />
+          <ScalarProperty Name="rod_ps" ColumnName="rod_ps" />
+          <ScalarProperty Name="cod_vidras" ColumnName="cod_vidras" />
+          <ScalarProperty Name="cod_vidrab" ColumnName="cod_vidrab" />
+          <ScalarProperty Name="g4" ColumnName="g4" />
+          <ScalarProperty Name="g16" ColumnName="g16" />
+          <ScalarProperty Name="codrsd" ColumnName="codrsd" />
+          <ScalarProperty Name="g8" ColumnName="g8" />
+          <ScalarProperty Name="g91" ColumnName="g91" />
+          <ScalarProperty Name="cod_adm_o" ColumnName="cod_adm_o" />
+          <ScalarProperty Name="cod_adm_n" ColumnName="cod_adm_n" />
+          <ScalarProperty Name="date_dostav" ColumnName="date_dostav" />
+          <ScalarProperty Name="massa_rasch" ColumnName="massa_rasch" />
+          <ScalarProperty Name="g5" ColumnName="g5" />
+          <ScalarProperty Name="g11" ColumnName="g11" />
+          <ScalarProperty Name="g18" ColumnName="g18" />
+          <ScalarProperty Name="g19" ColumnName="g19" />
+          <ScalarProperty Name="g20" ColumnName="g20" />
+          <ScalarProperty Name="g26" ColumnName="g26" />
+          <ScalarProperty Name="g1" ColumnName="g1" />
+          <ScalarProperty Name="cod_tvk_etsng" ColumnName="cod_tvk_etsng" />
+          <ScalarProperty Name="cod_tvk_algng" ColumnName="cod_tvk_algng" />
+          <ScalarProperty Name="massa_otpr" ColumnName="massa_otpr" />
+          <ScalarProperty Name="cod_upak" ColumnName="cod_upak" />
+          <ScalarProperty Name="tvg_k_mest" ColumnName="tvg_k_mest" />
+          <ScalarProperty Name="tvg_tara" ColumnName="tvg_tara" />
+          <ScalarProperty Name="tvk_zn_otpr" ColumnName="tvk_zn_otpr" />
+          <ScalarProperty Name="rem_isk_tarif" ColumnName="rem_isk_tarif" />
+          <ScalarProperty Name="tiptarif" ColumnName="tiptarif" />
+          <ScalarProperty Name="dogovor_kl_kl" ColumnName="dogovor_kl_kl" />
+          <ScalarProperty Name="cod_st_sort_kont" ColumnName="cod_st_sort_kont" />
+          <ScalarProperty Name="cod_plat" ColumnName="cod_plat" />
+          <ScalarProperty Name="name_plat" ColumnName="name_plat" />
+          <ScalarProperty Name="nod_plat" ColumnName="nod_plat" />
+          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+          <ScalarProperty Name="vid_vag_pf" ColumnName="vid_vag_pf" />
+          <ScalarProperty Name="container_train" ColumnName="container_train" />
+          <ScalarProperty Name="cod_tip_tar" ColumnName="cod_tip_tar" />
+          <ScalarProperty Name="pl_provoz" ColumnName="pl_provoz" />
+          <ScalarProperty Name="nds_pl_provoz" ColumnName="nds_pl_provoz" />
+          <ScalarProperty Name="pl_prov" ColumnName="pl_prov" />
+          <ScalarProperty Name="nds_pl_prov" ColumnName="nds_pl_prov" />
+          <ScalarProperty Name="pl_dsb" ColumnName="pl_dsb" />
+          <ScalarProperty Name="nds_pl_dsb" ColumnName="nds_pl_dsb" />
+          <ScalarProperty Name="pl_all" ColumnName="pl_all" />
+          <ScalarProperty Name="pl_pr_ot" ColumnName="pl_pr_ot" />
+          <ScalarProperty Name="pl_prov_ot" ColumnName="pl_prov_ot" />
+          <ScalarProperty Name="pl_prib_tranzit" ColumnName="pl_prib_tranzit" />
+          <ScalarProperty Name="pl_ot_tran" ColumnName="pl_ot_tran" />
+          <ScalarProperty Name="pr_nds_pl_provoz" ColumnName="pr_nds_pl_provoz" />
+          <ScalarProperty Name="pr_nds_dsb" ColumnName="pr_nds_dsb" />
+          <ScalarProperty Name="k_usr_br" ColumnName="k_usr_br" />
+          <ScalarProperty Name="k_rur_br" ColumnName="k_rur_br" />
+          <ScalarProperty Name="tp_stavka" ColumnName="tp_stavka" />
+          <ScalarProperty Name="g8_1" ColumnName="g8_1" />
+          <ScalarProperty Name="adr_kl_1000" ColumnName="adr_kl_1000" />
+          <ScalarProperty Name="fio_kl_1000" ColumnName="fio_kl_1000" />
+          <ScalarProperty Name="ves_one_places" ColumnName="ves_one_places" />
+          <ScalarProperty Name="vidkoforrr" ColumnName="vidkoforrr" />
+          <ScalarProperty Name="extract_passport" ColumnName="extract_passport" />
+          <ScalarProperty Name="stan_izlom0" ColumnName="stan_izlom0" />
+          <ScalarProperty Name="stan_izlom1" ColumnName="stan_izlom1" />
+          <ScalarProperty Name="stan_izlom2" ColumnName="stan_izlom2" />
+          <ScalarProperty Name="kof_tp" ColumnName="kof_tp" />
+          <ScalarProperty Name="nds_tp" ColumnName="nds_tp" />
+          <ScalarProperty Name="g8_stik" ColumnName="g8_stik" />
+          <ScalarProperty Name="pogr_ves" ColumnName="pogr_ves" />
+          <ScalarProperty Name="save_dispatcher_g20" ColumnName="save_dispatcher_g20" />
+          <ScalarProperty Name="num_doc_reforwarding" ColumnName="num_doc_reforwarding" />
+          <ScalarProperty Name="stan_transfer" ColumnName="stan_transfer" />
+          <ScalarProperty Name="rate_divide_scales" ColumnName="rate_divide_scales" />
+          <ScalarProperty Name="rem_vid_ras" ColumnName="rem_vid_ras" />
+          <ScalarProperty Name="rem_skidki" ColumnName="rem_skidki" />
+          <ScalarProperty Name="skidka" ColumnName="skidka" />
+          <ScalarProperty Name="kof_skid" ColumnName="kof_skid" />
+          <ScalarProperty Name="pr_external_work" ColumnName="pr_external_work" />
+          <ScalarProperty Name="adr_otpr" ColumnName="adr_otpr" />
+          <ScalarProperty Name="adr_pol" ColumnName="adr_pol" />
+          <ScalarProperty Name="nam_otpr" ColumnName="nam_otpr" />
+          <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
+          <ScalarProperty Name="fio_tk" ColumnName="fio_tk" />
+          <ScalarProperty Name="id_plant" ColumnName="id_plant" />
+          <ScalarProperty Name="class_dan" ColumnName="class_dan" />
+          <ScalarProperty Name="num_oon" ColumnName="num_oon" />
+          <ScalarProperty Name="num_dan_kart" ColumnName="num_dan_kart" />
+          <ScalarProperty Name="id_mes_plan" ColumnName="id_mes_plan" />
+          <ScalarProperty Name="return_empty_vag" ColumnName="return_empty_vag" />
+          <ScalarProperty Name="nds_return_empty" ColumnName="nds_return_empty" />
+          <ScalarProperty Name="prib_return_empty" ColumnName="prib_return_empty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_pam">
+      <EntityTypeMapping TypeName="Model.v_pam">
+        <MappingFragment StoreEntitySet="v_pam">
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="id_ved_dbf" ColumnName="id_ved_dbf" />
+          <ScalarProperty Name="kodls" ColumnName="kodls" />
+          <ScalarProperty Name="nved" ColumnName="nved" />
+          <ScalarProperty Name="dved" ColumnName="dved" />
+          <ScalarProperty Name="dzakr" ColumnName="dzakr" />
+          <ScalarProperty Name="kodkl" ColumnName="kodkl" />
+          <ScalarProperty Name="ndog" ColumnName="ndog" />
+          <ScalarProperty Name="r_oba" ColumnName="r_oba" />
+          <ScalarProperty Name="pr_put" ColumnName="pr_put" />
+          <ScalarProperty Name="put" ColumnName="put" />
+          <ScalarProperty Name="pr_lok" ColumnName="pr_lok" />
+          <ScalarProperty Name="pr_lokf" ColumnName="pr_lokf" />
+          <ScalarProperty Name="prlokub" ColumnName="prlokub" />
+          <ScalarProperty Name="pr_razg" ColumnName="pr_razg" />
+          <ScalarProperty Name="nkrt" ColumnName="nkrt" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="n_tab" ColumnName="n_tab" />
+          <ScalarProperty Name="v_ob" ColumnName="v_ob" />
+          <ScalarProperty Name="nper" ColumnName="nper" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="pr_external_work" ColumnName="pr_external_work" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_pam_sb">
+      <EntityTypeMapping TypeName="Model.v_pam_sb">
+        <MappingFragment StoreEntitySet="v_pam_sb">
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="kod_sb" ColumnName="kod_sb" />
+          <ScalarProperty Name="sum_sb" ColumnName="sum_sb" />
+          <ScalarProperty Name="nds_sb" ColumnName="nds_sb" />
+          <ScalarProperty Name="kodusl" ColumnName="kodusl" />
+          <ScalarProperty Name="textm" ColumnName="textm" />
+          <ScalarProperty Name="d_sb" ColumnName="d_sb" />
+          <ScalarProperty Name="kol_oper" ColumnName="kol_oper" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_pam_vag">
+      <EntityTypeMapping TypeName="Model.v_pam_vag">
+        <MappingFragment StoreEntitySet="v_pam_vag">
+          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="npam" ColumnName="npam" />
+          <ScalarProperty Name="npp" ColumnName="npp" />
+          <ScalarProperty Name="nomvag" ColumnName="nomvag" />
+          <ScalarProperty Name="sob_s" ColumnName="sob_s" />
+          <ScalarProperty Name="sob_v" ColumnName="sob_v" />
+          <ScalarProperty Name="sogl" ColumnName="sogl" />
+          <ScalarProperty Name="tipvag" ColumnName="tipvag" />
+          <ScalarProperty Name="kodgr" ColumnName="kodgr" />
+          <ScalarProperty Name="kodop" ColumnName="kodop" />
+          <ScalarProperty Name="d_pod" ColumnName="d_pod" />
+          <ScalarProperty Name="d_vig" ColumnName="d_vig" />
+          <ScalarProperty Name="d_ok" ColumnName="d_ok" />
+          <ScalarProperty Name="d_ub" ColumnName="d_ub" />
+          <ScalarProperty Name="t_man" ColumnName="t_man" />
+          <ScalarProperty Name="t_nor" ColumnName="t_nor" />
+          <ScalarProperty Name="t_dop" ColumnName="t_dop" />
+          <ScalarProperty Name="krat" ColumnName="krat" />
+          <ScalarProperty Name="prim" ColumnName="prim" />
+          <ScalarProperty Name="prob" ColumnName="prob" />
+          <ScalarProperty Name="prsvnor" ColumnName="prsvnor" />
+          <ScalarProperty Name="id_otpr1" ColumnName="id_otpr1" />
+          <ScalarProperty Name="id_otpr2" ColumnName="id_otpr2" />
+          <ScalarProperty Name="no_plat_podach" ColumnName="no_plat_podach" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_vag_sb">
+      <EntityTypeMapping TypeName="Model.v_vag_sb">
+        <MappingFragment StoreEntitySet="v_vag_sb">
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="kod_sb" ColumnName="kod_sb" />
+          <ScalarProperty Name="sum_sb" ColumnName="sum_sb" />
+          <ScalarProperty Name="nds_sb" ColumnName="nds_sb" />
+          <ScalarProperty Name="kodusl" ColumnName="kodusl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

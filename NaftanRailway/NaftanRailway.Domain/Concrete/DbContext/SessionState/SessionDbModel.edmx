@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SessionDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="SessionDbModelStoreContainer">
+          <EntitySet Name="SessionBills" EntityType="SessionDbModel.Store.SessionBills" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SessionShippings" EntityType="SessionDbModel.Store.SessionShippings" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_SessionBills_SessionShippings" Association="SessionDbModel.Store.FK_SessionBills_SessionShippings">
+            <End Role="SessionShippings" EntitySet="SessionShippings" />
+            <End Role="SessionBills" EntitySet="SessionBills" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="SessionBills">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="reportPeriod" Type="date" Nullable="false" />
+          <Property Name="id_otpr" Type="int" Nullable="false" />
+          <Property Name="id_wag" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="n_bill" Type="nvarchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SessionShippings">
+          <Key>
+            <PropertyRef Name="reportPeriod" />
+            <PropertyRef Name="id_otpr" />
+            <PropertyRef Name="id_wag" />
+          </Key>
+          <Property Name="reportPeriod" Type="date" Nullable="false" />
+          <Property Name="id_otpr" Type="int" Nullable="false" />
+          <Property Name="id_wag" Type="bigint" Nullable="false" />
+          <Property Name="n_otpr" Type="nchar" Nullable="false" MaxLength="10" />
+          <Property Name="n_wag" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="warehouse" Type="int" Nullable="false" />
+          <Property Name="cargo" Type="nvarchar" MaxLength="100" />
+          <Property Name="address" Type="nvarchar" MaxLength="100" />
+          <Property Name="executor" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_SessionBills_SessionShippings">
+          <End Role="SessionShippings" Type="SessionDbModel.Store.SessionShippings" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SessionBills" Type="SessionDbModel.Store.SessionBills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SessionShippings">
+              <PropertyRef Name="reportPeriod" />
+              <PropertyRef Name="id_otpr" />
+              <PropertyRef Name="id_wag" />
+            </Principal>
+            <Dependent Role="SessionBills">
+              <PropertyRef Name="reportPeriod" />
+              <PropertyRef Name="id_otpr" />
+              <PropertyRef Name="id_wag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SessionDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="SessionDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SessionBills" EntityType="SessionDbModel.SessionBill" />
+          <EntitySet Name="SessionShippings" EntityType="SessionDbModel.SessionShipping" />
+          <AssociationSet Name="FK_SessionBills_SessionShippings" Association="SessionDbModel.FK_SessionBills_SessionShippings">
+            <End Role="SessionShippings" EntitySet="SessionShippings" />
+            <End Role="SessionBills" EntitySet="SessionBills" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="SessionBill">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="reportPeriod" Type="DateTime" Nullable="false" />
+          <Property Name="id_otpr" Type="Int32" Nullable="false" />
+          <Property Name="id_wag" Type="Int64" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="n_bill" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SessionShippings" Relationship="SessionDbModel.FK_SessionBills_SessionShippings" FromRole="SessionBills" ToRole="SessionShippings" />
+        </EntityType>
+        <EntityType Name="SessionShipping">
+          <Key>
+            <PropertyRef Name="reportPeriod" />
+            <PropertyRef Name="id_otpr" />
+            <PropertyRef Name="id_wag" />
+          </Key>
+          <Property Name="reportPeriod" Type="DateTime" Nullable="false" />
+          <Property Name="id_otpr" Type="Int32" Nullable="false" />
+          <Property Name="id_wag" Type="Int64" Nullable="false" />
+          <Property Name="n_otpr" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="true" />
+          <Property Name="n_wag" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="warehouse" Type="Int32" Nullable="false" />
+          <Property Name="cargo" Type="String" MaxLength="300" Unicode="true" FixedLength="false" />
+          <Property Name="address" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="executor" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SessionBills" Relationship="SessionDbModel.FK_SessionBills_SessionShippings" FromRole="SessionShippings" ToRole="SessionBills" />
+        </EntityType>
+        <Association Name="FK_SessionBills_SessionShippings">
+          <End Role="SessionShippings" Type="SessionDbModel.SessionShipping" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SessionBills" Type="SessionDbModel.SessionBill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SessionShippings">
+              <PropertyRef Name="reportPeriod" />
+              <PropertyRef Name="id_otpr" />
+              <PropertyRef Name="id_wag" />
+            </Principal>
+            <Dependent Role="SessionBills">
+              <PropertyRef Name="reportPeriod" />
+              <PropertyRef Name="id_otpr" />
+              <PropertyRef Name="id_wag" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SessionDbModelStoreContainer" CdmEntityContainer="SessionDbContext">
+          <EntitySetMapping Name="SessionBills"><EntityTypeMapping TypeName="SessionDbModel.SessionBill"><MappingFragment StoreEntitySet="SessionBills">
+            <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+            <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+            <ScalarProperty Name="id_wag" ColumnName="id_wag" />
+            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="n_bill" ColumnName="n_bill" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="SessionShippings"><EntityTypeMapping TypeName="SessionDbModel.SessionShipping"><MappingFragment StoreEntitySet="SessionShippings">
+            <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+            <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+            <ScalarProperty Name="id_wag" ColumnName="id_wag" />
+            <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+            <ScalarProperty Name="n_wag" ColumnName="n_wag" />
+            <ScalarProperty Name="warehouse" ColumnName="warehouse" />
+            <ScalarProperty Name="cargo" ColumnName="cargo" />
+            <ScalarProperty Name="address" ColumnName="address" />
+            <ScalarProperty Name="executor" ColumnName="executor" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Отсутствует" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="SessionDbModel">
+        <EntityTypeShape EntityType="SessionDbModel.SessionBill" Width="1.5" PointX="3" PointY="1.25" Height="1.9210009765625002" IsExpanded="true" />
+        <EntityTypeShape EntityType="SessionDbModel.SessionShipping" Width="1.5" PointX="0.75" PointY="1" Height="2.5783902994791665" IsExpanded="true" />
+        <AssociationConnector Association="SessionDbModel.FK_SessionBills_SessionShippings" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.2105004882812502" />
+          <ConnectorPoint PointX="3" PointY="2.2105004882812502" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

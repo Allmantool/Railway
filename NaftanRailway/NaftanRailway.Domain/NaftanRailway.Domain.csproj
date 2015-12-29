@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{09A80099-87FE-485F-BBD4-5CD5C6770BF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NaftanRailway.Domain</RootNamespace>
+    <AssemblyName>NaftanRailway.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>http://localhost/NaftanRailway.Domain/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.1.18418.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.1.1\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\IDocumentsRepository.cs" />
+    <Compile Include="Abstract\IGeneralRepository.cs" />
+    <Compile Include="Abstract\ISessionDbRepository.cs" />
+    <Compile Include="Abstract\IUnitOfWork.cs" />
+    <Compile Include="BusinessModels\AuthorizationLogic\AuthorizationEngage.cs" />
+    <Compile Include="BusinessModels\AuthorizationLogic\IAuthorizationEngage.cs" />
+    <Compile Include="BusinessModels\AuthorizationLogic\RegistrationViewModel.cs" />
+    <Compile Include="BusinessModels\BussinesEngage.cs" />
+    <Compile Include="BusinessModels\SessionLogic\ReportModel.cs" />
+    <Compile Include="BusinessModels\AuthorizationLogic\SecurityInfoLine.cs" />
+    <Compile Include="BusinessModels\Shipping.cs" />
+    <Compile Include="Concrete\DbContext\Mesplan\etsng.cs">
+      <DependentUpon>ModelMesplan.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMesplan.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMesplan.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelMesplan.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\OBDModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\OBDModelEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBDModelEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\OBDModelEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_akt.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_akt_sb.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_akt_vag.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_kart.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_nach.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_otpr.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_o_v.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_pam.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_pam_sb.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\v_pam_vag.cs">
+      <DependentUpon>OBDModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\krt_Naftan.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\krt_Naftan_orc_sapod.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\ORCModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ORCModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\ORCModelEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ORCModelEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\ORCModelEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\orc_krt.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\orc_sbor.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\SecurityModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SecurityModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\SecurityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SecurityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\UserProfile.cs">
+      <DependentUpon>SecurityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\webpages_Membership.cs">
+      <DependentUpon>SecurityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\webpages_OAuthMembership.cs">
+      <DependentUpon>SecurityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\Security\webpages_Roles.cs">
+      <DependentUpon>SecurityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\SessionState\SessionBill.cs">
+      <DependentUpon>SessionDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDbModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SessionDbModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\SessionState\SessionShipping.cs">
+      <DependentUpon>SessionDbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\UnitOfWork.cs" />
+    <Compile Include="Concrete\EFSessioinDbRepository.cs" />
+    <Compile Include="Concrete\DbContext\Security\SimpleMemberShipDb.Designer.cs">
+      <DependentUpon>SimpleMemberShipDb.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Concrete\EFDocumentsRepository.cs" />
+    <Compile Include="Concrete\GeneralRepository.cs" />
+    <Compile Include="Entities\etsng.cs" />
+    <Compile Include="Entities\v_akt_vag.cs" />
+    <Compile Include="Entities\v_otpr.cs" />
+    <Compile Include="Entities\v_o_v.cs" />
+    <Compile Include="BusinessModels\AccumulativeCard.cs" />
+    <Compile Include="BusinessModels\Bill.cs" />
+    <Compile Include="BusinessModels\Certificate.cs" />
+    <Compile Include="BusinessModels\EnumOperationType.cs" />
+    <Compile Include="BusinessModels\Luggage.cs" />
+    <Compile Include="BusinessModels\SessionLogic\SessionStorage.cs" />
+    <Compile Include="BusinessModels\ShippingInfoLine.cs" />
+    <Compile Include="Entities\v_pam.cs" />
+    <Compile Include="Entities\v_pam_vag.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BusinessModelsDiagramm.cd" />
+    <EntityDeploy Include="Concrete\DbContext\Mesplan\ModelMesplan.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContext\Mesplan\ModelMesplan.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\Mesplan\ModelMesplan.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ModelMesplan.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="Concrete\DbContext\Security\SimpleMemberShipDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SimpleMemberShipDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Concrete\DbContext\OBD\OBDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContext\OBD\OBDModelEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OBDModelEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\OBD\OBDModelEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OBDModelEntities.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="Concrete\DbContext\SessionState\SessionDbModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SessionDbModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Concrete\DbContext\ORC\ORCModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContext\ORC\ORCModelEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ORCModelEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\ORC\ORCModelEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ORCModelEntities.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\Security\SecurityModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SecurityModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\Security\SecurityModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SecurityModel.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\SessionState\SessionDbModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SessionDbModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Concrete\DbContext\SessionState\SessionDbModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SessionDbModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\NaftanRailway.Domain.BusinessModels.ReportModel.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.10.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2008 Express Edition</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,216 @@
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\System.Web.Mvc.resources.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+c:\inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Inetpub\wwwroot\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\System.Web.Mvc.resources.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\System.Web.Mvc.resources.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\ASP.NET\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Users\AllmanGroup\Desktop\Рабочий стол\1\1\NaftanRailway\NaftanRailway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\GenericRepository.EF.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Data.SqlServerCe.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServerCompact.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Providers.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\System.Web.Razor.xml
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb

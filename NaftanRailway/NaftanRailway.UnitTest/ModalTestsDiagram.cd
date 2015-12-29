@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NaftanRailway.UnitTest.Tests.AdminSecurityTests">
+    <Position X="0.5" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Tests\AdminSecurityTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NaftanRailway.UnitTest.Tests.FilteringTests">
+    <Position X="4.25" Y="5.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAgAAAAFAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\FilteringTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NaftanRailway.UnitTest.Tests.LinqTests">
+    <Position X="7.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\LINQTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NaftanRailway.UnitTest.Tests.NavigationTests">
+    <Position X="7.25" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAACAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tests\NavigationTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NaftanRailway.UnitTest.Tests.PaginationTest">
+    <Position X="0.5" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAEAAAAAAAAAAAAAQAAAAAAACAIAAAAAA=</HashCode>
+      <FileName>Tests\PaginationTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NaftanRailway.UnitTest.Tests.SessionStorageTests">
+    <Position X="4" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAEAAAACAAAAAAAAECABAAAAAAAAACgBAAAAA=</HashCode>
+      <FileName>Tests\SessionStorageTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

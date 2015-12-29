@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OBDDbEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="v_akt">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="kodls" Type="char" MaxLength="2" />
+    <Property Name="nakt" Type="char" MaxLength="6" />
+    <Property Name="dakt" Type="datetime" />
+    <Property Name="kodkl" Type="char" MaxLength="6" />
+    <Property Name="nkrt" Type="char" MaxLength="6" />
+    <Property Name="id_kart" Type="int" />
+    <Property Name="state" Type="int" />
+    <Property Name="pr_external_work" Type="int" />
+  </EntityType>
+  <EntityType Name="v_akt_sb">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_akt" />
+      <PropertyRef Name="id_vag" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_akt" Type="int" Nullable="false" />
+    <Property Name="id_vag" Type="int" Nullable="false" />
+    <Property Name="kod_sb" Type="char" MaxLength="3" />
+    <Property Name="sum_sb" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="nds_sb" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="textm" Type="nvarchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="v_akt_vag">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_akt" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_akt" Type="int" Nullable="false" />
+    <Property Name="nomvag" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="v_kart">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="uni_kart" Type="char" MaxLength="10" />
+    <Property Name="num_kart" Type="char" MaxLength="6" />
+    <Property Name="cod_stan" Type="char" MaxLength="6" />
+    <Property Name="date_okrt" Type="datetime" />
+    <Property Name="cod_pl" Type="char" MaxLength="6" />
+    <Property Name="nod_pl" Type="smallint" />
+    <Property Name="mfo" Type="char" MaxLength="9" />
+    <Property Name="rash" Type="char" MaxLength="13" />
+    <Property Name="num_plat_por" Type="int" />
+    <Property Name="date_plat_por" Type="datetime" />
+    <Property Name="type_kart" Type="smallint" />
+    <Property Name="cod_ls" Type="char" MaxLength="2" />
+    <Property Name="num_dogovor" Type="char" MaxLength="10" />
+    <Property Name="cod_currency" Type="char" MaxLength="3" />
+    <Property Name="summa" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="state" Type="bigint" />
+    <Property Name="num_fdu93" Type="varchar" MaxLength="40" />
+    <Property Name="date_fdu93" Type="datetime" />
+    <Property Name="pr_external_work" Type="int" />
+    <Property Name="state_dbf" Type="bigint" />
+    <Property Name="date_zkrt" Type="datetime" />
+  </EntityType>
+  <EntityType Name="v_nach">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_kart" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_kart" Type="int" Nullable="false" />
+    <Property Name="id_otpr" Type="int" />
+    <Property Name="uni_otpr" Type="char" MaxLength="10" />
+    <Property Name="cod_kl" Type="char" MaxLength="6" />
+    <Property Name="nod_kl" Type="smallint" />
+    <Property Name="type_doc" Type="int" />
+    <Property Name="oper" Type="smallint" />
+    <Property Name="cod_sbor" Type="char" MaxLength="6" />
+    <Property Name="date_raskr" Type="datetime" />
+    <Property Name="num_doc" Type="char" MaxLength="8" />
+    <Property Name="cena" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="kol" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="summa" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="cod_currency" Type="char" MaxLength="3" />
+    <Property Name="num_kart_sd" Type="char" MaxLength="3" />
+    <Property Name="textm" Type="nvarchar" MaxLength="300" />
+    <Property Name="id_ed" Type="int" />
+  </EntityType>
+  <EntityType Name="v_o_v">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_otpr" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="id_otpr" Type="int" Nullable="false" />
+    <Property Name="n_vag" Type="nvarchar" MaxLength="10" />
+    <Property Name="prov" Type="smallint" />
+    <Property Name="texn" Type="smallint" />
+    <Property Name="massa" Type="int" />
+    <Property Name="prim" Type="varchar" MaxLength="30" />
+    <Property Name="pr_zam" Type="smallint" />
+    <Property Name="cod_vidot" Type="smallint" />
+    <Property Name="ves_n_ob" Type="int" />
+    <Property Name="n_sx" Type="smallint" />
+    <Property Name="npp" Type="smallint" />
+    <Property Name="n_vag_p" Type="char" MaxLength="12" />
+    <Property Name="pr_v_k" Type="smallint" />
+    <Property Name="cod_gruz_old" Type="char" MaxLength="6" />
+    <Property Name="sobs" Type="smallint" />
+    <Property Name="cod_negab" Type="char" MaxLength="4" />
+    <Property Name="poluchatel" Type="char" MaxLength="20" />
+    <Property Name="nom_scheme1" Type="char" MaxLength="3" />
+    <Property Name="nom_scheme2" Type="char" MaxLength="3" />
+    <Property Name="n_ob_in_tara" Type="bit" />
+    <Property Name="cod_stan_nazn" Type="char" MaxLength="6" />
+    <Property Name="proveren_tara" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_v" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_v" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prib" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prov_prib" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prib" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prov_prib" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_otpr" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov_otpr" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pereadr_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="ndspl_pereadr_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="poniz_kof_tp" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="pr_skid" Type="smallint" />
+    <Property Name="num_tel_is_tar" Type="char" MaxLength="15" />
+    <Property Name="kol_vag_metan" Type="int" />
+    <Property Name="is_print" Type="bit" />
+    <Property Name="kof_skid" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="is_skid" Type="bit" />
+  </EntityType>
+  <EntityType Name="v_otpr">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" />
+    <Property Name="n_visas" Type="bigint" />
+    <Property Name="num_zag" Type="char" MaxLength="12" />
+    <Property Name="uni_otpr" Type="char" MaxLength="10" />
+    <Property Name="stan_oper" Type="char" MaxLength="6" />
+    <Property Name="oper" Type="smallint" />
+    <Property Name="date_oper" Type="datetime" />
+    <Property Name="n_otpr" Type="char" MaxLength="8" />
+    <Property Name="vid_doc" Type="smallint" />
+    <Property Name="cod_vidot" Type="smallint" />
+    <Property Name="cod_v_soob" Type="smallint" />
+    <Property Name="skor" Type="smallint" />
+    <Property Name="date_p" Type="datetime" />
+    <Property Name="date_o" Type="datetime" />
+    <Property Name="cod_st_otpr" Type="char" MaxLength="6" />
+    <Property Name="cod_coun_otpr" Type="smallint" />
+    <Property Name="cod_kl_otpr" Type="char" MaxLength="20" />
+    <Property Name="nod_kl_otpr" Type="smallint" />
+    <Property Name="cod_st_nazn" Type="char" MaxLength="6" />
+    <Property Name="cod_coun_nazn" Type="smallint" />
+    <Property Name="cod_klient_pol" Type="char" MaxLength="20" />
+    <Property Name="nod_kl_pol" Type="smallint" />
+    <Property Name="rast_bel" Type="int" />
+    <Property Name="cod_currency" Type="char" MaxLength="3" />
+    <Property Name="cod_o_mas" Type="smallint" />
+    <Property Name="pogr" Type="char" MaxLength="1" />
+    <Property Name="paragr" Type="char" MaxLength="2" />
+    <Property Name="glava" Type="char" MaxLength="2" />
+    <Property Name="g6" Type="varchar" MaxLength="300" />
+    <Property Name="cena" Type="decimal" Precision="16" Scale="2" />
+    <Property Name="shema" Type="smallint" />
+    <Property Name="plata" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="rod_ps" Type="char" MaxLength="4" />
+    <Property Name="cod_vidras" Type="smallint" />
+    <Property Name="cod_vidrab" Type="smallint" />
+    <Property Name="g4" Type="varchar(max)" />
+    <Property Name="g16" Type="char" MaxLength="34" />
+    <Property Name="codrsd" Type="char" MaxLength="10" />
+    <Property Name="g8" Type="varchar" MaxLength="40" />
+    <Property Name="g91" Type="varchar" MaxLength="189" />
+    <Property Name="cod_adm_o" Type="smallint" />
+    <Property Name="cod_adm_n" Type="smallint" />
+    <Property Name="date_dostav" Type="datetime" />
+    <Property Name="massa_rasch" Type="int" />
+    <Property Name="g5" Type="varchar" MaxLength="200" />
+    <Property Name="g11" Type="varchar(max)" />
+    <Property Name="g18" Type="varchar" MaxLength="52" />
+    <Property Name="g19" Type="varchar" MaxLength="32" />
+    <Property Name="g20" Type="varchar" MaxLength="143" />
+    <Property Name="g26" Type="varchar" MaxLength="72" />
+    <Property Name="g1" Type="varchar" MaxLength="250" />
+    <Property Name="cod_tvk_etsng" Type="char" MaxLength="6" />
+    <Property Name="cod_tvk_algng" Type="char" MaxLength="8" />
+    <Property Name="massa_otpr" Type="int" />
+    <Property Name="cod_upak" Type="smallint" />
+    <Property Name="tvg_k_mest" Type="smallint" />
+    <Property Name="tvg_tara" Type="smallint" />
+    <Property Name="tvk_zn_otpr" Type="char" MaxLength="10" />
+    <Property Name="rem_isk_tarif" Type="varchar" MaxLength="30" />
+    <Property Name="tiptarif" Type="varchar" MaxLength="10" />
+    <Property Name="dogovor_kl_kl" Type="varchar" MaxLength="50" />
+    <Property Name="cod_st_sort_kont" Type="char" MaxLength="6" />
+    <Property Name="cod_plat" Type="char" MaxLength="8" />
+    <Property Name="name_plat" Type="varchar" MaxLength="140" />
+    <Property Name="nod_plat" Type="smallint" />
+    <Property Name="type_doc" Type="int" />
+    <Property Name="vid_vag_pf" Type="smallint" />
+    <Property Name="container_train" Type="smallint" />
+    <Property Name="cod_tip_tar" Type="int" />
+    <Property Name="pl_provoz" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_provoz" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_prov" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_dsb" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_pl_dsb" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_all" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_pr_ot" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prov_ot" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_prib_tranzit" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pl_ot_tran" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="pr_nds_pl_provoz" Type="int" />
+    <Property Name="pr_nds_dsb" Type="int" />
+    <Property Name="k_usr_br" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="k_rur_br" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="tp_stavka" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="g8_1" Type="varchar" MaxLength="125" />
+    <Property Name="adr_kl_1000" Type="varchar" MaxLength="200" />
+    <Property Name="fio_kl_1000" Type="varchar" MaxLength="200" />
+    <Property Name="ves_one_places" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="vidkoforrr" Type="int" />
+    <Property Name="extract_passport" Type="bit" />
+    <Property Name="stan_izlom0" Type="char" MaxLength="6" />
+    <Property Name="stan_izlom1" Type="char" MaxLength="6" />
+    <Property Name="stan_izlom2" Type="char" MaxLength="6" />
+    <Property Name="kof_tp" Type="decimal" Precision="7" Scale="4" />
+    <Property Name="nds_tp" Type="decimal" Precision="7" Scale="4" />
+    <Property Name="g8_stik" Type="varchar" MaxLength="50" />
+    <Property Name="pogr_ves" Type="decimal" Precision="18" Scale="6" />
+    <Property Name="save_dispatcher_g20" Type="bit" />
+    <Property Name="num_doc_reforwarding" Type="char" MaxLength="8" />
+    <Property Name="stan_transfer" Type="char" MaxLength="6" />
+    <Property Name="rate_divide_scales" Type="smallint" />
+    <Property Name="rem_vid_ras" Type="varchar" MaxLength="200" />
+    <Property Name="rem_skidki" Type="varchar" MaxLength="200" />
+    <Property Name="skidka" Type="smallint" />
+    <Property Name="kof_skid" Type="decimal" Precision="18" Scale="4" />
+    <Property Name="pr_external_work" Type="int" />
+    <Property Name="adr_otpr" Type="varchar" MaxLength="250" />
+    <Property Name="adr_pol" Type="varchar" MaxLength="250" />
+    <Property Name="nam_otpr" Type="varchar" MaxLength="140" />
+    <Property Name="nam_pol" Type="varchar" MaxLength="140" />
+    <Property Name="fio_tk" Type="varchar" MaxLength="15" />
+    <Property Name="id_plant" Type="char" MaxLength="36" />
+    <Property Name="class_dan" Type="char" MaxLength="3" />
+    <Property Name="num_oon" Type="smallint" />
+    <Property Name="num_dan_kart" Type="smallint" />
+    <Property Name="id_mes_plan" Type="int" />
+    <Property Name="return_empty_vag" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds_return_empty" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="prib_return_empty" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="v_pam">
+    <Key>
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="id_ved_dbf" Type="char" MaxLength="11" />
+    <Property Name="kodls" Type="char" MaxLength="2" />
+    <Property Name="nved" Type="char" MaxLength="6" />
+    <Property Name="dved" Type="datetime" />
+    <Property Name="dzakr" Type="datetime" />
+    <Property Name="kodkl" Type="char" MaxLength="6" />
+    <Property Name="ndog" Type="varchar" MaxLength="20" />
+    <Property Name="r_oba" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="pr_put" Type="smallint" />
+    <Property Name="put" Type="char" MaxLength="6" />
+    <Property Name="pr_lok" Type="smallint" />
+    <Property Name="pr_lokf" Type="smallint" />
+    <Property Name="prlokub" Type="smallint" />
+    <Property Name="pr_razg" Type="smallint" />
+    <Property Name="nkrt" Type="char" MaxLength="6" />
+    <Property Name="id_kart" Type="int" />
+    <Property Name="n_tab" Type="smallint" />
+    <Property Name="v_ob" Type="smallint" />
+    <Property Name="nper" Type="char" MaxLength="3" />
+    <Property Name="state" Type="int" />
+    <Property Name="pr_external_work" Type="int" />
+  </EntityType>
+  <EntityType Name="v_pam_sb">
+    <Key>
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="kod_sb" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="sum_sb" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="nds_sb" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="kodusl" Type="smallint" Nullable="false" />
+    <Property Name="textm" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="d_sb" Type="datetime" Nullable="false" />
+    <Property Name="kol_oper" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="v_pam_vag">
+    <Key>
+      <PropertyRef Name="id_vag" />
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_vag" Type="int" Nullable="false" />
+    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="npam" Type="char" MaxLength="5" />
+    <Property Name="npp" Type="smallint" />
+    <Property Name="nomvag" Type="nvarchar" MaxLength="10" />
+    <Property Name="sob_s" Type="char" MaxLength="2" />
+    <Property Name="sob_v" Type="smallint" />
+    <Property Name="sogl" Type="char" MaxLength="1" />
+    <Property Name="tipvag" Type="smallint" />
+    <Property Name="kodgr" Type="char" MaxLength="6" />
+    <Property Name="kodop" Type="smallint" />
+    <Property Name="d_pod" Type="datetime" />
+    <Property Name="d_vig" Type="datetime" />
+    <Property Name="d_ok" Type="datetime" />
+    <Property Name="d_ub" Type="datetime" />
+    <Property Name="t_man" Type="int" />
+    <Property Name="t_nor" Type="int" />
+    <Property Name="t_dop" Type="int" />
+    <Property Name="krat" Type="decimal" Precision="18" Scale="3" />
+    <Property Name="prim" Type="varchar" MaxLength="77" />
+    <Property Name="prob" Type="int" />
+    <Property Name="prsvnor" Type="int" />
+    <Property Name="id_otpr1" Type="int" />
+    <Property Name="id_otpr2" Type="int" />
+    <Property Name="no_plat_podach" Type="int" />
+  </EntityType>
+  <Association Name="FK_v_akt_sb_v_akt">
+    <End Role="v_akt" Type="Self.v_akt" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_akt_sb" Type="Self.v_akt_sb" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_akt">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_akt_sb">
+        <PropertyRef Name="id_akt" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_v_akt_vag_v_akt">
+    <End Role="v_akt" Type="Self.v_akt" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_akt_vag" Type="Self.v_akt_vag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_akt">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_akt_vag">
+        <PropertyRef Name="id_akt" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_v_nach_v_kart">
+    <End Role="v_kart" Type="Self.v_kart" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_nach" Type="Self.v_nach" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_kart">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_nach">
+        <PropertyRef Name="id_kart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_v_o_v_v_otpr">
+    <End Role="v_otpr" Type="Self.v_otpr" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_o_v" Type="Self.v_o_v" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_otpr">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_o_v">
+        <PropertyRef Name="id_otpr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_v_pam_sb_v_pam">
+    <End Role="v_pam" Type="Self.v_pam" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_pam_sb" Type="Self.v_pam_sb" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="v_pam">
+        <PropertyRef Name="id_ved" />
+      </Principal>
+      <Dependent Role="v_pam_sb">
+        <PropertyRef Name="id_ved" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_v_pam_vag_v_pam">
+    <End Role="v_pam" Type="Self.v_pam" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="v_pam_vag" Type="Self.v_pam_vag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_pam">
+        <PropertyRef Name="id_ved" />
+      </Principal>
+      <Dependent Role="v_pam_vag">
+        <PropertyRef Name="id_ved" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OBDDbEntitiesStoreContainer">
+    <EntitySet Name="v_akt" EntityType="Self.v_akt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_akt_sb" EntityType="Self.v_akt_sb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_akt_vag" EntityType="Self.v_akt_vag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_kart" EntityType="Self.v_kart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_nach" EntityType="Self.v_nach" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_o_v" EntityType="Self.v_o_v" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_otpr" EntityType="Self.v_otpr" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_pam" EntityType="Self.v_pam" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_pam_sb" EntityType="Self.v_pam_sb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="v_pam_vag" EntityType="Self.v_pam_vag" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_v_akt_sb_v_akt" Association="Self.FK_v_akt_sb_v_akt">
+      <End Role="v_akt" EntitySet="v_akt" />
+      <End Role="v_akt_sb" EntitySet="v_akt_sb" />
+    </AssociationSet>
+    <AssociationSet Name="FK_v_akt_vag_v_akt" Association="Self.FK_v_akt_vag_v_akt">
+      <End Role="v_akt" EntitySet="v_akt" />
+      <End Role="v_akt_vag" EntitySet="v_akt_vag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_v_nach_v_kart" Association="Self.FK_v_nach_v_kart">
+      <End Role="v_kart" EntitySet="v_kart" />
+      <End Role="v_nach" EntitySet="v_nach" />
+    </AssociationSet>
+    <AssociationSet Name="FK_v_o_v_v_otpr" Association="Self.FK_v_o_v_v_otpr">
+      <End Role="v_otpr" EntitySet="v_otpr" />
+      <End Role="v_o_v" EntitySet="v_o_v" />
+    </AssociationSet>
+    <AssociationSet Name="FK_v_pam_sb_v_pam" Association="Self.FK_v_pam_sb_v_pam">
+      <End Role="v_pam" EntitySet="v_pam" />
+      <End Role="v_pam_sb" EntitySet="v_pam_sb" />
+    </AssociationSet>
+    <AssociationSet Name="FK_v_pam_vag_v_pam" Association="Self.FK_v_pam_vag_v_pam">
+      <End Role="v_pam" EntitySet="v_pam" />
+      <End Role="v_pam_vag" EntitySet="v_pam_vag" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
