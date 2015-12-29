@@ -322,3 +322,16 @@ C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.dll.config
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.pdb
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\EntityFramework.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\MoreLinq.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\EntityFramework.xml
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\MoreLinq.xml
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
+C:\Git\NaftanRailway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\obj\Debug\ResolveAssemblyReference.cache
+C:\Git\NaftanRailway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
+C:\Git\NaftanRailway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb

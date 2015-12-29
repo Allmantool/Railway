@@ -16,7 +16,6 @@
                 <th class="text-center">НДС, руб.</th>
                 <th class="text-center">Вид услуг</th>
                 <th class="text-center">Дата эл. письма ОРЦ</th>
-                <th class="text-center">IN_REAL</th>
                 <th class="text-center">Кол-во записей в перечне</th>
                 <th class="text-center">Начальная дата данных</th>
                 <th class="text-center">Конечная дата данных</th>
@@ -35,7 +34,6 @@
                     <td>@item.NDSTREB.ToString("#,#")</td>
                     <td>@item.P_TYPE</td>
                     <td>@item.DATE_OBRABOT</td>
-                    <td><span class = "@(item.IN_REAL ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove")"></span></td>
                     <td>@item.RecordCount</td>
                     <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
                     <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
@@ -53,26 +51,25 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня</h4>
           </div>
-          <div class="modal-body">
-              <div class="row">
-                @using (Html.BeginForm("Index", "Scroll", FormMethod.Post, new {@class = "navbar-form", role = "search"})){
-                    <div class="form-group pull-right row">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Поиск перечня" value="@Model.FilterScroll">
-                            <span class=" input-group-btn">
-                                <button type="submit" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </span>
+            <div class="modal-body row">
+                <div class="col-lg-10 col-lg-offset-1 container">
+                @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new {@class = "form-inline navbar-form navbar-left", role = "form"})){
+                    <div class="form-group col-lg-6 pull-left">
+                        <div class="input-group date" id="datetimepicker10">
+                            @Html.TextBoxFor(m => m.ReportPeriod, new{
+                                @class = "form-control", type = "text", @readonly = "readonly",
+                                @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
+                            })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
+                    <div class="form-group pull-right row">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                    </div>
                 }
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-            <button type="button" class="btn btn-primary">Подтвердить</button>
-          </div>
+                </div>
+            </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

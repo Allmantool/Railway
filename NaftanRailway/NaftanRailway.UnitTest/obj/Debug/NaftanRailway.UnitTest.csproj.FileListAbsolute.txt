@@ -966,3 +966,40 @@ C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.dll
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.pdb
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.UnitTest.dll.config
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.UnitTest.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.UnitTest.pdb
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Moq.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\MoreLinq.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.Domain.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.WebUI.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Ninject.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Ninject.Web.Common.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Mvc.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\WebActivatorEx.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\EntityFramework.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Optimization.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Http.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Http.WebHost.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Net.Http.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Net.Http.Formatting.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.Domain.pdb
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\NaftanRailway.WebUI.pdb
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Moq.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\MoreLinq.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Ninject.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\Ninject.Web.Common.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Mvc.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\EntityFramework.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Optimization.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Http.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Web.Http.WebHost.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Net.Http.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\System.Net.Http.Formatting.xml
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\ru\System.Web.Mvc.resources.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\ru\EntityFramework.resources.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\bin\Debug\ru\System.Net.Http.resources.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\ResolveAssemblyReference.cache
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.dll
+C:\Git\NaftanRailway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.pdb

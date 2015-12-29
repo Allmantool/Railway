@@ -8,7 +8,8 @@ ignoreReadonly
 Default: false
 Allow date picker show event to fire even when the associated input element has the readonly="readonly"property
 */
-$(function () {
+/// <reference path="jquery-2.1.4.js" />
+$(function() {
     $("#datetimepicker10").datetimepicker({
         viewMode: 'years',
         showClose: true,
@@ -19,10 +20,9 @@ $(function () {
         ignoreReadonly: true
     });
     /*Customize http://momentjs.com */
-    moment.locale('ru', {
-        months: [
-            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
-            "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+    window.moment.locale('ru', {
+        months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
+                 "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     });
 });
 
@@ -32,14 +32,14 @@ function need working state datepicker
 */
 $(function() {
     $("#ShippingChoise").autocomplete({
-        source: function (request, response) {
+        source: function(request, response) {
             $.ajax({
                 url: "/Railway/Ceh18/SearchNumberShipping/",
                 type: "POST",
                 dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
-                success: function (data) {
-                    response($.map(data.slice(0,12), function (item) {
+                success: function(data) {
+                    response($.map(data.slice(0, 12), function(item) {
                         return { label: item };
                     }));
                 }
@@ -48,21 +48,21 @@ $(function() {
         minLength: 1,
         messages: {
             noResults: "",
-            results: function () { }
+            results: function() { }
         }
-    }).dblclick(function(e) {
+    }).on('dblclick', function() {
         $(this).val('');
     });
 });
 
 /*Change color selecting panel */
 $(function() {
-    $("div .panel").filter("[id^='myPanel']").mouseover(function(e) {
+    $("div .panel").filter("[id^='myPanel']").mouseover(function() {
         if (!$(this).hasClass('panel-success')) {
             $(this).removeClass('panel-default');
-            $(this).addClass('panel-primary');              
+            $(this).addClass('panel-primary');
         }
-    }).mouseout(function(e) {
+    }).on('mouseout', function() {
         $(this).removeClass('panel-primary');
         $(this).addClass('panel-default');
     });
@@ -70,9 +70,20 @@ $(function() {
 
 /*choisen*/
 $(function() {
-    $(".panel .btn").click(function(e) {
+    $(".panel .btn").on('click', function() {
         $(this).children('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-ok');
         $(this).parents(".panel").removeClass('panel-default').removeClass('panel-primary').addClass('panel-success');
     });
 });
 
+/*Work with modal windows in nomenclature project*/
+$('.modal').on('show.bs.modal', function() {
+    console.log(this.name);
+});
+
+$('tr').on('mouseenter', function() {
+    var q = $(this).find('td:first');
+    $('#gridSystemModalLabel').append('<p>Test</p>');
+}).on('mouseleave',function() {
+    $('#gridSystemModalLabel').remove();
+});
