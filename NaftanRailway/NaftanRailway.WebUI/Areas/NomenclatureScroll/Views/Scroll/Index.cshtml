@@ -25,8 +25,8 @@
             </thead>
             <tbody class="text-center">
             @foreach (krt_Naftan item in Model.ListKrtNaftan){
-                <tr class = "@(item.Confirmed ? "" : "success")" data-toggle="modal" data-target=".bs-modal-lg">
-                    <td>@item.NKRT</td>
+                <tr class = "@(item.Confirmed ? "" : "info")" data-toggle="modal" data-target=".bs-modal-lg">
+                    <td>@item.NKRT <span class="hidden key">@item.KEYKRT</span></td>
                     <td>@item.NTREB</td>
                     <td>@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
                     <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
@@ -55,6 +55,7 @@
                 <div class="col-lg-10 col-lg-offset-1 container">
                 @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new {@class = "form-inline navbar-form navbar-left", role = "form"})){
                     <div class="form-group col-lg-6 pull-left">
+                        @Html.Hidden("ListKrtNaftan[0].KEYKRT",Model.ListKrtNaftan.FirstOrDefault().KEYKRT,new {id="HiddenInputModal"})
                         <div class="input-group date" id="datetimepicker10">
                             @Html.TextBoxFor(m => m.ReportPeriod, new{
                                 @class = "form-control", type = "text", @readonly = "readonly",

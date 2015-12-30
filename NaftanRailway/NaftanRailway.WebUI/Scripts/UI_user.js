@@ -77,13 +77,11 @@ $(function() {
 });
 
 /*Work with modal windows in nomenclature project*/
-$('.modal').on('show.bs.modal', function() {
-    console.log(this.name);
-});
+$('.modal').on('show.bs.modal', function() {});
 
-$('tr').on('mouseenter', function() {
-    var q = $(this).find('td:first');
-    $('#gridSystemModalLabel').append('<p>Test</p>');
-}).on('mouseleave',function() {
-    $('#gridSystemModalLabel').remove();
+$('tr').on('click', function() {
+    var srcRow = this.children[0];
+
+    $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
+    $('#HiddenInputModal').empty().val(srcRow.firstElementChild.innerText);
 });

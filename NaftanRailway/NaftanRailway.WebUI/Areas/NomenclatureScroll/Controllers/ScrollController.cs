@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ViewResult Index() {
             return View(new IndexModelView() {
-                ListKrtNaftan = _documentRepository.KrtNaftans.Take(21).OrderByDescending(x => x.KEYKRT).ToList(),
+                ListKrtNaftan = _documentRepository.KrtNaftans.OrderByDescending(x => x.KEYKRT).ToList(),
                 ReportPeriod = DateTime.Now
             });
         }
@@ -23,20 +23,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpPost]
         public RedirectToRouteResult Add(IndexModelView model) {
             if(ModelState.IsValid) {
-                //krt_Naftan krtNaftan = (_documentRepository.OrcKrts).AsEnumerable()
-                //    .Where(ok => ok.NKRT.Value == Int32.Parse(model.InputMenu.NumberScroll)).Select(x => new krt_Naftan() {
-                //        KEYKRT = x.KEYKRT, DATE_OBRABOT = x.DATE_OBRABOT.Value, NKRT = x.NKRT.Value,
-                //        NTREB = x.NTREB.Value, DTTREB = x.DTTREB.Value, DTOPEN = x.DTOPEN, DTCLOSE = x.DTCLOSE,
-                //        SMTREB = x.SMTREB.Value, NDSTREB = x.NTREB.Value, U_KOD =(short)x.U_KOD, P_TYPE = x.P_TYPE,
-                //        IN_REAL = x.IN_REAL, DTBUHOTCHET = model.InputMenu.PeriodScroll,
-                //        RecordCount = (_documentRepository.OrcSbors).Count(os => os.KEYKRT == x.KEYKRT),
-                //        StartDate_PER = (_documentRepository.OrcSbors).Where(os => os.KEYKRT == x.KEYKRT).Min(os => os.DT).Value,
-                //        EndDate_PER = (_documentRepository.OrcSbors).Where(os => os.KEYKRT == x.KEYKRT).Max(os => os.DT).Value,
-                //        SignAdjustment_list = ((_documentRepository.OrcSbors).Where(os => os.NKRT.Contains("S")).Count(os => os.KEYKRT == x.KEYKRT) > 0)? true: false,
-                //        Scroll_Sbor = (_documentRepository.OrcSbors).Where(os => os.KEYKRT == x.KEYKRT).ToList().Select(os => string.Join(", ", os.VIDSBR.ToString())).FirstOrDefault()
-                //    }).FirstOrDefault();
-
-                //_documentRepository.AddKrtNaftan(krtNaftan);
 
                 return RedirectToAction("Index");
             }
