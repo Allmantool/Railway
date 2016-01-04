@@ -5,7 +5,9 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContext;
+using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
+using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using Ninject;
 
 namespace NaftanRailway.WebUI.Infrastructure {
@@ -21,7 +23,11 @@ namespace NaftanRailway.WebUI.Infrastructure {
         /// Put bindings here
         /// </summary>
         private void AddBindings() {
-            _kernel.Bind<IBussinesEngage>().To<BussinesEngage>().WithConstructorArgument("Sopod",new OBDEntities());
+            _kernel.Bind<IBussinesEngage>().To<BussinesEngage>()
+                .WithConstructorArgument("Sopod",new OBDEntities())
+                .WithConstructorArgument("ORC",new ORCEntities())
+                .WithConstructorArgument("Mesplan",new MesplanEntities());
+            
             _kernel.Bind<ISessionDbRepository>().To<EFSessioinDbRepository>();
             _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }

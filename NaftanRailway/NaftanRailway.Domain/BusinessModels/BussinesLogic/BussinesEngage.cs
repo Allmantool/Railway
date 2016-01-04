@@ -20,7 +20,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
 
         public BussinesEngage() {
-            _unitOfWork = new UnitOfWork(new OBDEntities());
+          
         }
 
         /// <summary>
@@ -42,16 +42,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             var srcEntsg = _unitOfWork.Repository<etsng>().Get_all().ToList();
 
             var srcShipping =
-                _unitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
-                                                                 sh.VOtpr.state == 32 &&
-                                                                 ((new[] { "3494", "349402" }.Contains(
-                                                                     sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
-                                                                  (new[] { "3494", "349402" }.Contains(
-                                                                      sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
-                                                                 (operationCategory == EnumOperationType.All ||
-                                                                  sh.VOtpr.oper == (short)operationCategory) &&
-                                                                 (sh.VOtpr.date_oper >= startDate &&
-                                                                  sh.VOtpr.date_oper <= endDate))
+                _unitOfWork.Repository<Shipping>()
+                    .Get_all(sh => sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
+                        sh.VOtpr.state == 32 && ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
+                        (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
+                        (operationCategory == EnumOperationType.All ||sh.VOtpr.oper == (short)operationCategory) &&
+                        (sh.VOtpr.date_oper >= startDate &&sh.VOtpr.date_oper <= endDate))
                     .OrderByDescending(sh => sh.VOtpr.date_oper)
                     .Skip((page - 1)*pageSize)
                     .Take(pageSize)
