@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ORCModelEntitiesStoreContainer">
           <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
@@ -147,8 +147,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Function Name="sp_fill_krt_Naftan_orc_sapod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
+          <Parameter Name="START_DATE" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ORCModelEntities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -407,14 +411,14 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Отсутствует" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="ORCModel" ZoomLevel="86">
+      <Diagram Name="ORCModel" ZoomLevel="74">
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.2218636067708317" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8" PointY="1.125" Height="6.35837890625" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />

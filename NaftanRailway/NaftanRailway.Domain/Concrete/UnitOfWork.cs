@@ -2,41 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.Concrete.DbContext.Security;
 
 namespace NaftanRailway.Domain.Concrete {
     public sealed class UnitOfWork : IUnitOfWork {
-        private readonly System.Data.Entity.DbContext _context;
-
         private bool _disposed;
+
+        private System.Data.Entity.DbContext Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
-        public UnitOfWork(SimpleMemberShipDbEntities context) {
-            _context = context;
+        public UnitOfWork(System.Data.Entity.DbContext context) {
+            Contexts = context;
         }
 
+        public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
+
+        }
+
+        /// <summary>
+        /// Collection repositories
+        /// </summary>
         public IGeneralRepository<T> Repository<T>() where T : class {
             if(_repositories.Keys.Contains(typeof(T)))
                 return _repositories[typeof(T)] as IGeneralRepository<T>;
 
-            IGeneralRepository<T> repo = new GeneralRepository<T>(_context);
+            IGeneralRepository<T> repo = new GeneralRepository<T>(Contexts);
             _repositories.Add(typeof(T), repo);
 
             return repo;
         }
 
         public void Save() {
-            _context.SaveChanges();
+            Contexts.SaveChanges();
         }
-
         private void Dispose(bool disposing) {
             if(!_disposed) {
                 if(disposing)
-                    _context.Dispose();
+                    Contexts.Dispose();
             }
             _disposed = true;
         }
-
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);

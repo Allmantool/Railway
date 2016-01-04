@@ -21,7 +21,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Can_Paginate() {
             //Arrange
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
                 new v_otpr {id = 1, n_otpr = "000000001",date_oper = DateTime.Today},
@@ -83,7 +83,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Can_Send_Pagination_View_Model() {
             //Arrange
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
                 new v_otpr(){id = 1,n_otpr = "00000001",date_oper = DateTime.Today},
@@ -153,7 +153,7 @@ namespace NaftanRailway.UnitTest.Tests {
         /// </summary>
         [TestMethod]
         public void Generate_Category_Specific_Shipping_Count() {
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
                 new v_otpr() {id = 1, n_otpr = "00000001", oper = null,date_oper = DateTime.Today},

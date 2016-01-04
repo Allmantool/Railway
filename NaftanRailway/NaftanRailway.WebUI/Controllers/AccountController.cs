@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 using NaftanRailway.WebUI.ViewModels;
 

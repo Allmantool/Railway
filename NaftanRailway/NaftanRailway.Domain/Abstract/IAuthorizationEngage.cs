@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 
-namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
+namespace NaftanRailway.Domain.Abstract {
     public interface IAuthorizationEngage {
         /// <summary>
         /// Retrive information about all current authenticating users

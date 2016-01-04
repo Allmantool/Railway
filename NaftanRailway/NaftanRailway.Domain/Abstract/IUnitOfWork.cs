@@ -6,3 +6,4 @@ namespace NaftanRailway.Domain.Abstract {
         void Save();
     }
 }
+                                    

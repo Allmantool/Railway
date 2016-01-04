@@ -142,4 +142,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="sp_fill_krt_Naftan_orc_sapod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
+    <Parameter Name="START_DATE" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
 </Schema>

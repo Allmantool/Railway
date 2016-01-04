@@ -73,17 +73,18 @@
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IBussinesEngage.cs" />
     <Compile Include="Abstract\IDocumentsRepository.cs" />
     <Compile Include="Abstract\IGeneralRepository.cs" />
     <Compile Include="Abstract\ISessionDbRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\AuthorizationEngage.cs" />
-    <Compile Include="BusinessModels\AuthorizationLogic\IAuthorizationEngage.cs" />
+    <Compile Include="Abstract\IAuthorizationEngage.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\RegistrationViewModel.cs" />
-    <Compile Include="BusinessModels\BussinesEngage.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\BussinesEngage.cs" />
     <Compile Include="BusinessModels\SessionLogic\ReportModel.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\SecurityInfoLine.cs" />
-    <Compile Include="BusinessModels\Shipping.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\Shipping.cs" />
     <Compile Include="Concrete\DbContext\Mesplan\etsng.cs">
       <DependentUpon>ModelMesplan.tt</DependentUpon>
     </Compile>
@@ -230,13 +231,13 @@
     <Compile Include="Entities\v_akt_vag.cs" />
     <Compile Include="Entities\v_otpr.cs" />
     <Compile Include="Entities\v_o_v.cs" />
-    <Compile Include="BusinessModels\AccumulativeCard.cs" />
-    <Compile Include="BusinessModels\Bill.cs" />
-    <Compile Include="BusinessModels\Certificate.cs" />
-    <Compile Include="BusinessModels\EnumOperationType.cs" />
-    <Compile Include="BusinessModels\Luggage.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\AccumulativeCard.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\Bill.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\Certificate.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\EnumOperationType.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\Luggage.cs" />
     <Compile Include="BusinessModels\SessionLogic\SessionStorage.cs" />
-    <Compile Include="BusinessModels\ShippingInfoLine.cs" />
+    <Compile Include="BusinessModels\BussinesLogic\ShippingInfoLine.cs" />
     <Compile Include="Entities\v_pam.cs" />
     <Compile Include="Entities\v_pam_vag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,7 +18,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void FilterCategoryOperations() {
             //Arrange (Greate mock repository)
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             //*null-3,1-3,2-4
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
@@ -88,7 +88,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Autocomplete() {
             //Arrange
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
                 new v_otpr{id = 1,n_otpr = "00000001",oper = null,date_oper = DateTime.Today},

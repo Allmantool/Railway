@@ -24,12 +24,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public RedirectToRouteResult Add(IndexModelView model) {
             if(ModelState.IsValid) {
 
-                return RedirectToAction("Index");
             }
             else {
                 ModelState.AddModelError("Error", @"Неверно указаные значения");
-                return RedirectToAction("Index", "Scroll");
             }
+
+            return RedirectToAction("Index", "Scroll");
         }
     }
 }

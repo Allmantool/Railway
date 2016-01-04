@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
-using NaftanRailway.Domain.Concrete;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContext;
+using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using Ninject;
 
 namespace NaftanRailway.WebUI.Infrastructure {
@@ -20,7 +21,7 @@ namespace NaftanRailway.WebUI.Infrastructure {
         /// Put bindings here
         /// </summary>
         private void AddBindings() {
-            _kernel.Bind<IDocumentsRepository>().To<EFDocumentsRepository>();
+            _kernel.Bind<IBussinesEngage>().To<BussinesEngage>().WithConstructorArgument("Sopod",new OBDEntities());
             _kernel.Bind<ISessionDbRepository>().To<EFSessioinDbRepository>();
             _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }
