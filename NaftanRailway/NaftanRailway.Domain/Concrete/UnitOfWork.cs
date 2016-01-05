@@ -17,11 +17,9 @@ namespace NaftanRailway.Domain.Concrete {
         public UnitOfWork() {
 
         }
-
         public UnitOfWork(System.Data.Entity.DbContext context) {
-            ActiveContext  = context;
+            ActiveContext = context;
         }
-
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;
         }
@@ -31,16 +29,16 @@ namespace NaftanRailway.Domain.Concrete {
         /// Return repositories if it's in collection repositories, if not add in collection with specific db context
         /// </summary>
         public IGeneralRepository<T> Repository<T>() where T : class {
-            if(_repositories.Keys.Contains(typeof(T)))
+            if (_repositories.Keys.Contains(typeof(T)))
                 return _repositories[typeof(T)] as IGeneralRepository<T>;
 
             //check exist entity in context(through metadata in objectContext)
-            if(Contexts !=null) {
-                foreach(var contextItem in Contexts) {
+            if (Contexts != null) {
+                foreach (var contextItem in Contexts) {
                     ObjectContext objContext = ((IObjectContextAdapter)contextItem).ObjectContext;
                     MetadataWorkspace workspace = objContext.MetadataWorkspace;
 
-                    if(workspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
+                    if (workspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
                         ActiveContext = contextItem;
                         break;
                     }
@@ -57,8 +55,8 @@ namespace NaftanRailway.Domain.Concrete {
             ActiveContext.SaveChanges();
         }
         private void Dispose(bool disposing) {
-            if(!_disposed) {
-                if(disposing)
+            if (!_disposed) {
+                if (disposing)
                     ActiveContext.Dispose();
             }
             _disposed = true;

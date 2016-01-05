@@ -17,7 +17,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public BussinesEngage(IUnitOfWork unitOfWork) {
             UnitOfWork = unitOfWork;
         }
-
         public BussinesEngage() {
         }
 
@@ -43,10 +42,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     .Get_all(sh => sh.n_otpr.StartsWith(templShNumber) &&
                         sh.state == 32 && ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
                         (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
-                        (operationCategory == EnumOperationType.All ||sh.oper == (short)operationCategory) &&
-                        (sh.date_oper >= startDate &&sh.date_oper <= endDate))
+                        (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
+                        (sh.date_oper >= startDate && sh.date_oper <= endDate))
                     .OrderByDescending(sh => sh.date_oper)
-                    .Skip((page - 1)*pageSize)
+                    .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToList();
 
@@ -90,13 +89,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftPage"></param>
         /// <returns></returns>
         public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
-            return UnitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
-                    ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
-                     (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
-                    sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
-                    (sh.VOtpr.date_oper >= chooseDate.AddDays(-shiftPage) &&
-                    sh.VOtpr.date_oper <= chooseDate.AddDays(shiftPage)))
-                .GroupBy(g => new { g.VOtpr.n_otpr })
+            return UnitOfWork.Repository<v_otpr>().Get_all(sh => sh.state == 32 &&
+                    ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
+                     (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+                    sh.n_otpr.StartsWith(templShNumber) &&
+                    (sh.date_oper >= chooseDate.AddDays(-shiftPage) &&
+                    sh.date_oper <= chooseDate.AddDays(shiftPage)))
+                .GroupBy(g => new { g.n_otpr })
                 .OrderByDescending(p => p.Key.n_otpr)
                 .Select(m => m.Key.n_otpr)
                 .Take(20).ToList();
@@ -191,13 +190,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
 
         public Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
-            return UnitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
-                    ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
-                     (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) && 
-                     sh.VOtpr.n_otpr.StartsWith(templShNumber)
-                            && (sh.VOtpr.date_oper >= chooseDate.AddDays(-shiftPage) && sh.VOtpr.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
-                                && ((int)operationCategory == 0 || sh.VOtpr.oper == (int)operationCategory))
-                     .GroupBy(x => new { x.VOtpr.oper })
+            return UnitOfWork.Repository<v_otpr>().Get_all(sh => sh.state == 32 &&
+                    ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
+                     (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+                     sh.n_otpr.StartsWith(templShNumber)
+                            && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
+                                && ((int)operationCategory == 0 || sh.oper == (int)operationCategory))
+                     .GroupBy(x => new { x.oper })
                      .Select(g => new { g.Key.oper, operCount = g.Count() })
                      .ToDictionary(item => item.oper.Value, item => item.operCount);
         }
