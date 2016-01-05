@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
+using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
@@ -11,7 +13,7 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using Ninject;
 
 namespace NaftanRailway.WebUI.Infrastructure {
-    public class NinjectDependencyResolver :IDependencyResolver {
+    public class NinjectDependencyResolver : IDependencyResolver {
         private readonly IKernel _kernel;
 
         public NinjectDependencyResolver(IKernel kernel) {
@@ -23,11 +25,11 @@ namespace NaftanRailway.WebUI.Infrastructure {
         /// Put bindings here
         /// </summary>
         private void AddBindings() {
-            _kernel.Bind<IBussinesEngage>().To<BussinesEngage>()
-                .WithConstructorArgument("Sopod",new OBDEntities())
-                .WithConstructorArgument("ORC",new ORCEntities())
-                .WithConstructorArgument("Mesplan",new MesplanEntities());
-            
+            _kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
+
+            _kernel.Bind<IUnitOfWork>().To<UnitOfWork>()
+                .WithConstructorArgument("contexts", new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
+
             _kernel.Bind<ISessionDbRepository>().To<EFSessioinDbRepository>();
             _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }

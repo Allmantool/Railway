@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
@@ -12,15 +11,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
     public class BussinesEngage : IBussinesEngage {
-        private bool _disposed = false;
-        private readonly UnitOfWork _unitOfWork;
+        private bool _disposed;
+        private IUnitOfWork UnitOfWork { get; set; }
 
-        public BussinesEngage(UnitOfWork unitOfWork) {
-            _unitOfWork = unitOfWork;
+        public BussinesEngage(IUnitOfWork unitOfWork) {
+            UnitOfWork = unitOfWork;
         }
 
         public BussinesEngage() {
-          
         }
 
         /// <summary>
@@ -33,34 +31,33 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory,
-            DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
+        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
             DateTime startDate = chooseDate.AddDays(shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
-            var srcEntsg = _unitOfWork.Repository<etsng>().Get_all().ToList();
+            var srcEntsg = UnitOfWork.Repository<etsng>().Get_all().ToList();
 
             var srcShipping =
-                _unitOfWork.Repository<Shipping>()
-                    .Get_all(sh => sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
-                        sh.VOtpr.state == 32 && ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
-                        (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
-                        (operationCategory == EnumOperationType.All ||sh.VOtpr.oper == (short)operationCategory) &&
-                        (sh.VOtpr.date_oper >= startDate &&sh.VOtpr.date_oper <= endDate))
-                    .OrderByDescending(sh => sh.VOtpr.date_oper)
+                UnitOfWork.Repository<v_otpr>()
+                    .Get_all(sh => sh.n_otpr.StartsWith(templShNumber) &&
+                        sh.state == 32 && ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
+                        (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+                        (operationCategory == EnumOperationType.All ||sh.oper == (short)operationCategory) &&
+                        (sh.date_oper >= startDate &&sh.date_oper <= endDate))
+                    .OrderByDescending(sh => sh.date_oper)
                     .Skip((page - 1)*pageSize)
                     .Take(pageSize)
                     .ToList();
 
             return (from itemSh in srcShipping
-                    join itemEtsng in srcEntsg on itemSh.VOtpr.cod_tvk_etsng equals itemEtsng.etsng1
+                    join itemEtsng in srcEntsg on itemSh.cod_tvk_etsng equals itemEtsng.etsng1
                         into gResult
                     from leftJoinResult in gResult.DefaultIfEmpty()
                     select new Shipping() {
-                        VOtpr = itemSh.VOtpr,
+                        VOtpr = itemSh,
                         Etsng = gResult,
-                        Vov = _unitOfWork.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.VOtpr.id)
+                        Vov = UnitOfWork.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
                     }).AsEnumerable();
         }
 
@@ -70,20 +67,19 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="templShNumber"></param>
         /// <param name="operationCategory"></param>
         /// <param name="chooseDate"></param>
-        /// <param name="shiftDate"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
         public int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3) {
             DateTime startDate = chooseDate.AddDays(-shiftPage);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
-            return (_unitOfWork.Repository<Shipping>()
-                .Get_all(sh => sh.VOtpr.state == 32 &&
-                               ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
-                                (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
-                               sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
-                               (operationCategory == EnumOperationType.All || sh.VOtpr.oper == (short)operationCategory) &&
-                               (sh.VOtpr.date_oper >= startDate && sh.VOtpr.date_oper <= endDate)).Count());
+            return (UnitOfWork.Repository<v_otpr>()
+                .Get_all(sh => sh.state == 32 &&
+                               ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
+                                (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+                               sh.n_otpr.StartsWith(templShNumber) &&
+                               (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
+                               (sh.date_oper >= startDate && sh.date_oper <= endDate)).Count());
         }
 
         /// <summary>
@@ -91,11 +87,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         /// <param name="templShNumber"></param>
         /// <param name="chooseDate"></param>
-        /// <param name="shiftDay"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
         public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
-            return _unitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
+            return UnitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
                     ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
                      (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) &&
                     sh.VOtpr.n_otpr.StartsWith(templShNumber) &&
@@ -196,7 +191,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
 
         public Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
-            return _unitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
+            return UnitOfWork.Repository<Shipping>().Get_all(sh => sh.VOtpr.state == 32 &&
                     ((new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_kl_otpr) && sh.VOtpr.oper == 1) ||
                      (new[] { "3494", "349402" }.Contains(sh.VOtpr.cod_klient_pol) && sh.VOtpr.oper == 2)) && 
                      sh.VOtpr.n_otpr.StartsWith(templShNumber)
