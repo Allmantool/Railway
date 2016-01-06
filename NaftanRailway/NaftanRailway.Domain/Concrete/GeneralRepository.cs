@@ -28,8 +28,11 @@ namespace NaftanRailway.Domain.Concrete {
         public void Add(T entity) {
             _dbSet.Add(entity);
         }
-
-        public void Edit(T entity) {
+        /// <summary>
+        /// Mark all field of record as dirty => update all field
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Update(T entity) {
             _context.Entry(entity).State = EntityState.Modified;
         }
 
@@ -42,6 +45,14 @@ namespace NaftanRailway.Domain.Concrete {
 
         public void Delete(T entity) {
             _context.Entry(entity).State=EntityState.Deleted;
+        }
+
+        /// <summary>
+        /// if call saveChanges after change some property, this EntityState update only need field
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Edit(T entity) {
+            _context.Entry(entity).State = EntityState.Unchanged;
         }
     }
 }

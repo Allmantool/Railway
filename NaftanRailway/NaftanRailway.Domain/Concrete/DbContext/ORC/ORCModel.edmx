@@ -362,7 +362,16 @@
             <ScalarProperty Name="nds" ColumnName="nds" />
             <ScalarProperty Name="textm" ColumnName="textm" />
             <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          </MappingFragment></EntityTypeMapping>
+            <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan_orc_sapod">
+              <ModificationFunctionMapping>
+                <InsertFunction FunctionName="ORCModelEntities.Store.sp_fill_krt_Naftan_orc_sapod" >
+                  <ScalarProperty Name="date_obrabot" ParameterName="START_DATE" />
+                  <ScalarProperty Name="keykrt" ParameterName="KEYKRT" />
+                </InsertFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
+            </EntitySetMapping>
           <EntitySetMapping Name="orc_krts"><EntityTypeMapping TypeName="ORCModelEntities.orc_krt"><MappingFragment StoreEntitySet="orc_krt">
             <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
             <ScalarProperty Name="NKRT" ColumnName="NKRT" />
@@ -420,7 +429,7 @@
     <Diagrams>
       <Diagram Name="ORCModel" ZoomLevel="74">
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.2218636067708317" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8" PointY="1.125" Height="6.35837890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="2" PointX="8" PointY="1.125" Height="6.35837890625" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
         <AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">

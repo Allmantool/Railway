@@ -16,7 +16,7 @@ namespace NaftanRailway.Domain.Abstract {
         void Add(T entity);
         
         void Edit(T entity);
-        
+        void Update(T entity);
         void Delete(T entity);
         void Delete(Expression<Func<T, bool>> predicate);
     }

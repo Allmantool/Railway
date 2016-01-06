@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -189,12 +190,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="period"></param>
         /// <param name="key"></param>
         public void AddKrtNaftan(DateTime period, long key) {
-
             krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
             chRecord.Confirmed = true;
             chRecord.DTBUHOTCHET = period;
 
-            UnitOfWork.Repository<krt_Naftan>().Edit(chRecord);
+            UnitOfWork.ActiveContext.Database
+                .SqlQuery<krt_Naftan_orc_sapod>("sp_fill_krt_Naftan_orc_sapod", new SqlParameter("@KEYKRT", key), new SqlParameter("@START_DATE",period));
+            
             UnitOfWork.Save();
         }
         /// <summary>
