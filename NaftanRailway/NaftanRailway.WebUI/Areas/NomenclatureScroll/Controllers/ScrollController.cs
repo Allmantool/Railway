@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -14,17 +15,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ViewResult Index() {
             return View(new IndexModelView() {
-                ListKrtNaftan = _bussinesEngage.GetKrt_Naftans,
+                ListKrtNaftan = _bussinesEngage.GetKrtNaftans,
                 ReportPeriod = DateTime.Now
             });
         }
 
         [HttpPost]
         public RedirectToRouteResult Add(IndexModelView model) {
-            if(ModelState.IsValid) {
-
-            }
-            else {
+            if(ModelState.IsValid && model.ReportPeriod != null) {
+                _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value,model.ListKrtNaftan.FirstOrDefault().KEYKRT);
+            } else {
                 ModelState.AddModelError("Error", @"Неверно указаные значения");
             }
 

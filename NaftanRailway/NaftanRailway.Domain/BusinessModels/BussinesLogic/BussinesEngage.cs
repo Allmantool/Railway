@@ -179,16 +179,23 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Get information from table krtNaftan [db2].[nsd2]
         /// </summary>
-        public IQueryable<krt_Naftan> GetKrt_Naftans {
+        public IQueryable<krt_Naftan> GetKrtNaftans {
             get { return UnitOfWork.Repository<krt_Naftan>().Get_all().OrderByDescending(x => x.KEYKRT); }
         }
 
-        public IQueryable<krt_Naftan_orc_sapod> KrtNaftanOrcSapods {
-            get { throw new NotImplementedException(); }
-        }
+        /// <summary>
+        /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
+        /// </summary>
+        /// <param name="period"></param>
+        /// <param name="key"></param>
+        public void AddKrtNaftan(DateTime period, long key) {
 
-        public void AddKrtNaftan(krt_Naftan record) {
-            throw new NotImplementedException();
+            krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+            chRecord.Confirmed = true;
+            chRecord.DTBUHOTCHET = period;
+
+            UnitOfWork.Repository<krt_Naftan>().Edit(chRecord);
+            UnitOfWork.Save();
         }
         /// <summary>
         /// Count operation throughtout badges

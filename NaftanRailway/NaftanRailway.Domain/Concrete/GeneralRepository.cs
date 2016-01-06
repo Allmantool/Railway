@@ -30,7 +30,7 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public void Edit(T entity) {
-            _context.Entry(entity).State=EntityState.Modified;
+            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(Expression<Func<T, bool>> predicate) {
