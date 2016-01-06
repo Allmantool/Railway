@@ -9,10 +9,10 @@ using NaftanRailway.WebUI.ViewModels;
 namespace NaftanRailway.WebUI.Controllers {
     [Authorize]
     public class StorageController : Controller {
-        private readonly IDocumentsRepository _documentRepository;
+        private readonly IBussinesEngage _bussinesEngage;
         
-        public StorageController(IDocumentsRepository documentRepository) {
-            _documentRepository = documentRepository;
+        public StorageController(IBussinesEngage bussinesEngage) {
+            _bussinesEngage = bussinesEngage;
         }
         /// <summary>
         /// View PreReport
@@ -37,13 +37,13 @@ namespace NaftanRailway.WebUI.Controllers {
             ShippingInfoLine line = storage.Lines.FirstOrDefault(sh => sh.Shipping.id == id);
 
             if (line == null) {
-                v_otpr shipping = _documentRepository.ShippinNumbers.FirstOrDefault(sh => sh.id == id);
+                v_otpr shipping = _bussinesEngage.ShippinNumbers.FirstOrDefault(sh => sh.id == id);
 
                 if (shipping != null) {
                     //temp variant(time period)
                     storage.ReportPeriod = shipping.date_oper ?? DateTime.Today;
 
-                    ShippingInfoLine packDocument = _documentRepository.PackDocuments(shipping, 2);
+                    ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping, 2);
 
                     storage.AddItem(packDocument);
                 }

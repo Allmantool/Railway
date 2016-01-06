@@ -9,14 +9,12 @@ using NaftanRailway.WebUI.ViewModels;
 namespace NaftanRailway.WebUI.Controllers {
     [Authorize]
     public class Ceh18Controller : Controller {
-        /// <summary>
-        /// Count visible elemnts per one page
-        /// </summary>
         private readonly IBussinesEngage _bussinesEngage;
 
         public Ceh18Controller(IBussinesEngage bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
+
         /// <summary>
         /// Main page with summary information
         /// </summary>
@@ -31,14 +29,14 @@ namespace NaftanRailway.WebUI.Controllers {
             const int shiftDay = 3;
             menuView.ShippingChoise = menuView.ShippingChoise ?? "";
 
-            if (menuView.ReportPeriod == null) {
+            if(menuView.ReportPeriod == null) {
                 menuView.ReportPeriod = storage.ReportPeriod;
             } else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
 
             DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
             DispatchListViewModel model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, pageSize, shiftDay),
+                Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, shiftDay, pageSize),
                 PagingInfo = new PagingInfo() {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
@@ -57,7 +55,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public RedirectToRouteResult Index(InputMenuViewModel menuView) {
-            if (menuView.ShippingChoise == "") {
+            if(menuView.ShippingChoise == "") {
                 return RedirectToRoute("Period", new {
                     reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
                     page = 1
@@ -77,7 +75,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
-            if (menuView.ReportPeriod != null) {
+            if(menuView.ReportPeriod != null) {
                 DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
                 IEnumerable<string> result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, chooseDate);
@@ -94,10 +92,10 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
-            if (menuView.ReportPeriod != null) {
+            if(menuView.ReportPeriod != null) {
                 DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
-                var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, menuView.ReportPeriod.Value, operationCategory);
+                var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
 
                 return Json(resultGroup, JsonRequestBehavior.AllowGet);
             }

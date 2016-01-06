@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     public class ScrollController : Controller {
-        private readonly IDocumentsRepository _documentRepository;
+        private readonly IBussinesEngage _bussinesEngage;
 
-        public ScrollController(IDocumentsRepository documentRepository) {
-            _documentRepository = documentRepository;
+        public ScrollController(IBussinesEngage bussinesEngage) {
+            _bussinesEngage = bussinesEngage;
         }
 
         [HttpGet]
         public ViewResult Index() {
             return View(new IndexModelView() {
-                ListKrtNaftan = _documentRepository.KrtNaftans.OrderByDescending(x => x.KEYKRT).ToList(),
+                ListKrtNaftan = _bussinesEngage.GetKrt_Naftans,
                 ReportPeriod = DateTime.Now
             });
         }

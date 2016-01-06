@@ -142,7 +142,7 @@ namespace NaftanRailway.UnitTest.Tests {
 
         [TestMethod]
         public void StorageController_Add_New_Lines() {
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             #region Arrange
 
@@ -438,7 +438,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Can_Edit_StorageLine() {
             // Arrange - create the mock repository
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             // Arrange - create the controller
             StorageController target = new StorageController(mock.Object);
@@ -460,7 +460,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Cannot_Edit_Nonexistent_StorageLine() {
             // Arrange - create the mock repository
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
         new v_otpr() {id = 1, n_otpr = "00000001"},
@@ -482,7 +482,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Edit_Post() {
             // Arrange - create the mock repository
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             Mock<SessionStorage> sessionMock = new Mock<SessionStorage>();
 

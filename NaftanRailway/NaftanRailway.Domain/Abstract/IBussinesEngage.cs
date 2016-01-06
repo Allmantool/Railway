@@ -63,7 +63,7 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IQueryable<krt_Naftan> KrtNaftans { get; }
+        IQueryable<krt_Naftan> GetKrt_Naftans { get; }
         IQueryable<krt_Naftan_orc_sapod> KrtNaftanOrcSapods { get; }
 
         void AddKrtNaftan(krt_Naftan record);

@@ -31,17 +31,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="pageSize">Count item on page</param>
         /// <returns></returns>
         public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
-            DateTime startDate = chooseDate.AddDays(shiftDate);
+            DateTime startDate = chooseDate.AddDays(-shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
             var srcEntsg = UnitOfWork.Repository<etsng>().Get_all().ToList();
 
-            var srcShipping =
-                UnitOfWork.Repository<v_otpr>()
-                    .Get_all(sh => sh.n_otpr.StartsWith(templShNumber) &&
-                        sh.state == 32 && ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
-                        (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+            var srcShipping = ShippinNumbers.Where(sh =>
                         (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
                         (sh.date_oper >= startDate && sh.date_oper <= endDate))
                     .OrderByDescending(sh => sh.date_oper)
@@ -72,13 +68,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             DateTime startDate = chooseDate.AddDays(-shiftPage);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
-            return (UnitOfWork.Repository<v_otpr>()
-                .Get_all(sh => sh.state == 32 &&
-                               ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
-                                (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
-                               sh.n_otpr.StartsWith(templShNumber) &&
-                               (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
-                               (sh.date_oper >= startDate && sh.date_oper <= endDate)).Count());
+            return (ShippinNumbers.Count(sh => sh.n_otpr.StartsWith(templShNumber) &&
+                            (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
+                            (sh.date_oper >= startDate && sh.date_oper <= endDate)));
         }
 
         /// <summary>
@@ -89,9 +81,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftPage"></param>
         /// <returns></returns>
         public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
-            return UnitOfWork.Repository<v_otpr>().Get_all(sh => sh.state == 32 &&
-                    ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
-                     (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+            return ShippinNumbers.Where(sh =>
                     sh.n_otpr.StartsWith(templShNumber) &&
                     (sh.date_oper >= chooseDate.AddDays(-shiftPage) &&
                     sh.date_oper <= chooseDate.AddDays(shiftPage)))
@@ -109,8 +99,18 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             get { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Prior selection on ship number (v_otpr)
+        /// </summary>
         public IQueryable<v_otpr> ShippinNumbers {
-            get { throw new NotImplementedException(); }
+            get {
+                return UnitOfWork.Repository<v_otpr>()
+                     .Get_all(x => x.state == 32 &&
+                                  ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
+                                   (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)))
+                     .OrderByDescending(x => x.date_oper);
+
+            }
         }
 
         public IQueryable<v_o_v> CarriageNumbers {
@@ -176,9 +176,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IQueryable<etsng> Etsngs {
             get { throw new NotImplementedException(); }
         }
-
-        public IQueryable<krt_Naftan> KrtNaftans {
-            get { throw new NotImplementedException(); }
+        /// <summary>
+        /// Get information from table krtNaftan [db2].[nsd2]
+        /// </summary>
+        public IQueryable<krt_Naftan> GetKrt_Naftans {
+            get { return UnitOfWork.Repository<krt_Naftan>().Get_all().OrderByDescending(x => x.KEYKRT); }
         }
 
         public IQueryable<krt_Naftan_orc_sapod> KrtNaftanOrcSapods {
@@ -188,11 +190,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public void AddKrtNaftan(krt_Naftan record) {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Count operation throughtout badges
+        /// </summary>
+        /// <param name="templShNumber"></param>
+        /// <param name="chooseDate"></param>
+        /// <param name="operationCategory"></param>
+        /// <param name="shiftPage"></param>
+        /// <returns></returns>
         public Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
-            return UnitOfWork.Repository<v_otpr>().Get_all(sh => sh.state == 32 &&
-                    ((new[] { "3494", "349402" }.Contains(sh.cod_kl_otpr) && sh.oper == 1) ||
-                     (new[] { "3494", "349402" }.Contains(sh.cod_klient_pol) && sh.oper == 2)) &&
+            return ShippinNumbers.Where(sh =>
                      sh.n_otpr.StartsWith(templShNumber)
                             && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
                                 && ((int)operationCategory == 0 || sh.oper == (int)operationCategory))
@@ -200,6 +207,5 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                      .Select(g => new { g.Key.oper, operCount = g.Count() })
                      .ToDictionary(item => item.oper.Value, item => item.operCount);
         }
-
     }
 }

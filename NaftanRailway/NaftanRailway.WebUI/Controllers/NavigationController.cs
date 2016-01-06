@@ -6,10 +6,10 @@ using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
     public class NavigationController : Controller {
-        private readonly IDocumentsRepository _documentRepository;
+        private readonly IBussinesEngage _bussinesEngage;
 
-        public NavigationController(IDocumentsRepository documentRepository) {
-            _documentRepository = documentRepository;
+        public NavigationController(IBussinesEngage bussinesEngage) {
+            _bussinesEngage = bussinesEngage;
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public PartialViewResult MenuTypeOperations(InputMenuViewModel menuView, string operationCategory = null) {
             ViewBag.SelectedCategory = operationCategory;
 
-            IQueryable<short?> typeOperations = (_documentRepository.ShippinNumbers)
+            IQueryable<short?> typeOperations = ( _bussinesEngage.ShippinNumbers)
                             .Select(x => x.oper)
                             .Distinct()
                             .OrderBy(x => x);
@@ -39,6 +39,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView) {
             menuView.ReportPeriod = storage.ReportPeriod;
+
             return PartialView("ComplexNavbarMenu", menuView);
         }
     }

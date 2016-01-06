@@ -14,7 +14,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Can_Create_Categories() {
             // Arrange - create the mock repository
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             //*null-3,1-3,2-4
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
@@ -57,7 +57,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Indicates_Selected_Category() {
             // Arrange - create the mock repository
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
 
             mock.Setup(m => m.ShippinNumbers).Returns((new[] {
               new v_otpr() {id = 1, n_otpr = "00000001", oper = 1},
@@ -83,7 +83,7 @@ namespace NaftanRailway.UnitTest.Tests {
         [TestMethod]
         public void Date_Numbers_Menu() {
             //Arrange
-            Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+            Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
             NavigationController target = new NavigationController(mock.Object);
             SessionStorage storage = new SessionStorage();
 
