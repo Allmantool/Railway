@@ -194,9 +194,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             chRecord.Confirmed = true;
             chRecord.DTBUHOTCHET = period;
 
-            UnitOfWork.ActiveContext.Database
-                .SqlQuery<krt_Naftan_orc_sapod>("sp_fill_krt_Naftan_orc_sapod", new SqlParameter("@KEYKRT", key), new SqlParameter("@START_DATE",period));
-            
+            //UnitOfWork.ActiveContext.Database
+            //      .SqlQuery<krt_Naftan_orc_sapod>("EXEC sp_fill_krt_Naftan_orc_sapod @KEYKRT, @START_DATE", new SqlParameter("KEYKRT", key), new SqlParameter("START_DATE",period));
+
+            //krt_Naftan_orc_sapod newKrtNaftanOrcSapod = new krt_Naftan_orc_sapod() {keykrt = key,date_obrabot = period}; 
+            //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Add(newKrtNaftanOrcSapod);
+
             UnitOfWork.Save();
         }
         /// <summary>
