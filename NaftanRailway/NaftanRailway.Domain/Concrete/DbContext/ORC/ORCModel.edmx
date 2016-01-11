@@ -363,14 +363,6 @@
             <ScalarProperty Name="textm" ColumnName="textm" />
             <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
           </MappingFragment></EntityTypeMapping>
-            <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan_orc_sapod">
-              <ModificationFunctionMapping>
-                <InsertFunction FunctionName="ORCModelEntities.Store.sp_fill_krt_Naftan_orc_sapod" >
-                  <ScalarProperty Name="date_obrabot" ParameterName="START_DATE" />
-                  <ScalarProperty Name="keykrt" ParameterName="KEYKRT" />
-                </InsertFunction>
-              </ModificationFunctionMapping>
-            </EntityTypeMapping>
             </EntitySetMapping>
           <EntitySetMapping Name="orc_krts"><EntityTypeMapping TypeName="ORCModelEntities.orc_krt"><MappingFragment StoreEntitySet="orc_krt">
             <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
