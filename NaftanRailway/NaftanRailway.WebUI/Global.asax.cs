@@ -26,7 +26,7 @@ namespace NaftanRailway.WebUI {
              * Install-Package Microsoft.AspNet.WebPages.Data
              * (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
              */
-            WebSecurity.InitializeDatabaseConnection("SecurityConnection","UserProfile","UserId","UserName",true);
+            //WebSecurity.InitializeDatabaseConnection("SecurityConnection","UserProfile","UserId","UserName",true);
         }
     }
 }

@@ -1351,3 +1351,5 @@ C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\RdlCompile.cache
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Razor.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Razor.xml

@@ -64,6 +64,6 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
         IQueryable<krt_Naftan> GetKrtNaftans { get; }
-        void AddKrtNaftan(DateTime period, long key);
+        bool AddKrtNaftan(DateTime period, long key);
     }
 }

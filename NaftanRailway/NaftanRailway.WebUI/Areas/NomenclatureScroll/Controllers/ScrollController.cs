@@ -22,10 +22,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
         [HttpPost]
         public RedirectToRouteResult Add(IndexModelView model) {
-            if(ModelState.IsValid && model.ReportPeriod != null && model.ListKrtNaftan !=null) {
-                _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, model.ListKrtNaftan.FirstOrDefault().KEYKRT);
+            if(ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, model.ListKrtNaftan.FirstOrDefault().KEYKRT)) {
             } else {
-                ModelState.AddModelError("Error", @"Неверно указаные значения");
+                ModelState.AddModelError("Error", @"Неверно указаны значения");
             }
 
             return RedirectToAction("Index", "Scroll");

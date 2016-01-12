@@ -5,6 +5,10 @@
     <EntitySet Name="krt_Naftan_orc_sapods" EntityType="ORCModelEntities.krt_Naftan_orc_sapod" />
     <EntitySet Name="orc_krts" EntityType="ORCModelEntities.orc_krt" />
     <EntitySet Name="orc_sbors" EntityType="ORCModelEntities.orc_sbor" />
+    <AssociationSet Name="FK_krt_Naftan_orc_sapod_krt_naftan" Association="ORCModelEntities.FK_krt_Naftan_orc_sapod_krt_naftan">
+      <End Role="krt_Naftan" EntitySet="krt_Naftans" />
+      <End Role="krt_Naftan_orc_sapod" EntitySet="krt_Naftan_orc_sapods" />
+    </AssociationSet>
     <AssociationSet Name="FK_orc_sbor_orc_krt" Association="ORCModelEntities.FK_orc_sbor_orc_krt">
       <End Role="orc_krt" EntitySet="orc_krts" />
       <End Role="orc_sbor" EntitySet="orc_sbors" />
@@ -14,108 +18,124 @@
     <Key>
       <PropertyRef Name="KEYKRT" />
     </Key>
-    <Property Name="KEYKRT" Type="Int64" Nullable="false" />
-    <Property Name="NKRT" Type="Int32" Nullable="false" />
-    <Property Name="NTREB" Type="Int32" Nullable="false" />
-    <Property Name="DTBUHOTCHET" Type="DateTime" Nullable="false" />
-    <Property Name="DTTREB" Type="DateTime" />
-    <Property Name="DTOPEN" Type="DateTime" />
-    <Property Name="DTCLOSE" Type="DateTime" />
-    <Property Name="SMTREB" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <Property Name="NDSTREB" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-    <Property Name="U_KOD" Type="Int16" Nullable="false" />
-    <Property Name="P_TYPE" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-    <Property Name="DATE_OBRABOT" Type="DateTime" Nullable="false" />
-    <Property Name="IN_REAL" Type="Boolean" Nullable="false" />
-    <Property Name="RecordCount" Type="Int32" Nullable="false" />
-    <Property Name="StartDate_PER" Type="DateTime" Nullable="false" />
-    <Property Name="EndDate_PER" Type="DateTime" Nullable="false" />
-    <Property Name="SignAdjustment_list" Type="Boolean" Nullable="false" />
-    <Property Name="Scroll_Sbor" Type="String" Nullable="false" MaxLength="120" Unicode="true" FixedLength="false" />
+    <Property Type="Int64" Name="KEYKRT" Nullable="false" />
+    <Property Type="Int32" Name="NKRT" Nullable="false" />
+    <Property Type="Int32" Name="NTREB" Nullable="false" />
+    <Property Type="DateTime" Name="DTBUHOTCHET" Nullable="false" />
+    <Property Type="DateTime" Name="DTTREB" />
+    <Property Type="DateTime" Name="DTOPEN" />
+    <Property Type="DateTime" Name="DTCLOSE" />
+    <Property Type="Decimal" Name="SMTREB" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="NDSTREB" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Int16" Name="U_KOD" Nullable="false" />
+    <Property Type="String" Name="P_TYPE" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DATE_OBRABOT" Nullable="false" />
+    <Property Type="Boolean" Name="IN_REAL" Nullable="false" />
+    <Property Type="Int32" Name="RecordCount" Nullable="false" />
+    <Property Type="DateTime" Name="StartDate_PER" Nullable="false" />
+    <Property Type="DateTime" Name="EndDate_PER" Nullable="false" />
+    <Property Type="Boolean" Name="SignAdjustment_list" Nullable="false" />
+    <Property Type="String" Name="Scroll_Sbor" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
+    <Property Type="Boolean" Name="Confirmed" Nullable="false" />
+    <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt_Naftan_orc_sapod_krt_naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
       <PropertyRef Name="keykrt" />
       <PropertyRef Name="keysbor" />
     </Key>
-    <Property Name="keykrt" Type="Int64" Nullable="false" />
-    <Property Name="keysbor" Type="Int64" Nullable="false" />
-    <Property Name="nomot" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-    <Property Name="dt" Type="DateTime" />
-    <Property Name="gruname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="vidsbr" Type="Int16" />
-    <Property Name="namesbr" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-    <Property Name="sm_no_nds" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="sm_nds" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="sm" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="stnds" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="UNI_OTPR" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="nper" Type="Int32" />
-    <Property Name="nkrt" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-    <Property Name="p_type" Type="String" MaxLength="1" Unicode="true" FixedLength="false" />
-    <Property Name="DtBuhOtchet" Type="DateTime" />
-    <Property Name="date_obrabot" Type="DateTime" />
-    <Property Name="tdoc" Type="Byte" />
-    <Property Name="ORC_ID_ED" Type="Int32" />
-    <Property Name="id" Type="Int32" />
-    <Property Name="id_kart" Type="Int32" />
-    <Property Name="id_otpr" Type="Int32" />
-    <Property Name="type_doc" Type="Int16" />
-    <Property Name="cod_sbor" Type="Int16" />
-    <Property Name="date_raskr" Type="DateTime" />
-    <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
-    <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="kol" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="summa" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="nds" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-    <Property Name="ID_ED" Type="Int32" />
+    <Property Type="Int64" Name="keykrt" Nullable="false" />
+    <Property Type="Int64" Name="keysbor" Nullable="false" />
+    <Property Type="String" Name="nomot" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="dt" Nullable="false" />
+    <Property Type="String" Name="gruname" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int16" Name="vidsbr" Nullable="false" />
+    <Property Type="String" Name="namesbr" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="sm_no_nds" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="sm_nds" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="sm" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="stnds" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="String" Name="UNI_OTPR" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="nper" Nullable="false" />
+    <Property Type="String" Name="nkrt" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="p_type" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DtBuhOtchet" Nullable="false" />
+    <Property Type="DateTime" Name="date_obrabot" Nullable="false" />
+    <Property Type="Byte" Name="tdoc" Nullable="false" />
+    <Property Type="Int32" Name="ORC_ID_ED" Nullable="false" />
+    <Property Type="Int32" Name="id" />
+    <Property Type="Int32" Name="id_kart" />
+    <Property Type="Int32" Name="id_otpr" />
+    <Property Type="Int16" Name="type_doc" />
+    <Property Type="Int16" Name="cod_sbor" />
+    <Property Type="DateTime" Name="date_raskr" />
+    <Property Type="String" Name="num_doc" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="cena" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="kol" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="summa" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="nds" Precision="18" Scale="2" />
+    <Property Type="String" Name="textm" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="ID_ED" />
+    <NavigationProperty Name="krt_Naftan" Relationship="ORCModelEntities.FK_krt_Naftan_orc_sapod_krt_naftan" FromRole="krt_Naftan_orc_sapod" ToRole="krt_Naftan" />
   </EntityType>
   <EntityType Name="orc_krt">
     <Key>
       <PropertyRef Name="KEYKRT" />
     </Key>
-    <Property Name="KEYKRT" Type="Int64" Nullable="false" />
-    <Property Name="NKRT" Type="Int32" />
-    <Property Name="NTREB" Type="Int32" />
-    <Property Name="DTTREB" Type="DateTime" />
-    <Property Name="DTOPEN" Type="DateTime" />
-    <Property Name="DTCLOSE" Type="DateTime" />
-    <Property Name="SMTREB" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="NDSTREB" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="U_KOD" Type="Int32" />
-    <Property Name="P_TYPE" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-    <Property Name="DATE_OBRABOT" Type="DateTime" />
-    <Property Name="IN_REAL" Type="Boolean" Nullable="false" />
+    <Property Type="Int64" Name="KEYKRT" Nullable="false" />
+    <Property Type="Int32" Name="NKRT" />
+    <Property Type="Int32" Name="NTREB" />
+    <Property Type="DateTime" Name="DTTREB" />
+    <Property Type="DateTime" Name="DTOPEN" />
+    <Property Type="DateTime" Name="DTCLOSE" />
+    <Property Type="Decimal" Name="SMTREB" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="NDSTREB" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="U_KOD" />
+    <Property Type="String" Name="P_TYPE" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Type="DateTime" Name="DATE_OBRABOT" />
+    <Property Type="Boolean" Name="IN_REAL" Nullable="false" />
     <NavigationProperty Name="orc_sbor" Relationship="ORCModelEntities.FK_orc_sbor_orc_krt" FromRole="orc_krt" ToRole="orc_sbor" />
   </EntityType>
   <EntityType Name="orc_sbor">
     <Key>
+      <PropertyRef Name="KEYKRT" />
       <PropertyRef Name="KEYSBOR" />
     </Key>
-    <Property Name="KEYKRT" Type="Int64" Nullable="false" />
-    <Property Name="KEYSBOR" Type="Int64" Nullable="false" />
-    <Property Name="NOMOT" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="DT" Type="DateTime" />
-    <Property Name="GRUNAME" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
-    <Property Name="VIDSBR" Type="Int32" />
-    <Property Name="NAMESBR" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
-    <Property Name="TXT" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="SM" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="SM_NDS" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="STNDS" Type="Decimal" Precision="18" Scale="2" />
-    <Property Name="UNI_OTPR" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="ID_KART" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="NKRT" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-    <Property Name="P_TYPE" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-    <Property Name="DATE_OBRABOT" Type="DateTime" />
-    <Property Name="TDOC" Type="Int32" />
-    <Property Name="ID_ED" Type="Int32" />
+    <Property Type="Int64" Name="KEYKRT" Nullable="false" />
+    <Property Type="Int64" Name="KEYSBOR" Nullable="false" />
+    <Property Type="String" Name="NOMOT" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="DT" />
+    <Property Type="String" Name="GRUNAME" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="VIDSBR" />
+    <Property Type="String" Name="NAMESBR" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="TXT" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="SM" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="SM_NDS" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="STNDS" Precision="18" Scale="2" />
+    <Property Type="String" Name="UNI_OTPR" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ID_KART" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="NKRT" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="P_TYPE" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Type="DateTime" Name="DATE_OBRABOT" />
+    <Property Type="Int32" Name="TDOC" />
+    <Property Type="Int32" Name="ID_ED" />
     <NavigationProperty Name="orc_krt" Relationship="ORCModelEntities.FK_orc_sbor_orc_krt" FromRole="orc_sbor" ToRole="orc_krt" />
   </EntityType>
+  <Association Name="FK_krt_Naftan_orc_sapod_krt_naftan">
+    <End Type="ORCModelEntities.krt_Naftan" Role="krt_Naftan" Multiplicity="1" />
+    <End Type="ORCModelEntities.krt_Naftan_orc_sapod" Role="krt_Naftan_orc_sapod" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="krt_Naftan">
+        <PropertyRef Name="KEYKRT" />
+      </Principal>
+      <Dependent Role="krt_Naftan_orc_sapod">
+        <PropertyRef Name="keykrt" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_orc_sbor_orc_krt">
-    <End Role="orc_krt" Type="ORCModelEntities.orc_krt" Multiplicity="1" />
-    <End Role="orc_sbor" Type="ORCModelEntities.orc_sbor" Multiplicity="*" />
+    <End Type="ORCModelEntities.orc_krt" Role="orc_krt" Multiplicity="1" />
+    <End Type="ORCModelEntities.orc_sbor" Role="orc_sbor" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="orc_krt">
         <PropertyRef Name="KEYKRT" />

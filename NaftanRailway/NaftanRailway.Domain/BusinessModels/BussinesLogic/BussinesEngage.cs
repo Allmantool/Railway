@@ -189,21 +189,22 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         /// <param name="period"></param>
         /// <param name="key"></param>
-        public void AddKrtNaftan(DateTime period, long key) {
+        public bool AddKrtNaftan(DateTime period, long key) {
             krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
             chRecord.Confirmed = true;
             chRecord.DTBUHOTCHET = period;
 
-           var q = UnitOfWork.ActiveContext.Database
-                  .SqlQuery<krt_Naftan_orc_sapod>("EXEC sp_fill_krt_Naftan_orc_sapod @KEYKRT, @START_DATE"
-                        ,new SqlParameter("KEYKRT", key)
-                        ,new SqlParameter("START_DATE",period))
-                    .ToList();
-
-            //krt_Naftan_orc_sapod newKrtNaftanOrcSapod = new krt_Naftan_orc_sapod() {keykrt = key,date_obrabot = period}; 
-            //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Add(newKrtNaftanOrcSapod);
+            try {
+                UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
+                ("sp_fill_krt_Naftan_orc_sapod @KEYKRT, @START_DATE"
+                    , new SqlParameter("KEYKRT", key)
+                    , new SqlParameter("START_DATE", period));
+            } catch(Exception) {
+                return false;
+            }
 
             UnitOfWork.Save();
+            return true;
         }
         /// <summary>
         /// Count operation throughtout badges

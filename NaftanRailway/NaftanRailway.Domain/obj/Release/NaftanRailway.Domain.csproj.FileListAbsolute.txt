@@ -214,3 +214,16 @@ C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
 C:\Documents and Settings\user\Рабочий стол\Рабочий стол\1\1\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll.config
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\NaftanRailway.Domain.pdb
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\WebMatrix.Data.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\WebMatrix.Data.xml
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\obj\Release\ResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb

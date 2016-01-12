@@ -1,0 +1,41 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <base href = "@(string.Format("{0}://{1}{2}/Railway", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>
+    <meta name="author" content="P. Chizhikov"/>
+    <meta name ="Description" content="Railway project"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="refresh" content="500"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    @Styles.Render("~/Content/css")
+    <link rel="shortcut icon" href="../../Content/Images/AWT-Train.ico" type="image/x-icon"/>
+</head>
+
+<body>
+    <div>
+        @Html.Action("GeneralMenu","Navigation")
+        <div class="visible-xs">@Html.Action("MenuTypeOperations", "Navigation", new { horizontalLayout = true })</div>
+
+        <div class="row">
+            @if (TempData["message"] != null){
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
+        </div>
+
+        <div class="container-fluid">@RenderBody()</div>
+    </div>
+
+    <!--[if lt IE 9]>
+        @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery1")
+    <![endif]-->
+    <!--[if gte IE 9]><!-->
+        @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
+    <!--<![endif]-->
+
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
