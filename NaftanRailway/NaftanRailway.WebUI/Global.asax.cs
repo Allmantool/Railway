@@ -9,8 +9,8 @@ using NaftanRailway.WebUI.ViewModels;
 using WebMatrix.WebData;
 
 namespace NaftanRailway.WebUI {
-    public class MvcApplication :HttpApplication {
-        protected void Application_Start() { 
+    public class MvcApplication : HttpApplication {
+        protected void Application_Start() {
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -18,15 +18,15 @@ namespace NaftanRailway.WebUI {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            ModelBinders.Binders.Add(typeof(SessionStorage),new StorageTableModelBinder());
-            ModelBinders.Binders.Add(typeof(InputMenuViewModel),new InputMenuModelBinder());
+            ModelBinders.Binders.Add(typeof(SessionStorage), new StorageTableModelBinder());
+            ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
 
             /* Step 3: Inizialize simpleMembership db
-             * Install-Package Microsoft.AspNet.WebHelpers
-             * Install-Package Microsoft.AspNet.WebPages.Data
-             * (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
+             Install-Package Microsoft.AspNet.WebHelpers
+             Install-Package Microsoft.AspNet.WebPages.Data
+             (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
              */
-            //WebSecurity.InitializeDatabaseConnection("SecurityConnection","UserProfile","UserId","UserName",true);
+            WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
         }
     }
 }

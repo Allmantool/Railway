@@ -1353,3 +1353,17 @@ C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.d
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Razor.dll
 C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Razor.xml
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\Microsoft.CSharp.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.WebForms.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.ComponentModel.DataAnnotations.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Configuration.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Data.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Drawing.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Abstractions.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.ApplicationServices.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.Routing.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.WebPages.Deployment.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Xml.dll
+C:\Git\Railway\NaftanRailway\NaftanRailway.WebUI\bin\System.Web.WebPages.Deployment.xml
