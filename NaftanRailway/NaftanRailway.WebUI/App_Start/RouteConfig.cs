@@ -9,65 +9,65 @@ namespace NaftanRailway.WebUI {
 
             routes.MapRoute(
                 name: "Path_Full",
-                url: "RailWay/{operationCategory}/Page{page}/Period{reportPeriod}/ShippingFilter{templateNumber}",
+                url: "{operationCategory}/Page{page}/Period{reportPeriod}/ShippingFilter{templateNumber}",
                 defaults: new { controller = "Ceh18", action = "Index"},
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"},
                 constraints: new { page = @"\d+"});
 
             routes.MapRoute(
                 name: "Period",
-                url: "RailWay/{operationCategory}/Page{page}/Period{reportPeriod}",
+                url: "{operationCategory}/Page{page}/Period{reportPeriod}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"},
                 constraints: new { page = @"\d+" });
 
             routes.MapRoute(
                 name: "TypeOperation_Page",
-                url: "RailWay/{operationCategory}/Page{page}",
+                url: "{operationCategory}/Page{page}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"},
                 constraints: new { page = @"\d+" });
 
             routes.MapRoute(
                 name:"EditStorage",
-                url:"RailWay/PreReport/{action}/Shipping{id}",
+                url:"PreReport/{action}/Shipping{id}",
                 defaults:new { controller = "Storage",action = "Index"},
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"});
 
             routes.MapRoute(
                 name:"tempStorage",
-                url:"RailWay/PreReport/{action}",
+                url:"PreReport/{action}",
                 defaults:new { controller = "Storage",action = "Index"},
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"});
 
             routes.MapRoute(
                 name:"Report",
-                url:"RailWay/Report/{action}",
+                url:"Report/{action}",
                 defaults:new { controller = "Report",action = "Index"},
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"});
 
             routes.MapRoute(
                 name: "TypeOperation",
-                url:"RailWay/{operationCategory}",
+                url:"{operationCategory}",
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"},
                 defaults: new { controller = "Ceh18", action = "Index", page = 1 });
 
             routes.MapRoute(
                 name: "PagingLink",
-                url: "RailWay/Page{page}",
+                url: "Page{page}",
                 defaults: new { controller = "Ceh18", action = "Index", operationCategory = EnumOperationType.All },
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"},
                 constraints: new { page = @"\d+" });
 
             routes.MapRoute(
                name:"RailWayBasic",
-               url:"RailWay/{action}",
+               url:"{action}",
                defaults:new { controller = "Ceh18",action = "Index",operationCategory = EnumOperationType.All,page = 1 },
                namespaces: new []{"NaftanRailway.WebUI.Controllers"});
 
             routes.MapRoute(
                 name:"for_action_helper",
-                url:"RailWay/{controller}/{action}",
+                url:"{controller}/{action}",
                 namespaces: new []{"NaftanRailway.WebUI.Controllers"});
 
             //routes.MapRoute(

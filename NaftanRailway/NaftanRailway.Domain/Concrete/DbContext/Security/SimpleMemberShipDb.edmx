@@ -222,7 +222,7 @@
 <Connection><DesignerInfoPropertySet><DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" /></DesignerInfoPropertySet></Connection>
 <edmx:Options><DesignerInfoPropertySet><DesignerProperty Name="ValidateOnBuild" Value="True" /><DesignerProperty Name="EnablePluralization" Value="True" /><DesignerProperty Name="IncludeForeignKeysInModel" Value="True" /><DesignerProperty Name="CodeGenerationStrategy" Value="Отсутствует" /></DesignerInfoPropertySet></edmx:Options>
 <edmx:Diagrams >
-      <Diagram Name="SimpleMemberShipDb" ZoomLevel="97">
+      <Diagram Name="SimpleMemberShipDb" ZoomLevel="84">
         <EntityTypeShape EntityType="SimpleMemberShipDbModel.UserProfile" Width="1.5" PointX="1" PointY="2.5" Height="1.7566536458333339" IsExpanded="true" />
         <EntityTypeShape EntityType="SimpleMemberShipDbModel.webpages_Membership" Width="2.75" PointX="5.125" PointY="2.75" Height="2.7427376302083331" IsExpanded="true" />
         <EntityTypeShape EntityType="SimpleMemberShipDbModel.webpages_OAuthMembership" Width="2.5" PointX="5.125" PointY="1.125" Height="1.427958984375" IsExpanded="true" />

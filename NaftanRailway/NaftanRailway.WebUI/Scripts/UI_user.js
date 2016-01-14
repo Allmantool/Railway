@@ -34,7 +34,7 @@ $(function() {
     $("#ShippingChoise").autocomplete({
         source: function(request, response) {
             $.ajax({
-                url: "/Railway/Ceh18/SearchNumberShipping/",
+                url: "/Ceh18/SearchNumberShipping/",
                 type: "POST",
                 dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
