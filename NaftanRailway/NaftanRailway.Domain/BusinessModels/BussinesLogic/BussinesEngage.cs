@@ -11,7 +11,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public class BussinesEngage : IBussinesEngage {
+    public class BussinesEngage : IBussinesEngage 
+    {
         private bool _disposed;
         private IUnitOfWork UnitOfWork { get; set; }
 
@@ -183,6 +184,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IQueryable<krt_Naftan> GetKrtNaftans {
             get { return UnitOfWork.Repository<krt_Naftan>().Get_all().OrderByDescending(x => x.KEYKRT); }
         }
+        /// <summary>
+        /// Get General table
+        /// </summary>
+        public IQueryable GetTable<T>() where T : class
+        {
+            return UnitOfWork.Repository<T>().Get_all();
+        }
 
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
@@ -223,5 +231,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                      .Select(g => new { g.Key.oper, operCount = g.Count() })
                      .ToDictionary(item => item.oper.Value, item => item.operCount);
         }
+
+        public IQueryable<krt_Naftan_orc_sapod> GetKrtNaftanOrcSapods {
+            get { throw new NotImplementedException(); }
+        }
+
     }
 }
