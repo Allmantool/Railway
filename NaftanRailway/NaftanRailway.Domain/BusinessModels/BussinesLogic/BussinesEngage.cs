@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
@@ -11,8 +12,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public class BussinesEngage : IBussinesEngage 
-    {
+    public class BussinesEngage : IBussinesEngage {
         private bool _disposed;
         private IUnitOfWork UnitOfWork { get; set; }
 
@@ -187,9 +187,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Get General table
         /// </summary>
-        public IQueryable GetTable<T>() where T : class
-        {
-            return UnitOfWork.Repository<T>().Get_all();
+        public IQueryable GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class {
+            return UnitOfWork.Repository<T>().Get_all(predicate);
         }
 
         /// <summary>
@@ -235,6 +234,5 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IQueryable<krt_Naftan_orc_sapod> GetKrtNaftanOrcSapods {
             get { throw new NotImplementedException(); }
         }
-
     }
 }

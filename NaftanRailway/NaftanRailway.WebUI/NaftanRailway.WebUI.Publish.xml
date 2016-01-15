@@ -2,11 +2,10 @@
 <publishData>
   <publishProfile publishUrl="\\cms\rail$" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Railway" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="Scripts/knockout-3.3.0.js" publishTime="12/30/2015 16:39:30" />
-    <file relUrl="bin/System.Configuration.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="bin/System.Data.SqlServerCe.dll" publishTime="12/30/2015 16:39:43" />
     <file relUrl="Content/locales/bootstrap-datepicker.kh.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.ms.min.js" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/System.Web.ApplicationServices.dll" publishTime="03/18/2010 19:31:26" />
+    <file relUrl="Content/bootstrap-datepicker3.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.it-CH.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Shared/EditorTemplates/Luggage.cshtml" publishTime="12/30/2015 16:39:31" />
@@ -15,14 +14,14 @@
     <file relUrl="bin/WebMatrix.Data.xml" publishTime="12/30/2015 16:39:40" />
     <file relUrl="Content/locales/bootstrap-datepicker.sw.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/amd64/Microsoft.VC90.CRT/msvcr90.dll" publishTime="12/30/2015 16:39:33" />
-    <file relUrl="bin/NaftanRailway.Domain.dll" publishTime="01/14/2016 10:25:56" />
+    <file relUrl="bin/NaftanRailway.Domain.dll" publishTime="01/15/2016 16:51:45" />
     <file relUrl="bin/x86/sqlceqp40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="Content/bootstrap/mixins/buttons.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/amd64/sqlcese40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="Content/locales/bootstrap-datepicker.zh-TW.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Web.Http.WebHost.dll" publishTime="12/30/2015 16:39:39" />
     <file relUrl="Content/bootstrap-datepicker.min.css" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="App_Data/SimpleMemberShipDb.sdf" publishTime="01/15/2016 12:24:31" />
+    <file relUrl="App_Data/SimpleMemberShipDb.sdf" publishTime="01/15/2016 16:54:46" />
     <file relUrl="bin/System.Web.Razor.xml" publishTime="05/30/2012 01:00:26" />
     <file relUrl="Views/Shared/EditorTemplates/AccumulativeCard.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/bootstrap/navs.less" publishTime="12/30/2015 16:39:29" />
@@ -35,7 +34,6 @@
     <file relUrl="Content/locales/bootstrap-datepicker.pt.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/forms.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.az.min.js" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/bootstrap/glyphicons.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-datepicker.standalone.min.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/nav-divider.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="ControllerDiagramm.cd" publishTime="12/30/2015 16:39:29" />
@@ -43,15 +41,19 @@
     <file relUrl="bin/Newtonsoft.Json.dll" publishTime="12/30/2015 16:39:47" />
     <file relUrl="Content/bootstrap/mixins/progress-bar.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/Images/ui-icons_888888_256x240.png" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/NaftanRailway.WebUI.dll" publishTime="01/15/2016 12:14:54" />
+    <file relUrl="bin/NaftanRailway.WebUI.dll" publishTime="01/15/2016 16:51:49" />
     <file relUrl="bin/EntityFramework.SqlServerCompact.dll" publishTime="12/30/2015 16:39:36" />
-    <file relUrl="Content/locales/bootstrap-datepicker.sl.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/jumbotron.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/tooltip.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-datetimepicker.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.no.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/locales/bootstrap-datepicker.ko.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Areas/NomenclatureScroll/Views/Scroll/ScrollsDetails.cshtml" publishTime="01/15/2016 16:50:42" />
     <file relUrl="bin/Microsoft.CSharp.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="Content/bootstrap.css.map" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/bootstrap/wells.less" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="packages.config" publishTime="12/30/2015 16:39:34" />
+    <file relUrl="Scripts/jquery-2.1.4-vsdoc.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="Content/locales/bootstrap-datepicker.cy.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Web.Http.dll" publishTime="12/30/2015 16:39:39" />
     <file relUrl="Content/bootstrap-datepicker3.min.css" publishTime="12/30/2015 16:39:29" />
@@ -68,7 +70,7 @@
     <file relUrl="bin/WebActivatorEx.dll" publishTime="12/30/2015 16:39:48" />
     <file relUrl="Content/locales/bootstrap-datepicker.sk.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/modals.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/NaftanRailway.Domain.pdb" publishTime="01/14/2016 10:25:56" />
+    <file relUrl="bin/NaftanRailway.Domain.pdb" publishTime="01/15/2016 16:51:45" />
     <file relUrl="bin/System.Net.Http.dll" publishTime="12/30/2015 16:39:41" />
     <file relUrl="Content/locales/bootstrap-datepicker.hu.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Scripts/UI_user.js" publishTime="01/14/2016 10:38:45" />
@@ -81,9 +83,9 @@
     <file relUrl="bin/System.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="Content/locales/bootstrap-datepicker.mk.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/pagination.less" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Areas/NomenclatureScroll/Views/Shared/_Layout.cshtml" publishTime="01/15/2016 16:56:06" />
     <file relUrl="Views/Acts/Index.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Views/Acts/ActsSummary.cshtml" publishTime="12/30/2015 16:39:31" />
-    <file relUrl="bin/EntityFramework.xml" publishTime="12/30/2015 16:39:35" />
     <file relUrl="Views/Account/Register.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/locales/bootstrap-datepicker.kk.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Wagons/Index.cshtml" publishTime="12/30/2015 16:39:31" />
@@ -94,14 +96,12 @@
     <file relUrl="bin/Ninject.xml" publishTime="12/30/2015 16:39:47" />
     <file relUrl="Content/locales/bootstrap-datepicker.hr.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap.css" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/locales/bootstrap-datepicker.lv.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Wagons/WagonsSummary.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/Images/orderedList7.png" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/breadcrumbs.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/ru/EntityFramework.resources.dll" publishTime="12/30/2015 16:39:35" />
-    <file relUrl="Areas/NomenclatureScroll/Views/Shared/_Layout.cshtml" publishTime="12/17/2015 16:53:35" />
+    <file relUrl="bin/System.Web.Mvc.dll" publishTime="12/30/2015 16:39:37" />
     <file relUrl="Content/locales/bootstrap-datepicker.gl.min.js" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/bootstrap-datetimepicker.min.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Shared/Errors.cshtml" publishTime="01/14/2016 10:40:57" />
     <file relUrl="bin/System.Web.Mvc.xml" publishTime="12/30/2015 16:39:37" />
     <file relUrl="Content/locales/bootstrap-datepicker.he.min.js" publishTime="12/30/2015 16:39:29" />
@@ -132,6 +132,7 @@
     <file relUrl="Content/bootstrap/type.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/Images/orderedList2.png" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Scripts/jquery-ui-1.11.4.min.js" publishTime="12/30/2015 16:39:30" />
+    <file relUrl="Content/Bootstrap_AutoComplete.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/grid.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Global.asax" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Scripts/jquery-2.1.4.js" publishTime="12/30/2015 16:39:30" />
@@ -153,7 +154,6 @@
     <file relUrl="Content/Images/ui-icons_B94A48_256x240.png" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Report/Index.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="bin/Antlr3.Runtime.pdb" publishTime="12/30/2015 16:39:34" />
-    <file relUrl="bin/System.ComponentModel.DataAnnotations.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="Scripts/moment.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="Content/locales/bootstrap-datepicker.ja.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/Bills/Index.cshtml" publishTime="12/30/2015 16:39:31" />
@@ -172,6 +172,7 @@
     <file relUrl="Content/bootstrap/code.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/MoreLinq.xml" publishTime="12/30/2015 16:39:52" />
     <file relUrl="bin/System.Web.WebPages.Deployment.dll" publishTime="07/10/2012 12:03:34" />
+    <file relUrl="Content/bootstrap/responsive-embed.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.bg.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-theme.min.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Scripts/jquery.unobtrusive-ajax.min.js" publishTime="12/30/2015 16:39:30" />
@@ -196,7 +197,7 @@
     <file relUrl="Content/locales/bootstrap-datepicker.it.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Net.Http.Formatting.dll" publishTime="12/30/2015 16:39:38" />
     <file relUrl="Content/bootstrap/normalize.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/System.Web.Mvc.dll" publishTime="12/30/2015 16:39:37" />
+    <file relUrl="bin/amd64/sqlcecompact40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="bin/WebGrease.dll" publishTime="12/30/2015 16:39:48" />
     <file relUrl="Content/jquery.ui.theme.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/fonts/glyphicons-halflings-regular.woff2" publishTime="12/30/2015 16:39:29" />
@@ -219,7 +220,6 @@
     <file relUrl="Content/locales/bootstrap-datepicker.mn.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/badges.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/labels.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/amd64/sqlcecompact40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="bin/x86/sqlcese40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="Views/Storage/EditRow.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/bootstrap/mixins/panels.less" publishTime="12/30/2015 16:39:29" />
@@ -227,7 +227,7 @@
     <file relUrl="Content/locales/bootstrap-datepicker.el.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-datetimepicker-build.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Web.Abstractions.dll" publishTime="03/18/2010 19:31:26" />
-    <file relUrl="packages.config" publishTime="12/30/2015 16:39:34" />
+    <file relUrl="bin/System.Configuration.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="bin/amd64/sqlceqp40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="bin/amd64/sqlceme40.dll" publishTime="12/30/2015 16:39:33" />
     <file relUrl="Content/bootstrap/mixins/table-row.less" publishTime="12/30/2015 16:39:29" />
@@ -237,12 +237,11 @@
     <file relUrl="Content/bootstrap/pager.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/size.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.de.min.js" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/bootstrap-datepicker3.css" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/locales/bootstrap-datepicker.sl.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/border-radius.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Web.WebPages.dll" publishTime="12/30/2015 16:39:39" />
     <file relUrl="Content/locales/bootstrap-datepicker.eu.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/responsive-utilities.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/locales/bootstrap-datepicker.fi.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/WebMatrix.WebData.dll" publishTime="12/30/2015 16:39:40" />
     <file relUrl="bin/EntityFramework.SqlServerCompact.xml" publishTime="12/30/2015 16:39:36" />
     <file relUrl="Content/bootstrap/media.less" publishTime="12/30/2015 16:39:29" />
@@ -250,7 +249,6 @@
     <file relUrl="Content/bootstrap/variables.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/fonts/glyphicons-halflings-regular.svg" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/x86/Microsoft.VC90.CRT/msvcr90.dll" publishTime="12/30/2015 16:39:33" />
-    <file relUrl="Content/bootstrap/mixins/hide-text.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Scripts/jquery-1.9.1-vsdoc.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="Content/bootstrap/mixins/text-emphasis.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/fonts/glyphicons-halflings-regular.eot" publishTime="12/30/2015 16:39:29" />
@@ -264,6 +262,7 @@
     <file relUrl="Views/Navigation/ComplexNavbarMenu.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/bootstrap/mixins/list-group.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/EntityFramework.SqlServer.xml" publishTime="12/30/2015 16:39:35" />
+    <file relUrl="Scripts/moment-with-locales.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="bin/Moq.xml" publishTime="12/30/2015 16:39:44" />
     <file relUrl="bin/System.Net.Http.xml" publishTime="12/30/2015 16:39:41" />
     <file relUrl="Content/bootstrap/progress-bars.less" publishTime="12/30/2015 16:39:29" />
@@ -271,6 +270,7 @@
     <file relUrl="bin/ru/System.Net.Http.resources.dll" publishTime="12/30/2015 16:39:41" />
     <file relUrl="Content/ErrorStyles.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.nl.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="bin/System.Web.ApplicationServices.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="Content/jquery.ui.theme.font-awesome.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/alerts.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.en-GB.min.js" publishTime="12/30/2015 16:39:29" />
@@ -278,7 +278,7 @@
     <file relUrl="Scripts/jquery-ui-1.11.4.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="Content/locales/bootstrap-datepicker.vi.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/navbar.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/Bootstrap_AutoComplete.css" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/bootstrap/mixins/hide-text.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/reset-text.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/clearfix.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.uk.min.js" publishTime="12/30/2015 16:39:29" />
@@ -287,7 +287,8 @@
     <file relUrl="Content/locales/bootstrap-datepicker.ka.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-datepicker.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/labels.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="bin/NaftanRailway.WebUI.pdb" publishTime="01/15/2016 12:14:54" />
+    <file relUrl="bin/NaftanRailway.WebUI.pdb" publishTime="01/15/2016 16:51:49" />
+    <file relUrl="Content/locales/bootstrap-datepicker.hy.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/popovers.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Views/_ViewStart.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="Content/bootstrap/mixins/background-variant.less" publishTime="12/30/2015 16:39:29" />
@@ -298,7 +299,7 @@
     <file relUrl="Content/bootstrap/buttons.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Web.WebPages.Deployment.xml" publishTime="06/22/2012 01:00:28" />
     <file relUrl="Content/locales/bootstrap-datepicker.fr.min.js" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Areas/NomenclatureScroll/Views/Scroll/Index.cshtml" publishTime="12/30/2015 13:15:46" />
+    <file relUrl="Areas/NomenclatureScroll/Views/Scroll/Index.cshtml" publishTime="01/15/2016 16:56:08" />
     <file relUrl="Scripts/jquery.validate.min.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="bin/System.Data.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="Scripts/jquery-1.11.3.js" publishTime="12/30/2015 16:39:30" />
@@ -310,7 +311,7 @@
     <file relUrl="Content/bootstrap/button-groups.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap-theme.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/mixins/responsive-visibility.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Web.config" publishTime="01/15/2016 12:24:53" />
+    <file relUrl="Web.config" publishTime="01/15/2016 16:58:14" />
     <file relUrl="Scripts/knockout-3.3.0.debug.js" publishTime="12/30/2015 16:39:30" />
     <file relUrl="Views/Shared/EditorTemplates/Bill.cshtml" publishTime="12/30/2015 16:39:31" />
     <file relUrl="bin/Ninject.dll" publishTime="12/30/2015 16:39:47" />
@@ -325,17 +326,17 @@
     <file relUrl="Content/locales/bootstrap-datepicker.ro.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/locales/bootstrap-datepicker.nl-BE.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/System.Drawing.dll" publishTime="03/18/2010 19:31:26" />
-    <file relUrl="Content/bootstrap/wells.less" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/bootstrap-datetimepicker.min.css" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/x86/sqlceme40.dll" publishTime="12/30/2015 16:39:33" />
-    <file relUrl="Scripts/jquery-2.1.4-vsdoc.js" publishTime="12/30/2015 16:39:30" />
+    <file relUrl="Content/bootstrap/glyphicons.less" publishTime="12/30/2015 16:39:29" />
     <file relUrl="bin/amd64/Microsoft.VC90.CRT/README_ENU.txt" publishTime="12/30/2015 16:39:32" />
-    <file relUrl="Content/locales/bootstrap-datepicker.hy.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="bin/System.ComponentModel.DataAnnotations.dll" publishTime="03/18/2010 19:31:26" />
     <file relUrl="bin/ru/System.Web.Mvc.resources.dll" publishTime="12/30/2015 16:39:37" />
     <file relUrl="Content/bootstrap/grid.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/bootstrap/responsive-embed.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Scripts/moment-with-locales.js" publishTime="12/30/2015 16:39:30" />
+    <file relUrl="Content/locales/bootstrap-datepicker.fi.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="bin/EntityFramework.xml" publishTime="12/30/2015 16:39:35" />
     <file relUrl="Content/locales/bootstrap-datepicker.tr.min.js" publishTime="12/30/2015 16:39:29" />
     <file relUrl="Content/bootstrap/carousel.less" publishTime="12/30/2015 16:39:29" />
-    <file relUrl="Content/locales/bootstrap-datepicker.ko.min.js" publishTime="12/30/2015 16:39:29" />
+    <file relUrl="Content/locales/bootstrap-datepicker.lv.min.js" publishTime="12/30/2015 16:39:29" />
   </publishProfile>
 </publishData>
