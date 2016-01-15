@@ -179,16 +179,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             get { throw new NotImplementedException(); }
         }
         /// <summary>
-        /// Get information from table krtNaftan [db2].[nsd2]
-        /// </summary>
-        public IQueryable<krt_Naftan> GetKrtNaftans {
-            get { return UnitOfWork.Repository<krt_Naftan>().Get_all().OrderByDescending(x => x.KEYKRT); }
-        }
-        /// <summary>
         /// Get General table
         /// </summary>
-        public IQueryable GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class {
-            return UnitOfWork.Repository<T>().Get_all(predicate);
+        public IQueryable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class {
+            return UnitOfWork.Repository<T>().Get_all(predicate).AsQueryable();
         }
 
         /// <summary>
@@ -213,6 +207,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             UnitOfWork.Save();
             return true;
         }
+        
         /// <summary>
         /// Count operation throughtout badges
         /// </summary>
@@ -229,10 +224,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                      .GroupBy(x => new { x.oper })
                      .Select(g => new { g.Key.oper, operCount = g.Count() })
                      .ToDictionary(item => item.oper.Value, item => item.operCount);
-        }
-
-        public IQueryable<krt_Naftan_orc_sapod> GetKrtNaftanOrcSapods {
-            get { throw new NotImplementedException(); }
         }
     }
 }

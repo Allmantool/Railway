@@ -16,7 +16,7 @@ namespace NaftanRailway.Domain.Concrete {
 
         public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null) {
             if(predicate != null)
-                return _dbSet.Where(predicate).AsQueryable();
+                return _dbSet.Where(predicate);
 
             return _dbSet;
         }

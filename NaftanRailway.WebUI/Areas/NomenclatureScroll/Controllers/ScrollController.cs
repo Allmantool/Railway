@@ -19,7 +19,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ViewResult Index() {
             return View(new IndexModelView() {
-                ListKrtNaftan = _bussinesEngage.GetKrtNaftans,
+                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT),
                 ReportPeriod = DateTime.Now
             });
         }
@@ -30,7 +30,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpPost]
         public RedirectToRouteResult Add(IndexModelView model) {
-            if(ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, model.ListKrtNaftan.FirstOrDefault().KEYKRT)) {
+            var firstOrDefault = model.ListKrtNaftan.FirstOrDefault();
+
+            if (firstOrDefault != null && (ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, firstOrDefault.KEYKRT))) {
             } else {
                 ModelState.AddModelError("Error", @"Неверно указаны значения");
             }
@@ -43,7 +45,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ViewResult ScrollsDetails() {
-            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>());
+            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Take(100));
         }
     }
 }

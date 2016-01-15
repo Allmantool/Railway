@@ -64,9 +64,7 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IQueryable<krt_Naftan_orc_sapod> GetKrtNaftanOrcSapods { get; }
-        IQueryable<krt_Naftan> GetKrtNaftans { get; }
-        IQueryable GetTable<T> (Expression<Func<T, bool>> predicate = null) where T: class ;
+        IQueryable<T> GetTable<T> (Expression<Func<T, bool>> predicate = null) where T: class ;
         bool AddKrtNaftan(DateTime period, long key);
     }
 }
