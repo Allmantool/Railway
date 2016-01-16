@@ -6,6 +6,8 @@ namespace NaftanRailway.WebUI {
     public static class RouteConfig {
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "fonts" });
+            routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "Content" });
 
             routes.MapRoute(
                 name: "Path_Full",
