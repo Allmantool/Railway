@@ -410,3 +410,17 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\RU\System.Data.SqlServerCe.reso
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.dll.config
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.pdb
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\MoreLinq.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\MoreLinq.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Mvc.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
+C:\Git\Railway\NaftanRailway.Domain\obj\Debug\ResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
+C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
