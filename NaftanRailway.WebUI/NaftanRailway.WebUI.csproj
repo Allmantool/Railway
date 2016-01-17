@@ -561,6 +561,8 @@
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\DataSources\NaftanRailway.Domain.BusinessModels.ReportModel.datasource" />
+    <None Include="Properties\PublishProfiles\Home.pubxml" />
+    <None Include="Properties\PublishProfiles\Railway.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
