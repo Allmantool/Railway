@@ -842,9 +842,9 @@
                         oldDate: oldDate
                     });
                 } else {
-//                    if (!options.keepInvalid) {
-//                        input.val(unset ? '' : date.format(actualFormat));
-//                    }
+                    if (!options.keepInvalid) {
+                        input.val(unset ? '' : date.format(actualFormat));
+                    }
                     notifyEvent({
                         type: 'dp.error',
                         date: targetMoment
@@ -2291,8 +2291,6 @@
         if (options.inline) {
             show();
         }
-        setValue(DateTime.ParseExact(input.DafautValue, "MMMM yyyy", CultureInfo.InvariantCulture))
-        setValue(date)
         return picker;
     };
 
@@ -2339,8 +2337,8 @@
         },
         tooltips: {
             today: 'Go to today',
-            clear: 'Clear',
-            close: 'Close',
+            clear: 'Clear selection',
+            close: 'Close the picker',
             selectMonth: 'Select Month',
             prevMonth: 'Previous Month',
             nextMonth: 'Next Month',

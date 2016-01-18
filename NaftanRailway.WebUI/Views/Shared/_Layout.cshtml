@@ -4,12 +4,13 @@
 <head>
     <title>@ViewBag.Title</title>
     <base href = "@(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="P. Chizhikov"/>
     <meta name ="Description" content="Railway project"/>
     <meta charset="utf-8"/>
     <meta http-equiv="refresh" content="500"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    @Styles.Render("~/Contents/cssbundle")
+    @Styles.Render("~/Content/cssbundle")
     <link rel="shortcut icon" href="../../Content/Images/AWT-Train.ico" type="image/x-icon"/>
 </head>
 
@@ -27,14 +28,15 @@
         <div class="container-fluid">@RenderBody()</div>
     </div>
 
-    <!--[if lt IE 9]>
+    <!--[if lt IE 8]>
         @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery1")
     <![endif]-->
-    <!--[if gte IE 9]><!-->
+    <!--[if gte IE 8]><!-->
         @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
     <!--<![endif]-->
 
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>" ,"~/bundles/BootstrapIE8")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
     @RenderSection("scripts", required: false)
 </body>

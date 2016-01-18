@@ -2,27 +2,22 @@
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    @*<base href = "@(string.Format("{0}://{1}{2}Nomenclature/Scroll", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>*@
+    <base href = "@(string.Format("{0}://{1}{2}Nomenclature/Scroll", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>
     <meta name="author" content="P. Chizhikov" />
     <meta name="Description" content="Nomenclature project" />
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="refresh" content="500" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    @Styles.Render("~/Content/cssbundle")
-    <link rel="shortcut icon" href="../../../../Content/Images/AWT-Train.ico" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     @Styles.Render("~/Content/cssbundle")
+    <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon" />
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <div class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
             <div class="row">
                 <div class="collapse navbar-collapse">
-                    <div class="col-md-1 navbar-header">
-                        <a class="navbar-brand" href="#">
-                            <img alt="Brand" src="~/Content/Images/My Documents.gif" width="auto" height="60px"
-                                style="z-index: 10; top: 0; left: 0; background-color: transparent;" />
-                        </a>
-                    </div>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <ul class="nav navbar-nav">
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Перечень <span class="caret"></span></a>
@@ -34,18 +29,15 @@
                             </li>
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">Ведомость <span class="caret"></span></a>
-                                <ul class="dropdown-menu nav navbar-nav">
-                                </ul>
+                                <ul class="dropdown-menu nav navbar-nav"></ul>
                             </li>
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">Акт ГУ-123<span class="caret"></span></a>
-                                <ul class="dropdown-menu nav navbar-nav">
-                                </ul>
+                                <ul class="dropdown-menu nav navbar-nav"></ul>
                             </li>
                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                 aria-haspopup="true" aria-expanded="false">Карточки <span class="caret"></span></a>
-                                <ul class="dropdown-menu nav navbar-nav">
-                                </ul>
+                                <ul class="dropdown-menu nav navbar-nav"></ul>
                             </li>
                         </ul>
                     </div>
@@ -57,16 +49,15 @@
                 </div>
             </div>
         </div>
-    </nav>
-    <div class="col-lg-12 container">@RenderBody()</div>
-    <!--[if lt IE 9]>
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery1")
-<![endif]-->
-    <!--[if gte IE 9]><!-->
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
-    <!--<![endif]-->
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
-    @RenderSection("scripts", required: false)
-</body>
+    </div>
+<div class="col-lg-12">@RenderBody()</div>
+
+<!--[if lte IE 8]>@Scripts.Render("~/bundles/JQuery1")<![endif]-->
+<!--[if !IE 8]><!-->@Scripts.Render("~/bundles/JQuery2")<!--<![endif]-->
+
+@Scripts.Render("~/bundles/Jquery")
+<!--[if lte IE 8]>@Scripts.Render("~/bundles/BootstrapIE8")<![endif]-->
+@Scripts.Render("~/bundles/UserFunctions")
+
+@RenderSection("scripts", required: false)
 </html>

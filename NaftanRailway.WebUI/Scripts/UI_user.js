@@ -83,5 +83,5 @@ $('tr').on('click', function() {
     var srcRow = this.children[0];
 
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
-    $('#HiddenInputModal').empty().val(srcRow.firstElementChild.innerText);
+    $('#HiddenInputModal').empty().val(srcRow.children[0].innerText);
 });

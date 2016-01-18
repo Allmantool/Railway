@@ -19,7 +19,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ViewResult Index() {
             return View(new IndexModelView() {
-                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT),
+                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().Take(30).OrderByDescending(x => x.KEYKRT),
                 ReportPeriod = DateTime.Now
             });
         }
