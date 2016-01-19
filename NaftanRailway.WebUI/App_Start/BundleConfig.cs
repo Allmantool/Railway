@@ -6,16 +6,15 @@ namespace NaftanRailway.WebUI {
         public static void RegisterBundles(BundleCollection bundles) {
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery1")
-                .Include("~/Scripts/jquery-1.9.1.min.js"));
+                .Include("~/Scripts/jquery-1.11.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery2")
                 .Include("~/Scripts/jquery-2.2.0.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Jquery")
-                .Include("~/Scripts/moment.min.js",
-                         "~/Scripts/moment-with-locales.min.js",
-                         "~/Scripts/bootstrap.min.js",
-                         "~/Scripts/bootstrap-datetimepicker.min.js",
+                .Include("~/Scripts/bootstrap.min.js",
+                         "~/Scripts/bootstrap-datepicker.min.js",
+                         "~/Content/locales/bootstrap-datepicker.ru.min.js",
                          "~/Scripts/jquery-ui-1.11.4.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.js",
                          "~/Scripts/jquery.validate.min.js",
@@ -25,7 +24,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/html5shiv.js",
                          "~/Scripts/respond.min.js"
                 ));
-
+                    
             bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
                 .Include("~/Scripts/UI_user.js"));
 
@@ -33,6 +32,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Content/bootstrap.min.css",
                          "~/Content/bootstrap-theme.min.css",
                          "~/Content/bootstrap-datetimepicker.min.css",
+                         "~/Content/bootstrap-datepicker3.min.css",
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
                          "~/Content/jquery.ui.theme.font-awesome.css",

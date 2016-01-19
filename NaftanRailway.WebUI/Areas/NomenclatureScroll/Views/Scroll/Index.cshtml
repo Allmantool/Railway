@@ -4,8 +4,7 @@
     Layout ="../Shared/_Layout.cshtml";
     ViewBag.Title = "Перечни";
 }
-<div class="panel panel-default navbar-static-top">                       
-    <div class="small">
+<div class="panel panel-default navbar-static-top">
         <table class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
             <thead class="">
             <tr>
@@ -22,59 +21,45 @@
                 <th class="text-center">Конечная дата данных</th>
                 <th class="text-center">Признка коррект. перечня</th>
                 <th class="text-center">Набор перечней</th>
+                <th class="text-center">Результат сверки</th>
             </tr>
             </thead>
-            <tbody class="text-center">
-            @foreach (krt_Naftan item in Model.ListKrtNaftan){
-                <tr class = "@(item.Confirmed ? "" : "info")" data-toggle="modal" data-target=".bs-modal-lg">
-                    <td>@item.NKRT <span class="hidden key">@item.KEYKRT</span></td>
-                    <td>@item.NTREB</td>
-                    <td>@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
-                    <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
-                    <td>@item.SMTREB.ToString("#,#")</td>
-                    <td>@item.NDSTREB.ToString("#,#")</td>
-                    <td>@item.P_TYPE</td>
-                    <td>@item.DATE_OBRABOT</td>
-                    <td>@item.RecordCount</td>
-                    <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
-                    <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
-                    <td><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-remove")"></span></td>
-                    <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
-                </tr>
-            }
+            <tbody class="text-center" id="scrolList">
+                @Html.Partial("_Items",@Model.ListKrtNaftan)
             </tbody>
         </table>
+        <div id="loading" class="text-center"><img alt ="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'></div>
+        <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new {@class = "form-inline navbar-form", role = "form"})){
+                                <div class="form-group col-lg-6">
+                                    @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.FirstOrDefault().KEYKRT, new {id = "HiddenInputModal"})
+                                    <div id="sandbox-container">
+                                        <div class="input-group date">
+                                            @Html.TextBoxFor(m => m.ReportPeriod, new{
+                                                @class = "form-control", type = "text", @readonly = "readonly",
+                                                @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
+                                            })
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
 
-    <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня</h4>
-          </div>
-            <div class="modal-body row">
-                <div class="col-lg-10 col-lg-offset-1 container">
-                @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new {@class = "form-inline navbar-form navbar-left", role = "form"})){
-                    <div class="form-group col-lg-6 pull-left">
-                        @Html.Hidden("ListKrtNaftan[0].KEYKRT",Model.ListKrtNaftan.FirstOrDefault().KEYKRT,new {id="HiddenInputModal"})
-                        <div class="input-group date" id="datetimepicker10">
-                            @Html.TextBoxFor(m => m.ReportPeriod, new{
-                                @class = "form-control", type = "text", @readonly = "readonly",
-                                @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
-                            })
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                    <button type="submit" class="btn btn-primary">Подтвердить</button>
+                                </div>
+                            }
                         </div>
                     </div>
-                    <div class="form-group pull-right row">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-primary">Подтвердить</button>
-                    </div>
-                }
-                </div>
-            </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
-    <div class="panel-footer"></div>
-</div> 

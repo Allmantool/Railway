@@ -13,13 +13,21 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             _bussinesEngage = bussinesEngage;
         }
         /// <summary>
-        /// View table krt_Naftan
+        /// View table krt_Naftan (with infinite scrolling)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult Index() {
+        public ActionResult Index(int page = 1) {
+            const byte initialSizeItem = 27;
+
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_items", _bussinesEngage.GetTable<krt_Naftan>()
+                    .OrderByDescending(x => x.KEYKRT).Skip((page) * initialSizeItem).Take(initialSizeItem).ToList());
+            }
+
             return View(new IndexModelView() {
-                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().Take(70).OrderByDescending(x => x.KEYKRT),
+                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>()
+                    .Take(initialSizeItem).OrderByDescending(x => x.KEYKRT),
                 ReportPeriod = DateTime.Now
             });
         }
@@ -32,7 +40,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public RedirectToRouteResult Add(IndexModelView model) {
             var firstOrDefault = model.ListKrtNaftan.FirstOrDefault();
 
-            if (firstOrDefault != null && (ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, firstOrDefault.KEYKRT))) {
+            if(firstOrDefault != null && (ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, firstOrDefault.KEYKRT))) {
             } else {
                 ModelState.AddModelError("Error", @"Неверно указаны значения");
             }

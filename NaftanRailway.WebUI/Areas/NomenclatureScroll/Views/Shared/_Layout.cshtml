@@ -13,31 +13,31 @@
     <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon" />
 </head>
 <body>
-<div class="navbar navbar-default navbar-static-top">
+<div class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="row">
             <div class="collapse navbar-collapse">
                 <div class="col-md-10">
                     <ul class="nav navbar-nav">
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false">Перечень <span class="caret"></span></a>
+                                                aria-haspopup="true" aria-expanded="false">Перечни ОРЦ<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Таблица  перечней</a></li>
                                 <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false">Ведомость <span class="caret"></span></a>
+                                                aria-haspopup="true" aria-expanded="false">Ведомости ГУ-46<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li role="separator" class="divider"></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false">Акт ГУ-123<span class="caret"></span></a>
+                                                aria-haspopup="true" aria-expanded="false">Акт ГУ-23<span class="caret"></span></a>
                             <ul class="dropdown-menu"></ul>
                         </li>
                         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-haspopup="true" aria-expanded="false">Карточки <span class="caret"></span></a>
+                                                aria-haspopup="true" aria-expanded="false">Накопительные карточки ФДУ-92<span class="caret"></span></a>
                             <ul class="dropdown-menu"></ul>
                         </li>
                     </ul>
@@ -53,12 +53,13 @@
 </div>
 
 <div class="container-fluid">@RenderBody()</div>
-<!--[if lte IE 8]>@Scripts.Render("~/bundles/JQuery1")<![endif]-->
-<!--[if !IE 8]><!-->@Scripts.Render("~/bundles/JQuery2")<!--<![endif]-->
 
-@Scripts.Render("~/bundles/Jquery")
-<!--[if lte IE 8]>@Scripts.Render("~/bundles/BootstrapIE8")<![endif]-->
-@Scripts.Render("~/bundles/UserFunctions")
+<!--[if lte IE 8]>@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery1")<![endif]-->
+<!--[if !IE 8]><!-->@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")<!--<![endif]-->
+@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
+<!--[if lte IE 8]> @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/BootstrapIE8")<![endif]-->
+@*@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
+<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
 
 @RenderSection("scripts", required: false)
 </body>

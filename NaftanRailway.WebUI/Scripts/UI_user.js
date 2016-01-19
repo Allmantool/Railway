@@ -7,7 +7,7 @@ Will cause the date picker to not revert or overwrite invalid dates.
 ignoreReadonly
 Default: false
 Allow date picker show event to fire even when the associated input element has the readonly="readonly"property
-*/
+
 /// <reference path="jquery-2.1.4.js" />
 $(function() {
     $("#datetimepicker10").datetimepicker({
@@ -18,12 +18,23 @@ $(function() {
         format: 'MMMM YYYY',
         keepInvalid: true,
         ignoreReadonly: true
-    });
-    /*Customize http://momentjs.com */
+    }); */
+    /*Customize http://momentjs.com 
     window.moment.locale('ru', {
         months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
                  "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
     });
+});
+*/
+/*http://bootstrap-datepicker.readthedocs.org/en/latest */
+$('#sandbox-container .input-group').datepicker({
+    format: "MM yyyy",
+    startView: 2,
+    minViewMode: 1,
+    language: "ru",
+    autoclose: true,
+    todayBtn: "linked",
+    orientation: "bottom auto"
 });
 
 /*
@@ -84,4 +95,51 @@ $('tr').on('click', function() {
 
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
     $('#HiddenInputModal').empty().val(srcRow.children[0].innerText);
+});
+
+/*move to top page*/
+$("a[href='#top']").on('click',function() {
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    return false;
+});
+
+/* infinite scrolling */
+$(function() {
+    $.support.cors = true;
+    $('div#loading').hide();
+
+    var page = 0;
+    var inCallback = false;
+
+    function loadItems() {
+        if (page > -1 && !inCallback) {
+            inCallback = true;
+            page++;
+
+            $('div#loading').show();
+
+            $.ajax({
+                cache: false,
+                type: 'GET',
+                url: 'Scroll/Index/' + page,
+                success: function(data) {
+                    if (data !== '') {
+                        $("#scrolList").append(data);
+                    } else {
+                        page = -1;
+                    }
+                    inCallback = false;
+                    $("div#loading").hide();
+                }
+            });
+        }
+    }
+
+// обработка события скроллинга
+    $(window).on('scroll', function() {
+        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+
+            loadItems();
+        }
+    });
 });
