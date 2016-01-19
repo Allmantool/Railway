@@ -3,7 +3,7 @@
 
 @foreach (krt_Naftan item in Model){
     <tr class="@(item.Confirmed ? "" : "info")" data-toggle="modal" data-target=".bs-modal-lg">
-        <td>@item.NKRT <input class="hidden key" type ="hidden" value="@item.KEYKRT"/></td>
+        <td>@item.NKRT <input class="hidden key" type ="hidden" value="@item.KEYKRT"></td>
         <td>@item.NTREB</td>
         <td>@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>

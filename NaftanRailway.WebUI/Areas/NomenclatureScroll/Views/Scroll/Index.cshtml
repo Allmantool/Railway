@@ -1,12 +1,12 @@
 ﻿@using NaftanRailway.Domain.Concrete.DbContext.ORC
 @model NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.IndexModelView
 @{
-    Layout ="../Shared/_Layout.cshtml";
+    Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = "Перечни";
 }
 <div class="panel panel-default navbar-static-top">
-        <table class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
-            <thead class="">
+    <table class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
+        <thead class="">
             <tr>
                 <th class="text-center">№ перечня</th>
                 <th class="text-center">№ счёт-фактуры</th>
@@ -23,43 +23,45 @@
                 <th class="text-center">Набор перечней</th>
                 <th class="text-center">Результат сверки</th>
             </tr>
-            </thead>
-            <tbody class="text-center" id="scrolList">
-                @Html.Partial("_Items",@Model.ListKrtNaftan)
-            </tbody>
-        </table>
-        <div id="loading" class="text-center"><img alt ="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'></div>
-        <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new {@class = "form-inline navbar-form", role = "form"})){
-                                <div class="form-group col-lg-6">
-                                    @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.FirstOrDefault().KEYKRT, new {id = "HiddenInputModal"})
-                                    <div id="sandbox-container">
-                                        <div class="input-group date">
-                                            @Html.TextBoxFor(m => m.ReportPeriod, new{
-                                                @class = "form-control", type = "text", @readonly = "readonly",
-                                                @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
-                                            })
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                        </div>
+        </thead>
+        <tbody class="text-center" id="scrolList">
+            @Html.Partial("_Items", @Model.ListKrtNaftan)
+        </tbody>
+    </table>
+    <div id="loading" class="text-center">
+        <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
+    </div>
+    <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @using (@Html.BeginForm("Add", "Scroll", FormMethod.Post, new { @class = "form-inline navbar-form", role = "form" })) {
+                            <div class="form-group col-lg-6">
+                                @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.FirstOrDefault().KEYKRT, new { id = "HiddenInputModal" })
+                                <div id="sandbox-container">
+                                    <div class="input-group date">
+                                        @Html.TextBoxFor(m => m.ReportPeriod, new {
+                                           @class = "form-control", type = "text", @readonly = "readonly",
+                                           @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
+                                        })
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="pull-right">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                    <button type="submit" class="btn btn-primary">Подтвердить</button>
-                                </div>
-                            }
-                        </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" class="btn btn-primary">Подтвердить</button>
+                            </div>
+                        }
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
