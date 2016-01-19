@@ -285,6 +285,7 @@
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
+    <Content Include="Content\CustomUser.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActsController.cs" />
     <Compile Include="Controllers\BillsController.cs" />
