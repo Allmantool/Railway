@@ -38,6 +38,7 @@
     <Property Type="String" Name="Scroll_Sbor" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
     <Property Type="Boolean" Name="Confirmed" Nullable="false" />
     <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt_Naftan_orc_sapod_krt_naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
+    <Property Type="Boolean" Name="ErrorState" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
@@ -98,7 +99,6 @@
   </EntityType>
   <EntityType Name="orc_sbor">
     <Key>
-      <PropertyRef Name="KEYKRT" />
       <PropertyRef Name="KEYSBOR" />
     </Key>
     <Property Type="Int64" Name="KEYKRT" Nullable="false" />

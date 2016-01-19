@@ -4,6 +4,7 @@
     <EntitySetMapping Name="krt_Naftans">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan">
         <MappingFragment StoreEntitySet="krt_Naftan">
+          <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
           <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
           <ScalarProperty Name="Scroll_Sbor" ColumnName="Scroll_Sbor" />
           <ScalarProperty Name="SignAdjustment_list" ColumnName="SignAdjustment_list" />
