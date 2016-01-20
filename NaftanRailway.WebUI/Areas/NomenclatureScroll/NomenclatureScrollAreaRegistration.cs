@@ -11,8 +11,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
         public override void RegisterArea(AreaRegistrationContext context) {
             context.MapRoute(
                 name: "NomenclatureScroll_default",
-                url: "Nomenclature/{controller}/{action}/{id}",
-                defaults: new { action = "Index",controller ="Scroll", id = UrlParameter.Optional },
+                url: "Nomenclature/{controller}/{action}/{page}",
+                defaults: new { action = "Index",controller ="Scroll", page = UrlParameter.Optional },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
         }

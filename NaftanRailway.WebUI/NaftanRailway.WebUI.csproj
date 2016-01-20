@@ -438,6 +438,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollsDetails.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_items.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="Content\bootstrap-theme.css.map" />

@@ -44,14 +44,18 @@
             @RenderBody()
         </div>
     </div>
-    <!--[if lt IE 9]>
-        @Scripts.Render("~/bundles/JQuery1")
-    <![endif]-->
-    <!--[if gte IE 9]><!-->
-    @Scripts.Render("~/bundles/JQuery2")
-    <!--<![endif]-->
+<!--[if lte IE 8]>
+    @Scripts.Render("~/bundles/JQuery1")
     @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/BootstrapIE8")
     @Scripts.Render("~/bundles/UserFunctions")
+<![endif]-->
+<!--[if !IE 8]><!-->
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
+<!--<![endif]-->
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

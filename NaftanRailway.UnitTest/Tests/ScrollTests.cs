@@ -8,7 +8,7 @@ namespace NaftanRailway.UnitTest.Tests {
     /// </summary>
     [TestClass]
     public class ScrollTests {
-        Mock<IDocumentsRepository> mock = new Mock<IDocumentsRepository>();
+        Mock<IBussinesEngage> mock = new Mock<IBussinesEngage>();
   
     }
 }

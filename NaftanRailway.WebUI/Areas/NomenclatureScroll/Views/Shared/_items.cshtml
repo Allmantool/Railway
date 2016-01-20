@@ -3,7 +3,8 @@
 
 @foreach (krt_Naftan item in Model){
     <tr class="@(item.Confirmed ? "" : "info")" data-toggle="modal" data-target=".bs-modal-lg">
-        <td>@item.NKRT <input class="hidden key" type ="hidden" value="@item.KEYKRT"></td>
+        <td>@item.NKRT <input class="hidden key" type="hidden" value="@item.KEYKRT"></td>
+        <td><span class = "@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign"): "")"></span></td>
         <td>@item.NTREB</td>
         <td>@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
@@ -16,6 +17,5 @@
         <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
         <td><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
-        <td><span class = "@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign"): "")"></span></td>
     </tr>
 }

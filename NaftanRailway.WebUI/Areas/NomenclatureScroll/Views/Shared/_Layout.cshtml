@@ -21,27 +21,31 @@
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Перечни ОРЦ<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал Перечней ОРЦ<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Таблица  перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="http://db2/ReportServer/Pages/ReportViewer.aspx?%2fOrders%2forc-bch_compare_new&rs%3aCommand=Render">Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД</a></li>
+                                    <li><a href="http://db2/ReportServer/Pages/ReportViewer.aspx?%2fOrders%2forc-bch_corrections&rs:Command=Render">Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД</a></li>
+                                    <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Ведомости ГУ-46<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал Ведомостей ГУ-46<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Акт ГУ-23<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал Актов ГУ-23<span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Накопительные карточки ФДУ-92<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал Накопительных карточек ФДУ-92<span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
                         </ul>
@@ -58,12 +62,19 @@
 
     <div class="container-fluid">@RenderBody()</div>
 
-    <!--[if lte IE 8]>@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery1")<![endif]-->
-    <!--[if !IE 8]><!-->@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")<!--<![endif]-->
+<!--[if lte IE 8]>
+    @Scripts.Render("~/bundles/JQuery1")
+    @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/BootstrapIE8")
+    @Scripts.Render("~/bundles/UserFunctions")
+<![endif]-->
+<!--[if !IE 8]><!-->
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-    <!--[if lte IE 8]> @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/BootstrapIE8")<![endif]-->
-    @*@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
-    <script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
+<!--<![endif]-->
+
+@*   <script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>*@
 
     @RenderSection("scripts", required: false)
 </body>

@@ -90,12 +90,14 @@ $(function() {
 /*Work with modal windows in nomenclature project*/
 $('.modal').on('show.bs.modal', function() {});
 
-$('tr').on('click', function() {
-    var srcRow = this.children[0];
-
+$('#scrolList').on('click', function(e) {
+    var td = e.target || e.srcElement;
+    var srcRow = td.parentNode.children[0];
+                  
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
-    $('#HiddenInputModal').empty().val(srcRow.children[0].innerText);
+    $('#HiddenInputModal').empty().val(srcRow.children[0].value);
 });
+
 
 /*move to top page*/
 $("a[href='#top']").on('click',function() {
@@ -135,11 +137,17 @@ $(function() {
         }
     }
 
-// обработка события скроллинга
+    /* обработка события скроллинга
+       ScrollTop = полж. ползунка
+       doc.Height = высота всего документа
+       win.Height = высота вид. окна
+    */
     $(window).on('scroll', function() {
-        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 20) {
 
             loadItems();
         }
     });
 });
+
+

@@ -17,17 +17,17 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(int page = 1) {
+        public ActionResult Index(int page = 0) {
             const byte initialSizeItem = 27;
 
             if(Request.IsAjaxRequest()) {
                 return PartialView("_items", _bussinesEngage.GetTable<krt_Naftan>()
-                    .OrderByDescending(x => x.KEYKRT).Skip((page) * initialSizeItem).Take(initialSizeItem).ToList());
+                    .OrderByDescending(x => x.KEYKRT).Skip(page * initialSizeItem).Take(initialSizeItem));
             }
 
             return View(new IndexModelView() {
                 ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>()
-                    .Take(initialSizeItem).OrderByDescending(x => x.KEYKRT),
+                    .OrderByDescending(x => x.KEYKRT).Skip(page * initialSizeItem).Take(initialSizeItem),
                 ReportPeriod = DateTime.Now
             });
         }
@@ -45,7 +45,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 ModelState.AddModelError("Error", @"Неверно указаны значения");
             }
 
-            return RedirectToAction("Index", "Scroll");
+            //return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("ErrorReport", "Scroll");
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod
@@ -54,6 +55,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ViewResult ScrollsDetails() {
             return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Take(100));
+        }
+        /// <summary>
+        /// Render Report error
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ViewResult ErrorReport() {
+            return View();
         }
     }
 }
