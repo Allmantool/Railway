@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -47,23 +46,17 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 /*&& _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)*/)) {
                 const string serverName = @"DB2";
                 const string folderName = @"Orders";
-                string reportName = "";
 
-                reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
-            http://DB2/ReportServer/Pages/ReportViewer.aspx?/Orders/orc-bch_corrections&rs:Command=Render&rs:Format=PDF&nkrt=517&y=2016
-                string urlReportString = String.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
-                                            serverName, folderName,
-                                            reportName,
-                                            @"rs:Command=Render
-                                             &rc:Toolbar=false
-                                             &rs:ClearSession=true
-                                             &rs:Format=PDF
-                                             &rs:ParameterLanguage=ru-RU
-                                             &nkrt="+selectKrt.NKRT+"" +
-                                            "&y="+selectKrt.DTBUHOTCHET.Year);
+                    var reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
+                //http://DB2/ReportServer/Pages/ReportViewer.aspx?/Orders/orc-bch_corrections&rs:Command=Render&rs:Format=PDF&nkrt=517&y=2016
+
+                WebClient
+                string urlReportString =
+                    $"http://{serverName}/ReportServer/Pages/ReportViewer.aspx?/{folderName}/{reportName}&{"rs:Command=Render\r\n                                             &rc:Toolbar=false\r\n                                             &rs:ClearSession=true\r\n                                             &rs:Format=PDF\r\n                                             &rs:ParameterLanguage=ru-RU\r\n                                             &nkrt=" + selectKrt.NKRT + "" + "&y=" + selectKrt.DTBUHOTCHET.Year}";
 
                     WebRequest request = WebRequest.Create(urlReportString);
                     request.Credentials =CredentialCache.DefaultCredentials;
+                    request.Method = WebRequestMethods.Http.Get;
                     request.GetResponse();
                 } else {
                 TempData["message"] = String.Format("Невозможно добавить перечень № {0}. т.к он уже добавлен", selectKrt.NKRT);
