@@ -26,8 +26,8 @@
                                     <li><a href="#">Таблица  перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="http://db2/ReportServer/Pages/ReportViewer.aspx?%2fOrders%2forc-bch_compare_new&rs%3aCommand=Render">Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД</a></li>
-                                    <li><a href="http://db2/ReportServer/Pages/ReportViewer.aspx?%2fOrders%2forc-bch_corrections&rs:Command=Render">Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД</a></li>
+                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_compare_new"}, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД","ErrorReport","Scroll",new {reportName="orc-bch_corrections"},null)</li>
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
@@ -60,7 +60,12 @@
         </div>
     </div>
 
-    <div class="container-fluid">@RenderBody()</div>
+     <div class="row panel">
+        @if(TempData["message"] != null) {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <div class="container-fluid">@RenderBody()</div>
+     </div>
 
 <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")

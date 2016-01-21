@@ -1,44 +1,13 @@
-﻿@{
+﻿@model string
+@{   
     ViewBag.Title = "Отчёт об сверки";
     Layout = "../Shared/_Layout.cshtml";
 }
-
-<iframe style="width: 100%; height: 100vh; margin-left: 0; left: 0;"  src='http://db2/ReportServer/Pages/ReportViewer.aspx?%2fOrders%2forc-bch_compare_new&rs%3aCommand=Render&nkrt=100&y=2016'  >Your browser doesn't support iFrames.</iframe>
+<div class="">
+<iframe style="width: 100%; height: 100vh; min-height: 1024px; margin-top: -1.8%;"src='@Model'>
+    Your browser doesn't support iFrames.
+</iframe>
+</div>
 
  
-@*(function() {
-    var serverName = 'db2.lan.naftan.by',
-        folderName = 'Transport',
-        defaultParams = {
-            "rs:Command": "Render",
-            "rc:Toolbar": false,
-            "rs:ClearSession": true
-        },
 
-        defaultExportFormat = 'excel';
-    Kdn.Reporter = {
-        getUrl: function(reportName, params) {
-            var template = "http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}";
-            params = params || {};
-            Ext.apply(params, defaultParams);
-            if (params.tbar === false) {
-                delete params["rc:Toolbar"];
-            }
-            return String.format(template,
-                serverName,
-                folderName,
-                reportName,
-                Ext.urlEncode(params)
-            );
-        },
-        exportReport: function (reportName, params, format) {
-            var formatParams = {
-                "rs:Format": format || defaultExportFormat
-            };
-
-            params = params || {};
-            Ext.apply(params, formatParams);
-            location.href = this.getUrl(reportName, params);
-        }
-    };
-})();*@

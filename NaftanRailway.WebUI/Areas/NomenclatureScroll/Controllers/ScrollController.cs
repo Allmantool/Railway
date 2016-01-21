@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
+using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -37,16 +39,39 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public RedirectToRouteResult Add(IndexModelView model) {
-            var firstOrDefault = model.ListKrtNaftan.FirstOrDefault();
+        public ActionResult Add(IndexModelView model) {
+            long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
+            var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT==numberKeykrt).FirstOrDefault();
 
-            if(firstOrDefault != null && (ModelState.IsValid && model.ReportPeriod != null && _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, firstOrDefault.KEYKRT))) {
-            } else {
-                ModelState.AddModelError("Error", @"Неверно указаны значения");
+            if((ModelState.IsValid && model.ReportPeriod != null && selectKrt != null
+                /*&& _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)*/)) {
+                const string serverName = @"DB2";
+                const string folderName = @"Orders";
+                string reportName = "";
+
+                reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
+            http://DB2/ReportServer/Pages/ReportViewer.aspx?/Orders/orc-bch_corrections&rs:Command=Render&rs:Format=PDF&nkrt=517&y=2016
+                string urlReportString = String.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+                                            serverName, folderName,
+                                            reportName,
+                                            @"rs:Command=Render
+                                             &rc:Toolbar=false
+                                             &rs:ClearSession=true
+                                             &rs:Format=PDF
+                                             &rs:ParameterLanguage=ru-RU
+                                             &nkrt="+selectKrt.NKRT+"" +
+                                            "&y="+selectKrt.DTBUHOTCHET.Year);
+
+                    WebRequest request = WebRequest.Create(urlReportString);
+                    request.Credentials =CredentialCache.DefaultCredentials;
+                    request.GetResponse();
+                } else {
+                TempData["message"] = String.Format("Невозможно добавить перечень № {0}. т.к он уже добавлен", selectKrt.NKRT);
             }
-
-            //return RedirectToAction("Index", "Scroll");
-            return RedirectToAction("ErrorReport", "Scroll");
+            //typeReport - argument uses for difinition of report (for confirmed of note)
+            //TempData["selectKrt"] = selectKrt; //pass in contoller
+            //return RedirectToAction("ErrorReport", "Scroll" );
+            return RedirectToAction("Index", "Scroll");
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod
@@ -58,11 +83,23 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
         /// <summary>
         /// Render Report error
+        /// rs:sent command Report Server (RS)
+        /// rc:provides device-information settings based on the report's output format
+        /// rv:pass parameters to reports that are stored in a Sharepoint document Library
+        /// dsu:(username) or dsp:(password) sent database credentials
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult ErrorReport() {
-            return View();
+        public ViewResult ErrorReport(string reportName) {
+            const string serverName = @"DB2";
+            const string folderName = @"Orders";
+
+            string urlReportString = String.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+                                        serverName, folderName,
+                                        reportName,
+                                        @"rs:Command=Render");
+
+            return View((object)urlReportString);
         }
     }
 }
