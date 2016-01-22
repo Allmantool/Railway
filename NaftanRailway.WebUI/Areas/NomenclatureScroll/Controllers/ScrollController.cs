@@ -33,7 +33,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             });
         }
         /// <summary>
-        /// Add scroll in krt_Naftan_ORC_Sopod
+        /// Add scroll in krt_Naftan_ORC_Sopod and download report error
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -42,28 +42,38 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT==numberKeykrt).FirstOrDefault();
 
-            if((ModelState.IsValid && model.ReportPeriod != null && selectKrt != null
-                /*&& _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)*/)) {
+            if(ModelState.IsValid && model.ReportPeriod != null && selectKrt != null
+                /*&& _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)*/) {
                 const string serverName = @"DB2";
                 const string folderName = @"Orders";
+                string reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
+                const string defaultParameters = @"&rs:Command=Render&rs:Format=PDF";
+                string filterParameters = @"&nkrt=" + selectKrt.NKRT + @"&y=" + selectKrt.DTBUHOTCHET.Year;
 
-                    var reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
-                //http://DB2/ReportServer/Pages/ReportViewer.aspx?/Orders/orc-bch_corrections&rs:Command=Render&rs:Format=PDF&nkrt=517&y=2016
+                string urlReportString =String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
-                WebClient
-                string urlReportString =
-                    $"http://{serverName}/ReportServer/Pages/ReportViewer.aspx?/{folderName}/{reportName}&{"rs:Command=Render\r\n                                             &rc:Toolbar=false\r\n                                             &rs:ClearSession=true\r\n                                             &rs:Format=PDF\r\n                                             &rs:ParameterLanguage=ru-RU\r\n                                             &nkrt=" + selectKrt.NKRT + "" + "&y=" + selectKrt.DTBUHOTCHET.Year}";
+                //WebClient client = new WebClient {
+                //    Credentials = CredentialCache.DefaultCredentials,
+                //    UseDefaultCredentials = true
+                //};
+                
 
-                    WebRequest request = WebRequest.Create(urlReportString);
-                    request.Credentials =CredentialCache.DefaultCredentials;
-                    request.Method = WebRequestMethods.Http.Get;
-                    request.GetResponse();
-                } else {
-                TempData["message"] = String.Format("Невозможно добавить перечень № {0}. т.к он уже добавлен", selectKrt.NKRT);
+                //return File(client.DownloadData(urlReportString), "application/pdf");
+
+                WebClient client = new WebClient();
+                
+                var cc = new CredentialCache{
+                    { new Uri("http://db2"), "NTLM", new NetworkCredential("cpn", "1111", "LAN") }
+                };
+                client.Credentials = cc;
+
+                return File(client.DownloadData(urlReportString), "application/pdf");
+
             }
-            //typeReport - argument uses for difinition of report (for confirmed of note)
-            //TempData["selectKrt"] = selectKrt; //pass in contoller
-            //return RedirectToAction("ErrorReport", "Scroll" );
+
+            if(selectKrt != null)
+                TempData["message"] = String.Format("Невозможно добавить перечень № {0}. т.к он уже добавлен", selectKrt.NKRT);
+
             return RedirectToAction("Index", "Scroll");
         }
         /// <summary>
