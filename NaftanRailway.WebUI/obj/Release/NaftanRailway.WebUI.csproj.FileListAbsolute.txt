@@ -854,7 +854,6 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\System.Web.Helpers.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\System.Web.Helpers.xml
-J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.dll.config
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.pdb
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Antlr3.Runtime.dll
@@ -896,7 +895,6 @@ J:\GitHub\Railway\NaftanRailway.WebUI\bin\WebGrease.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\WebMatrix.Data.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\WebMatrix.WebData.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\MoreLinq.dll
-J:\GitHub\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.Common.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.Domain.pdb
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Antlr3.Runtime.pdb
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\EntityFramework.xml
