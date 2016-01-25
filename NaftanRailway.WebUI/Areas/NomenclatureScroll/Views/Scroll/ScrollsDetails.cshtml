@@ -19,16 +19,11 @@
                     <th class="text-center">Сумма НДС</th>
                     <th class="text-center">Сумма</th>
                     <th class="text-center">Ставка НДС</th>
-                    <th class="text-center">Карточка</th>
-                    <th class="text-center">Тип операции</th>
+                    <th class="text-center">txt OРЦ</th>
+                    <th class="text-center">P_Type</th>
+                    <th class="text-center">Назв. сбора</th>
                     <th class="text-center">Дата обработки</th>
-                    <th class="text-center">Тип документа</th>
-                    <th class="text-center">Дата раскрытия</th>
-                    <th class="text-center">Цена</th>
-                    <th class="text-center">Кол-во</th>
-                    <th class="text-center">Сумма</th>
-                    <th class="text-center">НДС</th>
-                    <th class="text-center">Примечание</th> 
+                    <th class="text-center">ID_ED САПОД</th> 
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -44,16 +39,11 @@
                         <td>@item.sm_nds.ToString("#,#%")</td>
                         <td>@item.sm</td>
                         <td>@item.stnds</td>
-                        <td>@item.nkrt</td>
+                        <td>@item.txt</td>
                         <td>@item.p_type</td>
-                        <td>@item.date_obrabot.ToString("Y")</td>
-                        <td>@item.tdoc</td>
-                        <td>@(item.date_raskr == null ? "" : item.date_raskr.Value.ToString("dd.MM.yyyy"))</td>
-                        <td>@(item.cena == null ? "" : item.cena.Value.ToString("#,#"))</td>
-                        <td>@item.kol</td>
-                        <td>@(item.summa == null ? "" : item.summa.Value.ToString("#,#"))</td>
-                        <td>@(item.nds == null ? "" : item.nds.Value.ToString("#,#"))</td>
-                        <td>@item.textm</td>
+                        <td>@item.namesbr</td>
+                        <td>@item.date_obrabot</td>
+                        <td>@item.ID_ED</td>
                     </tr>
                 }
             </tbody>

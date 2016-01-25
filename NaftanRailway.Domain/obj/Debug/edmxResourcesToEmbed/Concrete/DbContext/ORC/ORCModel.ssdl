@@ -55,6 +55,7 @@
     <Property Name="sm_nds" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="sm" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="stnds" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="txt" Type="nvarchar(max)" />
     <Property Name="UNI_OTPR" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="nper" Type="int" Nullable="false" />
     <Property Name="nkrt" Type="nvarchar" Nullable="false" MaxLength="10" />

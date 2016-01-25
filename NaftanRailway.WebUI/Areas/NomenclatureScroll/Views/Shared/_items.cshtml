@@ -2,7 +2,7 @@
 @model IEnumerable<krt_Naftan>
 
 @foreach (krt_Naftan item in Model){
-    <tr class="@(item.Confirmed ? "" : "info")" data-toggle="modal" data-target=".bs-modal-lg">
+    <tr class="@(item.Confirmed ? "" : "success")" data-toggle="modal" data-target=".bs-modal-lg">
         <td>@item.NKRT <input class="hidden key" type="hidden" value="@item.KEYKRT"></td>
         <td><span class = "@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign"): "")"></span></td>
         <td>@item.NTREB</td>

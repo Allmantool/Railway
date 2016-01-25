@@ -78,6 +78,7 @@
     <Property Type="String" Name="textm" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Type="Int32" Name="ID_ED" />
     <NavigationProperty Name="krt_Naftan" Relationship="ORCModelEntities.FK_krt_Naftan_orc_sapod_krt_naftan" FromRole="krt_Naftan_orc_sapod" ToRole="krt_Naftan" />
+    <Property Type="String" Name="txt" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="orc_krt">
     <Key>

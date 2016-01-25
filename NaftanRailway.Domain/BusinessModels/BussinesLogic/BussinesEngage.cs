@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -193,11 +194,17 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public bool AddKrtNaftan(DateTime period, long key) {
             krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
             chRecord.Confirmed = true;
-            chRecord.DTBUHOTCHET = period;
+
+            //change date all later records
+            IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key);
+            foreach(krt_Naftan item in listRecords) {
+                item.DTBUHOTCHET = period;
+                UnitOfWork.Repository<krt_Naftan>().Update(item);
+            }
 
             try {
                 UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                ("sp_fill_krt_Naftan_orc_sapod @KEYKRT, @START_DATE"
+                ("execute sp_fill_krt_Naftan_orc_sapod @KEYKRT, @START_DATE"
                     , new SqlParameter("KEYKRT", key)
                     , new SqlParameter("START_DATE", period));
             } catch(Exception) {
@@ -207,7 +214,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             UnitOfWork.Save();
             return true;
         }
-        
+
         /// <summary>
         /// Count operation throughtout badges
         /// </summary>

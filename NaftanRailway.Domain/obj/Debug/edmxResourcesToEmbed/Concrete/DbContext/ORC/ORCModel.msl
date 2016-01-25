@@ -30,6 +30,7 @@
     <EntitySetMapping Name="krt_Naftan_orc_sapods">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan_orc_sapod">
         <MappingFragment StoreEntitySet="krt_Naftan_orc_sapod">
+          <ScalarProperty Name="txt" ColumnName="txt" />
           <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
           <ScalarProperty Name="textm" ColumnName="textm" />
           <ScalarProperty Name="nds" ColumnName="nds" />

@@ -7,7 +7,7 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    public class ScrollController:Controller {
+    public class ScrollController : Controller {
         private readonly IBussinesEngage _bussinesEngage;
 
         public ScrollController(IBussinesEngage bussinesEngage) {
@@ -21,8 +21,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Index(int page = 0) {
             const byte initialSizeItem = 27;
 
-            if (Request.IsAjaxRequest()) {
-                return PartialView("_items",_bussinesEngage.GetTable<krt_Naftan>()
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_items", _bussinesEngage.GetTable<krt_Naftan>()
                     .OrderByDescending(x => x.KEYKRT).Skip(page * initialSizeItem).Take(initialSizeItem));
             }
 
@@ -42,53 +42,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKeykrt).FirstOrDefault();
 
-            if (ModelState.IsValid && model.ReportPeriod != null && selectKrt != null
-                /*&& _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)*/) {
-                const string serverName = @"DB2";
-                const string folderName = @"Orders";
-                string reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
-                const string defaultParameters = @"rs:Command=Render&rs:Format=PDF";
-                string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + selectKrt.DTBUHOTCHET.Year;
-
-                string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}",serverName,folderName,reportName,defaultParameters,filterParameters);
-
-                //WebClient client = new WebClient {
-                //    Credentials = CredentialCache.DefaultCredentials,
-                //    UseDefaultCredentials = true
-                //};
-
-                //client.Headers.Add("user-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-                //return File(client.DownloadData(urlReportString), "application/pdf");
-
-                /* WebClient client = new WebClient();
-
-                 Параметр Uri, определяющий префикс URI ресурсов, к которым предоставляется доступ посредством учетных данных.
-                  *Схема проверки подлинности, которая используется ресурсом, названным в uriPrefix.
-                  *Класс NetworkCredential, который должен добавляться в кэш учетных данных. 
-                 
-                var cc = new CredentialCache{
-                    { new Uri("http://db2"), "NTLM", new NetworkCredential("cpn", "1111", "LAN") }
-                };
-                client.Credentials = cc;
-
-                return File(client.DownloadData(urlReportString),"application/pdf");
-                 */
-                WebClient client = new WebClient {
-                    Credentials =
-                        new CredentialCache() {
-                                {new Uri("http://db2"), "ntlm", CredentialCache.DefaultNetworkCredentials}
-                            }
-                };
-
-
-                return File(client.DownloadData(urlReportString),"application/pdf");
-
+            if(ModelState.IsValid && model.ReportPeriod != null && selectKrt != null &&
+                _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)) {
+                TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
+            } else {
+                TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
             }
 
-            if (selectKrt != null)
-                TempData["message"] = String.Format("Невозможно добавить перечень № {0}. т.к он уже добавлен",selectKrt.NKRT);
-
-            return RedirectToAction("Index","Scroll");
+            return RedirectToAction("Index", "Scroll");
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod
@@ -107,16 +68,44 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult ErrorReport(string reportName) {
+        public ActionResult ErrorReport(string reportName, long? numberKrt, int? reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
 
-            string urlReportString = string.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
-                                        serverName,folderName,
+            if(reportName != null) {
+                string urlReportString = string.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+                                        serverName, folderName,
                                         reportName,
                                         @"rs:Command=Render");
+                return View((object)urlReportString);
+            }
 
-            return View((object)urlReportString);
+            krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
+            if(selectKrt != null) {
+                reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
+                const string defaultParameters = @"rs:Format=PDF";
+                string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
+
+                string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
+                    folderName, reportName, defaultParameters, filterParameters);
+
+                //WebClient client = new WebClient { UseDefaultCredentials = true };
+                /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
+                WebClient client = new WebClient {
+                    Credentials =
+                        new CredentialCache{{
+                            new Uri("http://db2"), 
+                            "ntlm",
+                            new NetworkCredential("CPN", "1111", "LAN")
+                        } 
+                    }
+                };
+
+                return File(client.DownloadData(urlReportString), "application/pdf");
+            }
+
+            TempData["message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
+            return RedirectToAction("Index", "Scroll");
         }
     }
 }

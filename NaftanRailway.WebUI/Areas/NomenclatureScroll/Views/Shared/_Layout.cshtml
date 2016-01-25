@@ -62,7 +62,7 @@
 
      <div class="row panel">
         @if(TempData["message"] != null) {
-            <div class="alert alert-danger">@TempData["message"]</div>
+            <div class="alert alert-info">@TempData["message"]</div>
         }
         <div class="container-fluid">@RenderBody()</div>
      </div>
@@ -79,7 +79,7 @@
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
 <!--<![endif]-->
 
-@*   <script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>*@
+@*<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>*@
 
     @RenderSection("scripts", required: false)
 </body>

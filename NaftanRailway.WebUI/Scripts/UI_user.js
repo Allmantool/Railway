@@ -88,7 +88,7 @@ $(function() {
 });
 
 /*Work with modal windows in nomenclature project*/
-$('.modal').on('show.bs.modal', function() {});
+$('.modal').on('show.bs.modal', function() { });
 
 $('#scrolList').on('click', function(e) {
     var td = e.target || e.srcElement;
@@ -96,6 +96,10 @@ $('#scrolList').on('click', function(e) {
                   
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
     $('#HiddenInputModal').empty().val(srcRow.children[0].value);
+
+    /*Update link (parameters in link) to show correct Report server*/
+    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + $('#ReportPeriod').val().replace(/^[^\d]*(\d{4}).*$/, '$1');
+    $('#reportShow').attr('href',(str));
 });
 
 
