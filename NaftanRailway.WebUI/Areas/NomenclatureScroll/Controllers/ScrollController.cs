@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -45,10 +46,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if(ModelState.IsValid && model.ReportPeriod != null && selectKrt != null &&
                 _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)) {
                 TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
-            } else {
-                TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+                return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
-
+ 
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+            
             return RedirectToAction("Index", "Scroll");
         }
         /// <summary>
@@ -57,7 +59,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ViewResult ScrollsDetails() {
-            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Take(100));
+            const byte initialSizeItem = 27;
+            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Take(initialSizeItem));
         }
         /// <summary>
         /// Render Report error
@@ -83,7 +86,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
             if(selectKrt != null) {
                 reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
-                const string defaultParameters = @"rs:Format=PDF";
+                const string defaultParameters = @"rs:Format=Excel";
                 string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
 
                 string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
@@ -101,7 +104,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     }
                 };
 
-                return File(client.DownloadData(urlReportString), "application/pdf");
+                return File(client.DownloadData(urlReportString), "application/vnd.ms-excel");
             }
 
             TempData["message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");

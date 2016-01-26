@@ -5,17 +5,18 @@
     <tr class="@(item.Confirmed ? "" : "success")" data-toggle="modal" data-target=".bs-modal-lg">
         <td>@item.NKRT <input class="hidden key" type="hidden" value="@item.KEYKRT"></td>
         <td><span class = "@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign"): "")"></span></td>
+        <td><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
         <td>@item.NTREB</td>
-        <td>@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
+        <td class="DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
         <td class="text-right">@item.SMTREB.ToString("#,#")</td>
         <td class="text-right">@item.NDSTREB.ToString("#,#")</td>
         <td>@item.P_TYPE</td>
-        <td>@item.DATE_OBRABOT</td>
         <td>@item.RecordCount</td>
         <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
         <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
-        <td><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
+        <td>@item.DATE_OBRABOT</td>
     </tr>
 }
+                                

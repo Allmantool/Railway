@@ -98,7 +98,7 @@ $('#scrolList').on('click', function(e) {
     $('#HiddenInputModal').empty().val(srcRow.children[0].value);
 
     /*Update link (parameters in link) to show correct Report server*/
-    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + $('#ReportPeriod').val().replace(/^[^\d]*(\d{4}).*$/, '$1');
+    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + td.parentNode.children[4].innerText.replace(/^[^\d]*(\d{4}).*$/, '$1');
     $('#reportShow').attr('href',(str));
 });
 

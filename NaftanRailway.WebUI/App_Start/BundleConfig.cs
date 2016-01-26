@@ -37,7 +37,7 @@ namespace NaftanRailway.WebUI {
                          "~/Content/jquery.ui.theme.css",
                          "~/Content/jquery.ui.theme.font-awesome.css",
                          "~/Content/ErrorStyles.css",
-                         "~/Content/Custom.css"));
+                         "~/Content/CustomUser.css"));
         }
     }
 }

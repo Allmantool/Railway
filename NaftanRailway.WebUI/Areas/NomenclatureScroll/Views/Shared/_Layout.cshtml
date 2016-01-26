@@ -7,21 +7,21 @@
     <meta name="Description" content="Nomenclature project" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="refresh" content="500" />
+    <meta http-equiv="refresh" content="18000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @Styles.Render("~/Content/cssbundle")
     <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-static-top">
+    <div class="navbar-custom navbar-static-top">
         <div class="container-fluid">
             <div class="row">
                 <div class="collapse navbar-collapse">
                     <div class="col-md-10">
-                        <ul class="nav navbar-nav">
-                            <li class="dropdown">
+                        <ul class="nav navbar-nav small">
+                            <li class="dropdown col-lg-2 row">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Журнал Перечней ОРЦ<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал<br/>Перечней ОРЦ<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Таблица  перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
@@ -31,21 +31,21 @@
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown col-lg-2">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Журнал Ведомостей ГУ-46<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал<br/>Ведомостей ГУ-46<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown col-lg-2">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Журнал Актов ГУ-23<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал<br/>Актов<br/>ГУ-23<span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown col-lg-4">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">Журнал Накопительных карточек ФДУ-92<span class="caret"></span></a>
+                                   aria-haspopup="true" aria-expanded="false">Журнал<br/>Накопительных карточек ФДУ-92<span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
                         </ul>
@@ -60,10 +60,10 @@
         </div>
     </div>
 
-     <div class="row panel">
-        @if(TempData["message"] != null) {
-            <div class="alert alert-info">@TempData["message"]</div>
-        }
+    @if(TempData["message"] != null) {
+        <div class="alert alert-info">@TempData["message"]</div>
+    }
+    <div class="panel row">
         <div class="container-fluid">@RenderBody()</div>
      </div>
 
@@ -78,8 +78,6 @@
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
 <!--<![endif]-->
-
-@*<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>*@
 
     @RenderSection("scripts", required: false)
 </body>
