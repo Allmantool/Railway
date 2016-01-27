@@ -10,20 +10,20 @@ Allow date picker show event to fire even when the associated input element has 
 
 /// <reference path="jquery-2.1.4.js" />
 $(function() {
-    $("#datetimepicker10").datetimepicker({
-        viewMode: 'years',
-        showClose: true,
-        showClear: false,
-        locale: 'ru',
-        format: 'MMMM YYYY',
-        keepInvalid: true,
-        ignoreReadonly: true
-    }); */
-    /*Customize http://momentjs.com 
-    window.moment.locale('ru', {
-        months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
-                 "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
-    });
+$("#datetimepicker10").datetimepicker({
+viewMode: 'years',
+showClose: true,
+showClear: false,
+locale: 'ru',
+format: 'MMMM YYYY',
+keepInvalid: true,
+ignoreReadonly: true
+}); */
+/*Customize http://momentjs.com 
+window.moment.locale('ru', {
+months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
+"Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+});
 });
 */
 /*http://bootstrap-datepicker.readthedocs.org/en/latest */
@@ -34,7 +34,8 @@ $('#sandbox-container .input-group').datepicker({
     language: "ru",
     autoclose: true,
     todayBtn: "linked",
-    orientation: "bottom auto"
+    orientation: "bottom auto",
+    forceParse: true
 });
 
 /*
@@ -88,23 +89,24 @@ $(function() {
 });
 
 /*Work with modal windows in nomenclature project*/
-$('.modal').on('show.bs.modal', function() { });
-
+$('#reportShow').on('click', function() { $('.modal').modal('hide'); });
 $('#scrolList').on('click', function(e) {
     var td = e.target || e.srcElement;
     var srcRow = td.parentNode.children[0];
-                  
+
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
     $('#HiddenInputModal').empty().val(srcRow.children[0].value);
+    $('#ReportPeriod').empty().val(td.parentNode.children[4].innerText);
 
     /*Update link (parameters in link) to show correct Report server*/
     var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + td.parentNode.children[4].innerText.replace(/^[^\d]*(\d{4}).*$/, '$1');
-    $('#reportShow').attr('href',(str));
+    $('#reportShow').attr('href', (str));
 });
 
 
+
 /*move to top page*/
-$("a[href='#top']").on('click',function() {
+$("a[href='#top']").on('click', function() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     return false;
 });
@@ -142,9 +144,9 @@ $(function() {
     }
 
     /* обработка события скроллинга
-       ScrollTop = полж. ползунка
-       doc.Height = высота всего документа
-       win.Height = высота вид. окна
+    ScrollTop = полж. ползунка
+    doc.Height = высота всего документа
+    win.Height = высота вид. окна
     */
     $(window).on('scroll', function() {
         if ($(window).scrollTop() >= $(document).height() - $(window).height() - 20) {

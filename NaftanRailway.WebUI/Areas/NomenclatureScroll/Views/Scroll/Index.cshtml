@@ -47,8 +47,7 @@
                                 <div id="sandbox-container">
                                     <div class="input-group date">
                                         @Html.TextBoxFor(m => m.ReportPeriod, new {
-                                           @class = "form-control", type = "text", @readonly = "readonly",
-                                           @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy") : DateTime.Today.ToString("MMMM yyyy")
+                                           @class = "form-control", type = "text", @readonly = "readonly"
                                    })
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>

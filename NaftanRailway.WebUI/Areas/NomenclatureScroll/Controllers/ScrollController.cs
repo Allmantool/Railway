@@ -76,7 +76,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const string folderName = @"Orders";
 
             if(reportName != null) {
-                string urlReportString = string.Format("http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+                string urlReportString = string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
                                         serverName, folderName,
                                         reportName,
                                         @"rs:Command=Render");
@@ -98,16 +98,17 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     Credentials =
                         new CredentialCache{{
                             new Uri("http://db2"), 
-                            "ntlm",
-                            new NetworkCredential("CPN", "1111", "LAN")
+                            @"ntlm",
+                            new NetworkCredential(@"CPN", @"1111", @"LAN")
                         } 
                     }
                 };
 
-                return File(client.DownloadData(urlReportString), "application/vnd.ms-excel");
+                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel",String.Format(@"Отчёт по переченю №{0}",selectKrt.NKRT));
+
             }
 
-            TempData["message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
+            TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
             return RedirectToAction("Index", "Scroll");
         }
     }
