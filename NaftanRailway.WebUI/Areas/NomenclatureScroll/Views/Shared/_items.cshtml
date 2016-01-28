@@ -1,22 +1,31 @@
 ﻿@using NaftanRailway.Domain.Concrete.DbContext.ORC
 @model IEnumerable<krt_Naftan>
+@{ int i = 0;}
 
 @foreach (krt_Naftan item in Model){
-    <tr class="@(item.Confirmed ? "" : "success")" data-toggle="modal" data-target=".bs-modal-lg">
-        <td>@item.NKRT <input class="hidden key" type="hidden" value="@item.KEYKRT"></td>
-        <td><span class = "@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign"): "")"></span></td>
-        <td><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
-        <td>@item.NTREB</td>
-        <td class="DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
-        <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
-        <td class="text-right">@item.SMTREB.ToString("#,#")</td>
-        <td class="text-right">@item.NDSTREB.ToString("#,#")</td>
-        <td>@item.P_TYPE</td>
-        <td>@item.RecordCount</td>
-        <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
-        <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
-        <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
-        <td>@item.DATE_OBRABOT</td>
-    </tr>
+    <tr class="@(item.Confirmed ? "" : "success")" ><!--data-toggle="modal" data-target=".bs-modal-lg" call show event of modal-->
+        <td class="vert-align">
+            <input type="radio" name="optionsRadios" id="optionsRadios@(i++)" class="radio">
+            <input type="hidden" class="hidden confirmed" value="@item.Confirmed.ToString()"/>
+        </td>
+        <td class="vert-align">@item.NKRT
+            <input class="hidden key" type="hidden" value="@item.KEYKRT">
+        </td>
+        <td class="vert-align">
+            <span class="@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign") : "")"></span>
+        </td>
+        <td class="vert-align"><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
+        <td class="vert-align">@item.NTREB</td>
+        <td class="vert-align DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
+        <td class="vert-align">@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
+        <td class="text-right vert-align">@item.SMTREB.ToString("#,#")</td>
+        <td class="text-right vert-align">@item.NDSTREB.ToString("#,#")</td>
+        <td class="vert-align">@item.P_TYPE</td>
+        <td class="vert-align">@item.RecordCount</td>
+        <td class="vert-align">@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
+        <td class="vert-align">@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
+        <td class="vert-align">@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
+        <td class="vert-align">@item.DATE_OBRABOT</td>
+   </tr>  
 }
                                 

@@ -8,24 +8,6 @@ ignoreReadonly
 Default: false
 Allow date picker show event to fire even when the associated input element has the readonly="readonly"property
 
-/// <reference path="jquery-2.1.4.js" />
-$(function() {
-$("#datetimepicker10").datetimepicker({
-viewMode: 'years',
-showClose: true,
-showClear: false,
-locale: 'ru',
-format: 'MMMM YYYY',
-keepInvalid: true,
-ignoreReadonly: true
-}); */
-/*Customize http://momentjs.com 
-window.moment.locale('ru', {
-months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
-"Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
-});
-});
-*/
 /*http://bootstrap-datepicker.readthedocs.org/en/latest */
 $('#sandbox-container .input-group').datepicker({
     format: "MM yyyy",
@@ -80,7 +62,7 @@ $(function() {
     });
 });
 
-/*choisen*/
+/*choisen accordion panel*/
 $(function() {
     $(".panel .btn").on('click', function() {
         $(this).children('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-ok');
@@ -90,19 +72,39 @@ $(function() {
 
 /*Work with modal windows in nomenclature project*/
 $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
-$('#scrolList').on('click', function(e) {
-    var td = e.target || e.srcElement;
-    var srcRow = td.parentNode.children[0];
+$('.modal').on('hidden.bs.modal', function(e) {
 
-    $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcRow.innerText);
-    $('#HiddenInputModal').empty().val(srcRow.children[0].value);
-    $('#ReportPeriod').empty().val(td.parentNode.children[4].innerText);
-
-    /*Update link (parameters in link) to show correct Report server*/
-    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + td.parentNode.children[4].innerText.replace(/^[^\d]*(\d{4}).*$/, '$1');
-    $('#reportShow').attr('href', (str));
 });
 
+/*Radio*/
+
+/*Event click on table row*/
+$('#scrolList').on('click', function(e) {
+    var td = e.target || e.srcElement;
+    var srcKey = $(td).parents('tr').find('td input').last();
+    var chkRadio = $(td).parents('tr').find('td input').first();
+    var strDate = $(td).parents('tr').children("td[class*=DTBUHOTCHET]").text();
+
+    $(td).parents('tr').addClass('info');
+    chkRadio.prop("checked", true);
+
+    /*color row (selected)*/
+    $('#scrolList').children('tr').not($(td).parents('tr')).each(function(index, value) {
+        if ($(value).find('.confirmed').val() === "False") {
+            $(value).removeClass('info').addClass('success');
+        } else {
+            $(value).removeClass('info').removeClass('success');
+        }
+    });
+
+    $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcKey.parents('td').text());
+    $('#HiddenInputModal').empty().val(srcKey[0].value);
+    $('#ReportPeriod').empty().val(strDate);
+
+    /*Update link (parameters in link) to show correct Report server*/
+    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + strDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
+    $('#reportShow').attr('href', (str));
+});
 
 
 /*move to top page*/
@@ -111,7 +113,7 @@ $("a[href='#top']").on('click', function() {
     return false;
 });
 
-/* infinite scrolling */
+/* infinite scrolling (get information thoughout ajax request)*/
 $(function() {
     $.support.cors = true;
     $('div#loading').hide();
@@ -149,8 +151,7 @@ $(function() {
     win.Height = высота вид. окна
     */
     $(window).on('scroll', function() {
-        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 20) {
-
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 30) {
             loadItems();
         }
     });

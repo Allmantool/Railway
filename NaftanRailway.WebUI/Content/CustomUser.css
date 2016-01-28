@@ -1,4 +1,9 @@
-﻿/*custom navbar*/
+﻿/*table style */
+.table tbody>tr>td.vert-align{
+    vertical-align: middle;
+}
+
+/*custom navbar*/
 .navbar-custom {
   background-color: #6e3007;
   border-color: #4f2205;
