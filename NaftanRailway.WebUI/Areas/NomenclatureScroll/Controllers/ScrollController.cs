@@ -23,7 +23,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const byte initialSizeItem = 27;
 
             if(Request.IsAjaxRequest()) {
-                return PartialView("_items", _bussinesEngage.GetTable<krt_Naftan>()
+                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
                     .OrderByDescending(x => x.KEYKRT).Skip(page * initialSizeItem).Take(initialSizeItem));
             }
 

@@ -1,4 +1,9 @@
-﻿/*table style */
+﻿/*body style for panel fixed-top*/
+.layer {
+    padding-top: 0px;
+}
+
+/*table style */
 .table tbody>tr>td.vert-align{
     vertical-align: middle;
 }

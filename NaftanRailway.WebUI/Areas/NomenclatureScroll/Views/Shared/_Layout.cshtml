@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -19,71 +19,69 @@
                 <div class="collapse navbar-collapse">
                     <div class="col-md-10">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown col-lg-2 row">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false"><b>Журнал<br/>Перечней ОРЦ</b><span class="caret"></span></a>
+                            <li class="dropdown col-lg-2 row"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Перечней ОРЦ</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Таблица перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">Регистрация перечня ОРЦ</a></li>
+                                    <li><a href="#" id="Reglink">Регистрация перечня ОРЦ</a></li>
                                     <li><a href="#">Отчёт проверки перечня</a></li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
                                     <li><a href="#">Просмотр информации по перечню</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_compare_new"}, null)</li>
-                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД","ErrorReport","Scroll",new {reportName="orc-bch_corrections"},null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName="orc-bch_corrections" }, null)</li>
                                     <li role="separator" class="divider"></li>
                                 </ul>
                             </li>
-                            <li class="dropdown col-lg-2">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false"><b>Журнал<br/>Ведомостей ГУ-46</b><span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li role="separator" class="divider"></li>
-                                </ul>
+                            <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Ведомостей ГУ-46</b><span class="caret"></span></a>
+                                <ul class="dropdown-menu"><li role="separator" class="divider"></li></ul>
                             </li>
-                            <li class="dropdown col-lg-2">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false"><b>Журнал<br/>Актов<br/>ГУ-23</b><span class="caret"></span></a>
+                            <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Актов<br />
+                                    ГУ-23</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
-                            <li class="dropdown col-lg-4">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false"><b>Журнал<br/>Накопительных карточек ФДУ-92</b><span class="caret"></span></a>
+                            <li class="dropdown col-lg-4"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Накопительных карточек ФДУ-92</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-2">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                            <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     @if(TempData["message"] != null) {
         <div class="alert alert-info">@TempData["message"]</div>
     }
-    <div class="panel row">
+    <div class="panel row layer">
         <div class="container-fluid">@RenderBody()</div>
-     </div>
-
-<!--[if lte IE 8]>
+    </div>
+    <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
     @Scripts.Render("~/bundles/Jquery")
     @Scripts.Render("~/bundles/BootstrapIE8")
     @Scripts.Render("~/bundles/UserFunctions")
 <![endif]-->
-<!--[if !IE 8]><!-->
+    <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
+   @* @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
 <!--<![endif]-->
-
+<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

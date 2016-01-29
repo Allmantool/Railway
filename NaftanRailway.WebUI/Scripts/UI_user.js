@@ -23,6 +23,10 @@ $('#sandbox-container .input-group').datepicker({
 /*
 AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
 function need working state datepicker
+url => Specifies the URL to send the request to. Default is the current page
+type => Specifies the type of request. (GET or POST)
+dataType => The data type expected of the server response.
+data => Specifies data to be sent to the server
 */
 $(function() {
     $("#ShippingChoise").autocomplete({
@@ -72,16 +76,34 @@ $(function() {
 
 /*Work with modal windows in nomenclature project*/
 $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
-$('.modal').on('hidden.bs.modal', function(e) {
+/*$('.modal').on('hidden.bs.modal', function() { });*/
 
+/*Update selecting Ration*/
+$('#Reglink').on('click', function(data) {
+    var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
+    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text();
+    var longKey = chkRow.find('td input[class*=key]').val();
+//    $.ajax({
+//        url:"",
+//        type: "POST",
+//        dataType: "json",
+//        data: {model:{ListKrtNaftan:request.term,ReportPeriod: $("#ReportPeriod").val()}},
+//        success: function(data) {
+//            response($.map(data.slice(0, 12), function(item) {
+//                return { label: item };
+//            }));
+//        },
+//        error: function(jqXHR, status, error) {
+//            console.log("status:", status, "error:", error);
+//        }
+//    });
 });
 
-/*Radio*/
 
 /*Event click on table row*/
 $('#scrolList').on('click', function(e) {
     var td = e.target || e.srcElement;
-    var srcKey = $(td).parents('tr').find('td input').last();
+    var srcKey = $(td).parents('tr').find('td input[class*=key]').last();
     var chkRadio = $(td).parents('tr').find('td input').first();
     var strDate = $(td).parents('tr').children("td[class*=DTBUHOTCHET]").text();
 
@@ -151,7 +173,7 @@ $(function() {
     win.Height = высота вид. окна
     */
     $(window).on('scroll', function() {
-        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 30) {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 27) {
             loadItems();
         }
     });
