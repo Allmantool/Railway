@@ -1185,3 +1185,5 @@ C:\Git\Railway\NaftanRailway.UnitTest\bin\Debug\ru\System.Net.Http.resources.dll
 C:\Git\Railway\NaftanRailway.UnitTest\obj\Debug\ResolveAssemblyReference.cache
 C:\Git\Railway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.dll
 C:\Git\Railway\NaftanRailway.UnitTest\obj\Debug\NaftanRailway.UnitTest.pdb
+C:\Git\Railway\NaftanRailway.UnitTest\bin\Debug\Newtonsoft.Json.dll
+C:\Git\Railway\NaftanRailway.UnitTest\bin\Debug\Newtonsoft.Json.xml
