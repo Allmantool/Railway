@@ -1,13 +1,4 @@
-﻿@*@{
-    AjaxOptions ajaxOptions = new AjaxOptions(){
-        //HttpMethod = "Post",
-        UpdateTargetId = "updateRow",
-        Url = Url.Action("Add","Scroll"),
-        //LoadingElementId = "loading",
-        //LoadingElementDuration = 500,
-        //Confirm = "Do u wish the request data?"
-    };
-}*@
+﻿@using System.Web.UI.WebControls
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -36,8 +27,7 @@
                                     <li><a href="#">Таблица перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#" id="Reglink">Регистрация перечня ОРЦ</a></li>
-                                    @*<li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Add","Scroll",new {numberKrt = "100",reportYear = ""},ajaxOptions,new {id="ajaxAdd"})</li>*@
+                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Add","Scroll",new {period="",scrollKey = ""},new AjaxOptions(){OnSuccess = "UpdateData"},new {id = "Reglink"})
                                     <li><a href="#">Отчёт проверки перечня</a></li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
                                     <li><a href="#">Просмотр информации по перечню</a></li>

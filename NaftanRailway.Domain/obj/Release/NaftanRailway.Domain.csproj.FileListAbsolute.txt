@@ -253,3 +253,4 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.resources.
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
+C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.dll

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using Newtonsoft.Json;
-using Ninject.Infrastructure.Language;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     public class ScrollController : Controller {
@@ -59,6 +56,15 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             //TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
 
             //return RedirectToAction("Index", "Scroll");
+        }
+        /// <summary>
+        /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
+        /// </summary>
+        /// <param name="scrollKey"></param>
+        /// <param name="period"></param>
+        /// <returns></returns>
+        public JsonResult Confirmed(long scrollKey,int period){
+            return Json(new krt_Naftan(){KEYKRT = scrollKey,DTBUHOTCHET = new DateTime(period,1,1)},JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod

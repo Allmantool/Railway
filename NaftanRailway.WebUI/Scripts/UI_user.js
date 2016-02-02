@@ -76,28 +76,34 @@ $(function() {
 
 /*Work with modal windows in nomenclature project*/
 $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
-/*$('.modal').on('hidden.bs.modal', function() { });*/
 
-/*Update selecting Ration*/
-$('#Reglink').on('click', function(data) {
-    var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
-    chkRow.attr('id', 'updateRow');
-    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text();
-    var longKey = chkRow.find('td input[class*=key]').val();
-    $.ajax({
-        url: "/nomenclature/Scroll/Add",
-        type: "POST",
-        dataType: "json",
-        data: { "0": { "ListKrtNaftan": [{ "KEYKRT": 100, "NKRT": 0, "NTREB": 0, "DTBUHOTCHET": "0001-01-01T00:00:00", "DTTREB": null, "DTOPEN": null, "DTCLOSE": null, "SMTREB": 0, "NDSTREB": 0, "U_KOD": 0, "P_TYPE": null, "DATE_OBRABOT": "0001-01-01T00:00:00", "IN_REAL": false, "RecordCount": 0, "StartDate_PER": "0001-01-01T00:00:00", "EndDate_PER": "0001-01-01T00:00:00", "SignAdjustment_list": false, "Scroll_Sbor": null, "Confirmed": false, "ErrorState": null, "krt_Naftan_orc_sapod": []}], "ReportPeriod": "2016-02-01T00:00:00+03:00" }, "length": 1 },
-        success: function(data) {
-            console.log(data);
-        },
-        error: function(jqXHR, status, error) {
-            console.log("status:", status, "error:", error);
-        }
-    });
-});
 
+/*Update data in confirmed row*/
+function UpdateData(user) {
+    var target = $("#updateRow");
+
+    target.empty().append(
+        "<td class='vert-align'>" +
+            "<input type='radio' name='optionsRadios' id='optionsRadios2' class='radio'>" +
+            "<input type='hidden' class='hidden confirmed' value='False'>" +
+        "</td>" +
+        "<td class='vert-align'>1939" +
+            "<input class='hidden key' type='hidden' value='15072000195454'>" +
+        "</td>" +
+        "<td class='vert-align'><span class=''></span></td>" +
+        "<td class='vert-align'><span class=''></span></td>" +
+        "<td class='vert-align'>1096</td>" +
+        "<td class='vert-align DTBUHOTCHET'>Январь 2016</td>" +
+        "<td class='vert-align'>01.02.2016</td>" +
+        "<td class='text-right vert-align'>7&nbsp;772&nbsp;558&nbsp;917</td>" +
+        "<td class='text-right vert-align'>303&nbsp;708&nbsp;559</td>" +
+        "<td class='vert-align'>s</td>" +
+        "<td class='vert-align'>231</td>" +
+        "<td class='vert-align'>28.01.2016</td>" +
+        "<td class='vert-align'>31.01.2016</td>" +
+        "<td class='vert-align'>173, 300, 301</td>" +
+        "<td class='vert-align'>01.02.2016 14:15:06</td>");
+}
 
 /*Event click on table row + mark as work row for ajax request*/
 $('#scrolList').on('click', function(e) {
@@ -131,10 +137,10 @@ $('#scrolList').on('click', function(e) {
     var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
     chkRow.attr('id', 'updateRow');
     var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text();
-//    chkRow.before("<tr id='loading' class='load' style='display: none' ><td collspan = '15' class='text-center'>Loading Data...</td> </tr>");
-//    var longKey = chkRow.find('td input[class*=key]').val();
-//    var strAdd = "http://localhost:5682/Nomenclature/Scroll/Add?KEYKRT=" + $('#HiddenInputModal').val() + "&ReportPeriod=" + strReportDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
-//    $('#ajaxAdd').attr('href', (strAdd));
+    chkRow.before("<tr id='loading' class='load' style='display: none' ><td collspan = '15' class='text-center'>Loading Data...</td> </tr>");
+    var longKey = chkRow.find('td input[class*=key]').val();
+    var strAdd = "/Scroll/Confirmed?scrollKey=" + $('#HiddenInputModal').val() + "&period=" + strReportDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
+    $('#Reglink').attr('href', (strAdd));
 });
 
 
