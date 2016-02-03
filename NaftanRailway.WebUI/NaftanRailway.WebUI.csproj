@@ -304,6 +304,7 @@
     <Compile Include="Infrastructure\Binders\InputMenuModelBinder.cs" />
     <Compile Include="Infrastructure\Binders\StorageTableModelBinder.cs" />
     <Compile Include="Infrastructure\Binders\WagonBinding.cs" />
+    <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
     <Compile Include="ViewModels\InfoLineViewModel.cs" />

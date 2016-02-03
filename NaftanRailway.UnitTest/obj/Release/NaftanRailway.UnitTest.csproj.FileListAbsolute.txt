@@ -624,3 +624,5 @@ J:\GitHub\Railway\NaftanRailway.UnitTest\obj\Release\NaftanRailway.UnitTest.dll
 J:\GitHub\Railway\NaftanRailway.UnitTest\obj\Release\NaftanRailway.UnitTest.pdb
 C:\Git\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.dll
 C:\Git\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.xml
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.xml

@@ -254,3 +254,6 @@ J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojRe
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
