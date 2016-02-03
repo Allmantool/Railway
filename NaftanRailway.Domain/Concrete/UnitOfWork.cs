@@ -18,6 +18,10 @@ namespace NaftanRailway.Domain.Concrete {
         }
         public UnitOfWork(System.Data.Entity.DbContext context) {
             ActiveContext = context;
+            /*Отключает Lazy loading необходим для Json
+                ActiveContext.Configuration.LazyLoadingEnabled = false; 
+                ActiveContext.Configuration.ProxyCreationEnabled = false;
+             */
         }
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;

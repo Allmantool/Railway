@@ -27,7 +27,17 @@
                                     <li><a href="#">Таблица перечней</a></li>
                                     <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Add","Scroll",new {period="",scrollKey = ""},new AjaxOptions(){OnSuccess = "UpdateData"},new {id = "Reglink"})
+                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Confirmed","Scroll",
+                                            new {period="",scrollKey = ""},
+                                            new AjaxOptions(){
+                                                //OnSuccess = "UpdateData",
+                                                //Url = @Url.Action("Confirmed","Scroll"),
+                                                OnFailure = "UpdateFailure",
+                                                HttpMethod = "Post",
+                                                //UpdateTargetId = "updateRow",
+                                                LoadingElementDuration = 1000,
+                                                LoadingElementId = "loading"},
+                                            new {id = "Reglink"})
                                     <li><a href="#">Отчёт проверки перечня</a></li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
                                     <li><a href="#">Просмотр информации по перечню</a></li>

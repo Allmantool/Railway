@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -39,23 +41,20 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public void Add(IndexModelView model)
-        {
-            var meun = HttpContext.Request;
-            //model = new IndexModelView() {ListKrtNaftan = new List<krt_Naftan>() {new krt_Naftan() {KEYKRT = 100}},ReportPeriod = DateTime.Now.Date};
-            Response.Write(JsonConvert.SerializeObject( model));
-            //long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
-            //var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKeykrt).FirstOrDefault();
+        public ActionResult Add(IndexModelView model) {
 
-            //if(ModelState.IsValid && model.ReportPeriod != null && selectKrt != null &&
-            //    _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)) {
-            //    TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
-            //    return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
-            //}
+            long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
+            var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKeykrt).FirstOrDefault();
 
-            //TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+            if(ModelState.IsValid && model.ReportPeriod != null && selectKrt != null &&
+                _bussinesEngage.AddKrtNaftan(model.ReportPeriod.Value, selectKrt.KEYKRT)) {
+                TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
+                return RedirectToAction("ErrorReport", "Scroll", new RouteValueDictionary() { { "numberKrt", numberKeykrt }, { "reportYear", selectKrt.DTBUHOTCHET.Year } });
+            }
 
-            //return RedirectToAction("Index", "Scroll");
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+
+            return RedirectToAction("Index", "Scroll");
         }
         /// <summary>
         /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
@@ -63,8 +62,46 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="scrollKey"></param>
         /// <param name="period"></param>
         /// <returns></returns>
-        public JsonResult Confirmed(long scrollKey,int period){
-            return Json(new krt_Naftan(){KEYKRT = scrollKey,DTBUHOTCHET = new DateTime(period,1,1)},JsonRequestBehavior.AllowGet);
+        [HttpPost]
+        public ActionResult Confirmed(long scrollKey, DateTime period) {
+            var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == scrollKey).FirstOrDefault();
+
+            if(ModelState.IsValid && selectKrt != null &&
+                _bussinesEngage.AddKrtNaftan(period, selectKrt.KEYKRT)) {
+                TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
+
+                // avoid circle in time of serialize ( greate anonymous object)
+                var jsonObj = new {
+                    keykrt = selectKrt.KEYKRT,
+                    nper = selectKrt.NTREB,
+                    nkrt = selectKrt.NKRT, 
+                    dtBuhOtchet = selectKrt.DTBUHOTCHET, 
+                    dtTreb = selectKrt.DTTREB, 
+                    dtOpen = selectKrt.DTOPEN,
+                    dtClose = selectKrt.DTCLOSE, 
+                    smTreb = selectKrt.SMTREB, 
+                    ndsTreb = selectKrt.NDSTREB, 
+                    u_kod = selectKrt.U_KOD, 
+                    p_type = selectKrt.P_TYPE, 
+                    date_Obrabot = selectKrt.DATE_OBRABOT, 
+                    in_Real = selectKrt.IN_REAL, 
+                    startDate_Per = selectKrt.StartDate_PER, 
+                    endDate_Per = selectKrt.EndDate_PER, 
+                    signAdjustment_list = selectKrt.SignAdjustment_list,
+                    scroll_Sbor = selectKrt.Scroll_Sbor, 
+                    confirmed = selectKrt.Confirmed, 
+                    errorState = selectKrt.ErrorState 
+
+                };
+                return Json(jsonObj, JsonRequestBehavior.DenyGet);
+                //return PartialView("_AjaxKrtNaftanRow",new List<krt_Naftan>(){selectKrt});
+                //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
+            }
+
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+
+            return RedirectToAction("Index", "Scroll");
+
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod

@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Web.Script.Serialization;
+
 namespace NaftanRailway.Domain.Concrete.DbContext.ORC
 {
     using System;
@@ -39,7 +41,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public string Scroll_Sbor { get; set; }
         public bool Confirmed { get; set; }
         public Nullable<bool> ErrorState { get; set; }
-    
         public virtual ICollection<krt_Naftan_orc_sapod> krt_Naftan_orc_sapod { get; set; }
     }
 }

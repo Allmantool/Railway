@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Web.Script.Serialization;
+
 namespace NaftanRailway.Domain.Concrete.DbContext.ORC
 {
     using System;
@@ -47,7 +49,7 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public string textm { get; set; }
         public Nullable<int> ID_ED { get; set; }
         public string txt { get; set; }
-    
+       
         public virtual krt_Naftan krt_Naftan { get; set; }
     }
 }

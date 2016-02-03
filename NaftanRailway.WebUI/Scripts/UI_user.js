@@ -78,19 +78,22 @@ $(function() {
 $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
 
 
+function UpdateFailure(data) {
+    
+}
 /*Update data in confirmed row*/
 function UpdateData(user) {
     var target = $("#updateRow");
-
+   
     target.empty().append(
         "<td class='vert-align'>" +
             "<input type='radio' name='optionsRadios' id='optionsRadios2' class='radio'>" +
             "<input type='hidden' class='hidden confirmed' value='False'>" +
         "</td>" +
-        "<td class='vert-align'>1939" +
-            "<input class='hidden key' type='hidden' value='15072000195454'>" +
+        "<td class='vert-align'>" + user.nper +
+            "<input class='hidden key' type='hidden' value='"+ user.keykrt + "'>" +
         "</td>" +
-        "<td class='vert-align'><span class=''></span></td>" +
+        "<td class='vert-align'><span class=''>Ok</span></td>" +
         "<td class='vert-align'><span class=''></span></td>" +
         "<td class='vert-align'>1096</td>" +
         "<td class='vert-align DTBUHOTCHET'>Январь 2016</td>" +
@@ -103,6 +106,7 @@ function UpdateData(user) {
         "<td class='vert-align'>31.01.2016</td>" +
         "<td class='vert-align'>173, 300, 301</td>" +
         "<td class='vert-align'>01.02.2016 14:15:06</td>");
+//    local.href();
 }
 
 /*Event click on table row + mark as work row for ajax request*/
@@ -127,7 +131,7 @@ $('#scrolList').on('click', function(e) {
     });
 
     $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcKey.parents('td').text());
-    $('#HiddenInputModal').empty().val(srcKey[0].value);
+    $('#HiddenInputModal').empty().val($(srcKey[0]).val());
     $('#ReportPeriod').empty().val(strDate);
 
     /*Update link (parameters in link) to show correct Report server*/
@@ -136,10 +140,13 @@ $('#scrolList').on('click', function(e) {
 
     var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
     chkRow.attr('id', 'updateRow');
-    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text();
-    chkRow.before("<tr id='loading' class='load' style='display: none' ><td collspan = '15' class='text-center'>Loading Data...</td> </tr>");
+    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
+    chkRow.before("<tr id='loading' class='load' style='display: none' ><td colspan = '15' class='text-center'>Loading Data...</td> </tr>");
     var longKey = chkRow.find('td input[class*=key]').val();
-    var strAdd = "/Scroll/Confirmed?scrollKey=" + $('#HiddenInputModal').val() + "&period=" + strReportDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
+    var strAdd = "/Scroll/Confirmed?scrollKey=" + $('#HiddenInputModal').val() + "&period="
+        + new Date(strReportDate[1],
+            ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+                .indexOf(strReportDate[0]) + 1).toISOString().substring(0, 10);
     $('#Reglink').attr('href', (strAdd));
 });
 

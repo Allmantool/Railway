@@ -8,7 +8,7 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD {
     public partial class v_otpr {
     }
 
-    public class ShippingMetaData {
+    internal class ShippingMetaData {
         [HiddenInput(DisplayValue = false)]
         public int id { get; set; }
 
