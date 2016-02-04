@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -30,13 +29,14 @@
                                     <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Confirmed","Scroll",
                                             new {period="",scrollKey = ""},
                                             new AjaxOptions(){
-                                                //OnSuccess = "UpdateData",
+                                                OnSuccess = "UpdateData",
                                                 //Url = @Url.Action("Confirmed","Scroll"),
                                                 OnFailure = "UpdateFailure",
                                                 HttpMethod = "Post",
                                                 //UpdateTargetId = "updateRow",
-                                                LoadingElementDuration = 1000,
-                                                LoadingElementId = "loading"},
+                                                LoadingElementDuration = 200,
+                                                LoadingElementId = "loading",
+                                                InsertionMode = InsertionMode.Replace},
                                             new {id = "Reglink"})
                                     <li><a href="#">Отчёт проверки перечня</a></li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
@@ -76,7 +76,7 @@
         </div>
     </div>
     @if(TempData["message"] != null) {
-        <div class="alert alert-info">@TempData["message"]</div>
+        <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
     }
     <div class="panel row layer">
         <div class="container-fluid">@RenderBody()</div>

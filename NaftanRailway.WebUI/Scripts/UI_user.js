@@ -82,30 +82,16 @@ function UpdateFailure(data) {
     
 }
 /*Update data in confirmed row*/
-function UpdateData(user) {
+function UpdateData(dataRow) {
     var target = $("#updateRow");
-   
-    target.empty().append(
-        "<td class='vert-align'>" +
-            "<input type='radio' name='optionsRadios' id='optionsRadios2' class='radio'>" +
-            "<input type='hidden' class='hidden confirmed' value='False'>" +
-        "</td>" +
-        "<td class='vert-align'>" + user.nper +
-            "<input class='hidden key' type='hidden' value='"+ user.keykrt + "'>" +
-        "</td>" +
-        "<td class='vert-align'><span class=''>Ok</span></td>" +
-        "<td class='vert-align'><span class=''></span></td>" +
-        "<td class='vert-align'>1096</td>" +
-        "<td class='vert-align DTBUHOTCHET'>Январь 2016</td>" +
-        "<td class='vert-align'>01.02.2016</td>" +
-        "<td class='text-right vert-align'>7&nbsp;772&nbsp;558&nbsp;917</td>" +
-        "<td class='text-right vert-align'>303&nbsp;708&nbsp;559</td>" +
-        "<td class='vert-align'>s</td>" +
-        "<td class='vert-align'>231</td>" +
-        "<td class='vert-align'>28.01.2016</td>" +
-        "<td class='vert-align'>31.01.2016</td>" +
-        "<td class='vert-align'>173, 300, 301</td>" +
-        "<td class='vert-align'>01.02.2016 14:15:06</td>");
+    target.empty().append($(dataRow).children('td'));
+    var messageInfo = $('#MessageInfo');
+
+    if (messageInfo.length === 0 ) {
+        $('#wrkTable').before('<div id="MessageInfo" class="alert alert-info">Успешно добавлен перечень №' +dataRow.nper+'</div>');
+    } else {
+        $('#MessageInfo').val = "Успешно добавлен перечень №" +dataRow.nper;
+    }
 //    local.href();
 }
 

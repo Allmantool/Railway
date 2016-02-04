@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -192,18 +194,26 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="key"></param>
         public bool AddKrtNaftan(DateTime period, long key) {
             try {
-                UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                    ("execute sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("KEYKRT", key));
+                SqlParameter parm = new SqlParameter() {
+                    ParameterName = "@ErrId",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
+
+                var erState = UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
+                    (@"execute @ErrId = sp_fill_krt_Naftan_orc_sapod @KEYKRT",
+                        new SqlParameter("KEYKRT", key),parm);
 
                 //change date all later records
                 IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key);
                 foreach(krt_Naftan item in listRecords) {
                     item.DTBUHOTCHET = period;
                     UnitOfWork.Repository<krt_Naftan>().Update(item);
-                } 
+                }
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                 chRecord.Confirmed = true;
+                chRecord.ErrorState = Convert.ToBoolean((int) parm.Value);
             } catch(Exception) {
                 return false;
             }

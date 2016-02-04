@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -7,7 +6,6 @@ using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
-using Newtonsoft.Json;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     public class ScrollController : Controller {
@@ -66,37 +64,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Confirmed(long scrollKey, DateTime period) {
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == scrollKey).FirstOrDefault();
 
-            if(ModelState.IsValid && selectKrt != null &&
-                _bussinesEngage.AddKrtNaftan(period, selectKrt.KEYKRT)) {
+            if(ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(period, selectKrt.KEYKRT)) {
                 TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
-
-                // avoid circle in time of serialize ( greate anonymous object)
-                var jsonObj = new {
-                    keykrt = selectKrt.KEYKRT,
-                    nper = selectKrt.NTREB,
-                    nkrt = selectKrt.NKRT, 
-                    dtBuhOtchet = selectKrt.DTBUHOTCHET, 
-                    dtTreb = selectKrt.DTTREB, 
-                    dtOpen = selectKrt.DTOPEN,
-                    dtClose = selectKrt.DTCLOSE, 
-                    smTreb = selectKrt.SMTREB, 
-                    ndsTreb = selectKrt.NDSTREB, 
-                    u_kod = selectKrt.U_KOD, 
-                    p_type = selectKrt.P_TYPE, 
-                    date_Obrabot = selectKrt.DATE_OBRABOT, 
-                    in_Real = selectKrt.IN_REAL, 
-                    startDate_Per = selectKrt.StartDate_PER, 
-                    endDate_Per = selectKrt.EndDate_PER, 
-                    signAdjustment_list = selectKrt.SignAdjustment_list,
-                    scroll_Sbor = selectKrt.Scroll_Sbor, 
-                    confirmed = selectKrt.Confirmed, 
-                    errorState = selectKrt.ErrorState 
-
-                };
-                return Json(jsonObj, JsonRequestBehavior.DenyGet);
-                //return PartialView("_AjaxKrtNaftanRow",new List<krt_Naftan>(){selectKrt});
+                
+                //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml",new [] {selectKrt});
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
-            }
+            }                          
 
             TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
 
