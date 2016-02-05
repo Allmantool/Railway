@@ -15,16 +15,16 @@
             <span class="@(item.ErrorState != null ? (item.ErrorState.Value ? "glyphicon glyphicon-ok-sign" : "glyphicon glyphicon-warning-sign") : "")"></span>
         </td>
         <td class="vert-align"><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
-        <td class="vert-align">@item.NTREB</td>
+        <td class="vert-align">@item.P_TYPE</td>
         <td class="vert-align DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
+        <td class="vert-align">@item.NTREB</td>
         <td class="vert-align">@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
         <td class="text-right vert-align">@item.SMTREB.ToString("#,#")</td>
         <td class="text-right vert-align">@item.NDSTREB.ToString("#,#")</td>
-        <td class="vert-align">@item.P_TYPE</td>
-        <td class="vert-align">@item.RecordCount</td>
         <td class="vert-align">@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
         <td class="vert-align">@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
         <td class="vert-align">@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
+        <td class="vert-align">@item.RecordCount</td>
         <td class="vert-align">@item.DATE_OBRABOT</td>
    </tr>  
 }

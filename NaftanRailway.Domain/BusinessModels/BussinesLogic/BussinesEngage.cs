@@ -200,9 +200,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     Direction = ParameterDirection.Output
                 };
 
-                var erState = UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
+                UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
                     (@"execute @ErrId = sp_fill_krt_Naftan_orc_sapod @KEYKRT",
-                        new SqlParameter("KEYKRT", key),parm);
+                        new SqlParameter("@KEYKRT", key),parm);
 
                 //change date all later records
                 IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key);

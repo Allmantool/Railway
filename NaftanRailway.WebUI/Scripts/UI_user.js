@@ -129,10 +129,10 @@ $('#scrolList').on('click', function(e) {
     var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
     chkRow.before("<tr id='loading' class='load' style='display: none' ><td colspan = '15' class='text-center'>Loading Data...</td> </tr>");
     var longKey = chkRow.find('td input[class*=key]').val();
-    var strAdd = "/Scroll/Confirmed?scrollKey=" + $('#HiddenInputModal').val() + "&period="
-        + new Date(strReportDate[1],
-            ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
-                .indexOf(strReportDate[0]) + 1).toISOString().substring(0, 10);
+    var strAdd = "/Scroll/Confirmed?scrollKey=" + longKey + "&period=" +
+        moment(new Date(strReportDate[1],
+            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
+        .format('YYYY.MM.01');
     $('#Reglink').attr('href', (strAdd));
 });
 
