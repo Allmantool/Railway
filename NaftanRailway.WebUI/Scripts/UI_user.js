@@ -85,10 +85,7 @@ $(function() {
 /*Work with modal windows in nomenclature project*/
 $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
 
-
-function UpdateFailure(data) {
-    
-}
+function UpdateFailure(data) {   }
 
 /*Update data in confirmed row*/
 function UpdateData(dataRow) {
@@ -105,25 +102,30 @@ function UpdateData(dataRow) {
 }
 
 /*Event click on table row + mark as work row for ajax request*/
-$('#scrolList').on('click', function(e) {
+$('#scrolList').on('click', function (e) {
+    
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
     var td = $(e.target) || $(this).val();
+    var chkRow = $(td).parents('tr');
+    var srcKey = chkRow.find('td input[class*=key]');
+    var chkRadio = chkRow.find('td input[class*=radio]');
     moment.locale('ru');
-    var srcKey = $(td).parents('tr').find('td input[class*=key]').last();
-    var chkRadio = $(td).parents('tr').find('td input').first();
-    var strDate = $(td).parents('tr').children("td[class*=DTBUHOTCHET]").text();
+    var dpDate = moment(chkRow.children("td[class*=DTBUHOTCHET]").text(), 'MMMM YYYY').format('MMMM YYYY');
   
-    //check
-    $(td).parents('tr').addClass('info');
+    //check(select row)
     chkRadio.prop("checked", true);
-    var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
-    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
-    var dpDate = moment(new Date(strReportDate[1], $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]),1)).format('YYYY.MM.DD');
-  
+    chkRow.addClass('info');
+    chkRow.attr('id', 'updateRow');
+
+    //loading
+    $("<tr id='loading' class='load' style='display: none' >" +
+        "<td colspan = '15' class='text-center'>Loading Data...</td> " +
+      "</tr>").insertBefore('#updateRow');
+
     /*color row (selected)*/
-    $('#scrolList').children('tr').not($(td).parents('tr')).each(function(index, value) {
+    $('#scrolList').children('tr').not(chkRow).each(function (index, value) {
         if ($(value).find('.confirmed').val() === "False") {
             $(value).removeClass('info').addClass('success');
         } else {
@@ -132,20 +134,19 @@ $('#scrolList').on('click', function(e) {
         $(value).removeAttr("id");
         $('.load').remove();
     });
-    //modal window
-    $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + srcKey.parents('td').text());
-    $('#HiddenInputModal').empty().val($(srcKey[0]).val());
 
-    $('#ReportPeriod').attr('value', strReportDate[0] + ' ' + strReportDate[1]);
+    //modal window(key and report period)
+    $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + $.trim(srcKey.parent().text()));
+    $('#HiddenInputModal').empty().val(srcKey.val());
+
+    $('#ReportPeriod').attr('value', dpDate);
 
     /*Update link (parameters in link) to show correct Report server*/
-    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + strDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
+    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate,'MMMM YYYY').year();
     $('#reportShow').attr('href', (str));
-
-    chkRow.attr('id', 'updateRow');
     
-    chkRow.before("<tr id='loading' class='load' style='display: none' ><td colspan = '15' class='text-center'>Loading Data...</td> </tr>");
-    var strAdd = "/Scroll/Confirmed?scrollKey=" + srcKey.val() + "&period=" + dpDate;
+    //Confirmed
+    var strAdd = "/Scroll/Confirmed?scrollKey=" + srcKey.val() + "&period=" + moment(dpDate, 'MMMM YYYY').format('DD.MM.YYYY');
     $('#Reglink').attr('href', (strAdd));
 
     /*change date*/
