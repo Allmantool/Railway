@@ -28,7 +28,7 @@
                                     <li role="separator" class="divider"></li>
                                     <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Confirmed","Scroll",
                                             new {period="",scrollKey = ""},
-                                            new AjaxOptions(){
+                                            new AjaxOptions{
                                                 OnSuccess = "UpdateData",
                                                 //Url = @Url.Action("Confirmed","Scroll"),
                                                 OnFailure = "UpdateFailure",
@@ -36,7 +36,9 @@
                                                 //UpdateTargetId = "updateRow",
                                                 LoadingElementDuration = 200,
                                                 LoadingElementId = "loading",
-                                                InsertionMode = InsertionMode.Replace},
+                                                //UpdateTargetId ="" 
+                                                //InsertionMode = InsertionMode.Replace
+                                            },
                                             new {id = "Reglink"})
                                     <li><a href="#">Отчёт проверки перечня</a></li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>

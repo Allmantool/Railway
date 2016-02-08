@@ -1,7 +1,8 @@
 ﻿using System.Web.Mvc;
 using NaftanRailway.WebUI.Infrastructure.Filters;
 
-namespace NaftanRailway.WebUI {
+// ReSharper disable once CheckNamespace
+namespace Filters {
     public static class FilterConfig {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
             filters.Add(new HandleErrorAttribute());

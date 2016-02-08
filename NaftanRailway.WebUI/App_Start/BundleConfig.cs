@@ -1,7 +1,7 @@
 ﻿using System.Web.Optimization;
 
 namespace NaftanRailway.WebUI {
-    public static class  BundleConfig {
+    public static class BundleConfig {
         // Дополнительные сведения о Bundling см. по адресу http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles) {
 
@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/bootstrap.min.js",
                          "~/Scripts/bootstrap-datepicker.min.js",
                          "~/Content/locales/bootstrap-datepicker.ru.min.js",
-                         "~/Scripts/moment.min.js",
+                         "~/Scripts/moment-with-locales.min.js",
                          "~/Scripts/jquery-ui-1.11.4.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.js",
                          "~/Scripts/jquery.validate.min.js",

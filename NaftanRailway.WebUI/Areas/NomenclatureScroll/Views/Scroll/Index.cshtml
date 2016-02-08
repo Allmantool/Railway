@@ -1,4 +1,4 @@
-﻿@using System.Web.Mvc.Html
+﻿
 @model NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.IndexModelView
 @{
     Layout = "../Shared/_Layout.cshtml";
@@ -31,17 +31,23 @@
     <div id="loading" class="text-center">
         <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
     </div>
-    <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id = "dateModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="gridSystemModalLabel">Подтверждение перечня загрузки данных</h4>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Изменение отчётной даты</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        @using(@Html.BeginForm("Add", "Scroll", FormMethod.Post, new { @class = "form-inline navbar-form", role = "form" })) {
+                        @using(@Ajax.BeginForm("ChangeData","Scroll", new AjaxOptions(){
+                            OnFailure = "UpdateFailure",
+                            OnSuccess = "UpdateData",
+                            HttpMethod = "Post",
+                            Url = @Url.Action("ChangeData","Scroll")
+                        },
+                         new { @class = "form-inline navbar-form", role = "form" })) {
                             <div class="form-group col-lg-6">
                                 @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.First().KEYKRT, new { id = "HiddenInputModal" })
                                 <div id="sandbox-container">
@@ -56,7 +62,7 @@
 
                             <div class="pull-right">
                                 @Html.ActionLink("Отчёт","ErrorReport",new {numberKrt = "",reportYear = ""},new {@class="btn btn-default",id ="reportShow"})
-                                <button type="submit" class="btn btn-primary">Подтвердить</button>
+                                <button type="submit" class="btn btn-primary">Изменить</button>
                             </div>
                         }
                     </div>

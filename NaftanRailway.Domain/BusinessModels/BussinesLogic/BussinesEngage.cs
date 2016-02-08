@@ -202,18 +202,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                 UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
                     (@"execute @ErrId = sp_fill_krt_Naftan_orc_sapod @KEYKRT",
-                        new SqlParameter("@KEYKRT", key),parm);
+                        new SqlParameter("@KEYKRT", key), parm);
 
-                //change date all later records
-                IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key);
-                foreach(krt_Naftan item in listRecords) {
-                    item.DTBUHOTCHET = period;
-                    UnitOfWork.Repository<krt_Naftan>().Update(item);
-                }
+                ChangeBuhDate(period, key);
+
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                 chRecord.Confirmed = true;
-                chRecord.ErrorState = Convert.ToBoolean((int) parm.Value);
+                chRecord.ErrorState = Convert.ToBoolean((int)parm.Value);
             } catch(Exception) {
                 return false;
             }
@@ -221,7 +217,25 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             UnitOfWork.Save();
             return true;
         }
+        /// <summary>
+        /// Change date all later records
+        /// </summary>
+        /// <param name="period"></param>
+        /// <param name="key"></param>
+        public bool ChangeBuhDate(DateTime period, long key) {
+            IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
+            try {
+                foreach(krt_Naftan item in listRecords) {
+                    item.DTBUHOTCHET = period;
+                    UnitOfWork.Repository<krt_Naftan>().Update(item);
+                }
+                return true;
+            } catch(Exception) {
 
+                return false;
+            }
+
+        }
         /// <summary>
         /// Count operation throughtout badges
         /// </summary>

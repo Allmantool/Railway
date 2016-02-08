@@ -18,6 +18,14 @@ $('#sandbox-container .input-group').datepicker({
     todayBtn: "linked",
     orientation: "bottom auto",
     forceParse: true
+}).on('changeDate', function(e) {
+    var datePicker = moment($(e.date)).format('YYYY.MM.01');
+//    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
+//    moment(new Date(strReportDate[1],
+//            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
+//        .format('YYYY.MM.01');
+}).on('show',function(e) {
+    var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
 /*
@@ -70,7 +78,7 @@ $(function() {
 $(function() {
     $(".panel .btn").on('click', function() {
         $(this).children('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-ok');
-        $(this).parents(".panel").removeClass('panel-default').removeClass('panel-primary').addClass('panel-success');
+        $(this).parents(".panel").removeClass('panel-default panel-primary').addClass('panel-success');
     });
 });
 
@@ -81,6 +89,7 @@ $('#reportShow').on('click', function() { $('.modal').modal('hide'); });
 function UpdateFailure(data) {
     
 }
+
 /*Update data in confirmed row*/
 function UpdateData(dataRow) {
     var target = $("#updateRow");
@@ -97,45 +106,53 @@ function UpdateData(dataRow) {
 
 /*Event click on table row + mark as work row for ajax request*/
 $('#scrolList').on('click', function(e) {
-    var td = e.target || e.srcElement;
+    /*The target property can be the element that registered for the event or a descendant of it. 
+    It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
+    This property is very useful in event delegation, when events bubble.*/
+    var td = $(e.target) || $(this).val();
+    moment.locale('ru');
     var srcKey = $(td).parents('tr').find('td input[class*=key]').last();
     var chkRadio = $(td).parents('tr').find('td input').first();
     var strDate = $(td).parents('tr').children("td[class*=DTBUHOTCHET]").text();
-
+  
+    //check
     $(td).parents('tr').addClass('info');
     chkRadio.prop("checked", true);
-
+    var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
+    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
+    var dpDate = moment(new Date(strReportDate[1], $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]),1)).format('YYYY.MM.DD');
+  
     /*color row (selected)*/
     $('#scrolList').children('tr').not($(td).parents('tr')).each(function(index, value) {
         if ($(value).find('.confirmed').val() === "False") {
             $(value).removeClass('info').addClass('success');
         } else {
-            $(value).removeClass('info').removeClass('success');
+            $(value).removeClass('info success');
         }
         $(value).removeAttr("id");
         $('.load').remove();
     });
-
-    $('#gridSystemModalLabel').empty().append("Подтверждение перечня №" + srcKey.parents('td').text());
+    //modal window
+    $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + srcKey.parents('td').text());
     $('#HiddenInputModal').empty().val($(srcKey[0]).val());
-    $('#ReportPeriod').empty().val(strDate);
+
+    $('#ReportPeriod').attr('value', strReportDate[0] + ' ' + strReportDate[1]);
 
     /*Update link (parameters in link) to show correct Report server*/
     var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + strDate.replace(/^[^\d]*(\d{4}).*$/, '$1');
     $('#reportShow').attr('href', (str));
 
-    var chkRow = $('input[name=optionsRadios]:checked').parents('tr');
     chkRow.attr('id', 'updateRow');
-    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
+    
     chkRow.before("<tr id='loading' class='load' style='display: none' ><td colspan = '15' class='text-center'>Loading Data...</td> </tr>");
-    var longKey = chkRow.find('td input[class*=key]').val();
-    var strAdd = "/Scroll/Confirmed?scrollKey=" + longKey + "&period=" +
-        moment(new Date(strReportDate[1],
-            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
-        .format('YYYY.MM.01');
+    var strAdd = "/Scroll/Confirmed?scrollKey=" + srcKey.val() + "&period=" + dpDate;
     $('#Reglink').attr('href', (strAdd));
-});
 
+    /*change date*/
+    if (td.hasClass('DTBUHOTCHET')) {
+        $("#dateModal").modal('show');
+    }
+});
 
 /*move to top page*/
 $("a[href='#top']").on('click', function() {

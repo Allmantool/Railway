@@ -66,5 +66,6 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<etsng> Etsngs { get; }
         IQueryable<T> GetTable<T> (Expression<Func<T, bool>> predicate = null) where T: class ;
         bool AddKrtNaftan(DateTime period, long key);
+        bool ChangeBuhDate(DateTime period, long key);
     }
 }
