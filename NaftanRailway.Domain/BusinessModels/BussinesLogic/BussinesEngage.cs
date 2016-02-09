@@ -204,8 +204,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     (@"execute @ErrId = sp_fill_krt_Naftan_orc_sapod @KEYKRT",
                         new SqlParameter("@KEYKRT", key), parm);
 
-                ChangeBuhDate(period, key);
-
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                 chRecord.Confirmed = true;

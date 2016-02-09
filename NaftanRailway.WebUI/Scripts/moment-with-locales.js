@@ -1,4 +1,4 @@
-;(function (global, factory) {
+п»ї;(function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     global.moment = factory()
@@ -4080,17 +4080,17 @@
     }
     function be__relativeTimeWithPlural(number, withoutSuffix, key) {
         var format = {
-            'mm': withoutSuffix ? 'хвіліна_хвіліны_хвілін' : 'хвіліну_хвіліны_хвілін',
-            'hh': withoutSuffix ? 'гадзіна_гадзіны_гадзін' : 'гадзіну_гадзіны_гадзін',
-            'dd': 'дзень_дні_дзён',
-            'MM': 'месяц_месяцы_месяцаў',
-            'yy': 'год_гады_гадоў'
+            'mm': withoutSuffix ? 'С…РІС–Р»С–РЅР°_С…РІС–Р»С–РЅС‹_С…РІС–Р»С–РЅ' : 'С…РІС–Р»С–РЅСѓ_С…РІС–Р»С–РЅС‹_С…РІС–Р»С–РЅ',
+            'hh': withoutSuffix ? 'РіР°РґР·С–РЅР°_РіР°РґР·С–РЅС‹_РіР°РґР·С–РЅ' : 'РіР°РґР·С–РЅСѓ_РіР°РґР·С–РЅС‹_РіР°РґР·С–РЅ',
+            'dd': 'РґР·РµРЅСЊ_РґРЅС–_РґР·С‘РЅ',
+            'MM': 'РјРµСЃСЏС†_РјРµСЃСЏС†С‹_РјРµСЃСЏС†Р°Сћ',
+            'yy': 'РіРѕРґ_РіР°РґС‹_РіР°РґРѕСћ'
         };
         if (key === 'm') {
-            return withoutSuffix ? 'хвіліна' : 'хвіліну';
+            return withoutSuffix ? 'С…РІС–Р»С–РЅР°' : 'С…РІС–Р»С–РЅСѓ';
         }
         else if (key === 'h') {
-            return withoutSuffix ? 'гадзіна' : 'гадзіну';
+            return withoutSuffix ? 'РіР°РґР·С–РЅР°' : 'РіР°РґР·С–РЅСѓ';
         }
         else {
             return number + ' ' + be__plural(format[key], +number);
@@ -4099,31 +4099,31 @@
 
     var be = moment__default.defineLocale('be', {
         months : {
-            format: 'студзеня_лютага_сакавіка_красавіка_траўня_чэрвеня_ліпеня_жніўня_верасня_кастрычніка_лістапада_снежня'.split('_'),
-            standalone: 'студзень_люты_сакавік_красавік_травень_чэрвень_ліпень_жнівень_верасень_кастрычнік_лістапад_снежань'.split('_')
+            format: 'СЃС‚СѓРґР·РµРЅСЏ_Р»СЋС‚Р°РіР°_СЃР°РєР°РІС–РєР°_РєСЂР°СЃР°РІС–РєР°_С‚СЂР°СћРЅСЏ_С‡СЌСЂРІРµРЅСЏ_Р»С–РїРµРЅСЏ_Р¶РЅС–СћРЅСЏ_РІРµСЂР°СЃРЅСЏ_РєР°СЃС‚СЂС‹С‡РЅС–РєР°_Р»С–СЃС‚Р°РїР°РґР°_СЃРЅРµР¶РЅСЏ'.split('_'),
+            standalone: 'СЃС‚СѓРґР·РµРЅСЊ_Р»СЋС‚С‹_СЃР°РєР°РІС–Рє_РєСЂР°СЃР°РІС–Рє_С‚СЂР°РІРµРЅСЊ_С‡СЌСЂРІРµРЅСЊ_Р»С–РїРµРЅСЊ_Р¶РЅС–РІРµРЅСЊ_РІРµСЂР°СЃРµРЅСЊ_РєР°СЃС‚СЂС‹С‡РЅС–Рє_Р»С–СЃС‚Р°РїР°Рґ_СЃРЅРµР¶Р°РЅСЊ'.split('_')
         },
-        monthsShort : 'студ_лют_сак_крас_трав_чэрв_ліп_жнів_вер_каст_ліст_снеж'.split('_'),
+        monthsShort : 'СЃС‚СѓРґ_Р»СЋС‚_СЃР°Рє_РєСЂР°СЃ_С‚СЂР°РІ_С‡СЌСЂРІ_Р»С–Рї_Р¶РЅС–РІ_РІРµСЂ_РєР°СЃС‚_Р»С–СЃС‚_СЃРЅРµР¶'.split('_'),
         weekdays : {
-            format: 'нядзелю_панядзелак_аўторак_сераду_чацвер_пятніцу_суботу'.split('_'),
-            standalone: 'нядзеля_панядзелак_аўторак_серада_чацвер_пятніца_субота'.split('_'),
-            isFormat: /\[ ?[Вв] ?(?:мінулую|наступную)? ?\] ?dddd/
+            format: 'РЅСЏРґР·РµР»СЋ_РїР°РЅСЏРґР·РµР»Р°Рє_Р°СћС‚РѕСЂР°Рє_СЃРµСЂР°РґСѓ_С‡Р°С†РІРµСЂ_РїСЏС‚РЅС–С†Сѓ_СЃСѓР±РѕС‚Сѓ'.split('_'),
+            standalone: 'РЅСЏРґР·РµР»СЏ_РїР°РЅСЏРґР·РµР»Р°Рє_Р°СћС‚РѕСЂР°Рє_СЃРµСЂР°РґР°_С‡Р°С†РІРµСЂ_РїСЏС‚РЅС–С†Р°_СЃСѓР±РѕС‚Р°'.split('_'),
+            isFormat: /\[ ?[Р’РІ] ?(?:РјС–РЅСѓР»СѓСЋ|РЅР°СЃС‚СѓРїРЅСѓСЋ)? ?\] ?dddd/
         },
-        weekdaysShort : 'нд_пн_ат_ср_чц_пт_сб'.split('_'),
-        weekdaysMin : 'нд_пн_ат_ср_чц_пт_сб'.split('_'),
+        weekdaysShort : 'РЅРґ_РїРЅ_Р°С‚_СЃСЂ_С‡С†_РїС‚_СЃР±'.split('_'),
+        weekdaysMin : 'РЅРґ_РїРЅ_Р°С‚_СЃСЂ_С‡С†_РїС‚_СЃР±'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
             L : 'DD.MM.YYYY',
-            LL : 'D MMMM YYYY г.',
-            LLL : 'D MMMM YYYY г., HH:mm',
-            LLLL : 'dddd, D MMMM YYYY г., HH:mm'
+            LL : 'D MMMM YYYY Рі.',
+            LLL : 'D MMMM YYYY Рі., HH:mm',
+            LLLL : 'dddd, D MMMM YYYY Рі., HH:mm'
         },
         calendar : {
-            sameDay: '[Сёння ў] LT',
-            nextDay: '[Заўтра ў] LT',
-            lastDay: '[Учора ў] LT',
+            sameDay: '[РЎС‘РЅРЅСЏ Сћ] LT',
+            nextDay: '[Р—Р°СћС‚СЂР° Сћ] LT',
+            lastDay: '[РЈС‡РѕСЂР° Сћ] LT',
             nextWeek: function () {
-                return '[У] dddd [ў] LT';
+                return '[РЈ] dddd [Сћ] LT';
             },
             lastWeek: function () {
                 switch (this.day()) {
@@ -4131,46 +4131,46 @@
                 case 3:
                 case 5:
                 case 6:
-                    return '[У мінулую] dddd [ў] LT';
+                    return '[РЈ РјС–РЅСѓР»СѓСЋ] dddd [Сћ] LT';
                 case 1:
                 case 2:
                 case 4:
-                    return '[У мінулы] dddd [ў] LT';
+                    return '[РЈ РјС–РЅСѓР»С‹] dddd [Сћ] LT';
                 }
             },
             sameElse: 'L'
         },
         relativeTime : {
-            future : 'праз %s',
-            past : '%s таму',
-            s : 'некалькі секунд',
+            future : 'РїСЂР°Р· %s',
+            past : '%s С‚Р°РјСѓ',
+            s : 'РЅРµРєР°Р»СЊРєС– СЃРµРєСѓРЅРґ',
             m : be__relativeTimeWithPlural,
             mm : be__relativeTimeWithPlural,
             h : be__relativeTimeWithPlural,
             hh : be__relativeTimeWithPlural,
-            d : 'дзень',
+            d : 'РґР·РµРЅСЊ',
             dd : be__relativeTimeWithPlural,
-            M : 'месяц',
+            M : 'РјРµСЃСЏС†',
             MM : be__relativeTimeWithPlural,
-            y : 'год',
+            y : 'РіРѕРґ',
             yy : be__relativeTimeWithPlural
         },
-        meridiemParse: /ночы|раніцы|дня|вечара/,
+        meridiemParse: /РЅРѕС‡С‹|СЂР°РЅС–С†С‹|РґРЅСЏ|РІРµС‡Р°СЂР°/,
         isPM : function (input) {
-            return /^(дня|вечара)$/.test(input);
+            return /^(РґРЅСЏ|РІРµС‡Р°СЂР°)$/.test(input);
         },
         meridiem : function (hour, minute, isLower) {
             if (hour < 4) {
-                return 'ночы';
+                return 'РЅРѕС‡С‹';
             } else if (hour < 12) {
-                return 'раніцы';
+                return 'СЂР°РЅС–С†С‹';
             } else if (hour < 17) {
-                return 'дня';
+                return 'РґРЅСЏ';
             } else {
-                return 'вечара';
+                return 'РІРµС‡Р°СЂР°';
             }
         },
-        ordinalParse: /\d{1,2}-(і|ы|га)/,
+        ordinalParse: /\d{1,2}-(С–|С‹|РіР°)/,
         ordinal: function (number, period) {
             switch (period) {
             case 'M':
@@ -4178,9 +4178,9 @@
             case 'DDD':
             case 'w':
             case 'W':
-                return (number % 10 === 2 || number % 10 === 3) && (number % 100 !== 12 && number % 100 !== 13) ? number + '-і' : number + '-ы';
+                return (number % 10 === 2 || number % 10 === 3) && (number % 100 !== 12 && number % 100 !== 13) ? number + '-С–' : number + '-С‹';
             case 'D':
-                return number + '-га';
+                return number + '-РіР°';
             default:
                 return number;
             }
@@ -4196,11 +4196,11 @@
     //! author : Krasen Borisov : https://github.com/kraz
 
     var bg = moment__default.defineLocale('bg', {
-        months : 'януари_февруари_март_април_май_юни_юли_август_септември_октомври_ноември_декември'.split('_'),
-        monthsShort : 'янр_фев_мар_апр_май_юни_юли_авг_сеп_окт_ное_дек'.split('_'),
-        weekdays : 'неделя_понеделник_вторник_сряда_четвъртък_петък_събота'.split('_'),
-        weekdaysShort : 'нед_пон_вто_сря_чет_пет_съб'.split('_'),
-        weekdaysMin : 'нд_пн_вт_ср_чт_пт_сб'.split('_'),
+        months : 'СЏРЅСѓР°СЂРё_С„РµРІСЂСѓР°СЂРё_РјР°СЂС‚_Р°РїСЂРёР»_РјР°Р№_СЋРЅРё_СЋР»Рё_Р°РІРіСѓСЃС‚_СЃРµРїС‚РµРјРІСЂРё_РѕРєС‚РѕРјРІСЂРё_РЅРѕРµРјРІСЂРё_РґРµРєРµРјРІСЂРё'.split('_'),
+        monthsShort : 'СЏРЅСЂ_С„РµРІ_РјР°СЂ_Р°РїСЂ_РјР°Р№_СЋРЅРё_СЋР»Рё_Р°РІРі_СЃРµРї_РѕРєС‚_РЅРѕРµ_РґРµРє'.split('_'),
+        weekdays : 'РЅРµРґРµР»СЏ_РїРѕРЅРµРґРµР»РЅРёРє_РІС‚РѕСЂРЅРёРє_СЃСЂСЏРґР°_С‡РµС‚РІСЉСЂС‚СЉРє_РїРµС‚СЉРє_СЃСЉР±РѕС‚Р°'.split('_'),
+        weekdaysShort : 'РЅРµРґ_РїРѕРЅ_РІС‚Рѕ_СЃСЂСЏ_С‡РµС‚_РїРµС‚_СЃСЉР±'.split('_'),
+        weekdaysMin : 'РЅРґ_РїРЅ_РІС‚_СЃСЂ_С‡С‚_РїС‚_СЃР±'.split('_'),
         longDateFormat : {
             LT : 'H:mm',
             LTS : 'H:mm:ss',
@@ -4210,58 +4210,58 @@
             LLLL : 'dddd, D MMMM YYYY H:mm'
         },
         calendar : {
-            sameDay : '[Днес в] LT',
-            nextDay : '[Утре в] LT',
-            nextWeek : 'dddd [в] LT',
-            lastDay : '[Вчера в] LT',
+            sameDay : '[Р”РЅРµСЃ РІ] LT',
+            nextDay : '[РЈС‚СЂРµ РІ] LT',
+            nextWeek : 'dddd [РІ] LT',
+            lastDay : '[Р’С‡РµСЂР° РІ] LT',
             lastWeek : function () {
                 switch (this.day()) {
                 case 0:
                 case 3:
                 case 6:
-                    return '[В изминалата] dddd [в] LT';
+                    return '[Р’ РёР·РјРёРЅР°Р»Р°С‚Р°] dddd [РІ] LT';
                 case 1:
                 case 2:
                 case 4:
                 case 5:
-                    return '[В изминалия] dddd [в] LT';
+                    return '[Р’ РёР·РјРёРЅР°Р»РёСЏ] dddd [РІ] LT';
                 }
             },
             sameElse : 'L'
         },
         relativeTime : {
-            future : 'след %s',
-            past : 'преди %s',
-            s : 'няколко секунди',
-            m : 'минута',
-            mm : '%d минути',
-            h : 'час',
-            hh : '%d часа',
-            d : 'ден',
-            dd : '%d дни',
-            M : 'месец',
-            MM : '%d месеца',
-            y : 'година',
-            yy : '%d години'
+            future : 'СЃР»РµРґ %s',
+            past : 'РїСЂРµРґРё %s',
+            s : 'РЅСЏРєРѕР»РєРѕ СЃРµРєСѓРЅРґРё',
+            m : 'РјРёРЅСѓС‚Р°',
+            mm : '%d РјРёРЅСѓС‚Рё',
+            h : 'С‡Р°СЃ',
+            hh : '%d С‡Р°СЃР°',
+            d : 'РґРµРЅ',
+            dd : '%d РґРЅРё',
+            M : 'РјРµСЃРµС†',
+            MM : '%d РјРµСЃРµС†Р°',
+            y : 'РіРѕРґРёРЅР°',
+            yy : '%d РіРѕРґРёРЅРё'
         },
-        ordinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
+        ordinalParse: /\d{1,2}-(РµРІ|РµРЅ|С‚Рё|РІРё|СЂРё|РјРё)/,
         ordinal : function (number) {
             var lastDigit = number % 10,
                 last2Digits = number % 100;
             if (number === 0) {
-                return number + '-ев';
+                return number + '-РµРІ';
             } else if (last2Digits === 0) {
-                return number + '-ен';
+                return number + '-РµРЅ';
             } else if (last2Digits > 10 && last2Digits < 20) {
-                return number + '-ти';
+                return number + '-С‚Рё';
             } else if (lastDigit === 1) {
-                return number + '-ви';
+                return number + '-РІРё';
             } else if (lastDigit === 2) {
-                return number + '-ри';
+                return number + '-СЂРё';
             } else if (lastDigit === 7 || lastDigit === 8) {
-                return number + '-ми';
+                return number + '-РјРё';
             } else {
-                return number + '-ти';
+                return number + '-С‚Рё';
             }
         },
         week : {
@@ -4930,47 +4930,47 @@
     //! author : Anatoly Mironov : https://github.com/mirontoli
 
     var cv = moment__default.defineLocale('cv', {
-        months : 'к?рлач_нар?с_пуш_ака_май_??ртме_ут?_?урла_ав?н_юпа_ч?к_раштав'.split('_'),
-        monthsShort : 'к?р_нар_пуш_ака_май_??р_ут?_?ур_авн_юпа_ч?к_раш'.split('_'),
-        weekdays : 'вырсарникун_тунтикун_ытларикун_юнкун_к??нерникун_эрнекун_ш?маткун'.split('_'),
-        weekdaysShort : 'выр_тун_ытл_юн_к??_эрн_ш?м'.split('_'),
-        weekdaysMin : 'вр_тн_ыт_юн_к?_эр_шм'.split('_'),
+        months : 'Рє?СЂР»Р°С‡_РЅР°СЂ?СЃ_РїСѓС€_Р°РєР°_РјР°Р№_??СЂС‚РјРµ_СѓС‚?_?СѓСЂР»Р°_Р°РІ?РЅ_СЋРїР°_С‡?Рє_СЂР°С€С‚Р°РІ'.split('_'),
+        monthsShort : 'Рє?СЂ_РЅР°СЂ_РїСѓС€_Р°РєР°_РјР°Р№_??СЂ_СѓС‚?_?СѓСЂ_Р°РІРЅ_СЋРїР°_С‡?Рє_СЂР°С€'.split('_'),
+        weekdays : 'РІС‹СЂСЃР°СЂРЅРёРєСѓРЅ_С‚СѓРЅС‚РёРєСѓРЅ_С‹С‚Р»Р°СЂРёРєСѓРЅ_СЋРЅРєСѓРЅ_Рє??РЅРµСЂРЅРёРєСѓРЅ_СЌСЂРЅРµРєСѓРЅ_С€?РјР°С‚РєСѓРЅ'.split('_'),
+        weekdaysShort : 'РІС‹СЂ_С‚СѓРЅ_С‹С‚Р»_СЋРЅ_Рє??_СЌСЂРЅ_С€?Рј'.split('_'),
+        weekdaysMin : 'РІСЂ_С‚РЅ_С‹С‚_СЋРЅ_Рє?_СЌСЂ_С€Рј'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
             L : 'DD-MM-YYYY',
-            LL : 'YYYY [?улхи] MMMM [уй?х?н] D[-м?ш?]',
-            LLL : 'YYYY [?улхи] MMMM [уй?х?н] D[-м?ш?], HH:mm',
-            LLLL : 'dddd, YYYY [?улхи] MMMM [уй?х?н] D[-м?ш?], HH:mm'
+            LL : 'YYYY [?СѓР»С…Рё] MMMM [СѓР№?С…?РЅ] D[-Рј?С€?]',
+            LLL : 'YYYY [?СѓР»С…Рё] MMMM [СѓР№?С…?РЅ] D[-Рј?С€?], HH:mm',
+            LLLL : 'dddd, YYYY [?СѓР»С…Рё] MMMM [СѓР№?С…?РЅ] D[-Рј?С€?], HH:mm'
         },
         calendar : {
-            sameDay: '[Паян] LT [сехетре]',
-            nextDay: '[Ыран] LT [сехетре]',
-            lastDay: '[?нер] LT [сехетре]',
-            nextWeek: '[?итес] dddd LT [сехетре]',
-            lastWeek: '[Иртн?] dddd LT [сехетре]',
+            sameDay: '[РџР°СЏРЅ] LT [СЃРµС…РµС‚СЂРµ]',
+            nextDay: '[Р«СЂР°РЅ] LT [СЃРµС…РµС‚СЂРµ]',
+            lastDay: '[?РЅРµСЂ] LT [СЃРµС…РµС‚СЂРµ]',
+            nextWeek: '[?РёС‚РµСЃ] dddd LT [СЃРµС…РµС‚СЂРµ]',
+            lastWeek: '[РСЂС‚РЅ?] dddd LT [СЃРµС…РµС‚СЂРµ]',
             sameElse: 'L'
         },
         relativeTime : {
             future : function (output) {
-                var affix = /сехет$/i.exec(output) ? 'рен' : /?ул$/i.exec(output) ? 'тан' : 'ран';
+                var affix = /СЃРµС…РµС‚$/i.exec(output) ? 'СЂРµРЅ' : /?СѓР»$/i.exec(output) ? 'С‚Р°РЅ' : 'СЂР°РЅ';
                 return output + affix;
             },
-            past : '%s каялла',
-            s : 'п?р-ик ?еккунт',
-            m : 'п?р минут',
-            mm : '%d минут',
-            h : 'п?р сехет',
-            hh : '%d сехет',
-            d : 'п?р кун',
-            dd : '%d кун',
-            M : 'п?р уй?х',
-            MM : '%d уй?х',
-            y : 'п?р ?ул',
-            yy : '%d ?ул'
+            past : '%s РєР°СЏР»Р»Р°',
+            s : 'Рї?СЂ-РёРє ?РµРєРєСѓРЅС‚',
+            m : 'Рї?СЂ РјРёРЅСѓС‚',
+            mm : '%d РјРёРЅСѓС‚',
+            h : 'Рї?СЂ СЃРµС…РµС‚',
+            hh : '%d СЃРµС…РµС‚',
+            d : 'Рї?СЂ РєСѓРЅ',
+            dd : '%d РєСѓРЅ',
+            M : 'Рї?СЂ СѓР№?С…',
+            MM : '%d СѓР№?С…',
+            y : 'Рї?СЂ ?СѓР»',
+            yy : '%d ?СѓР»'
         },
-        ordinalParse: /\d{1,2}-м?ш/,
-        ordinal : '%d-м?ш',
+        ordinalParse: /\d{1,2}-Рј?С€/,
+        ordinal : '%d-Рј?С€',
         week : {
             dow : 1, // Monday is the first day of the week.
             doy : 7  // The week that contains Jan 1st is the first week of the year.
@@ -7452,34 +7452,34 @@
     //! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 
     var kk__suffixes = {
-        0: '-ші',
-        1: '-ші',
-        2: '-ші',
-        3: '-ші',
-        4: '-ші',
-        5: '-ші',
-        6: '-шы',
-        7: '-ші',
-        8: '-ші',
-        9: '-шы',
-        10: '-шы',
-        20: '-шы',
-        30: '-шы',
-        40: '-шы',
-        50: '-ші',
-        60: '-шы',
-        70: '-ші',
-        80: '-ші',
-        90: '-шы',
-        100: '-ші'
+        0: '-С€С–',
+        1: '-С€С–',
+        2: '-С€С–',
+        3: '-С€С–',
+        4: '-С€С–',
+        5: '-С€С–',
+        6: '-С€С‹',
+        7: '-С€С–',
+        8: '-С€С–',
+        9: '-С€С‹',
+        10: '-С€С‹',
+        20: '-С€С‹',
+        30: '-С€С‹',
+        40: '-С€С‹',
+        50: '-С€С–',
+        60: '-С€С‹',
+        70: '-С€С–',
+        80: '-С€С–',
+        90: '-С€С‹',
+        100: '-С€С–'
     };
 
     var kk = moment__default.defineLocale('kk', {
-        months : '?а?тар_А?пан_Наурыз_С?уір_Мамыр_Маусым_Шілде_Тамыз_?ырк?йек_?азан_?араша_Желто?сан'.split('_'),
-        monthsShort : '?а?_А?п_Нау_С?у_Мам_Мау_Шіл_Там_?ыр_?аз_?ар_Жел'.split('_'),
-        weekdays : 'Жексенбі_Д?йсенбі_Сейсенбі_С?рсенбі_Бейсенбі_Ж?ма_Сенбі'.split('_'),
-        weekdaysShort : 'Жек_Д?й_Сей_С?р_Бей_Ж?м_Сен'.split('_'),
-        weekdaysMin : 'Жк_Дй_Сй_Ср_Бй_Жм_Сн'.split('_'),
+        months : '?Р°?С‚Р°СЂ_Рђ?РїР°РЅ_РќР°СѓСЂС‹Р·_РЎ?СѓС–СЂ_РњР°РјС‹СЂ_РњР°СѓСЃС‹Рј_РЁС–Р»РґРµ_РўР°РјС‹Р·_?С‹СЂРє?Р№РµРє_?Р°Р·Р°РЅ_?Р°СЂР°С€Р°_Р–РµР»С‚Рѕ?СЃР°РЅ'.split('_'),
+        monthsShort : '?Р°?_Рђ?Рї_РќР°Сѓ_РЎ?Сѓ_РњР°Рј_РњР°Сѓ_РЁС–Р»_РўР°Рј_?С‹СЂ_?Р°Р·_?Р°СЂ_Р–РµР»'.split('_'),
+        weekdays : 'Р–РµРєСЃРµРЅР±С–_Р”?Р№СЃРµРЅР±С–_РЎРµР№СЃРµРЅР±С–_РЎ?СЂСЃРµРЅР±С–_Р‘РµР№СЃРµРЅР±С–_Р–?РјР°_РЎРµРЅР±С–'.split('_'),
+        weekdaysShort : 'Р–РµРє_Р”?Р№_РЎРµР№_РЎ?СЂ_Р‘РµР№_Р–?Рј_РЎРµРЅ'.split('_'),
+        weekdaysMin : 'Р–Рє_Р”Р№_РЎР№_РЎСЂ_Р‘Р№_Р–Рј_РЎРЅ'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
@@ -7489,29 +7489,29 @@
             LLLL : 'dddd, D MMMM YYYY HH:mm'
         },
         calendar : {
-            sameDay : '[Б?гін са?ат] LT',
-            nextDay : '[Ерте? са?ат] LT',
-            nextWeek : 'dddd [са?ат] LT',
-            lastDay : '[Кеше са?ат] LT',
-            lastWeek : '[?ткен аптаны?] dddd [са?ат] LT',
+            sameDay : '[Р‘?РіС–РЅ СЃР°?Р°С‚] LT',
+            nextDay : '[Р•СЂС‚Рµ? СЃР°?Р°С‚] LT',
+            nextWeek : 'dddd [СЃР°?Р°С‚] LT',
+            lastDay : '[РљРµС€Рµ СЃР°?Р°С‚] LT',
+            lastWeek : '[?С‚РєРµРЅ Р°РїС‚Р°РЅС‹?] dddd [СЃР°?Р°С‚] LT',
             sameElse : 'L'
         },
         relativeTime : {
-            future : '%s ішінде',
-            past : '%s б?рын',
-            s : 'бірнеше секунд',
-            m : 'бір минут',
-            mm : '%d минут',
-            h : 'бір са?ат',
-            hh : '%d са?ат',
-            d : 'бір к?н',
-            dd : '%d к?н',
-            M : 'бір ай',
-            MM : '%d ай',
-            y : 'бір жыл',
-            yy : '%d жыл'
+            future : '%s С–С€С–РЅРґРµ',
+            past : '%s Р±?СЂС‹РЅ',
+            s : 'Р±С–СЂРЅРµС€Рµ СЃРµРєСѓРЅРґ',
+            m : 'Р±С–СЂ РјРёРЅСѓС‚',
+            mm : '%d РјРёРЅСѓС‚',
+            h : 'Р±С–СЂ СЃР°?Р°С‚',
+            hh : '%d СЃР°?Р°С‚',
+            d : 'Р±С–СЂ Рє?РЅ',
+            dd : '%d Рє?РЅ',
+            M : 'Р±С–СЂ Р°Р№',
+            MM : '%d Р°Р№',
+            y : 'Р±С–СЂ Р¶С‹Р»',
+            yy : '%d Р¶С‹Р»'
         },
-        ordinalParse: /\d{1,2}-(ші|шы)/,
+        ordinalParse: /\d{1,2}-(С€С–|С€С‹)/,
         ordinal : function (number) {
             var a = number % 10,
                 b = number >= 100 ? 100 : null;
@@ -8100,11 +8100,11 @@
     //! author : Borislav Mickov : https://github.com/B0k0
 
     var mk = moment__default.defineLocale('mk', {
-        months : 'јануари_февруари_март_април_мај_јуни_јули_август_септември_октомври_ноември_декември'.split('_'),
-        monthsShort : 'јан_фев_мар_апр_мај_јун_јул_авг_сеп_окт_ное_дек'.split('_'),
-        weekdays : 'недела_понеделник_вторник_среда_четврток_петок_сабота'.split('_'),
-        weekdaysShort : 'нед_пон_вто_сре_чет_пет_саб'.split('_'),
-        weekdaysMin : 'нe_пo_вт_ср_че_пе_сa'.split('_'),
+        months : 'СР°РЅСѓР°СЂРё_С„РµРІСЂСѓР°СЂРё_РјР°СЂС‚_Р°РїСЂРёР»_РјР°С_ССѓРЅРё_ССѓР»Рё_Р°РІРіСѓСЃС‚_СЃРµРїС‚РµРјРІСЂРё_РѕРєС‚РѕРјРІСЂРё_РЅРѕРµРјРІСЂРё_РґРµРєРµРјРІСЂРё'.split('_'),
+        monthsShort : 'СР°РЅ_С„РµРІ_РјР°СЂ_Р°РїСЂ_РјР°С_ССѓРЅ_ССѓР»_Р°РІРі_СЃРµРї_РѕРєС‚_РЅРѕРµ_РґРµРє'.split('_'),
+        weekdays : 'РЅРµРґРµР»Р°_РїРѕРЅРµРґРµР»РЅРёРє_РІС‚РѕСЂРЅРёРє_СЃСЂРµРґР°_С‡РµС‚РІСЂС‚РѕРє_РїРµС‚РѕРє_СЃР°Р±РѕС‚Р°'.split('_'),
+        weekdaysShort : 'РЅРµРґ_РїРѕРЅ_РІС‚Рѕ_СЃСЂРµ_С‡РµС‚_РїРµС‚_СЃР°Р±'.split('_'),
+        weekdaysMin : 'РЅe_Рїo_РІС‚_СЃСЂ_С‡Рµ_РїРµ_СЃa'.split('_'),
         longDateFormat : {
             LT : 'H:mm',
             LTS : 'H:mm:ss',
@@ -8114,58 +8114,58 @@
             LLLL : 'dddd, D MMMM YYYY H:mm'
         },
         calendar : {
-            sameDay : '[Денес во] LT',
-            nextDay : '[Утре во] LT',
-            nextWeek : '[Во] dddd [во] LT',
-            lastDay : '[Вчера во] LT',
+            sameDay : '[Р”РµРЅРµСЃ РІРѕ] LT',
+            nextDay : '[РЈС‚СЂРµ РІРѕ] LT',
+            nextWeek : '[Р’Рѕ] dddd [РІРѕ] LT',
+            lastDay : '[Р’С‡РµСЂР° РІРѕ] LT',
             lastWeek : function () {
                 switch (this.day()) {
                 case 0:
                 case 3:
                 case 6:
-                    return '[Изминатата] dddd [во] LT';
+                    return '[РР·РјРёРЅР°С‚Р°С‚Р°] dddd [РІРѕ] LT';
                 case 1:
                 case 2:
                 case 4:
                 case 5:
-                    return '[Изминатиот] dddd [во] LT';
+                    return '[РР·РјРёРЅР°С‚РёРѕС‚] dddd [РІРѕ] LT';
                 }
             },
             sameElse : 'L'
         },
         relativeTime : {
-            future : 'после %s',
-            past : 'пред %s',
-            s : 'неколку секунди',
-            m : 'минута',
-            mm : '%d минути',
-            h : 'час',
-            hh : '%d часа',
-            d : 'ден',
-            dd : '%d дена',
-            M : 'месец',
-            MM : '%d месеци',
-            y : 'година',
-            yy : '%d години'
+            future : 'РїРѕСЃР»Рµ %s',
+            past : 'РїСЂРµРґ %s',
+            s : 'РЅРµРєРѕР»РєСѓ СЃРµРєСѓРЅРґРё',
+            m : 'РјРёРЅСѓС‚Р°',
+            mm : '%d РјРёРЅСѓС‚Рё',
+            h : 'С‡Р°СЃ',
+            hh : '%d С‡Р°СЃР°',
+            d : 'РґРµРЅ',
+            dd : '%d РґРµРЅР°',
+            M : 'РјРµСЃРµС†',
+            MM : '%d РјРµСЃРµС†Рё',
+            y : 'РіРѕРґРёРЅР°',
+            yy : '%d РіРѕРґРёРЅРё'
         },
-        ordinalParse: /\d{1,2}-(ев|ен|ти|ви|ри|ми)/,
+        ordinalParse: /\d{1,2}-(РµРІ|РµРЅ|С‚Рё|РІРё|СЂРё|РјРё)/,
         ordinal : function (number) {
             var lastDigit = number % 10,
                 last2Digits = number % 100;
             if (number === 0) {
-                return number + '-ев';
+                return number + '-РµРІ';
             } else if (last2Digits === 0) {
-                return number + '-ен';
+                return number + '-РµРЅ';
             } else if (last2Digits > 10 && last2Digits < 20) {
-                return number + '-ти';
+                return number + '-С‚Рё';
             } else if (lastDigit === 1) {
-                return number + '-ви';
+                return number + '-РІРё';
             } else if (lastDigit === 2) {
-                return number + '-ри';
+                return number + '-СЂРё';
             } else if (lastDigit === 7 || lastDigit === 8) {
-                return number + '-ми';
+                return number + '-РјРё';
             } else {
-                return number + '-ти';
+                return number + '-С‚Рё';
             }
         },
         week : {
@@ -9144,37 +9144,37 @@
     }
     function ru__relativeTimeWithPlural(number, withoutSuffix, key) {
         var format = {
-            'mm': withoutSuffix ? 'минута_минуты_минут' : 'минуту_минуты_минут',
-            'hh': 'час_часа_часов',
-            'dd': 'день_дня_дней',
-            'MM': 'месяц_месяца_месяцев',
-            'yy': 'год_года_лет'
+            'mm': withoutSuffix ? 'РјРёРЅСѓС‚Р°_РјРёРЅСѓС‚С‹_РјРёРЅСѓС‚' : 'РјРёРЅСѓС‚Сѓ_РјРёРЅСѓС‚С‹_РјРёРЅСѓС‚',
+            'hh': 'С‡Р°СЃ_С‡Р°СЃР°_С‡Р°СЃРѕРІ',
+            'dd': 'РґРµРЅСЊ_РґРЅСЏ_РґРЅРµР№',
+            'MM': 'РјРµСЃСЏС†_РјРµСЃСЏС†Р°_РјРµСЃСЏС†РµРІ',
+            'yy': 'РіРѕРґ_РіРѕРґР°_Р»РµС‚'
         };
         if (key === 'm') {
-            return withoutSuffix ? 'минута' : 'минуту';
+            return withoutSuffix ? 'РјРёРЅСѓС‚Р°' : 'РјРёРЅСѓС‚Сѓ';
         }
         else {
             return number + ' ' + ru__plural(format[key], +number);
         }
     }
-    var monthsParse = [/^янв/i, /^фев/i, /^мар/i, /^апр/i, /^ма[й|я]/i, /^июн/i, /^июл/i, /^авг/i, /^сен/i, /^окт/i, /^ноя/i, /^дек/i];
+    var monthsParse = [/^СЏРЅРІ/i, /^С„РµРІ/i, /^РјР°СЂ/i, /^Р°РїСЂ/i, /^РјР°[Р№|СЏ]/i, /^РёСЋРЅ/i, /^РёСЋР»/i, /^Р°РІРі/i, /^СЃРµРЅ/i, /^РѕРєС‚/i, /^РЅРѕСЏ/i, /^РґРµРє/i];
 
     var ru = moment__default.defineLocale('ru', {
         months : {
-            format: 'Января_Февраля_Марта_Апреля_Мая_Июня_Июля_Августа_Сентября_Октября_Ноября_Декабря'.split('_'),
-            standalone: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_')
+            format: 'РЇРЅРІР°СЂСЏ_Р¤РµРІСЂР°Р»СЏ_РњР°СЂС‚Р°_РђРїСЂРµР»СЏ_РњР°СЏ_РСЋРЅСЏ_РСЋР»СЏ_РђРІРіСѓСЃС‚Р°_РЎРµРЅС‚СЏР±СЂСЏ_РћРєС‚СЏР±СЂСЏ_РќРѕСЏР±СЂСЏ_Р”РµРєР°Р±СЂСЏ'.split('_'),
+            standalone: 'РЇРЅРІР°СЂСЊ_Р¤РµРІСЂР°Р»СЊ_РњР°СЂС‚_РђРїСЂРµР»СЊ_РњР°Р№_РСЋРЅСЊ_РСЋР»СЊ_РђРІРіСѓСЃС‚_РЎРµРЅС‚СЏР±СЂСЊ_РћРєС‚СЏР±СЂСЊ_РќРѕСЏР±СЂСЊ_Р”РµРєР°Р±СЂСЊ'.split('_')
         },
         monthsShort : {
-            format: 'янв_фев_мар_апр_мая_июня_июля_авг_сен_окт_ноя_дек'.split('_'),
-            standalone: 'янв_фев_март_апр_май_июнь_июль_авг_сен_окт_ноя_дек'.split('_')
+            format: 'СЏРЅРІ_С„РµРІ_РјР°СЂ_Р°РїСЂ_РјР°СЏ_РёСЋРЅСЏ_РёСЋР»СЏ_Р°РІРі_СЃРµРЅ_РѕРєС‚_РЅРѕСЏ_РґРµРє'.split('_'),
+            standalone: 'СЏРЅРІ_С„РµРІ_РјР°СЂС‚_Р°РїСЂ_РјР°Р№_РёСЋРЅСЊ_РёСЋР»СЊ_Р°РІРі_СЃРµРЅ_РѕРєС‚_РЅРѕСЏ_РґРµРє'.split('_')
         },
         weekdays : {
-            standalone: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
-            format: 'Воскресенье_Понедельник_Вторник_Среду_Четверг_Пятницу_Субботу'.split('_'),
-            isFormat: /\[ ?[Вв] ?(?:прошлую|следующую|эту)? ?\] ?dddd/
+            standalone: 'Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ_РџРѕРЅРµРґРµР»СЊРЅРёРє_Р’С‚РѕСЂРЅРёРє_РЎСЂРµРґР°_Р§РµС‚РІРµСЂРі_РџСЏС‚РЅРёС†Р°_РЎСѓР±Р±РѕС‚Р°'.split('_'),
+            format: 'Р’РѕСЃРєСЂРµСЃРµРЅСЊРµ_РџРѕРЅРµРґРµР»СЊРЅРёРє_Р’С‚РѕСЂРЅРёРє_РЎСЂРµРґСѓ_Р§РµС‚РІРµСЂРі_РџСЏС‚РЅРёС†Сѓ_РЎСѓР±Р±РѕС‚Сѓ'.split('_'),
+            isFormat: /\[ ?[Р’РІ] ?(?:РїСЂРѕС€Р»СѓСЋ|СЃР»РµРґСѓСЋС‰СѓСЋ|СЌС‚Сѓ)? ?\] ?dddd/
         },
-        weekdaysShort : 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
-        weekdaysMin : 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
+        weekdaysShort : 'Р’СЃ_РџРЅ_Р’С‚_РЎСЂ_Р§С‚_РџС‚_РЎР±'.split('_'),
+        weekdaysMin : 'Р’СЃ_РџРЅ_Р’С‚_РЎСЂ_Р§С‚_РџС‚_РЎР±'.split('_'),
         monthsParse : monthsParse,
         longMonthsParse : monthsParse,
         shortMonthsParse : monthsParse,
@@ -9182,33 +9182,33 @@
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
             L : 'DD.MM.YYYY',
-            LL : 'D MMMM YYYY г.',
-            LLL : 'D MMMM YYYY г., HH:mm',
-            LLLL : 'dddd, D MMMM YYYY г., HH:mm'
+            LL : 'D MMMM YYYY Рі.',
+            LLL : 'D MMMM YYYY Рі., HH:mm',
+            LLLL : 'dddd, D MMMM YYYY Рі., HH:mm'
         },
         calendar : {
-            sameDay: '[Сегодня в] LT',
-            nextDay: '[Завтра в] LT',
-            lastDay: '[Вчера в] LT',
+            sameDay: '[РЎРµРіРѕРґРЅСЏ РІ] LT',
+            nextDay: '[Р—Р°РІС‚СЂР° РІ] LT',
+            lastDay: '[Р’С‡РµСЂР° РІ] LT',
             nextWeek: function (now) {
                 if (now.week() !== this.week()) {
                     switch (this.day()) {
                     case 0:
-                        return '[В следующее] dddd [в] LT';
+                        return '[Р’ СЃР»РµРґСѓСЋС‰РµРµ] dddd [РІ] LT';
                     case 1:
                     case 2:
                     case 4:
-                        return '[В следующий] dddd [в] LT';
+                        return '[Р’ СЃР»РµРґСѓСЋС‰РёР№] dddd [РІ] LT';
                     case 3:
                     case 5:
                     case 6:
-                        return '[В следующую] dddd [в] LT';
+                        return '[Р’ СЃР»РµРґСѓСЋС‰СѓСЋ] dddd [РІ] LT';
                     }
                 } else {
                     if (this.day() === 2) {
-                        return '[Во] dddd [в] LT';
+                        return '[Р’Рѕ] dddd [РІ] LT';
                     } else {
-                        return '[В] dddd [в] LT';
+                        return '[Р’] dddd [РІ] LT';
                     }
                 }
             },
@@ -9216,68 +9216,68 @@
                 if (now.week() !== this.week()) {
                     switch (this.day()) {
                     case 0:
-                        return '[В прошлое] dddd [в] LT';
+                        return '[Р’ РїСЂРѕС€Р»РѕРµ] dddd [РІ] LT';
                     case 1:
                     case 2:
                     case 4:
-                        return '[В прошлый] dddd [в] LT';
+                        return '[Р’ РїСЂРѕС€Р»С‹Р№] dddd [РІ] LT';
                     case 3:
                     case 5:
                     case 6:
-                        return '[В прошлую] dddd [в] LT';
+                        return '[Р’ РїСЂРѕС€Р»СѓСЋ] dddd [РІ] LT';
                     }
                 } else {
                     if (this.day() === 2) {
-                        return '[Во] dddd [в] LT';
+                        return '[Р’Рѕ] dddd [РІ] LT';
                     } else {
-                        return '[В] dddd [в] LT';
+                        return '[Р’] dddd [РІ] LT';
                     }
                 }
             },
             sameElse: 'L'
         },
         relativeTime : {
-            future : 'через %s',
-            past : '%s назад',
-            s : 'несколько секунд',
+            future : 'С‡РµСЂРµР· %s',
+            past : '%s РЅР°Р·Р°Рґ',
+            s : 'РЅРµСЃРєРѕР»СЊРєРѕ СЃРµРєСѓРЅРґ',
             m : ru__relativeTimeWithPlural,
             mm : ru__relativeTimeWithPlural,
-            h : 'час',
+            h : 'С‡Р°СЃ',
             hh : ru__relativeTimeWithPlural,
-            d : 'день',
+            d : 'РґРµРЅСЊ',
             dd : ru__relativeTimeWithPlural,
-            M : 'месяц',
+            M : 'РјРµСЃСЏС†',
             MM : ru__relativeTimeWithPlural,
-            y : 'год',
+            y : 'РіРѕРґ',
             yy : ru__relativeTimeWithPlural
         },
-        meridiemParse: /ночи|утра|дня|вечера/i,
+        meridiemParse: /РЅРѕС‡Рё|СѓС‚СЂР°|РґРЅСЏ|РІРµС‡РµСЂР°/i,
         isPM : function (input) {
-            return /^(дня|вечера)$/.test(input);
+            return /^(РґРЅСЏ|РІРµС‡РµСЂР°)$/.test(input);
         },
         meridiem : function (hour, minute, isLower) {
             if (hour < 4) {
-                return 'ночи';
+                return 'РЅРѕС‡Рё';
             } else if (hour < 12) {
-                return 'утра';
+                return 'СѓС‚СЂР°';
             } else if (hour < 17) {
-                return 'дня';
+                return 'РґРЅСЏ';
             } else {
-                return 'вечера';
+                return 'РІРµС‡РµСЂР°';
             }
         },
-        ordinalParse: /\d{1,2}-(й|го|я)/,
+        ordinalParse: /\d{1,2}-(Р№|РіРѕ|СЏ)/,
         ordinal: function (number, period) {
             switch (period) {
             case 'M':
             case 'd':
             case 'DDD':
-                return number + '-й';
+                return number + '-Р№';
             case 'D':
-                return number + '-го';
+                return number + '-РіРѕ';
             case 'w':
             case 'W':
-                return number + '-я';
+                return number + '-СЏ';
             default:
                 return number;
             }
@@ -9745,13 +9745,13 @@
 
     var sr_cyrl__translator = {
         words: { //Different grammatical cases
-            m: ['један минут', 'једне минуте'],
-            mm: ['минут', 'минуте', 'минута'],
-            h: ['један сат', 'једног сата'],
-            hh: ['сат', 'сата', 'сати'],
-            dd: ['дан', 'дана', 'дана'],
-            MM: ['месец', 'месеца', 'месеци'],
-            yy: ['година', 'године', 'година']
+            m: ['СРµРґР°РЅ РјРёРЅСѓС‚', 'СРµРґРЅРµ РјРёРЅСѓС‚Рµ'],
+            mm: ['РјРёРЅСѓС‚', 'РјРёРЅСѓС‚Рµ', 'РјРёРЅСѓС‚Р°'],
+            h: ['СРµРґР°РЅ СЃР°С‚', 'СРµРґРЅРѕРі СЃР°С‚Р°'],
+            hh: ['СЃР°С‚', 'СЃР°С‚Р°', 'СЃР°С‚Рё'],
+            dd: ['РґР°РЅ', 'РґР°РЅР°', 'РґР°РЅР°'],
+            MM: ['РјРµСЃРµС†', 'РјРµСЃРµС†Р°', 'РјРµСЃРµС†Рё'],
+            yy: ['РіРѕРґРёРЅР°', 'РіРѕРґРёРЅРµ', 'РіРѕРґРёРЅР°']
         },
         correctGrammaticalCase: function (number, wordKey) {
             return number === 1 ? wordKey[0] : (number >= 2 && number <= 4 ? wordKey[1] : wordKey[2]);
@@ -9767,11 +9767,11 @@
     };
 
     var sr_cyrl = moment__default.defineLocale('sr-cyrl', {
-        months: ['јануар', 'фебруар', 'март', 'април', 'мај', 'јун', 'јул', 'август', 'септембар', 'октобар', 'новембар', 'децембар'],
-        monthsShort: ['јан.', 'феб.', 'мар.', 'апр.', 'мај', 'јун', 'јул', 'авг.', 'сеп.', 'окт.', 'нов.', 'дец.'],
-        weekdays: ['недеља', 'понедељак', 'уторак', 'среда', 'четвртак', 'петак', 'субота'],
-        weekdaysShort: ['нед.', 'пон.', 'уто.', 'сре.', 'чет.', 'пет.', 'суб.'],
-        weekdaysMin: ['не', 'по', 'ут', 'ср', 'че', 'пе', 'су'],
+        months: ['СР°РЅСѓР°СЂ', 'С„РµР±СЂСѓР°СЂ', 'РјР°СЂС‚', 'Р°РїСЂРёР»', 'РјР°С', 'ССѓРЅ', 'ССѓР»', 'Р°РІРіСѓСЃС‚', 'СЃРµРїС‚РµРјР±Р°СЂ', 'РѕРєС‚РѕР±Р°СЂ', 'РЅРѕРІРµРјР±Р°СЂ', 'РґРµС†РµРјР±Р°СЂ'],
+        monthsShort: ['СР°РЅ.', 'С„РµР±.', 'РјР°СЂ.', 'Р°РїСЂ.', 'РјР°С', 'ССѓРЅ', 'ССѓР»', 'Р°РІРі.', 'СЃРµРї.', 'РѕРєС‚.', 'РЅРѕРІ.', 'РґРµС†.'],
+        weekdays: ['РЅРµРґРµС™Р°', 'РїРѕРЅРµРґРµС™Р°Рє', 'СѓС‚РѕСЂР°Рє', 'СЃСЂРµРґР°', 'С‡РµС‚РІСЂС‚Р°Рє', 'РїРµС‚Р°Рє', 'СЃСѓР±РѕС‚Р°'],
+        weekdaysShort: ['РЅРµРґ.', 'РїРѕРЅ.', 'СѓС‚Рѕ.', 'СЃСЂРµ.', 'С‡РµС‚.', 'РїРµС‚.', 'СЃСѓР±.'],
+        weekdaysMin: ['РЅРµ', 'РїРѕ', 'СѓС‚', 'СЃСЂ', 'С‡Рµ', 'РїРµ', 'СЃСѓ'],
         longDateFormat: {
             LT: 'H:mm',
             LTS : 'H:mm:ss',
@@ -9781,51 +9781,51 @@
             LLLL: 'dddd, D. MMMM YYYY H:mm'
         },
         calendar: {
-            sameDay: '[данас у] LT',
-            nextDay: '[сутра у] LT',
+            sameDay: '[РґР°РЅР°СЃ Сѓ] LT',
+            nextDay: '[СЃСѓС‚СЂР° Сѓ] LT',
             nextWeek: function () {
                 switch (this.day()) {
                 case 0:
-                    return '[у] [недељу] [у] LT';
+                    return '[Сѓ] [РЅРµРґРµС™Сѓ] [Сѓ] LT';
                 case 3:
-                    return '[у] [среду] [у] LT';
+                    return '[Сѓ] [СЃСЂРµРґСѓ] [Сѓ] LT';
                 case 6:
-                    return '[у] [суботу] [у] LT';
+                    return '[Сѓ] [СЃСѓР±РѕС‚Сѓ] [Сѓ] LT';
                 case 1:
                 case 2:
                 case 4:
                 case 5:
-                    return '[у] dddd [у] LT';
+                    return '[Сѓ] dddd [Сѓ] LT';
                 }
             },
-            lastDay  : '[јуче у] LT',
+            lastDay  : '[ССѓС‡Рµ Сѓ] LT',
             lastWeek : function () {
                 var lastWeekDays = [
-                    '[прошле] [недеље] [у] LT',
-                    '[прошлог] [понедељка] [у] LT',
-                    '[прошлог] [уторка] [у] LT',
-                    '[прошле] [среде] [у] LT',
-                    '[прошлог] [четвртка] [у] LT',
-                    '[прошлог] [петка] [у] LT',
-                    '[прошле] [суботе] [у] LT'
+                    '[РїСЂРѕС€Р»Рµ] [РЅРµРґРµС™Рµ] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»РѕРі] [РїРѕРЅРµРґРµС™РєР°] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»РѕРі] [СѓС‚РѕСЂРєР°] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»Рµ] [СЃСЂРµРґРµ] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»РѕРі] [С‡РµС‚РІСЂС‚РєР°] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»РѕРі] [РїРµС‚РєР°] [Сѓ] LT',
+                    '[РїСЂРѕС€Р»Рµ] [СЃСѓР±РѕС‚Рµ] [Сѓ] LT'
                 ];
                 return lastWeekDays[this.day()];
             },
             sameElse : 'L'
         },
         relativeTime : {
-            future : 'за %s',
-            past   : 'пре %s',
-            s      : 'неколико секунди',
+            future : 'Р·Р° %s',
+            past   : 'РїСЂРµ %s',
+            s      : 'РЅРµРєРѕР»РёРєРѕ СЃРµРєСѓРЅРґРё',
             m      : sr_cyrl__translator.translate,
             mm     : sr_cyrl__translator.translate,
             h      : sr_cyrl__translator.translate,
             hh     : sr_cyrl__translator.translate,
-            d      : 'дан',
+            d      : 'РґР°РЅ',
             dd     : sr_cyrl__translator.translate,
-            M      : 'месец',
+            M      : 'РјРµСЃРµС†',
             MM     : sr_cyrl__translator.translate,
-            y      : 'годину',
+            y      : 'РіРѕРґРёРЅСѓ',
             yy     : sr_cyrl__translator.translate
         },
         ordinalParse: /\d{1,2}\./,
@@ -10340,7 +10340,7 @@
     //! locale : Klingon (tlh)
     //! author : Dominika Kruk : https://github.com/amaranthrose
 
-    var numbersNouns = 'pagh_wa’_cha’_wej_loS_vagh_jav_Soch_chorgh_Hut'.split('_');
+    var numbersNouns = 'pagh_waвЂ™_chaвЂ™_wej_loS_vagh_jav_Soch_chorgh_Hut'.split('_');
 
     function translateFuture(output) {
         var time = output;
@@ -10357,7 +10357,7 @@
     function translatePast(output) {
         var time = output;
         time = (output.indexOf('jaj') !== -1) ?
-    	time.slice(0, -3) + 'Hu’' :
+    	time.slice(0, -3) + 'HuвЂ™' :
     	(output.indexOf('jar') !== -1) ?
     	time.slice(0, -3) + 'wen' :
     	(output.indexOf('DIS') !== -1) ?
@@ -10400,8 +10400,8 @@
     }
 
     var tlh = moment__default.defineLocale('tlh', {
-        months : 'tera’ jar wa’_tera’ jar cha’_tera’ jar wej_tera’ jar loS_tera’ jar vagh_tera’ jar jav_tera’ jar Soch_tera’ jar chorgh_tera’ jar Hut_tera’ jar wa’maH_tera’ jar wa’maH wa’_tera’ jar wa’maH cha’'.split('_'),
-        monthsShort : 'jar wa’_jar cha’_jar wej_jar loS_jar vagh_jar jav_jar Soch_jar chorgh_jar Hut_jar wa’maH_jar wa’maH wa’_jar wa’maH cha’'.split('_'),
+        months : 'teraвЂ™ jar waвЂ™_teraвЂ™ jar chaвЂ™_teraвЂ™ jar wej_teraвЂ™ jar loS_teraвЂ™ jar vagh_teraвЂ™ jar jav_teraвЂ™ jar Soch_teraвЂ™ jar chorgh_teraвЂ™ jar Hut_teraвЂ™ jar waвЂ™maH_teraвЂ™ jar waвЂ™maH waвЂ™_teraвЂ™ jar waвЂ™maH chaвЂ™'.split('_'),
+        monthsShort : 'jar waвЂ™_jar chaвЂ™_jar wej_jar loS_jar vagh_jar jav_jar Soch_jar chorgh_jar Hut_jar waвЂ™maH_jar waвЂ™maH waвЂ™_jar waвЂ™maH chaвЂ™'.split('_'),
         weekdays : 'lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj'.split('_'),
         weekdaysShort : 'lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj'.split('_'),
         weekdaysMin : 'lojmItjaj_DaSjaj_povjaj_ghItlhjaj_loghjaj_buqjaj_ghInjaj'.split('_'),
@@ -10415,9 +10415,9 @@
         },
         calendar : {
             sameDay: '[DaHjaj] LT',
-            nextDay: '[wa’leS] LT',
+            nextDay: '[waвЂ™leS] LT',
             nextWeek: 'LLL',
-            lastDay: '[wa’Hu’] LT',
+            lastDay: '[waвЂ™HuвЂ™] LT',
             lastWeek: 'LLL',
             sameElse: 'L'
         },
@@ -10425,15 +10425,15 @@
             future : translateFuture,
             past : translatePast,
             s : 'puS lup',
-            m : 'wa’ tup',
+            m : 'waвЂ™ tup',
             mm : tlh__translate,
-            h : 'wa’ rep',
+            h : 'waвЂ™ rep',
             hh : tlh__translate,
-            d : 'wa’ jaj',
+            d : 'waвЂ™ jaj',
             dd : tlh__translate,
-            M : 'wa’ jar',
+            M : 'waвЂ™ jar',
             MM : tlh__translate,
-            y : 'wa’ DIS',
+            y : 'waвЂ™ DIS',
             yy : tlh__translate
         },
         ordinalParse: /\d{1,2}\./,
@@ -10704,17 +10704,17 @@
     }
     function uk__relativeTimeWithPlural(number, withoutSuffix, key) {
         var format = {
-            'mm': withoutSuffix ? 'хвилина_хвилини_хвилин' : 'хвилину_хвилини_хвилин',
-            'hh': withoutSuffix ? 'година_години_годин' : 'годину_години_годин',
-            'dd': 'день_дні_днів',
-            'MM': 'місяць_місяці_місяців',
-            'yy': 'рік_роки_років'
+            'mm': withoutSuffix ? 'С…РІРёР»РёРЅР°_С…РІРёР»РёРЅРё_С…РІРёР»РёРЅ' : 'С…РІРёР»РёРЅСѓ_С…РІРёР»РёРЅРё_С…РІРёР»РёРЅ',
+            'hh': withoutSuffix ? 'РіРѕРґРёРЅР°_РіРѕРґРёРЅРё_РіРѕРґРёРЅ' : 'РіРѕРґРёРЅСѓ_РіРѕРґРёРЅРё_РіРѕРґРёРЅ',
+            'dd': 'РґРµРЅСЊ_РґРЅС–_РґРЅС–РІ',
+            'MM': 'РјС–СЃСЏС†СЊ_РјС–СЃСЏС†С–_РјС–СЃСЏС†С–РІ',
+            'yy': 'СЂС–Рє_СЂРѕРєРё_СЂРѕРєС–РІ'
         };
         if (key === 'm') {
-            return withoutSuffix ? 'хвилина' : 'хвилину';
+            return withoutSuffix ? 'С…РІРёР»РёРЅР°' : 'С…РІРёР»РёРЅСѓ';
         }
         else if (key === 'h') {
-            return withoutSuffix ? 'година' : 'годину';
+            return withoutSuffix ? 'РіРѕРґРёРЅР°' : 'РіРѕРґРёРЅСѓ';
         }
         else {
             return number + ' ' + uk__plural(format[key], +number);
@@ -10722,92 +10722,92 @@
     }
     function weekdaysCaseReplace(m, format) {
         var weekdays = {
-            'nominative': 'неділя_понеділок_вівторок_середа_четвер_п’ятниця_субота'.split('_'),
-            'accusative': 'неділю_понеділок_вівторок_середу_четвер_п’ятницю_суботу'.split('_'),
-            'genitive': 'неділі_понеділка_вівторка_середи_четверга_п’ятниці_суботи'.split('_')
+            'nominative': 'РЅРµРґС–Р»СЏ_РїРѕРЅРµРґС–Р»РѕРє_РІС–РІС‚РѕСЂРѕРє_СЃРµСЂРµРґР°_С‡РµС‚РІРµСЂ_РївЂ™СЏС‚РЅРёС†СЏ_СЃСѓР±РѕС‚Р°'.split('_'),
+            'accusative': 'РЅРµРґС–Р»СЋ_РїРѕРЅРµРґС–Р»РѕРє_РІС–РІС‚РѕСЂРѕРє_СЃРµСЂРµРґСѓ_С‡РµС‚РІРµСЂ_РївЂ™СЏС‚РЅРёС†СЋ_СЃСѓР±РѕС‚Сѓ'.split('_'),
+            'genitive': 'РЅРµРґС–Р»С–_РїРѕРЅРµРґС–Р»РєР°_РІС–РІС‚РѕСЂРєР°_СЃРµСЂРµРґРё_С‡РµС‚РІРµСЂРіР°_РївЂ™СЏС‚РЅРёС†С–_СЃСѓР±РѕС‚Рё'.split('_')
         },
-        nounCase = (/(\[[ВвУу]\]) ?dddd/).test(format) ?
+        nounCase = (/(\[[Р’РІРЈСѓ]\]) ?dddd/).test(format) ?
             'accusative' :
-            ((/\[?(?:минулої|наступної)? ?\] ?dddd/).test(format) ?
+            ((/\[?(?:РјРёРЅСѓР»РѕС—|РЅР°СЃС‚СѓРїРЅРѕС—)? ?\] ?dddd/).test(format) ?
                 'genitive' :
                 'nominative');
         return weekdays[nounCase][m.day()];
     }
     function processHoursFunction(str) {
         return function () {
-            return str + 'о' + (this.hours() === 11 ? 'б' : '') + '] LT';
+            return str + 'Рѕ' + (this.hours() === 11 ? 'Р±' : '') + '] LT';
         };
     }
 
     var uk = moment__default.defineLocale('uk', {
         months : {
-            'format': 'січня_лютого_березня_квітня_травня_червня_липня_серпня_вересня_жовтня_листопада_грудня'.split('_'),
-            'standalone': 'січень_лютий_березень_квітень_травень_червень_липень_серпень_вересень_жовтень_листопад_грудень'.split('_')
+            'format': 'СЃС–С‡РЅСЏ_Р»СЋС‚РѕРіРѕ_Р±РµСЂРµР·РЅСЏ_РєРІС–С‚РЅСЏ_С‚СЂР°РІРЅСЏ_С‡РµСЂРІРЅСЏ_Р»РёРїРЅСЏ_СЃРµСЂРїРЅСЏ_РІРµСЂРµСЃРЅСЏ_Р¶РѕРІС‚РЅСЏ_Р»РёСЃС‚РѕРїР°РґР°_РіСЂСѓРґРЅСЏ'.split('_'),
+            'standalone': 'СЃС–С‡РµРЅСЊ_Р»СЋС‚РёР№_Р±РµСЂРµР·РµРЅСЊ_РєРІС–С‚РµРЅСЊ_С‚СЂР°РІРµРЅСЊ_С‡РµСЂРІРµРЅСЊ_Р»РёРїРµРЅСЊ_СЃРµСЂРїРµРЅСЊ_РІРµСЂРµСЃРµРЅСЊ_Р¶РѕРІС‚РµРЅСЊ_Р»РёСЃС‚РѕРїР°Рґ_РіСЂСѓРґРµРЅСЊ'.split('_')
         },
-        monthsShort : 'січ_лют_бер_квіт_трав_черв_лип_серп_вер_жовт_лист_груд'.split('_'),
+        monthsShort : 'СЃС–С‡_Р»СЋС‚_Р±РµСЂ_РєРІС–С‚_С‚СЂР°РІ_С‡РµСЂРІ_Р»РёРї_СЃРµСЂРї_РІРµСЂ_Р¶РѕРІС‚_Р»РёСЃС‚_РіСЂСѓРґ'.split('_'),
         weekdays : weekdaysCaseReplace,
-        weekdaysShort : 'нд_пн_вт_ср_чт_пт_сб'.split('_'),
-        weekdaysMin : 'нд_пн_вт_ср_чт_пт_сб'.split('_'),
+        weekdaysShort : 'РЅРґ_РїРЅ_РІС‚_СЃСЂ_С‡С‚_РїС‚_СЃР±'.split('_'),
+        weekdaysMin : 'РЅРґ_РїРЅ_РІС‚_СЃСЂ_С‡С‚_РїС‚_СЃР±'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
             L : 'DD.MM.YYYY',
-            LL : 'D MMMM YYYY р.',
-            LLL : 'D MMMM YYYY р., HH:mm',
-            LLLL : 'dddd, D MMMM YYYY р., HH:mm'
+            LL : 'D MMMM YYYY СЂ.',
+            LLL : 'D MMMM YYYY СЂ., HH:mm',
+            LLLL : 'dddd, D MMMM YYYY СЂ., HH:mm'
         },
         calendar : {
-            sameDay: processHoursFunction('[Сьогодні '),
-            nextDay: processHoursFunction('[Завтра '),
-            lastDay: processHoursFunction('[Вчора '),
-            nextWeek: processHoursFunction('[У] dddd ['),
+            sameDay: processHoursFunction('[РЎСЊРѕРіРѕРґРЅС– '),
+            nextDay: processHoursFunction('[Р—Р°РІС‚СЂР° '),
+            lastDay: processHoursFunction('[Р’С‡РѕСЂР° '),
+            nextWeek: processHoursFunction('[РЈ] dddd ['),
             lastWeek: function () {
                 switch (this.day()) {
                 case 0:
                 case 3:
                 case 5:
                 case 6:
-                    return processHoursFunction('[Минулої] dddd [').call(this);
+                    return processHoursFunction('[РњРёРЅСѓР»РѕС—] dddd [').call(this);
                 case 1:
                 case 2:
                 case 4:
-                    return processHoursFunction('[Минулого] dddd [').call(this);
+                    return processHoursFunction('[РњРёРЅСѓР»РѕРіРѕ] dddd [').call(this);
                 }
             },
             sameElse: 'L'
         },
         relativeTime : {
-            future : 'за %s',
-            past : '%s тому',
-            s : 'декілька секунд',
+            future : 'Р·Р° %s',
+            past : '%s С‚РѕРјСѓ',
+            s : 'РґРµРєС–Р»СЊРєР° СЃРµРєСѓРЅРґ',
             m : uk__relativeTimeWithPlural,
             mm : uk__relativeTimeWithPlural,
-            h : 'годину',
+            h : 'РіРѕРґРёРЅСѓ',
             hh : uk__relativeTimeWithPlural,
-            d : 'день',
+            d : 'РґРµРЅСЊ',
             dd : uk__relativeTimeWithPlural,
-            M : 'місяць',
+            M : 'РјС–СЃСЏС†СЊ',
             MM : uk__relativeTimeWithPlural,
-            y : 'рік',
+            y : 'СЂС–Рє',
             yy : uk__relativeTimeWithPlural
         },
         // M. E.: those two are virtually unused but a user might want to implement them for his/her website for some reason
-        meridiemParse: /ночі|ранку|дня|вечора/,
+        meridiemParse: /РЅРѕС‡С–|СЂР°РЅРєСѓ|РґРЅСЏ|РІРµС‡РѕСЂР°/,
         isPM: function (input) {
-            return /^(дня|вечора)$/.test(input);
+            return /^(РґРЅСЏ|РІРµС‡РѕСЂР°)$/.test(input);
         },
         meridiem : function (hour, minute, isLower) {
             if (hour < 4) {
-                return 'ночі';
+                return 'РЅРѕС‡С–';
             } else if (hour < 12) {
-                return 'ранку';
+                return 'СЂР°РЅРєСѓ';
             } else if (hour < 17) {
-                return 'дня';
+                return 'РґРЅСЏ';
             } else {
-                return 'вечора';
+                return 'РІРµС‡РѕСЂР°';
             }
         },
-        ordinalParse: /\d{1,2}-(й|го)/,
+        ordinalParse: /\d{1,2}-(Р№|РіРѕ)/,
         ordinal: function (number, period) {
             switch (period) {
             case 'M':
@@ -10815,9 +10815,9 @@
             case 'DDD':
             case 'w':
             case 'W':
-                return number + '-й';
+                return number + '-Р№';
             case 'D':
-                return number + '-го';
+                return number + '-РіРѕ';
             default:
                 return number;
             }
@@ -10833,11 +10833,11 @@
     //! author : Sardor Muminov : https://github.com/muminoff
 
     var uz = moment__default.defineLocale('uz', {
-        months : 'январ_феврал_март_апрел_май_июн_июл_август_сентябр_октябр_ноябр_декабр'.split('_'),
-        monthsShort : 'янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек'.split('_'),
-        weekdays : 'Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба'.split('_'),
-        weekdaysShort : 'Якш_Душ_Сеш_Чор_Пай_Жум_Шан'.split('_'),
-        weekdaysMin : 'Як_Ду_Се_Чо_Па_Жу_Ша'.split('_'),
+        months : 'СЏРЅРІР°СЂ_С„РµРІСЂР°Р»_РјР°СЂС‚_Р°РїСЂРµР»_РјР°Р№_РёСЋРЅ_РёСЋР»_Р°РІРіСѓСЃС‚_СЃРµРЅС‚СЏР±СЂ_РѕРєС‚СЏР±СЂ_РЅРѕСЏР±СЂ_РґРµРєР°Р±СЂ'.split('_'),
+        monthsShort : 'СЏРЅРІ_С„РµРІ_РјР°СЂ_Р°РїСЂ_РјР°Р№_РёСЋРЅ_РёСЋР»_Р°РІРі_СЃРµРЅ_РѕРєС‚_РЅРѕСЏ_РґРµРє'.split('_'),
+        weekdays : 'РЇРєС€Р°РЅР±Р°_Р”СѓС€Р°РЅР±Р°_РЎРµС€Р°РЅР±Р°_Р§РѕСЂС€Р°РЅР±Р°_РџР°Р№С€Р°РЅР±Р°_Р–СѓРјР°_РЁР°РЅР±Р°'.split('_'),
+        weekdaysShort : 'РЇРєС€_Р”СѓС€_РЎРµС€_Р§РѕСЂ_РџР°Р№_Р–СѓРј_РЁР°РЅ'.split('_'),
+        weekdaysMin : 'РЇРє_Р”Сѓ_РЎРµ_Р§Рѕ_РџР°_Р–Сѓ_РЁР°'.split('_'),
         longDateFormat : {
             LT : 'HH:mm',
             LTS : 'HH:mm:ss',
@@ -10847,27 +10847,27 @@
             LLLL : 'D MMMM YYYY, dddd HH:mm'
         },
         calendar : {
-            sameDay : '[Бугун соат] LT [да]',
-            nextDay : '[Эртага] LT [да]',
-            nextWeek : 'dddd [куни соат] LT [да]',
-            lastDay : '[Кеча соат] LT [да]',
-            lastWeek : '[Утган] dddd [куни соат] LT [да]',
+            sameDay : '[Р‘СѓРіСѓРЅ СЃРѕР°С‚] LT [РґР°]',
+            nextDay : '[Р­СЂС‚Р°РіР°] LT [РґР°]',
+            nextWeek : 'dddd [РєСѓРЅРё СЃРѕР°С‚] LT [РґР°]',
+            lastDay : '[РљРµС‡Р° СЃРѕР°С‚] LT [РґР°]',
+            lastWeek : '[РЈС‚РіР°РЅ] dddd [РєСѓРЅРё СЃРѕР°С‚] LT [РґР°]',
             sameElse : 'L'
         },
         relativeTime : {
-            future : 'Якин %s ичида',
-            past : 'Бир неча %s олдин',
-            s : 'фурсат',
-            m : 'бир дакика',
-            mm : '%d дакика',
-            h : 'бир соат',
-            hh : '%d соат',
-            d : 'бир кун',
-            dd : '%d кун',
-            M : 'бир ой',
-            MM : '%d ой',
-            y : 'бир йил',
-            yy : '%d йил'
+            future : 'РЇРєРёРЅ %s РёС‡РёРґР°',
+            past : 'Р‘РёСЂ РЅРµС‡Р° %s РѕР»РґРёРЅ',
+            s : 'С„СѓСЂСЃР°С‚',
+            m : 'Р±РёСЂ РґР°РєРёРєР°',
+            mm : '%d РґР°РєРёРєР°',
+            h : 'Р±РёСЂ СЃРѕР°С‚',
+            hh : '%d СЃРѕР°С‚',
+            d : 'Р±РёСЂ РєСѓРЅ',
+            dd : '%d РєСѓРЅ',
+            M : 'Р±РёСЂ РѕР№',
+            MM : '%d РѕР№',
+            y : 'Р±РёСЂ Р№РёР»',
+            yy : '%d Р№РёР»'
         },
         week : {
             dow : 1, // Monday is the first day of the week.
@@ -11005,6 +11005,7 @@
                 startOfWeek = moment__default().startOf('week');
                 prefix = this.unix() < startOfWeek.unix()  ? '[?]' : '[?]';
                 return this.minutes() === 0 ? prefix + 'dddAh??' : prefix + 'dddAh?mm';
+                return this.minutes() === 0 ? prefix + 'dddAh??' : prefix + 'dddAh?mm';
             },
             sameElse : 'LL'
         },
@@ -11040,7 +11041,7 @@
             yy : '%d ?'
         },
         week : {
-            // GB/T 7408-1994?????????·????·??????????ISO 8601:1988??
+            // GB/T 7408-1994?????????В·????В·??????????ISO 8601:1988??
             dow : 1, // Monday is the first day of the week.
             doy : 4  // The week that contains Jan 4th is the first week of the year.
         }

@@ -1,17 +1,7 @@
-﻿/*Datepicker function
-http://eonasdan.github.io/bootstrap-datetimepicker/Options/
-keepInvalid
-Default: false
-Will cause the date picker to not revert or overwrite invalid dates.
-
-ignoreReadonly
-Default: false
-Allow date picker show event to fire even when the associated input element has the readonly="readonly"property
-
-/*http://bootstrap-datepicker.readthedocs.org/en/latest */
+﻿/*http://bootstrap-datepicker.readthedocs.org/en/latest */
 $('#sandbox-container .input-group').datepicker({
     format: "MM yyyy",
-    startView: 2,
+    startView: 1,
     minViewMode: 1,
     language: "ru",
     autoclose: true,
@@ -82,23 +72,42 @@ $(function() {
     });
 });
 
-/*Work with modal windows in nomenclature project*/
-$('#reportShow').on('click', function() { $('.modal').modal('hide'); });
+/*Modal*/
+//hide modal when show report
+$('#reportShow').on('click', function() {
+     $('.modal').modal('hide');
+});
+$('#dateModal').on('show.bs.modal', function(e) {
+    $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
+});
 
 function UpdateFailure(data) {   }
 
 /*Update data in confirmed row*/
 function UpdateData(dataRow) {
-    var target = $("#updateRow");
-    target.empty().append($(dataRow).children('td'));
+    var filterObj = $(dataRow).filter('tr');
     var messageInfo = $('#MessageInfo');
+    var target = $("#updateRow");
+
+    if (filterObj.length > 1) {
+        $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
+            $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
+        });
+    }else{
+    var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
+
+    target.empty().append($(dataRow).children('td'));
+    $(target).find('td input[class*=radio]').attr("checked", true);
 
     if (messageInfo.length === 0 ) {
-        $('#wrkTable').before('<div id="MessageInfo" class="alert alert-info">Успешно добавлен перечень №' +dataRow.nper+'</div>');
-    } else {
-        $('#MessageInfo').val = "Успешно добавлен перечень №" +dataRow.nper;
+        $('#wrkTable').before('<div id="MessageInfo" class="alert alert-info">Успешно добавлен перечень №' + nper + '</div>');
     }
+
+    $('#MessageInfo').val = "Успешно добавлен перечень №" + nper;
+//  reportServer
 //    local.href();
+    }
+$('.modal').modal('hide');
 }
 
 /*Event click on table row + mark as work row for ajax request*/
@@ -119,21 +128,22 @@ $('#scrolList').on('click', function (e) {
     chkRow.addClass('info');
     chkRow.attr('id', 'updateRow');
 
-    //loading
-    $("<tr id='loading' class='load' style='display: none' >" +
-        "<td colspan = '15' class='text-center'>Loading Data...</td> " +
-      "</tr>").insertBefore('#updateRow');
-
     /*color row (selected)*/
-    $('#scrolList').children('tr').not(chkRow).each(function (index, value) {
+    $('#scrolList').children('tr').not(chkRow).each(function(index, value) {
         if ($(value).find('.confirmed').val() === "False") {
             $(value).removeClass('info').addClass('success');
         } else {
             $(value).removeClass('info success');
         }
+    //Delete id Update row and loading part
         $(value).removeAttr("id");
         $('.load').remove();
     });
+
+    //loading
+    $(chkRow).before("<tr id='loading' class='load' style='display: none' >" +
+        "<td colspan = '15' class='text-center'>Loading Data...</td> " +
+      "</tr>");
 
     //modal window(key and report period)
     $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + $.trim(srcKey.parent().text()));
@@ -204,5 +214,3 @@ $(function() {
         }
     });
 });
-
-

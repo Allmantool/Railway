@@ -17,9 +17,9 @@ namespace NaftanRailway.WebUI {
                          "~/Content/locales/bootstrap-datepicker.ru.min.js",
                          "~/Scripts/moment-with-locales.min.js",
                          "~/Scripts/jquery-ui-1.11.4.min.js",
-                         "~/Scripts/jquery.unobtrusive-ajax.js",
                          "~/Scripts/jquery.validate.min.js",
-                         "~/Scripts/jquery.validate.unobtrusive.min.js"));
+                         "~/Scripts/jquery.validate.unobtrusive.min.js",
+                         "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8")
                 .Include("~/Scripts/html5shiv.js",
