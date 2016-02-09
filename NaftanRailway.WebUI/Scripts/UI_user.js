@@ -214,3 +214,8 @@ $(function() {
         }
     });
 });
+/*passing clientvalidation error in IE8
+$('#BtnChangeDate').on('click', function () {
+    $('#ReportPeriod').removeAttr("data-val-date");
+});
+*/

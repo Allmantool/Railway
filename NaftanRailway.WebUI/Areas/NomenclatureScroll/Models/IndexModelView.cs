@@ -7,9 +7,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
 
     public class IndexModelView {
         public IEnumerable<krt_Naftan> ListKrtNaftan { get; set; }
-        [Required(ErrorMessage = @"Wrong Date?")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMMM yyyy}")]
+
+        [DataType(DataType.Date),DisplayFormat(DataFormatString = "{0:MMMM yyyy}",ApplyFormatInEditMode = true)]
         public DateTime? ReportPeriod { get; set; }
     }
 }

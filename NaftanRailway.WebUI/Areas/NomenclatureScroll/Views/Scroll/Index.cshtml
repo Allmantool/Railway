@@ -53,7 +53,7 @@
                                 @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.First().KEYKRT, new { id = "HiddenInputModal" })
                                 <div id="sandbox-container">
                                     <div class="input-group date">
-                                        @Html.TextBoxFor(m => m.ReportPeriod, new {@class = "form-control", type = "text", @readonly = "readonly"})
+                                        @Html.TextBoxFor(m => m.ReportPeriod,new { @class = "form-control",type = "text",@readonly = "readonly"})
                                         <!--Unobstrusive requered-->
                                         @Html.ValidationMessageFor(m => m.ReportPeriod,"Неверная дата")
                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -63,7 +63,7 @@
                              
                             <div class="pull-right">
                                 @Html.ActionLink("Отчёт","ErrorReport",new {numberKrt = "",reportYear = ""},new {@class="btn btn-default",id ="reportShow"})
-                                <button type="submit" class="btn btn-primary">Изменить</button>
+                                <button id="BtnChangeDate" type="submit" class="btn btn-primary">Изменить</button>
                             </div>
                         }
                     </div>

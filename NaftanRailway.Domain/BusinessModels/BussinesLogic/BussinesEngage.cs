@@ -227,6 +227,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     item.DTBUHOTCHET = period;
                     UnitOfWork.Repository<krt_Naftan>().Update(item);
                 }
+                UnitOfWork.Save();
                 return true;
             } catch(Exception) {
 
