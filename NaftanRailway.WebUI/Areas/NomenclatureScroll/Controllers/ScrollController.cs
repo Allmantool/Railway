@@ -7,7 +7,7 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    public class ScrollController : Controller {
+    public class ScrollController:Controller {
         private readonly IBussinesEngage _bussinesEngage;
 
         public ScrollController(IBussinesEngage bussinesEngage) {
@@ -21,8 +21,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Index(int page = 0) {
             const byte initialSizeItem = 27;
 
-            if(Request.IsAjaxRequest()) {
-                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
+            if (Request.IsAjaxRequest()) {
+                return PartialView("_AjaxKrtNaftanRow",_bussinesEngage.GetTable<krt_Naftan>()
                     .OrderByDescending(x => x.KEYKRT).Skip(page * initialSizeItem).Take(initialSizeItem));
             }
 
@@ -41,11 +41,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult ChangeData(IndexModelView model) {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
 
-            if(model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value,numberKeykrt))) {
-                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>().Where(x=>x.KEYKRT >=numberKeykrt).OrderByDescending(x=>x.KEYKRT));
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value,numberKeykrt))) {
+                return PartialView("_AjaxKrtNaftanRow",_bussinesEngage.GetTable<krt_Naftan>().Where(x => x.KEYKRT >= numberKeykrt).OrderByDescending(x => x.KEYKRT));
             }
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index","Scroll");
         }
         /// <summary>
         /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
@@ -55,17 +55,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Confirmed(long? scrollKey) {
+            
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == scrollKey).FirstOrDefault();
 
-            if(ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan( selectKrt.KEYKRT)) {
+            if (ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml",new[] { selectKrt });
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен",selectKrt.KEYKRT);
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index","Scroll");
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod
@@ -74,8 +75,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ViewResult ScrollDetails(long? scrollKey) {
-              return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt ==scrollKey));  
- 
+            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey));
+
         }
         /// <summary>
         /// Render Report error
@@ -86,26 +87,26 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ErrorReport(string reportName, long? numberKrt, int? reportYear) {
+        public ActionResult ErrorReport(string reportName,long? numberKrt,int? reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
 
-            if(reportName != null) {
+            if (reportName != null) {
                 string urlReportString = string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
-                                        serverName, folderName,
+                                        serverName,folderName,
                                         reportName,
                                         @"rs:Command=Render");
                 return View((object)urlReportString);
             }
 
             krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
-            if(selectKrt != null) {
+            if (selectKrt != null) {
                 reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
                 const string defaultParameters = @"rs:Format=Excel";
                 string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
 
-                string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
-                    folderName, reportName, defaultParameters, filterParameters);
+                string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}",serverName,
+                    folderName,reportName,defaultParameters,filterParameters);
 
                 //WebClient client = new WebClient { UseDefaultCredentials = true };
                 /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
@@ -119,11 +120,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     }
                 };
 
-                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel", String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
+                return File(client.DownloadData(urlReportString),@"application/vnd.ms-excel",String.Format(@"Отчёт по переченю №{0}.xls",selectKrt.NKRT));
             }
 
             TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index","Scroll");
         }
     }
 }

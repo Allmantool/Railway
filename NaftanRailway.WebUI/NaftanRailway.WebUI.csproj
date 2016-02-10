@@ -27,7 +27,6 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
     <UseGlobalApplicationHostFile />
-    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -168,6 +167,10 @@
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -266,8 +269,8 @@
       <HintPath>..\packages\WebActivatorEx.2.1.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -308,6 +311,7 @@
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Infrastructure\ValidationAttributes\MustBeTrueAttribute.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
     <Compile Include="ViewModels\InfoLineViewModel.cs" />
     <Compile Include="ViewModels\InputMenuViewModel.cs" />
@@ -361,6 +365,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Bootstrap_AutoComplete.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\Gear.gif" />
     <Content Include="Content\Images\339.gif" />
     <Content Include="Content\Images\Train.gif" />
@@ -442,8 +447,10 @@
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftanRow.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="Content\bootstrap-datetimepicker-build.less" />
     <None Include="Content\bootstrap-theme.css.map" />
     <None Include="Content\bootstrap-theme.min.css.map" />
     <None Include="Content\bootstrap.min.css.map" />
@@ -519,7 +526,6 @@
     <None Include="Content\bootstrap\variables.less" />
     <None Include="Content\bootstrap\wells.less" />
     <None Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <None Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Content\fonts\glyphicons-halflings-regular.woff2" />
@@ -549,6 +555,8 @@
     <Content Include="Scripts\bootstrap-datepicker.css" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html5shiv.js" />
@@ -564,6 +572,7 @@
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Content\_bootstrap-datetimepicker.less" />
     <None Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="fonts\glyphicons-halflings-regular.svg" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />

@@ -1,6 +1,3 @@
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NaftanRailway.UnitTest.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NaftanRailway.UnitTest.App_Start.NinjectWebCommon), "Stop")]
-
 namespace NaftanRailway.UnitTest.App_Start
 {
     using System;

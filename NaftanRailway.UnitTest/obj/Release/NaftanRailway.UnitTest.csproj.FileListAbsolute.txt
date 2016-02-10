@@ -626,3 +626,12 @@ C:\Git\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.dll
 C:\Git\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.xml
 J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.dll
 J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\Newtonsoft.Json.xml
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Net.Http.Formatting.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Web.Http.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Web.Http.WebHost.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Net.Http.Formatting.xml
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Web.Http.xml
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\System.Web.Http.WebHost.xml
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\ru\System.Net.Http.Formatting.resources.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\ru\System.Web.Http.resources.dll
+J:\GitHub\Railway\NaftanRailway.UnitTest\bin\Release\ru\System.Web.Http.WebHost.resources.dll
