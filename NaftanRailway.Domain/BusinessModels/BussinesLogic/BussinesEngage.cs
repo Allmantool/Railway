@@ -192,7 +192,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         /// <param name="period"></param>
         /// <param name="key"></param>
-        public bool AddKrtNaftan(DateTime period, long key) {
+        public bool AddKrtNaftan(long key) {
             try {
                 SqlParameter parm = new SqlParameter() {
                     ParameterName = "@ErrId",
@@ -201,14 +201,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 };
 
                 UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                    (@"execute @ErrId = sp_fill_krt_Naftan_orc_sapod @KEYKRT",
+                    (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT",
                         new SqlParameter("@KEYKRT", key), parm);
 
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                 chRecord.Confirmed = true;
                 chRecord.ErrorState = Convert.ToBoolean((int)parm.Value);
-            } catch(Exception) {
+            } catch(Exception e){
                 return false;
             }
 
@@ -229,7 +229,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
                 UnitOfWork.Save();
                 return true;
-            } catch(Exception) {
+            } catch(Exception e) {
 
                 return false;
             }

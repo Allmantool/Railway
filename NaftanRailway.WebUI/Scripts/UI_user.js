@@ -86,29 +86,27 @@ function UpdateFailure(data) {   }
 /*Update data in confirmed row*/
 function UpdateData(dataRow) {
     var filterObj = $(dataRow).filter('tr');
-    var messageInfo = $('#MessageInfo');
+    var messageInfo = $('#loading').children('td');
     var target = $("#updateRow");
 
     if (filterObj.length > 1) {
         $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
             $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
         });
+        messageInfo.empty().append("Дата изменена");
     }else{
-    var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
+        var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
 
-    target.empty().append($(dataRow).children('td'));
-    $(target).find('td input[class*=radio]').attr("checked", true);
-
-    if (messageInfo.length === 0 ) {
-        $('#wrkTable').before('<div id="MessageInfo" class="alert alert-info">Успешно добавлен перечень №' + nper + '</div>');
+        target.empty().append($(dataRow).children('td'));
+        $(target).find('td input[class*=radio]').attr("checked", true);
+        messageInfo.empty().append('Успешно добавлен перечень №' + nper);
     }
+//        messageInfo.slideUp(3200);
 
-    $('#MessageInfo').val = "Успешно добавлен перечень №" + nper;
-//  reportServer
-//    local.href();
-    }
+//  request to ReportServer
+   window.location.href = $('#reportShow').attr('href');
 $('.modal').modal('hide');
-}
+}                                           
 
 /*Event click on table row + mark as work row for ajax request*/
 $('#scrolList').on('click', function (e) {
@@ -142,7 +140,7 @@ $('#scrolList').on('click', function (e) {
 
     //loading
     $(chkRow).before("<tr id='loading' class='load' style='display: none' >" +
-        "<td colspan = '15' class='text-center'>Loading Data...</td> " +
+        "<td colspan = '15' class='text-center'>Загрузка сборов перечня...</td> " +
       "</tr>");
 
     //modal window(key and report period)
@@ -151,10 +149,13 @@ $('#scrolList').on('click', function (e) {
 
     $('#ReportPeriod').attr('value', dpDate);
 
-    /*Update link (parameters in link) to show correct Report server*/
-    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate,'MMMM YYYY').year();
+    /*Update link (parameters in link) to show correct Report server (modal & menu links)*/
+    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate, 'MMMM YYYY').year();
+    var strDetails = "Scroll/ScrollDetails?scrollKey=" + $('#HiddenInputModal').val();
+
     $('#reportShow').attr('href', (str));
-    
+    $('#MenuLinkErrReport').attr('href', (str));
+    $('#scrollDetails').attr("href", strDetails);
     //Confirmed
     var strAdd = "/Scroll/Confirmed?scrollKey=" + srcKey.val() + "&period=" + moment(dpDate, 'MMMM YYYY').format('DD.MM.YYYY');
     $('#Reglink').attr('href', (strAdd));
@@ -214,8 +215,3 @@ $(function() {
         }
     });
 });
-/*passing clientvalidation error in IE8
-$('#BtnChangeDate').on('click', function () {
-    $('#ReportPeriod').removeAttr("data-val-date");
-});
-*/

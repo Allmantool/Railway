@@ -24,7 +24,6 @@
                                     Перечней ОРЦ</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Таблица перечней</a></li>
-                                    <li><a href="@Url.Action("ScrollsDetails", "Scroll")">Таблица сборов</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Confirmed","Scroll",
                                             new {period="",scrollKey = ""},
@@ -34,15 +33,18 @@
                                                 OnFailure = "UpdateFailure",
                                                 HttpMethod = "Post",
                                                 //UpdateTargetId = "updateRow",
-                                                LoadingElementDuration = 200,
+                                                LoadingElementDuration = 1200,
                                                 LoadingElementId = "loading",
                                                 //UpdateTargetId ="" 
                                                 //InsertionMode = InsertionMode.Replace
                                             },
                                             new {id = "Reglink"})
-                                    <li><a href="#">Отчёт проверки перечня</a></li>
+                                    <li>@Html.ActionLink("Отчёт проверки перечня","ErrorReport","Scroll",
+                                        new {numberKrt = "",reportYear = ""},
+                                        new {id ="MenuLinkErrReport"})
+                                    </li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
-                                    <li><a href="#">Просмотр информации по перечню</a></li>
+                                    <li>@Html.ActionLink("Просмотр информации по перечню","ScrollDetails","Scroll",new {scrollKey = ""},new {id ="scrollDetails"})</li>
                                     <li role="separator" class="divider"></li>
                                     <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
                                     <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName="orc-bch_corrections" }, null)</li>
@@ -77,10 +79,11 @@
             </div>
         </div>
     </div>
-    @if(TempData["message"] != null) {
-        <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
-    }
+
     <div class="panel row layer">
+            @if(TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
+                <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
+            }
         <div class="container-fluid">@RenderBody()</div>
     </div>
     <!--[if lte IE 8]>

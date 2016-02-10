@@ -42,8 +42,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
 
             if(model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value,numberKeykrt))) {
-                return PartialView("_AjaxKrtNaftanRow", 
-                    _bussinesEngage.GetTable<krt_Naftan>().Where(x=>x.KEYKRT >=numberKeykrt).OrderByDescending(x=>x.KEYKRT));
+                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>().Where(x=>x.KEYKRT >=numberKeykrt).OrderByDescending(x=>x.KEYKRT));
             }
 
             return RedirectToAction("Index", "Scroll");
@@ -55,12 +54,10 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="period"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Confirmed(long scrollKey, DateTime period) {
+        public ActionResult Confirmed(long? scrollKey) {
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == scrollKey).FirstOrDefault();
 
-            if(ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(period, selectKrt.KEYKRT)) {
-                TempData["message"] = String.Format(@"Успешно добавлен перечень № {0}.", selectKrt.NKRT);
-                _bussinesEngage.AddKrtNaftan(period, selectKrt.KEYKRT);
+            if(ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan( selectKrt.KEYKRT)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
                 return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
@@ -72,12 +69,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
         /// <summary>
         /// Return krt_Naftan_orc_sapod
+        /// Detail gathering of one scroll 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult ScrollsDetails() {
-            const byte initialSizeItem = 27;
-            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Take(initialSizeItem));
+        public ViewResult ScrollDetails(long? scrollKey) {
+              return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt ==scrollKey));  
+ 
         }
         /// <summary>
         /// Render Report error
@@ -121,8 +119,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     }
                 };
 
-                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel", String.Format(@"Отчёт по переченю №{0}", selectKrt.NKRT));
-
+                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel", String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
             }
 
             TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
