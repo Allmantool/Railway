@@ -930,3 +930,6 @@ J:\GitHub\Railway\NaftanRailway.WebUI\obj\Release\RdlCompile.cache
 J:\GitHub\Railway\NaftanRailway.WebUI\obj\Release\RdlCompile.compiled
 J:\GitHub\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.pdb
+C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Net.Http.Formatting.resources.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Web.Http.resources.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Web.Http.WebHost.resources.dll

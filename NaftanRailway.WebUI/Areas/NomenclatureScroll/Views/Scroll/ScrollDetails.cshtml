@@ -1,17 +1,17 @@
-﻿@using NaftanRailway.Domain.Concrete.DbContext.ORC;
+﻿@using System.Text.RegularExpressions
+@using NaftanRailway.Domain.Concrete.DbContext.ORC;
 @model IEnumerable<krt_Naftan_orc_sapod>
 @{
     ViewBag.Title = "Сборы по перечням";
-    Layout = "../Shared/_Layout.cshtml";
+    Layout = "../Shared/_Layout.cshtml";    
 }
-
+<h3 class="text-center control-label">Перечень №@Model.First().nper<span class="hidden key">@Model.First().keykrt</span></h3>
 <div class="panel panel-default">
         <table class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
             <thead class="thead-inverse">
                 <tr>
-                    <th class="text-center">№ Перечня</th>
                     <th class="text-center">Карточка<br/>(NKRT)</th>
-                    <th class="text-center">Тип документа</th>
+                    <th class="text-center">Тип<br/>документа</th>
                     <th class="text-center">Вид сбора</th>
                     <th class="text-center">DT</th>
                     <th class="text-center">NOMOT</th>
@@ -20,13 +20,12 @@
                     <th class="text-center">Сумма</th>
                     <th class="text-center">Ставка НДС</th>
                     <th class="text-center">txt OРЦ</th>
-                    <th class="text-center">P_Type</th>
-                    <th class="text-center">Назв. сбора</th>
+                    <th class="text-center">Тип</th>
+                    <th class="text-center">Наименование сбора</th>
                     <th class="text-center">Дата обработки</th>
                     <th class="text-center">ID_ED САПОД</th>
                     <th class="text-center">id_ed</th>
                     <th class="text-center">textm </th>
-                    <th class="text-center">type doc</th>
                     <th class="text-center">cod sbor</th>
                     <th class="text-center">date<br/> raskr</th>
                     <th class="text-center">num_doc </th>
@@ -38,30 +37,28 @@
             <tbody class="text-center">
                 @foreach (krt_Naftan_orc_sapod item in Model) {
                     <tr>
-                        <td>@item.nper <span class="hidden key">@item.keykrt</span></td>
-                        <td>@item.nkrt</td>
-                        <td>@item.tdoc</td>
-                        <td>@item.vidsbr</td>
-                        <td>@item.dt.ToString("dd.MM.yyyy")</td>
-                        <td>@item.nomot</td>
-                        <td class="text-right">@item.sm_no_nds.ToString("#,#")</td>
-                        <td class="text-right">@item.sm_nds.ToString("#,#")</td>
-                        <td class="text-right">@item.sm.ToString("#,#")</td>
-                        <td class="text-right">@item.stnds.ToString(@"## '%'")</td>
-                        <td>@item.txt</td>
-                        <td>@item.p_type</td>
-                        <td class="small">@item.namesbr</td>
-                        <td>@item.date_obrabot</td>
-                        <td>@item.ORC_ID_ED</td>
-                        <td>@item.ID_ED</td>
-                        <td style="">@item.textm</td>
-                        <td>@item.type_doc</td>
-                        <td>@item.cod_sbor</td>
-                        <td>@item.date_raskr</td>
-                        <td>@item.num_doc</td>
-                        <td>@item.kol</td>
-                        <td>@item.summa</td>
-                        <td>@item.nds</td>
+                        <td class="vert-align">@item.nkrt</td>
+                        <td class="vert-align">@((@item.tdoc==1)?"№ Отправки":@item.tdoc==2?"Ведомость":@item.tdoc==3?"Акт":"Накопительная карточка")</td>
+                        <td class="vert-align">@item.vidsbr</td>
+                        <td class="vert-align">@item.dt.ToString("dd.MM.yyyy")</td>
+                        <td class="vert-align">@item.nomot</td>
+                        <td class="text-right vert-align">@item.sm_no_nds.ToString("#,#")</td>
+                        <td class="text-right vert-align">@item.sm_nds.ToString("#,#")</td>
+                        <td class="text-right vert-align">@item.sm.ToString("#,#")</td>
+                        <td class="text-right vert-align">@item.stnds.ToString(@"#,#0'%'")</td>
+                        <td class="vert-align">@item.txt</td>
+                        <td class="vert-align">@item.p_type</td>
+                        <td class="vert-align">@item.namesbr</td>
+                        <td class="vert-align">@item.date_obrabot</td>
+                        <td class="vert-align">@item.ORC_ID_ED</td>
+                        <td class="success vert-align">@item.ID_ED</td>
+                        <td class="success vert-align">@item.textm</td>
+                        <td class="success vert-align">@item.cod_sbor</td>
+                        <td class="success vert-align">@((Regex.IsMatch(@item.cod_sbor.ToString(),@"30[01]",RegexOptions.IgnoreCase)) ? @item.date_raskr.Value.ToString() : @item.date_raskr.Value.ToShortDateString())</td>
+                        <td class="success vert-align">@item.num_doc</td>
+                        <td class="text-center success vert-align">@((item.kol == null)?"":@item.kol.Value.ToString("#,#"))</td>
+                        <td class="text-right success vert-align">@((item.summa == null)?"":@item.summa.Value.ToString("#,#"))</td>
+                        <td class="text-right success vert-align">@((item.nds == null)?"":@item.nds.Value.ToString("#,#"))</td>
                     </tr>
                 }
             </tbody>

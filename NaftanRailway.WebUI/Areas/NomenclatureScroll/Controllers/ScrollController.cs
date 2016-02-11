@@ -73,9 +73,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult ScrollDetails(long? scrollKey) {
-              return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt ==scrollKey));  
- 
+        public ActionResult ScrollDetails(long? scrollKey) {
+            if (scrollKey != null){
+              return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt ==scrollKey));   
+            }
+               
+            TempData["message"] = String.Format(@"Укажите перечень!");
+
+            return RedirectToAction("Index", "Scroll");  
         }
         /// <summary>
         /// Render Report error
@@ -100,7 +105,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
             if(selectKrt != null) {
-                reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
+                reportName = selectKrt.SignAdjustment_list ? @"krt_Naftan_Scroll_compare_Correction" : @"krt_Naftan_Scroll_Compare_Normal";
                 const string defaultParameters = @"rs:Format=Excel";
                 string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
 
@@ -122,7 +127,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel", String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
             }
 
-            TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
+            TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
             return RedirectToAction("Index", "Scroll");
         }
     }
