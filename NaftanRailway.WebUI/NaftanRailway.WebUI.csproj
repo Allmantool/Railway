@@ -315,6 +315,7 @@
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Infrastructure\ValidationAttributes\MustBeTrueAttribute.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
     <Compile Include="ViewModels\InfoLineViewModel.cs" />
     <Compile Include="ViewModels\InputMenuViewModel.cs" />
@@ -368,6 +369,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Bootstrap_AutoComplete.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Images\Gear.gif" />
     <Content Include="Content\Images\339.gif" />
     <Content Include="Content\Images\Train.gif" />
@@ -449,6 +451,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftanRow.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="Content\bootstrap-datetimepicker-build.less" />
@@ -527,7 +530,6 @@
     <None Include="Content\bootstrap\variables.less" />
     <None Include="Content\bootstrap\wells.less" />
     <None Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <None Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <None Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Content\fonts\glyphicons-halflings-regular.woff2" />
