@@ -289,7 +289,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\EnumDocType.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\CustomUser.css" />
@@ -443,7 +442,6 @@
     <Content Include="Content\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Content\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Content\locales\bootstrap-datepicker.zh-TW.min.js" />
-    <Content Include="ControllerDiagramm.cd" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\NomenclatureScroll\Views\Web.config" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\Index.cshtml" />

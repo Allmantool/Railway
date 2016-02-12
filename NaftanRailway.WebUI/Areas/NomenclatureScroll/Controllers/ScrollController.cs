@@ -74,7 +74,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-<<<<<<< HEAD
         public ActionResult ScrollDetails(long? scrollKey) {
             if (scrollKey != null){
               return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt ==scrollKey));   
@@ -83,11 +82,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             TempData["message"] = String.Format(@"Укажите перечень!");
 
             return RedirectToAction("Index", "Scroll");  
-=======
-        public ViewResult ScrollDetails(long? scrollKey) {
-            return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey));
-
->>>>>>> bd2e7d55f0772f759e9406c182d9df0aa78b9a73
         }
         /// <summary>
         /// Render Report error
@@ -111,13 +105,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
 
             krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
-<<<<<<< HEAD
+
             if(selectKrt != null) {
                 reportName = selectKrt.SignAdjustment_list ? @"krt_Naftan_Scroll_compare_Correction" : @"krt_Naftan_Scroll_Compare_Normal";
-=======
-            if (selectKrt != null) {
-                reportName = selectKrt.SignAdjustment_list ? @"orc-bch_corrections" : @"orc-bch_compare_new";
->>>>>>> bd2e7d55f0772f759e9406c182d9df0aa78b9a73
                 const string defaultParameters = @"rs:Format=Excel";
                 string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
 
@@ -139,13 +129,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 return File(client.DownloadData(urlReportString),@"application/vnd.ms-excel",String.Format(@"Отчёт по переченю №{0}.xls",selectKrt.NKRT));
             }
 
-<<<<<<< HEAD
             TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
             return RedirectToAction("Index", "Scroll");
-=======
-            TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка!");
-            return RedirectToAction("Index","Scroll");
->>>>>>> bd2e7d55f0772f759e9406c182d9df0aa78b9a73
         }
     }
 }
