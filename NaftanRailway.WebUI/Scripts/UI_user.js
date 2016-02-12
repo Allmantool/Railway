@@ -110,7 +110,6 @@ $('.modal').modal('hide');
 
 /*Event click on table row + mark as work row for ajax request*/
 $('#scrolList').on('click', function (e) {
-    
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/

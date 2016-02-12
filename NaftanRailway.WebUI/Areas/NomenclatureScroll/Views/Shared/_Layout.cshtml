@@ -6,11 +6,14 @@
     <meta name="author" content="P. Chizhikov" />
     <meta name="Description" content="Nomenclature project" />
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta http-equiv="refresh" content="18000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @Styles.Render("~/Content/cssbundle")
-    <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon"/>
+    <!--[if lte IE 8]>
+        
+    <![endif]-->
 </head>
 <body>
     <div class="navbar-custom navbar-fixed-top">
@@ -87,9 +90,9 @@
     </div>
     <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
-    @Scripts.Render("~/bundles/Jquery")
-    @Scripts.Render("~/bundles/BootstrapIE8")
-    @Scripts.Render("~/bundles/UserFunctions")
+        @Scripts.Render("~/bundles/Jquery")
+        @Scripts.Render("~/bundles/BootstrapIE8")
+        @Scripts.Render("~/bundles/UserFunctions")
 <![endif]-->
     <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
