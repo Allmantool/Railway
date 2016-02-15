@@ -2,6 +2,8 @@
 @{
     Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = "Перечни";
+    Html.EnableClientValidation(false);
+    Html.EnableUnobtrusiveJavaScript(true);
 }
 
 <div class="panel panel-default">
@@ -45,7 +47,7 @@
                         @using(@Ajax.BeginForm("ChangeData","Scroll", 
                             new AjaxOptions(){
                                 OnFailure = "UpdateFailure",
-                                OnSuccess = "UpdateData",
+                                OnSuccess = "UpdateDate",
                                 HttpMethod = "Post",
                                 Url = @Url.Action("ChangeData","Scroll")
                             },
@@ -54,7 +56,7 @@
                                 @Html.Hidden("ListKrtNaftan[0].KEYKRT", Model.ListKrtNaftan.First().KEYKRT, new { id = "HiddenInputModal" })
                                 <div id="sandbox-container">
                                     <div class="input-group date">
-                                        @Html.TextBoxFor(m => m.ReportPeriod,new { @class = "form-control",type = "text",@readonly = "readonly"})
+                                        @Html.TextBoxFor(m => m.ReportPeriod,new { @class = "form-control",@readonly = "readonly"})
                                         <!--Unobstrusive requered-->
                                         @Html.ValidationMessageFor(m => m.ReportPeriod,"Неверная дата")
                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>

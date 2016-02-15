@@ -82,29 +82,31 @@ $('#dateModal').on('show.bs.modal', function(e) {
 });
 
 function UpdateFailure(data) {   }
-
-/*Update data in confirmed row*/
-function UpdateData(dataRow) {
-    var filterObj = $(dataRow).filter('tr');
+/*Update date in confirmed row(s)*/
+function UpdateDate(dataRow) {
     var messageInfo = $('#loading').children('td');
     var target = $("#updateRow");
 
-    if (filterObj.length > 1) {
-        $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
-            $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
-        });
-        messageInfo.empty().append("Дата изменена");
-    }else{
-        var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
+    $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
+        $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
+    });
+    messageInfo.empty().append("Дата изменена");
+    $('.modal').modal('hide');
+}
 
-        target.empty().append($(dataRow).children('td'));
-        $(target).find('td input[class*=radio]').attr("checked", true);
-        messageInfo.empty().append('Успешно добавлен перечень №' + nper);
-    }
-//        messageInfo.slideUp(3200);
+/*Update data in confirmed row*/
+function UpdateData(dataRow) {
+    var messageInfo = $('#loading').children('td');
+    var target = $("#updateRow");
 
-//  request to ReportServer
-   window.location.href = $('#reportShow').attr('href');
+    var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
+
+    target.empty().append($(dataRow).children('td'));
+    $(target).find('td input[class*=radio]').attr("checked", true);
+    messageInfo.empty().append('Успешно добавлен перечень №' + nper);
+    //  request to ReportServer
+    window.location.href = $('#reportShow').attr('href');
+
 $('.modal').modal('hide');
 }                                           
 

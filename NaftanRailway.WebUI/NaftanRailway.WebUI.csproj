@@ -288,7 +288,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Models\CheckCharges.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\CustomUser.css" />
@@ -450,6 +452,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftanRow.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Configuration\Index.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="Content\bootstrap-datetimepicker-build.less" />
