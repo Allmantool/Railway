@@ -10,7 +10,7 @@
     <meta http-equiv="refresh" content="18000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @Styles.Render("~/Content/cssbundle")
-    <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon" />
 </head>
 <body>
     <div class="navbar-custom navbar-fixed-top">
@@ -23,9 +23,9 @@
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
                                     Перечней ОРЦ</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ","Confirmed","Scroll",
-                                            new {period="",scrollKey = ""},
-                                            new AjaxOptions{
+                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll",
+                                            new { period = "", scrollKey = "" },
+                                            new AjaxOptions {
                                                 OnSuccess = "UpdateData",
                                                 //Url = @Url.Action("Confirmed","Scroll"),
                                                 OnFailure = "UpdateFailure",
@@ -36,35 +36,39 @@
                                                 //UpdateTargetId ="" 
                                                 //InsertionMode = InsertionMode.Replace
                                             },
-                                            new {id = "Reglink"})
-                                    <li>@Html.ActionLink("Отчёт проверки перечня","ErrorReport","Scroll",
-                                        new {numberKrt = "",reportYear = ""},
-                                        new {id ="MenuLinkErrReport"})
+                                            new { id = "Reglink" })
+                                    <li>@Html.ActionLink("Отчёт проверки перечня", "ErrorReport", "Scroll",
+                                        new { numberKrt = "", reportYear = "" },
+                                        new { id = "MenuLinkErrReport" })
                                     </li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
-                                    <li>@Html.ActionLink("Просмотр информации по перечню","ScrollDetails","Scroll",new {scrollKey = ""},new {id ="scrollDetails"})</li>
+                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new { scrollKey = "" }, new { id = "scrollDetails" })</li>
                                     <li role="separator" class="divider"></li>
                                     <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
-                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName="orc-bch_corrections" }, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_corrections" }, null)</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.RouteLink("Таблица перечней",new RouteValueDictionary(){{"page",1}})</li>
+                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() { { "page", 1 }, { "action", "index" } })</li>
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
                                     Ведомостей ГУ-46</b><span class="caret"></span></a>
-                                <ul class="dropdown-menu"><li role="separator" class="divider"></li></ul>
+                                <ul class="dropdown-menu">
+                                    <li role="separator" class="divider"></li>
+                                </ul>
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
                                     Актов<br />
                                     ГУ-23</b><span class="caret"></span></a>
-                                <ul class="dropdown-menu"></ul>
+                                <ul class="dropdown-menu">
+                                </ul>
                             </li>
                             <li class="dropdown col-lg-4"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
                                     Накопительных карточек ФДУ-92</b><span class="caret"></span></a>
-                                <ul class="dropdown-menu"></ul>
+                                <ul class="dropdown-menu">
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -78,11 +82,10 @@
             </div>
         </div>
     </div>
-
     <div class="panel row layer">
-            @if(TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
-                <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
-            }
+        @if (TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
+            <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
+        }
         <div class="container-fluid">@RenderBody()</div>
     </div>
     <!--[if lte IE 8]>
@@ -94,9 +97,9 @@
     <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-   @* @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
-<!--<![endif]-->
-<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
+    @* @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
+    <!--<![endif]-->
+    <script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

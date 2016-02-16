@@ -103,7 +103,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .OrderByDescending(x => x.keykrt).Skip(page*initialSizeItem).Take(initialSizeItem));
             }
 
-            //TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
+            TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
 
             return RedirectToAction("Index", "Scroll");
         }
