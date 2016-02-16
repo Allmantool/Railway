@@ -371,6 +371,7 @@
     <Content Include="Content\Bootstrap_AutoComplete.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\Aha-Soft-Transport-Train.ico" />
     <Content Include="Content\Images\Gear.gif" />
     <Content Include="Content\Images\339.gif" />
     <Content Include="Content\Images\Train.gif" />
@@ -453,6 +454,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Configuration\Index.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftan_ORC_SAPOD_Row.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="Content\bootstrap-datetimepicker-build.less" />

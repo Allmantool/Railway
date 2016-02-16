@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
+using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     public class ScrollController : Controller {
@@ -16,21 +17,29 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
         /// <summary>
         /// View table krt_Naftan (with infinite scrolling)
+        /// For increase jquery perfomance in IE8 method apply paging instead of ajax infinite scrolling
+        /// (IsAjaxRequest leave for compability with older version (ajax)
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(int page = 0) {
-            const byte initialSizeItem = 27;
+        public ActionResult Index(int page = 1) {
+            const byte initialSizeItem = 13;
 
             if(Request.IsAjaxRequest()) {
-                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
-                    .OrderByDescending(x => x.KEYKRT).Skip(page*initialSizeItem).Take(initialSizeItem));
+                return  new EmptyResult();
+            //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
+            //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
             }
 
             return View(new IndexModelView() {
                 ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>()
-                    .OrderByDescending(x => x.KEYKRT).Skip(page*initialSizeItem).Take(initialSizeItem),
-                ReportPeriod = DateTime.Now
+                    .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem),
+                ReportPeriod = DateTime.Now,
+                PagingInfo = new PagingInfo{
+                    CurrentPage = page,
+                    ItemsPerPage = initialSizeItem,
+                    TotalItems = _bussinesEngage.GetTable<krt_Naftan>().Count()
+                }
             });
         }
 
@@ -58,7 +67,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
         /// </summary>
         /// <param name="scrollKey"></param>
-        /// <param name="period"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult Confirmed(long? scrollKey) {
@@ -72,8 +80,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен",
-                selectKrt.KEYKRT);
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен",selectKrt.KEYKRT);
 
             return RedirectToAction("Index", "Scroll");
         }
@@ -84,13 +91,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(long? scrollKey) {
-            if(scrollKey != null &&
-                _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey).FirstOrDefault() != null) {
-                return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey));
+        public ActionResult ScrollDetails(long? scrollKey,int page = 0) {
+            const byte initialSizeItem = 21;
+              if(scrollKey != null && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey).FirstOrDefault() != null) {
+                    if(Request.IsAjaxRequest()) {
+                        return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt == scrollKey)
+                            .OrderByDescending(x => x.keykrt).Skip(page*initialSizeItem).Take(initialSizeItem));
+                    }
+
+                return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
+                    .OrderByDescending(x => x.keykrt).Skip(page*initialSizeItem).Take(initialSizeItem));
             }
 
-            TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
+            //TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
 
             return RedirectToAction("Index", "Scroll");
         }
@@ -132,9 +145,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
                 WebClient client = new WebClient {
                     Credentials =
-                        new CredentialCache
-                        {
-                            {
+                        new CredentialCache{{
                                 new Uri("http://db2"),
                                 @"ntlm",
                                 new NetworkCredential(@"CPN", @"1111", @"LAN")
@@ -186,7 +197,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
             }
 
-            return RedirectToAction("Index", "Scroll");
+            return new EmptyResult();
         }
     }
 }

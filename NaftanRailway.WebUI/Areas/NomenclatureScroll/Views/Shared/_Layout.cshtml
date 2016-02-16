@@ -10,10 +10,7 @@
     <meta http-equiv="refresh" content="18000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @Styles.Render("~/Content/cssbundle")
-    <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon"/>
-    <!--[if lte IE 8]>
-        
-    <![endif]-->
+    <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon"/>
 </head>
 <body>
     <div class="navbar-custom navbar-fixed-top">
@@ -50,7 +47,7 @@
                                     <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
                                     <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName="orc-bch_corrections" }, null)</li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">Таблица перечней</a></li>
+                                    <li>@Html.RouteLink("Таблица перечней",new RouteValueDictionary(){{"page",1}})</li>
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"

@@ -1,89 +1,104 @@
 ﻿using System;
 using System.Text;
 using System.Web.Mvc;
-using NaftanRailway.WebUI.Models;
+using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.HtmlHelpers {
     /// <summary>
-    /// extenstion html helper basic class
+    /// Extenstion html helper basic class
     /// </summary>
     public static class PagingHelpers {
         /// <summary>
-        /// The PageLinks extension method generates the HTML for a set of page links 
+        /// The PageLinks extension method(HtmlHelper) generates the HTML for a set of page links 
         /// using the information provided in a PagingInfo object. 
         /// The Func parameter accepts a delegate that it uses to generate the links to view other pages.
+        /// Bootsrap pagination
         /// </summary>
         /// <param name="html">Extention</param>
         /// <param name="pagingInfo">PagignInfo object</param>
         /// <param name="sizePatginatonBar">Size pagination bar</param>
         /// <param name="pageUrl">Route Url</param>
         /// <returns></returns>
-        public static MvcHtmlString PageLinks(this HtmlHelper html,PagingInfo pagingInfo,int sizePatginatonBar,Func<int,string> pageUrl) {
+        public static MvcHtmlString PageLinks(this HtmlHelper html, PagingInfo pagingInfo, int sizePatginatonBar, Func<int, string> pageUrl) {
             //if (html == null) throw new ArgumentNullException("html");
 
             StringBuilder result = new StringBuilder();
 
-            int startIndex =(int) Math.Max(1,
+            //for best view paging (selection always in middle)
+            int startIndex =(int)Math.Max(1,
                 Math.Max(0, pagingInfo.CurrentPage - (int)Math.Round((double)sizePatginatonBar/2)) -
-                Math.Max(0,Math.Round((double)(pagingInfo.CurrentPage - (pagingInfo.TotalPages - sizePatginatonBar)) / 2)));
+                Math.Max(0, Math.Round((double)(pagingInfo.CurrentPage - (pagingInfo.TotalPages - sizePatginatonBar)) / 2)));
 
             int endIndex = Math.Min(pagingInfo.TotalPages, startIndex + sizePatginatonBar);
 
             #region Previos Page
-                TagBuilder tag = new TagBuilder("a");
+                TagBuilder ulTag = new TagBuilder("ul");
+                ulTag.AddCssClass("pagination");
+                TagBuilder stliTag = new TagBuilder("li");
+                if(pagingInfo.CurrentPage == startIndex ) {
+                       stliTag.AddCssClass("disabled");
+                }
+                TagBuilder atag = new TagBuilder("a");
+                //retrive url
+                atag.MergeAttribute("href", pagingInfo.CurrentPage > 1 ? pageUrl(pagingInfo.CurrentPage - 1) : pageUrl(1));
+                atag.MergeAttribute("aria-label", "Previous");
 
-                tag.MergeAttribute("href", pagingInfo.CurrentPage > 1 ? 
-                    pageUrl(pagingInfo.CurrentPage - 1) 
-                    : pageUrl(1));
+                TagBuilder stspanTag = new TagBuilder("span");
+                stspanTag.MergeAttribute("aria-hidden", "true");
+                stspanTag.InnerHtml = "&laquo";
 
-                tag.MergeAttribute("aria-label","Previous");
-                tag.AddCssClass("btn btn-default");
-
-                TagBuilder childtag = new TagBuilder("span");
-                childtag.MergeAttribute("aria-hidden","true");
-                childtag.InnerHtml = "&laquo";
-
-                tag.InnerHtml = childtag.ToString();
-                result.Append(tag);
+                atag.InnerHtml = stspanTag.ToString();
+                stliTag.InnerHtml = atag.ToString();
+                //ulTag.InnerHtml = stliTag.ToString();
+                //result.Append(ulTag);
             #endregion
 
             #region PageLinks
-                for (int i = startIndex; i <= endIndex;i++) {
+            string linkPage = "";
+                for(int i = startIndex; i <= endIndex; i++) {
+                    TagBuilder lipageTag = new TagBuilder("li");
+                    if(i == pagingInfo.CurrentPage) {
+                        lipageTag.AddCssClass("active");
+                    }
 
-                TagBuilder pagetag = new TagBuilder("a");
+                    TagBuilder apagetag = new TagBuilder("a");
+                    TagBuilder srSpan = new TagBuilder("span");
+                        srSpan.AddCssClass("sr-only");
+                    srSpan.InnerHtml = "(current)";
+                    apagetag.MergeAttribute("href", pageUrl(i));
+                        if(i == pagingInfo.CurrentPage) {
+                            lipageTag.AddCssClass("active");
+                            apagetag.InnerHtml = i + srSpan.ToString(); 
+                        }
+                    apagetag.InnerHtml = i.ToString();
 
-                pagetag.MergeAttribute("href",pageUrl(i));
-                pagetag.InnerHtml = i.ToString();
-
-                if (i == pagingInfo.CurrentPage) {
-                    pagetag.AddCssClass("selected");
-                    pagetag.AddCssClass("btn-primary");
+                    lipageTag.InnerHtml = apagetag.ToString();
+                    linkPage =linkPage + lipageTag;
+                    //result.Append(lipageTag);
                 }
-
-                pagetag.AddCssClass("btn btn-default");
-
-                result.Append(pagetag);
-                }
-
             #endregion
 
             #region Next Page
+                TagBuilder endliTag = new TagBuilder("li");
+                 if(pagingInfo.CurrentPage == endIndex ) {
+                       endliTag.AddCssClass("disabled");
+                    }
                 TagBuilder nexttag = new TagBuilder("a");
 
-                nexttag.MergeAttribute("href",pagingInfo.CurrentPage < pagingInfo.TotalPages ?
-                    pageUrl(pagingInfo.CurrentPage + 1)
-                    : pageUrl(pagingInfo.TotalPages));
+                nexttag.MergeAttribute("href", pagingInfo.CurrentPage < pagingInfo.TotalPages ? pageUrl(pagingInfo.CurrentPage + 1): pageUrl(pagingInfo.TotalPages));
+                nexttag.MergeAttribute("aria-label", "Next");
 
-                nexttag.MergeAttribute("aria-label","Previous");
-                nexttag.AddCssClass("btn btn-default");
+                TagBuilder endSpanTag = new TagBuilder("span");
+                endSpanTag.MergeAttribute("aria-hidden", "true");
+                endSpanTag.InnerHtml = "&raquo";
 
-                TagBuilder chilNexttagdtag = new TagBuilder("span");
-                chilNexttagdtag.MergeAttribute("aria-hidden","true");
-                chilNexttagdtag.InnerHtml = "&raquo";
-
-                nexttag.InnerHtml = chilNexttagdtag.ToString();
-                result.Append(nexttag);
+                nexttag.InnerHtml = endSpanTag.ToString();
+                endliTag.InnerHtml = nexttag.ToString();
+                //result.Append(endliTag);
             #endregion
+
+            ulTag.InnerHtml = stliTag + linkPage + endliTag;
+            result.Append(ulTag);
 
             return MvcHtmlString.Create(result.ToString());
         }

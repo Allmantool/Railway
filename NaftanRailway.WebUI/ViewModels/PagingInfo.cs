@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace NaftanRailway.WebUI.Models {
+namespace NaftanRailway.WebUI.ViewModels {
     /// <summary>
-    /// View model. For passing information between model and view throught action
+    /// View model. For passing information about paging between model and view throught action
     /// </summary>
     public class PagingInfo {
         public int TotalItems { get; set; }

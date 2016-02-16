@@ -51,7 +51,7 @@ $(function() {
     });
 });
 
-/*Change color selecting panel */
+/*Change color selecting panel ceh18*/
 $(function() {
     $("div .panel").filter("[id^='myPanel']").mouseover(function() {
         if (!$(this).hasClass('panel-success')) {
@@ -111,7 +111,7 @@ $('.modal').modal('hide');
 }                                           
 
 /*Event click on table row + mark as work row for ajax request*/
-$('#scrolList').on('click', function (e) {
+$('#scrollList').on('click', function (e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
@@ -128,7 +128,7 @@ $('#scrolList').on('click', function (e) {
     chkRow.attr('id', 'updateRow');
 
     /*color row (selected)*/
-    $('#scrolList').children('tr').not(chkRow).each(function(index, value) {
+    $('#scrollList').children('tr').not(chkRow).each(function(index, value) {
         if ($(value).find('.confirmed').val() === "False") {
             $(value).removeClass('info').addClass('success');
         } else {
@@ -176,30 +176,31 @@ $("a[href='#top']").on('click', function() {
 /* infinite scrolling (get information thoughout ajax request)*/
 $(function() {
     $.support.cors = true;
-    $('div#loading').hide();
+    $('div#loadingInfiniteScroll').hide();
 
     var page = 0;
     var inCallback = false;
 
-    function loadItems() {
+    function loadItems(e) {
         if (page > -1 && !inCallback) {
             inCallback = true;
             page++;
 
-            $('div#loading').show();
+            $('div#loadingInfiniteScroll').show();
 
             $.ajax({
                 cache: false,
                 type: 'GET',
-                url: 'Scroll/Index/' + page,
+                url: 'Scroll/ScrollDetails/',
+                data:{scrollKey:$('#key').text(),page:page},
                 success: function(data) {
                     if (data !== '') {
-                        $("#scrolList").append(data);
+                        $("#chargeOfList").append(data);
                     } else {
                         page = -1;
                     }
                     inCallback = false;
-                    $("div#loading").hide();
+                    $("div#loadingInfiniteScroll").hide();
                 }
             });
         }
@@ -210,8 +211,9 @@ $(function() {
     doc.Height = высота всего документа
     win.Height = высота вид. окна
     */
+
     $(window).on('scroll', function() {
-        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 27) {
+        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 21 && window.location.pathname.indexOf("ScrollDetails")) > 0) {
             loadItems();
         }
     });

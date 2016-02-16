@@ -7,7 +7,10 @@
 .table tbody>tr>td.vert-align{
     vertical-align: middle;
 }
-
+/*paging*/
+.pagination  {
+    margin: 0px;   
+}
 /*custom navbar*/
 .navbar-custom {
   background-color: #6e3007;

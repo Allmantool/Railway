@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.WebUI.Models;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {

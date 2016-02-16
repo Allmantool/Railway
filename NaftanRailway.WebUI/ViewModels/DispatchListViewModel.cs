@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.WebUI.Models;
 
 namespace NaftanRailway.WebUI.ViewModels {
     public class DispatchListViewModel {
