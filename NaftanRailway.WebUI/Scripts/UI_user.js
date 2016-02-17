@@ -151,7 +151,7 @@ $('#scrollList').on('click', function (e) {
     $('#ReportPeriod').attr('value', dpDate);
 
     /*Update link (parameters in link) to show correct Report server (modal & menu links)*/
-    var str = "Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate, 'MMMM YYYY').year();
+    var str = "/Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate, 'MMMM YYYY').year();
     var strDetails = "Scroll/ScrollDetails?scrollKey=" + $('#HiddenInputModal').val();
 
     $('#reportShow').attr('href', (str));
@@ -213,7 +213,9 @@ $(function() {
     */
 
     $(window).on('scroll', function() {
-        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 21 && window.location.pathname.indexOf("ScrollDetails")) > 0) {
+        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 21
+            && window.location.pathname.indexOf("ScrollDetails")) > 0
+            && navigator.appName !== "Microsoft Internet Explorer") {
             loadItems();
         }
     });

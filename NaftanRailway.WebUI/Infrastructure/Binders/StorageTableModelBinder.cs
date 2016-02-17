@@ -12,7 +12,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Binders {
             if(controllerContext.HttpContext.Session !=null) {
                 storage = (SessionStorage)controllerContext.HttpContext.Session[SessionKey];
             }
-
+              
             //create the Storage if there wasn't one in the session data
             if(storage==null) {
                 storage = new SessionStorage();

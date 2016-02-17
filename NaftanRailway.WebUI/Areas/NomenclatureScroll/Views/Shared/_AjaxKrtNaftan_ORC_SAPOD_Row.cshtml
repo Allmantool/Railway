@@ -15,16 +15,16 @@
         <td class="text-right vert-align">@item.stnds.ToString(@"#,#0'%'")</td>
         <td class="vert-align" style="white-space: nowrap">@item.txt</td>
         <td class="vert-align">@item.p_type</td>
-        <td class="vert-align">@item.namesbr</td>
-        <td class="vert-align"  style="color:" @((item.ORC_ID_ED != @item.ID_ED)?"red":"black")>@item.ORC_ID_ED</td>
-        <td class="success vert-align" style="color:" @((item.ORC_ID_ED != @item.ID_ED)?"red":"black")>@item.ID_ED</td>
-        <td class="success vert-align">@item.textm</td>
+        <td class="vert-align text-left" style="min-width: 230px;">@item.namesbr</td>
+        <td class="vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ORC_ID_ED</td>
+        <td class="success vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ID_ED</td>
+        <td class="success vert-align" style="@(item.textm != null && item.textm.Length>40?@"min-width:320px;":"white-space:nowrap")">@item.textm</td>
         <td class="success vert-align">@item.cod_sbor</td>
         <td class="success vert-align">
         @{if(@item.cod_sbor !=null){
             @((Regex.IsMatch(@item.cod_sbor.ToString(), @"30[01]", RegexOptions.IgnoreCase)) 
                 ? @item.date_raskr.Value.ToString() 
-                : @item.date_raskr.Value.ToShortDateString());
+                : @item.date_raskr.Value.ToShortDateString());                      
         }}
         </td>
         <td class="success vert-align">@item.num_doc</td>

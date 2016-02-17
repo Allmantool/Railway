@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -23,24 +25,28 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index(int page = 1) {
-            const byte initialSizeItem = 13;
+            const byte initialSizeItem = 47;
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
 
-            if(Request.IsAjaxRequest()) {
-                return  new EmptyResult();
-            //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
-            //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
-            }
-
-            return View(new IndexModelView() {
-                ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>()
-                    .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem),
-                ReportPeriod = DateTime.Now,
-                PagingInfo = new PagingInfo{
-                    CurrentPage = page,
-                    ItemsPerPage = initialSizeItem,
-                    TotalItems = _bussinesEngage.GetTable<krt_Naftan>().Count()
+            if(page >=1 && page <= recordCount) {
+                if(Request.IsAjaxRequest()) {
+                    return new EmptyResult();
+                    //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
+                    //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
                 }
-            });
+
+                return View(new IndexModelView() {
+                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>()
+                        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem),
+                    ReportPeriod = DateTime.Now,
+                    PagingInfo = new PagingInfo {
+                        CurrentPage = page,
+                        ItemsPerPage = initialSizeItem,
+                        TotalItems = recordCount
+                    }
+                });
+            }
+            return RedirectToAction("Index",new RouteValueDictionary(){{"page",1}});
         }
 
         /// <summary>
@@ -73,34 +79,33 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             var selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == scrollKey).FirstOrDefault();
 
-            if(ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
+            if(Request.IsAjaxRequest() && ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml",
-                    new[] { selectKrt });
-                //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",numberKeykrt},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
+                //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен",selectKrt.KEYKRT);
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", selectKrt.KEYKRT);
 
             return RedirectToAction("Index", "Scroll");
         }
-
+           
         /// <summary>
         /// Return krt_Naftan_orc_sapod
         /// Detail gathering of one scroll 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(long? scrollKey,int page = 0) {
+        public ActionResult ScrollDetails(long? scrollKey, int page = 1) {
             const byte initialSizeItem = 21;
-              if(scrollKey != null && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey).FirstOrDefault() != null) {
-                    if(Request.IsAjaxRequest()) {
-                        return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x=>x.keykrt == scrollKey)
-                            .OrderByDescending(x => x.keykrt).Skip(page*initialSizeItem).Take(initialSizeItem));
-                    }
+            if(scrollKey != null && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey).FirstOrDefault() != null) {
+                if(Request.IsAjaxRequest()) {
+                    return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
+                        .OrderByDescending(x =>new { x.keykrt,x.keysbor}).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
+                }
 
                 return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
-                    .OrderByDescending(x => x.keykrt).Skip(page*initialSizeItem).Take(initialSizeItem));
+                    .OrderByDescending(x => x.keykrt).ThenBy(y=>y.keysbor).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
             }
 
             TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");

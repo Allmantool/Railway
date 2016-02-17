@@ -19,13 +19,14 @@
                 <div class="navbar-collapse collapse">
                     <div class="col-md-10">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown col-lg-2 row"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
-                                    Перечней ОРЦ</b><span class="caret"></span></a>
+                            <li class="dropdown col-lg-2 row">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал<br/>Перечней ОРЦ</b><span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll",
-                                            new { period = "", scrollKey = "" },
-                                            new AjaxOptions {
+                                            new {period = "", scrollKey = ""},
+                                            new AjaxOptions{
                                                 OnSuccess = "UpdateData",
                                                 //Url = @Url.Action("Confirmed","Scroll"),
                                                 OnFailure = "UpdateFailure",
@@ -36,18 +37,18 @@
                                                 //UpdateTargetId ="" 
                                                 //InsertionMode = InsertionMode.Replace
                                             },
-                                            new { id = "Reglink" })
+                                            new {id = "Reglink"})
                                     <li>@Html.ActionLink("Отчёт проверки перечня", "ErrorReport", "Scroll",
-                                        new { numberKrt = "", reportYear = "" },
-                                        new { id = "MenuLinkErrReport" })
+                                            new {numberKrt = "", reportYear = ""},
+                                            new {id = "MenuLinkErrReport"})
                                     </li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
-                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new { scrollKey = "" }, new { id = "scrollDetails" })</li>
+                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new {scrollKey = ""}, new {id = "scrollDetails"})</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
-                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_corrections" }, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_compare_new"}, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_corrections"}, null)</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() { { "page", 1 }, { "action", "index" } })</li>
+                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() {{"page", 1}, {"action", "index"}})</li>
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -59,14 +60,14 @@
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
-                                    Актов<br />
+                                    Актов
                                     ГУ-23</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-4"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
-                                    Накопительных карточек ФДУ-92</b><span class="caret"></span></a>
+                                    Накопительных карточек<br/>ФДУ-92</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                 </ul>
                             </li>
@@ -74,8 +75,8 @@
                     </div>
                     <div class="col-md-2">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a>
-                            </li>
+                            @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
+                            <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
                         </ul>
                     </div>
                 </div>
