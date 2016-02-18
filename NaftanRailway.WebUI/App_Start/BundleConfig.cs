@@ -24,7 +24,7 @@ namespace NaftanRailway.WebUI {
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8")
                 .Include("~/Scripts/modernizr-custom.js",
                           "~/Scripts/respond.min.js"));
-                    
+
             bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
                 .Include("~/Scripts/UI_user.js"));
 

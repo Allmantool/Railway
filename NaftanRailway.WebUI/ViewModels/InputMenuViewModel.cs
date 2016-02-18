@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Web.Mvc;
+using NaftanRailway.WebUI.Infrastructure.Binders;
 
 namespace NaftanRailway.WebUI.ViewModels {
     /// <summary>
     /// User Input object
     /// </summary>
+    //[ModelBinder(typeof(InputMenuModelBinder ))]
     public class InputMenuViewModel {
         /// <summary>
         /// Reporting period (Отчётный период месяц/год)

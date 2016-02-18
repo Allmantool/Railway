@@ -28,6 +28,17 @@ namespace NaftanRailway.WebUI {
              (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
              */
             WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
+
+            /*Custom value provider (order sense)
+             * (First)
+             * ValueProviderFactories.Factories.Insert(0,new CustomValueProviderFactory());
+             * (End)
+             * ValueProviderFactories.Factories.Add(new CustomValueProviderFactory());
+             */
+
+            /*Controller Builder
+            ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
+            */
         }
     }
 }

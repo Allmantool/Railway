@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NaftanRailway.Domain.Abstract;
@@ -24,6 +23,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
             const byte initialSizeItem = 47;
             int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
@@ -46,6 +46,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     }
                 });
             }
+            
             return RedirectToAction("Index",new RouteValueDictionary(){{"page",1}});
         }
 
@@ -97,19 +98,26 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult ScrollDetails(long? scrollKey, int page = 1) {
-            const byte initialSizeItem = 21;
+            const byte initialSizeItem = 47;
+            
             if(scrollKey != null && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey).FirstOrDefault() != null) {
+                int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x=>x.keykrt ==scrollKey);
                 if(Request.IsAjaxRequest()) {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
-                        .OrderByDescending(x =>new { x.keykrt,x.keysbor}).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
+                        .OrderByDescending(x =>new { x.keykrt,x.nomot,x.keysbor}).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
                 }
-
+                //Info about paging
+                ViewBag.PagingInfo = new PagingInfo{
+                    CurrentPage = page,
+                    ItemsPerPage = initialSizeItem,
+                    TotalItems = recordCount
+                };
                 return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
-                    .OrderByDescending(x => x.keykrt).ThenBy(y=>y.keysbor).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
+                    .OrderByDescending(x => x.keykrt).ThenBy(z=>z.nomot).ThenBy(y=>y.keysbor).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
             }
 
             TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
-
+            
             return RedirectToAction("Index", "Scroll");
         }
 
@@ -156,10 +164,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                                 new NetworkCredential(@"CPN", @"1111", @"LAN")
                             }
                         }
-                };
-
-                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel",
-                    String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
+                };;
+                return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel",String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
             }
 
             TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
