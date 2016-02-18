@@ -24,7 +24,12 @@ namespace NaftanRailway.WebUI.Infrastructure.Binders {
 
             return infoLine;
         }
-
+        /*Use the IValueProvider implementation obtained from the  
+          ModelBindingContext.ValueProvider property to get values for the model object properties. 
+          ModelName property tells me if there is a prefix 
+          You will recall that the action method is trying to create a collection of AddressSummary objects, which means that the 
+          individual input elements will have name attribute values that are prefixed [0] and [1]
+          I supply a default value of <Not Specified> if I can’t find a value for a property or the property is the empty string*/
         private string GetValue(ModelBindingContext context,string name) {
             name = (context.ModelName == "" ? "" : context.ModelName + ".") + name;
 

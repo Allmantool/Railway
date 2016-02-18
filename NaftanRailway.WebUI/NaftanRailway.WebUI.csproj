@@ -317,6 +317,8 @@
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\ValidationAttributes\MustBeTrueAttribute.cs" />
+    <Compile Include="Infrastructure\ValueProvider\CountryValueProvider.cs" />
+    <Compile Include="Infrastructure\ValueProvider\CustomValueProviderFactory.cs" />
     <Compile Include="ViewModels\DispatchListViewModel.cs" />
     <Compile Include="ViewModels\InfoLineViewModel.cs" />
     <Compile Include="ViewModels\InputMenuViewModel.cs" />
@@ -636,6 +638,7 @@
     <Content Include="Views\Shared\Errors.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>

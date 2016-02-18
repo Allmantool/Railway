@@ -106,7 +106,6 @@ function UpdateData(dataRow) {
     messageInfo.empty().append('Успешно добавлен перечень №' + nper);
     //  request to ReportServer
     window.location.href = $('#reportShow').attr('href');
-
 $('.modal').modal('hide');
 }                                           
 
@@ -211,7 +210,6 @@ $(function() {
     doc.Height = высота всего документа
     win.Height = высота вид. окна
     */
-
     $(window).on('scroll', function() {
         if (($(window).scrollTop() >= $(document).height() - $(window).height() - 21
             && window.location.pathname.indexOf("ScrollDetails")) > 0
