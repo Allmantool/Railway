@@ -136,6 +136,7 @@
         </ObjectGroup>
       </Objects>
     </PublishDatabaseSettings>
+    <PackageAsSingleFile>true</PackageAsSingleFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">

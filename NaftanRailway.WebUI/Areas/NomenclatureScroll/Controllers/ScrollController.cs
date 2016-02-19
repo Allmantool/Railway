@@ -3,12 +3,14 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
+    //[SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : Controller {
         private readonly IBussinesEngage _bussinesEngage;
 

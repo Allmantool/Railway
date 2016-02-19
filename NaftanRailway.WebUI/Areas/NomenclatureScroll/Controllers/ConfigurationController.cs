@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    public class ConfigurationController : Controller {
+    public class ConfigurationController : AsyncController {
         /// <summary>
         /// Configuration page
         /// </summary>
