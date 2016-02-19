@@ -3,13 +3,16 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.SessionState;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
+using NaftanRailway.WebUI.Infrastructure.Filters;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    public class ScrollController : Controller {
+    //[SessionState(SessionStateBehavior.ReadOnly)] 
+    public class ScrollController : AsyncController {
         private readonly IBussinesEngage _bussinesEngage;
 
         public ScrollController(IBussinesEngage bussinesEngage) {
@@ -104,7 +107,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x=>x.keykrt ==scrollKey);
                 if(Request.IsAjaxRequest()) {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == scrollKey)
-                        .OrderByDescending(x =>new { x.keykrt,x.nomot,x.keysbor}).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
+                        .OrderByDescending(x =>new { x.keykrt,x.nomot,x.keysbor}).Skip((page)*initialSizeItem).Take(initialSizeItem));
                 }
                 //Info about paging
                 ViewBag.PagingInfo = new PagingInfo{
@@ -130,6 +133,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [FileDownloadCompleteFilter]
         public ActionResult ErrorReport(string reportName, long? numberKrt, int? reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
@@ -163,8 +167,10 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                                 @"ntlm",
                                 new NetworkCredential(@"CPN", @"1111", @"LAN")
                             }
-                        }
-                };;
+                        },
+                    
+                };
+                //Response.AddHeader("Content-Disposition", "inline; filename=test.pdf");
                 return File(client.DownloadData(urlReportString), @"application/vnd.ms-excel",String.Format(@"Отчёт по переченю №{0}.xls", selectKrt.NKRT));
             }
 

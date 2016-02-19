@@ -83,13 +83,15 @@
             </div>
         </div>
     </div>
-    <div class="panel row layer">
-        @if (TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
-            <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
-        }
-        <div class="container-fluid">@RenderBody()</div>
-    </div>
-    <!--[if lte IE 8]>
+<div class="panel row layer">
+    @if (TempData["message"] != null && ((string) TempData["message"]).Length > 0)
+    {
+        <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
+    }
+    <div class="container-fluid">@RenderBody()</div>
+</div>
+
+<!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
         @Scripts.Render("~/bundles/Jquery")
         @Scripts.Render("~/bundles/BootstrapIE8")
