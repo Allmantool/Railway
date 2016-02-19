@@ -10,11 +10,11 @@ $('#sandbox-container .input-group').datepicker({
     forceParse: true
 }).on('changeDate', function(e) {
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
-//    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
-//    moment(new Date(strReportDate[1],
-//            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
-//        .format('YYYY.MM.01');
-}).on('show',function(e) {
+    //    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
+    //    moment(new Date(strReportDate[1],
+    //            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
+    //        .format('YYYY.MM.01');
+}).on('show', function(e) {
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
@@ -75,17 +75,17 @@ $(function() {
 /*Modal*/
 //hide modal when show report
 $('#reportShow').on('click', function() {
-     $('.modal').modal('hide');
+    $('.modal').modal('hide');
 });
 $('#dateModal').on('show.bs.modal', function(e) {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 
-function UpdateFailure(data) {   }
+function UpdateFailure(data) { }
 /*Update date in confirmed row(s)*/
-function UpdateDate(dataRow) {
+function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
-    var target = $("#updateRow");
+    var target = $('table').find('tr input[value*=' + $(dataRow).find('td input[class*=key]').val() + ']').parents('tr'); ;
 
     $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
         $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
@@ -97,20 +97,48 @@ function UpdateDate(dataRow) {
 /*Update data in confirmed row*/
 function UpdateData(dataRow) {
     var messageInfo = $('#loading').children('td');
-    var target = $("#updateRow");
+
+    var target = $('table').find('tr input[value*=' + $(dataRow).find('td input[class*=key]').val() + ']').parents('tr');
 
     var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
 
     target.empty().append($(dataRow).children('td'));
     $(target).find('td input[class*=radio]').attr("checked", true);
     messageInfo.empty().append('Успешно добавлен перечень №' + nper);
-    //  request to ReportServer
+
+    /*  request to ReportServer */
+
+    $('#waitModal').modal({
+        keyboard: false,
+        backdrop: 'static'
+    },'show');
+    //error report
     window.location.href = $('#reportShow').attr('href');
-$('.modal').modal('hide');
-}                                           
+    //buh report
+    if ($('#myFrame').length===0) {
+        $('<iframe />', {
+            name: 'myFrame',
+            id: 'myFrame',
+            style: "display: none",  
+            load: function() {
+                alert('iframe loaded !');
+            }
+        }).appendTo('body').attr("src", $('#reportShow').attr('href'));
+    }
+
+    $('#myFrame').on('onload', function() {
+        console.log("load");
+    }).on('onmessage',function() {
+        console.log("message");
+    });
+
+    $('#myFrame').load(function() {
+        console.log("load");
+    });
+}
 
 /*Event click on table row + mark as work row for ajax request*/
-$('#scrollList').on('click', function (e) {
+$('#scrollList').on('click', function(e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
@@ -120,11 +148,11 @@ $('#scrollList').on('click', function (e) {
     var chkRadio = chkRow.find('td input[class*=radio]');
     moment.locale('ru');
     var dpDate = moment(chkRow.children("td[class*=DTBUHOTCHET]").text(), 'MMMM YYYY').format('MMMM YYYY');
-  
+
     //check(select row)
     chkRadio.prop("checked", true);
     chkRow.addClass('info');
-    chkRow.attr('id', 'updateRow');
+    //    chkRow.attr('id', 'updateRow');
 
     /*color row (selected)*/
     $('#scrollList').children('tr').not(chkRow).each(function(index, value) {
@@ -133,7 +161,7 @@ $('#scrollList').on('click', function (e) {
         } else {
             $(value).removeClass('info success');
         }
-    //Delete id Update row and loading part
+        //Delete id Update row and loading part
         $(value).removeAttr("id");
         $('.load').remove();
     });
@@ -191,7 +219,7 @@ $(function() {
                 cache: false,
                 type: 'GET',
                 url: 'Scroll/ScrollDetails/',
-                data:{scrollKey:$('#key').text(),page:page},
+                data: { scrollKey: $('#key').text(), page: page },
                 success: function(data) {
                     if (data !== '') {
                         $("#chargeOfList").append(data);
