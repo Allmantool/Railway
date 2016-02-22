@@ -454,7 +454,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftanRow.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Scroll\ErrorReport.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Scroll\Reports.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Configuration\Index.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftan_ORC_SAPOD_Row.cshtml" />
@@ -589,6 +589,8 @@
     <Content Include="Scripts\jquery-tmpl.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.cookie-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Content\_bootstrap-datetimepicker.less" />

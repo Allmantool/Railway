@@ -8,7 +8,7 @@
             <input type="radio" name="optionsRadios" id="optionsRadios@(i++)" class="radio">
             <input type="hidden" class="hidden confirmed" value="@item.Confirmed.ToString()"/>
         </td>
-        <td class="vert-align">@item.NKRT
+        <td class="vert-align numberScroll">@item.NKRT
             <input class="hidden key" type="hidden" value="@item.KEYKRT">
         </td>
         <td class="vert-align">
@@ -16,7 +16,7 @@
                 <img alt="Состояние проверки" src="@(item.ErrorState.Value ? "/Content/Images/good_or_tick.png" : "/Content/Images/no.png")" style="width: 24px; height: 24px"/>
              }
         </td>
-        <td class="vert-align"><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
+        <td class="vert-align singCorrection"><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
         <td class="vert-align">@item.P_TYPE</td>
         <td class="vert-align DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td class="vert-align">@item.NTREB</td>

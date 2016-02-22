@@ -82,6 +82,7 @@ $('#dateModal').on('show.bs.modal', function(e) {
 });
 
 function UpdateFailure(data) { }
+
 /*Update date in confirmed row(s)*/
 function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
@@ -94,7 +95,7 @@ function UpdateDate(dateRow) {
     $('.modal').modal('hide');
 }
 
-/*Update data in confirmed row*/
+/*Update data in confirmed row + spinner (wait ssrs)*/
 function UpdateData(dataRow) {
     var messageInfo = $('#loading').children('td');
 
@@ -107,34 +108,37 @@ function UpdateData(dataRow) {
     messageInfo.empty().append('Успешно добавлен перечень №' + nper);
 
     /*  request to ReportServer */
-
     $('#waitModal').modal({
         keyboard: false,
         backdrop: 'static'
-    },'show');
+    }, 'show');
     //error report
     window.location.href = $('#reportShow').attr('href');
     //buh report
-    if ($('#myFrame').length===0) {
+    if ($('#myFrame').length === 0) {
         $('<iframe />', {
             name: 'myFrame',
             id: 'myFrame',
-            style: "display: none",  
-            load: function() {
-                alert('iframe loaded !');
-            }
-        }).appendTo('body').attr("src", $('#reportShow').attr('href'));
+            style: "display: none"
+        }).appendTo('body').attr("src", $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
+    } else {
+        //refresh
+        $('#myFrame').attr('src', $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
+        //$('#myFrame').contentWindow.location.reload();
     }
 
-    $('#myFrame').on('onload', function() {
-        console.log("load");
-    }).on('onmessage',function() {
-        console.log("message");
-    });
-
-    $('#myFrame').load(function() {
-        console.log("load");
-    });
+    var refreshIntervalId = window.setInterval(function() { //monitor for existence of cookie 
+        var cookieValue = $.cookie("SSRSfileDownloadToken"); // **uses jquery.cookie plugin
+        if (cookieValue === "true") {
+            // 100 %
+            $('#waitModal .progress-bar').css('width', '100%');
+            $('#waitModal').modal('hide');
+            $.cookie('SSRSfileDownloadToken', null, { expires: -1 }); //clears cookie
+            clearInterval(refreshIntervalId);
+        } else {
+            $('#waitModal .progress-bar').css('width', '50%');
+        }
+    }, 500); //interval is time before re-running this function
 }
 
 /*Event click on table row + mark as work row for ajax request*/
@@ -178,14 +182,18 @@ $('#scrollList').on('click', function(e) {
     $('#ReportPeriod').attr('value', dpDate);
 
     /*Update link (parameters in link) to show correct Report server (modal & menu links)*/
-    var str = "/Scroll/ErrorReport?numberKrt=" + $('#HiddenInputModal').val() + "&reportYear=" + moment(dpDate, 'MMMM YYYY').year();
-    var strDetails = "Scroll/ScrollDetails?scrollKey=" + $('#HiddenInputModal').val();
+    var arg = $.trim($('.info .numberScroll').text()) + "/" + moment(dpDate, 'MMMM YYYY').year();
+    var correctionState = (($('.info .singCorrection span').attr('class').length > 0) ? "krt_Naftan_Scroll_compare_Correction" : "krt_Naftan_Scroll_Compare_Normal");
+    var errorReportStr = "Scroll/Reports/" + correctionState + "/" + arg;
+    var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
+    var strDetails = "Scroll/ScrollDetails/" + arg;
 
-    $('#reportShow').attr('href', (str));
-    $('#MenuLinkErrReport').attr('href', (str));
+    $('#reportShow').attr('href', errorReportStr);
+    $('#MenuLinkErrReport').attr('href', errorReportStr);
+    $('#MenuLinkBookKeeperReport').attr('href', bookKeeperStr);
     $('#scrollDetails').attr("href", strDetails);
     //Confirmed
-    var strAdd = "/Scroll/Confirmed?scrollKey=" + srcKey.val() + "&period=" + moment(dpDate, 'MMMM YYYY').format('DD.MM.YYYY');
+    var strAdd = "Scroll/Confirmed/" + arg;
     $('#Reglink').attr('href', (strAdd));
 
     /*change date*/

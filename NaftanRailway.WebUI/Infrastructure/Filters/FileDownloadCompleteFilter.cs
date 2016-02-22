@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web.Caching;
+using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// <summary>
@@ -6,7 +7,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// </summary>
     public class FileDownloadCompleteFilter : ActionFilterAttribute {
         public override void OnResultExecuted(ResultExecutedContext filterContext) {
-
+            base.OnResultExecuted(filterContext);
         }
     }
 }
