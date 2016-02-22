@@ -120,9 +120,9 @@ function UpdateData(dataRow) {
             name: 'myFrame',
             id: 'myFrame',
             style: "display: none",  
-            load: function() {
-                alert('iframe loaded !');
-            }
+//            load: function() {
+//                alert('iframe loaded !');
+//            }
         }).appendTo('body').attr("src", $('#reportShow').attr('href'));
     }
 

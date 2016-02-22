@@ -19,36 +19,35 @@
                 <div class="navbar-collapse collapse">
                     <div class="col-md-10">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown col-lg-2 row">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <b>Журнал<br/>Перечней ОРЦ</b><span class="caret"></span>
-                                </a>
+                            <li class="dropdown col-lg-2 row"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Перечней ОРЦ</b><span class="caret"></span> </a>
                                 <ul class="dropdown-menu">
                                     <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll",
-                                            new {period = "", scrollKey = ""},
-                                            new AjaxOptions{
-                                                OnSuccess = "UpdateData",
-                                                //Url = @Url.Action("Confirmed","Scroll"),
-                                                OnFailure = "UpdateFailure",
-                                                HttpMethod = "Post",
-                                                //UpdateTargetId = "updateRow",
-                                                LoadingElementDuration = 1200,
-                                                LoadingElementId = "loading",
-                                                //UpdateTargetId ="" 
-                                                //InsertionMode = InsertionMode.Replace
-                                            },
-                                            new {id = "Reglink"})
+                                        new { period = "", scrollKey = "" },
+                                        new AjaxOptions {
+                                            OnSuccess = "UpdateData",
+                                            //Url = @Url.Action("Confirmed","Scroll"),
+                                            OnFailure = "UpdateFailure",
+                                            HttpMethod = "Post",
+                                            //UpdateTargetId = "updateRow",
+                                            LoadingElementDuration = 1200,
+                                            LoadingElementId = "loading",
+                                            //UpdateTargetId ="" 
+                                            //InsertionMode = InsertionMode.Replace
+                                        },
+                                        new { id = "Reglink" })
                                     <li>@Html.ActionLink("Отчёт проверки перечня", "ErrorReport", "Scroll",
-                                            new {numberKrt = "", reportYear = ""},
-                                            new {id = "MenuLinkErrReport"})
+                                        new { numberKrt = "", reportYear = "" },
+                                        new { id = "MenuLinkErrReport" })
                                     </li>
                                     <li><a href="#">Отчёт для бухгалтерии</a></li>
-                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new {scrollKey = ""}, new {id = "scrollDetails"})</li>
+                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new { scrollKey = "" }, new { id = "scrollDetails" })</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_compare_new"}, null)</li>
-                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new {reportName = "orc-bch_corrections"}, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_compare_new" }, null)</li>
+                                    <li>@Html.ActionLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ErrorReport", "Scroll", new { reportName = "orc-bch_corrections" }, null)</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() {{"page", 1}, {"action", "index"}})</li>
+                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() { { "page", 1 }, { "action", "index" } })</li>
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -67,7 +66,8 @@
                             </li>
                             <li class="dropdown col-lg-5"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                 role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
-                                    Накопительных карточек<br/>ФДУ-92</b><span class="caret"></span></a>
+                                    Накопительных карточек<br />
+                                    ФДУ-92</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                 </ul>
                             </li>
@@ -76,26 +76,25 @@
                     <div class="col-md-2">
                         <ul class="nav navbar-nav navbar-right">
                             @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
-                            <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                            <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user">
+                            </span></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<div class="panel row layer">
-    @if (TempData["message"] != null && ((string) TempData["message"]).Length > 0)
-    {
-        <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
-    }
-    <div class="container-fluid">@RenderBody()</div>
-</div>
-
-<!--[if lte IE 8]>
+    <div class="panel row layer">
+        @if (TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
+            <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
+        }
+        <div class="container-fluid">@RenderBody()</div>
+    </div>
+    <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
-        @Scripts.Render("~/bundles/Jquery")
-        @Scripts.Render("~/bundles/BootstrapIE8")
-        @Scripts.Render("~/bundles/UserFunctions")
+    @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/BootstrapIE8")
+    @Scripts.Render("~/bundles/UserFunctions")
 <![endif]-->
     <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")

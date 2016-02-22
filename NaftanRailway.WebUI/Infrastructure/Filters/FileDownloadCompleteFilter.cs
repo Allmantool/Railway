@@ -6,7 +6,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// </summary>
     public class FileDownloadCompleteFilter : ActionFilterAttribute {
         public override void OnResultExecuted(ResultExecutedContext filterContext) {
-
+            base.OnResultExecuted(filterContext);
         }
     }
 }

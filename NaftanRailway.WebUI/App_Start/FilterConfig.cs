@@ -11,7 +11,6 @@ namespace Filters {
              Now, everytime you execute an action method according to the first initial example above, 
              * Json.NET serializer will be used instead of the standard JavaScriptSerializer.*/
             filters.Add(new JsonNetActionFilter());
-            filters.Add(new FileDownloadCompleteFilter());
         }
     }
 }
