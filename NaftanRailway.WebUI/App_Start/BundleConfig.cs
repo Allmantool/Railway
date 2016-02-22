@@ -12,7 +12,8 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/jquery-2.2.0.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Jquery")
-                .Include("~/Scripts/bootstrap.min.js",
+                .Include("~/Scripts/jquery.cookie-1.4.1.min.js",
+                         "~/Scripts/bootstrap.min.js",
                          "~/Scripts/bootstrap-datepicker.min.js",
                          "~/Content/locales/bootstrap-datepicker.ru.min.js",
                          "~/Scripts/moment-with-locales.min.js",

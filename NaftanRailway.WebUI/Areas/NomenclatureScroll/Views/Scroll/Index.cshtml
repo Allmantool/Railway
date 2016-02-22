@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="pull-right">
-                                @Html.ActionLink("Отчёт", "ErrorReport", new { numberKrt = "", reportYear = "" }, new { @class="btn btn-default", id ="reportShow" })
+                                @Html.ActionLink("Отчёт", "Reports", new { numberScroll = "", reportYear = "" }, new { @class="btn btn-default", id ="reportShow" })
                                 <button id="BtnChangeDate" type="submit" class="btn btn-primary">Изменить</button>
                             </div>
                         }
@@ -85,8 +85,8 @@
       </div>
       <div class="modal-body">
        <div class="progress">
-          <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-            <span class="sr-only">45% Complete</span>
+          <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+            <span class="sr-only">10% Complete</span>
           </div>
         </div>
       </div>
