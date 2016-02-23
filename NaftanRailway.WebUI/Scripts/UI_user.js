@@ -119,20 +119,12 @@ function UpdateData(dataRow) {
         $('<iframe />', {
             name: 'myFrame',
             id: 'myFrame',
-<<<<<<< HEAD
-            style: "display: none",  
-//            load: function() {
-//                alert('iframe loaded !');
-//            }
-        }).appendTo('body').attr("src", $('#reportShow').attr('href'));
-=======
             style: "display: none"
         }).appendTo('body').attr("src", $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
     } else {
         //refresh
         $('#myFrame').attr('src', $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
         //$('#myFrame').contentWindow.location.reload();
->>>>>>> 62abf0d42ba702bde9c78f340bf491e28d7f375c
     }
 
     var refreshIntervalId = window.setInterval(function() { //monitor for existence of cookie 
