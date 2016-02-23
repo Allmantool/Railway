@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -32,7 +33,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const byte initialSizeItem = 47;
             int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
 
-            if(page >= 1 && page <= recordCount) {
+            if(page >= 1 && page <= Math.Ceiling((recordCount/(decimal)initialSizeItem))) {
                 if(Request.IsAjaxRequest()) {
                     return new EmptyResult();
                     //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
@@ -50,7 +51,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     }
                 });
             }
-
+            TempData["message"] = @"Укажите верную страницу";
+            ModelState.AddModelError("ErrPage",@"Укажите верную страницу");
             return RedirectToAction("Index", new RouteValueDictionary() { { "page", 1 } });
         }
 
@@ -86,11 +88,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if(Request.IsAjaxRequest() && ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml",new[] { selectKrt });
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен",numberScroll);
+            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", numberScroll);
 
             return RedirectToAction("Index", "Scroll");
         }
@@ -221,11 +223,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Reports(string reportName, int? numberScroll, int? reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
-                                                                     
+
             //link to SSRS buil-in repors
             if(numberScroll == null || reportYear == null) {
                 string urlReportString = string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
-                    serverName, folderName,reportName,@"rs:Command=Render");
+                    serverName, folderName, reportName, @"rs:Command=Render");
 
                 return View("Reports", (object)urlReportString);
             }
@@ -251,11 +253,24 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll)
                     : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
 
-                var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel", nameFile);
+                //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
+                //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
+                string contentDisposition;
+                if(Request.Browser.Browser == "IE" && (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
+                    contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
+                else if(Request.Browser.Browser == "Safari")
+                    contentDisposition = "attachment; filename=" + nameFile;
+                else
+                    contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
+
+                //name file (with encoding)
+                Response.AddHeader("Content-Disposition", contentDisposition);
+                var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel");
 
                 //For js spinner and complete donwload callback
                 Response.Cookies.Clear();
                 Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
+
                 return returnFile;
             }
             TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");

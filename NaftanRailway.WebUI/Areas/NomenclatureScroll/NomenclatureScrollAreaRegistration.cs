@@ -12,13 +12,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "ReportRoutesWithParams",
                 url: "Nomenclature/{controller}/{action}/{reportName}/{numberScroll}/{reportYear}",
-                defaults: new { action = "Reports", controller ="Scroll" },
+                defaults: new { action = "Reports", controller ="Scroll"},
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
                 name: "DetailsRoutesWithParams",
-                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}",
-                defaults: new { action = "ScrollDetails", controller ="Scroll" },
+                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
+                defaults: new { action = "ScrollDetails", controller ="Scroll",page = UrlParameter.Optional },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
