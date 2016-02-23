@@ -86,7 +86,7 @@ function UpdateFailure(data) { }
 /*Update date in confirmed row(s)*/
 function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
-    var target = $('table').find('tr input[value*=' + $(dataRow).find('td input[class*=key]').val() + ']').parents('tr'); ;
+    var target = $('table').find('tr input[value*=' + $(dateRow).find('td input[class*=key]').val() + ']').parents('tr'); ;
 
     $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
         $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
@@ -113,18 +113,32 @@ function UpdateData(dataRow) {
         backdrop: 'static'
     }, 'show');
     //error report
-    window.location.href = $('#reportShow').attr('href');
-    //buh report
-    if ($('#myFrame').length === 0) {
+
+    var reportStr = $('#reportShow').attr('href');
+//    window.location.assign( $('base').attr('href') + reportStr);
+    if ($('#errFrame').length === 0) {
         $('<iframe />', {
-            name: 'myFrame',
-            id: 'myFrame',
+            name: 'errFrame',
+            id: 'errFrame',
             style: "display: none"
-        }).appendTo('body').attr("src", $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
+        }).appendTo('body').attr("src", reportStr);
     } else {
         //refresh
-        $('#myFrame').attr('src', $('#reportShow').attr('href').replace('ErrorReport', 'BookkeeperReport'));
-        //$('#myFrame').contentWindow.location.reload();
+        $('#errFrame').attr('src', reportStr);
+    }
+
+    //buh report
+    var arrSplit = reportStr.split('/');
+    arrSplit[2] = 'krt_Naftan_BookkeeperReport';
+    if ($('#BuhFrame').length === 0) {
+        $('<iframe />', {
+            name: 'BuhFrame',
+            id: 'BuhFrame',
+            style: "display: none"
+        }).appendTo('body').attr("src", arrSplit.join('/'));
+    } else {
+        //refresh
+        $('#BuhFrame').attr('src', arrSplit.join('/'));
     }
 
     var refreshIntervalId = window.setInterval(function() { //monitor for existence of cookie 
@@ -226,8 +240,8 @@ $(function() {
             $.ajax({
                 cache: false,
                 type: 'GET',
-                url: 'Scroll/ScrollDetails/',
-                data: { scrollKey: $('#key').text(), page: page },
+                url: 'Scroll/ScrollDetails/' + $('#key').text() + '/' + $('#scrollDate').text(),
+               data: { page: page },
                 success: function(data) {
                     if (data !== '') {
                         $("#chargeOfList").append(data);
@@ -247,7 +261,7 @@ $(function() {
     win.Height = высота вид. окна
     */
     $(window).on('scroll', function() {
-        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 21
+        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 31
             && window.location.pathname.indexOf("ScrollDetails")) > 0
             && navigator.appName !== "Microsoft Internet Explorer") {
             loadItems();
