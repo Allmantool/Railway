@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.SessionState;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
-using NaftanRailway.WebUI.Infrastructure.Filters;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
@@ -34,14 +31,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const byte initialSizeItem = 47;
             int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
 
-<<<<<<< HEAD
-
-            if (page >= 1 && page <= recordCount) {
-                if (Request.IsAjaxRequest()) {
-=======
             if(page >= 1 && page <= Math.Ceiling((recordCount/(decimal)initialSizeItem))) {
                 if(Request.IsAjaxRequest()) {
->>>>>>> 49ca9a0e0e5065eca3a20a37a95bc544755370c6
                     return new EmptyResult();
                     //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
                     //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
@@ -94,14 +85,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (Request.IsAjaxRequest() && ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-<<<<<<< HEAD
-
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
-                //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey}{"reportYear",selectKrt.DTBUHOTCHET.Year}});
-=======
                 return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", new[] { selectKrt });
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
->>>>>>> 49ca9a0e0e5065eca3a20a37a95bc544755370c6
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", numberScroll);
@@ -142,7 +127,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .Take(initialSizeItem));
             }
 
-            TempData["message"] = String.Format(@"Для получения информации укажите подтвержденный перечень!");
+            TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";
 
             return RedirectToAction("Index", "Scroll");
         }
@@ -202,7 +187,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return returnFile;
             }
-            TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
+            TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
 
             return RedirectToAction("Index", "Scroll");
         }
