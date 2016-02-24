@@ -49,6 +49,10 @@
 @if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
     <div class="bottom-right pull-right">
         @Html.PageLinks(pageInfo, 21, x => Url.RouteUrl("DetailsRoutesWithParams", 
-            new RouteValueDictionary() {{"numberScroll",@Model.First().nper},{"reportYear",@Model.First().DtBuhOtchet.Year},{"page", x}}))
+            new RouteValueDictionary(){
+                {"numberScroll",@Model.First().nper},
+                {"reportYear",@Model.First().DtBuhOtchet.Year},
+                {"page", x}
+            }))
     </div>
 }                       

@@ -10,8 +10,12 @@ using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
+<<<<<<< HEAD
 
     //[SessionState(SessionStateBehavior.ReadOnly)] 
+=======
+    [SessionState(SessionStateBehavior.Disabled)] 
+>>>>>>> ad0852ec4fe23c6f111e5f5eb933aa8469f290f0
     public class ScrollController : AsyncController {
         private readonly IBussinesEngage _bussinesEngage;
 
