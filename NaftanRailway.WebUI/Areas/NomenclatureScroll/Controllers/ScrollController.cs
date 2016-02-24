@@ -13,7 +13,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    //[SessionState(SessionStateBehavior.ReadOnly)] 
+    [SessionState(SessionStateBehavior.Disabled)] 
     public class ScrollController : AsyncController {
         private readonly IBussinesEngage _bussinesEngage;
 

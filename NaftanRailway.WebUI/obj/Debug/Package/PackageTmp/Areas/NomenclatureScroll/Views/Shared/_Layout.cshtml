@@ -1,0 +1,108 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <base href="@(string.Format("{0}://{1}{2}Nomenclature/", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>
+    <meta name="author" content="P. Chizhikov" />
+    <meta name="Description" content="Nomenclature project" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta http-equiv="refresh" content="18000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @Styles.Render("~/Content/cssbundle")
+    <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon" />
+</head>
+<body>
+    <div class="navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="navbar-collapse collapse">
+                    <div class="col-md-10">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown col-lg-2 row">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал<br/>Перечней ОРЦ</b><span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Ajax.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll",
+                                            new {},
+                                            new AjaxOptions{
+                                                OnSuccess = "UpdateData",
+                                                Url = @Url.Action("Confirmed","Scroll"),
+                                                OnFailure = "UpdateFailure",
+                                                HttpMethod = "Post",
+                                                //UpdateTargetId = "updateRow",
+                                                LoadingElementDuration = 1200,
+                                                LoadingElementId = "loading",
+                                                //UpdateTargetId ="" 
+                                                //InsertionMode = InsertionMode.Replace
+                                            },
+                                            new {id = "Reglink"})
+                                    <li>@Html.ActionLink("Отчёт проверки перечня", "Reports", "Scroll",
+                                            new {},
+                                            new {id = "MenuLinkErrReport"})
+                                    </li>
+                                    <li>@Html.ActionLink("Отчёт для бухгалтерии", "Reports", "Scroll",
+                                            new {reportName = "krt_Naftan_BookkeeperReport"},
+                                            new {id = "MenuLinkBookKeeperReport"})</li>
+                                    <li>@Html.ActionLink("Просмотр информации по перечню", "ScrollDetails", "Scroll", new {numberScroll = "", reportYear = ""}, new {id = "scrollDetails"})</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.RouteLink("Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД",new RouteValueDictionary(){{"action", "Reports"},{"reportName","krt_Naftan_Scroll_Compare_Normal"}})</li>
+                                    <li>@Html.RouteLink("Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ReportRoutesGeneral",new RouteValueDictionary(){{"action", "Reports"}, {"reportName", "krt_Naftan_Scroll_compare_Correction"}})</li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>@Html.RouteLink("Таблица перечней", new RouteValueDictionary() {{"page", 1}, {"action", "index"}})</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Ведомостей ГУ-46</b><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown col-lg-2"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Актов<br />
+                                    ГУ-23</b><span class="caret"></span></a>
+                                <ul class="dropdown-menu"></ul>
+                            </li>
+                            <li class="dropdown col-lg-5"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                role="button" aria-haspopup="true" aria-expanded="false"><b>Журнал<br />
+                                    Накопительных карточек<br/>ФДУ-92</b><span class="caret"></span></a>
+                                <ul class="dropdown-menu"></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <ul class="nav navbar-nav navbar-right">
+                            @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
+                            <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="panel row layer">
+    @if (TempData["message"] != null && ((string) TempData["message"]).Length > 0)
+    {
+        <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
+    }
+    <div class="container-fluid">@RenderBody()</div>
+</div>
+
+<!--[if lte IE 8]>
+    @Scripts.Render("~/bundles/JQuery1")
+        @Scripts.Render("~/bundles/Jquery")
+        @Scripts.Render("~/bundles/BootstrapIE8")
+        @Scripts.Render("~/bundles/UserFunctions")
+<![endif]-->
+    <!--[if !IE 8]><!-->
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
+    @* @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
+    <!--<![endif]-->
+    <script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

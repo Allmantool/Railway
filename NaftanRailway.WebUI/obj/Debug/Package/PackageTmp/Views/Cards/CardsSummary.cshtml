@@ -1,0 +1,18 @@
+﻿@model NaftanRailway.Domain.BusinessModels.AccumulativeCard
+@{
+    Layout = null;
+    Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "DocumentPackLine.Cards[" + ViewData["index"] + "]";
+}
+<div class="input-group">
+    <span class="input-group-addon">
+        @Html.CheckBoxFor(c => c.IsSelected,new {@checked = true })
+    </span> 
+    <span class="form-control">
+        @Html.DisplayFor(c =>c.VKart.num_kart)
+       <span class="form-control-feedback">@Html.DisplayFor(c => c.VNach.cod_sbor)</span>
+        @Html.HiddenFor(c => c.VKart.id)
+        @Html.HiddenFor(c => c.VKart.num_kart)
+        @Html.HiddenFor(c => c.VNach.cod_sbor)
+    </span>
+</div>         
+        
