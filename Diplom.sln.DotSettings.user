@@ -13,10 +13,10 @@
   &lt;Assembly Path="V:\Diplom\Diplom\packages\MicosoftReportViewerWebForms_v11.1.0.1\lib\Microsoft.ReportViewer.WebForms.DLL" /&gt;&#xD;
   &lt;Assembly Path="c:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.Web.Razor\v4.0_2.0.0.0__31bf3856ad364e35\System.Web.Razor.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=BE7558ECC102423B934CF74778ED9D7D/@KeyIndexDefined">True</s:Boolean>
-	<s:Int64 x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=BE7558ECC102423B934CF74778ED9D7D/GroupingIndex/@EntryValue">4</s:Int64>
-	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=BE7558ECC102423B934CF74778ED9D7D/Name/@EntryValue">TestIncomingRoutes</s:String>
-	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=BE7558ECC102423B934CF74778ED9D7D/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;e Id="NaftanRailway.Test.RouteTests.TestIncomingRoutes" Project="2372CDD0-5606-4B14-8E0B-7D5FA68D6C8B" Provider="MSTest" /&gt;&lt;e Id="NaftanRailway.Test.RouteTests" Project="2372CDD0-5606-4B14-8E0B-7D5FA68D6C8B" Provider="MSTest" /&gt;&lt;/Session&gt;</s:String>
+	
+	
+	
+	
 	
 	
 	
