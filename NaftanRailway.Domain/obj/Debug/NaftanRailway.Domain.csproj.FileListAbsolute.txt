@@ -391,7 +391,6 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\MoreLinq.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Mvc.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
-J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
 j:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.Web.dll
