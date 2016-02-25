@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,7 +14,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    [SessionState(SessionStateBehavior.Disabled)] 
+    //[SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : AsyncController {
         private readonly IBussinesEngage _bussinesEngage;
 
@@ -52,7 +53,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 });
             }
             TempData["message"] = @"Укажите верную страницу";
-            ModelState.AddModelError("ErrPage",@"Укажите верную страницу");
+            ModelState.AddModelError("ErrPage", @"Укажите верную страницу");
             return RedirectToAction("Index", new RouteValueDictionary() { { "page", 1 } });
         }
 
@@ -135,81 +136,42 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return RedirectToAction("Index", "Scroll");
         }
 
-        ///// <summary>
-        ///// Render Report error
-        ///// rs:sent command Report Server (RS)
-        ///// rc:provides device-information settings based on the report's output format
-        ///// rv:pass parameters to reports that are stored in a Sharepoint document Library
-        ///// dsu:(username) or dsp:(password) sent database credentials
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        ////[FileDownloadCompleteFilter]
-        //public ActionResult ErrorReport(string reportName, long? numberKrt, int? reportYear) {
-        //    krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
+        /// <summary>
+        /// Fix scroll row on side of Sapod
+        /// </summary>
+        /// <param name="numberScroll"></param>
+        /// <param name="reportYear"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ScrollCorrection(int? numberScroll, int? reportYear, int page = 1) {
+            const byte initialSizeItem = 47;
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.nper == numberScroll &&
+                x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
-        //    if (reportName != ""){
-        //       return RedirectToAction("DonwloadFile","Scroll",new RouteValueDictionary(){{"reportName",reportName}}); 
-        //    }
-        //    if(selectKrt != null) {
-        //        reportName = selectKrt.SignAdjustment_list
-        //            ? @"krt_Naftan_Scroll_compare_Correction"
-        //            : @"krt_Naftan_Scroll_Compare_Normal";
+            if((numberScroll != null || reportYear != null) && recordCount > 0) {
+                IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll &&
+                    x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+                //Info about paging
+                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
+                ViewBag.PagingInfo = new PagingInfo {
+                    CurrentPage = page,
+                    ItemsPerPage = initialSizeItem,
+                    TotalItems = recordCount
+                };
+                return View("ScrollDetails", fixRow);
+            }
+            TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
-        //        return RedirectToAction("DonwloadFile","Scroll",new RouteValueDictionary(){{"reportName",reportName}});
-        //    }
+            return RedirectToAction("Index", "Scroll");
+        }
+        [HttpPost]
+        public ActionResult ScrollCorrection(decimal nds, decimal summa, string nomot, int vidsbr) {
+            if(Request.IsAjaxRequest()) {
 
-        //    TempData[@"message"] = String.Format(@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
-        //    return RedirectToAction("Index", "Scroll");
-        //}
-
-        ///// <summary>
-        ///// Return Bookkeeper Report (some dublicate code)
-        ///// </summary>
-        ///// <param name="reportName"></param>
-        ///// <param name="numberKrt"></param>
-        ///// <param name="reportYear"></param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public ActionResult BookkeeperReport(string reportName, long? numberKrt, int? reportYear) {
-        //    const string serverName = @"DB2";
-        //    const string folderName = @"Orders";
-        //    reportName = "krt_Naftan_BookkeeperReport";
-        //    krt_Naftan selectKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKrt).FirstOrDefault();
-
-        //    if(selectKrt != null) {
-        //        const string defaultParameters = @"rs:Format=Excel";
-        //        string filterParameters = @"nkrt=" + selectKrt.NKRT + @"&y=" + reportYear;
-
-        //        string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
-        //            folderName, reportName, defaultParameters, filterParameters);
-
-        //        //WebClient client = new WebClient { UseDefaultCredentials = true };
-        //        /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
-        //        WebClient client = new WebClient {
-        //            Credentials =
-        //                new CredentialCache
-        //                {
-        //                    {
-        //                        new Uri("http://db2"),
-        //                        @"ntlm",
-        //                        new NetworkCredential(@"CPN", @"1111", @"LAN")
-        //                    }
-        //                }
-        //        };
-
-        //        var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel",
-        //            String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", selectKrt.NKRT));
-
-        //        //Add cookie for detect donload file on client
-        //        Response.Cookies.Clear();
-        //        Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
-
-        //        return returnFile;
-        //    }
-
-        //    return new EmptyResult();
-        //}
+            }
+            return new EmptyResult();
+        }
 
         /// <summary>
         /// General method for donwload files

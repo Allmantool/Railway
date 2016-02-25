@@ -80,6 +80,19 @@ $('#reportShow').on('click', function() {
 $('#dateModal').on('show.bs.modal', function(e) {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
+/*edit modal (correction)*/
+$('#wrkTable').on('click', function(e) {
+    var selRow = $(e.target).parent('tr');
+    $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
+    $('#sm').text(selRow.find('.sm').text());
+    $('#sm_nds').text(selRow.find('.sm_nds').text());
+    $('#summa').val(selRow.find('.summa').text());
+    $('#nds').val(selRow.find('.nds').text());
+    $('#nomot').val(selRow.find('.nomot').text());
+    $('#vidsbr').val(selRow.find('.vidsbr').text());
+
+    $("#EditModal").modal('show');
+});
 
 function UpdateFailure(data) { }
 
@@ -201,11 +214,14 @@ $('#scrollList').on('click', function(e) {
     var errorReportStr = "Scroll/Reports/" + correctionState + "/" + arg;
     var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
     var strDetails = "Scroll/ScrollDetails/" + arg;
+    var strCorrection = "Scroll/ScrollCorrection/" + arg;
 
     $('#reportShow').attr('href', errorReportStr);
     $('#MenuLinkErrReport').attr('href', errorReportStr);
     $('#MenuLinkBookKeeperReport').attr('href', bookKeeperStr);
     $('#scrollDetails').attr("href", strDetails);
+    $('#scrollFix').attr("href", strCorrection);
+
     //Confirmed
     var strAdd = "Scroll/Confirmed/" + arg;
     $('#Reglink').attr('href', (strAdd));
