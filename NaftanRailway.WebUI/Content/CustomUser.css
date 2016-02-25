@@ -3,6 +3,9 @@
     padding-top: 90px;
 }
 
+/*Row*/
+.top-buffer { margin-top:10px; }
+
 /*table style */
 .table tbody>tr>td.vert-align{
     vertical-align: middle;

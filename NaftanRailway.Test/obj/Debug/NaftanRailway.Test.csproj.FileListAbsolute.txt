@@ -1,4 +1,3 @@
-C:\Git\Railway\NaftanRailway.Test\bin\Debug\System.Web.Mvc.xml
 C:\Git\Railway\NaftanRailway.Test\bin\Debug\NaftanRailway.Test.dll
 C:\Git\Railway\NaftanRailway.Test\bin\Debug\NaftanRailway.Test.pdb
 C:\Git\Railway\NaftanRailway.Test\bin\Debug\Moq.dll

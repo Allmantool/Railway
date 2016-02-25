@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,7 +12,7 @@ using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    [SessionState(SessionStateBehavior.Disabled)] 
+    //[SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : AsyncController {
         private readonly IBussinesEngage _bussinesEngage;
 
@@ -49,7 +50,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 });
             }
             TempData["message"] = @"Укажите верную страницу";
-            ModelState.AddModelError("ErrPage",@"Укажите верную страницу");
+            ModelState.AddModelError("ErrPage", @"Укажите верную страницу");
             return RedirectToAction("Index", new RouteValueDictionary() { { "page", 1 } });
         }
 
@@ -132,6 +133,53 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return RedirectToAction("Index", "Scroll");
         }
 
+<<<<<<< HEAD
+=======
+        /// <summary>
+        /// Fix scroll row on side of Sapod
+        /// </summary>
+        /// <param name="numberScroll"></param>
+        /// <param name="reportYear"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ScrollCorrection(int? numberScroll, int? reportYear, int page = 1) {
+            const byte initialSizeItem = 47;
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.nper == numberScroll &&
+                x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+
+            if((numberScroll != null || reportYear != null) && recordCount > 0) {
+                IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll &&
+                    x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+                //Info about paging
+                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
+                ViewBag.PagingInfo = new PagingInfo {
+                    CurrentPage = page,
+                    ItemsPerPage = initialSizeItem,
+                    TotalItems = recordCount
+                };
+                return View("ScrollDetails", fixRow);
+            }
+            TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
+
+            return RedirectToAction("Index", "Scroll");
+        }
+        [HttpPost]
+        public ActionResult ScrollCorrection(decimal nds, decimal summa, string nomot, int vidsbr) {
+            if(Request.IsAjaxRequest()) {
+
+            }
+            return new EmptyResult();
+        }
+
+        /// <summary>
+        /// General method for donwload files
+        /// </summary>
+        /// <param name="reportName"></param>
+        /// <param name="numberScroll"></param>
+        /// <param name="reportYear"></param>
+        /// <returns></returns>
+>>>>>>> 735d7bdb64faca86f749b91bb503eae6fd72cf50
         //[ChildActionOnly]
         //[FileDownloadCompleteFilter]
         public ActionResult Reports(string reportName, int? numberScroll, int? reportYear) {
