@@ -208,7 +208,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                 chRecord.Confirmed = true;
                 chRecord.ErrorState = Convert.ToBoolean((int)parm.Value);
-            } catch(Exception e){
+            } catch (Exception e) {
                 return false;
             }
 
@@ -223,13 +223,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public bool ChangeBuhDate(DateTime period, long key) {
             IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
             try {
-                foreach(krt_Naftan item in listRecords) {
+                foreach (krt_Naftan item in listRecords) {
                     item.DTBUHOTCHET = period;
                     UnitOfWork.Repository<krt_Naftan>().Update(item);
                 }
                 UnitOfWork.Save();
                 return true;
-            } catch(Exception e) {
+            } catch (Exception e) {
 
                 return false;
             }
@@ -251,6 +251,30 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                      .GroupBy(x => new { x.oper })
                      .Select(g => new { g.Key.oper, operCount = g.Count() })
                      .ToDictionary(item => item.oper.Value, item => item.operCount);
+        }
+
+        /// <summary>
+        /// Edit Row (sm, sm_nds (Sapod)) 
+        /// </summary>
+        /// <param name="keykrt"></param>
+        /// <param name="keysbor"></param>
+        /// <param name="nds"></param>
+        /// <param name="summa"></param>
+        /// <returns></returns>
+        public bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa) {
+            try {
+                var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
+                itemRow.nds = nds;
+                itemRow.summa = summa;
+
+                //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
+                //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Update(itemRow);
+                UnitOfWork.Save();
+            } catch (Exception) {
+                return false;
+            }
+
+            return true;
         }
     }
 }

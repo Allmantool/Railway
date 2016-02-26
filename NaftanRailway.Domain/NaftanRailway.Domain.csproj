@@ -234,6 +234,7 @@
     <Compile Include="Concrete\GeneralRepository.cs" />
     <Compile Include="Entities\etsng.cs" />
     <Compile Include="Entities\krt_Naftan.cs" />
+    <Compile Include="Entities\krt_Naftan_orc_sapod.cs" />
     <Compile Include="Entities\v_akt_vag.cs" />
     <Compile Include="Entities\v_otpr.cs" />
     <Compile Include="Entities\v_o_v.cs" />

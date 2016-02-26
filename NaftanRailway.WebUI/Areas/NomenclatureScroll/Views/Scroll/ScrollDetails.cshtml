@@ -6,7 +6,9 @@
 @{
     ViewBag.Title = ViewBag.Title ?? "Сборы по перечням";
     Layout = "../Shared/_Layout.cshtml";
-    PagingInfo pageInfo = ViewBag.PagingInfo;    
+    PagingInfo pageInfo = ViewBag.PagingInfo;
+    Html.EnableClientValidation(false);
+    Html.EnableUnobtrusiveJavaScript(true);    
 }
 <h3 class="text-center control-label">Перечень № @Model.First().nper
     <span class="small">(поступил в электронном виде из ОРЦ @Model.First().date_obrabot.ToShortDateString() г.)</span>
@@ -73,28 +75,43 @@
               </div>
               <hr style="margin: 5px"/>
               @using (Ajax.BeginForm("ScrollCorrection", "Scroll", new AjaxOptions(){
-                  OnFailure = "UpdateFailure",
-                  OnSuccess = "UpdateDate",
+                  //OnFailure = "UpdateFailure",
+                  //OnSuccess = "UpdateDate",
+                  //OnComplete = "",
+                  //OnBegin = ""
+                  UpdateTargetId = "chargeOfList",
+                  InsertionMode = InsertionMode.Replace,
+                  LoadingElementId = "loadingInfiniteScroll",
+                  LoadingElementDuration =1200,
                   HttpMethod = "Post",
                   Url = @Url.Action("ScrollCorrection", "Scroll")
               },new {@class = "", role = "form", id = "CorrectionForm"})){
                    @Html.HiddenFor(x=>x.First().nomot)
                    @Html.HiddenFor(x=>x.First().vidsbr)
+                   @Html.HiddenFor(x=>x.First().sm_nds)
+                   @Html.HiddenFor(x=>x.First().sm)
                   <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-2 col-lg-2">
                           @Html.LabelFor(x => x.First().sm, "Сумма: ", new {@class = "lead"})
                       </div>
                       <div class="col-lg-3">@Html.Label(Model.First().sm.ToString("#,#"), new {@class = "form-control-static",id="sm"})</div>
-                      <div class="col-lg-3">@Html.TextBox("summa", Model.First().summa.Value.ToString("#,#"), new {@class = "form-control", style = "text-align: center;"})</div>
+                      <div class="col-lg-3">
+                          @Html.TextBox("summa", (Model.First().summa == null) ? "" : Model.First().summa.Value.ToString("#,#"),
+                                   new {@class = "form-control", style = "text-align: center;"})
+                      </div>
                   </div>
                   <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-2 col-lg-2">
                           @Html.LabelFor(x => x.First().sm_nds, "НДС: ", new {@class = "lead"})
                       </div>
                       <div class="col-lg-3 text-center">@Html.Label(Model.First().sm_nds.ToString("#,#"), new {@class = "form-control-static",id="sm_nds"})</div>
-                      <div class="col-lg-3">@Html.TextBox("nds", Model.First().nds.Value.ToString("#,#"), new {@class = "form-control", style = "text-align: center;"})</div>
+                      <div class="col-lg-3">
+                          @*@Html.TextBox("nds",(Model.First().nds == null)? "": Model.First().nds.ToString(),new {@class = "form-control", style = "text-align: center;"})*@
+                          @Html.TextBoxFor(x => x.First().nds, new { @class = "form-control", style = "text-align: center;" })
+                      </div>
                   </div>
                   <div class="modal-footer">
+                      @*@Html.ValidationSummary()*@
                       <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                       <button type="submit" class="btn btn-primary">Применить</button>
                   </div>

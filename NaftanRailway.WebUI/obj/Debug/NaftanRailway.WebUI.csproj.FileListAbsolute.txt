@@ -156,3 +156,4 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.cache
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.WebForms.xml

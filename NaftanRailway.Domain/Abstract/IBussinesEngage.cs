@@ -11,11 +11,11 @@ namespace NaftanRailway.Domain.Abstract {
     /// <summary>
     /// This interface use for work with data DB (to select data in ORC and Sopod)
     /// </summary>
-    public interface IBussinesEngage{
-        IEnumerable<Shipping> ShippingsViews(string templShNumber,EnumOperationType operationCategory, DateTime chooseDate, int page,int shiftDate , int pageSize);
-        int ShippingsViewsCount(string templShNumber,EnumOperationType operationCategory, DateTime chooseDate,byte shiftPage = 3);
-        IEnumerable<string> AutoCompleteShipping(string templShNumber,DateTime chooseDate,byte shiftPage = 3);
-        Dictionary<short, int> Badges(string templShNumber,DateTime chooseDate,EnumOperationType operationCategory,byte shiftPage = 3);
+    public interface IBussinesEngage {
+        IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int shiftDate, int pageSize);
+        int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
+        IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
+        Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
 
         /// <summary>
         /// Get All info 
@@ -23,7 +23,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="shipping">requered shipping number</param>
         /// <param name="warehouse">correcting warehouse</param>
         /// <returns></returns>
-        ShippingInfoLine PackDocuments(v_otpr shipping,int warehouse);
+        ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
@@ -47,14 +47,14 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Get info about Accumulative Cards
         /// </summary>
-        IQueryable <AccumulativeCard> Cards { get; }
+        IQueryable<AccumulativeCard> Cards { get; }
         /// <summary>
         /// Get luggage
         /// </summary>
         IQueryable<Luggage> Baggage { get; }
 
         IQueryable<v_pam_vag> PamVags { get; }
-        IQueryable<v_pam_sb> PamSbs {get;}
+        IQueryable<v_pam_sb> PamSbs { get; }
         IQueryable<v_pam> Pams { get; }
         IQueryable<v_akt> Akts { get; }
         IQueryable<v_akt_sb> AktSbs { get; }
@@ -64,8 +64,9 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IQueryable<T> GetTable<T> (Expression<Func<T, bool>> predicate = null) where T: class ;
+        IQueryable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class;
         bool AddKrtNaftan(long key);
         bool ChangeBuhDate(DateTime period, long key);
+        bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa);
     }
 }
