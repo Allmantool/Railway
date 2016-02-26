@@ -133,8 +133,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return RedirectToAction("Index", "Scroll");
         }
 
-<<<<<<< HEAD
-=======
         /// <summary>
         /// Fix scroll row on side of Sapod
         /// </summary>
@@ -179,7 +177,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="numberScroll"></param>
         /// <param name="reportYear"></param>
         /// <returns></returns>
->>>>>>> 735d7bdb64faca86f749b91bb503eae6fd72cf50
         //[ChildActionOnly]
         //[FileDownloadCompleteFilter]
         public ActionResult Reports(string reportName, int? numberScroll, int? reportYear) {
