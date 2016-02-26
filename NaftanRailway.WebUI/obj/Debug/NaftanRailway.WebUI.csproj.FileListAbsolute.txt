@@ -78,6 +78,7 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.cache
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
+<<<<<<< HEAD
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Antlr3.Runtime.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\EntityFramework.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\EntityFramework.SqlServer.dll
@@ -156,3 +157,6 @@ J:\GitHub\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.pdb
+=======
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.WebForms.xml
+>>>>>>> 54936309efc1717ca19ed43ed125b7daed93d2f8

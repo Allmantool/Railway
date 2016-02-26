@@ -86,8 +86,8 @@ $('#wrkTable').on('click', function(e) {
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
     $('#sm').text(selRow.find('.sm').text());
     $('#sm_nds').text(selRow.find('.sm_nds').text());
-    $('#summa').val(selRow.find('.summa').text());
-    $('#nds').val(selRow.find('.nds').text());
+    $('#summa').val(selRow.find('.summa').text().replace(/\s/g,""));
+    $('#nds').val(selRow.find('.nds').text().replace(/\s/g,""));
     $('#nomot').val(selRow.find('.nomot').text());
     $('#vidsbr').val(selRow.find('.vidsbr').text());
 
