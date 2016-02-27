@@ -190,7 +190,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
         /// </summary>
-        /// <param name="period"></param>
         /// <param name="key"></param>
         public bool AddKrtNaftan(long key) {
             try {
