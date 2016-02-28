@@ -5,6 +5,16 @@ using NaftanRailway.Domain.BusinessModels;
 namespace NaftanRailway.WebUI {
     public static class RouteConfig {
         public static void RegisterRoutes(RouteCollection routes) {
+            /*By default, the routing system checks to see if a URL matches a disk file before evaluating the application’s routes
+             If there is a match between the requested URL and a disk on the file, then the disk file is served and the routes
+            defined by the application are never used. This behavior can be reversed so that the routes are evaluated before
+            disk files are checked by setting the RouteExistingFiles property of the RouteCollection to true
+             * On IIS server config
+             * <add name="UrlRoutingModule-4.0" type="System.Web.Routing.UrlRoutingModule" preCondition="" />
+             */
+            routes.RouteExistingFiles = true;
+
+            /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "fonts" });
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "Content" });

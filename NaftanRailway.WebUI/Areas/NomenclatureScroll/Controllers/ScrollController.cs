@@ -38,7 +38,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
                     //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
                 }
-
+                 
                 return View(new IndexModelView() {
                     ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
                     ReportPeriod = DateTime.Now,
