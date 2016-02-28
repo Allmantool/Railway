@@ -453,7 +453,9 @@
     <Content Include="Content\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Content\locales\bootstrap-datepicker.zh-TW.min.js" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Areas\NomenclatureScroll\Views\Web.config" />
+    <Content Include="Areas\NomenclatureScroll\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\Index.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
