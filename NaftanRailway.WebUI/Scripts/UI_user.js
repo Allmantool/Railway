@@ -86,8 +86,9 @@ $('#wrkTable').on('click', function(e) {
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
     $('#sm').text(selRow.find('.sm').text());
     $('#sm_nds').text(selRow.find('.sm_nds').text());
-    $('#summa').val(selRow.find('.summa').text().replace(/\s/g,""));
-    $('#nds').val(selRow.find('.nds').text().replace(/\s/g,""));
+    $('#sm_no_nds').val(selRow.find('.sm').text().replace(/\s/g, "") - selRow.find('.sm_nds').text().replace(/\s/g, ""));
+    $('#summa').val(selRow.find('.summa').text().replace(/\s/g, "") + selRow.find('.nds').text().replace(/\s/g, ""));
+    $('#nds').val(selRow.find('.nds').text().replace(/\s/g, ""));
     $('#nomot').val(selRow.find('.nomot').text());
     $('#vidsbr').val(selRow.find('.vidsbr').text());
 
@@ -166,6 +167,12 @@ function UpdateData(dataRow) {
             $('#waitModal .progress-bar').css('width', '50%');
         }
     }, 500); //interval is time before re-running this function
+}
+
+/*Scroll Details fix table update*/
+function FixUpdate(dataRow) {
+    $('#chargeOfList').empty().append($(dataRow));
+    $('#EditModal').modal('hide');
 }
 
 /*Event click on table row + mark as work row for ajax request*/

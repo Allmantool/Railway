@@ -17,6 +17,46 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public long id { get; set; }
         public int id_otpr { get; set; }
         public string n_vag { get; set; }
+        public Nullable<short> prov { get; set; }
+        public Nullable<short> texn { get; set; }
         public Nullable<int> massa { get; set; }
+        public string prim { get; set; }
+        public Nullable<short> pr_zam { get; set; }
+        public Nullable<short> cod_vidot { get; set; }
+        public Nullable<int> ves_n_ob { get; set; }
+        public Nullable<short> n_sx { get; set; }
+        public Nullable<short> npp { get; set; }
+        public string n_vag_p { get; set; }
+        public Nullable<short> pr_v_k { get; set; }
+        public string cod_gruz_old { get; set; }
+        public Nullable<short> sobs { get; set; }
+        public string cod_negab { get; set; }
+        public string poluchatel { get; set; }
+        public string nom_scheme1 { get; set; }
+        public string nom_scheme2 { get; set; }
+        public Nullable<bool> n_ob_in_tara { get; set; }
+        public string cod_stan_nazn { get; set; }
+        public Nullable<decimal> proveren_tara { get; set; }
+        public Nullable<decimal> pl_v { get; set; }
+        public Nullable<decimal> pl_prov { get; set; }
+        public Nullable<decimal> nds_pl_v { get; set; }
+        public Nullable<decimal> nds_pl_prov { get; set; }
+        public Nullable<decimal> pl_pereadr_prib { get; set; }
+        public Nullable<decimal> pl_pereadr_prov_prib { get; set; }
+        public Nullable<decimal> ndspl_pereadr_prib { get; set; }
+        public Nullable<decimal> ndspl_pereadr_prov_prib { get; set; }
+        public Nullable<decimal> pl_otpr { get; set; }
+        public Nullable<decimal> pl_prov_otpr { get; set; }
+        public Nullable<decimal> pl_pereadr { get; set; }
+        public Nullable<decimal> pl_pereadr_prov { get; set; }
+        public Nullable<decimal> ndspl_pereadr { get; set; }
+        public Nullable<decimal> ndspl_pereadr_prov { get; set; }
+        public Nullable<decimal> poniz_kof_tp { get; set; }
+        public Nullable<short> pr_skid { get; set; }
+        public string num_tel_is_tar { get; set; }
+        public Nullable<int> kol_vag_metan { get; set; }
+        public Nullable<bool> is_print { get; set; }
+        public Nullable<decimal> kof_skid { get; set; }
+        public Nullable<bool> is_skid { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="OBDEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="OBDModelStoreContainer">
-    <EntitySet Name="v_akt" EntityType="OBDEntities.Store.v_akt" store:Type="Views" store:Schema="dbo" store:Name="v_akt">
+<Schema Namespace="OBDModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="OBDModelEntitiesStoreContainer">
+    <EntitySet Name="v_akt" EntityType="OBDModelEntities.Store.v_akt" store:Type="Views" store:Schema="dbo" store:Name="v_akt">
       <DefiningQuery>SELECT 
       [v_akt].[id] AS [id], 
       [v_akt].[kodls] AS [kodls], 
@@ -14,7 +14,7 @@
       [v_akt].[pr_external_work] AS [pr_external_work]
       FROM [dbo].[v_akt] AS [v_akt]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_akt_sb" EntityType="OBDEntities.Store.v_akt_sb" store:Type="Views" store:Schema="dbo" store:Name="v_akt_sb">
+    <EntitySet Name="v_akt_sb" EntityType="OBDModelEntities.Store.v_akt_sb" store:Type="Views" store:Schema="dbo" store:Name="v_akt_sb">
       <DefiningQuery>SELECT 
       [v_akt_sb].[id] AS [id], 
       [v_akt_sb].[id_akt] AS [id_akt], 
@@ -25,14 +25,14 @@
       [v_akt_sb].[textm] AS [textm]
       FROM [dbo].[v_akt_sb] AS [v_akt_sb]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_akt_vag" EntityType="OBDEntities.Store.v_akt_vag" store:Type="Views" store:Schema="dbo" store:Name="v_akt_vag">
+    <EntitySet Name="v_akt_vag" EntityType="OBDModelEntities.Store.v_akt_vag" store:Type="Views" store:Schema="dbo" store:Name="v_akt_vag">
       <DefiningQuery>SELECT 
       [v_akt_vag].[id] AS [id], 
       [v_akt_vag].[id_akt] AS [id_akt], 
       [v_akt_vag].[nomvag] AS [nomvag]
       FROM [dbo].[v_akt_vag] AS [v_akt_vag]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_kart" EntityType="OBDEntities.Store.v_kart" store:Type="Views" store:Schema="dbo" store:Name="v_kart">
+    <EntitySet Name="v_kart" EntityType="OBDModelEntities.Store.v_kart" store:Type="Views" store:Schema="dbo" store:Name="v_kart">
       <DefiningQuery>SELECT 
       [v_kart].[id] AS [id], 
       [v_kart].[uni_kart] AS [uni_kart], 
@@ -58,7 +58,7 @@
       [v_kart].[date_zkrt] AS [date_zkrt]
       FROM [dbo].[v_kart] AS [v_kart]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_nach" EntityType="OBDEntities.Store.v_nach" store:Type="Views" store:Schema="dbo" store:Name="v_nach">
+    <EntitySet Name="v_nach" EntityType="OBDModelEntities.Store.v_nach" store:Type="Views" store:Schema="dbo" store:Name="v_nach">
       <DefiningQuery>SELECT 
       [v_nach].[id] AS [id], 
       [v_nach].[id_kart] AS [id_kart], 
@@ -81,7 +81,7 @@
       [v_nach].[id_ed] AS [id_ed]
       FROM [dbo].[v_nach] AS [v_nach]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_o_v" EntityType="OBDEntities.Store.v_o_v" store:Type="Views" store:Schema="dbo" store:Name="v_o_v">
+    <EntitySet Name="v_o_v" EntityType="OBDModelEntities.Store.v_o_v" store:Type="Views" store:Schema="dbo" store:Name="v_o_v">
       <DefiningQuery>SELECT 
       [v_o_v].[id] AS [id], 
       [v_o_v].[id_otpr] AS [id_otpr], 
@@ -129,7 +129,7 @@
       [v_o_v].[is_skid] AS [is_skid]
       FROM [dbo].[v_o_v] AS [v_o_v]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_otpr" EntityType="OBDEntities.Store.v_otpr" store:Type="Views" store:Schema="dbo" store:Name="v_otpr">
+    <EntitySet Name="v_otpr" EntityType="OBDModelEntities.Store.v_otpr" store:Type="Views" store:Schema="dbo" store:Name="v_otpr">
       <DefiningQuery>SELECT 
       [v_otpr].[id] AS [id], 
       [v_otpr].[state] AS [state], 
@@ -254,7 +254,7 @@
       [v_otpr].[prib_return_empty] AS [prib_return_empty]
       FROM [dbo].[v_otpr] AS [v_otpr]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_pam" EntityType="OBDEntities.Store.v_pam" store:Type="Views" store:Schema="dbo" store:Name="v_pam">
+    <EntitySet Name="v_pam" EntityType="OBDModelEntities.Store.v_pam" store:Type="Views" store:Schema="dbo" store:Name="v_pam">
       <DefiningQuery>SELECT 
       [v_pam].[id_ved] AS [id_ved], 
       [v_pam].[id_ved_dbf] AS [id_ved_dbf], 
@@ -280,7 +280,7 @@
       [v_pam].[pr_external_work] AS [pr_external_work]
       FROM [dbo].[v_pam] AS [v_pam]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_pam_sb" EntityType="OBDEntities.Store.v_pam_sb" store:Type="Views" store:Schema="dbo" store:Name="v_pam_sb">
+    <EntitySet Name="v_pam_sb" EntityType="OBDModelEntities.Store.v_pam_sb" store:Type="Views" store:Schema="dbo" store:Name="v_pam_sb">
       <DefiningQuery>SELECT 
       [v_pam_sb].[id_ved] AS [id_ved], 
       [v_pam_sb].[kod_sb] AS [kod_sb], 
@@ -292,7 +292,7 @@
       [v_pam_sb].[kol_oper] AS [kol_oper]
       FROM [dbo].[v_pam_sb] AS [v_pam_sb]</DefiningQuery>
     </EntitySet>
-    <EntitySet Name="v_pam_vag" EntityType="OBDEntities.Store.v_pam_vag" store:Type="Views" store:Schema="dbo" store:Name="v_pam_vag">
+    <EntitySet Name="v_pam_vag" EntityType="OBDModelEntities.Store.v_pam_vag" store:Type="Views" store:Schema="dbo" store:Name="v_pam_vag">
       <DefiningQuery>SELECT 
       [v_pam_vag].[id_vag] AS [id_vag], 
       [v_pam_vag].[id_ved] AS [id_ved], 

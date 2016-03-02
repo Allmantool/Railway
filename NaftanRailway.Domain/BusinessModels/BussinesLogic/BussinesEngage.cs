@@ -253,7 +253,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
 
         /// <summary>
-        /// Edit Row (sm, sm_nds (Sapod)) 
+        /// Edit Row (sm, sm_nds (Sapod))
+        /// Check row as fix => check ErrorState in krt_Naftan_Sapod 
         /// </summary>
         /// <param name="keykrt"></param>
         /// <param name="keysbor"></param>
@@ -265,6 +266,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
                 itemRow.nds = nds;
                 itemRow.summa = summa;
+                
 
                 //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
                 //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Update(itemRow);

@@ -644,6 +644,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\CustomControllers\" />
+    <Folder Include="Infrastructure\ViewEngines\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
