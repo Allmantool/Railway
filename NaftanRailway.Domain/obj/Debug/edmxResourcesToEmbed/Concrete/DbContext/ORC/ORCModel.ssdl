@@ -37,7 +37,7 @@
     <Property Name="SignAdjustment_list" Type="bit" Nullable="false" />
     <Property Name="Scroll_Sbor" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Confirmed" Type="bit" Nullable="false" />
-    <Property Name="ErrorState" Type="bit" />
+    <Property Name="ErrorState" Type="smallint" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
@@ -77,7 +77,7 @@
     <Property Name="nds" Type="decimal" Scale="2" />
     <Property Name="textm" Type="nvarchar(max)" />
     <Property Name="ID_ED" Type="int" />
-    <Property Name="ErrorState" Type="bit" />
+    <Property Name="ErrorState" Type="smallint" />
   </EntityType>
   <EntityType Name="orc_krt">
     <Key>

@@ -183,12 +183,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             krt_Naftan_orc_sapod corretionItem = _bussinesEngage
                 .GetTable<krt_Naftan_orc_sapod>(x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == sm_nds).FirstOrDefault();
 
-            if (Request.IsAjaxRequest() && corretionItem !=null) {
-                    _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
+            if (Request.IsAjaxRequest() && corretionItem != null) {
+                _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
 
                 var fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == corretionItem.nper && x.DtBuhOtchet.Year == corretionItem.DtBuhOtchet.Year &&
-                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new {x.nomot, x.keysbor});
-                
+                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", corretionItem.nper);
                 ViewBag.PagingInfo = new PagingInfo {
@@ -197,13 +197,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     TotalItems = fixRow.Count()
                 };
 
-                if (!fixRow.Any() )
-                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", corretionItem.nper); 
-                
-                return (fixRow.Any()) ? (ActionResult) PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index","Scroll"); 
-                
+                if (!fixRow.Any())
+                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", corretionItem.nper);
+
+                return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index", "Scroll");
+
             }
-            return RedirectToAction("Index","Scroll");
+            return RedirectToAction("Index", "Scroll", new { page = 1});
         }
 
         /// <summary>

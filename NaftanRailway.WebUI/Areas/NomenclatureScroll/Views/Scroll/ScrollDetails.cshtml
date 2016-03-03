@@ -92,29 +92,28 @@
                    @Html.HiddenFor(x=>x.First().sm)
                   <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-1 col-lg-3">
-                          @Html.LabelFor(x => x.First().sm, "Сумма с НДС: ", new {@class = "lead"})
+                          @Html.Label("", "Сумма с НДС: ", new {@class = "lead"})
                       </div>
-                      <div class="col-lg-3">@Html.Label(Model.First().sm.ToString("#,#"), new {@class = "form-control-static",id="sm"})</div>
+                      <div class="col-lg-3">@Html.LabelFor(x=>x.First().sm , new {@class = "form-control-static"})</div>
                       <div class="col-lg-3">
-                          @Html.TextBox("summa_with_nds", (Model.First().summa == null) ? "" : 
-                            (Model.First().summa.Value + Model.First().nds.Value).ToString("#,#"),new {@class = "form-control", style = "text-align: center;"})
+                         @* @Html.TextBox("summa_with_nds", "",new {@class = "form-control", style = "text-align: center;"})*@
+                          @Html.LabelFor(x => x.First().summa, new { @class = "form-control-static"})
                       </div>
                   </div>
                 <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-2 col-lg-2">
-                          @Html.LabelFor(x => x.First().sm, "Сумма: ", new { @class = "lead" })
+                          @Html.Label("", "Сумма: ", new { @class = "lead" })
                       </div>
-                      <div class="col-lg-3">@Html.Label((Model.First().sm - Model.First().sm_nds).ToString("#,#"), new { @class = "form-control-static", id = "sm_no_nds" })</div>
+                      <div class="col-lg-3">@Html.LabelFor(x => x.First().sm_no_nds, new { @class = "form-control-static"})</div>
                       <div class="col-lg-3">
-                          @Html.TextBox("summa", (Model.First().summa == null) ? "" : Model.First().summa.Value.ToString("#,#"),
-                                   new { @class = "form-control", style = "text-align: center;" })
+                          @Html.TextBoxFor(x => x.First().summa, new { @class = "form-control", style = "text-align: center;" })
                       </div>
                   </div>
                   <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-2 col-lg-2">
-                          @Html.LabelFor(x => x.First().sm_nds, "НДС: ", new { @class = "lead" })
+                          @Html.Label("", "НДС: ", new { @class = "lead" })
                       </div>
-                      <div class="col-lg-3 text-center">@Html.Label(Model.First().sm_nds.ToString("#,#"), new { @class = "form-control-static", id = "sm_nds" })</div>
+                      <div class="col-lg-3 text-center">@Html.Label("sm_nds", new { @class = "form-control-static"})</div>
                       <div class="col-lg-3">
                           @*@Html.TextBox("nds",(Model.First().nds == null)? "": Model.First().nds.ToString(),new {@class = "form-control", style = "text-align: center;"})*@
                           @Html.TextBoxFor(x => x.First().nds, new { @class = "form-control", style = "text-align: center;" })

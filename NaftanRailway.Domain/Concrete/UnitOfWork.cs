@@ -14,8 +14,7 @@ namespace NaftanRailway.Domain.Concrete {
         private System.Data.Entity.DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
-        public UnitOfWork() {
-        }
+        public UnitOfWork() {}
         public UnitOfWork(System.Data.Entity.DbContext context) {
             ActiveContext = context;
             /*Отключает Lazy loading необходим для Json

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ORCModelEntitiesStoreContainer">
           <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
@@ -42,7 +42,7 @@
           <Property Name="SignAdjustment_list" Type="bit" Nullable="false" />
           <Property Name="Scroll_Sbor" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Confirmed" Type="bit" Nullable="false" />
-          <Property Name="ErrorState" Type="bit" />
+          <Property Name="ErrorState" Type="smallint" />
         </EntityType>
         <EntityType Name="krt_Naftan_orc_sapod">
           <Key>
@@ -82,7 +82,7 @@
           <Property Name="nds" Type="decimal" Scale="2" />
           <Property Name="textm" Type="nvarchar(max)" />
           <Property Name="ID_ED" Type="int" />
-          <Property Name="ErrorState" Type="bit" />
+          <Property Name="ErrorState" Type="smallint" />
         </EntityType>
         <EntityType Name="orc_krt">
           <Key>
@@ -154,8 +154,7 @@
           <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
         </Function>
         <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ORCModelEntities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -196,7 +195,7 @@
           <Property Name="SignAdjustment_list" Type="Boolean" Nullable="false" />
           <Property Name="Scroll_Sbor" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
-          <Property Name="ErrorState" Type="Boolean" />
+          <Property Name="ErrorState" Type="Byte" />
           <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
         </EntityType>
         <EntityType Name="krt_Naftan_orc_sapod">
@@ -237,7 +236,7 @@
           <Property Name="nds" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="ID_ED" Type="Int32" />
-          <Property Name="ErrorState" Type="Boolean" />
+          <Property Name="ErrorState" Type="Byte" />
           <NavigationProperty Name="krt_Naftan" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan_orc_sapod" ToRole="krt_Naftan" />
         </EntityType>
         <EntityType Name="orc_krt">

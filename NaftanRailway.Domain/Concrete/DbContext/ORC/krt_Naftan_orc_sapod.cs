@@ -47,7 +47,7 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public Nullable<decimal> nds { get; set; }
         public string textm { get; set; }
         public Nullable<int> ID_ED { get; set; }
-        public Nullable<bool> ErrorState { get; set; }
+        public Nullable<byte> ErrorState { get; set; }
     
         public virtual krt_Naftan krt_Naftan { get; set; }
     }

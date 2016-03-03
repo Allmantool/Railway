@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 
 namespace NaftanRailway.Domain.Abstract {
     public interface IGeneralRepository<T> {
+        System.Data.Entity.DbContext _context { get; }
         /// <summary>
         /// Get all or filter result
         /// </summary>

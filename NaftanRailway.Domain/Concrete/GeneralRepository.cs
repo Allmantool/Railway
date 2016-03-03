@@ -6,7 +6,7 @@ using NaftanRailway.Domain.Abstract;
 
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
-        private readonly System.Data.Entity.DbContext _context;
+        public System.Data.Entity.DbContext _context { get; set; }  
         private readonly DbSet<T> _dbSet;
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
@@ -29,7 +29,7 @@ namespace NaftanRailway.Domain.Concrete {
             _dbSet.Add(entity);
         }
         /// <summary>
-        /// Mark all field of record as dirty => update all field
+        /// Mark all field of record as dirty => update all field (marking the whole entity as dirty)
         /// </summary>
         /// <param name="entity"></param>
         public void Update(T entity) {
@@ -52,7 +52,8 @@ namespace NaftanRailway.Domain.Concrete {
         /// </summary>
         /// <param name="entity"></param>
         public void Edit(T entity) {
-            _context.Entry(entity).State = EntityState.Unchanged;
+            _dbSet.Attach(entity);
+            //_context.Entry(entity).State = EntityState.Unchanged;
         }
     }
 }

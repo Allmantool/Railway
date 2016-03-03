@@ -37,7 +37,7 @@
     <Property Name="SignAdjustment_list" Type="Boolean" Nullable="false" />
     <Property Name="Scroll_Sbor" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="Confirmed" Type="Boolean" Nullable="false" />
-    <Property Name="ErrorState" Type="Boolean" />
+    <Property Name="ErrorState" Type="Byte" />
     <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
@@ -78,7 +78,7 @@
     <Property Name="nds" Type="Decimal" Precision="18" Scale="2" />
     <Property Name="textm" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="ID_ED" Type="Int32" />
-    <Property Name="ErrorState" Type="Boolean" />
+    <Property Name="ErrorState" Type="Byte" />
     <NavigationProperty Name="krt_Naftan" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan_orc_sapod" ToRole="krt_Naftan" />
   </EntityType>
   <EntityType Name="orc_krt">
