@@ -84,14 +84,33 @@ $('#dateModal').on('show.bs.modal', function(e) {
 $('#wrkTable').on('click', function(e) {
     var selRow = $(e.target).parent('tr');
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
-    $('#sm').text(selRow.find('.sm').text());
-    $('#sm_nds').text(selRow.find('.sm_nds').text());
-    $('#summa').val(selRow.find('.summa').text().replace(/\s/g,""));
-    $('#nds').val(selRow.find('.nds').text().replace(/\s/g,""));
+    var summa = parseInt(selRow.find('.summa').text().replace(/\s/g, ""));
+    var sm = parseInt(selRow.find('.sm').text().replace(/\s/g, ""));
+    var sm_nds = parseInt(selRow.find('.sm_nds').text().replace(/\s/g, ""));
+    var nds = parseInt(selRow.find('.nds').text().replace(/\s/g, ""));
+    var sm_no_nds = parseInt(selRow.find('.sm_no_nds').text().replace(/\s/g, ""));
+
+    $('label[for=sm]').text(sm);
+    $('#sm').val(sm);
+
+    $('label[for=sm_nds]').text(sm_nds);
+    $('#sm_nds').val(sm_nds);
+
+    $('label[for=sm_no_nds]').text(sm_no_nds);
+    $('label[for=summa]').text(summa + nds);
+    $('#summa').val(summa);
+
+    $('#nds').val(nds);
     $('#nomot').val(selRow.find('.nomot').text());
     $('#vidsbr').val(selRow.find('.vidsbr').text());
 
     $("#EditModal").modal('show');
+});
+$('#summa').on('input', function() {
+    $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
+});
+$('#nds').on('input', function() {
+    $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
 });
 
 function UpdateFailure(data) { }
@@ -166,6 +185,12 @@ function UpdateData(dataRow) {
             $('#waitModal .progress-bar').css('width', '50%');
         }
     }, 500); //interval is time before re-running this function
+}
+
+/*Scroll Details fix table update*/
+function FixUpdate(dataRow) {
+    $('#chargeOfList').empty().append($(dataRow));
+    $('#EditModal').modal('hide');
 }
 
 /*Event click on table row + mark as work row for ajax request*/

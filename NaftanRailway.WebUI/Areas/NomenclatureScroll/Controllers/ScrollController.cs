@@ -143,12 +143,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ActionResult ScrollCorrection(int numberScroll, int reportYear, int page = 1) {
             const byte initialSizeItem = 47;
-            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.nper == numberScroll &&
-                x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>()
+                .Count(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
             if((numberScroll != null || reportYear != null) && recordCount > 0) {
-                IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll &&
-                    x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+                IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage
+                    .GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds))
+                    .OrderBy(x => new { x.nomot, x.keysbor });
+                
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {
@@ -178,14 +180,15 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpPost]
         public ActionResult ScrollCorrection(decimal sm_nds, decimal nds, decimal sm, decimal summa, string nomot, int vidsbr, int page = 1){
             const byte initialSizeItem = 47;
-            krt_Naftan_orc_sapod corretionItem = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(
-                        x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == sm_nds).FirstOrDefault();
+            krt_Naftan_orc_sapod corretionItem = _bussinesEngage
+                .GetTable<krt_Naftan_orc_sapod>(x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == sm_nds).FirstOrDefault();
 
-            if (Request.IsAjaxRequest() && corretionItem !=null) {
-                    _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
+            if (Request.IsAjaxRequest() && corretionItem != null) {
+                _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
 
                 var fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == corretionItem.nper && x.DtBuhOtchet.Year == corretionItem.DtBuhOtchet.Year &&
-                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new {x.nomot, x.keysbor});
+                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", corretionItem.nper);
                 ViewBag.PagingInfo = new PagingInfo {
@@ -193,11 +196,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     ItemsPerPage = initialSizeItem,
                     TotalItems = fixRow.Count()
                 };
-                 
-                return (fixRow.Any()) ? (ActionResult) PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index","Scroll"); 
-                
+
+                if (!fixRow.Any())
+                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", corretionItem.nper);
+
+                return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index", "Scroll");
+
             }
-            return RedirectToAction("Index","Scroll");
+            return RedirectToAction("Index", "Scroll", new { page = 1});
         }
 
         /// <summary>

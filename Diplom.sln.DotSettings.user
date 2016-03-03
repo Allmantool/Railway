@@ -12,6 +12,7 @@
   &lt;Assembly Path="C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 4\Assemblies\System.Web.Mvc.dll" /&gt;&#xD;
   &lt;Assembly Path="V:\Diplom\Diplom\packages\MicosoftReportViewerWebForms_v11.1.0.1\lib\Microsoft.ReportViewer.WebForms.DLL" /&gt;&#xD;
   &lt;Assembly Path="c:\WINDOWS\Microsoft.NET\assembly\GAC_MSIL\System.Web.Razor\v4.0_2.0.0.0__31bf3856ad364e35\System.Web.Razor.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Web.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	
 	

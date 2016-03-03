@@ -22,7 +22,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
                 name: "DetailsRoutesWithParams",
                 url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
                 defaults: new {action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional},
-                constraints: new {page = @"\d+"},
+                //constraints: new {page = @"\d+"},
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),
                 //customConstraint = new UserAgentConstraint("Chrome")},
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
