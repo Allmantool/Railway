@@ -185,9 +185,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (Request.IsAjaxRequest() && corretionItem != null) {
                 _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
-
-                var fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == corretionItem.nper && x.DtBuhOtchet.Year == corretionItem.DtBuhOtchet.Year &&
-                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor });
+                 //Trouble
+                List<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == corretionItem.nper && x.DtBuhOtchet.Year == corretionItem.DtBuhOtchet.Year &&
+                         (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor }).ToList<krt_Naftan_orc_sapod>();
 
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", corretionItem.nper);
