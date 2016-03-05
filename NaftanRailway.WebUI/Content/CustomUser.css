@@ -10,11 +10,23 @@
 .table tbody>tr>td.vert-align{
     vertical-align: middle;
 }
+th {
+    border: 3px solid black;
+    border-color: black;   
+}
+/*head rotation*/
+.rotate{
+-moz-transform: rotate(90deg);  /* FF3.5+ */
+-o-transform: rotate(90deg);  /* Opera 10.5 */
+-webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+-ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.090);
+}
 
 /*paging*/
 .pagination  {
     margin: 0px;   
 }
+
 /*custom navbar*/
 .navbar-custom {
   background-color: #6e3007;

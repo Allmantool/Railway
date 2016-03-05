@@ -63,15 +63,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult ChangeData(IndexModelView model) {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
 
-            if (model.ReportPeriod != null &&
-                (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt))) {
-                return PartialView("_AjaxKrtNaftanRow",
-                    _bussinesEngage.GetTable<krt_Naftan>()
-                        .Where(x => x.KEYKRT >= numberKeykrt)
-                        .OrderByDescending(x => x.KEYKRT));
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt))) {
+                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>().Where(x => x.KEYKRT == numberKeykrt).OrderByDescending(x => x.KEYKRT));
             }
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -152,7 +148,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .OrderBy(x => new { x.nomot, x.keysbor });
                 
                 //Info about paging
-                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
+                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,
                     ItemsPerPage = initialSizeItem,
@@ -162,7 +158,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index", "Scroll" ,new { page = 1});
         }
 
         /// <summary>

@@ -1,0 +1,46 @@
+﻿@model InputMenuViewModel
+@{
+    Layout = null;
+}
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 navbar-header"><a class="navbar-brand" href="#">
+                    <img alt="Brand" src="~/Content/Images/vagon.gif" width="auto" height="60px" style="z-index: 10;
+                                      top: 0; left: 0; background-color: transparent;"/></a>
+            </div>
+
+            <div class="col-md-5">
+                @using (@Html.BeginForm("Index", "Ceh18", FormMethod.Post, new {@class = "form-inline navbar-form navbar-left", role = "form"})){
+                    <div class="form-group col-md-5">
+                        <div class="input-group date" id="datetimepicker10">
+                            @Html.TextBoxFor(m => m.ReportPeriod, new{
+                                @class = "form-control", type = "text", @readonly = "readonly",
+                                @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy").ToLower() : DateTime.Today.ToString("MMMM yyyy").ToLower()
+                            })
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-7">
+                        <div class="input-group col-md-10">
+                            @Html.TextBoxFor(m => m.ShippingChoise, new {@class = "form-control ui-autocomplete-input", placeholder = "Поиск"})
+                            <span class=" input-group-btn">
+                                <button type="submit" class="btn btn-default" id="searchBtn">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span> 
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                    <li>@Html.Action("Summary", "Storage", new {returnUrl = Request.Url != null ? Request.Url.PathAndQuery : ""})</li>
+                    <li><a href="@Url.Action("Logout", "Account")">Выйти <span class="glyphicon glyphicon-log-out"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

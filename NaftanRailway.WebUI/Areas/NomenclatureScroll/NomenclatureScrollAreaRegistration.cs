@@ -36,7 +36,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "NomenclatureScroll_default",
                 url: "Nomenclature/{controller}/{page}",
+                constraints: new {httpMethod = new HttpMethodConstraint("GET") },
                 defaults: new { action = "Index", controller ="Scroll", page = UrlParameter.Optional },
+                namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
+            );
+            context.MapRoute(
+                name: "General",
+                url: "Nomenclature/{controller}/{action}",
+                defaults: new { action = "Index", controller = "Scroll" },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
         }

@@ -52,8 +52,8 @@ namespace NaftanRailway.Domain.Concrete {
         /// </summary>
         /// <param name="entity"></param>
         public void Edit(T entity) {
-            _dbSet.Attach(entity);
-            //_context.Entry(entity).State = EntityState.Unchanged;
+            //_dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Unchanged;
         }
     }
 }
