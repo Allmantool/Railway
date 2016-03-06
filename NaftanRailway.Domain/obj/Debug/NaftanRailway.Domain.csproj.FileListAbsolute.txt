@@ -11,6 +11,7 @@ C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
 C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
+<<<<<<< HEAD
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\NaftanRailway.Domain.dll.config
@@ -42,3 +43,7 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.Web.WebPages.Deployment.
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\RU\System.Data.SqlServerCe.resources.dll
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\ru\System.Web.Mvc.resources.dll
+=======
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Mvc.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Mvc.xml
+>>>>>>> 7d53ad94c40bd929b858fc2ba28975379814fb90

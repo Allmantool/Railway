@@ -380,9 +380,8 @@
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\Images\Aha-Soft-Transport-Train.ico" />
     <Content Include="Content\Images\Gear.gif" />
-    <Content Include="Content\Images\339.gif" />
+    <Content Include="Content\Images\repair.png" />
     <Content Include="Content\Images\Train.gif" />
-    <Content Include="Content\Images\44.gif" />
     <Content Include="Content\Images\Home.gif" />
     <Content Include="Content\Images\AWT-Train.ico" />
     <Content Include="Content\Images\My Documents.gif" />
@@ -466,10 +465,10 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftan_ORC_SAPOD_Row.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
-    <None Include="Content\bootstrap-datetimepicker-build.less" />
-    <None Include="Content\bootstrap-theme.css.map" />
-    <None Include="Content\bootstrap-theme.min.css.map" />
-    <None Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
     <None Include="Content\bootstrap\alerts.less" />
     <None Include="Content\bootstrap\badges.less" />
     <None Include="Content\bootstrap\bootstrap.less" />
@@ -563,6 +562,7 @@
     <Content Include="Content\Images\ui-icons_B94A48_256x240.png" />
     <Content Include="Content\jquery.ui.theme.css" />
     <Content Include="Content\jquery.ui.theme.font-awesome.css" />
+    <Content Include="Content\UI8Style.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Images\no.png" />
     <Content Include="Content\Images\block_blue.png" />
@@ -595,7 +595,7 @@
     <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <None Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
