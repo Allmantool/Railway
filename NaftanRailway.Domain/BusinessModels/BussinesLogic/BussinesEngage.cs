@@ -200,7 +200,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 };
 
                 UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                    (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT",new SqlParameter("@KEYKRT", key), parm);
+                    (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
@@ -220,10 +220,15 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="key"></param>
         public bool ChangeBuhDate(DateTime period, long key) {
             IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
+            var listDetails = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get_all(x => x.keykrt >= key).OrderByDescending(x => x.keykrt);
             try {
                 foreach (krt_Naftan item in listRecords) {
                     UnitOfWork.Repository<krt_Naftan>().Edit(item);
                     item.DTBUHOTCHET = period;
+                }
+                foreach (krt_Naftan_orc_sapod item in listDetails) {
+                    UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(item);
+                    item.DtBuhOtchet = period;
                 }
                 UnitOfWork.Save();
                 return true;
@@ -263,16 +268,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 //krt_Naftan_ORC_Sapod (check as correction)
                 var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
                 UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
-                    itemRow.nds = nds;
-                    itemRow.summa = summa;
-                    itemRow.ErrorState = 2;
+                itemRow.nds = nds;
+                itemRow.summa = summa;
+                itemRow.ErrorState = 2;
 
                 //krt_Naftan (check as correction)
                 var parentRow = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
                 UnitOfWork.Repository<krt_Naftan>().Edit(parentRow);
-                    parentRow.ErrorState = 2;
-                    
-                    UnitOfWork.Save();
+                parentRow.ErrorState = 2;
+
+                UnitOfWork.Save();
 
             } catch (Exception) {
                 return false;
