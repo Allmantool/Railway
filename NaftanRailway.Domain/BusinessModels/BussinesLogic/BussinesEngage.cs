@@ -219,16 +219,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="period"></param>
         /// <param name="key"></param>
         public bool ChangeBuhDate(DateTime period, long key) {
-            IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
-            var listDetails = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get_all(x => x.keykrt >= key).OrderByDescending(x => x.keykrt);
+            var listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
             try {
                 foreach (krt_Naftan item in listRecords) {
                     UnitOfWork.Repository<krt_Naftan>().Edit(item);
                     item.DTBUHOTCHET = period;
-                }
-                foreach (krt_Naftan_orc_sapod item in listDetails) {
-                    UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(item);
-                    item.DtBuhOtchet = period;
                 }
                 UnitOfWork.Save();
                 return true;

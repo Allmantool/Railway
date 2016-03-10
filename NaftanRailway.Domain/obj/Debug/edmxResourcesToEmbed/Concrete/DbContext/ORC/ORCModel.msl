@@ -43,10 +43,8 @@
           <ScalarProperty Name="stnds" ColumnName="stnds" />
           <ScalarProperty Name="txt" ColumnName="txt" />
           <ScalarProperty Name="UNI_OTPR" ColumnName="UNI_OTPR" />
-          <ScalarProperty Name="nper" ColumnName="nper" />
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
           <ScalarProperty Name="p_type" ColumnName="p_type" />
-          <ScalarProperty Name="DtBuhOtchet" ColumnName="DtBuhOtchet" />
           <ScalarProperty Name="date_obrabot" ColumnName="date_obrabot" />
           <ScalarProperty Name="tdoc" ColumnName="tdoc" />
           <ScalarProperty Name="ORC_ID_ED" ColumnName="ORC_ID_ED" />

@@ -58,10 +58,8 @@
     <Property Name="stnds" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="txt" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="UNI_OTPR" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-    <Property Name="nper" Type="Int32" Nullable="false" />
     <Property Name="nkrt" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
     <Property Name="p_type" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-    <Property Name="DtBuhOtchet" Type="DateTime" Nullable="false" />
     <Property Name="date_obrabot" Type="DateTime" Nullable="false" />
     <Property Name="tdoc" Type="Byte" Nullable="false" />
     <Property Name="ORC_ID_ED" Type="Int32" Nullable="false" />
