@@ -141,15 +141,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ActionResult ScrollCorrection(int numberScroll, int reportYear, int page = 1) {
             const byte initialSizeItem = 47;
-            var findKey = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault().KEYKRT;
+            var findKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
-            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKey && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
             if ((numberScroll != null || reportYear != null) && recordCount > 0) {
                 IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage
-                    .GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKey && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds))
+                    .GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds))
                     .OrderBy(x => new { x.nomot, x.keysbor });
 
+                //Some ad info
+                ViewBag.nper = findKrt.NKRT;
+                ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {
@@ -207,7 +210,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         /// <summary>
-        /// General method for donwload files
+        /// General method for donwload files or display report throught SSRS
         /// </summary>
         /// <param name="reportName"></param>
         /// <param name="numberScroll"></param>
