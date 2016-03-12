@@ -200,7 +200,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 };
 
                 UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                    (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT",new SqlParameter("@KEYKRT", key), parm);
+                    (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                 //Confirmed
                 krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
@@ -219,7 +219,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="period"></param>
         /// <param name="key"></param>
         public bool ChangeBuhDate(DateTime period, long key) {
-            IEnumerable<krt_Naftan> listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
+            var listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
             try {
                 foreach (krt_Naftan item in listRecords) {
                     UnitOfWork.Repository<krt_Naftan>().Edit(item);
@@ -263,16 +263,23 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 //krt_Naftan_ORC_Sapod (check as correction)
                 var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
                 UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
-                    itemRow.nds = nds;
-                    itemRow.summa = summa;
-                    itemRow.ErrorState = 2;
+                itemRow.nds = nds;
+                itemRow.summa = summa;
+                itemRow.ErrorState = 2;
 
                 //krt_Naftan (check as correction)
                 var parentRow = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
                 UnitOfWork.Repository<krt_Naftan>().Edit(parentRow);
+<<<<<<< HEAD
                     parentRow.ErrorState = 2;
                     
                     UnitOfWork.Save();
+=======
+                parentRow.ErrorState = 2;
+
+                UnitOfWork.Save();
+
+>>>>>>> e0885039c8cda9e3c83b4c204872b9369e405eff
             } catch (Exception) {
                 return false;
             }

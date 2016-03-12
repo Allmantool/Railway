@@ -1,4 +1,43 @@
-﻿/*http://bootstrap-datepicker.readthedocs.org/en/latest */
+﻿if (!Array.prototype.filter) {
+    Array.prototype.filter = function(fun/*, thisArg*/) {
+        'use strict';
+
+        if (this === void 0 || this === null) {
+            throw new TypeError();
+        }
+
+        var t = Object(this);
+        var len = t.length >>> 0;
+        if (typeof fun !== 'function') {
+            throw new TypeError();
+        }
+
+        var res = [];
+        var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+        for (var i = 0; i < len; i++) {
+            if (i in t) {
+                var val = t[i];
+
+                // ПРИМЕЧАНИЕ: Технически, здесь должен быть Object.defineProperty на
+                //             следующий индекс, поскольку push может зависеть от
+                //             свойств на Object.prototype и Array.prototype.
+                //             Но этот метод новый и коллизии должны быть редкими,
+                //             так что используем более совместимую альтернативу.
+                if (fun.call(thisArg, val, i, t)) {
+                    res.push(val);
+                }
+            }
+        }
+
+        return res;
+    };
+}
+
+
+
+
+
+/*http://bootstrap-datepicker.readthedocs.org/en/latest */
 $('#sandbox-container .input-group').datepicker({
     format: "MM yyyy",
     startView: 1,
@@ -83,12 +122,20 @@ $('#dateModal').on('show.bs.modal', function(e) {
 /*edit modal (correction)*/
 $('#chargeOfList').on('click', function(e) {
     var selRow = $(e.target).parent('tr');
+
+    var _parse = function(name) {
+        var element = selRow.find(name),
+            text = element.text();
+        return parseInt(text.split('').filter(function(i) { return !isNaN(parseInt(i)) }).join(''));
+    }
+
+    
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
-    var summa = parseInt(selRow.find('.summa').text().replace(/\s/g, ""));
-    var sm = parseInt(selRow.find('.sm').text().replace(/\s/g, ""));
-    var sm_nds = parseInt(selRow.find('.sm_nds').text().replace(/\s/g, ""));
-    var nds = parseInt(selRow.find('.nds').text().replace(/\s/g, ""));
-    var sm_no_nds = parseInt(selRow.find('.sm_no_nds').text().replace(/\s/g, ""));
+    var summa = _parse(".summa");
+    var sm = _parse(".sm");
+    var sm_nds = _parse(".sm_nds"); 
+    var nds = _parse(".nds"); 
+    var sm_no_nds =  _parse(".sm_no_nds"); 
 
     $('label[for=sm]').text(sm);
     $('#sm').val(sm);
@@ -106,10 +153,22 @@ $('#chargeOfList').on('click', function(e) {
 
     $("#EditModal").modal('show');
 });
+
 $('#summa').on('input', function() {
+    alert(parseInt($('#nds').val()));
+    alert(parseInt(this.value));
     $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
 });
 $('#nds').on('input', function() {
+    $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
+});
+/*IE8*/
+$('#summa').on('propertychange', function() {
+    alert(parseInt($('#nds').val()));
+    alert(parseInt(this.value));
+    $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
+});
+$('#nds').on('propertychange', function() {
     $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
 });
 
@@ -160,7 +219,7 @@ function UpdateData(dataRow) {
     }
 
     //buh report
-    var arrSplit = reportStr.split('/');
+    /* var arrSplit = reportStr.split('/');
     arrSplit[2] = 'krt_Naftan_BookkeeperReport';
     if ($('#BuhFrame').length === 0) {
         $('<iframe />', {
@@ -171,7 +230,7 @@ function UpdateData(dataRow) {
     } else {
         //refresh
         $('#BuhFrame').attr('src', arrSplit.join('/'));
-    }
+    } */
 
     var refreshIntervalId = window.setInterval(function() { //monitor for existence of cookie 
         var cookieValue = $.cookie("SSRSfileDownloadToken"); // **uses jquery.cookie plugin

@@ -8,24 +8,23 @@
 }
 
 <table id="ScrollTable" class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
-    <thead class="thead-inverse" style = "background-color: rgb(231,255,255);border: 2px solid black;">
-    <tr class="thTable">
-        <!--Don't work external CSS-->
-        <th colspan="2" class="text-center" style="border: 1px solid black;">№ перечня</th>
-        <th class="text-center" style="border: 1px solid black;">Результат<br/>сверки</th>
-        <th class="text-center" style="border: 1px solid black;">Признак<br/>коррект.<br/>перечня</th>
-        <th class="text-center" style="border: 1px solid black;">Вид<br/>услуг</th>
-        <th class="text-center" style="border: 1px solid black;">Период<br/>отчётности</th>
-        <th class="text-center" style="border: 1px solid black;">№ счёт-<br/>фактуры</th>
-        <th class="text-center" style="border: 1px solid black;">Дата счёт-<br/>фактуры</th>
-        <th class="text-center" style="border: 1px solid black;"> Стоимость услуг<br/>с НДС, руб.</th>
-        <th class="text-center" style="border: 1px solid black;">НДС, руб.</th>
-        <th class="text-center" style="border: 1px solid black;">Начальная<br/>дата<br/>данных</th>
-        <th class="text-center" style="border: 1px solid black;">Конечная<br/>дата<br/>данных</th>
-        <th class="text-center" style="border: 1px solid black;">Список сборов перечней</th>
-        <th class="text-center .rotate" style="border: 1px solid black;">Число<br/>записей в перечне</th>
-        <th class="text-center" style="border: 1px solid black;">Дата эл. письма ОРЦ</th>
-    </tr>
+    <thead class="thead-inverse" style = "background-color: rgb(231,255,255);border: 3px solid black;border-color: black;">
+        <tr>
+            <th colspan="2" class="text-center">№ перечня</th>
+            <th class="text-center" style = "border: 2px solid black;border-color: black;">Результат<br />сверки</th>
+            <th class="text-center">Признак<br />коррект.<br />перечня</th>
+            <th class="text-center">Вид<br />услуг</th>
+            <th class="text-center">Период<br />отчётности</th>
+            <th class="text-center">№ счёт-<br />фактуры</th>
+            <th class="text-center">Дата счёт-<br />фактуры</th>
+            <th class="text-center">Стоимость услуг<br />с НДС, руб.</th>
+            <th class="text-center">НДС, руб.</th>
+            <th class="text-center">Начальная<br />дата<br />данных</th>
+            <th class="text-center">Конечная<br />дата<br />данных</th>
+            <th class="text-center">Набор сборов перечней</th>
+            <th class="text-center .rotate">Число<br />записей в перечне</th>
+            <th class="text-center">Дата эл. письма ОРЦ</th>
+        </tr>
     </thead>
     <tbody class="text-center" id="scrollList">
         @{ Html.RenderPartial("_AjaxKrtNaftanRow", @Model.ListKrtNaftan);}

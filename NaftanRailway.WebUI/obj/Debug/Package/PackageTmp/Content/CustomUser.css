@@ -10,11 +10,10 @@
 .table tbody>tr>td.vert-align{
     vertical-align: middle;
 }
-/*table head*/
-.tableHeader th {
-    border: 1px solid black;
-    vertical-align: middle;
-}   
+th {
+    border: 3px solid black;
+    border-color: black;   
+}
 /*head rotation*/
 .rotate{
 -moz-transform: rotate(90deg);  /* FF3.5+ */
@@ -143,4 +142,4 @@
 }
 .navbar-custom .navbar-link:hover {
   color: #c0c0c0;
-}              
+}                 

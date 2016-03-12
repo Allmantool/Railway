@@ -32,13 +32,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const byte initialSizeItem = 47;
             int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
 
-            if(page >= 1 && page <= Math.Ceiling((recordCount/(decimal)initialSizeItem))) {
-                if(Request.IsAjaxRequest()) {
+            if (page >= 1 && page <= Math.Ceiling((recordCount / (decimal)initialSizeItem))) {
+                if (Request.IsAjaxRequest()) {
                     return new EmptyResult();
                     //    return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>()
                     //        .OrderByDescending(x => x.KEYKRT).Skip((page-1)*initialSizeItem).Take(initialSizeItem));
                 }
-                 
+
                 return View(new IndexModelView() {
                     ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
                     ReportPeriod = DateTime.Now,
@@ -99,24 +99,26 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1) {
             const byte initialSizeItem = 47;
+            var findKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
-            if ((numberScroll != null || reportYear != null) &&
-                _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear).FirstOrDefault() != null) {
-                int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear);
+            if ((numberScroll != null || reportYear != null || findKrt != null) && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).FirstOrDefault() != null) {
+                int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKrt.KEYKRT);
                 if (Request.IsAjaxRequest()) {
-                    return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row",
-                        _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear)
-                            .OrderByDescending(x => new { x.keykrt, x.nomot, x.keysbor })
-                            .Skip((page) * initialSizeItem)
-                            .Take(initialSizeItem));
+                    return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
+                                                                        .OrderByDescending(x => new { x.keykrt, x.nomot, x.keysbor })
+                                                                        .Skip((page) * initialSizeItem)
+                                                                        .Take(initialSizeItem));
                 }
+                //Some ad info
+                ViewBag.nper = findKrt.NKRT;
+                ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 //Info about paging
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,
                     ItemsPerPage = initialSizeItem,
                     TotalItems = recordCount
                 };
-                return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear)
+                return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                     .OrderByDescending(x => x.keykrt)
                     .ThenBy(z => z.nomot)
                     .ThenBy(y => y.keysbor)
@@ -139,14 +141,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         public ActionResult ScrollCorrection(int numberScroll, int reportYear, int page = 1) {
             const byte initialSizeItem = 47;
-            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>()
-                .Count(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+            var findKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
-            if((numberScroll != null || reportYear != null) && recordCount > 0) {
+            int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+
+            if ((numberScroll != null || reportYear != null) && recordCount > 0) {
                 IEnumerable<krt_Naftan_orc_sapod> fixRow = _bussinesEngage
-                    .GetTable<krt_Naftan_orc_sapod>(x => x.nper == numberScroll && x.DtBuhOtchet.Year == reportYear && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds))
+                    .GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds))
                     .OrderBy(x => new { x.nomot, x.keysbor });
-                
+
+                //Some ad info
+                ViewBag.nper = findKrt.NKRT;
+                ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {
@@ -158,7 +164,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
-            return RedirectToAction("Index", "Scroll" ,new { page = 1});
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -174,19 +180,20 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult ScrollCorrection(decimal sm_nds, decimal nds, decimal sm, decimal summa, string nomot, int vidsbr, int page = 1){
+        public ActionResult ScrollCorrection(decimal sm_nds, decimal nds, decimal sm, decimal summa, string nomot, int vidsbr, int page = 1) {
             const byte initialSizeItem = 47;
-            krt_Naftan_orc_sapod corretionItem = _bussinesEngage
-                .GetTable<krt_Naftan_orc_sapod>(x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == sm_nds).FirstOrDefault();
+
+            var corretionItem = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == sm_nds).FirstOrDefault();
+            string numberScroll = _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == corretionItem.keykrt).FirstOrDefault().NKRT.ToString();
 
             if (Request.IsAjaxRequest() && corretionItem != null) {
                 _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
-                 //Trouble
-                List<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.nper == corretionItem.nper && x.DtBuhOtchet.Year == corretionItem.DtBuhOtchet.Year &&
+                //Trouble
+                List<krt_Naftan_orc_sapod> fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == corretionItem.keykrt &&
                          (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds)).OrderBy(x => new { x.nomot, x.keysbor }).ToList<krt_Naftan_orc_sapod>();
 
                 //Info about paging
-                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", corretionItem.nper);
+                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,
                     ItemsPerPage = initialSizeItem,
@@ -194,16 +201,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 };
 
                 if (!fixRow.Any())
-                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", corretionItem.nper);
+                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
                 return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index", "Scroll");
 
             }
-            return RedirectToAction("Index", "Scroll", new { page = 1});
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
-        /// General method for donwload files
+        /// General method for donwload files or display report throught SSRS
         /// </summary>
         /// <param name="reportName"></param>
         /// <param name="numberScroll"></param>
@@ -247,9 +254,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
                 //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
                 string contentDisposition;
-                if(Request.Browser.Browser == "IE" && (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
+                if (Request.Browser.Browser == "IE" && (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
                     contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
-                else if(Request.Browser.Browser == "Safari")
+                else if (Request.Browser.Browser == "Safari")
                     contentDisposition = "attachment; filename=" + nameFile;
                 else
                     contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
