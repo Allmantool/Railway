@@ -262,25 +262,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             try {
                 //krt_Naftan_ORC_Sapod (check as correction)
                 var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
-<<<<<<< HEAD
-                //using (UnitOfWork.Repository<krt_Naftan_orc_sapod>()._context) {
-                //UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
-                itemRow.nds = nds;
-                itemRow.summa = summa;
-                itemRow.ErrorState = 2;
-                UnitOfWork.Repository<krt_Naftan_orc_sapod>().Update(itemRow);
-                //UnitOfWork.Save();
-                // }
-                //using(UnitOfWork.Repository<krt_Naftan>()._context) {
-                //krt_Naftan (check as correction)
-                var parentRow = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
-
-                //UnitOfWork.Repository<krt_Naftan>().Edit(parentRow);
-                parentRow.ErrorState = 2;
-                UnitOfWork.Repository<krt_Naftan>().Update(parentRow);
-                UnitOfWork.Save();
-                // }
-=======
                 UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
                     itemRow.nds = nds;
                     itemRow.summa = summa;
@@ -292,8 +273,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     parentRow.ErrorState = 2;
                     
                     UnitOfWork.Save();
-
->>>>>>> 7d53ad94c40bd929b858fc2ba28975379814fb90
             } catch (Exception) {
                 return false;
             }
