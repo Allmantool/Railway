@@ -11,7 +11,7 @@
     Html.EnableUnobtrusiveJavaScript(true);    
 }
 <h3 class="text-center control-label">Перечень № @ViewBag.nper
-    <span class="small">(поступил в электронном виде из ОРЦ @Model.First().date_obrabot.ToShortDateString() г.)</span>
+    <span class="small">(поступил в электронном виде из ОРЦ @ViewBag.date_obrabot.ToShortDateString() г.)</span>
     <span class="hidden" id="key">@ViewBag.nper</span>
     <span class="hidden" id="scrollDate">@ViewBag.DtBuhOtchet.Year</span>
 </h3>
@@ -32,7 +32,6 @@
             <th class="text-center">ID_ED<br/>ОРЦ</th>
             <th class="text-center">ID_ED<br/>САПОД</th>
             <th class="text-center">textm<br/>САПОД</th>
-            <th class="text-center">cod sbor</th>
             <th class="text-center">date<br/> raskr</th>
             <th class="text-center">num_doc</th>
             <th class="text-center">kol</th>

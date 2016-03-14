@@ -230,12 +230,12 @@
     </Compile>
     <Compile Include="Concrete\EFDocumentsRepository.cs" />
     <Compile Include="Concrete\GeneralRepository.cs" />
-    <Compile Include="Entities\etsng.cs" />
-    <Compile Include="Entities\krt_Naftan.cs" />
-    <Compile Include="Entities\krt_Naftan_orc_sapod.cs" />
-    <Compile Include="Entities\v_akt_vag.cs" />
-    <Compile Include="Entities\v_otpr.cs" />
-    <Compile Include="Entities\v_o_v.cs" />
+    <Compile Include="EntitiesMetaData\etsng.cs" />
+    <Compile Include="EntitiesMetaData\krt_Naftan.cs" />
+    <Compile Include="EntitiesMetaData\krt_Naftan_orc_sapod.cs" />
+    <Compile Include="EntitiesMetaData\v_akt_vag.cs" />
+    <Compile Include="EntitiesMetaData\v_otpr.cs" />
+    <Compile Include="EntitiesMetaData\v_o_v.cs" />
     <Compile Include="BusinessModels\BussinesLogic\AccumulativeCard.cs" />
     <Compile Include="BusinessModels\BussinesLogic\Bill.cs" />
     <Compile Include="BusinessModels\BussinesLogic\Certificate.cs" />
@@ -243,8 +243,8 @@
     <Compile Include="BusinessModels\BussinesLogic\Luggage.cs" />
     <Compile Include="BusinessModels\SessionLogic\SessionStorage.cs" />
     <Compile Include="BusinessModels\BussinesLogic\ShippingInfoLine.cs" />
-    <Compile Include="Entities\v_pam.cs" />
-    <Compile Include="Entities\v_pam_vag.cs" />
+    <Compile Include="EntitiesMetaData\v_pam.cs" />
+    <Compile Include="EntitiesMetaData\v_pam_vag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

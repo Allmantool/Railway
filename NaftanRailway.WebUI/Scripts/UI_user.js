@@ -33,10 +33,6 @@
     };
 }
 
-
-
-
-
 /*http://bootstrap-datepicker.readthedocs.org/en/latest */
 $('#sandbox-container .input-group').datepicker({
     format: "MM yyyy",

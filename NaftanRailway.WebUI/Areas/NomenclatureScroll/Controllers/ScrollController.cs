@@ -112,6 +112,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 //Some ad info
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
+                ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
                 //Info about paging
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,

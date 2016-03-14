@@ -28,15 +28,12 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public string txt { get; set; }
         public string UNI_OTPR { get; set; }
         public string nkrt { get; set; }
-        public string p_type { get; set; }
-        public System.DateTime date_obrabot { get; set; }
         public byte tdoc { get; set; }
         public int ORC_ID_ED { get; set; }
         public Nullable<int> id { get; set; }
         public Nullable<int> id_kart { get; set; }
         public Nullable<int> id_otpr { get; set; }
         public Nullable<short> type_doc { get; set; }
-        public Nullable<short> cod_sbor { get; set; }
         public Nullable<System.DateTime> date_raskr { get; set; }
         public string num_doc { get; set; }
         public Nullable<decimal> cena { get; set; }

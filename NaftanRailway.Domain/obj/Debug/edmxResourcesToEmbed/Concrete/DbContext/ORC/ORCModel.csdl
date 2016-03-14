@@ -59,15 +59,12 @@
     <Property Name="txt" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
     <Property Name="UNI_OTPR" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
     <Property Name="nkrt" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-    <Property Name="p_type" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-    <Property Name="date_obrabot" Type="DateTime" Nullable="false" />
     <Property Name="tdoc" Type="Byte" Nullable="false" />
     <Property Name="ORC_ID_ED" Type="Int32" Nullable="false" />
     <Property Name="id" Type="Int32" />
     <Property Name="id_kart" Type="Int32" />
     <Property Name="id_otpr" Type="Int32" />
     <Property Name="type_doc" Type="Int16" />
-    <Property Name="cod_sbor" Type="Int16" />
     <Property Name="date_raskr" Type="DateTime" />
     <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
     <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
