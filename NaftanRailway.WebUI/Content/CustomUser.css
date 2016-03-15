@@ -11,8 +11,7 @@
     vertical-align: middle;
 }
 /*table head*/
-.tableHeader th {
-    border: 1px solid black;
+.tableHeader tr>th.vert-align{
     vertical-align: middle;
 }   
 /*head rotation*/

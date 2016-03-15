@@ -44,15 +44,12 @@
           <ScalarProperty Name="txt" ColumnName="txt" />
           <ScalarProperty Name="UNI_OTPR" ColumnName="UNI_OTPR" />
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-          <ScalarProperty Name="p_type" ColumnName="p_type" />
-          <ScalarProperty Name="date_obrabot" ColumnName="date_obrabot" />
           <ScalarProperty Name="tdoc" ColumnName="tdoc" />
           <ScalarProperty Name="ORC_ID_ED" ColumnName="ORC_ID_ED" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="id_kart" ColumnName="id_kart" />
           <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
           <ScalarProperty Name="type_doc" ColumnName="type_doc" />
-          <ScalarProperty Name="cod_sbor" ColumnName="cod_sbor" />
           <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
           <ScalarProperty Name="num_doc" ColumnName="num_doc" />
           <ScalarProperty Name="cena" ColumnName="cena" />

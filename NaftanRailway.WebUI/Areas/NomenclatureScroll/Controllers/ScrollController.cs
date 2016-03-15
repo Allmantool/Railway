@@ -88,7 +88,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", numberScroll);
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -105,13 +105,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKrt.KEYKRT);
                 if (Request.IsAjaxRequest()) {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
-                                                                        .OrderByDescending(x => new { x.keykrt, x.nomot, x.keysbor })
+                                                                        .OrderByDescending(x => new { x.nkrt, x.vidsbr, x.dt })
                                                                         .Skip((page) * initialSizeItem)
                                                                         .Take(initialSizeItem));
                 }
                 //Some ad info
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
+                ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
                 //Info about paging
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,
@@ -120,8 +121,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 };
                 return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                     .OrderByDescending(x => x.keykrt)
-                    .ThenBy(z => z.nomot)
-                    .ThenBy(y => y.keysbor)
+                    .ThenBy(z => z.nkrt)
+                    .ThenBy(y => y.vidsbr)
+                    .ThenBy(y => y.dt)
                     .Skip((page - 1) * initialSizeItem)
                     .Take(initialSizeItem));
             }
@@ -153,6 +155,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 //Some ad info
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
+                ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
                 //Info about paging
                 ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}", numberScroll);
                 ViewBag.PagingInfo = new PagingInfo {

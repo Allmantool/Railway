@@ -5,8 +5,7 @@ using System.Web.Mvc;
 
 namespace NaftanRailway.Domain.Concrete.DbContext.OBD {
     [MetadataType(typeof(ShippingMetaData))]
-    public partial class v_otpr {
-    }
+    public partial class v_otpr {}
 
     internal class ShippingMetaData {
         [HiddenInput(DisplayValue = false)]

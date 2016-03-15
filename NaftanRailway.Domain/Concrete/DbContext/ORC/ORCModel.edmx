@@ -63,15 +63,12 @@
           <Property Name="txt" Type="nvarchar(max)" />
           <Property Name="UNI_OTPR" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="nkrt" Type="nvarchar" Nullable="false" MaxLength="10" />
-          <Property Name="p_type" Type="nvarchar" Nullable="false" MaxLength="1" />
-          <Property Name="date_obrabot" Type="datetime" Nullable="false" />
           <Property Name="tdoc" Type="tinyint" Nullable="false" />
           <Property Name="ORC_ID_ED" Type="int" Nullable="false" />
           <Property Name="id" Type="int" />
           <Property Name="id_kart" Type="int" />
           <Property Name="id_otpr" Type="int" />
           <Property Name="type_doc" Type="smallint" />
-          <Property Name="cod_sbor" Type="smallint" />
           <Property Name="date_raskr" Type="datetime" />
           <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
           <Property Name="cena" Type="decimal" Scale="2" />
@@ -215,15 +212,12 @@
           <Property Name="txt" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="UNI_OTPR" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="nkrt" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="p_type" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-          <Property Name="date_obrabot" Type="DateTime" Nullable="false" />
           <Property Name="tdoc" Type="Byte" Nullable="false" />
           <Property Name="ORC_ID_ED" Type="Int32" Nullable="false" />
           <Property Name="id" Type="Int32" />
           <Property Name="id_kart" Type="Int32" />
           <Property Name="id_otpr" Type="Int32" />
           <Property Name="type_doc" Type="Int16" />
-          <Property Name="cod_sbor" Type="Int16" />
           <Property Name="date_raskr" Type="DateTime" />
           <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
@@ -346,15 +340,12 @@
             <ScalarProperty Name="txt" ColumnName="txt" />
             <ScalarProperty Name="UNI_OTPR" ColumnName="UNI_OTPR" />
             <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-            <ScalarProperty Name="p_type" ColumnName="p_type" />
-            <ScalarProperty Name="date_obrabot" ColumnName="date_obrabot" />
             <ScalarProperty Name="tdoc" ColumnName="tdoc" />
             <ScalarProperty Name="ORC_ID_ED" ColumnName="ORC_ID_ED" />
             <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="id_kart" ColumnName="id_kart" />
             <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
             <ScalarProperty Name="type_doc" ColumnName="type_doc" />
-            <ScalarProperty Name="cod_sbor" ColumnName="cod_sbor" />
             <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
             <ScalarProperty Name="num_doc" ColumnName="num_doc" />
             <ScalarProperty Name="cena" ColumnName="cena" />
@@ -420,14 +411,14 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="ORCModel" ZoomLevel="65">
+      <Diagram Name="ORCModel" ZoomLevel="111">
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8" PointY="1.125" Height="6.35837890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.8653369140625" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
         <AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">
           <ConnectorPoint PointX="7.25" PointY="4.44310546875" />
-          <ConnectorPoint PointX="8" PointY="4.44310546875" />
+          <ConnectorPoint PointX="8.625" PointY="4.44310546875" />
         </AssociationConnector>
         <AssociationConnector Association="ORCModelEntities.FK_orc_sbor_orc_krt" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
