@@ -270,16 +270,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 //krt_Naftan (check as correction)
                 var parentRow = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
                 UnitOfWork.Repository<krt_Naftan>().Edit(parentRow);
-<<<<<<< HEAD
-                    parentRow.ErrorState = 2;
-                    
-                    UnitOfWork.Save();
-=======
+
                 parentRow.ErrorState = 2;
 
                 UnitOfWork.Save();
 
->>>>>>> e0885039c8cda9e3c83b4c204872b9369e405eff
             } catch (Exception) {
                 return false;
             }
