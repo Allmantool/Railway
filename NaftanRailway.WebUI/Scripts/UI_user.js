@@ -151,8 +151,6 @@ $('#chargeOfList').on('click', function(e) {
 });
 
 $('#summa').on('input', function() {
-    alert(parseInt($('#nds').val()));
-    alert(parseInt(this.value));
     $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
 });
 $('#nds').on('input', function() {
@@ -160,8 +158,6 @@ $('#nds').on('input', function() {
 });
 /*IE8*/
 $('#summa').on('propertychange', function() {
-    alert(parseInt($('#nds').val()));
-    alert(parseInt(this.value));
     $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
 });
 $('#nds').on('propertychange', function() {
@@ -248,13 +244,13 @@ function FixUpdate(dataRow) {
     $('#EditModal').modal('hide');
 }
 
-/*Event click on table row + mark as work row for ajax request*/
-$('#scrollList').on('click', function(e) {
+/*Event click on table row + mark as work row for ajax request (event delegation)*/
+$('#scrollList').on('click', 'tr', function(e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
     var td = $(e.target) || $(this).val();
-    var chkRow = $(td).parents('tr');
+    var chkRow = $(this);
     var srcKey = chkRow.find('td input[class*=key]');
     var chkRadio = chkRow.find('td input[class*=radio]');
     moment.locale('ru');
