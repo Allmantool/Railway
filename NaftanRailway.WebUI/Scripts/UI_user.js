@@ -1,4 +1,5 @@
-﻿if (!Array.prototype.filter) {
+﻿/*Fuction for IE8 compebility search space sign*/
+if (!Array.prototype.filter) {
     Array.prototype.filter = function(fun/*, thisArg*/) {
         'use strict';
 
@@ -53,8 +54,53 @@ $('#sandbox-container .input-group').datepicker({
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
-/*
-AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
+/*MultiSelect Bootsrap plugin*/
+$(function() {
+    $('#nkrt').multiselect({
+        includeSelectAllOption: true,
+        enableHTML: false,
+        disableIfEmpty: true,
+        disabledText: 'Нет значений ...',
+        nonSelectedText: 'Не выбрано ...',
+        buttonWidth: '150px',
+        maxHeight: 350,
+        allSelectedText: '№ Карточки: (Все)',
+        /*checkboxName: 'multiselect[]' (for server side binding)*/
+        /*A function which is triggered on the change event of the options. 
+        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.
+        onChange: function(option, checked, select) {
+            alert('Changed option ' + $(option).val() + '.');
+        }*/
+         buttonText: function(options, select) {
+                if (options.length === 0) {
+                    return 'Не выбрано ...';
+                }
+                else if (options.length > 3) {
+                    return 'Выбрано '+options.length+' карточек';
+                }
+                 else {
+                     var labels = [];
+                     options.each(function() {
+                         if ($(this).attr('label') !== undefined) {
+                             labels.push($(this).attr('label'));
+                         }
+                         else {
+                             labels.push($(this).html());
+                         }
+                     });
+                     return labels.join(', ') + '';
+                }
+        }
+});
+    $('#tdoc').multiselect({
+        includeSelectAllOption: true
+    });
+    $('#DDMenuVidsbr').multiselect({
+        includeSelectAllOption: true
+    });
+});
+
+/*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
 function need working state datepicker
 url => Specifies the URL to send the request to. Default is the current page
 type => Specifies the type of request. (GET or POST)

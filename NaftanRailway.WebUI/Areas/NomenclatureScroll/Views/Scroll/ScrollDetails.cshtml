@@ -10,8 +10,8 @@
     Html.EnableClientValidation(false);
     Html.EnableUnobtrusiveJavaScript(true);    
 }
-<h3 class="text-center control-label">Перечень № @ViewBag.nper
-    <span class="small">(поступил в электронном виде из ОРЦ @ViewBag.date_obrabot.ToShortDateString() г.)</span>
+<h3 class="text-center control-label">Перечень № @ViewBag.nper<br/>
+    <span class="small">(поступил в электронном виде из ОРЦ @ViewBag.date_obrabot.ToShortDateString() г. Общее кол-во записей: @ViewBag.RecordCount)</span><br/>
     <span class="hidden" id="key">@ViewBag.nper</span>
     <span class="hidden" id="scrollDate">@ViewBag.DtBuhOtchet.Year</span>
 </h3>
@@ -37,6 +37,25 @@
             <th class="text-center">kol</th>
             <th class="text-center">summa</th>
             <th class="text-center">nds</th>
+        </tr>
+        <!--Grid filter-->
+        <tr class="nav navbar navbar-default filter-menu">
+            <td colspan="3">@Html.DropDownListFor(x => x.First().nkrt, 
+                new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt), 
+                "№ Карточки: (Все) ", 
+                new { @class = "form-control", type = "search", multiple = "multiple" })
+            </td>
+            <td colspan="3">@Html.DropDownListFor(x => x.First().tdoc,
+                new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc), 
+                "Тип документа: (Все) ", 
+                new { @class = "form-control", multiple = "multiple"})
+            </td>
+            <td colspan="3">@Html.DropDownList("DDMenuVidsbr",
+                new MultiSelectList(ViewBag.VidSbr, ViewBag.VidSbr), 
+                "№ Сбора: (Все) ", 
+                new { @class = "form-control" , multiple = "multiple" })
+            </td>
+            <td colspan="10"></td>
         </tr>
         </thead>
         <tbody class="text-center" id="chargeOfList">

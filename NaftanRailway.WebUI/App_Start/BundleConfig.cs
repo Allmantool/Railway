@@ -16,6 +16,7 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/bootstrap.min.js",
                          "~/Scripts/bootstrap-datepicker.min.js",
                          "~/Content/locales/bootstrap-datepicker.ru.min.js",
+                         "~/Scripts/bootstrap-multiselect.js",
                          "~/Scripts/moment-with-locales.min.js",
                          "~/Scripts/jquery-ui-1.11.4.min.js",
                          "~/Scripts/jquery.validate.min.js",
@@ -31,6 +32,7 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new StyleBundle("~/Content/cssbundle")
                 .Include("~/Content/bootstrap.min.css",
+                         "~/Content/bootstrap-multiselect.css",
                          "~/Content/bootstrap-theme.min.css",
                          "~/Content/bootstrap-datetimepicker.min.css",
                          "~/Content/bootstrap-datepicker3.min.css",
