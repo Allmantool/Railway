@@ -109,7 +109,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                                                                         .Skip((page) * initialSizeItem)
                                                                         .Take(initialSizeItem));
                 }
-                //Some ad info
+                //Some add info
+                ViewBag.ListNkrt =_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z=>z).ToList();
+                ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z=>z).ToList();
+                ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z=>z).ToList();
+                ViewBag.RecordCount = recordCount;
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 ViewBag.date_obrabot = findKrt.DATE_OBRABOT;

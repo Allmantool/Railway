@@ -297,6 +297,7 @@
     <Compile Include="Areas\NomenclatureScroll\Models\CheckCharges.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
+    <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\CustomUser.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActsController.cs" />
@@ -576,6 +577,7 @@
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
