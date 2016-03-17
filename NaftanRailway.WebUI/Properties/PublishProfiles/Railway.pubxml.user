@@ -5,7 +5,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TimeStampOfAssociatedLegacyPublishXmlFile>2016-01-16T18:49:17.2234138+03:00</TimeStampOfAssociatedLegacyPublishXmlFile>
-    <_PublishTargetUrl>\\cms\rail$</_PublishTargetUrl>
+    <TimeStampOfAssociatedLegacyPublishXmlFile>2016-03-17T16:04:43.3010067+03:00</TimeStampOfAssociatedLegacyPublishXmlFile>
+    <_PublishTargetUrl>c:\inetpub\wwwroot\</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

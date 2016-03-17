@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SessionDbModelStoreContainer" CdmEntityContainer="SessionDbContext">
+    <EntitySetMapping Name="SessionBills">
+      <EntityTypeMapping TypeName="SessionDbModel.SessionBill">
+        <MappingFragment StoreEntitySet="SessionBills">
+          <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="id_wag" ColumnName="id_wag" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="n_bill" ColumnName="n_bill" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SessionShippings">
+      <EntityTypeMapping TypeName="SessionDbModel.SessionShipping">
+        <MappingFragment StoreEntitySet="SessionShippings">
+          <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="id_wag" ColumnName="id_wag" />
+          <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+          <ScalarProperty Name="n_wag" ColumnName="n_wag" />
+          <ScalarProperty Name="warehouse" ColumnName="warehouse" />
+          <ScalarProperty Name="cargo" ColumnName="cargo" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="executor" ColumnName="executor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
