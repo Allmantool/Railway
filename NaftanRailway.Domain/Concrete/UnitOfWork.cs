@@ -39,7 +39,7 @@ namespace NaftanRailway.Domain.Concrete {
                 foreach(var contextItem in Contexts) {
                     ObjectContext objContext = ((IObjectContextAdapter)contextItem).ObjectContext;
                     MetadataWorkspace workspace = objContext.MetadataWorkspace;
-
+                    
                     if(workspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
                         ActiveContext = contextItem;
                         break;

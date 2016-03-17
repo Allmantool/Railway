@@ -1,4 +1,5 @@
-﻿if (!Array.prototype.filter) {
+﻿/*Fuction for IE8 compebility search space sign*/
+if (!Array.prototype.filter) {
     Array.prototype.filter = function(fun/*, thisArg*/) {
         'use strict';
 
@@ -53,8 +54,71 @@ $('#sandbox-container .input-group').datepicker({
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
-/*
-AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
+/*MultiSelect Bootsrap plugin*/
+$(function() {
+    $('#nkrt').multiselect({
+        includeSelectAllOption: true,
+        enableHTML: false,
+        disableIfEmpty: true,
+        disabledText: 'Нет значений ...',
+        nonSelectedText: 'Не выбрано ...',
+        buttonWidth: '190px',
+        maxHeight: 510,
+        allSelectedText: '№ Карточки: (Все)',
+        selectAllText: '№ Карточки: (Все)',
+        inheritClass: true,
+        /*numberDisplayed: 3,
+        delimiterText: '; ',*/
+        /*checkboxName: 'multiselect[]' (for server side binding)*/
+        /*A function which is triggered on the change event of the options. 
+        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.
+        onChange: function(option, checked, select) {
+            alert('Changed option ' + $(option).val() + '.');
+        }*/
+         buttonText: function(options, select) {
+                if (options.length === 0) {
+                    return 'Не выбрано ...';
+                }
+                else if (options.length === $(select).children('option').size()) {
+                    return '№ Карточки: (Все)' + ' (' + $(select).children('option').length + ')';
+                }
+                else if (options.length > 3) {
+                    return 'Выбрано '+options.length+' карточек';
+                }
+                 else {
+                     var labels = [];
+                     options.each(function() {
+                         if ($(this).attr('label') !== undefined) {
+                             labels.push($(this).attr('label'));
+                         }
+                         else {
+                             labels.push($(this).html());
+                         }
+                     });
+                     return labels.join(', ') + '';
+                }
+        }
+});
+    $('#tdoc').multiselect({
+        includeSelectAllOption: true,
+        selectAllText: 'Тип документа: (Все)',
+        allSelectedText: 'Тип документа: (Все)',
+        nonSelectedText: 'Не выбрано',
+        disableIfEmpty: true,
+    });
+    $('#DDMenuVidsbr').multiselect({
+        includeSelectAllOption: true,
+        selectAllText: '№ Сбора: (Все)',
+        allSelectedText:'№ Сбора: (Все)',
+        numberDisplayed: 7,
+        nonSelectedText: 'Не выбрано',
+        disableIfEmpty: true,
+        nSelectedText: ' кодов сборов выбрано',
+        buttonWidth: '210px'
+    });
+});
+
+/*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
 function need working state datepicker
 url => Specifies the URL to send the request to. Default is the current page
 type => Specifies the type of request. (GET or POST)
@@ -244,13 +308,13 @@ function FixUpdate(dataRow) {
     $('#EditModal').modal('hide');
 }
 
-/*Event click on table row + mark as work row for ajax request*/
-$('#scrollList').on('click', function(e) {
+/*Event click on table row + mark as work row for ajax request (event delegation)*/
+$('#scrollList').on('click', 'tr', function(e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
     var td = $(e.target) || $(this).val();
-    var chkRow = $(td).parents('tr');
+    var chkRow = $(this);
     var srcKey = chkRow.find('td input[class*=key]');
     var chkRadio = chkRow.find('td input[class*=radio]');
     moment.locale('ru');

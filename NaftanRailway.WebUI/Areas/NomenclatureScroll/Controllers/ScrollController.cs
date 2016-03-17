@@ -29,7 +29,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
-            const byte initialSizeItem = 47;
+            const byte initialSizeItem = 100;
             int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
 
             if (page >= 1 && page <= Math.Ceiling((recordCount / (decimal)initialSizeItem))) {
@@ -40,7 +40,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 }
 
                 return View(new IndexModelView() {
-                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
+                    /*DataReader exception => ToList()*/
+                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem).ToList(),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
@@ -98,7 +99,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1) {
-            const byte initialSizeItem = 47;
+            const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
             if ((numberScroll != null || reportYear != null || findKrt != null) && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).FirstOrDefault() != null) {
@@ -107,12 +108,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                                                                         .OrderByDescending(x => new { x.nkrt, x.vidsbr, x.dt })
                                                                         .Skip((page) * initialSizeItem)
-                                                                        .Take(initialSizeItem));
+                                                                        .Take(initialSizeItem)
+                                                                        .ToList());
                 }
                 //Some add info
-                ViewBag.ListNkrt =_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z=>z).ToList();
-                ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z=>z).ToList();
-                ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z=>z).ToList();
+                ViewBag.ListNkrt = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z => z).ToList();
+                ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z => z).ToList();
+                ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z => z).ToList();
                 ViewBag.RecordCount = recordCount;
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
@@ -129,7 +131,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .ThenBy(y => y.vidsbr)
                     .ThenBy(y => y.dt)
                     .Skip((page - 1) * initialSizeItem)
-                    .Take(initialSizeItem));
+                    .Take(initialSizeItem)
+                    .ToList());
             }
 
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";

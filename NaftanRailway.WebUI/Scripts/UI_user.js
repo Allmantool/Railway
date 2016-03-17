@@ -62,9 +62,13 @@ $(function() {
         disableIfEmpty: true,
         disabledText: 'Нет значений ...',
         nonSelectedText: 'Не выбрано ...',
-        buttonWidth: '150px',
-        maxHeight: 350,
+        buttonWidth: '190px',
+        maxHeight: 510,
         allSelectedText: '№ Карточки: (Все)',
+        selectAllText: '№ Карточки: (Все)',
+        inheritClass: true,
+        /*numberDisplayed: 3,
+        delimiterText: '; ',*/
         /*checkboxName: 'multiselect[]' (for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.
@@ -74,6 +78,9 @@ $(function() {
          buttonText: function(options, select) {
                 if (options.length === 0) {
                     return 'Не выбрано ...';
+                }
+                else if (options.length === $(select).children('option').size()) {
+                    return '№ Карточки: (Все)' + ' (' + $(select).children('option').length + ')';
                 }
                 else if (options.length > 3) {
                     return 'Выбрано '+options.length+' карточек';
@@ -93,10 +100,21 @@ $(function() {
         }
 });
     $('#tdoc').multiselect({
-        includeSelectAllOption: true
+        includeSelectAllOption: true,
+        selectAllText: 'Тип документа: (Все)',
+        allSelectedText: 'Тип документа: (Все)',
+        nonSelectedText: 'Не выбрано',
+        disableIfEmpty: true,
     });
     $('#DDMenuVidsbr').multiselect({
-        includeSelectAllOption: true
+        includeSelectAllOption: true,
+        selectAllText: '№ Сбора: (Все)',
+        allSelectedText:'№ Сбора: (Все)',
+        numberDisplayed: 7,
+        nonSelectedText: 'Не выбрано',
+        disableIfEmpty: true,
+        nSelectedText: ' кодов сборов выбрано',
+        buttonWidth: '210px'
     });
 });
 
