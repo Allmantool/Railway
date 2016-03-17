@@ -39,23 +39,19 @@
             <th class="text-center">nds</th>
         </tr>
         <!--Grid filter-->
-        <tr class="nav navbar navbar-default filter-menu">
-            <td colspan="3">@Html.DropDownListFor(x => x.First().nkrt, 
+        <tr class=" filter-menu">
+            <th colspan="19">@Html.DropDownListFor(x => x.First().nkrt, 
                 new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt), 
-                "№ Карточки: (Все) ", 
                 new { @class = "form-control", type = "search", multiple = "multiple" })
-            </td>
-            <td colspan="3">@Html.DropDownListFor(x => x.First().tdoc,
+
+                @Html.DropDownListFor(x => x.First().tdoc,
                 new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc), 
-                "Тип документа: (Все) ", 
                 new { @class = "form-control", multiple = "multiple"})
-            </td>
-            <td colspan="3">@Html.DropDownList("DDMenuVidsbr",
+
+                @Html.DropDownList("DDMenuVidsbr",
                 new MultiSelectList(ViewBag.VidSbr, ViewBag.VidSbr), 
-                "№ Сбора: (Все) ", 
                 new { @class = "form-control" , multiple = "multiple" })
-            </td>
-            <td colspan="10"></td>
+            </th>
         </tr>
         </thead>
         <tbody class="text-center" id="chargeOfList">

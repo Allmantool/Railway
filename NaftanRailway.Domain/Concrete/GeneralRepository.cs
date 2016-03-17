@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using NaftanRailway.Domain.Abstract;
@@ -15,13 +17,21 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null) {
-            if(predicate != null)
+            //sync data in Db & EF (if change not tracking for EF)
+            //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
+
+            if(predicate != null){
                 return _dbSet.Where(predicate);
+            }
 
             return _dbSet;
         }
 
         public T Get(Expression<Func<T, bool>> predicate) {
+            //sync data in Db & EF (if change not tracking for EF)
+            //var ctx = ((IObjectContextAdapter) _context).ObjectContext;
+            //ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
+
             return _dbSet.FirstOrDefault(predicate);
         }
 
