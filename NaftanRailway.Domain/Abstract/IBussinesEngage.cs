@@ -11,7 +11,7 @@ namespace NaftanRailway.Domain.Abstract {
     /// <summary>
     /// This interface use for work with data DB (to select data in ORC and Sopod)
     /// </summary>
-    public interface IBussinesEngage {
+    public interface IBussinesEngage : IDisposable {
         IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int shiftDate, int pageSize);
         int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
@@ -64,7 +64,7 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IQueryable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class;
+        IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class;
         bool AddKrtNaftan(long key);
         /// <summary>
         /// Change Reporting date

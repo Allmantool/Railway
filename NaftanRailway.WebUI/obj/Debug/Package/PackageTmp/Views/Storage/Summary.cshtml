@@ -1,0 +1,18 @@
+﻿@using NaftanRailway.Domain.BusinessModels
+@model SessionStorage
+
+<div class="navbar-right hidden-xs">
+    @using(@Html.BeginForm("Index","Storage",
+        FormMethod.Post,new {@class = "navbar-form navbar-nav"})) {
+            <button type="submit" class="form-control btn btn-block btn-link">Итог: <span class="glyphicon glyphicon-floppy-open"></span> @Model.Lines.Count()</button>
+        
+            TempData["returnUrl"] = Request.Url != null ? Request.Url.PathAndQuery : "";
+        }
+</div>
+
+<div class="navbar-right visible-xs">
+    <a href= "@Url.Action("Index", "Storage", new { returnUrl = Request.Url != null ? Request.Url.PathAndQuery : "" })" class="btn btn-default navbar-btn">
+        <span class="glyphicon glyphicon-list-alt"></span>
+    </a>
+</div>
+

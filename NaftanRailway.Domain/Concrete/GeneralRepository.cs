@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using NaftanRailway.Domain.Abstract;
+using System.Data.Entity.Core.Objects;
 
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
-        public System.Data.Entity.DbContext _context { get; set; }  
+        private bool _disposed;
+        public System.Data.Entity.DbContext _context { get; set; }
         private readonly DbSet<T> _dbSet;
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
@@ -17,16 +18,18 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null) {
-            if(predicate != null){
-                //sync data in Db & EF (if change not tracking for EF)
+            if (predicate != null) {
+                /*//sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
-                _context.SaveChanges();
+                _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
+                _context.SaveChanges();*/
 
                 return _dbSet.Where(predicate);
             }
 
             //sync data in Db & EF (if change not tracking for EF)
             //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
+            // _context.Entry(_dbSet.GetType()).Reload();
             return _dbSet;
         }
 
@@ -34,8 +37,9 @@ namespace NaftanRailway.Domain.Concrete {
             //sync data in Db & EF (if change not tracking for EF)
             //var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             //ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
-            ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
-            _context.SaveChanges();
+            //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
+            //_context.Entry(_dbSet.Where(predicate)).Reload();
+            //_context.SaveChanges();
 
             return _dbSet.FirstOrDefault(predicate);
         }
@@ -52,14 +56,14 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public void Delete(Expression<Func<T, bool>> predicate) {
-            var entity  = _dbSet.FirstOrDefault(predicate);
+            var entity = _dbSet.FirstOrDefault(predicate);
 
-            if(entity != null)
+            if (entity != null)
                 _context.Entry(entity).State = EntityState.Deleted;
         }
 
         public void Delete(T entity) {
-            _context.Entry(entity).State=EntityState.Deleted;
+            _context.Entry(entity).State = EntityState.Deleted;
         }
 
         /// <summary>
@@ -69,6 +73,18 @@ namespace NaftanRailway.Domain.Concrete {
         public void Edit(T entity) {
             //_dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Unchanged;
+        }
+
+        private void Dispose(bool disposing) {
+            if (!_disposed) {
+                if (disposing)
+                    _context.Dispose();
+            }
+            _disposed = true;
+        }
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

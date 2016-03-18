@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 
 namespace NaftanRailway.Domain.Abstract {
-    public interface IGeneralRepository<T> {
+    public interface IGeneralRepository<T>:IDisposable {
         /// <summary>
         /// Actual working dbContext
         /// </summary>

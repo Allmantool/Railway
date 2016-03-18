@@ -411,7 +411,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="ORCModel" ZoomLevel="111">
+      <Diagram Name="ORCModel" ZoomLevel="82">
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.8653369140625" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
