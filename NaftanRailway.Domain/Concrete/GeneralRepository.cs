@@ -17,13 +17,16 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null) {
-            //sync data in Db & EF (if change not tracking for EF)
-            //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
-
             if(predicate != null){
+                //sync data in Db & EF (if change not tracking for EF)
+                ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
+                _context.SaveChanges();
+
                 return _dbSet.Where(predicate);
             }
 
+            //sync data in Db & EF (if change not tracking for EF)
+            //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
             return _dbSet;
         }
 
@@ -31,6 +34,8 @@ namespace NaftanRailway.Domain.Concrete {
             //sync data in Db & EF (if change not tracking for EF)
             //var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             //ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
+            ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
+            _context.SaveChanges();
 
             return _dbSet.FirstOrDefault(predicate);
         }

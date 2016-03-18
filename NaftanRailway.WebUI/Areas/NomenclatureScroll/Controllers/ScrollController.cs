@@ -41,7 +41,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return View(new IndexModelView() {
                     /*DataReader exception => ToList()*/
-                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem).ToList(),
+                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
@@ -108,13 +108,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                                                                         .OrderByDescending(x => new { x.nkrt, x.vidsbr, x.dt })
                                                                         .Skip((page) * initialSizeItem)
-                                                                        .Take(initialSizeItem)
-                                                                        .ToList());
+                                                                        .Take(initialSizeItem));
                 }
                 //Some add info
-                ViewBag.ListNkrt = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z => z).ToList();
-                ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z => z).ToList();
-                ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z => z).ToList();
+                ViewBag.ListNkrt = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z => z);
+                ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z => z);
+                ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z => z);
                 ViewBag.RecordCount = recordCount;
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
@@ -131,8 +130,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .ThenBy(y => y.vidsbr)
                     .ThenBy(y => y.dt)
                     .Skip((page - 1) * initialSizeItem)
-                    .Take(initialSizeItem)
-                    .ToList());
+                    .Take(initialSizeItem));
             }
 
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";

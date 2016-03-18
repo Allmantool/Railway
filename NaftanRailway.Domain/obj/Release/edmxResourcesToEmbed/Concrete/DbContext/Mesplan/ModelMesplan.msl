@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MesplanModelStoreContainer" CdmEntityContainer="MesplanEntities">
+    <EntitySetMapping Name="etsngs">
+      <EntityTypeMapping TypeName="MesplanModel.etsng">
+        <MappingFragment StoreEntitySet="etsng">
+          <ScalarProperty Name="etsng1" ColumnName="etsng" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
