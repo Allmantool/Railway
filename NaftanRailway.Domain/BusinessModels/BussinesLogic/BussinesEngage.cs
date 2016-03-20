@@ -17,10 +17,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// </summary>
     public class BussinesEngage : IBussinesEngage {
         private bool _disposed;
-        private IUnitOfWork UnitOfWork { get; set; }
+        private IUnitOfWork Uow { get; set; }
 
         public BussinesEngage(IUnitOfWork unitOfWork) {
-            UnitOfWork = unitOfWork;
+            Uow = unitOfWork;
             _disposed = false;
         }
 
@@ -34,14 +34,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory,
-            DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
+        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory,DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
             DateTime startDate = chooseDate.AddDays(-shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
-            using (IUnitOfWork uow = new UnitOfWork()) {
+            using (Uow = new UnitOfWork()) {
                 //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
-                var srcEntsg = UnitOfWork.Repository<etsng>().Get_all().ToList();
+                var srcEntsg = Uow.Repository<etsng>().Get_all().ToList();
 
                 var srcShipping = ShippinNumbers.Where(sh =>
                     (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
@@ -58,7 +57,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         select new Shipping() {
                             VOtpr = itemSh,
                             Etsng = gResult,
-                            Vov = UnitOfWork.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
+                            Vov = Uow.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
                         }).AsEnumerable();
             }
         }
@@ -111,8 +110,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         public IQueryable<v_otpr> ShippinNumbers {
             get {
-                using (IUnitOfWork uow = new UnitOfWork()) {
-                    return UnitOfWork.Repository<v_otpr>()
+                using (Uow = new UnitOfWork()) {
+                    return Uow.Repository<v_otpr>()
                         .Get_all(x => x.state == 32 &&
                                       ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
                                        (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)))
@@ -186,11 +185,23 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             get { throw new NotImplementedException(); }
         }
         /// <summary>
-        /// Get General table
+        /// Get General table with predicate ( load in memory)
         /// </summary>
-        public IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class {
-            using (IUnitOfWork uow = new UnitOfWork()) {
-                return uow.Repository<T>().Get_all(predicate).ToList();
+        public IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, long>> orderPredicate = null) where T : class {
+            using (Uow = new UnitOfWork()) {
+                 return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).ToList() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).ToList();
+            }
+        }
+
+        public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
+            using (Uow = new UnitOfWork()) {
+                return Uow.Repository<T>().Get_all(predicate).Count();
+            }
+        }
+
+        public IEnumerable<T> GetSkipRow<T>(int page,int size,Expression <Func<T, long>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
+            using (Uow = new UnitOfWork()) {
+                return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
 
@@ -199,7 +210,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         /// <param name="key"></param>
         public bool AddKrtNaftan(long key) {
-            using (IUnitOfWork uow = new UnitOfWork()) {
+            using (Uow = new UnitOfWork()) {
                 try {
                     SqlParameter parm = new SqlParameter() {
                         ParameterName = "@ErrId",
@@ -207,19 +218,17 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
 
-                    UnitOfWork.ActiveContext.Database.ExecuteSqlCommand
-                        (@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key),
-                            parm);
+                    Uow.ActiveContext.Database.ExecuteSqlCommand(@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key),parm);
 
                     //Confirmed
-                    krt_Naftan chRecord = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    krt_Naftan chRecord = Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
                     chRecord.Confirmed = true;
                     chRecord.ErrorState = Convert.ToByte((int)parm.Value);
                 } catch (Exception e) {
                     return false;
                 }
 
-                UnitOfWork.Save();
+                Uow.Save();
                 return true;
             }
         }
@@ -230,14 +239,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="period"></param>
         /// <param name="key"></param>
         public bool ChangeBuhDate(DateTime period, long key) {
-            using (IUnitOfWork uow = new UnitOfWork()) {
-                var listRecords = UnitOfWork.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT);
+            using (Uow = new UnitOfWork()) {
+                var listRecords = Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT).ToList();
                 try {
                     foreach (krt_Naftan item in listRecords) {
-                        UnitOfWork.Repository<krt_Naftan>().Edit(item);
+                        Uow.Repository<krt_Naftan>().Edit(item);
                         item.DTBUHOTCHET = period;
                     }
-                    UnitOfWork.Save();
+                    Uow.Save();
                     return true;
                 } catch (Exception e) {
                     return false;
@@ -271,22 +280,22 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="summa"></param>
         /// <returns></returns>
         public bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa) {
-            using (IUnitOfWork uow = new UnitOfWork()) {
+            using (Uow = new UnitOfWork()) {
                 try {
                     //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = UnitOfWork.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
-                    UnitOfWork.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
+                    var itemRow = Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
+                    Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
                     itemRow.nds = nds;
                     itemRow.summa = summa;
                     itemRow.ErrorState = 2;
 
                     //krt_Naftan (check as correction)
-                    var parentRow = UnitOfWork.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
-                    UnitOfWork.Repository<krt_Naftan>().Edit(parentRow);
+                    var parentRow = Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
+                    Uow.Repository<krt_Naftan>().Edit(parentRow);
 
                     parentRow.ErrorState = 2;
 
-                    UnitOfWork.Save();
+                    Uow.Save();
 
                 } catch (Exception) {
                     return false;
@@ -302,7 +311,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing)
-                    UnitOfWork.Dispose();
+                    Uow.Dispose();
             }
             _disposed = true;
         }

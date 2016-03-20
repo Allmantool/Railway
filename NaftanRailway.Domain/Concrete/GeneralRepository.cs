@@ -33,7 +33,7 @@ namespace NaftanRailway.Domain.Concrete {
             return _dbSet;
         }
 
-        public T Get(Expression<Func<T, bool>> predicate) {
+        public T Get(Expression<Func<T, bool>> predicate = null) {
             //sync data in Db & EF (if change not tracking for EF)
             //var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             //ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));

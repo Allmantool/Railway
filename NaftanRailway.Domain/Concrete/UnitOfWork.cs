@@ -13,12 +13,13 @@ namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using) */
     public sealed class UnitOfWork : IUnitOfWork {
         private bool _disposed;
-
         public System.Data.Entity.DbContext ActiveContext { get; private set; }
         private System.Data.Entity.DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
-
-        public UnitOfWork(){
+        /// <summary>
+        /// Create UOW per request with requer dbContexts
+        /// </summary>
+        public UnitOfWork() {
             Contexts = new System.Data.Entity.DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
         }
         public UnitOfWork(System.Data.Entity.DbContext context) {

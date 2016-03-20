@@ -6,7 +6,7 @@ using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
-    [Authorize]
+    //[Authorize]
     public class Ceh18Controller : Controller {
         private readonly IBussinesEngage _bussinesEngage;
 

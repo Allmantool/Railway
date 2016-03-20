@@ -15,11 +15,12 @@ namespace NaftanRailway.Domain.Abstract {
         /// <returns></returns>
         IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null);
         /// <summary>
-        /// Get singe entity 
+        /// Get single entity 
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate);
+
         /// <summary>
         /// Add general entity
         /// </summary>

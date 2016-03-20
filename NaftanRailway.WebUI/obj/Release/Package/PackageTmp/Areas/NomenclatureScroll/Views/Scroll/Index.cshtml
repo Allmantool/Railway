@@ -45,13 +45,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        @using(Ajax.BeginForm("ChangeData", "Scroll",
+                        @using(Ajax.BeginForm("ChangeDate", "Scroll",
                         new { },
                             new AjaxOptions() {
                                 OnFailure = "UpdateFailure",
                                 OnSuccess = "UpdateDate",
                                 HttpMethod = "Post",
-                                Url = @Url.Action("ChangeData", "Scroll")
+                                Url = @Url.Action("ChangeDate", "Scroll")
                             },
                          new { @class = "form-inline navbar-form", role = "form", id="ChangeDateForm" })) {
                             <div class="form-group col-lg-6">

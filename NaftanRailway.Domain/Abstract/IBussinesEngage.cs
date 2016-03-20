@@ -64,7 +64,22 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null) where T : class;
+        IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, long>> orderPredicate = null) where T : class;
+        long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class;
+
+        /// <summary>
+        /// I dont find method work with Expression three and func (TDelegate). 
+        /// I want pass diffrent intergated function (OrderBy,Skip,Take etc ...) in body Expression three
+        /// Now i add some addtional method in Bussiness class 
+        /// (Requered some addional work!) Linq => expression three 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="orderPredicate">predicate for order</param>
+        /// <param name="filterPredicate">predicate for filter result</param>
+        /// <param name="page">current page</param>
+        /// <param name="size">page item size</param>
+        /// <returns></returns>
+        IEnumerable<T> GetSkipRow<T>(int page, int size, Expression<Func<T, long>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class; 
         bool AddKrtNaftan(long key);
         /// <summary>
         /// Change Reporting date

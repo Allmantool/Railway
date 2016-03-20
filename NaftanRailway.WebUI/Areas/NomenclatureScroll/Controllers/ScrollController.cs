@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -30,7 +31,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
             const byte initialSizeItem = 100;
-            int recordCount = _bussinesEngage.GetTable<krt_Naftan>().Count();
+            var recordCount = _bussinesEngage.GetCountRows<krt_Naftan>();
 
             if (page >= 1 && page <= Math.Ceiling((recordCount / (decimal)initialSizeItem))) {
                 if (Request.IsAjaxRequest()) {
@@ -41,7 +42,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return View(new IndexModelView() {
                     /*DataReader exception => ToList()*/
-                    ListKrtNaftan = _bussinesEngage.GetTable<krt_Naftan>().OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
+                    /*hide difinition filter (delegate) in lambda*/
+                    ListKrtNaftan = _bussinesEngage.GetSkipRow<krt_Naftan>(page, initialSizeItem, x => x.KEYKRT),
+                    //_bussinesEngage.GetTable<krt_Naftan>(x=>x.IN_REAL).OrderByDescending(x => x.KEYKRT).Skip((page - 1) * initialSizeItem).Take(initialSizeItem),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
@@ -61,11 +64,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult ChangeData(IndexModelView model) {
+        public ActionResult ChangeDate(IndexModelView model) {
             long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
 
             if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt))) {
-                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>().Where(x => x.KEYKRT == numberKeykrt).OrderByDescending(x => x.KEYKRT));
+                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
             }
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
@@ -103,7 +106,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             var findKrt = _bussinesEngage.GetTable<krt_Naftan>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
             if ((numberScroll != null || reportYear != null || findKrt != null) && _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).FirstOrDefault() != null) {
-                int recordCount = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>().Count(x => x.keykrt == findKrt.KEYKRT);
                 if (Request.IsAjaxRequest()) {
                     return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                                                                         .OrderByDescending(x => new { x.nkrt, x.vidsbr, x.dt })
@@ -114,7 +116,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 ViewBag.ListNkrt = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.nkrt).Distinct().OrderBy(z => z);
                 ViewBag.TypeDoc = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.tdoc).Distinct().OrderBy(z => z);
                 ViewBag.VidSbr = _bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT).Select(y => y.vidsbr).Distinct().OrderBy(z => z);
-                ViewBag.RecordCount = recordCount;
+                ViewBag.RecordCount = findKrt.RecordCount;
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
@@ -122,7 +124,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 ViewBag.PagingInfo = new PagingInfo {
                     CurrentPage = page,
                     ItemsPerPage = initialSizeItem,
-                    TotalItems = recordCount
+                    TotalItems = findKrt.RecordCount
                 };
                 return View(_bussinesEngage.GetTable<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT)
                     .OrderByDescending(x => x.keykrt)
