@@ -49,7 +49,6 @@
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="id_kart" ColumnName="id_kart" />
           <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
-          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
           <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
           <ScalarProperty Name="num_doc" ColumnName="num_doc" />
           <ScalarProperty Name="cena" ColumnName="cena" />

@@ -37,6 +37,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific db context
+        /// Definition active dbcontext (depend on type of entity)
         /// </summary>
         public IGeneralRepository<T> Repository<T>() where T : class {
             if (_repositories.Keys.Contains(typeof(T)))

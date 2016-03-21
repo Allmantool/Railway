@@ -68,7 +68,6 @@
           <Property Name="id" Type="int" />
           <Property Name="id_kart" Type="int" />
           <Property Name="id_otpr" Type="int" />
-          <Property Name="type_doc" Type="smallint" />
           <Property Name="date_raskr" Type="datetime" />
           <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
           <Property Name="cena" Type="decimal" Scale="2" />
@@ -217,7 +216,6 @@
           <Property Name="id" Type="Int32" />
           <Property Name="id_kart" Type="Int32" />
           <Property Name="id_otpr" Type="Int32" />
-          <Property Name="type_doc" Type="Int16" />
           <Property Name="date_raskr" Type="DateTime" />
           <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
@@ -345,7 +343,6 @@
             <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="id_kart" ColumnName="id_kart" />
             <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
-            <ScalarProperty Name="type_doc" ColumnName="type_doc" />
             <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
             <ScalarProperty Name="num_doc" ColumnName="num_doc" />
             <ScalarProperty Name="cena" ColumnName="cena" />
@@ -413,7 +410,7 @@
     <Diagrams>
       <Diagram Name="ORCModel" ZoomLevel="82">
         <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.8653369140625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
         <EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
         <AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">

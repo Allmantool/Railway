@@ -9,7 +9,7 @@ using System.Data.Entity.Core.Objects;
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
         private bool _disposed;
-        public System.Data.Entity.DbContext _context { get; set; }
+        public System.Data.Entity.DbContext _context { get;private set; }
         private readonly DbSet<T> _dbSet;
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
@@ -40,8 +40,8 @@ namespace NaftanRailway.Domain.Concrete {
             //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
             //_context.Entry(_dbSet.Where(predicate)).Reload();
             //_context.SaveChanges();
-
-            return _dbSet.FirstOrDefault(predicate);
+            
+            return predicate == null ? _dbSet.FirstOrDefault() :_dbSet.FirstOrDefault(predicate);
         }
 
         public void Add(T entity) {

@@ -64,7 +64,6 @@
     <Property Name="id" Type="Int32" />
     <Property Name="id_kart" Type="Int32" />
     <Property Name="id_otpr" Type="Int32" />
-    <Property Name="type_doc" Type="Int16" />
     <Property Name="date_raskr" Type="DateTime" />
     <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
     <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />

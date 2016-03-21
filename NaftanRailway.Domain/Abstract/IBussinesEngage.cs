@@ -15,7 +15,7 @@ namespace NaftanRailway.Domain.Abstract {
         IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int shiftDate, int pageSize);
         int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
-        Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
+        IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
 
         /// <summary>
         /// Get All info 
@@ -64,9 +64,22 @@ namespace NaftanRailway.Domain.Abstract {
         IQueryable<orc_krt> OrcKrts { get; }
         IQueryable<orc_sbor> OrcSbors { get; }
         IQueryable<etsng> Etsngs { get; }
-        IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, long>> orderPredicate = null) where T : class;
+        /// <summary>
+        /// Get rows from table (filter & order)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="orderPredicate"></param>
+        /// <returns></returns>
+        IEnumerable<T> GetTable<T,TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
+        /// <summary>
+        /// Return rows count of current row
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class;
-
         /// <summary>
         /// I dont find method work with Expression three and func (TDelegate). 
         /// I want pass diffrent intergated function (OrderBy,Skip,Take etc ...) in body Expression three
@@ -74,12 +87,22 @@ namespace NaftanRailway.Domain.Abstract {
         /// (Requered some addional work!) Linq => expression three 
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
         /// <param name="orderPredicate">predicate for order</param>
         /// <param name="filterPredicate">predicate for filter result</param>
         /// <param name="page">current page</param>
         /// <param name="size">page item size</param>
         /// <returns></returns>
-        IEnumerable<T> GetSkipRow<T>(int page, int size, Expression<Func<T, long>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class; 
+        IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class;
+        /// <summary>
+        /// Get group result (Group by + order by)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="predicate"></param>
+        /// <param name="orderPredicate"></param>
+        /// <returns></returns>
+        IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
         bool AddKrtNaftan(long key);
         /// <summary>
         /// Change Reporting date

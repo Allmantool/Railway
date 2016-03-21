@@ -63,7 +63,6 @@
     <Property Name="id" Type="int" />
     <Property Name="id_kart" Type="int" />
     <Property Name="id_otpr" Type="int" />
-    <Property Name="type_doc" Type="smallint" />
     <Property Name="date_raskr" Type="datetime" />
     <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
     <Property Name="cena" Type="decimal" Scale="2" />

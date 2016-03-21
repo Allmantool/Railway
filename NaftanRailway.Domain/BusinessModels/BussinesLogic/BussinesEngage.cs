@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,11 +14,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public class BussinesEngage : IBussinesEngage {
+    public abstract class BussinesEngage : IBussinesEngage {
         private bool _disposed;
         private IUnitOfWork Uow { get; set; }
 
-        public BussinesEngage(IUnitOfWork unitOfWork) {
+        protected BussinesEngage(IUnitOfWork unitOfWork) {
             Uow = unitOfWork;
             _disposed = false;
         }
@@ -34,7 +33,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory,DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
+        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
             DateTime startDate = chooseDate.AddDays(-shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
@@ -187,24 +186,27 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Get General table with predicate ( load in memory)
         /// </summary>
-        public IEnumerable<T> GetTable<T>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, long>> orderPredicate = null) where T : class {
+        public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                 return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).ToList() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).ToList();
+                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).ToList() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).ToList();
             }
         }
-
         public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
                 return Uow.Repository<T>().Get_all(predicate).Count();
             }
         }
-
-        public IEnumerable<T> GetSkipRow<T>(int page,int size,Expression <Func<T, long>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
+        public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
                 return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
 
+        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
+            using (Uow = new UnitOfWork()) {
+                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x=>x.Key).ToList();
+            }
+        }
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
         /// </summary>
@@ -217,11 +219,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         SqlDbType = SqlDbType.Int,
                         Direction = ParameterDirection.Output
                     };
-
-                    Uow.ActiveContext.Database.ExecuteSqlCommand(@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key),parm);
+                    //set active context => depend on type of entity
+                    Uow.Repository<krt_Naftan_orc_sapod>();
+                    Uow.ActiveContext.Database.ExecuteSqlCommand(@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
+                    //alternative, get gropu of entities and then  save in db
+                    //this.Database.SqlQuery<YourEntityType>("storedProcedureName",params);
 
                     //Confirmed
                     krt_Naftan chRecord = Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+
+                    Uow.Repository<krt_Naftan>().Edit(chRecord);
                     chRecord.Confirmed = true;
                     chRecord.ErrorState = Convert.ToByte((int)parm.Value);
                 } catch (Exception e) {
@@ -229,10 +236,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
 
                 Uow.Save();
-                return true;
             }
+            return true;
         }
-
         /// <summary>
         /// Change date all later records
         /// </summary>
@@ -261,7 +267,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="operationCategory"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public Dictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
+        public IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
             return ShippinNumbers.Where(sh =>
                      sh.n_otpr.StartsWith(templShNumber)
                             && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))

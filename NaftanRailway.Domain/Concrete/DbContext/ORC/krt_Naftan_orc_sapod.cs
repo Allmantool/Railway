@@ -33,7 +33,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public Nullable<int> id { get; set; }
         public Nullable<int> id_kart { get; set; }
         public Nullable<int> id_otpr { get; set; }
-        public Nullable<short> type_doc { get; set; }
         public Nullable<System.DateTime> date_raskr { get; set; }
         public string num_doc { get; set; }
         public Nullable<decimal> cena { get; set; }

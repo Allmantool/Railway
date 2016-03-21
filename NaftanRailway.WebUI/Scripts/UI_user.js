@@ -105,6 +105,29 @@ $(function() {
         allSelectedText: 'Тип документа: (Все)',
         nonSelectedText: 'Не выбрано',
         disableIfEmpty: true,
+        buttonText: function(options, select) {
+            if (options.length === 0) {
+                return 'Не выбрано ...';
+            }
+            else if (options.length === $(select).children('option').size()) {
+                return 'Тип документа: (Все)' + ' (' + $(select).children('option').length + ')';
+            }
+            else if (options.length > 3) {
+                return 'Выбрано ' + options.length + ' типов док.';
+            }
+            else {
+                var labels = [];
+                options.each(function() {
+                    if ($(this).attr('label') !== undefined) {
+                        labels.push($(this).attr('label'));
+                    }
+                    else {
+                        labels.push($(this).html());
+                    }
+                });
+                return labels.join(', ') + '';
+            }
+        }
     });
     $('#DDMenuVidsbr').multiselect({
         includeSelectAllOption: true,
@@ -114,7 +137,30 @@ $(function() {
         nonSelectedText: 'Не выбрано',
         disableIfEmpty: true,
         nSelectedText: ' кодов сборов выбрано',
-        buttonWidth: '210px'
+        buttonWidth: '190px',
+        buttonText: function(options, select) {
+            if (options.length === 0) {
+                return 'Не выбрано ...';
+            }
+            else if (options.length === $(select).children('option').size()) {
+                return '№ Сбора: (Все)' + ' (' + $(select).children('option').length + ')';
+            }
+            else if (options.length > 3) {
+                return 'Выбрано ' + options.length + ' сборов';
+            }
+            else {
+                var labels = [];
+                options.each(function() {
+                    if ($(this).attr('label') !== undefined) {
+                        labels.push($(this).attr('label'));
+                    }
+                    else {
+                        labels.push($(this).html());
+                    }
+                });
+                return labels.join(', ') + '';
+            }
+        }
     });
 });
 
@@ -180,15 +226,14 @@ $('#dateModal').on('show.bs.modal', function(e) {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 /*edit modal (correction)*/
-$('#chargeOfList').on('click', function(e) {
-    var selRow = $(e.target).parent('tr');
-
+$('#chargeOfList').on('click','tr', function(e) {
+//    var selRow = $(e.target).parent('tr');
+    var selRow = $(this);
     var _parse = function(name) {
         var element = selRow.find(name),
             text = element.text();
         return parseInt(text.split('').filter(function(i) { return !isNaN(parseInt(i)) }).join(''));
     }
-
     
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
     var summa = _parse(".summa");
