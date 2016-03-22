@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.SessionState;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -61,12 +58,15 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Change Buh Data
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="multiDate"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult ChangeDate(IndexModelView model) {
-            long numberKeykrt = model.ListKrtNaftan.First().KEYKRT;
-
-            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt))) {
+            //Custom value provider binding
+            //TryUpdateModel(model, new FormValueProvider(ControllerContext));
+            long numberKeykrt =_bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT,x => x.NKRT == model.Nkrt && x.DTBUHOTCHET.Year == model.ReportPeriod.Value.Year).FirstOrDefault();
+            
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate))) {
                 return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
             }
 
@@ -81,15 +81,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Confirmed(int numberScroll, int reportYear) {
-            var selectKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
+            var key = _bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT, x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
+            string msgError = "";
 
-            if (Request.IsAjaxRequest() && ModelState.IsValid && selectKrt != null && _bussinesEngage.AddKrtNaftan(selectKrt.KEYKRT)) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid && _bussinesEngage.AddKrtNaftan(key, out msgError)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
                 return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear));
                 //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления перечень № {0}.Вероятно, он уже добавлен", numberScroll);
+            TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }

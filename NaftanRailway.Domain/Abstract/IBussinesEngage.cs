@@ -103,14 +103,16 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="orderPredicate"></param>
         /// <returns></returns>
         IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
-        bool AddKrtNaftan(long key);
+        bool AddKrtNaftan(long key,out string msgError);
+
         /// <summary>
         /// Change Reporting date
         /// </summary>
         /// <param name="period"></param>
         /// <param name="key"></param>
+        /// <param name="multiChange"></param>
         /// <returns></returns>
-        bool ChangeBuhDate(DateTime period, long key);
+        bool ChangeBuhDate(DateTime period, long key, bool multiChange = true);
         bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa);
     }
 }

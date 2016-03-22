@@ -14,11 +14,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public abstract class BussinesEngage : IBussinesEngage {
+    public class BussinesEngage : IBussinesEngage {
         private bool _disposed;
         private IUnitOfWork Uow { get; set; }
 
-        protected BussinesEngage(IUnitOfWork unitOfWork) {
+        public BussinesEngage(IUnitOfWork unitOfWork) {
             Uow = unitOfWork;
             _disposed = false;
         }
@@ -204,24 +204,26 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
         public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x=>x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x => x.Key).ToList();
             }
         }
+
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
         /// </summary>
         /// <param name="key"></param>
-        public bool AddKrtNaftan(long key) {
+        /// <param name="msgError"></param>
+        public bool AddKrtNaftan(long key, out string msgError) {
             using (Uow = new UnitOfWork()) {
                 try {
                     SqlParameter parm = new SqlParameter() {
                         ParameterName = "@ErrId",
-                        SqlDbType = SqlDbType.Int,
+                        SqlDbType = SqlDbType.TinyInt,
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    Uow.Repository<krt_Naftan_orc_sapod>();
-                    Uow.ActiveContext.Database.ExecuteSqlCommand(@"execute @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
+                    Uow.Repository<krt_Naftan_orc_sapod>()._context.Database.CommandTimeout = 120;
+                    Uow.Repository<krt_Naftan_orc_sapod>()._context.Database.ExecuteSqlCommand(@"EXEC @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
                     //alternative, get gropu of entities and then  save in db
                     //this.Database.SqlQuery<YourEntityType>("storedProcedureName",params);
 
@@ -230,25 +232,29 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                     Uow.Repository<krt_Naftan>().Edit(chRecord);
                     chRecord.Confirmed = true;
-                    chRecord.ErrorState = Convert.ToByte((int)parm.Value);
+                    chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
                 } catch (Exception e) {
+                    msgError = e.Message;
                     return false;
                 }
 
                 Uow.Save();
             }
+            msgError = "";
             return true;
         }
+
         /// <summary>
         /// Change date all later records
         /// </summary>
         /// <param name="period"></param>
         /// <param name="key"></param>
-        public bool ChangeBuhDate(DateTime period, long key) {
+        /// <param name="multiChange">Change single or multi date</param>
+        public bool ChangeBuhDate(DateTime period, long key, bool multiChange = true) {
             using (Uow = new UnitOfWork()) {
-                var listRecords = Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key).OrderByDescending(x => x.KEYKRT).ToList();
+                var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key) : Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key);
                 try {
-                    foreach (krt_Naftan item in listRecords) {
+                    foreach (krt_Naftan item in listRecords.OrderByDescending(x => x.KEYKRT).ToList()) {
                         Uow.Repository<krt_Naftan>().Edit(item);
                         item.DTBUHOTCHET = period;
                     }
@@ -303,7 +309,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                     Uow.Save();
 
-                } catch (Exception) {
+                } catch (Exception e) {
                     return false;
                 }
 
