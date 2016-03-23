@@ -311,7 +311,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HtmlHelpers\CheckBoxListHelper.cs" />
+    <Compile Include="HtmlHelpers\HtmlExtensions.cs" />
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\Binders\InfoLineModelBinder.cs" />
     <Compile Include="Infrastructure\Binders\InputMenuModelBinder.cs" />
@@ -459,12 +459,14 @@
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\Index.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftanRow.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxTableKrtNaftan.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\Reports.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Configuration\Index.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxKrtNaftan_ORC_SAPOD_Row.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxTableKrtNaftan_ORC_SAPOD.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\EditorTemplates\Enum.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_KrtNaftanRows.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_KrtNaftan_ORC_SAPODRows.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />

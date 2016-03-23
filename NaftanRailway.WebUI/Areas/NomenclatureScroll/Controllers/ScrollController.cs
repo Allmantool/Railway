@@ -27,7 +27,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet]
         //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
-            const byte initialSizeItem = 80;
+            const byte initialSizeItem = 100;
             var recordCount = _bussinesEngage.GetCountRows<krt_Naftan>();
             var result = new IndexModelView() {
                 ListKrtNaftan = _bussinesEngage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, x => x.KEYKRT),
@@ -41,8 +41,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (page >= 1 && page <= Math.Ceiling((recordCount / (decimal)initialSizeItem))) {
                 if (Request.IsAjaxRequest()) {
-                    //return new EmptyResult();
-                    return PartialView("_AjaxKrtNaftanRow", result.ListKrtNaftan);
+                    return PartialView("_AjaxTableKrtNaftan", result);//return new EmptyResult();
                 }
 
                 return View(result);
@@ -64,10 +63,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult ChangeDate(IndexModelView model) {
             //Custom value provider binding
             //TryUpdateModel(model, new FormValueProvider(ControllerContext));
-            long numberKeykrt =_bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT,x => x.NKRT == model.Nkrt && x.DTBUHOTCHET.Year == model.ReportPeriod.Value.Year).FirstOrDefault();
-            
-            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate))) {
-                return PartialView("_AjaxKrtNaftanRow", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
+            long numberKeykrt = _bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT, x => x.NKRT == model.Nkrt && x.DTBUHOTCHET.Year == model.ReportPeriod.Value.Year).FirstOrDefault();
+
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate)))
+            {
+                return PartialView("_KrtNaftanRows", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
             }
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
@@ -86,8 +86,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (Request.IsAjaxRequest() && ModelState.IsValid && _bussinesEngage.AddKrtNaftan(key, out msgError)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear));
-                //return RedirectToAction("ErrorReport", "Scroll",new RouteValueDictionary() { {"numberKrt",scrollKey},{"reportYear",selectKrt.DTBUHOTCHET.Year}});
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_KrtNaftanRows.cshtml",_bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear));
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
@@ -105,27 +104,27 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
+            //Some add info
+            ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt);
+            ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT, x => x.tdoc);
+            ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr);
+
+            ViewBag.RecordCount = findKrt.RecordCount;
+            ViewBag.nper = findKrt.NKRT;
+            ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
+            ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
+            //Info about paging
+            ViewBag.PagingInfo = new PagingInfo {
+                CurrentPage = page,
+                ItemsPerPage = initialSizeItem,
+                TotalItems = findKrt.RecordCount
+            };
+
             if ((numberScroll != null || reportYear != null || findKrt != null) && _bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    return PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row",
-                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
+                    return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
                 }
-                //var result = _bussinesEngage.GetTable<krt_Naftan_orc_sapod, long>(x => x.keykrt == findKrt.KEYKRT).GroupBy(x => x.vidsbr).Select(y => y.Key).OrderBy(z => z);
-                //Some add info
-                ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt);
-                ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT, x => x.tdoc);
-                ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr);
 
-                ViewBag.RecordCount = findKrt.RecordCount;
-                ViewBag.nper = findKrt.NKRT;
-                ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
-                ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
-                //Info about paging
-                ViewBag.PagingInfo = new PagingInfo {
-                    CurrentPage = page,
-                    ItemsPerPage = initialSizeItem,
-                    TotalItems = findKrt.RecordCount
-                };
                 return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
             }
 
@@ -204,7 +203,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 if (!fixRow.Any())
                     TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
-                return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxKrtNaftan_ORC_SAPOD_Row", fixRow) : RedirectToAction("Index", "Scroll");
+                return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", fixRow) : RedirectToAction("Index", "Scroll");
 
             }
             return RedirectToAction("Index", "Scroll", new { page = 1 });

@@ -12,8 +12,8 @@
         <td class="vert-align">
             @if (item.ErrorState != null){
                 <img alt="Состояние проверки"
-                     src="@(item.ErrorState.Value == 1 ? "/Content/Images/good_or_tick.png" : item.ErrorState.Value == 2 ? "/Content/Images/repair.png" : "/Content/Images/no.png")"
-                     style="width: 24px; height: 24px"/>
+                        src="@(item.ErrorState.Value == 1 ? "/Content/Images/good_or_tick.png" : item.ErrorState.Value == 2 ? "/Content/Images/repair.png" : "/Content/Images/no.png")"
+                        style="width: 24px; height: 24px"/>
             }
         </td>
         <td class="vert-align singCorrection"><span class = "@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
@@ -29,4 +29,4 @@
         <td class="vert-align">@item.RecordCount</td>
         <td class="vert-align">@item.DATE_OBRABOT</td>
     </tr>
-} 
+}

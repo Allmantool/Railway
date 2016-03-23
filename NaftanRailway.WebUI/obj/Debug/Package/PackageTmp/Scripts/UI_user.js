@@ -298,11 +298,10 @@ function UpdateData(dataRow) {
     var messageInfo = $('#loading').children('td');
     var currentNkrt = $(dataRow).find('.numberScroll').text();
     var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
-    var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
 
     target.empty().append($(dataRow).children('td'));
     $(target).find('td input[class*=radio]').attr("checked", true);
-    messageInfo.empty().append('Успешно добавлен перечень №' + nper);
+    messageInfo.empty().append('Успешно добавлен перечень №' + currentNkrt);
 
     /*  request to ReportServer */
     $('#waitModal').modal({
@@ -479,3 +478,10 @@ $(function() {
         }
     });
 });
+
+/*ajax pagging (index.cshtml & etc)*/
+function PaggingSuccess() {
+    $(this).parents('ul').find('li').removeClass('active');
+    $(this).parent('li').addClass('active');
+    $("html, body").animate({ scrollTop: 0 }, 500);
+}

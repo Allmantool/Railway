@@ -109,27 +109,26 @@
     </div>
   </div>
 </div>
-<!--pagging-->
+<!--pagging
 <div class="bottom-right pull-right">
-    @Html.PageLinks(Model.PagingInfo, 21, x => Url.RouteUrl("NomenclatureScroll_default", new RouteValueDictionary() { { "page", x } }))
+    @Html.PageLinks(Model.PagingInfo, 21, x => Url.RouteUrl("NomenclatureScroll_default", new RouteValueDictionary() {{"page", x}}))
 </div>
+-->
 <!--Ajax paging-->
-@*<div class="bottom-right pull-right">
+<div class="bottom-right pull-right">
     <ul class="pagination">
-    @{
-        for (int i = 0; i < Model.PagingInfo.TotalPages; i++){
-            <li class="@(i == Model.PagingInfo.CurrentPage ? "Active":"")">
-                @Ajax.RouteLink(i.ToString(),
-                    new RouteValueDictionary() { { "page", i }},
+    @{for (int q = 1; q <= Model.PagingInfo.TotalPages; q++){
+            <li class="@(q == Model.PagingInfo.CurrentPage ? "active":"")">
+                @Ajax.RouteLink(q.ToString(),
+                    new RouteValueDictionary() { { "page", q }},
                         new AjaxOptions(){
                             HttpMethod = "Get",
                             UpdateTargetId = "scrollList",
                             InsertionMode = InsertionMode.Replace,
-                            LoadingElementDuration = 1200,
-                            LoadingElementId = "loadingInfiniteScroll"
+                            OnSuccess = "PaggingSuccess"
                         })
             </li>
         }
     }
     </ul>
-</div>*@
+</div> 
