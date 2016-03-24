@@ -67,7 +67,7 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
                     srSpan.InnerHtml = "(current)";
                     apagetag.MergeAttribute("href", pageUrl(i));
                         if(i == pagingInfo.CurrentPage) {
-                            lipageTag.AddCssClass("active");
+                            //lipageTag.AddCssClass("active");
                             apagetag.InnerHtml = i + srSpan.ToString(); 
                         }
                     apagetag.InnerHtml = i.ToString();

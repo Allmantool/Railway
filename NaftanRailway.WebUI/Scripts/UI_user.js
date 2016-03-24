@@ -29,7 +29,6 @@ if (!Array.prototype.filter) {
                 }
             }
         }
-
         return res;
     };
 }
@@ -56,7 +55,7 @@ $('#sandbox-container .input-group').datepicker({
 
 /*MultiSelect Bootsrap plugin*/
 $(function() {
-    $('#nkrt').multiselect({
+    $('body #nkrt').multiselect({
         includeSelectAllOption: true,
         enableHTML: false,
         disableIfEmpty: true,
@@ -298,11 +297,10 @@ function UpdateData(dataRow) {
     var messageInfo = $('#loading').children('td');
     var currentNkrt = $(dataRow).find('.numberScroll').text();
     var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
-    var nper = $.trim($(dataRow).find('td input[class*=key]').parent().text());
 
     target.empty().append($(dataRow).children('td'));
     $(target).find('td input[class*=radio]').attr("checked", true);
-    messageInfo.empty().append('Успешно добавлен перечень №' + nper);
+    messageInfo.empty().append('Успешно добавлен перечень №' + currentNkrt);
 
     /*  request to ReportServer */
     $('#waitModal').modal({
@@ -359,7 +357,7 @@ function FixUpdate(dataRow) {
 }
 
 /*Event click on table row + mark as work row for ajax request (event delegation)*/
-$('#scrollList').on('click', 'tr', function(e) {
+$('body').on('click', '#scrollList tr', function(e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
@@ -433,49 +431,19 @@ $("a[href='#top']").on('click', function() {
     return false;
 });
 
-/* infinite scrolling (get information thoughout ajax request)*/
-$(function() {
-    $.support.cors = true;
-    $('div#loadingInfiniteScroll').hide();
+/*ajax pagging (index.cshtml & etc)*/
+function PaggingSuccess(e) {
+//    $(this).parents('ul').find('li').removeClass('active');
+//    $(this).parent('li').addClass('active');
 
-    var page = 0;
-    var inCallback = false;
-
-    function loadItems(e) {
-        if (page > -1 && !inCallback) {
-            inCallback = true;
-            page++;
-
-            $('div#loadingInfiniteScroll').show();
-
-            $.ajax({
-                cache: false,
-                type: 'GET',
-                url: 'Scroll/ScrollDetails/' + $('#key').text() + '/' + $('#scrollDate').text(),
-               data: { page: page },
-                success: function(data) {
-                    if (data !== '') {
-                        $("#chargeOfList").append(data);
-                    } else {
-                        page = -1;
-                    }
-                    inCallback = false;
-                    $("div#loadingInfiniteScroll").hide();
-                }
-            });
-        }
-    }
-
-    /* обработка события скроллинга
-    ScrollTop = полж. ползунка
-    doc.Height = высота всего документа
-    win.Height = высота вид. окна
-    */
-    $(window).on('scroll', function() {
-        if (($(window).scrollTop() >= $(document).height() - $(window).height() - 31
-            && window.location.pathname.indexOf("ScrollDetails")) > 0
-            && navigator.appName !== "Microsoft Internet Explorer") {
-            loadItems();
-        }
-    });
-});
+    /*Dont support in Html4 browsers (IE8)
+    Solustion: https://github.com/browserstate/history.js*/
+//    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
+//        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+////        console.log(State);
+//    });
+//    window.History.pushState(null, null, $(e).find('.active a').attr('href'));
+    window.history.pushState(null, null, $(e).find('.active a').attr('href'));
+    
+    $("html, body").animate({ scrollTop: 0 }, 0);
+}
