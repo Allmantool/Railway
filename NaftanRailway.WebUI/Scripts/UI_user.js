@@ -298,7 +298,7 @@ function UpdateData(dataRow) {
     var currentNkrt = $(dataRow).find('.numberScroll').text();
     var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
 
-    target.empty().append($(dataRow).find('tbody tr').children('td'));
+    target.empty().append($(dataRow).children('td'));
     $(target).find('td input[class*=radio]').attr("checked", true);
     messageInfo.empty().append('Успешно добавлен перечень №' + currentNkrt);
 
@@ -432,8 +432,18 @@ $("a[href='#top']").on('click', function() {
 });
 
 /*ajax pagging (index.cshtml & etc)*/
-function PaggingSuccess() {
+function PaggingSuccess(e) {
 //    $(this).parents('ul').find('li').removeClass('active');
 //    $(this).parent('li').addClass('active');
+
+    /*Dont support in Html4 browsers (IE8)
+    Solustion: https://github.com/browserstate/history.js*/
+//    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
+//        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+////        console.log(State);
+//    });
+//    window.History.pushState(null, null, $(e).find('.active a').attr('href'));
+    window.history.pushState(null, null, $(e).find('.active a').attr('href'));
+    
     $("html, body").animate({ scrollTop: 0 }, 0);
 }

@@ -43,7 +43,11 @@
                                             new {area = "NomenclatureScroll"},
                                             new {id = "MenuLinkErrReport"})
                                     </li>
-                                    <li>@Ajax.ActionLink(@"Просмотр информации по перечню", "ScrollDetails", new { controller = "Scroll" }, new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", InsertionMode = InsertionMode.Replace }, new { id = "scrollDetails" })</li>
+                                    <li>@Ajax.ActionLink(@"Просмотр информации по перечню", "ScrollDetails", 
+                                        new { controller = "Scroll" }, 
+                                        new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", /*InsertionMode = InsertionMode.Replace,Url ="/"*/OnSuccess ="PaggingSuccess" }, 
+                                        new { id = "scrollDetails" })
+                                    </li>
                                     <li>@Html.ActionLink(@"Корректировка записей САПОД", "ScrollCorrection", "Scroll", new {}, new {id = "scrollFix"})</li>
                                     <li role="separator" class="divider"></li>
                                     <li>@Html.ActionLink(@"Отчёт для бухгалтерии", "Reports", "Scroll",
@@ -56,7 +60,9 @@
                                     <li>@Html.RouteLink(@"Протокол сравнения данных из ACУ ОРЦ и ОБД САПОД", new RouteValueDictionary() {{"action", "Reports"}, {"reportName", "krt_Naftan_Scroll_Compare_Normal"}})</li>
                                     <li>@Html.RouteLink(@"Протокол сравнения коррект. данных из ACУ ОРЦ и ОБД САПОД", "ReportRoutesGeneral", new RouteValueDictionary() {{"action", "Reports"}, {"reportName", "krt_Naftan_Scroll_compare_Correction"}})</li>
                                     <li role="separator" class="divider"></li>
-                                    <li>@Html.RouteLink(@"Таблица перечней", new RouteValueDictionary() {{"action", "index"}})</li>
+                                    <li>@Ajax.RouteLink(@"Таблица перечней", new RouteValueDictionary() { { "page", 1 }, { "action", "index" } },
+                                            new AjaxOptions() {HttpMethod = "Get", UpdateTargetId = "ScrollTable",InsertionMode = InsertionMode.Replace,OnSuccess = "PaggingSuccess"})
+                                    </li>
                                 </ul>
                             </li>
                             <li class="dropdown col-lg-2">

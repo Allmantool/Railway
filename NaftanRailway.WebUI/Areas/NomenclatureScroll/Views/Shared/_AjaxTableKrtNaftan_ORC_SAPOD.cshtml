@@ -49,19 +49,42 @@
     </tr>
     </thead>
     <tbody class="text-center" id="chargeOfList">
-    @{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD", @Model);}
+        @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model);}
     </tbody>
 </table>
 <div id="loadingInfiniteScroll" class="text-center" style="display: none">
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
-@if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
-    <div class="bottom-right pull-right">
-        @Html.PageLinks(pageInfo, 21, x => Url.RouteUrl("DetailsRoutesWithParams", 
-            new RouteValueDictionary(){
-                {"numberScroll",ViewBag.nper},
-                {"reportYear",@ViewBag.DtBuhOtchet.Year},
-                {"page", x}
-            }))
-    </div>
-}
+<!--Ajax paging-->
+
+<div class="bottom-right pull-right">
+    <ul class="pagination">
+    @{for (int q = 1; q <= ViewBag.PagingInfo.TotalPages; q++) {
+            <li class="@(q == ViewBag.PagingInfo.CurrentPage ? "active" : "")">
+                @Ajax.RouteLink(q.ToString(),
+                    new RouteValueDictionary() { { "page", q }},
+                        new AjaxOptions(){
+                            HttpMethod = "Get",
+                            UpdateTargetId = "ScrollTable",
+                            InsertionMode = InsertionMode.Replace,
+                            OnSuccess = "PaggingSuccess"
+                        })
+            </li>
+        }
+    }
+    </ul>
+</div>
+<!--Don't support in partioal view (this html helper alternative-->
+@Html.Script(@<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>)
+
+<!--Simple link pagging-->
+@*@if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
+<div class="bottom-right pull-right">
+    @Html.PageLinks(pageInfo, 21, x => Url.RouteUrl("DetailsRoutesWithParams", 
+        new RouteValueDictionary(){
+            {"numberScroll",ViewBag.nper},
+            {"reportYear",@ViewBag.DtBuhOtchet.Year},
+            {"page", x}
+        }))
+</div>
+}*@
