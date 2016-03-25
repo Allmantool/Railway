@@ -20,7 +20,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             ).DataTokens["UseNamespaceFallback"] = false;
             context.MapRoute(
                 name: "DetailsRoutesWithParams",
-                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
+                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{*filters}",
                 defaults: new {action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional},
                 //constraints: new {page = @"\d+"},
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),

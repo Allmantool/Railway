@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -29,6 +30,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Index(int page = 1) {
             const byte initialSizeItem = 100;
             var recordCount = _bussinesEngage.GetCountRows<krt_Naftan>();
+
             var result = new IndexModelView() {
                 ListKrtNaftan = _bussinesEngage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, x => x.KEYKRT),
                 ReportPeriod = DateTime.Now,
@@ -47,8 +49,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 return View(result);
             }
             //Add Error
-            TempData["message"] = @"Укажите верную страницу";
-            ModelState.AddModelError("ErrPage", @"Укажите верную страницу");
+            TempData["message"] = @"Укажите верную страницу!";
+            ModelState.AddModelError("ErrPage", @"Укажите верную страницу!");
 
             return RedirectToAction("Index", new RouteValueDictionary() { { "page", 1 } });
         }
@@ -57,16 +59,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Change Buh Data
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="multiDate"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult ChangeDate(IndexModelView model) {
-            //Custom value provider binding
-            //TryUpdateModel(model, new FormValueProvider(ControllerContext));
+            //Custom value provider binding => TryUpdateModel(model, new FormValueProvider(ControllerContext));
             long numberKeykrt = _bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT, x => x.NKRT == model.Nkrt && x.DTBUHOTCHET.Year == model.ReportPeriod.Value.Year).FirstOrDefault();
 
-            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate)))
-            {
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate))){
                 return PartialView("_KrtNaftanRows", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
             }
 
@@ -100,11 +99,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IEnumerable<string> filters, int page = 1) {
             const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
-            //Some add info
+            //Some add info (filter purpose)
             ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt);
             ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT, x => x.tdoc);
             ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr);
@@ -130,7 +129,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";
 
-            return RedirectToAction("Index", "Scroll");
+            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
         }
 
         /// <summary>
