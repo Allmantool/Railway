@@ -22,9 +22,8 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/jquery.validate.min.js",
                          "~/Scripts/jquery.validate.unobtrusive.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.min.js",
-                         "~/Scripts/history.js/history.js",
-                         "~/Scripts/history.js/history.html4.js",
-                         "~/Scripts/history.js/history.adapter.jquery.js"));
+                         "~/Scripts/bundle/html5/jquery.history.js"
+                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8")
                 .Include("~/Scripts/modernizr-custom.js",

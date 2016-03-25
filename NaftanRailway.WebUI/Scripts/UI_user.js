@@ -53,8 +53,8 @@ $('#sandbox-container .input-group').datepicker({
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
-/*MultiSelect Bootsrap plugin*/
-$(function() {
+/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)*/
+function filterMenu() {
     $('body #nkrt').multiselect({
         includeSelectAllOption: true,
         enableHTML: false,
@@ -68,13 +68,22 @@ $(function() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        /*checkboxName: 'multiselect[]' (for server side binding)*/
+        checkboxName: 'filters[]', /*(for server side binding)*/
         /*A function which is triggered on the change event of the options. 
-        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.
+        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
-            alert('Changed option ' + $(option).val() + '.');
-        }*/
-         buttonText: function(options, select) {
+            $.ajax({
+                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/' +'1',/*May be it's possible get url from current location*/
+                type: "GET",
+                dataType: "html",
+                //data: {filters: $('#nkrt  option:selected')},// numberScroll: $('#key').text(), reportYear: $("#scrollDate").text(), page: 1 },
+                success: function(result) {
+                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
+                    filterMenu();
+                }
+            });    
+        },
+        buttonText: function(options, select) {
                 if (options.length === 0) {
                     return 'Не выбрано ...';
                 }
@@ -161,7 +170,8 @@ $(function() {
             }
         }
     });
-});
+    PaggingSuccess();
+};
 
 /*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
 function need working state datepicker
@@ -171,8 +181,7 @@ dataType => The data type expected of the server response.
 data => Specifies data to be sent to the server
 */
 $(function() {
-    $("#ShippingChoise").autocomplete({
-        source: function(request, response) {
+    $("#ShippingChoise").autocomplete({source: function(request, response) {
             $.ajax({
                 url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
                 type: "POST",
@@ -432,18 +441,21 @@ $("a[href='#top']").on('click', function() {
 });
 
 /*ajax pagging (index.cshtml & etc)*/
-function PaggingSuccess(e) {
+function PaggingSuccess(e,window) {
 //    $(this).parents('ul').find('li').removeClass('active');
 //    $(this).parent('li').addClass('active');
 
     /*Dont support in Html4 browsers (IE8)
     Solustion: https://github.com/browserstate/history.js*/
-//    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
-//        var State = History.getState(); // Note: We are using History.getState() instead of event.state
-////        console.log(State);
-//    });
-//    window.History.pushState(null, null, $(e).find('.active a').attr('href'));
-    window.history.pushState(null, null, $(e).find('.active a').attr('href'));
-    
+    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
+        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+        console.log(State);
+    });
+
+    History.pushState(null, null, $(e).find('.active a').attr('href'));
+
+//    window.location = $(e).find('.active a').attr('href');
+//    location.assign($(e).find('.active a').attr('href'));
+
     $("html, body").animate({ scrollTop: 0 }, 0);
 }

@@ -6,7 +6,7 @@
     <base href="@(string.Format("{0}://{1}{2}Nomenclature/", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))"/>
     <meta name="author" content="P. Chizhikov" />
     <meta name="Description" content="Nomenclature project" />
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta http-equiv="refresh" content="18000" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,11 +32,8 @@
                                                 //Url = @Url.Action("Confirmed","Scroll"),
                                                 OnFailure = "UpdateFailure",
                                                 HttpMethod = "Post",
-                                                //UpdateTargetId = "updateRow",
                                                 LoadingElementDuration = 1200,
-                                                LoadingElementId = "loading",
-                                                //UpdateTargetId ="" 
-                                                //InsertionMode = InsertionMode.Replace
+                                                LoadingElementId = "loading"
                                             },
                                             new {id = "Reglink"})
                                     <li>@Html.ActionLink("Отчёт проверки перечня", "Reports", "Scroll",
@@ -44,8 +41,9 @@
                                             new {id = "MenuLinkErrReport"})
                                     </li>
                                     <li>@Ajax.ActionLink(@"Просмотр информации по перечню", "ScrollDetails", 
-                                        new { controller = "Scroll" }, 
-                                        new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", /*InsertionMode = InsertionMode.Replace,Url ="/"*/OnSuccess ="PaggingSuccess" }, 
+                                        new { controller = "Scroll" },
+                                             new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", 
+                                                 /*InsertionMode = InsertionMode.Replace,Url ="/"*/OnSuccess = "filterMenu" }, 
                                         new { id = "scrollDetails" })
                                     </li>
                                     <li>@Html.ActionLink(@"Корректировка записей САПОД", "ScrollCorrection", "Scroll", new {}, new {id = "scrollFix"})</li>
