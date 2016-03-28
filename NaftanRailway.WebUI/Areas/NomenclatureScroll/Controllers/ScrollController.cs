@@ -146,10 +146,15 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             var recordCount = _bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
-            if ((numberScroll != null || reportYear != null) && recordCount > 0) {
-                var fixRow = _bussinesEngage.GetTable<krt_Naftan_orc_sapod, object>(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt });
+            if (recordCount > 0 && findKrt !=null) {
+                var fixRow = _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page,initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+                //Some add info (filter purpose)
+                ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.nkrt);
+                ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.tdoc);
+                ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.vidsbr);
 
                 //Some ad info
+                ViewBag.RecordCount = recordCount;
                 ViewBag.nper = findKrt.NKRT;
                 ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
                 ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
@@ -160,7 +165,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     ItemsPerPage = initialSizeItem,
                     TotalItems = recordCount
                 };
-                return View("ScrollDetails", fixRow);
+                return View("_AjaxTableKrtNaftan_ORC_SAPOD", fixRow);
             }
             TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
@@ -228,11 +233,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return View("Reports", (object)urlReportString);
             }
-
+            var selScroll = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
             //check exists
-            if (_bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear) != null) {
+            if ( selScroll != null) {
                 const string defaultParameters = @"rs:Format=Excel";
-                string filterParameters = @"nkrt=" + numberScroll + @"&year=" + reportYear;
+                string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ?
+                      @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
+                    : @"nkrt=" + numberScroll + @"&year=" + reportYear;
 
                 string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
                     folderName, reportName, defaultParameters, filterParameters);
@@ -247,8 +254,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 };
 
                 string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
-                    ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll)
-                    : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
+                    ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll): (reportName == @"krt_Naftan_act_of_Reconciliation")
+                    ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"),selScroll.DTBUHOTCHET.Year)
+                        : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
 
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
                 //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
