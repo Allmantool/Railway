@@ -1,0 +1,97 @@
+﻿@model NaftanRailway.WebUI.ViewModels.SessionStorageViewModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "NaftanRailway: Выбранные № отправок: ";
+    int i = 0;
+}
+
+<style>#storageTable td { vertical-align: middle; }</style>
+    
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <span class="lead">Номера отправок за @String.Format("{0:y}", Model.Storage.ReportPeriod)</span>
+        </div>
+
+    <table id ="storageTable" class="table table-striped table-responsive table-hover table-condensed">
+    <thead class="small">
+        <tr class="">
+            <th class="text-center">№</th>
+            <th class="text-left">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().WagonsNumbers)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Bills)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Acts)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Cards)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.g11)</th>
+            <th class="text-left">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.g8)</th>
+            <th class="text-right">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.fio_tk)</th>
+            <th class="text-right">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Warehouse)</th>
+        </tr>
+    </thead>
+   
+        <tbody class="panel-body small">
+        @foreach (var line in Model.Storage.Lines) {
+            <tr>
+                <td class="text-center">@(++i))</td>
+                <td class="text-left">
+                    <div>@(line.Shipping.oper == 1 ? "Отправка" : "Прибытие")</div>
+                    <div>@Html.DisplayFor(l => line.Shipping.n_otpr)</div>
+                </td>
+                <td class="text-center">
+                    @if (line.WagonsNumbers !=null){
+                         @String.Join(", ", line.WagonsNumbers)
+                    }
+                </td>
+                <td class="text-center">
+                    @if (line.Bills !=null){
+                         @String.Join(", ", line.Bills)
+                    }
+                </td>
+                <td class="text-center">
+                    @if (line.Acts != null) {
+                        @String.Join(", ", line.Acts)
+                    }
+                </td>
+                <td class="text-center">
+                    @if (line.Cards != null) {
+                        @String.Join(", ",line.Cards)
+                    }  
+                </td>
+                <td class="text-center"><small>@Html.DisplayFor(l => line.Shipping.g11)</small></td>
+                <td class="text-center"><small>@Html.DisplayFor(l => line.Shipping.g8)</small></td>
+                <td class="text-right"><small>@Html.DisplayFor(l => line.Shipping.fio_tk)</small></td>
+                <td class="text-center">@Html.DisplayFor(l => line.Warehouse)</td>
+            </tr>
+            <tr>
+                <td colspan="8"></td>
+                <td>
+                    <a class="btn btn-xs btn-info" href="@Url.Action("EditRow", new {line.Shipping.id, Model.ReturnUrl})">
+                        Редактировать <span class="glyphicon glyphicon-pencil"></span> 
+                    </a>
+                </td>
+                <td>
+                    @using (Html.BeginForm("RemoveRow", "Storage")){
+                        @Html.Hidden("id", line.Shipping.id)
+                        @Html.HiddenFor(m => m.ReturnUrl)
+                        <button type="submit" class="btn btn-xs btn-warning" id="searchBtn">
+                               Удалить <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    }
+                </td>
+            </tr> 
+        }
+        </tbody>
+    </table>
+    
+    <div class="text-center panel-footer">
+        <a class="btn btn-info btn-sm" href="@Model.ReturnUrl">
+            Вернуться к выбору <span class="glyphicon glyphicon-level-up"></span>
+        </a>
+        <a class="btn btn-success btn-sm" href="@Url.Action("Index", new {controller = "Report", action = "Index"})">
+            Сформировать Отчёт <span class="glyphicon glyphicon-thumbs-up"></span> 
+        </a>
+    </div>
+    </div>
+</div>
