@@ -57,7 +57,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                             VOtpr = itemSh,
                             Etsng = gResult,
                             Vov = Uow.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
-                        }).AsEnumerable();
+                        }).ToList();
             }
         }
 
