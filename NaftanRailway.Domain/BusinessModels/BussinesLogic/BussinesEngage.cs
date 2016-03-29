@@ -41,13 +41,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
                 var srcEntsg = Uow.Repository<etsng>().Get_all().ToList();
 
-                var srcShipping = ShippinNumbers.Where(sh =>
-                    (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
-                    (sh.date_oper >= startDate && sh.date_oper <= endDate))
-                    .OrderByDescending(sh => sh.date_oper)
-                    .Skip((page - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToList();
+                var srcShipping = GetSkipRows<v_otpr, DateTime?>(page, pageSize, x => x.date_oper,
+                         x => x.state == 32 &&
+                         ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
+                            (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)) &&
+                         (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
+                         (x.date_oper >= startDate && x.date_oper <= endDate));
 
                 return (from itemSh in srcShipping
                         join itemEtsng in srcEntsg on itemSh.cod_tvk_etsng equals itemEtsng.etsng1
@@ -56,26 +55,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         select new Shipping() {
                             VOtpr = itemSh,
                             Etsng = gResult,
-                            Vov = Uow.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
-                        }).AsEnumerable();
+                            Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
+                        }).ToList();
             }
-        }
-
-        /// <summary>
-        /// Count items for pagging
-        /// </summary>
-        /// <param name="templShNumber"></param>
-        /// <param name="operationCategory"></param>
-        /// <param name="chooseDate"></param>
-        /// <param name="shiftPage"></param>
-        /// <returns></returns>
-        public int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3) {
-            DateTime startDate = chooseDate.AddDays(-shiftPage);
-            DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
-
-            return (ShippinNumbers.Count(sh => sh.n_otpr.StartsWith(templShNumber) &&
-                            (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
-                            (sh.date_oper >= startDate && sh.date_oper <= endDate)));
         }
 
         /// <summary>
@@ -86,14 +68,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftPage"></param>
         /// <returns></returns>
         public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
-            return ShippinNumbers.Where(sh =>
-                    sh.n_otpr.StartsWith(templShNumber) &&
-                    (sh.date_oper >= chooseDate.AddDays(-shiftPage) &&
-                    sh.date_oper <= chooseDate.AddDays(shiftPage)))
-                .GroupBy(g => new { g.n_otpr })
-                .OrderByDescending(p => p.Key.n_otpr)
-                .Select(m => m.Key.n_otpr)
-                .Take(20).ToList();
+            var startDate = chooseDate.AddDays(-shiftPage);
+            var endDate = chooseDate.AddDays(shiftPage);
+
+            return GetGroup<v_otpr, string>(x => new { x.id, x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
+                && (x.date_oper >= startDate && x.date_oper <= endDate)).OrderByDescending(x => x).Take(20);
         }
 
         public ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse) {
@@ -104,21 +83,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             get { throw new NotImplementedException(); }
         }
 
-        /// <summary>
-        /// Prior selection on ship number (v_otpr)
-        /// </summary>
-        public IQueryable<v_otpr> ShippinNumbers {
-            get {
-                using (Uow = new UnitOfWork()) {
-                    return Uow.Repository<v_otpr>()
-                        .Get_all(x => x.state == 32 &&
-                                      ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
-                                       (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)))
-                        .OrderByDescending(x => x.date_oper);
-
-                }
-            }
-        }
 
         public IQueryable<v_o_v> CarriageNumbers {
             get { throw new NotImplementedException(); }
@@ -196,6 +160,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return Uow.Repository<T>().Get_all(predicate).Count();
             }
         }
+        /// <summary>
+        /// Return pagging part of table
+        /// </summary>
+        /// <typeparam name="T">Current enity</typeparam>
+        /// <typeparam name="TKey">Type for ordering</typeparam>
+        /// <param name="page">Number page</param>
+        /// <param name="size">Count row per one page</param>
+        /// <param name="orderPredicate">Condition for ordering</param>
+        /// <param name="filterPredicate">Condition for filtering</param>
+        /// <returns>Return definition count rows of specific entity</returns>
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
                 return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
@@ -273,15 +247,15 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="operationCategory"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
-            return ShippinNumbers.Where(sh =>
-                     sh.n_otpr.StartsWith(templShNumber)
-                            && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
-                                && ((int)operationCategory == 0 || sh.oper == (int)operationCategory))
-                     .GroupBy(x => new { x.oper })
-                     .Select(g => new { g.Key.oper, operCount = g.Count() })
-                     .ToDictionary(item => item.oper.Value, item => item.operCount);
-        }
+        //public IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
+        //    return ShippinNumbers.Where(sh =>
+        //             sh.n_otpr.StartsWith(templShNumber)
+        //                    && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
+        //                        && ((int)operationCategory == 0 || sh.oper == (int)operationCategory))
+        //             .GroupBy(x => new { x.oper })
+        //             .Select(g => new { g.Key.oper, operCount = g.Count() })
+        //             .ToDictionary(item => item.oper.Value, item => item.operCount);
+        //}
         /// <summary>
         /// Edit Row (sm, sm_nds (Sapod))
         /// Check row as fix => check ErrorState in krt_Naftan_Sapod 

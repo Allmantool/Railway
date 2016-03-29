@@ -13,9 +13,9 @@ namespace NaftanRailway.Domain.Abstract {
     /// </summary>
     public interface IBussinesEngage : IDisposable {
         IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int shiftDate, int pageSize);
-        int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
+        //long ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
-        IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
+        //IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
 
         /// <summary>
         /// Get All info 
@@ -31,7 +31,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Get Shipping info
         /// </summary>
-        IQueryable<v_otpr> ShippinNumbers { get; }
+        //IQueryable<v_otpr> ShippinNumbers { get; }
         /// <summary>
         /// Get info abount wagons
         /// </summary>

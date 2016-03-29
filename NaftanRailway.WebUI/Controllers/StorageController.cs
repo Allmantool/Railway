@@ -37,7 +37,7 @@ namespace NaftanRailway.WebUI.Controllers {
             ShippingInfoLine line = storage.Lines.FirstOrDefault(sh => sh.Shipping.id == id);
 
             if (line == null) {
-                v_otpr shipping = _bussinesEngage.ShippinNumbers.FirstOrDefault(sh => sh.id == id);
+                v_otpr shipping = _bussinesEngage.GetTable<v_otpr,bool>(x=>x.id == id).FirstOrDefault();
 
                 if (shipping != null) {
                     //temp variant(time period)

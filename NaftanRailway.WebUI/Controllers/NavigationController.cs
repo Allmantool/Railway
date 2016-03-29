@@ -22,11 +22,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public PartialViewResult MenuTypeOperations(InputMenuViewModel menuView, string operationCategory = null) {
             ViewBag.SelectedCategory = operationCategory;
 
-            IQueryable<short?> typeOperations = ( _bussinesEngage.ShippinNumbers)
-                            .Select(x => x.oper)
-                            .Distinct()
-                            .OrderBy(x => x);
-
+            var typeOperations = _bussinesEngage.GetGroup<v_otpr, short?>(x => x.oper); 
             //Передаем динамически типы операций
             ViewBag.TypeOperation = typeOperations.AsEnumerable();
 
