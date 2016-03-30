@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -26,6 +27,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public ViewResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
             const int pageSize = 8;
             const int shiftDay = 3;
+        
             menuView.ShippingChoise = menuView.ShippingChoise ?? "";
 
             if(menuView.ReportPeriod == null) {
@@ -33,13 +35,17 @@ namespace NaftanRailway.WebUI.Controllers {
             } else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
 
             DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+            var startDate = chooseDate.AddDays(-shiftDay);
+            var endDate = chooseDate.AddMonths(1).AddDays(shiftDay);
 
             DispatchListViewModel model = new DispatchListViewModel() {
                 Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, shiftDay, pageSize),
                 PagingInfo = new PagingInfo() {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = _bussinesEngage.ShippingsViewsCount(menuView.ShippingChoise, operationCategory, chooseDate)
+                    TotalItems = _bussinesEngage.GetCountRows<v_otpr>(x=>x.n_otpr.StartsWith(menuView.ShippingChoise) &&
+                            (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
+                            (x.date_oper >= startDate && x.date_oper <= endDate))
                 },
                 OperationCategory = operationCategory,
                 Menu = menuView
@@ -89,16 +95,16 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <param name="operationCategory"></param>
         /// <returns></returns>
-        [HttpPost]
-        public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
-            if(menuView.ReportPeriod != null) {
-                DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+        //[HttpPost]
+        //public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
+        //    if(menuView.ReportPeriod != null) {
+        //        DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
-                var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
+        //        var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
 
-                return Json(resultGroup, JsonRequestBehavior.AllowGet);
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
-        }
+        //        return Json(resultGroup, JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json("", JsonRequestBehavior.AllowGet);
+        //}
     }
 }

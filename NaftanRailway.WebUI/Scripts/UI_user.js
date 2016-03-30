@@ -68,19 +68,22 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        checkboxName: 'filters[]', /*(for server side binding)*/
+        checkboxName: 'filters', /*(for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
+            var filterArr = $('#nkrt  option:selected').map(function() { return $(this).val(); });
             $.ajax({
-                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/' +'1',/*May be it's possible get url from current location*/
+                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text(),/*May be it's possible get url from current location*/
                 type: "GET",
-                dataType: "html",
-                //data: {filters: $('#nkrt  option:selected')},// numberScroll: $('#key').text(), reportYear: $("#scrollDate").text(), page: 1 },
+                traditional: true,
+                dataType: "json",
+                data: { filters : filterArr.toArray() },
                 success: function(result) {
                     $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
                     filterMenu();
-                }
+                },
+                
             });    
         },
         buttonText: function(options, select) {
@@ -440,16 +443,16 @@ $("a[href='#top']").on('click', function() {
 });
 
 /*ajax pagging (index.cshtml & etc)*/
-function PaggingSuccess(e,window) {
+function PaggingSuccess(e) {
 //    $(this).parents('ul').find('li').removeClass('active');
 //    $(this).parent('li').addClass('active');
 
     /*Dont support in Html4 browsers (IE8)
     Solustion: https://github.com/browserstate/history.js*/
-//    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
-//        var State = History.getState(); // Note: We are using History.getState() instead of event.state
-//        console.log(State);
-//    });
+    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
+        var State = History.getState(); // Note: We are using History.getState() instead of event.state
+        console.log(State);
+    });
 
     History.pushState(null, null, $(e).find('.active a').attr('href'));
 
