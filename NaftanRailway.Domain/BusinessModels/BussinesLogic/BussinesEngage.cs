@@ -54,31 +54,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         select new Shipping() {
                             VOtpr = itemSh,
                             Etsng = gResult,
-<<<<<<< HEAD
-                            Vov = Uow.Repository<v_o_v>().Get_all(cr => cr.id_otpr == itemSh.id)
-                        }).ToList();
-            }
-        }
 
-        /// <summary>
-        /// Count items for pagging
-        /// </summary>
-        /// <param name="templShNumber"></param>
-        /// <param name="operationCategory"></param>
-        /// <param name="chooseDate"></param>
-        /// <param name="shiftPage"></param>
-        /// <returns></returns>
-        public int ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3) {
-            DateTime startDate = chooseDate.AddDays(-shiftPage);
-            DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
-
-            return (ShippinNumbers.Count(sh => sh.n_otpr.StartsWith(templShNumber) &&
-                            (operationCategory == EnumOperationType.All || sh.oper == (short)operationCategory) &&
-                            (sh.date_oper >= startDate && sh.date_oper <= endDate)));
-=======
                             Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
                         }).ToList();
->>>>>>> 58af5b1c223a921bf4c5da34afb5cd1f282d8de9
         }
 
         /// <summary>
