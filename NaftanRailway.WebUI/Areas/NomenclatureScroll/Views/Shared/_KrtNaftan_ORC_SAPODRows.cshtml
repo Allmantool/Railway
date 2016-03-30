@@ -4,7 +4,7 @@
 @model IEnumerable<krt_Naftan_orc_sapod>
 
 @foreach (krt_Naftan_orc_sapod item in Model) {
-    <tr>
+    <tr class = "@((item.sm != item.summa + item.nds)? "danger":(item.ErrorState ==2)?"primary":"")">
         <td class="vert-align">@item.nkrt</td>
         <td class="vert-align">@item.tdoc</td>
         <td class="vert-align vidsbr">@item.vidsbr</td>

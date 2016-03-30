@@ -37,9 +37,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             DateTime startDate = chooseDate.AddDays(-shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
-            using (Uow = new UnitOfWork()) {
                 //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
-                var srcEntsg = Uow.Repository<etsng>().Get_all().ToList();
+                var srcEntsg = GetTable<etsng,long>().ToList();
 
                 var srcShipping = GetSkipRows<v_otpr, DateTime?>(page, pageSize, x => x.date_oper,
                          x => x.state == 32 &&
@@ -57,7 +56,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                             Etsng = gResult,
                             Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
                         }).ToList();
-            }
         }
 
         /// <summary>

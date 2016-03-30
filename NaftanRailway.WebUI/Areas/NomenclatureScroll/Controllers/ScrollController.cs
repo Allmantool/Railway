@@ -121,7 +121,10 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
+                    return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
+                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, 
+                            x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
+                            x => x.keykrt == findKrt.KEYKRT));
                 }
 
                 return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
