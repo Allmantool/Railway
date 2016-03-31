@@ -68,21 +68,25 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        checkboxName: 'filters', /*(for server side binding)*/
+        //checkboxName: 'filters', /*(for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
-            var filterArr = $('#nkrt  option:selected').map(function() { return $(this).val(); });
+            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
             $.ajax({
-                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text(),/*May be it's possible get url from current location*/
-                type: "Post",
-               // traditional: true,
+                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() +'/1',/*May be it's possible get url from current location*/
+                type: "Get",
+                traditional: true,
                 contentType: 'application/json; charset=utf-8',
-                data: { filters:["Ж1","Ж2"] /*JSON.stringify(filterArr.toArray())*/ },
+                data: {
+                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray() 
+                },
                 success: function(result) {
                     $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
                     filterMenu();
-                },
+                }
             });    
         },
         buttonText: function(options, select) {
@@ -115,6 +119,24 @@ function filterMenu() {
         allSelectedText: 'Тип документа: (Все)',
         nonSelectedText: 'Не выбрано',
         disableIfEmpty: true,
+        onChange: function(option, checked, select) {
+            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
+            $.ajax({
+                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/1', /*May be it's possible get url from current location*/
+                type: "Get",
+                traditional: true,
+                contentType: 'application/json; charset=utf-8',
+                data: {
+                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray()
+                },
+                success: function(result) {
+                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
+                    filterMenu();
+                }
+            });
+        },
         buttonText: function(options, select) {
             if (options.length === 0) {
                 return 'Не выбрано ...';
@@ -148,6 +170,24 @@ function filterMenu() {
         disableIfEmpty: true,
         nSelectedText: ' кодов сборов выбрано',
         buttonWidth: '190px',
+        onChange: function(option, checked, select) {
+            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
+            $.ajax({
+                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/1', /*May be it's possible get url from current location*/
+                type: "Get",
+                traditional: true,
+                contentType: 'application/json; charset=utf-8',
+                data: {
+                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray()
+                },
+                success: function(result) {
+                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
+                    filterMenu();
+                }
+            });
+        },
         buttonText: function(options, select) {
             if (options.length === 0) {
                 return 'Не выбрано ...';

@@ -21,7 +21,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "DetailsRoutesWithParams",
                 url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{*filters}",
-                defaults: new {action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional},
+                defaults: new { action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional, filters =UrlParameter.Optional},
                 //constraints: new {page = @"\d+"},
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),
                 //customConstraint = new UserAgentConstraint("Chrome")},
