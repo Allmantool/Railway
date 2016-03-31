@@ -65,7 +65,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             //Custom value provider binding => TryUpdateModel(model, new FormValueProvider(ControllerContext));
             long numberKeykrt = _bussinesEngage.GetGroup<krt_Naftan, long>(x => x.KEYKRT, x => x.NKRT == model.Nkrt && x.DTBUHOTCHET.Year == model.ReportPeriod.Value.Year).FirstOrDefault();
 
-            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate))){
+            if (model.ReportPeriod != null && (Request.IsAjaxRequest() && _bussinesEngage.ChangeBuhDate(model.ReportPeriod.Value, numberKeykrt, model.MultiDate))) {
                 return PartialView("_KrtNaftanRows", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.KEYKRT == numberKeykrt, x => x.KEYKRT));
             }
 
@@ -85,7 +85,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (Request.IsAjaxRequest() && ModelState.IsValid && _bussinesEngage.AddKrtNaftan(key, out msgError)) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_KrtNaftanRows.cshtml",_bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear));
+                return PartialView(@"~/Areas/NomenclatureScroll/Views/Shared/_KrtNaftanRows.cshtml", _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear));
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
@@ -99,7 +99,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IEnumerable<string> filters, int page = 1) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters = null) {
             const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
@@ -122,7 +122,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
                     return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
-                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, 
+                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
                             x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                             x => x.keykrt == findKrt.KEYKRT));
                 }
@@ -133,6 +133,10 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
+        }
+        [HttpPost]
+        public void ScrollDetails(IEnumerable<string> filters = null) {
+
         }
 
         /// <summary>
@@ -149,8 +153,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             var recordCount = _bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
-            if (recordCount > 0 && findKrt !=null) {
-                var fixRow = _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page,initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+            if (recordCount > 0 && findKrt != null) {
+                var fixRow = _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
                 //Some add info (filter purpose)
                 ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.nkrt);
                 ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.tdoc);
@@ -238,7 +242,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             var selScroll = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
             //check exists
-            if ( selScroll != null) {
+            if (selScroll != null) {
                 const string defaultParameters = @"rs:Format=Excel";
                 string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ?
                       @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
@@ -257,8 +261,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 };
 
                 string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
-                    ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll): (reportName == @"krt_Naftan_act_of_Reconciliation")
-                    ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"),selScroll.DTBUHOTCHET.Year)
+                    ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll) : (reportName == @"krt_Naftan_act_of_Reconciliation")
+                    ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year)
                         : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
 
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.

@@ -75,15 +75,14 @@ function filterMenu() {
             var filterArr = $('#nkrt  option:selected').map(function() { return $(this).val(); });
             $.ajax({
                 url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text(),/*May be it's possible get url from current location*/
-                type: "GET",
-                traditional: true,
-                dataType: "json",
-                data: { filters : filterArr.toArray() },
+                type: "Post",
+               // traditional: true,
+                contentType: 'application/json; charset=utf-8',
+                data: { filters:["Ж1","Ж2"] /*JSON.stringify(filterArr.toArray())*/ },
                 success: function(result) {
                     $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
                     filterMenu();
                 },
-                
             });    
         },
         buttonText: function(options, select) {

@@ -54,6 +54,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         select new Shipping() {
                             VOtpr = itemSh,
                             Etsng = gResult,
+
                             Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
                         }).ToList();
         }
