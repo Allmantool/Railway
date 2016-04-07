@@ -99,7 +99,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, string[] filters1 = null, string[] filters2 = null, string[] filters3 = null) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, IEnumerable<string> filters2 = null, IEnumerable<string> filters3 = null) {
             const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
@@ -118,7 +118,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 ItemsPerPage = initialSizeItem,
                 TotalItems = findKrt.RecordCount
             };
-
+           
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
                     if (filters1 != null && filters2 != null && filters3 != null) {

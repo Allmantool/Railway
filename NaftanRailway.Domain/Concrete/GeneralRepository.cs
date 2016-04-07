@@ -23,7 +23,7 @@ namespace NaftanRailway.Domain.Concrete {
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
                 _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
                 _context.SaveChanges();*/
-
+                
                 return _dbSet.Where(predicate);
             }
 

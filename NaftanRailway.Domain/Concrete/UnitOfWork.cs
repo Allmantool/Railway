@@ -43,19 +43,18 @@ namespace NaftanRailway.Domain.Concrete {
             if (_repositories.Keys.Contains(typeof(T)))
                 return _repositories[typeof(T)] as IGeneralRepository<T>;
 
-            //check exist entity in context(through metadata in objectContext)
+            //check exist entity in context(through metadata (reflection) in objectContext)
             if (Contexts != null) {
                 foreach (var contextItem in Contexts) {
-                    ObjectContext objContext = ((IObjectContextAdapter)contextItem).ObjectContext;
-                    MetadataWorkspace workspace = objContext.MetadataWorkspace;
-
-                    if (workspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
+                    MetadataWorkspace metaWorkspace = ((IObjectContextAdapter)contextItem).ObjectContext.MetadataWorkspace;
+                    //reflection (search by name in object metadata)
+                    if (metaWorkspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
                         ActiveContext = contextItem;
                         break;
                     }
                 }
             }
-
+            //add new repositories
             IGeneralRepository<T> repo = new GeneralRepository<T>(ActiveContext);
             _repositories.Add(typeof(T), repo);
 

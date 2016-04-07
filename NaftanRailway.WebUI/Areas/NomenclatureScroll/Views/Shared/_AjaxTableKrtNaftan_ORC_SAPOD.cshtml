@@ -34,9 +34,10 @@
     </tr>
     <!--Grid filter-->
     <tr class="filter-menu">
-        <th colspan="19">@Html.DropDownListFor(x => x.First().nkrt,
-                             new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
-                             new {@class = "form-control", type = "search", multiple = "multiple"})
+        <th colspan="19">
+            @Html.DropDownListFor(x => x.First().nkrt,
+                     new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
+                     new {@class = "form-control", type = "search", multiple = "multiple"})
 
             @Html.DropDownListFor(x => x.First().tdoc,
                 new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc),
