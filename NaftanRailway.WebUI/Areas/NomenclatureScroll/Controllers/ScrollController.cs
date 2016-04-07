@@ -126,9 +126,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                             _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
                                 x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                                 x => x.keykrt == findKrt.KEYKRT &&
-                                     ((filters1).Any(item => item == x.nkrt))&&
-                                     ((filters2).Any(item => item == x.tdoc.ToString()))&&
-                                     (filters3).Any(item => item == x.vidsbr.ToString())));
+                                     (filters1.Any(item => item == x.nkrt) &&
+                                     filters2.Any(item => item == x.tdoc.ToString())&&
+                                     filters3.Any(item => item == x.vidsbr.ToString()))));
                     } 
                         return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
                             _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,

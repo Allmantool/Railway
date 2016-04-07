@@ -4,6 +4,7 @@
     <EntitySetMapping Name="krt_Naftans">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan">
         <MappingFragment StoreEntitySet="krt_Naftan">
+          <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
           <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
           <ScalarProperty Name="NKRT" ColumnName="NKRT" />
           <ScalarProperty Name="NTREB" ColumnName="NTREB" />

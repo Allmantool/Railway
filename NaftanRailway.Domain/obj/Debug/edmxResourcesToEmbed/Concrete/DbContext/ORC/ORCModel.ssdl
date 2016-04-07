@@ -38,6 +38,7 @@
     <Property Name="Scroll_Sbor" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Confirmed" Type="bit" Nullable="false" />
     <Property Name="ErrorState" Type="tinyint" />
+    <Property Name="CounterVersion" Type="tinyint" Nullable="false" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
@@ -50,7 +51,7 @@
     <Property Name="dt" Type="date" Nullable="false" />
     <Property Name="gruname" Type="nvarchar(max)" Nullable="false" />
     <Property Name="vidsbr" Type="smallint" Nullable="false" />
-    <Property Name="namesbr" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="namesbr" Type="nvarchar(max)" Nullable="false" />
     <Property Name="sm_no_nds" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="sm_nds" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="sm" Type="decimal" Nullable="false" Scale="2" />
