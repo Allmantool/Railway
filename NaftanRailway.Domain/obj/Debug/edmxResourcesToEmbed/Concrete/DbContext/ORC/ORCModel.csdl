@@ -39,6 +39,7 @@
     <Property Name="Confirmed" Type="Boolean" Nullable="false" />
     <Property Name="ErrorState" Type="Byte" />
     <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
+    <Property Type="Byte" Name="CounterVersion" Nullable="false" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
