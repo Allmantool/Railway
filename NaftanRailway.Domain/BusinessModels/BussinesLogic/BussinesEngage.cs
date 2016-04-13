@@ -37,25 +37,25 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             DateTime startDate = chooseDate.AddDays(-shiftDate);
             DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
 
-                //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
-                var srcEntsg = GetTable<etsng,long>().AsEnumerable();
+            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
+            var srcEntsg = GetTable<etsng, long>().ToList();
 
-                var srcShipping = GetSkipRows<v_otpr, DateTime?>(page, pageSize, x => x.date_oper,
-                         x => x.state == 32 &&
-                         ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
-                            (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)) &&
-                         (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
-                         (x.date_oper >= startDate && x.date_oper <= endDate));
+            var srcShipping = GetSkipRows<v_otpr, DateTime?>(page, pageSize, x => x.date_oper,
+                     x => x.state == 32 &&
+                     ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
+                        (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)) &&
+                     (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
+                     (x.date_oper >= startDate && x.date_oper <= endDate));
 
-                return (from itemSh in srcShipping
-                        join itemEtsng in srcEntsg on itemSh.cod_tvk_etsng equals itemEtsng.etsng1
-                            into gResult
-                        from leftJoinResult in gResult.DefaultIfEmpty()
-                        select new Shipping() {
-                            VOtpr = itemSh,
-                            Etsng = gResult,
-                            Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
-                        }).AsEnumerable();
+            return (from itemSh in srcShipping
+                    join itemEtsng in srcEntsg on itemSh.cod_tvk_etsng equals itemEtsng.etsng1
+                        into gResult
+                    from leftJoinResult in gResult.DefaultIfEmpty()
+                    select new Shipping() {
+                        VOtpr = itemSh,
+                        Etsng = gResult,
+                        Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
+                    }).ToList();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).AsEnumerable() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).AsEnumerable();
+                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).ToList() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).ToList();
             }
         }
         public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
@@ -170,13 +170,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <returns>Return definition count rows of specific entity</returns>
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).AsEnumerable();
+                return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
 
         public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x => x.Key).AsEnumerable();
+                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x => x.Key).ToList();
             }
         }
 
@@ -226,7 +226,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             using (Uow = new UnitOfWork()) {
                 var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key) : Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key);
                 try {
-                    foreach (krt_Naftan item in listRecords.OrderByDescending(x => x.KEYKRT).AsEnumerable()) {
+                    foreach (krt_Naftan item in listRecords.OrderByDescending(x => x.KEYKRT).ToList()) {
                         Uow.Repository<krt_Naftan>().Edit(item);
                         item.DTBUHOTCHET = period;
                     }
