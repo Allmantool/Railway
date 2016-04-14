@@ -34,17 +34,22 @@
     </tr>
     <!--Grid filter-->
     <tr class="filter-menu">
-        <th colspan="19">@Html.DropDownListFor(x => x.First().nkrt,
-                             new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
-                             new {@class = "form-control", type = "search", multiple = "multiple"})
+        <th colspan="19">
+            @using (Ajax.BeginForm("ScrollDetails","Scroll",new {},new AjaxOptions(),new {@class = "form-inline "})) {
+                @Html.DropDownListFor(x => x.First().nkrt,
+                    new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
+                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
 
-            @Html.DropDownListFor(x => x.First().tdoc,
-                new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc),
-                new {@class = "form-control", multiple = "multiple"})
+                @Html.DropDownListFor(x => x.First().tdoc,
+                    new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc),
+                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
 
-            @Html.DropDownList("DDMenuVidsbr",
-                new MultiSelectList(ViewBag.VidSbr, ViewBag.VidSbr),
-                new {@class = "form-control", multiple = "multiple"})
+                @Html.DropDownList("DDMenuVidsbr",
+                    new MultiSelectList(ViewBag.VidSbr, ViewBag.VidSbr),
+                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
+                
+                <button type="submit" class="form-control btn btn-primary">Фильтр</button>
+                }
         </th>
     </tr>
     </thead>
@@ -62,15 +67,15 @@
     @{for (int q = 1; q <= ViewBag.PagingInfo.TotalPages; q++) {
             <li class="@(q == ViewBag.PagingInfo.CurrentPage ? "active" : "")">
                 @Ajax.RouteLink(q.ToString(),
-                    new RouteValueDictionary() { { "page", q }},
-                        new AjaxOptions(){
+                    new RouteValueDictionary() { { "page", q } },
+                        new AjaxOptions() {
                             HttpMethod = "Get",
                             UpdateTargetId = "ScrollTable",
                             InsertionMode = InsertionMode.Replace,
                             OnSuccess = "filterMenu"
                         })
             </li>
-        }
+      }
     }
     </ul>
 </div>

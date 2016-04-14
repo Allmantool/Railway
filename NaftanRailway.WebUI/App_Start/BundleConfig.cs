@@ -9,7 +9,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery2")
-                .Include("~/Scripts/jquery-2.2.0.min.js"));
+                .Include("~/Scripts/jquery-2.2.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Jquery")
                 .Include("~/Scripts/jquery.cookie-1.4.1.min.js",

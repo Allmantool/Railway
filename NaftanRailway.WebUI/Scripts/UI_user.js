@@ -53,7 +53,9 @@ $('#sandbox-container .input-group').datepicker({
     var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
-/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)*/
+/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
+http://davidstutz.github.io/bootstrap-multiselect/
+*/
 function filterMenu() {
     $('body #nkrt').multiselect({
         includeSelectAllOption: true,
@@ -68,7 +70,7 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        //checkboxName: 'filters', /*(for server side binding)*/
+        checkboxName: 'filters', /*(for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
