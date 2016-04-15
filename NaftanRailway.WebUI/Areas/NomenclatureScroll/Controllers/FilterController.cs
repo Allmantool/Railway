@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Management;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     /// <summary>
@@ -14,16 +11,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <summary>
         /// Update render filter menu on page
         /// </summary>
-        /// <param name="values">Values of current filter</param>
-        /// <param name="currentFilter">Name current filter</param>
-        /// <param name="scopeFilters">Names of all filters on current page</param>
+        /// <param name="filtes">Set of filters</param>
         /// <returns></returns>
         [ChildActionOnly]
-        public ActionResult Menu(string[] values, string currentFilter, string[] scopeFilters) {
+        public ActionResult Menu(IEnumerable<CheckListFilterModel> filtes) {
             if (Request.IsAjaxRequest())
-                return PartialView("_Menu");
-            else
-                return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
+                return PartialView("_FilterMenu", filtes);
+
+            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
         }
     }
 }

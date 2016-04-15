@@ -70,20 +70,18 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        checkboxName: 'filters', /*(for server side binding)*/
+        checkboxName: 'filters[0].AllAvailableValues[0]', /*(for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
             //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
             $.ajax({
-                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() +'/1',/*May be it's possible get url from current location*/
-                type: "Get",
+                url: "Filter/Menu/",
+                type: "Post",
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
                 data: {
-                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray() 
+                    "filters": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
                 },
                 success: function(result) {
                     $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
@@ -115,8 +113,8 @@ function filterMenu() {
                 }
         }
 });
-    $('#tdoc').multiselect({
-        includeSelectAllOption: true,
+    $('body #tdoc').multiselect({
+        //includeSelectAllOption: true,
         selectAllText: 'Тип документа: (Все)',
         allSelectedText: 'Тип документа: (Все)',
         nonSelectedText: 'Не выбрано',
@@ -163,7 +161,7 @@ function filterMenu() {
             }
         }
     });
-    $('#DDMenuVidsbr').multiselect({
+    $('body #vidsbr').multiselect({
         includeSelectAllOption: true,
         selectAllText: '№ Сбора: (Все)',
         allSelectedText:'№ Сбора: (Все)',
