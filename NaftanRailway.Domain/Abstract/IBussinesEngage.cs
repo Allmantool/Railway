@@ -94,11 +94,13 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="size">page item size</param>
         /// <returns></returns>
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class;
+
         /// <summary>
         /// Get group result (Group by + order by)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TKey"></typeparam>
+        /// <param name="groupPredicate"></param>
         /// <param name="predicate"></param>
         /// <param name="orderPredicate"></param>
         /// <returns></returns>

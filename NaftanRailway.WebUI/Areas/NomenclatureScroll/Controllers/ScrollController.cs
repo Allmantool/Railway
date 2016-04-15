@@ -99,19 +99,40 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, string[] filters2 = null, string[] filters3 = null) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
             const byte initialSizeItem = 80;
+
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
-
-            //Some add info (filter purpose)
-            ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt);
-            ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT, x => x.tdoc);
-            ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr);
-
+            //some additional info
             ViewBag.RecordCount = findKrt.RecordCount;
             ViewBag.nper = findKrt.NKRT;
             ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
+
+            if (filters == null) {
+                //Default filters (all checked)
+                ViewBag.Filters = new[]{
+                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                            x => x.nkrt, 
+                            x => x.keykrt == findKrt.KEYKRT, 
+                            x => x.nkrt)){
+                        SortFieldName = "nkrt"
+                    },
+                    new CheckListFilterModel (_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                            x => x.tdoc.ToString(),
+                            x => x.keykrt == findKrt.KEYKRT, 
+                            x => x.tdoc.ToString())){
+                        SortFieldName = "tdoc"
+                    },
+                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                            x => x.vidsbr.ToString(), 
+                            x => x.keykrt == findKrt.KEYKRT, 
+                            x => x.vidsbr.ToString())){
+                        SortFieldName = "vidsbr"
+                    }
+                };
+            }
+
             //Info about paging
             ViewBag.PagingInfo = new PagingInfo {
                 CurrentPage = page,
@@ -121,20 +142,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    if (filters1 != null && filters2 != null && filters3 != null) {
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
-                            _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                    if (filters != null) {
+                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
                                 x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                                 x => x.keykrt == findKrt.KEYKRT &&
-                                     (filters1.Any(item => item == x.nkrt) &&
-                                     filters2.Any(item => item == x.tdoc.ToString())&&
-                                     filters3.Any(item => item == x.vidsbr.ToString()))));
-                    } 
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
-                            _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
-                                x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
-                                x => x.keykrt == findKrt.KEYKRT));
-                    
+                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.Contains(x.nkrt) &&
+                                    filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Contains(x.tdoc.ToString()) &&
+                                    filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Contains(x.vidsbr.ToString())));
+                    }
+                    return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
+                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                            x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
+                            x => x.keykrt == findKrt.KEYKRT));
+
                 }
 
                 return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
@@ -143,10 +163,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
-        }
-        [HttpPost]
-        public void ScrollDetails(IEnumerable<string> filters = null) {
-
         }
 
         /// <summary>

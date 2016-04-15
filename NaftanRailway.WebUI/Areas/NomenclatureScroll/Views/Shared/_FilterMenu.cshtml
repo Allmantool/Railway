@@ -1,0 +1,7 @@
+﻿@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
+
+@foreach (var item in Model) {
+  @Html.DropDownList(item.SortFieldName,
+        new MultiSelectList(item.AllAvailableValues, item.CheckedValues),
+        new { @class = "form-group form-control", type = "search", multiple = "multiple" })  
+}

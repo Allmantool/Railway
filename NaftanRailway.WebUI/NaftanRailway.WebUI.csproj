@@ -300,6 +300,7 @@
     <Compile Include="Areas\NomenclatureScroll\Controllers\FilterController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\CheckCharges.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Models\CheckListFilterModel.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
@@ -472,7 +473,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\EditorTemplates\Enum.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_KrtNaftanRows.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_KrtNaftan_ORC_SAPODRows.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Filter\_Menu.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_FilterMenu.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
@@ -655,6 +656,7 @@
     <Content Include="Views\Shared\Errors.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
