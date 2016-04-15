@@ -99,7 +99,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+<<<<<<< HEAD
         public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, IEnumerable<string> filters2 = null, IEnumerable<string> filters3 = null) {
+=======
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, string[] filters2 = null, string[] filters3 = null) {
+>>>>>>> 4c86a322de3f4b0b8dac1ee6171bdaa189b37205
             const byte initialSizeItem = 80;
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
