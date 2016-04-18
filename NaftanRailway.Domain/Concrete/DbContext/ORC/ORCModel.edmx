@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="ORCModelEntitiesStoreContainer">
+          <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.Store.krt_DetailsProgress" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="orc_krt" EntityType="ORCModelEntities.Store.orc_krt" store:Type="Tables" Schema="dbo" />
@@ -19,6 +20,18 @@
             <End Role="orc_sbor" EntitySet="orc_sbor" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="krt_DetailsProgress">
+          <Key>
+            <PropertyRef Name="tDoc" />
+            <PropertyRef Name="vidSbr" />
+          </Key>
+          <Property Name="tDoc" Type="tinyint" Nullable="false" />
+          <Property Name="vidSbr" Type="smallint" Nullable="false" />
+          <Property Name="state" Type="tinyint" Nullable="false" />
+          <Property Name="StDetailDate" Type="date" />
+          <Property Name="nameSbr" Type="nvarchar(max)" />
+          <Property Name="lastDate" Type="date" />
+        </EntityType>
         <EntityType Name="krt_Naftan">
           <Key>
             <PropertyRef Name="KEYKRT" />
@@ -43,6 +56,7 @@
           <Property Name="Scroll_Sbor" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Confirmed" Type="bit" Nullable="false" />
           <Property Name="ErrorState" Type="tinyint" />
+          <Property Name="ErrorMsg" Type="nvarchar(max)" />
           <Property Name="CounterVersion" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="krt_Naftan_orc_sapod">
@@ -166,6 +180,7 @@
             <End Role="orc_krt" EntitySet="orc_krts" />
             <End Role="orc_sbor" EntitySet="orc_sbors" />
           </AssociationSet>
+          <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.krt_DetailsProgress" />
         </EntityContainer>
         <EntityType Name="krt_Naftan">
           <Key>
@@ -193,6 +208,7 @@
           <Property Name="ErrorState" Type="Byte" />
           <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
           <Property Type="Byte" Name="CounterVersion" Nullable="false" />
+          <Property Type="String" Name="ErrorMsg" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="krt_Naftan_orc_sapod">
           <Key>
@@ -297,6 +313,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="krt_DetailsProgress">
+          <Key>
+            <PropertyRef Name="tDoc" />
+            <PropertyRef Name="vidSbr" />
+          </Key>
+          <Property Type="Byte" Name="tDoc" Nullable="false" />
+          <Property Type="Int16" Name="vidSbr" Nullable="false" />
+          <Property Type="Byte" Name="state" Nullable="false" />
+          <Property Type="DateTime" Name="StDetailDate" />
+          <Property Type="String" Name="nameSbr" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="lastDate" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -304,7 +332,8 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ORCModelEntitiesStoreContainer" CdmEntityContainer="ORCEntities">
           <EntitySetMapping Name="krt_Naftans"><EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan"><MappingFragment StoreEntitySet="krt_Naftan">
-            <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
+            <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+                <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
                 <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
             <ScalarProperty Name="NKRT" ColumnName="NKRT" />
             <ScalarProperty Name="NTREB" ColumnName="NTREB" />
@@ -390,6 +419,18 @@
             <ScalarProperty Name="TDOC" ColumnName="TDOC" />
             <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="krt_DetailsProgress">
+            <EntityTypeMapping TypeName="ORCModelEntities.krt_DetailsProgress">
+              <MappingFragment StoreEntitySet="krt_DetailsProgress">
+                <ScalarProperty Name="lastDate" ColumnName="lastDate" />
+                <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
+                <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
+                <ScalarProperty Name="tDoc" ColumnName="tDoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -404,7 +445,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Отсутствует" />
       </DesignerInfoPropertySet>
@@ -424,6 +465,7 @@
           <ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
           <ConnectorPoint PointX="3" PointY="3.0357161458333328" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="11" PointY="3.25" Height="1.9210009765624996" />
       </Diagram>
     </Diagrams>
   </Designer>
