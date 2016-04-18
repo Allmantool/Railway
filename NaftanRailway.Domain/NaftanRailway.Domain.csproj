@@ -156,6 +156,9 @@
     <Compile Include="Concrete\DbContext\OBD\v_pam_vag.cs">
       <DependentUpon>OBDEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContext\ORC\krt_DetailsProgress.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Naftan.cs">
       <DependentUpon>ORCModelEntities.tt</DependentUpon>
     </Compile>
