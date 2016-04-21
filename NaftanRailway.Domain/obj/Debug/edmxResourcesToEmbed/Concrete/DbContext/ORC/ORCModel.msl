@@ -4,6 +4,7 @@
     <EntitySetMapping Name="krt_Naftans">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan">
         <MappingFragment StoreEntitySet="krt_Naftan">
+          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
           <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
           <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
           <ScalarProperty Name="NKRT" ColumnName="NKRT" />
@@ -101,6 +102,18 @@
           <ScalarProperty Name="DATE_OBRABOT" ColumnName="DATE_OBRABOT" />
           <ScalarProperty Name="TDOC" ColumnName="TDOC" />
           <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="krt_DetailsProgress">
+      <EntityTypeMapping TypeName="ORCModelEntities.krt_DetailsProgress">
+        <MappingFragment StoreEntitySet="krt_DetailsProgress">
+          <ScalarProperty Name="lastDate" ColumnName="lastDate" />
+          <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
+          <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
+          <ScalarProperty Name="tDoc" ColumnName="tDoc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -43,9 +43,9 @@ C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Mvc.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.resources.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\System.Web.Mvc.resources.dll
-C:\Git\Railway\NaftanRailway.Domain\obj\Debug\ResolveAssemblyReference.cache
 C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.dll
 C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.xml
+C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
