@@ -37,30 +37,9 @@
     <!--Grid filter-->
     <tr class="filter-menu">
         <th colspan="19">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            @Html.DropDownListFor(x => x.First().nkrt,
-                     new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
-                     new {@class = "form-control", type = "search", multiple = "multiple"})
-=======
-            @using (Ajax.BeginForm("ScrollDetails","Scroll",new {},new AjaxOptions(),new {@class = "form-inline "})) {
-                @Html.DropDownListFor(x => x.First().nkrt,
-                    new MultiSelectList(ViewBag.ListNkrt, ViewBag.ListNkrt),
-                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
->>>>>>> 4c86a322de3f4b0b8dac1ee6171bdaa189b37205
-
-                @Html.DropDownListFor(x => x.First().tdoc,
-                    new MultiSelectList(ViewBag.TypeDoc, ViewBag.TypeDoc),
-                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
-
-                @Html.DropDownList("DDMenuVidsbr",
-                    new MultiSelectList(ViewBag.VidSbr, ViewBag.VidSbr),
-                    new { @class = "form-group form-control", type = "search", multiple = "multiple" })
-=======
             @using (Ajax.BeginForm("ScrollDetails", "Scroll", new { numberScroll = ViewBag.nper ,reportYear=((DateTime)ViewBag.DtBuhOtchet).Year, page = 1}
                 ,new AjaxOptions() { HttpMethod = "Get" }, new { @class = "form-inline" })) {
->>>>>>> b2659c6182784491774e9fc2c840eafe83507aea
-                
+              
                     { Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
             
             <button type="submit" class="form-control btn btn-primary">Фильтр</button>

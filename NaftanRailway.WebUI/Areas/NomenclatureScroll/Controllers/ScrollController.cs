@@ -99,15 +99,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-<<<<<<< HEAD
-<<<<<<< HEAD
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, IEnumerable<string> filters2 = null, IEnumerable<string> filters3 = null) {
-=======
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, IEnumerable<string> filters1 = null, string[] filters2 = null, string[] filters3 = null) {
->>>>>>> 4c86a322de3f4b0b8dac1ee6171bdaa189b37205
-=======
         public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
->>>>>>> b2659c6182784491774e9fc2c840eafe83507aea
+
             const byte initialSizeItem = 80;
 
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
@@ -120,19 +113,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (filters == null) {
                 //Default filters (all checked)
                 ViewBag.Filters = new[]{
-                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.nkrt, 
                             x => x.keykrt == findKrt.KEYKRT, 
                             x => x.nkrt)){
                         SortFieldName = "nkrt"
                     },
-                    new CheckListFilterModel (_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                    new CheckListFilterModel (_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.tdoc.ToString(),
                             x => x.keykrt == findKrt.KEYKRT, 
                             x => x.tdoc.ToString())){
                         SortFieldName = "tdoc"
                     },
-                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(
+                    new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.vidsbr.ToString(), 
                             x => x.keykrt == findKrt.KEYKRT, 
                             x => x.vidsbr.ToString())){

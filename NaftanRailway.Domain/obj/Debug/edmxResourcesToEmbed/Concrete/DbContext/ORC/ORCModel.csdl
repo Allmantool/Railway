@@ -13,6 +13,7 @@
       <End Role="orc_krt" EntitySet="orc_krts" />
       <End Role="orc_sbor" EntitySet="orc_sbors" />
     </AssociationSet>
+    <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.krt_DetailsProgress" />
   </EntityContainer>
   <EntityType Name="krt_Naftan">
     <Key>
@@ -40,6 +41,7 @@
     <Property Name="ErrorState" Type="Byte" />
     <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="ORCModelEntities.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
     <Property Type="Byte" Name="CounterVersion" Nullable="false" />
+    <Property Type="String" Name="ErrorMsg" MaxLength="Max" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">
     <Key>
@@ -144,4 +146,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="krt_DetailsProgress">
+    <Key>
+      <PropertyRef Name="tDoc" />
+      <PropertyRef Name="vidSbr" />
+    </Key>
+    <Property Type="Byte" Name="tDoc" Nullable="false" />
+    <Property Type="Int16" Name="vidSbr" Nullable="false" />
+    <Property Type="Byte" Name="state" Nullable="false" />
+    <Property Type="DateTime" Name="StDetailDate" />
+    <Property Type="String" Name="nameSbr" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="lastDate" />
+  </EntityType>
 </Schema>

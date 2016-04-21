@@ -70,7 +70,7 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        checkboxName: 'filters[0].AllAvailableValues[0]', /*(for server side binding)*/
+        /* checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {

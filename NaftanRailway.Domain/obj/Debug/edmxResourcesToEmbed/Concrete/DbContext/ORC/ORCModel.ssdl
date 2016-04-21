@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="ORCModelEntitiesStoreContainer">
+    <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.Store.krt_DetailsProgress" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="orc_krt" EntityType="ORCModelEntities.Store.orc_krt" store:Type="Tables" Schema="dbo" />
@@ -14,6 +15,18 @@
       <End Role="orc_sbor" EntitySet="orc_sbor" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="krt_DetailsProgress">
+    <Key>
+      <PropertyRef Name="tDoc" />
+      <PropertyRef Name="vidSbr" />
+    </Key>
+    <Property Name="tDoc" Type="tinyint" Nullable="false" />
+    <Property Name="vidSbr" Type="smallint" Nullable="false" />
+    <Property Name="state" Type="tinyint" Nullable="false" />
+    <Property Name="StDetailDate" Type="date" />
+    <Property Name="nameSbr" Type="nvarchar(max)" />
+    <Property Name="lastDate" Type="date" />
+  </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>
       <PropertyRef Name="KEYKRT" />
@@ -38,6 +51,7 @@
     <Property Name="Scroll_Sbor" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Confirmed" Type="bit" Nullable="false" />
     <Property Name="ErrorState" Type="tinyint" />
+    <Property Name="ErrorMsg" Type="nvarchar(max)" />
     <Property Name="CounterVersion" Type="tinyint" Nullable="false" />
   </EntityType>
   <EntityType Name="krt_Naftan_orc_sapod">

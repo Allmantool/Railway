@@ -161,3 +161,6 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.xml
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.dll
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.pdb
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.xml

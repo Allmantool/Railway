@@ -49,3 +49,6 @@ C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.pdb
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.xml
