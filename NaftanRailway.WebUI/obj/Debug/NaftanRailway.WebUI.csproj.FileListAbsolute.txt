@@ -150,10 +150,7 @@ C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Web.Http.resources.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Web.Http.WebHost.resources.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Web.Mvc.resources.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\ru\System.Net.Http.resources.dll
-C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\ResolveAssemblyReference.cache
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.Properties.Resources.resources
-C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\GenerateResource.read.1.tlog
-C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\GenerateResource.write.1.tlog
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.cache
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
@@ -161,6 +158,13 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.xml
+<<<<<<< HEAD
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.pdb
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\LinqKit.xml
+=======
+C:\Git\Railway\NaftanRailway.WebUI\bin\NaftanRailway.WebUI.dll.config
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.WebForms.xml
+C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.csprojResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.csproj.GenerateResource.Cache
+>>>>>>> 0a0f9dfd715f84d00282296324f8b5334ae826b9

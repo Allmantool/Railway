@@ -57,7 +57,7 @@ $('#sandbox-container .input-group').datepicker({
 http://davidstutz.github.io/bootstrap-multiselect/
 */
 function filterMenu() {
-    $('body #nkrt').multiselect({
+    $('.filter*').multiselect({
         includeSelectAllOption: true,
         enableHTML: false,
         disableIfEmpty: true,
@@ -70,7 +70,11 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
+<<<<<<< HEAD
         /* checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
+=======
+        checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', /*(for server side binding)*/
+>>>>>>> 0a0f9dfd715f84d00282296324f8b5334ae826b9
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
@@ -89,6 +93,9 @@ function filterMenu() {
                 }
             });    
         },
+        //onInitialized: function(select, container) {
+        //    alert('Initialized.');
+        //},
         buttonText: function(options, select) {
                 if (options.length === 0) {
                     return 'Не выбрано ...';
@@ -113,105 +120,6 @@ function filterMenu() {
                 }
         }
 });
-    $('body #tdoc').multiselect({
-        //includeSelectAllOption: true,
-        selectAllText: 'Тип документа: (Все)',
-        allSelectedText: 'Тип документа: (Все)',
-        nonSelectedText: 'Не выбрано',
-        disableIfEmpty: true,
-        onChange: function(option, checked, select) {
-            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
-            $.ajax({
-                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/1', /*May be it's possible get url from current location*/
-                type: "Get",
-                traditional: true,
-                contentType: 'application/json; charset=utf-8',
-                data: {
-                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray()
-                },
-                success: function(result) {
-                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
-                    filterMenu();
-                }
-            });
-        },
-        buttonText: function(options, select) {
-            if (options.length === 0) {
-                return 'Не выбрано ...';
-            }
-            else if (options.length === $(select).children('option').size()) {
-                return 'Тип документа: (Все)' + ' (' + $(select).children('option').length + ')';
-            }
-            else if (options.length > 3) {
-                return 'Выбрано ' + options.length + ' типов док.';
-            }
-            else {
-                var labels = [];
-                options.each(function() {
-                    if ($(this).attr('label') !== undefined) {
-                        labels.push($(this).attr('label'));
-                    }
-                    else {
-                        labels.push($(this).html());
-                    }
-                });
-                return labels.join(', ') + '';
-            }
-        }
-    });
-    $('body #vidsbr').multiselect({
-        includeSelectAllOption: true,
-        selectAllText: '№ Сбора: (Все)',
-        allSelectedText:'№ Сбора: (Все)',
-        numberDisplayed: 7,
-        nonSelectedText: 'Не выбрано',
-        disableIfEmpty: true,
-        nSelectedText: ' кодов сборов выбрано',
-        buttonWidth: '190px',
-        onChange: function(option, checked, select) {
-            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
-            $.ajax({
-                url: "Scroll/ScrollDetails/" + $('#key').text() + '/' + $("#scrollDate").text() + '/1', /*May be it's possible get url from current location*/
-                type: "Get",
-                traditional: true,
-                contentType: 'application/json; charset=utf-8',
-                data: {
-                    "filters1": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters2": $('#tdoc  option:selected').map(function() { return $(this).val(); }).toArray(),
-                    "filters3": $('#DDMenuVidsbr  option:selected').map(function() { return $(this).val(); }).toArray()
-                },
-                success: function(result) {
-                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
-                    filterMenu();
-                }
-            });
-        },
-        buttonText: function(options, select) {
-            if (options.length === 0) {
-                return 'Не выбрано ...';
-            }
-            else if (options.length === $(select).children('option').size()) {
-                return '№ Сбора: (Все)' + ' (' + $(select).children('option').length + ')';
-            }
-            else if (options.length > 3) {
-                return 'Выбрано ' + options.length + ' сборов';
-            }
-            else {
-                var labels = [];
-                options.each(function() {
-                    if ($(this).attr('label') !== undefined) {
-                        labels.push($(this).attr('label'));
-                    }
-                    else {
-                        labels.push($(this).html());
-                    }
-                });
-                return labels.join(', ') + '';
-            }
-        }
-    });
     PaggingSuccess();
 };
 
