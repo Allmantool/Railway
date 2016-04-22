@@ -3,7 +3,7 @@
 
 @foreach (var item in Model) {
     var menuItem = item;
-    @Html.DropDownList("filter[" + i + "]",
+    @Html.DropDownList("filters[" + i + "].CheckedValues",
         from  listItem in item.AllAvailableValues select new SelectListItem(){
             Value = listItem,Text = listItem,
             Selected = menuItem.CheckedValues.Contains(listItem)

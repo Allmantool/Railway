@@ -37,11 +37,17 @@
     <!--Grid filter-->
     <tr class="filter-menu">
         <th colspan="19">
-            @using (Ajax.BeginForm("ScrollDetails", "Scroll", new { numberScroll = ViewBag.nper ,reportYear=((DateTime)ViewBag.DtBuhOtchet).Year, page = 1}
-                ,new AjaxOptions() { HttpMethod = "Get" }, new { @class = "form-inline" })) {
-                
+            @using (Ajax.BeginForm("ScrollDetails", "Scroll"
+                //,new RouteValueDictionary(){
+                //    { "controller","Scroll"},{ "action", "ScrollDetails" },
+                //    { "numberScroll",((int) ViewBag.nper).ToString() }, 
+                //    { "reportYear", ((DateTime)ViewBag.DtBuhOtchet).Year.ToString() }, 
+                //    { "page", "1" }}
+                ,new { controller ="Scroll", action=  "ScrollDetails", numberScroll = ViewBag.nper, reportYear = ((DateTime)ViewBag.DtBuhOtchet).Year, page = 1 }
+                ,new AjaxOptions(){
+                    HttpMethod = "Get"
+                },new { @class = "form-inline" })) {
                     { Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
-            
             <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }
         </th>

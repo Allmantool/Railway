@@ -28,6 +28,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
+                name: "DetailsRoutesGeneral",
+                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
+                defaults: new { action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional, filters = UrlParameter.Optional },
+                namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
+            );
+            context.MapRoute(
                 name: "ReportRoutesGeneral",
                 url: "Nomenclature/{controller}/{action}/{reportName}",
                 defaults: new { action = "Reports", controller ="Scroll" },
