@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-﻿@using MoreLinq
-@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
-@{ int i = 0;}
-
-@foreach (var item in Model) {
-  @Html.DropDownList(item.SortFieldName,
-        new MultiSelectList(item.AllAvailableValues, item.CheckedValues),
-        new { @class = "form-group form-control", type = "search", multiple = "multiple"})
-=======
 ﻿@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
 @{ int i = 0;}
 
 @foreach (var item in Model) {
     var menuItem = item;
-    @Html.DropDownList("filter[" + i + "]",
+    @Html.DropDownList("filter[" + i + "].CheckedValues[]",
         from  listItem in item.AllAvailableValues select new SelectListItem(){
             Value = listItem,Text = listItem,
             Selected = menuItem.CheckedValues.Contains(listItem)
@@ -21,5 +11,4 @@
         //new MultiSelectList(item.AllAvailableValues, "string", "string", item.CheckedValues),
         new { @class = "form-group form-control filter", type = "search", multiple = "multiple" })
     i++;
->>>>>>> 0a0f9dfd715f84d00282296324f8b5334ae826b9
 }

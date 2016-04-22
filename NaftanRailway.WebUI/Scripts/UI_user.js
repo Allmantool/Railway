@@ -70,17 +70,14 @@ function filterMenu() {
         inheritClass: true,
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
-<<<<<<< HEAD
         /* checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
-=======
         checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', /*(for server side binding)*/
->>>>>>> 0a0f9dfd715f84d00282296324f8b5334ae826b9
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
             //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
             $.ajax({
-                url: "Filter/Menu/",
+                url: "Scroll/ScrollDetails/",
                 type: "Post",
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
