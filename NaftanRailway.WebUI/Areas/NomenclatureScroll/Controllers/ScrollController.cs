@@ -9,6 +9,9 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
+using LinqKit;
+using MoreLinq;
+using WebGrease.Css.Extensions;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
@@ -143,11 +146,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
            
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    if (filters != null) {
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
-                                x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
-                                x => x.keykrt == findKrt.KEYKRT &&
-                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.Contains(x.nkrt) &&
+                    if (filters != null)
+                    {
+                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
+                            _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                                x => new {x.nkrt, x.tdoc, x.vidsbr, x.dt},
+                                x => x.keykrt == findKrt.KEYKRT).Where( x => 
+                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.ToList().Contains(x.nkrt) && 
                                     filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Contains(x.tdoc.ToString()) &&
                                     filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Contains(x.vidsbr.ToString())));
                     }

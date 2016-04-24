@@ -11,6 +11,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
         }
 
         public override void RegisterArea(AreaRegistrationContext context) {
+            //Attribute Routing in MVC5
+            //routes.MapMvcAttributeRoutes();
             context.MapRoute(
                 name: "ReportRoutesWithParams",
                 url: "{area}/{controller}/{action}/{reportName}/{numberScroll}/{reportYear}/{*catchall}",
@@ -20,30 +22,31 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             ).DataTokens["UseNamespaceFallback"] = false;
             context.MapRoute(
                 name: "DetailsRoutesWithParams",
-                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{*filters}",
-                defaults: new { action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional, filters =UrlParameter.Optional},
-                //constraints: new {page = @"\d+"},
+                url: "{area}/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{filters}",
+                defaults: new { area = "Nomenclature", action = "ScrollDetails", controller = "Scroll", page = 1, filters = UrlParameter.Optional},
+                constraints: new {page = @"\d+"},
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),
                 //customConstraint = new UserAgentConstraint("Chrome")},
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
-                name: "DetailsRoutesGeneral",
-                url: "Nomenclature/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
-                defaults: new { action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional, filters = UrlParameter.Optional },
+                name:"",
+                url: "{area}/{controller}/{action}/{numberScroll}/{reportYear}/{page}",
+                defaults: new { area = "Nomenclature", action = "ScrollDetails", controller = "Scroll", page = UrlParameter.Optional },
+                constraints: new { page = @"\d+" },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
-                name: "ReportRoutesGeneral",
-                url: "Nomenclature/{controller}/{action}/{reportName}",
-                defaults: new { action = "Reports", controller ="Scroll" },
+                name: "ReportRoutesGeneral",    
+                url: "{area}/{controller}/{action}/{reportName}",
+                defaults: new { area = "Nomenclature", action = "Reports", controller ="Scroll" },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
                 name: "NomenclatureScroll_default",
-                url: "Nomenclature/{controller}/{page}",
-                constraints: new {httpMethod = new HttpMethodConstraint("GET") },
-                defaults: new { action = "Index", controller ="Scroll", page = UrlParameter.Optional },
+                url: "{area}/{controller}/{page}",
+                constraints: new {httpMethod = new HttpMethodConstraint("GET"), page = @"\d+" },
+                defaults: new { area = "Nomenclature", action = "Index", controller ="Scroll", page = UrlParameter.Optional },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
             context.MapRoute(
