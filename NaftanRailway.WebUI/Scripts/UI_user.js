@@ -75,17 +75,29 @@ function filterMenu() {
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
-            //var filterNkrt = $('#nkrt  option:selected').map(function() { return $(this).val(); });
+            //JSON.stringify(countries); AllAvailableValues, CheckedValues, SortFieldName
             $.ajax({
-                url: "Scroll/ScrollDetails/",
-                type: "Post",
+                url: "Filter/Menu/",
+                type: "Get",
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
                 data: {
-                    "filters": $('#nkrt  option:selected').map(function() { return $(this).val(); }).toArray(),
+                    "filters": [{
+                            "SortFieldName": "nkrt"
+                            //"CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
+                            //"AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
+                        },{
+                            "SortFieldName": "tdoc"
+                            //"CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
+                            //"AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
+                        },{
+                            "SortFieldName": "vidsbr"
+                           // "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
+                            //"AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
+                        }
+                ]
                 },
                 success: function(result) {
-                    $('#chargeOfList').empty().append($(result).find('#chargeOfList tr'));
                     filterMenu();
                 }
             });    

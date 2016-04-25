@@ -17,14 +17,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
                 name: "ReportRoutesWithParams",
                 url: "{area}/{controller}/{action}/{reportName}/{numberScroll}/{reportYear}/{*catchall}",
                 defaults: new { area ="Nomenclature", action = "Reports", controller ="Scroll" },
-                constraints: new { action = "^Reports$" , httpMethod = new HttpMethodConstraint("GET") },
+                constraints: new { action = @"^Reports$" , httpMethod = new HttpMethodConstraint("GET") },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             ).DataTokens["UseNamespaceFallback"] = false;
             context.MapRoute(
                 name: "DetailsRoutesWithParams",
                 url: "{area}/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{filters}",
                 defaults: new { area = "Nomenclature", action = "ScrollDetails", controller = "Scroll", page = 1, filters = UrlParameter.Optional},
-                constraints: new {page = @"\d+"},
+                constraints: new { reportYear = @"^\d{4}$", page = @"\d+" },
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),
                 //customConstraint = new UserAgentConstraint("Chrome")},
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }

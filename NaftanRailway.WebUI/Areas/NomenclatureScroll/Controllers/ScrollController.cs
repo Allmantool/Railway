@@ -10,7 +10,9 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 using LinqKit;
+using Microsoft.Ajax.Utilities;
 using MoreLinq;
+using Newtonsoft.Json;
 using WebGrease.Css.Extensions;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
@@ -102,8 +104,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
-
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1) {
             const byte initialSizeItem = 80;
 
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
@@ -113,9 +114,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
 
-            if (filters == null) {
-                //Default filters (all checked)
-                ViewBag.Filters = new[]{
+            var objFilters = new[]{
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.nkrt, 
                             x => x.keykrt == findKrt.KEYKRT, 
@@ -135,7 +134,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                         SortFieldName = "vidsbr"
                     }
                 };
-            }
+            var JsonResult =JsonConvert.SerializeObject(objFilters);
+            ViewBag.Filters = objFilters;
 
             //Info about paging
             ViewBag.PagingInfo = new PagingInfo {
@@ -143,24 +143,75 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 ItemsPerPage = initialSizeItem,
                 TotalItems = findKrt.RecordCount
             };
-           
+
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    if (filters != null)
-                    {
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
-                            _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
-                                x => new {x.nkrt, x.tdoc, x.vidsbr, x.dt},
-                                x => x.keykrt == findKrt.KEYKRT).Where( x => 
-                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.ToList().Contains(x.nkrt) && 
-                                    filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Contains(x.tdoc.ToString()) &&
-                                    filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Contains(x.vidsbr.ToString())));
-                    }
                     return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD",
                         _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
                             x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                             x => x.keykrt == findKrt.KEYKRT));
+                }
 
+                return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
+            }
+
+            TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";
+
+            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
+        }
+
+        [HttpPost]
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
+            const byte initialSizeItem = 80;
+
+            var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
+            //some additional info
+            ViewBag.RecordCount = findKrt.RecordCount;
+            ViewBag.nper = findKrt.NKRT;
+            ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
+            ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
+
+            ViewBag.Filters = new[]{
+                new CheckListFilterModel(){
+                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt),
+                    CheckedValues = filters.First(x => x.SortFieldName == "nkrt").CheckedValues,
+                    SortFieldName = "nkrt"
+                },
+                new CheckListFilterModel(){
+                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(), x => x.keykrt == findKrt.KEYKRT, x => x.tdoc.ToString()),
+                    CheckedValues = filters.First(x => x.SortFieldName == "tdoc").CheckedValues,
+                    SortFieldName = "tdoc"
+                },
+                new CheckListFilterModel(){
+                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(), x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr.ToString()),
+                    CheckedValues = filters.First(x => x.SortFieldName == "vidsbr").CheckedValues,
+                    SortFieldName = "vidsbr"
+                }
+            };
+            //linqKit (add filters in linq to sql)
+            var result =  _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
+                                x => x.keykrt == findKrt.KEYKRT).Where(x =>
+                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.Contains(x.nkrt) &&
+                                    filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Contains(x.tdoc.ToString()) &&
+                                    filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Contains(x.vidsbr.ToString()));
+
+            //Info about paging
+            ViewBag.PagingInfo = new PagingInfo {
+                CurrentPage = page,
+                ItemsPerPage = initialSizeItem,
+                TotalItems = result.Count()
+            };
+
+            if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
+                if (Request.IsAjaxRequest()) {
+                    if (filters != null){
+                        return PartialView("_KrtNaftan_ORC_SAPODRows", result);
+
+                    }
+                    return PartialView("_KrtNaftan_ORC_SAPODRows",
+                        _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                            x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
+                            x => x.keykrt == findKrt.KEYKRT));
                 }
 
                 return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));

@@ -18,7 +18,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
             AllAvailableValues = availableValues;
             CheckedValues = availableValues;
         }
-
         public CheckListFilterModel() { }
     }
 }

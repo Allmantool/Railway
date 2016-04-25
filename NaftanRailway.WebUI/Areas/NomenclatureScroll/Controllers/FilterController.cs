@@ -11,12 +11,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <summary>
         /// Update render filter menu on page
         /// </summary>
-        /// <param name="filtes">Set of filters</param>
+        /// <param name="filters">Set of filters</param>
         /// <returns></returns>
-        [ChildActionOnly]
-        public ActionResult Menu(IEnumerable<CheckListFilterModel> filtes) {
+        //[ChildActionOnly]
+        public ActionResult Menu(IEnumerable<CheckListFilterModel> filters) {
             if (Request.IsAjaxRequest())
-                return PartialView("_FilterMenu", filtes);
+                return PartialView("_FilterMenu", filters);
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
         }
