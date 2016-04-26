@@ -12,14 +12,16 @@ namespace NaftanRailway.WebUI {
              * On IIS server config
              * <add name="UrlRoutingModule-4.0" type="System.Web.Routing.UrlRoutingModule" preCondition="" />
              */
-            //Attribute Routing in MVC5
-            //routes.MapMvcAttributeRoutes();
+           
             routes.RouteExistingFiles = false;
 
             /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}",new StopRoutingHandler());
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "fonts" });
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "Content" });
+            
+            /*For web forms page*/
+            //routes.MapPageRoute()
 
             routes.MapRoute(
                 name: "Path_Full",

@@ -13,6 +13,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <param name="filters">Set of filters</param>
         /// <returns></returns>
+        [HttpPost]
         //[ChildActionOnly]
         public ActionResult Menu(IEnumerable<CheckListFilterModel> filters) {
             if (Request.IsAjaxRequest())

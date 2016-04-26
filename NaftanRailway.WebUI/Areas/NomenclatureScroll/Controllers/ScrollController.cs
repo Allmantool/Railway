@@ -9,11 +9,6 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
-using LinqKit;
-using Microsoft.Ajax.Utilities;
-using MoreLinq;
-using Newtonsoft.Json;
-using WebGrease.Css.Extensions;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
@@ -114,7 +109,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
 
-            var objFilters = new[]{
+            ViewBag.Filters = new[]{
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.nkrt, 
                             x => x.keykrt == findKrt.KEYKRT, 
@@ -134,8 +129,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                         SortFieldName = "vidsbr"
                     }
                 };
-            var JsonResult =JsonConvert.SerializeObject(objFilters);
-            ViewBag.Filters = objFilters;
 
             //Info about paging
             ViewBag.PagingInfo = new PagingInfo {
@@ -161,6 +154,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         [HttpPost]
+        //[ActionName("Filter")]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
             const byte initialSizeItem = 80;
 
@@ -214,7 +208,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                             x => x.keykrt == findKrt.KEYKRT));
                 }
 
-                return View(_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
+                return View("ScrollDetails",_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT));
             }
 
             TempData["message"] = @"Для получения информации укажите подтвержденный перечень!";

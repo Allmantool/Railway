@@ -78,28 +78,31 @@ function filterMenu() {
             //JSON.stringify(countries); AllAvailableValues, CheckedValues, SortFieldName
             $.ajax({
                 url: "Filter/Menu/",
-                type: "Get",
+                type: "Post",
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
-                data: {
+                /*JSon pass throuhg out HttpPost, $.param (+change for httpGet)*/
+                data: JSON.stringify({
                     "filters": [{
-                            "SortFieldName": "nkrt"
-                            //"CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
-                            //"AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
+                            "SortFieldName": "nkrt",
+                            "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
+                            "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
                         },{
-                            "SortFieldName": "tdoc"
-                            //"CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
-                            //"AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
+                            "SortFieldName": "tdoc",
+                            "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
+                            "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
                         },{
-                            "SortFieldName": "vidsbr"
-                           // "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
-                            //"AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
+                            "SortFieldName": "vidsbr",
+                            "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
+                            "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
                         }
                 ]
-                },
+                }),
                 success: function(result) {
+                    $("#filterForm").empty().append(result);
                     filterMenu();
-                }
+                },
+                error: function (data) { console.log(data) }
             });    
         },
         //onInitialized: function(select, container) {

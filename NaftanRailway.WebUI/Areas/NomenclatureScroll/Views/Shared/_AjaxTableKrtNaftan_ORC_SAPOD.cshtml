@@ -48,7 +48,9 @@
                     HttpMethod = "Post",
                     UpdateTargetId = "chargeOfList"
                 },new { @class = "form-inline" })) {
-                    { Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
+                <span id="filterForm"> 
+                    @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
+                </span>
             <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }
         </th>
