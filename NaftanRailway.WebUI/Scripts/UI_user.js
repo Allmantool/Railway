@@ -71,7 +71,7 @@ function filterMenu() {
         /*numberDisplayed: 3,
         delimiterText: '; ',*/
         /* checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
-        checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', /*(for server side binding)*/
+        /*checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', (for server side binding)*/
         /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
         onChange: function(option, checked, select) {
@@ -81,7 +81,7 @@ function filterMenu() {
                 type: "Post",
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
-                /*JSon pass throuhg out HttpPost, $.param (+change for httpGet)*/
+                /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
                 data: JSON.stringify({
                     "filters": [{
                             "SortFieldName": "nkrt",
@@ -96,11 +96,13 @@ function filterMenu() {
                             "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
                             "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
                         }
-                ]
-                }),
+                    ]
+                },
+                    { "numberScroll": $("#numberScroll").val() },
+                    { "reportYear": $("#reportYear").val() }),
                 success: function(result) {
                     $("#filterForm").empty().append(result);
-                    filterMenu();
+                    //filterMenu();
                 },
                 error: function (data) { console.log(data) }
             });    

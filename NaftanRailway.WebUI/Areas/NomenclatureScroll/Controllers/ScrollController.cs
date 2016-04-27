@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using LinqKit;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
@@ -104,7 +106,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
             //some additional info
-            ViewBag.RecordCount = findKrt.RecordCount;
             ViewBag.nper = findKrt.NKRT;
             ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
@@ -154,40 +155,25 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         [HttpPost]
-        //[ActionName("Filter")]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1) {
             const byte initialSizeItem = 80;
 
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
             //some additional info
-            ViewBag.RecordCount = findKrt.RecordCount;
             ViewBag.nper = findKrt.NKRT;
             ViewBag.DtBuhOtchet = findKrt.DTBUHOTCHET;
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
+            ViewBag.Filters = filters;
 
-            ViewBag.Filters = new[]{
-                new CheckListFilterModel(){
-                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT, x => x.nkrt),
-                    CheckedValues = filters.First(x => x.SortFieldName == "nkrt").CheckedValues,
-                    SortFieldName = "nkrt"
-                },
-                new CheckListFilterModel(){
-                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(), x => x.keykrt == findKrt.KEYKRT, x => x.tdoc.ToString()),
-                    CheckedValues = filters.First(x => x.SortFieldName == "tdoc").CheckedValues,
-                    SortFieldName = "tdoc"
-                },
-                new CheckListFilterModel(){
-                    AllAvailableValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(), x => x.keykrt == findKrt.KEYKRT, x => x.vidsbr.ToString()),
-                    CheckedValues = filters.First(x => x.SortFieldName == "vidsbr").CheckedValues,
-                    SortFieldName = "vidsbr"
-                }
-            };
+            var filterCondition = PredicateBuilder.False<krt_Naftan_orc_sapod>();
+            filterCondition = filters.First(y => y.SortFieldName == "nkrt").CheckedValues.Aggregate(filterCondition, (current, value) => current.Or(e => e.nkrt == value));
+            filterCondition = filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Aggregate(filterCondition, (current, value) => current.Or(e => e.tdoc.ToString() == value));
+            filterCondition = filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Aggregate(filterCondition, (current, value) => current.Or(e => e.vidsbr.ToString() == value));
+
             //linqKit (add filters in linq to sql)
-            var result =  _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
-                                x => x.keykrt == findKrt.KEYKRT).Where(x =>
-                                    filters.First(y => y.SortFieldName == "nkrt").CheckedValues.Contains(x.nkrt) &&
-                                    filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Contains(x.tdoc.ToString()) &&
-                                    filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Contains(x.vidsbr.ToString()));
+            var result =  _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
+                filterCondition.And(x => x.keykrt == findKrt.KEYKRT).Expand());
 
             //Info about paging
             ViewBag.PagingInfo = new PagingInfo {
