@@ -11,6 +11,6 @@
             Selected = menuItem.CheckedValues.Contains(listItem)
         },
         //new MultiSelectList(item.AllAvailableValues, "string", "string", item.CheckedValues),
-        new { @class = "form-group form-control filter", type = "search", multiple = "multiple" })
+            new { @class = "form-group form-control filter", type = "search", multiple = "multiple", id = menuItem.SortFieldName })
     i++;
 }
