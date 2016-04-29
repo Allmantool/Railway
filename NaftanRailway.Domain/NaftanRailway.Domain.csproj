@@ -253,6 +253,7 @@
     <Compile Include="BusinessModels\BussinesLogic\ShippingInfoLine.cs" />
     <Compile Include="EntitiesMetaData\v_pam.cs" />
     <Compile Include="EntitiesMetaData\v_pam_vag.cs" />
+    <Compile Include="ExpressionTreeExtensions\ETExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
