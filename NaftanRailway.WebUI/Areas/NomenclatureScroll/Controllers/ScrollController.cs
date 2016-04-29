@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.ExpressionTreeExtensions;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 using Ninject.Planning.Bindings;
@@ -172,9 +173,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             
             //Nesting Predicates
             var filterNkrt = PredicateBuilder.False<krt_Naftan_orc_sapod>();
-                filterNkrt = filters.First(y => y.SortFieldName == "nkrt").CheckedValues
-                    //.Aggregate(filterNkrt, (current, innerItem) => current.Or(f => innerItem.Contains(f.nkrt)));
-                    .Aggregate(filterNkrt, (current, innerItem) => current.Or(x => innerItem.Contains(SqlFunctions.StringConvert((double?) propertyInfo.GetValue(x, null)))));
+            filterNkrt = filters.First(y => y.SortFieldName == "nkrt").CheckedValues
+                .Aggregate(filterNkrt, (current, innerItem) => current.Or(f => innerItem.Contains(f.nkrt)));
+                //.Aggregate(filterNkrt, (current, innerItem) => current.Or(x => innerItem.Contains(SqlFunctions.StringConvert((double?) propertyInfo.GetValue(x, null)))));
             
             var filterTdoc = PredicateBuilder.False<krt_Naftan_orc_sapod>();
             //    filterTdoc = filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Aggregate(filterTdoc, (current, innerItem) => current.Or(e => innerItem.Contains(e.tdoc.ToString())));
@@ -381,5 +382,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll");
         }
+
+        public bool ExtContains { get; set; }
     }
 }
