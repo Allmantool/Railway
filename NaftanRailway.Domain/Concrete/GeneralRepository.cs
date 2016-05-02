@@ -15,20 +15,20 @@ namespace NaftanRailway.Domain.Concrete {
             _dbSet = context.Set<T>();
         }
 
-        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null) {
+        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null,bool enablecaching = true) {
             if (predicate != null) {
                 /*//sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
                 _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
                 _context.SaveChanges();*/
-                
-                return _dbSet.Where(predicate);
+
+                return (enablecaching) ? _dbSet.AsNoTracking().Where(predicate) : _dbSet.Where(predicate);
             }
 
             //sync data in Db & EF (if change not tracking for EF)
             //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
             // _context.Entry(_dbSet.GetType()).Reload();
-            return _dbSet;
+            return (enablecaching) ? _dbSet.AsNoTracking() : _dbSet;
         }
 
         public T Get(Expression<Func<T, bool>> predicate = null) {

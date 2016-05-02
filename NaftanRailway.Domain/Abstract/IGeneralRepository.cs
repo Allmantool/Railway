@@ -3,17 +3,19 @@ using System.Linq;
 using System.Linq.Expressions;
 
 namespace NaftanRailway.Domain.Abstract {
-    public interface IGeneralRepository<T>:IDisposable {
+    public interface IGeneralRepository<T> : IDisposable {
         /// <summary>
         /// Actual working dbContext
         /// </summary>
         System.Data.Entity.DbContext _context { get; }
+
         /// <summary>
         /// Get all or filter result
         /// </summary>
         /// <param name="predicate">Func = IEnumarable, Expression = IQueryable</param>
+        /// <param name="enablecaching">Enable caching on side EF</param>
         /// <returns></returns>
-        IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null);
+        IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enablecaching = true);
         /// <summary>
         /// Get single entity 
         /// </summary>

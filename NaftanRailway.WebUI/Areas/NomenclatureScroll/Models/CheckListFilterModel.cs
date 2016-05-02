@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using LinqKit;
-using Microsoft.Ajax.Utilities;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.ExpressionTreeExtensions;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
     /// <summary>
@@ -24,14 +24,14 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
         }
         public CheckListFilterModel() { }
         /// <summary>
-        /// Filter by concrete fields
+        /// Filter by concrete(current) fields
         /// </summary>
-        /// <param name="entity"></param>
         /// <returns></returns>
-        //public Expression<Func<T, bool>> FilterByField(T entity){
-        //     var predicate = PredicateBuilder.False<T>();
-        //     predicate = this.CheckedValues.Aggregate(predicate, (current, innerItem) => current.Or(f => innerItem.Contains(f.nkrt)));
-        //    return predicate;
-        //} 
+        public Expression<Func<T, bool>> FilterByField<T>() where T : class{
+            var predicate = PredicateBuilder.False<T>();
+            predicate = CheckedValues.Aggregate(predicate, (current, innerItem) => current.Or(EtExtensions.FilterByName<T>(SortFieldName, innerItem)));
+            
+            return predicate;
+        } 
     }
 }
