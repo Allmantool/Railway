@@ -288,6 +288,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return true;
             }
         }
+
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);

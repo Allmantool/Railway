@@ -33,7 +33,6 @@ namespace NaftanRailway.Domain.Concrete {
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;
         }
-
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific db context
@@ -60,7 +59,6 @@ namespace NaftanRailway.Domain.Concrete {
 
             return repo;
         }
-
         public void Save() {
             try {
                 ActiveContext.SaveChanges();

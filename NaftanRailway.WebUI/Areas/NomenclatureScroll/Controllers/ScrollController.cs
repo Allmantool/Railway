@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using LinqKit;
-using Microsoft.Ajax.Utilities;
-using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
-using NaftanRailway.Domain.ExpressionTreeExtensions;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
-using Ninject.Planning.Bindings;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
@@ -165,43 +158,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             ViewBag.date_obrabot = findKrt.DATE_OBRABOT;
             ViewBag.Filters = filters;
 
-            //var metadataField = ModelMetadataProviders.Current.GetMetadataForProperty(null, typeof(krt_Naftan_orc_sapod), "nkrt");
-            //var exz = new krt_Naftan_orc_sapod() {nkrt = "Ж101"};
-            //var exzVal = typeof (krt_Naftan_orc_sapod).GetProperty("nkrt").GetValue(exz, null);
+            //upply filters(linqKit)
+            var finalPredicate = PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == findKrt.KEYKRT);
+            finalPredicate = filters.Aggregate(finalPredicate, (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
 
-            var propertyInfo = typeof(krt_Naftan_orc_sapod).GetProperty("nkrt", BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-            
-            //Nesting Predicates
-            var filterNkrt = PredicateBuilder.False<krt_Naftan_orc_sapod>();
-            filterNkrt = filters.First(y => y.SortFieldName == "nkrt").CheckedValues
-                .Aggregate(filterNkrt, (current, innerItem) => current.Or(f => innerItem.Contains(f.nkrt)));
-                //.Aggregate(filterNkrt, (current, innerItem) => current.Or(x => innerItem.Contains(SqlFunctions.StringConvert((double?) propertyInfo.GetValue(x, null)))));
-            
-            var filterTdoc = PredicateBuilder.False<krt_Naftan_orc_sapod>();
-            //    filterTdoc = filters.First(y => y.SortFieldName == "tdoc").CheckedValues.Aggregate(filterTdoc, (current, innerItem) => current.Or(e => innerItem.Contains(e.tdoc.ToString())));
-            var filterVidsbr = PredicateBuilder.False<krt_Naftan_orc_sapod>();
-                filterVidsbr = filters.First(y => y.SortFieldName == "vidsbr").CheckedValues.Aggregate(filterVidsbr, (current, innerItem) => current.Or(e => innerItem.Contains(e.vidsbr.ToString())));
-            
-            //http://www.albahari.com/nutshell/predicatebuilder.aspx
-            //var finalPredicate = PredicateBuilder.True<krt_Naftan_orc_sapod>();
-            //foreach (CheckListFilterModel outItemModel in filters) {
-            //    var innerItemMode = outItemModel;
-            //    var predicate = PredicateBuilder.False<krt_Naftan_orc_sapod>();
-
-            //    predicate = innerItemMode.CheckedValues.Aggregate(predicate, (current, innerItem) => 
-            //        current.Or(f => innerItem.Contains((string)f.GetType().GetProperty(innerItemMode.SortFieldName).GetValue(f, null))));
-
-            //    finalPredicate = finalPredicate.And(predicate);
-            //}
-
-            //linqKit (add filters in linq to sql)
-            var result =  _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
-                x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
-                PredicateBuilder.True<krt_Naftan_orc_sapod>()
-                    .And(x => x.keykrt == findKrt.KEYKRT)
-                    .And(filterNkrt)
-                    .And(filterTdoc).And(filterVidsbr)
-                    .Expand());
+            //full sql request
+            var result = _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, finalPredicate.Expand());
 
             //Info about paging
             ViewBag.PagingInfo = new PagingInfo {
@@ -212,9 +175,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             if (_bussinesEngage.GetCountRows<krt_Naftan_orc_sapod>(x => x.keykrt == findKrt.KEYKRT) > 0) {
                 if (Request.IsAjaxRequest()) {
-                    if (filters != null){
+                    if (filters.Count > 0) {
                         return PartialView("_KrtNaftan_ORC_SAPODRows", result);
-
                     }
                     return PartialView("_KrtNaftan_ORC_SAPODRows",
                         _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
@@ -222,8 +184,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                             x => x.keykrt == findKrt.KEYKRT));
                 }
 
-                return View("ScrollDetails",_bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, 
-                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, 
+                return View("ScrollDetails", _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
+                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                     x => x.keykrt == findKrt.KEYKRT));
             }
 
@@ -382,7 +344,5 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll");
         }
-
-        public bool ExtContains { get; set; }
     }
 }

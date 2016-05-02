@@ -72,7 +72,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="predicate"></param>
         /// <param name="orderPredicate"></param>
         /// <returns></returns>
-        IEnumerable<T> GetTable<T,TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
+        IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
         /// <summary>
         /// Return rows count of current row
         /// </summary>
@@ -105,7 +105,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="orderPredicate"></param>
         /// <returns></returns>
         IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
-        bool AddKrtNaftan(long key,out string msgError);
+        bool AddKrtNaftan(long key, out string msgError);
 
         /// <summary>
         /// Change Reporting date

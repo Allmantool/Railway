@@ -25,39 +25,43 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="numberScroll"></param>
         /// <returns></returns>
         [HttpPost]
-        [ChildActionOnly]
+        //[ChildActionOnly]
         public ActionResult Menu(int numberScroll, int reportYear,IList<CheckListFilterModel> filters) {
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
-            
+
+            //upply filters(linqKit)
+            var finalPredicate = PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == findKrt.KEYKRT);
+            finalPredicate = filters.Aggregate(finalPredicate, (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
+
             if (Request.IsAjaxRequest() && findKrt != null) {
                 var updateFilter = new[]{
                     new CheckListFilterModel(){
                         AllAvailableValues = filters.First(x => x.SortFieldName == "nkrt").AllAvailableValues,
-                        CheckedValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
+                        CheckedValues = _bussinesEngage.GetGroup(
                             x => x.nkrt,
-                            x => x.keykrt == findKrt.KEYKRT,
+                            finalPredicate.Expand(),
                             x => x.nkrt),
                         SortFieldName = "nkrt"
                     },
                     new CheckListFilterModel(){
                         AllAvailableValues = filters.First(x => x.SortFieldName == "tdoc").AllAvailableValues,
-                        CheckedValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
+                        CheckedValues = _bussinesEngage.GetGroup(
                             x => x.tdoc.ToString(), 
-                            x => x.keykrt == findKrt.KEYKRT, 
+                            finalPredicate.Expand(), 
                             x => x.tdoc.ToString()),
                         SortFieldName = "tdoc"
                     },
                     new CheckListFilterModel(){
                         AllAvailableValues = filters.First(x => x.SortFieldName == "vidsbr").AllAvailableValues,
-                        CheckedValues = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
+                        CheckedValues = _bussinesEngage.GetGroup(
                             x => x.vidsbr.ToString(), 
-                            x => x.keykrt == findKrt.KEYKRT, 
+                            finalPredicate.Expand(), 
                             x => x.vidsbr.ToString()),
                         SortFieldName = "vidsbr"
                     }
             };
-                return Json(updateFilter, JsonRequestBehavior.DenyGet);
-                //return PartialView("_FilterMenu", filters);
+                //return Json(updateFilter, JsonRequestBehavior.DenyGet);
+                return PartialView("_FilterMenu", filters);
             }
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
         }

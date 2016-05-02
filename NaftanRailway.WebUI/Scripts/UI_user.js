@@ -82,8 +82,8 @@ function filterMenu() {
                 traditional: true,
                 contentType: 'application/json; charset=utf-8',
                 /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-                data: JSON.stringify({
-                    "filters": [{
+                data: JSON.stringify(
+                    {"filters": [{
                             "SortFieldName": "nkrt",
                             "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
                             "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
@@ -95,11 +95,10 @@ function filterMenu() {
                             "SortFieldName": "vidsbr",
                             "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
                             "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
-                        }
-                    ]
-                },
-                    { "numberScroll": $("#numberScroll").val() },
-                    { "reportYear": $("#reportYear").val() }),
+                        }]
+                    , "numberScroll": +$("#numberScroll").val()
+                    , "reportYear": +$("#reportYear").val()
+                    }),
                 success: function(result) {
                     $("#filterForm").empty().append(result);
                     //filterMenu();
