@@ -13,6 +13,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }
         public string SortFieldName { get; set; }
+        public bool ActiveFilter { get; set; }
         /// <summary>
         /// By default check all values on list box
         /// </summary>

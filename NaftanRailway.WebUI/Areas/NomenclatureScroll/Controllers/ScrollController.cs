@@ -107,20 +107,17 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             ViewBag.Filters = new[]{
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.nkrt, 
-                            x => x.keykrt == findKrt.KEYKRT, 
-                            x => x.nkrt)){
+                            x => x.keykrt == findKrt.KEYKRT)){
                         SortFieldName = "nkrt"
                     },
                     new CheckListFilterModel (_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.tdoc.ToString(),
-                            x => x.keykrt == findKrt.KEYKRT, 
-                            x => x.tdoc.ToString())){
+                            x => x.keykrt == findKrt.KEYKRT)){
                         SortFieldName = "tdoc"
                     },
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.vidsbr.ToString(), 
-                            x => x.keykrt == findKrt.KEYKRT, 
-                            x => x.vidsbr.ToString())){
+                            x => x.keykrt == findKrt.KEYKRT)){
                         SortFieldName = "vidsbr"
                     }
                 };
@@ -211,9 +208,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (recordCount > 0 && findKrt != null) {
                 var fixRow = _bussinesEngage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
                 //Some add info (filter purpose)
-                ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.nkrt);
-                ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.tdoc);
-                ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => x.vidsbr);
+                ViewBag.ListNkrt = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, String>(x => x.nkrt, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+                ViewBag.TypeDoc = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, byte>(x => x.tdoc, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
+                ViewBag.VidSbr = _bussinesEngage.GetGroup<krt_Naftan_orc_sapod, short>(x => x.vidsbr, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
 
                 //Some ad info
                 ViewBag.RecordCount = recordCount;

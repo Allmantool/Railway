@@ -16,7 +16,6 @@ namespace NaftanRailway.Domain.Abstract {
         //long ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
         //IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);
-
         /// <summary>
         /// Get All info 
         /// </summary>
@@ -52,7 +51,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get luggage
         /// </summary>
         IQueryable<Luggage> Baggage { get; }
-
         IQueryable<v_pam_vag> PamVags { get; }
         IQueryable<v_pam_sb> PamSbs { get; }
         IQueryable<v_pam> Pams { get; }
@@ -94,7 +92,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="size">page item size</param>
         /// <returns></returns>
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class;
-
         /// <summary>
         /// Get group result (Group by + order by)
         /// </summary>
@@ -104,9 +101,8 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="predicate"></param>
         /// <param name="orderPredicate"></param>
         /// <returns></returns>
-        IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class;
+        IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null) where T : class;
         bool AddKrtNaftan(long key, out string msgError);
-
         /// <summary>
         /// Change Reporting date
         /// </summary>

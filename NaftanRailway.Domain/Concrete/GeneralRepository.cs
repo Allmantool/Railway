@@ -22,7 +22,7 @@ namespace NaftanRailway.Domain.Concrete {
                 _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
                 _context.SaveChanges();*/
 
-                return (enablecaching) ? _dbSet.AsNoTracking().Where(predicate) : _dbSet.Where(predicate);
+                return (enablecaching) ? _dbSet.Where(predicate) : _dbSet.AsNoTracking().Where(predicate);
             }
 
             //sync data in Db & EF (if change not tracking for EF)

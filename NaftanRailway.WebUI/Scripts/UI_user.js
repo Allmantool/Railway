@@ -57,83 +57,82 @@ $('#sandbox-container .input-group').datepicker({
 http://davidstutz.github.io/bootstrap-multiselect/
 */
 function filterMenu() {
-    $('.filter*').multiselect({
-        includeSelectAllOption: true,
-        enableHTML: false,
-        disableIfEmpty: true,
-        disabledText: 'Нет значений ...',
-        nonSelectedText: 'Не выбрано ...',
-        buttonWidth: '190px',
-        maxHeight: 510,
-        allSelectedText: '№ Карточки: (Все)',
-        selectAllText: '№ Карточки: (Все)',
-        inheritClass: true,
-        /*numberDisplayed: 3,
+    $('.filter*').each(function(index) {
+        $(this).multiselect({
+            includeSelectAllOption: true,
+            enableHTML: false,
+            disableIfEmpty: true,
+            disabledText: 'Нет значений ...',
+            nonSelectedText: 'Не выбрано ...',
+            buttonWidth: '190px',
+            maxHeight: 510,
+            allSelectedText: $(this).attr('id'),
+            selectAllText: $(this).attr('id'),
+            inheritClass: true,
+            /*numberDisplayed: 3,
         delimiterText: '; ',*/
-        /* checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
-        /*checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', (for server side binding)*/
-        /*A function which is triggered on the change event of the options. 
+            /*checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
+            /*checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', (for server side binding)*/
+            /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-        onChange: function(option, checked, select) {
-            //JSON.stringify(countries); AllAvailableValues, CheckedValues, SortFieldName
-            $.ajax({
-                url: "Filter/Menu/",
-                type: "Post",
-                traditional: true,
-                contentType: 'application/json; charset=utf-8',
-                /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-                data: JSON.stringify(
-                    {"filters": [{
-                            "SortFieldName": "nkrt",
-                            "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
-                            "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
-                        },{
-                            "SortFieldName": "tdoc",
-                            "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
-                            "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
-                        },{
-                            "SortFieldName": "vidsbr",
-                            "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
-                            "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
-                        }]
-                    , "numberScroll": +$("#numberScroll").val()
-                    , "reportYear": +$("#reportYear").val()
+            onChange: function(option, checked, select) {
+                $.ajax({
+                    url: "Filter/Menu/",
+                    type: "Post",
+                    traditional: true,
+                    contentType: 'application/json; charset=utf-8',
+                    /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
+                    data: JSON.stringify(
+                    {"filters": [
+                            {
+                                "SortFieldName": "nkrt",
+                                "ActiveFilter": ('nkrt' === $(option).parent('select').attr('id')) ? true : false,
+                                "CheckedValues": $('#nkrt option:selected').map(function() { return $(this).val(); }).toArray(),
+                                "AllAvailableValues": $('#nkrt option').map(function() { return $(this).val(); }).toArray()
+                            }, {
+                                "SortFieldName": "tdoc",
+                                "ActiveFilter": ('tdoc' === $(option).parent('select').attr('id')) ? true : false,
+                                "CheckedValues": $('#tdoc option:selected').map(function() { return $(this).val(); }).toArray(),
+                                "AllAvailableValues": $('#tdoc option').map(function() { return $(this).val(); }).toArray()
+                            }, {
+                                "SortFieldName": "vidsbr",
+                                "ActiveFilter": ('vidsbr' === $(option).parent('select').attr('id')) ? true : false,
+                                "CheckedValues": $('#vidsbr option:selected').map(function() { return $(this).val(); }).toArray(),
+                                "AllAvailableValues": $('#vidsbr option').map(function() { return $(this).val(); }).toArray()
+                            }
+                        ],
+                        "numberScroll": +$("#numberScroll").val(),
+                        "reportYear": +$("#reportYear").val()
                     }),
-                success: function(result) {
-                    $("#filterForm").empty().append(result);
-                    //filterMenu();
-                },
-                error: function (data) { console.log(data) }
-            });    
-        },
-        //onInitialized: function(select, container) {
-        //    alert('Initialized.');
-        //},
-        buttonText: function(options, select) {
+                    success: function(result) {
+                        $("#filterForm").empty().append(result);
+                        //filterMenu();
+                    },
+                    error: function(data) { console.log("multiselect custom error:" + data) }
+                });
+            },
+            buttonText: function(options, select) {
                 if (options.length === 0) {
                     return 'Не выбрано ...';
+                } else if (options.length === $(select).children('option').size()) {
+                    return $(select).attr('id') + '(Все)' + ' (' + $(select).children('option').length + ')';
+                } else if (options.length > 3) {
+                    return 'Выбрано ' + options.length + $(select).attr('id');
+                } else {
+                    var labels = [];
+                    options.each(function() {
+                        if ($(this).attr('label') !== undefined) {
+                            labels.push($(this).attr('label'));
+                        } else {
+                            labels.push($(this).html());
+                        }
+                    });
+                    return labels.join(', ') + '';
                 }
-                else if (options.length === $(select).children('option').size()) {
-                    return '№ Карточки: (Все)' + ' (' + $(select).children('option').length + ')';
-                }
-                else if (options.length > 3) {
-                    return 'Выбрано '+options.length+' карточек';
-                }
-                 else {
-                     var labels = [];
-                     options.each(function() {
-                         if ($(this).attr('label') !== undefined) {
-                             labels.push($(this).attr('label'));
-                         }
-                         else {
-                             labels.push($(this).html());
-                         }
-                     });
-                     return labels.join(', ') + '';
-                }
-        }
-});
-    PaggingSuccess();
+            }
+        });
+    });
+        PaggingSuccess();
 };
 
 /*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
