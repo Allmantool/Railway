@@ -17,12 +17,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     public class BussinesEngage : IBussinesEngage {
         private bool _disposed;
         private IUnitOfWork Uow { get; set; }
-
         public BussinesEngage(IUnitOfWork unitOfWork) {
             Uow = unitOfWork;
             _disposed = false;
         }
-
         /// <summary>
         /// Формирования объекта отображения информации об отправках
         /// </summary>
@@ -57,7 +55,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
                     }).ToList();
         }
-
         /// <summary>
         /// Autocomplete function
         /// </summary>
@@ -72,76 +69,57 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             return GetGroup<v_otpr, string>(x => new { x.id, x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
                 && (x.date_oper >= startDate && x.date_oper <= endDate)).OrderByDescending(x => x).Take(20);
         }
-
         public ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse) {
             throw new NotImplementedException();
         }
-
         public IQueryable<Shipping> ShippingInformation {
             get { throw new NotImplementedException(); }
         }
-
-
         public IQueryable<v_o_v> CarriageNumbers {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<Bill> Bills {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<Certificate> Certificates {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<AccumulativeCard> Cards {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<Luggage> Baggage {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_pam_vag> PamVags {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_pam_sb> PamSbs {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_pam> Pams {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_akt> Akts {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_akt_sb> AktSbs {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_akt_vag> AktVags {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_kart> Karts {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<v_nach> Naches {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<orc_krt> OrcKrts {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<orc_sbor> OrcSbors {
             get { throw new NotImplementedException(); }
         }
-
         public IQueryable<etsng> Etsngs {
             get { throw new NotImplementedException(); }
         }
@@ -173,13 +151,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
-
-        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
+        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).Select(x => x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).OrderBy(x=>x.Key).Select(x => x.Key).ToList();
             }
         }
-
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
         /// </summary>
@@ -215,7 +191,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             msgError = "";
             return true;
         }
-
         /// <summary>
         /// Change date all later records
         /// </summary>
@@ -288,7 +263,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return true;
             }
         }
-
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);

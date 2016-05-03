@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -27,7 +28,6 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
 
             return Expression.Lambda<Func<T, bool>>(containsMethodExp, arg);
         }
-
         public static Expression<Func<TEntity, bool>> ContainsPredicate<TEntity, T>(T[] arr, string fieldname) where TEntity : class {
             ParameterExpression entity = Expression.Parameter(typeof(TEntity), "entityType");
             MemberExpression member = Expression.Property(entity, fieldname);
@@ -38,36 +38,46 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
 
             return Expression.Lambda<Func<TEntity, bool>>(exprContains, entity);
         }
+        /// <summary>
+        /// Build lambda expression (in this particular way for groupBy operation), in another side expresssion is general => this's mean it's be suitable for many cases
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
+        public static Expression<Func<T, string>> GroupPredicate<T>(string fieldName) {
+            //A ParameterExpression denotes the input variable to the left hand side of the lambda (=>) operator in the lambda expression.
+            //name "x" is equal x=>...
+            var param = Expression.Parameter(typeof(T), "x");
+            //A MemberExpression denotes property of type e.t x=>x.[fieldName]
+            var property = Expression.Property(param, fieldName);
+            //important to use the Expression.Convert
+            //Expression conversion = Expression.Convert(property, typeof(string));
 
-        private static IOrderedQueryable<T> OrderingHelper<T>(IQueryable<T> source, string propertyName, bool descending, bool anotherLevel) {
-            var param = Expression.Parameter(typeof(T), "p");
-            var property = Expression.PropertyOrField(param, propertyName);
-            var sort = Expression.Lambda(property, param);
+            //Reflection
+            MethodInfo toStrMethod = typeof(object).GetMethod("ToString");
 
-            var call = Expression.Call(
-                typeof(Queryable),
-                (!anotherLevel ? "OrderBy" : "ThenBy") + (descending ? "Descending" : string.Empty),
-                new[] { typeof(T), property.Type },
-                source.Expression,
-                Expression.Quote(sort));
-
-            return (IOrderedQueryable<T>)source.Provider.CreateQuery<T>(call);
+            //body of lambda expression (delegate that encapsulates a method with requer parameters)
+            //Basically with expression three we build hard-wired lambda expression (etc. x=>x.Name )
+            return Expression.Lambda<Func<T, string>>(Expression.Call(property, toStrMethod), param);
         }
-
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName) {
-            return OrderingHelper(source, propertyName, false, false);
+        //makes expression for specific prop
+        public static Expression<Func<TSource, object>> GetExpression<TSource>(string propertyName) {
+            var param = Expression.Parameter(typeof(TSource), "x");
+            //important to use the Expression.Convert
+            Expression conversion = Expression.Convert(Expression.Property(param, propertyName), typeof(object));
+            return Expression.Lambda<Func<TSource, object>>(conversion, param); 
         }
-
-        public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool descending) {
-            return OrderingHelper(source, propertyName, descending, false);
+        //makes deleget for specific prop
+        public static Func<TSource, object> GetFunc<TSource>(string propertyName) {
+            return GetExpression<TSource>(propertyName).Compile();  //only need compiled expression
         }
-
-        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, string propertyName) {
-            return OrderingHelper(source, propertyName, false, true);
+        //OrderBy overload
+        public static IOrderedEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, string propertyName) {
+            return source.OrderBy(GetFunc<TSource>(propertyName));
         }
-
-        public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, string propertyName, bool descending) {
-            return OrderingHelper(source, propertyName, descending, true);
+        //OrderBy overload
+        public static IOrderedQueryable<TSource> GroupBy<TSource>(this IQueryable<TSource> source, string propertyName) {
+            return source.OrderBy(GetExpression<TSource>(propertyName));
         }
 
         public static Expression<Func<string, string, bool>> expFunc = (name, value) => name.Contains(value);
