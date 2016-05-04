@@ -43,8 +43,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     );
                 }
 
-                return Json(filters, JsonRequestBehavior.DenyGet);
-                //return PartialView("_FilterMenu", filters);
+                //return Json(filters, JsonRequestBehavior.DenyGet);
+                return PartialView("_FilterMenu", filters);
             }
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
         }

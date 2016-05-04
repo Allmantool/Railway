@@ -108,17 +108,20 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.nkrt, 
                             x => x.keykrt == findKrt.KEYKRT)){
-                        SortFieldName = "nkrt"
+                        SortFieldName = "nkrt",
+                        NameDescription = "Накоп. Карточки:"
                     },
                     new CheckListFilterModel (_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.tdoc.ToString(),
                             x => x.keykrt == findKrt.KEYKRT)){
-                        SortFieldName = "tdoc"
+                        SortFieldName = "tdoc",
+                        NameDescription = "Тип документа:"
                     },
                     new CheckListFilterModel(_bussinesEngage.GetGroup<krt_Naftan_orc_sapod, string>(
                             x => x.vidsbr.ToString(), 
                             x => x.keykrt == findKrt.KEYKRT)){
-                        SortFieldName = "vidsbr"
+                        SortFieldName = "vidsbr",
+                        NameDescription = "Вид сбора:"
                     }
                 };
 

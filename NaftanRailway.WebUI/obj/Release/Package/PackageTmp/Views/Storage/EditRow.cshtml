@@ -1,0 +1,61 @@
+﻿@model NaftanRailway.WebUI.ViewModels.InfoLineViewModel
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Редактирование";
+}
+<style type="text/css">
+    textarea {
+        resize: none;
+    }
+</style>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <span class="text-center lead">Редактирование информации по отправке № @Html.DisplayFor(m => m.DocumentPackLine.Shipping.n_otpr)</span>
+        </div>
+
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(m => m.ReturnUrl)
+        @Html.HiddenFor(n => n.DocumentPackLine.Shipping.id)
+        @Html.HiddenFor(n => n.DocumentPackLine.Shipping.n_otpr)
+        @Html.HiddenFor(n => n.DocumentPackLine.Shipping.date_oper)
+
+        @using (Html.BeginForm ("EditRow","Storage",FormMethod.Post)) {
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-3">@Html.Action("Index", "Wagons", new {@Model.DocumentPackLine.Shipping.id})</div>
+                    <div class="col-lg-3">@Html.Action("Index", "Bills", new {@Model.DocumentPackLine.Shipping.id})</div>
+                    <div class="col-lg-3">@Html.Action("Index", "Acts", new {@Model.DocumentPackLine.Shipping.id})</div>
+                    <div class="col-lg-3">@Html.Action("Index", "Cards", new {@Model.DocumentPackLine.Shipping.id})</div>
+                </div> 
+                <br/>   
+                <div class="row">
+                    <div class="col-lg-9">
+                        <label class="control-label">@Html.DisplayNameFor(m => m.DocumentPackLine.Shipping.g11)</label>
+                        @Html.TextAreaFor(m => m.DocumentPackLine.Shipping.g11, new {@class = "form-control small", rows = 5})
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="control-label">@Html.DisplayNameFor(m => m.DocumentPackLine.Shipping.g8)</label>
+                        @Html.TextBoxFor(m => m.DocumentPackLine.Shipping.g8, new { @class = "form-control small text-capitalize" })
+                        <br/>
+                        <label class="control-label">@Html.DisplayNameFor(m => m.DocumentPackLine.Warehouse)</label>
+                        <div>@Html.ValidationMessageFor(m => m.DocumentPackLine.Warehouse)</div>
+                        @Html.TextBoxFor(m => m.DocumentPackLine.Warehouse, new {@class = "form-control"})
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center panel-footer">
+                <a class="btn btn-warning btn-sm" href="@Url.Action("Index", new { returnUrl = Model.ReturnUrl })">
+                    Отменить <span class="glyphicon glyphicon-floppy-remove"></span> 
+                </a>
+                <button type="submit" class="btn btn-success btn-sm" id="searchBtn">
+                    Сохранить <span class="glyphicon glyphicon-floppy-disk"></span>
+                </button>     
+            </div>     
+        }
+    </div>
+</div>
