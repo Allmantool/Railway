@@ -5,6 +5,16 @@
 @model IEnumerable<krt_Naftan_orc_sapod>
 @{
     PagingInfo pageInfo = ViewBag.PagingInfo;
+<<<<<<< HEAD
+    pageInfo.AjaxOptions = new AjaxOptions(){
+        HttpMethod = "Get", 
+        UpdateTargetId = "ScrollTable", 
+        InsertionMode = InsertionMode.Replace, 
+        OnSuccess = "filterMenu"
+    };
+    
+=======
+>>>>>>> 5a6dfbf73a7198e3ac3178486d5927a4a853fb17
     int numberScroll = ViewBag.nper;
     DateTime reportYear = ViewBag.date_obrabot;
 }
@@ -39,11 +49,14 @@
     <tr class="filter-menu">
         <th colspan="19">
             @using (Ajax.BeginForm("ScrollDetails", "Scroll"
+<<<<<<< HEAD
+=======
                 //,new RouteValueDictionary(){
                 //    { "controller","Scroll"},{ "action", "ScrollDetails" },
                 //    { "numberScroll",((int) ViewBag.nper).ToString() }, 
                 //    { "reportYear", ((DateTime)ViewBag.DtBuhOtchet).Year.ToString() }, 
                 //    { "page", "1" }}
+>>>>>>> 5a6dfbf73a7198e3ac3178486d5927a4a853fb17
                 ,new { controller = "Scroll", action = "ScrollDetails", numberScroll = ViewBag.nper, reportYear = ((DateTime)ViewBag.DtBuhOtchet).Year, page = 1 }
                 ,new AjaxOptions(){
                     HttpMethod = "Post",
@@ -51,9 +64,15 @@
                 },new { @class = "form-inline" })) {
                 @Html.Hidden("numberScroll", numberScroll)
                 @Html.Hidden("reportYear", reportYear.Year)
+<<<<<<< HEAD
+                <div id="filterForm" class="form-inline"> 
+                     @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);} 
+                </div>
+=======
                 <span id="filterForm"> 
                     @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
                 </span>
+>>>>>>> 5a6dfbf73a7198e3ac3178486d5927a4a853fb17
             <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }
         </th>
@@ -67,6 +86,9 @@
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
 <!--Ajax paging-->
+<<<<<<< HEAD
+@{ Html.RenderPartial("_AjaxPagging", pageInfo);}
+=======
 <div class="bottom-right pull-right">
     <ul class="pagination">
     @{for (int q = 1; q <= ViewBag.PagingInfo.TotalPages; q++) {
@@ -84,6 +106,7 @@
     }
     </ul>
 </div>
+>>>>>>> 5a6dfbf73a7198e3ac3178486d5927a4a853fb17
 <!--Don't support in partioal view (this html helper alternative-->
 @Html.Script(@<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>)
 
