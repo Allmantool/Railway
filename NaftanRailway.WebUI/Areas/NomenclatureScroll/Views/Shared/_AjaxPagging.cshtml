@@ -5,7 +5,7 @@
             <li class="@(q == Model.CurrentPage ? "active" : "")">
                 @Ajax.RouteLink(q.ToString(), 
                 new RouteValueDictionary() { { "page", q } }, 
-                Model.AjaxOptions);
+                Model.AjaxOptions)
             </li>
             }
         }

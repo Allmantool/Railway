@@ -5,6 +5,13 @@
 @model IEnumerable<krt_Naftan_orc_sapod>
 @{
     PagingInfo pageInfo = ViewBag.PagingInfo;
+    pageInfo.AjaxOptions = new AjaxOptions(){
+        HttpMethod = "Get", 
+        UpdateTargetId = "ScrollTable", 
+        InsertionMode = InsertionMode.Replace, 
+        OnSuccess = "filterMenu"
+    };
+
     int numberScroll = ViewBag.nper;
     DateTime reportYear = ViewBag.date_obrabot;
 }
@@ -36,14 +43,9 @@
         <th class="text-center">nds</th>
     </tr>
     <!--Grid filter-->
-    <tr class="filter-menu">
+    <tr class="filter-menu" >
         <th colspan="19">
             @using (Ajax.BeginForm("ScrollDetails", "Scroll"
-                //,new RouteValueDictionary(){
-                //    { "controller","Scroll"},{ "action", "ScrollDetails" },
-                //    { "numberScroll",((int) ViewBag.nper).ToString() }, 
-                //    { "reportYear", ((DateTime)ViewBag.DtBuhOtchet).Year.ToString() }, 
-                //    { "page", "1" }}
                 ,new { controller = "Scroll", action = "ScrollDetails", numberScroll = ViewBag.nper, reportYear = ((DateTime)ViewBag.DtBuhOtchet).Year, page = 1 }
                 ,new AjaxOptions(){
                     HttpMethod = "Post",
@@ -52,7 +54,7 @@
                 @Html.Hidden("numberScroll", numberScroll)
                 @Html.Hidden("reportYear", reportYear.Year)
                 <span id="filterForm"> 
-                    @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
+                     @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>) ViewBag.Filters);} 
                 </span>
             <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }
@@ -67,23 +69,8 @@
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
 <!--Ajax paging-->
-<div class="bottom-right pull-right">
-    <ul class="pagination">
-    @{for (int q = 1; q <= ViewBag.PagingInfo.TotalPages; q++) {
-            <li class="@(q == ViewBag.PagingInfo.CurrentPage ? "active" : "")">
-                @Ajax.RouteLink(q.ToString(),
-                    new RouteValueDictionary() { { "page", q } },
-                        new AjaxOptions() {
-                            HttpMethod = "Get",
-                            UpdateTargetId = "ScrollTable",
-                            InsertionMode = InsertionMode.Replace,
-                            OnSuccess = "filterMenu"
-                        })
-            </li>
-      }
-    }
-    </ul>
-</div>
+@{ Html.RenderPartial("_AjaxPagging", pageInfo);}
+
 <!--Don't support in partioal view (this html helper alternative-->
 @Html.Script(@<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>)
 

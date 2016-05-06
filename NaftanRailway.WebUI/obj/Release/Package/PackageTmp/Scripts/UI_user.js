@@ -58,21 +58,19 @@ http://davidstutz.github.io/bootstrap-multiselect/
 */
 function filterMenu() {
     $("select.filter").each(function (index) {
-        $(this).multiselect({
+        var $this = $(this);
+        $this.multiselect({
             includeSelectAllOption: true,
             enableHTML: false,
             disableIfEmpty: true,
             disabledText: 'Нет значений ...',
             nonSelectedText: 'Не выбрано ...',
-            buttonWidth: '220px',
-            maxHeight: 510,
+            buttonWidth: '230px',
+            maxHeight: '750px',
             allSelectedText: "allSelectedText",
             selectAllText: "Выбрать все",
             inheritClass: true,
-            /*numberDisplayed: 3,
-        delimiterText: '; ',*/
-            /*checkboxName: 'filters[0].AllAvailableValues[]', (for server side binding)*/
-            /*checkboxName: $($(this)[0].$select).attr('name') + '.value[0]', (for server side binding)*/
+            /*numberDisplayed: 3,*/
             /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
             onChange: function(option, checked, select) {
@@ -137,6 +135,7 @@ function filterMenu() {
                 }
             }
         });
+        $this.next(".btn-group").css("margin-left", "0.3em");
     });
         PaggingSuccess();
 };
