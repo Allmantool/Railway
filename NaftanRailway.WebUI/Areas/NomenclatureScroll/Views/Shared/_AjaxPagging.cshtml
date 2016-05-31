@@ -3,9 +3,9 @@
     <ul class="pagination">
         @{for (var q = 1; q <= Model.TotalPages; q++) {
             <li class="@(q == Model.CurrentPage ? "active" : "")">
-                @Ajax.RouteLink(q.ToString(), 
-                new RouteValueDictionary() { { "page", q } }, 
-                Model.AjaxOptions)
+                @Ajax.RouteLink(q.ToString(),
+                new RouteValueDictionary() { { "page", q } },
+                Model.AjaxOptions,new Dictionary<string, object>() { { "enctype", "application/x-www-form-urlencoded" }})
             </li>
             }
         }
