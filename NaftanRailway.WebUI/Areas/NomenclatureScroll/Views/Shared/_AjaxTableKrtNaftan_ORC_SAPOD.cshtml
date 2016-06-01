@@ -49,17 +49,16 @@
         <th colspan="19">
             @using (Ajax.BeginForm("ScrollDetails", "Scroll"
                 , new {controller = "Scroll", action = "ScrollDetails", numberScroll = ViewBag.nper, reportYear = ((DateTime) ViewBag.DtBuhOtchet).Year, page = 1}
-                , new AjaxOptions()
-                {
+                , new AjaxOptions(){
                     HttpMethod = "Post",
                     UpdateTargetId = "chargeOfList",
                     OnSuccess = ""
-                }, new {@class = "form-inline"}))
-            {
+                }, new {@class = "form-inline"})){
                 @Html.Hidden("numberScroll", numberScroll)
                 @Html.Hidden("reportYear", reportYear.Year)
-                <span id="filterForm"> 
-                     @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>) ViewBag.Filters);} 
+           
+                <span id="filterForm">
+                    @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
                 </span>
                 <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ORCModelEntitiesStoreContainer" CdmEntityContainer="ORCEntities">
     <EntitySetMapping Name="krt_Naftans">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan">

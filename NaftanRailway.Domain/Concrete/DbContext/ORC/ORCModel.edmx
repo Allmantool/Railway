@@ -1,25 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="ORCModelEntitiesStoreContainer">
-          <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.Store.krt_DetailsProgress" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="orc_krt" EntityType="ORCModelEntities.Store.orc_krt" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="orc_sbor" EntityType="ORCModelEntities.Store.orc_sbor" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_krt__Naftan" Association="ORCModelEntities.Store.FK_krt__Naftan">
-            <End Role="krt_Naftan" EntitySet="krt_Naftan" />
-            <End Role="krt_Naftan_orc_sapod" EntitySet="krt_Naftan_orc_sapod" />
-          </AssociationSet>
-          <AssociationSet Name="FK_orc_sbor_orc_krt" Association="ORCModelEntities.Store.FK_orc_sbor_orc_krt">
-            <End Role="orc_krt" EntitySet="orc_krt" />
-            <End Role="orc_sbor" EntitySet="orc_sbor" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="ORCModelEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="krt_DetailsProgress">
           <Key>
             <PropertyRef Name="tDoc" />
@@ -43,10 +28,10 @@
           <Property Name="DTTREB" Type="date" />
           <Property Name="DTOPEN" Type="date" />
           <Property Name="DTCLOSE" Type="date" />
-          <Property Name="SMTREB" Type="decimal" Nullable="false" Scale="2" />
-          <Property Name="NDSTREB" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="SMTREB" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="NDSTREB" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="U_KOD" Type="smallint" Nullable="false" />
-          <Property Name="P_TYPE" Type="nvarchar" Nullable="false" MaxLength="1" />
+          <Property Name="P_TYPE" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="DATE_OBRABOT" Type="datetime" Nullable="false" />
           <Property Name="IN_REAL" Type="bit" Nullable="false" />
           <Property Name="RecordCount" Type="int" Nullable="false" />
@@ -66,18 +51,18 @@
           </Key>
           <Property Name="keykrt" Type="bigint" Nullable="false" />
           <Property Name="keysbor" Type="bigint" Nullable="false" />
-          <Property Name="nomot" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="nomot" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="dt" Type="date" Nullable="false" />
           <Property Name="gruname" Type="nvarchar(max)" Nullable="false" />
           <Property Name="vidsbr" Type="smallint" Nullable="false" />
           <Property Name="namesbr" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="sm_no_nds" Type="decimal" Nullable="false" Scale="2" />
-          <Property Name="sm_nds" Type="decimal" Nullable="false" Scale="2" />
-          <Property Name="sm" Type="decimal" Nullable="false" Scale="2" />
-          <Property Name="stnds" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="sm_no_nds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="sm_nds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="sm" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="stnds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="txt" Type="nvarchar(max)" />
-          <Property Name="UNI_OTPR" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="nkrt" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="UNI_OTPR" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nkrt" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="tdoc" Type="tinyint" Nullable="false" />
           <Property Name="ORC_ID_ED" Type="int" Nullable="false" />
           <Property Name="id" Type="int" />
@@ -85,10 +70,10 @@
           <Property Name="id_otpr" Type="int" />
           <Property Name="date_raskr" Type="datetime" />
           <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
-          <Property Name="cena" Type="decimal" Scale="2" />
-          <Property Name="kol" Type="decimal" Scale="2" />
-          <Property Name="summa" Type="decimal" Scale="2" />
-          <Property Name="nds" Type="decimal" Scale="2" />
+          <Property Name="cena" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="kol" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="summa" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="nds" Type="decimal" Precision="18" Scale="2" />
           <Property Name="textm" Type="nvarchar(max)" />
           <Property Name="ID_ED" Type="int" />
           <Property Name="ErrorState" Type="tinyint" />
@@ -103,8 +88,8 @@
           <Property Name="DTTREB" Type="datetime" />
           <Property Name="DTOPEN" Type="datetime" />
           <Property Name="DTCLOSE" Type="datetime" />
-          <Property Name="SMTREB" Type="decimal" Scale="2" />
-          <Property Name="NDSTREB" Type="decimal" Scale="2" />
+          <Property Name="SMTREB" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NDSTREB" Type="decimal" Precision="18" Scale="2" />
           <Property Name="U_KOD" Type="int" />
           <Property Name="P_TYPE" Type="char" MaxLength="1" />
           <Property Name="DATE_OBRABOT" Type="datetime" />
@@ -122,9 +107,9 @@
           <Property Name="VIDSBR" Type="int" />
           <Property Name="NAMESBR" Type="nvarchar" MaxLength="150" />
           <Property Name="TXT" Type="nvarchar" MaxLength="20" />
-          <Property Name="SM" Type="decimal" Scale="2" />
-          <Property Name="SM_NDS" Type="decimal" Scale="2" />
-          <Property Name="STNDS" Type="decimal" Scale="2" />
+          <Property Name="SM" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SM_NDS" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="STNDS" Type="decimal" Precision="18" Scale="2" />
           <Property Name="UNI_OTPR" Type="nvarchar" MaxLength="20" />
           <Property Name="ID_KART" Type="nvarchar" MaxLength="20" />
           <Property Name="NKRT" Type="nvarchar" MaxLength="20" />
@@ -134,10 +119,10 @@
           <Property Name="ID_ED" Type="int" />
         </EntityType>
         <Association Name="FK_krt__Naftan">
-          <End Role="krt_Naftan" Type="ORCModelEntities.Store.krt_Naftan" Multiplicity="1">
+          <End Role="krt_Naftan" Type="Self.krt_Naftan" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="krt_Naftan_orc_sapod" Type="ORCModelEntities.Store.krt_Naftan_orc_sapod" Multiplicity="*" />
+          <End Role="krt_Naftan_orc_sapod" Type="Self.krt_Naftan_orc_sapod" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="krt_Naftan">
               <PropertyRef Name="KEYKRT" />
@@ -148,8 +133,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orc_sbor_orc_krt">
-          <End Role="orc_krt" Type="ORCModelEntities.Store.orc_krt" Multiplicity="1" />
-          <End Role="orc_sbor" Type="ORCModelEntities.Store.orc_sbor" Multiplicity="*" />
+          <End Role="orc_krt" Type="Self.orc_krt" Multiplicity="1" />
+          <End Role="orc_sbor" Type="Self.orc_sbor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="orc_krt">
               <PropertyRef Name="KEYKRT" />
@@ -163,11 +148,26 @@
           <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
         </Function>
         <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="ORCModelEntitiesStoreContainer">
+          <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orc_krt" EntityType="Self.orc_krt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orc_sbor" EntityType="Self.orc_sbor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_krt__Naftan" Association="Self.FK_krt__Naftan">
+            <End Role="krt_Naftan" EntitySet="krt_Naftan" />
+            <End Role="krt_Naftan_orc_sapod" EntitySet="krt_Naftan_orc_sapod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_orc_sbor_orc_krt" Association="Self.FK_orc_sbor_orc_krt">
+            <End Role="orc_krt" EntitySet="orc_krt" />
+            <End Role="orc_sbor" EntitySet="orc_sbor" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ORCModelEntities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="ORCEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="ORCModelEntities" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ORCEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="krt_Naftans" EntityType="ORCModelEntities.krt_Naftan" />
           <EntitySet Name="krt_Naftan_orc_sapods" EntityType="ORCModelEntities.krt_Naftan_orc_sapod" />
           <EntitySet Name="orc_krts" EntityType="ORCModelEntities.orc_krt" />
@@ -189,19 +189,19 @@
           <Property Name="KEYKRT" Type="Int64" Nullable="false" />
           <Property Name="NKRT" Type="Int32" Nullable="false" />
           <Property Name="NTREB" Type="Int32" Nullable="false" />
-          <Property Name="DTBUHOTCHET" Type="DateTime" Nullable="false" />
-          <Property Name="DTTREB" Type="DateTime" />
-          <Property Name="DTOPEN" Type="DateTime" />
-          <Property Name="DTCLOSE" Type="DateTime" />
+          <Property Name="DTBUHOTCHET" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DTTREB" Type="DateTime" Precision="0" />
+          <Property Name="DTOPEN" Type="DateTime" Precision="0" />
+          <Property Name="DTCLOSE" Type="DateTime" Precision="0" />
           <Property Name="SMTREB" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="NDSTREB" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="U_KOD" Type="Int16" Nullable="false" />
           <Property Name="P_TYPE" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-          <Property Name="DATE_OBRABOT" Type="DateTime" Nullable="false" />
+          <Property Name="DATE_OBRABOT" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IN_REAL" Type="Boolean" Nullable="false" />
           <Property Name="RecordCount" Type="Int32" Nullable="false" />
-          <Property Name="StartDate_PER" Type="DateTime" Nullable="false" />
-          <Property Name="EndDate_PER" Type="DateTime" Nullable="false" />
+          <Property Name="StartDate_PER" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate_PER" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SignAdjustment_list" Type="Boolean" Nullable="false" />
           <Property Name="Scroll_Sbor" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
@@ -218,10 +218,10 @@
           <Property Name="keykrt" Type="Int64" Nullable="false" />
           <Property Name="keysbor" Type="Int64" Nullable="false" />
           <Property Name="nomot" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="dt" Type="DateTime" Nullable="false" />
+          <Property Name="dt" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="gruname" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="vidsbr" Type="Int16" Nullable="false" />
-          <Property Name="namesbr" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="namesbr" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="sm_no_nds" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="sm_nds" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="sm" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
@@ -234,7 +234,7 @@
           <Property Name="id" Type="Int32" />
           <Property Name="id_kart" Type="Int32" />
           <Property Name="id_otpr" Type="Int32" />
-          <Property Name="date_raskr" Type="DateTime" />
+          <Property Name="date_raskr" Type="DateTime" Precision="3" />
           <Property Name="num_doc" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Name="cena" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="kol" Type="Decimal" Precision="18" Scale="2" />
@@ -252,14 +252,14 @@
           <Property Name="KEYKRT" Type="Int64" Nullable="false" />
           <Property Name="NKRT" Type="Int32" />
           <Property Name="NTREB" Type="Int32" />
-          <Property Name="DTTREB" Type="DateTime" />
-          <Property Name="DTOPEN" Type="DateTime" />
-          <Property Name="DTCLOSE" Type="DateTime" />
+          <Property Name="DTTREB" Type="DateTime" Precision="3" />
+          <Property Name="DTOPEN" Type="DateTime" Precision="3" />
+          <Property Name="DTCLOSE" Type="DateTime" Precision="3" />
           <Property Name="SMTREB" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="NDSTREB" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="U_KOD" Type="Int32" />
           <Property Name="P_TYPE" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="DATE_OBRABOT" Type="DateTime" />
+          <Property Name="DATE_OBRABOT" Type="DateTime" Precision="3" />
           <Property Name="IN_REAL" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="orc_sbor" Relationship="ORCModelEntities.FK_orc_sbor_orc_krt" FromRole="orc_krt" ToRole="orc_sbor" />
         </EntityType>
@@ -270,7 +270,7 @@
           <Property Name="KEYKRT" Type="Int64" Nullable="false" />
           <Property Name="KEYSBOR" Type="Int64" Nullable="false" />
           <Property Name="NOMOT" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
-          <Property Name="DT" Type="DateTime" />
+          <Property Name="DT" Type="DateTime" Precision="3" />
           <Property Name="GRUNAME" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
           <Property Name="VIDSBR" Type="Int32" />
           <Property Name="NAMESBR" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
@@ -282,7 +282,7 @@
           <Property Name="ID_KART" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="NKRT" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P_TYPE" Type="String" MaxLength="1" Unicode="false" FixedLength="true" />
-          <Property Name="DATE_OBRABOT" Type="DateTime" />
+          <Property Name="DATE_OBRABOT" Type="DateTime" Precision="3" />
           <Property Name="TDOC" Type="Int32" />
           <Property Name="ID_ED" Type="Int32" />
           <NavigationProperty Name="orc_krt" Relationship="ORCModelEntities.FK_orc_sbor_orc_krt" FromRole="orc_sbor" ToRole="orc_krt" />
@@ -321,15 +321,15 @@
           <Property Type="Byte" Name="tDoc" Nullable="false" />
           <Property Type="Int16" Name="vidSbr" Nullable="false" />
           <Property Type="Byte" Name="state" Nullable="false" />
-          <Property Type="DateTime" Name="StDetailDate" />
+          <Property Type="DateTime" Name="StDetailDate" Precision="0" />
           <Property Type="String" Name="nameSbr" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="lastDate" />
+          <Property Type="DateTime" Name="lastDate" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ORCModelEntitiesStoreContainer" CdmEntityContainer="ORCEntities">
           <EntitySetMapping Name="krt_Naftans"><EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan"><MappingFragment StoreEntitySet="krt_Naftan">
             <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
@@ -436,37 +436,38 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
-    <Connection>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </DesignerInfoPropertySet>
-    </Connection>
-    <Options>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Отсутствует" />
-      </DesignerInfoPropertySet>
-    </Options>
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams>
-      <Diagram Name="ORCModel" ZoomLevel="82">
-        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
-        <EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
-        <AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.25" PointY="4.44310546875" />
-          <ConnectorPoint PointX="8.625" PointY="4.44310546875" />
-        </AssociationConnector>
-        <AssociationConnector Association="ORCModelEntities.FK_orc_sbor_orc_krt" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
-          <ConnectorPoint PointX="3" PointY="3.0357161458333328" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="11" PointY="3.25" Height="1.9210009765624996" />
-      </Diagram>
-    </Diagrams>
-  </Designer>
+    <edmx:Diagrams>
+      <edmx:Diagram Name="ORCModel" ZoomLevel="82">
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
+        <edmx:AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="7.25" PointY="4.44310546875" />
+          <edmx:ConnectorPoint PointX="8.625" PointY="4.44310546875" />
+        </edmx:AssociationConnector>
+        <edmx:AssociationConnector Association="ORCModelEntities.FK_orc_sbor_orc_krt" ManuallyRouted="false">
+          <edmx:ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
+          <edmx:ConnectorPoint PointX="3" PointY="3.0357161458333328" />
+        </edmx:AssociationConnector>
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="11" PointY="3.25" Height="1.9210009765624996" />
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
 </edmx:Edmx>

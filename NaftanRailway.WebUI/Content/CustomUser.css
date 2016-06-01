@@ -11,7 +11,7 @@
     vertical-align: middle;
 }
 /*table head*/
-thead, tfoot ,th {
+thead, tfoot {
        background-color: rgb(231, 255, 255); 
 }  
 table > thead > tr > th {
