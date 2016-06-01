@@ -11,10 +11,15 @@
     vertical-align: middle;
 }
 /*table head*/
-table thead tr th {
+thead, tfoot ,th {
+       background-color: rgb(231, 255, 255); 
+}  
+table > thead > tr > th {
+    border: 3px solid black;
+    text-align: center;
+    padding: 3px;
     vertical-align: middle;
-    border: 1px solid black;
-}   
+} 
 /*head rotation*/
 .rotate{
 -moz-transform: rotate(90deg);  /* FF3.5+ */
