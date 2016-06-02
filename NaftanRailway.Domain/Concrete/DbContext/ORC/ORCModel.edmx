@@ -457,7 +457,7 @@
         <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3.25" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
         <edmx:AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">
           <edmx:ConnectorPoint PointX="7.25" PointY="4.44310546875" />
           <edmx:ConnectorPoint PointX="8.625" PointY="4.44310546875" />
