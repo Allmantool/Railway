@@ -56,17 +56,18 @@
                 }, new {@class = "form-inline"})){
                 @Html.Hidden("numberScroll", numberScroll)
                 @Html.Hidden("reportYear", reportYear.Year)
-           
+
                 <span id="filterForm">
-                    @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>)ViewBag.Filters);}
+                    @{ Html.RenderPartial("_FilterMenu", (IEnumerable<CheckListFilterModel>) ViewBag.Filters);}
                 </span>
+                
                 <button type="submit" class="form-control btn btn-primary">Фильтр</button>
             }
         </th>
     </tr>
     </thead>
     <tbody class="text-center" id="chargeOfList">
-    @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model);}
+        @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model);}
     </tbody>
 </table>
 <div id="loadingInfiniteScroll" class="text-center" style="display: none">

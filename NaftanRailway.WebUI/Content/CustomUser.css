@@ -12,12 +12,12 @@
 }
 /*table head*/
 thead, tfoot {
-       background-color: rgb(231, 255, 255); 
+    background-color: rgb(231, 255, 255); 
 }  
-table > thead > tr > th {
+table>thead>tr>th {
     border: 3px solid black;
     text-align: center;
-    padding: 3px;
+    padding: 5px;
     vertical-align: middle;
 } 
 /*head rotation*/
