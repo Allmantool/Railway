@@ -1,6 +1,6 @@
 ﻿/*body style for panel fixed-top*/
 .layer {
-    padding-top: 90px;
+    margin-top: 6.5em;
 }
 
 /*Row*/
@@ -14,18 +14,33 @@
 thead, tfoot {
     background-color: rgb(231, 255, 255); 
 }  
-table>thead>tr>th {
-    border: 3px solid black;
+/*table header style*/
+div#ScrollTable {
+    border-top: 1px solid black;
+}
+thead.tableHeader>tr>th {
+    border: 1px solid black;
     text-align: center;
-    padding: 5px;
+    padding: 3px;
     vertical-align: middle;
-} 
+    font-size: 0.95em;
+}
+/*table header style*/
+tbody.tableBody>tr>td {
+    vertical-align: middle;
+    text-align: center;
+}
+/*currency field style*/
+tbody.tableBody>tr>td.currencyField {
+    vertical-align: middle;
+    text-align: right; 
+}
 /*head rotation*/
 .rotate{
--moz-transform: rotate(90deg);  /* FF3.5+ */
--o-transform: rotate(90deg);  /* Opera 10.5 */
--webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
--ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.090);
+    -moz-transform: rotate(90deg);  /* FF3.5+ */
+    -o-transform: rotate(90deg);  /* Opera 10.5 */
+    -webkit-transform: rotate(90deg);  /* Saf3.1+, Chrome */
+    -ms-filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.090);
 }
 
 /*paging*/

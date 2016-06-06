@@ -21,9 +21,9 @@
         <td class="success vert-align" style="@(item.textm != null && item.textm.Length>40?@"min-width:320px;":"white-space:nowrap")">@item.textm</td>
         <td class="success vert-align">
         @{if (@item.date_raskr != null) {
-              @((Regex.IsMatch(@item.vidsbr.ToString(), @"30[01]", RegexOptions.IgnoreCase)) 
-                    ? @item.date_raskr.Value.ToString(CultureInfo.InvariantCulture) 
-                    : @item.date_raskr.Value.ToShortDateString());                      
+              @((Regex.IsMatch(@item.vidsbr.ToString(), @"30[01]", RegexOptions.IgnoreCase))
+                    ? @item.date_raskr.Value.ToString("dd.MM.yyyy HH:mm")
+                    : @item.date_raskr.Value.ToString("dd.MM.yyyy"));                      
         }}
         </td>
         <td class="success vert-align">@item.num_doc</td>
