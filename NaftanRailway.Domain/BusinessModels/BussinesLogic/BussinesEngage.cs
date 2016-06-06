@@ -181,7 +181,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     Uow.Repository<krt_Naftan>().Edit(chRecord);
                     if (!chRecord.Confirmed){
                         chRecord.Confirmed = true;
-                        chRecord.CounterVersion = 1;  
+                        chRecord.CounterVersion = 1;
                     }
                     
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);

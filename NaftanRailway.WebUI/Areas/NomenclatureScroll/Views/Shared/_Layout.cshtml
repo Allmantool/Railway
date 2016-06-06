@@ -97,11 +97,11 @@
             </div>
         </div>
     </div>
-<div class="panel row layer">
+<div class="panel row">
     @if (TempData["message"] != null && ((string) TempData["message"]).Length > 0){
         <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
     }
-    <div class="container-fluid">@RenderBody()</div>
+    <div class="container-fluid layer">@RenderBody()</div>
 </div>
 
 <!--[if lte IE 8]>
