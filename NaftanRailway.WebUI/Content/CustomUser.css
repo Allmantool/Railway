@@ -1,4 +1,13 @@
-﻿/*body style for panel fixed-top*/
+﻿#Brand {
+    width: auto;
+    height: 3em;
+    z-index: 10;
+    top: 0; 
+    left: 0; 
+    background-color: transparent; 
+    position:inherit;
+}
+/*body style for panel fixed-top*/
 .layer {
     margin-top: 6.5em;
 }

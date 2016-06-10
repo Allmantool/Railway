@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using NaftanRailway.Domain.BusinessModels;
 
 namespace NaftanRailway.WebUI.Controllers {
-    [Authorize]
+    //[Authorize]
     public class ActsController : Controller {
         /// <summary>
         /// List Acts in current shipping

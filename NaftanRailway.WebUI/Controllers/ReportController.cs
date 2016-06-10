@@ -6,7 +6,7 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 
 namespace NaftanRailway.WebUI.Controllers {
-    [Authorize]
+    //[Authorize]
     public class ReportController :Controller {
         private readonly ISessionDbRepository _sessionRepository;
 
