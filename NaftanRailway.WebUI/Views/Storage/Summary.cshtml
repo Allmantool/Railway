@@ -4,7 +4,7 @@
 <div class="navbar-right hidden-xs">
     @using(@Html.BeginForm("Index","Storage",
         FormMethod.Post,new {@class = "navbar-form navbar-nav"})) {
-            <button type="submit" class="form-control btn btn-block btn-link">Итог: <span class="glyphicon glyphicon-floppy-open"></span> @Model.Lines.Count()</button>
+            <button type="submit" class="form-control btn btn-block btn-link">Итог:<span style="margin-left: 0.3em;">@Model.Lines.Count()</span> <span class="glyphicon glyphicon-floppy-open"></span> </button>
         
             TempData["returnUrl"] = Request.Url != null ? Request.Url.PathAndQuery : "";
         }
@@ -15,4 +15,3 @@
         <span class="glyphicon glyphicon-list-alt"></span>
     </a>
 </div>
-

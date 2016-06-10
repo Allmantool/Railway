@@ -7,7 +7,7 @@ using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
-    [Authorize]
+    //[Authorize]
     public class StorageController : Controller {
         private readonly IBussinesEngage _bussinesEngage;
         
