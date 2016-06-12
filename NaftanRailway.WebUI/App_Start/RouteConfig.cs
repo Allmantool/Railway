@@ -12,7 +12,6 @@ namespace NaftanRailway.WebUI {
              * On IIS server config
              * <add name="UrlRoutingModule-4.0" type="System.Web.Routing.UrlRoutingModule" preCondition="" />
              */
-           
             routes.RouteExistingFiles = false;
 
             /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/
@@ -25,7 +24,7 @@ namespace NaftanRailway.WebUI {
 
             routes.MapRoute(
                 name: "Path_Full",
-                url: "{operationCategory}/Page{page}/Period{reportPeriod}/ShippingFilter{templateNumber}",
+                url: "{operationCategory}/Page{page}/Period{reportPeriod}/ShippingFilter{ShippingChoise}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
                 constraints: new { page = @"\d+" });

@@ -1,6 +1,8 @@
-﻿@model InputMenuViewModel
+﻿@using NaftanRailway.Domain.BusinessModels
+@model InputMenuViewModel
 @{
     Layout = null;
+    SessionStorage storage = new SessionStorage();
 }
 <div class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -10,23 +12,23 @@
                     <img alt="Brand" id="Brand" src="~/Content/Images/vagon.gif"/>
                 </a>
             </div>
-
             <div class="col-md-5">
-                @using (@Html.BeginForm("Index", "Ceh18", FormMethod.Post, new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
+                @using (@Ajax.BeginRouteForm("Path_Full",new RouteValueDictionary() { {"controller","Ceh18"}, {"action","Index"} },
+                    new AjaxOptions() {HttpMethod = "Get",OnSuccess = "",InsertionMode = InsertionMode.Replace,UpdateTargetId = ""},
+                    new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
                     <div class="form-group col-md-5" id="sandbox-container">
                         <div class="input-group date">
                             @Html.TextBoxFor(m => m.ReportPeriod, new {
                                 @class = "form-control", type = "text", @readonly = "readonly",
                                 @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.Value.ToString("MMMM yyyy") : DateTime.Today.ToString("MMMM yyyy").ToLower()
-                   })
+                            })
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
-
                     <div class="form-group col-md-7">
                         <div class="input-group col-md-10">
                             @Html.TextBoxFor(m => m.ShippingChoise, new {@class = "form-control ui-autocomplete-input", placeholder = "Поиск"})
-                            <span class=" input-group-btn">
+                            <span class="input-group-btn">
                                 <button type="submit" class="btn btn-default" id="searchBtn">
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
@@ -37,10 +39,12 @@
             </div>
             <div class="col-md-4">
                 <ul class="nav navbar-nav navbar-right">
-                    @if (@User.Identity.Name != String.Empty) { 
-                            <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                    @if (@User.Identity.Name != string.Empty) { 
+                        <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
                     }
-                    <li>@Html.Action("Summary", "Storage", new {returnUrl = Request.Url != null ? Request.Url.PathAndQuery : ""})</li>
+                    <li><a href="@Url.Action("Index", "Storage")">Итог:<span style="margin-left: 0.1em;">@storage.Lines.Count()</span>
+                            <span class="glyphicon glyphicon-floppy-open"></span></a>
+                    </li>
                     <li><a href="@Url.Action("Logout", "Account")">Выйти<span class="glyphicon glyphicon-log-out" style="margin-left: 0.3em;"></span></a></li>
                 </ul>
             </div>

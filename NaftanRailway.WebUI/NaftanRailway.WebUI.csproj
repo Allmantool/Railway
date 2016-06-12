@@ -687,7 +687,6 @@
   <ItemGroup>
     <Content Include="Views\Ceh18\ShippingSummary.cshtml" />
     <Content Include="Views\Storage\Index.cshtml" />
-    <Content Include="Views\Storage\Summary.cshtml" />
     <Content Include="Views\Storage\EditRow.cshtml" />
     <Content Include="Views\Storage\ReportCeh18.cshtml" />
     <Content Include="Views\Navigation\FlexMenu.cshtml" />

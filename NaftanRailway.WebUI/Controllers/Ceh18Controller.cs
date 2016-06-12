@@ -58,36 +58,34 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        [HttpPost]
-        public RedirectToRouteResult Index(InputMenuViewModel menuView) {
-            if(menuView.ShippingChoise == "") {
-                return RedirectToRoute("Period", new {
-                    reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
-                    page = 1
-                });
-            }
+        //[HttpPost]
+        //public RedirectToRouteResult Index(InputMenuViewModel menuView) {
+        //    if(menuView.ShippingChoise == "") {
+        //        return RedirectToRoute("Period", new {
+        //            reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+        //            page = 1
+        //        });
+        //    }
 
-            return RedirectToRoute("Path_Full", new {
-                reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
-                templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
-                page = 1
-            });
-        }
+        //    return RedirectToRoute("Path_Full", new {
+        //        reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+        //        templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
+        //        page = 1
+        //    });
+        //}
         /// <summary>
         /// For shipping number autoComplete
         /// </summary>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
-            if(menuView.ReportPeriod != null) {
-                DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+            if (menuView.ReportPeriod == null) return Json("", JsonRequestBehavior.AllowGet);
 
-                IEnumerable<string> result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, chooseDate);
+            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+            IEnumerable<string> result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, chooseDate);
 
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// Return grouping by oper result
