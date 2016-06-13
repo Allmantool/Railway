@@ -36,8 +36,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int pageSize = 8) {
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree)
 
-            var sub1 = GetSkipRows<krt_Guild18, int>(page, pageSize, x => x.recordNumber, x => x.reportPeriod == chooseDate);
-            //var sub2 = GetTable<v_otpr, int>(x => sub1.Contains());
             var result = from kg in Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate).ToList()
                          join vo in Uow.Repository<v_otpr>().Get_all(x => x.state == 32).AsExpandable() on kg.idDeliviryNote equals vo.id into g1
                          from j1 in g1.DefaultIfEmpty()
