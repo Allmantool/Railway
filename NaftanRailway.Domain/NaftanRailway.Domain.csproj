@@ -159,6 +159,9 @@
     <Compile Include="Concrete\DbContext\ORC\krt_DetailsProgress.cs">
       <DependentUpon>ORCModelEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContext\ORC\krt_Guild18.cs">
+      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Naftan.cs">
       <DependentUpon>ORCModelEntities.tt</DependentUpon>
     </Compile>

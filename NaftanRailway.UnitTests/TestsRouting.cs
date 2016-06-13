@@ -5,7 +5,7 @@ namespace NaftanRailway.UnitTests {
     [TestClass]
     public class TestsRouting {
         [TestMethod]
-        public void IncomingUrl() {
+        public void TestMethod1() {
         }
     }
 }

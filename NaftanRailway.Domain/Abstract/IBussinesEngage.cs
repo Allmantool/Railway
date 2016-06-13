@@ -12,7 +12,7 @@ namespace NaftanRailway.Domain.Abstract {
     /// This interface use for work with data DB (to select data in ORC and Sopod)
     /// </summary>
     public interface IBussinesEngage : IDisposable {
-        IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int shiftDate, int pageSize);
+        IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize);
         //long ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
         //IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);

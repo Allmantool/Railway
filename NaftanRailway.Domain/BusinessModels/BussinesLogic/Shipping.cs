@@ -1,7 +1,9 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
+using NaftanRailway.Domain.Concrete.DbContext.ORC;
 
 namespace NaftanRailway.Domain.BusinessModels {
     /// <summary>
@@ -10,9 +12,8 @@ namespace NaftanRailway.Domain.BusinessModels {
     public class Shipping {
         private bool IsSelected { get; set; }
         public v_otpr VOtpr { get; set; }
-        public IEnumerable<v_o_v> Vov { get; set; }
-        public IEnumerable<etsng> Etsng { get; set; }
-
+        public etsng Etsng { get; set; }
+        public krt_Guild18 Guild18 { get; set; }
         public Shipping() {
             IsSelected = true;
         }

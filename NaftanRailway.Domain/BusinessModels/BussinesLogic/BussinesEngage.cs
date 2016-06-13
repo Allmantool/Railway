@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using LinqKit;
+using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -31,29 +33,23 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int shiftDate = 3, int pageSize = 8) {
-            DateTime startDate = chooseDate.AddDays(-shiftDate);
-            DateTime endDate = chooseDate.AddMonths(1).AddDays(shiftDate);
+        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int pageSize = 8) {
+            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree)
 
-            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together)
-            var srcEntsg = GetTable<etsng, long>().ToList();
+            var sub1 = GetSkipRows<krt_Guild18, int>(page, pageSize, x => x.recordNumber, x => x.reportPeriod == chooseDate);
+            //var sub2 = GetTable<v_otpr, int>(x => sub1.Contains());
+            var result = from kg in Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate).ToList()
+                         join vo in Uow.Repository<v_otpr>().Get_all(x => x.state == 32).AsExpandable() on kg.idDeliviryNote equals vo.id into g1
+                         from j1 in g1.DefaultIfEmpty()
+                         //join e in Uow.Repository<etsng>().Get_all().AsExpandable() on j1.cod_tvk_etsng equals e.etsng1 into g2
+                         //from j2 in g2.DefaultIfEmpty()
+                         select new Shipping(){
+                             //VOtpr = j1,
+                             Guild18 = kg,
+                             //Etsng = j2
+                         };
 
-            var srcShipping = GetSkipRows<v_otpr, DateTime?>(page, pageSize, x => x.date_oper,
-                     x => x.state == 32 &&
-                     ((new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) && x.oper == 1) ||
-                        (new[] { "3494", "349402" }.Contains(x.cod_klient_pol) && x.oper == 2)) &&
-                     (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
-                     (x.date_oper >= startDate && x.date_oper <= endDate));
-
-            return (from itemSh in srcShipping
-                    join itemEtsng in srcEntsg on itemSh.cod_tvk_etsng equals itemEtsng.etsng1
-                        into gResult
-                    from leftJoinResult in gResult.DefaultIfEmpty()
-                    select new Shipping() {
-                        VOtpr = itemSh,
-                        Etsng = gResult,
-                        Vov = GetTable<v_o_v, long>(cr => cr.id_otpr == itemSh.id)
-                    }).ToList();
+            return result.ToList();
         }
         /// <summary>
         /// Autocomplete function

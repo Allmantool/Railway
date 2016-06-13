@@ -17,6 +17,25 @@
           <Property Name="nameSbr" Type="nvarchar(max)" />
           <Property Name="lastDate" Type="date" />
         </EntityType>
+        <EntityType Name="krt_Guild18">
+          <Key>
+            <PropertyRef Name="reportPeriod" />
+            <PropertyRef Name="recordNumber" />
+          </Key>
+          <Property Name="reportPeriod" Type="date" Nullable="false" />
+          <Property Name="recordNumber" Type="int" Nullable="false" />
+          <Property Name="warehouse" Type="int" />
+          <Property Name="idDeliviryNote" Type="int" />
+          <Property Name="idCarriage" Type="bigint" />
+          <Property Name="type_doc" Type="tinyint" />
+          <Property Name="idSrcDocument" Type="bigint" />
+          <Property Name="codeType" Type="bit" Nullable="false" />
+          <Property Name="code" Type="int" Nullable="false" />
+          <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="idScroll" Type="bigint" Nullable="false" />
+          <Property Name="idCard" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="krt_Naftan">
           <Key>
             <PropertyRef Name="KEYKRT" />
@@ -150,6 +169,7 @@
         <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ORCModelEntitiesStoreContainer">
           <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orc_krt" EntityType="Self.orc_krt" Schema="dbo" store:Type="Tables" />
@@ -181,6 +201,7 @@
             <End Role="orc_sbor" EntitySet="orc_sbors" />
           </AssociationSet>
           <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.krt_DetailsProgress" />
+          <EntitySet Name="krt_Guild18" EntityType="ORCModelEntities.krt_Guild18" />
         </EntityContainer>
         <EntityType Name="krt_Naftan">
           <Key>
@@ -325,6 +346,25 @@
           <Property Type="String" Name="nameSbr" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="DateTime" Name="lastDate" Precision="0" />
         </EntityType>
+        <EntityType Name="krt_Guild18">
+          <Key>
+            <PropertyRef Name="reportPeriod" />
+            <PropertyRef Name="recordNumber" />
+          </Key>
+          <Property Name="reportPeriod" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="recordNumber" Type="Int32" Nullable="false" />
+          <Property Name="warehouse" Type="Int32" />
+          <Property Name="idDeliviryNote" Type="Int32" />
+          <Property Name="idCarriage" Type="Int64" />
+          <Property Name="type_doc" Type="Byte" />
+          <Property Name="idSrcDocument" Type="Int64" />
+          <Property Name="codeType" Type="Boolean" Nullable="false" />
+          <Property Name="code" Type="Int32" Nullable="false" />
+          <Property Name="sum" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="rateVAT" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
+          <Property Name="idScroll" Type="Int64" Nullable="false" />
+          <Property Name="idCard" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -431,6 +471,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="krt_Guild18">
+            <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
+              <MappingFragment StoreEntitySet="krt_Guild18">
+                <ScalarProperty Name="idCard" ColumnName="idCard" />
+                <ScalarProperty Name="idScroll" ColumnName="idScroll" />
+                <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
+                <ScalarProperty Name="sum" ColumnName="sum" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="codeType" ColumnName="codeType" />
+                <ScalarProperty Name="idSrcDocument" ColumnName="idSrcDocument" />
+                <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+                <ScalarProperty Name="idCarriage" ColumnName="idCarriage" />
+                <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />
+                <ScalarProperty Name="warehouse" ColumnName="warehouse" />
+                <ScalarProperty Name="recordNumber" ColumnName="recordNumber" />
+                <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -453,7 +512,7 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="ORCModel" ZoomLevel="82">
+      <edmx:Diagram Name="ORCModel" ZoomLevel="71">
         <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
@@ -466,7 +525,8 @@
           <edmx:ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
           <edmx:ConnectorPoint PointX="3" PointY="3.0357161458333328" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="11" PointY="3.25" Height="1.9210009765624996" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="2.875" PointY="6.625" Height="1.9210009765624996" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Guild18" Width="1.5" PointX="1" PointY="6" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

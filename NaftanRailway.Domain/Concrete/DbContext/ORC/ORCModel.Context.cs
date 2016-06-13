@@ -12,23 +12,5 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
-    public partial class ORCEntities : DbContext
-    {
-        public ORCEntities()
-            : base("name=ORCEntities")
-        {
-        }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<krt_Naftan> krt_Naftans { get; set; }
-        public virtual DbSet<krt_Naftan_orc_sapod> krt_Naftan_orc_sapods { get; set; }
-        public virtual DbSet<orc_krt> orc_krts { get; set; }
-        public virtual DbSet<orc_sbor> orc_sbors { get; set; }
-        public virtual DbSet<krt_DetailsProgress> krt_DetailsProgress { get; set; }
-    }
+   
 }

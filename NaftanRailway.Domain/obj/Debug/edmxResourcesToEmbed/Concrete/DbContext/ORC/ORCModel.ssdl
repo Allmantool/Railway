@@ -12,6 +12,25 @@
     <Property Name="nameSbr" Type="nvarchar(max)" />
     <Property Name="lastDate" Type="date" />
   </EntityType>
+  <EntityType Name="krt_Guild18">
+    <Key>
+      <PropertyRef Name="reportPeriod" />
+      <PropertyRef Name="recordNumber" />
+    </Key>
+    <Property Name="reportPeriod" Type="date" Nullable="false" />
+    <Property Name="recordNumber" Type="int" Nullable="false" />
+    <Property Name="warehouse" Type="int" />
+    <Property Name="idDeliviryNote" Type="int" />
+    <Property Name="idCarriage" Type="bigint" />
+    <Property Name="type_doc" Type="tinyint" />
+    <Property Name="idSrcDocument" Type="bigint" />
+    <Property Name="codeType" Type="bit" Nullable="false" />
+    <Property Name="code" Type="int" Nullable="false" />
+    <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+    <Property Name="idScroll" Type="bigint" Nullable="false" />
+    <Property Name="idCard" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>
       <PropertyRef Name="KEYKRT" />
@@ -145,6 +164,7 @@
   <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="ORCModelEntitiesStoreContainer">
     <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="orc_krt" EntityType="Self.orc_krt" Schema="dbo" store:Type="Tables" />

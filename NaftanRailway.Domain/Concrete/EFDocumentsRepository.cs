@@ -145,7 +145,7 @@ namespace NaftanRailway.Domain.Concrete {
                 return (from itemOtpr in ShippinNumbers
                         join itemOv in CarriageNumbers on itemOtpr.id equals itemOv.id_otpr into gOtpr
                         from otrpitemResultVov in gOtpr.DefaultIfEmpty()
-                        select new Shipping() { VOtpr = itemOtpr, Vov = gOtpr }).AsQueryable();
+                        select new Shipping() { VOtpr = itemOtpr }).AsQueryable();
             }
         }
 

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
+using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -26,26 +27,21 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpGet]
         public ViewResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
             const int pageSize = 8;
-            const int shiftDay = 3;
         
-            menuView.ShippingChoise = menuView.ShippingChoise ?? "";
+            menuView.ShippingChoise = menuView.ShippingChoise ?? string.Empty;
 
-            if(menuView.ReportPeriod == null) {
-                menuView.ReportPeriod = storage.ReportPeriod;
-            } else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
+            if (menuView.ReportPeriod == null) 
+                { menuView.ReportPeriod = storage.ReportPeriod; }
+            else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
 
             DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
-            var startDate = chooseDate.AddDays(-shiftDay);
-            var endDate = chooseDate.AddMonths(1).AddDays(shiftDay);
 
             DispatchListViewModel model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, shiftDay, pageSize),
+                Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, pageSize),
                 PagingInfo = new PagingInfo() {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = _bussinesEngage.GetCountRows<v_otpr>(x=>x.n_otpr.StartsWith(menuView.ShippingChoise) &&
-                            (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory) &&
-                            (x.date_oper >= startDate && x.date_oper <= endDate))
+                    TotalItems = _bussinesEngage.GetCountRows<krt_Guild18>(x=>x.reportPeriod == chooseDate )//&& (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory))
                 },
                 OperationCategory = operationCategory,
                 Menu = menuView

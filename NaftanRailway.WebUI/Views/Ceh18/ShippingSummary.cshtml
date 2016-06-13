@@ -32,7 +32,7 @@
     <div id="@(ViewData["index"])" class="collapse row">
         <div class="panel-body">
             <ul class="list-inline text-center small">
-                <li><strong>Вагон(ы) №:</strong> @String.Join(", ", Model.Vov)</li>
+                <li><strong>Вагон(ы) №:</strong> @String.Join(", ", 1)</li>
                 <li><strong>Описание:</strong> @Model.VOtpr.g11</li>
                 <li><strong>Договор:</strong> @(Model.VOtpr.g6.Length > 0 ?  Model.VOtpr.g6 : string.Empty)</li>
             </ul>
