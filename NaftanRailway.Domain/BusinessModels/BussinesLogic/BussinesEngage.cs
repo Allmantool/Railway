@@ -45,16 +45,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             var cashSrc2 = Uow.Repository<v_otpr>().Get_all(votprPredicate, false).ToList();
 
             var result = (from kg in cashSrc join vo in cashSrc2 on kg.Key.idDeliviryNote equals vo.id
-                         join e in Uow.Repository<etsng>().Get_all(enablecaching:false) on vo.cod_tvk_etsng equals e.etsng1
-                         select new Shipping() {
-                             VOtpr = vo,
-                             Etsng = e,
-                             Guild18 = new krt_Guild18 {
-                                 reportPeriod = kg.Key.reportPeriod, 
-                                 idDeliviryNote = kg.Key.idDeliviryNote, 
-                                 warehouse = kg.Key.warehouse
-                             }
-                         }).Where(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All).ToList();
+                          join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on vo.cod_tvk_etsng equals e.etsng1
+                          select new Shipping() {
+                              VOtpr = vo,
+                              Etsng = e,
+                              Guild18 = new krt_Guild18 {
+                                  reportPeriod = kg.Key.reportPeriod,
+                                  idDeliviryNote = kg.Key.idDeliviryNote,
+                                  warehouse = kg.Key.warehouse
+                              }
+                          }).Where(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All).ToList();
 
             recordCount = result.Count();
             return result;
