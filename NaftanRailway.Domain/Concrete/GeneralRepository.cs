@@ -7,14 +7,19 @@ using NaftanRailway.Domain.Abstract;
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
         private bool _disposed;
-        public System.Data.Entity.DbContext _context { get; private set; }
+        public System.Data.Entity.DbContext Context { get; private set; }
         private readonly DbSet<T> _dbSet;
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
-            _context = context;
+            Context = context;
             _dbSet = context.Set<T>();
         }
-
+        /// <summary>
+        /// Get lazy data set (with cashing or not (attr MergeOption )
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="enablecaching"></param>
+        /// <returns></returns>
         public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null,bool enablecaching = true) {
             if (predicate != null) {
                 /*//sync data in Db & EF (if change not tracking for EF)
@@ -42,41 +47,46 @@ namespace NaftanRailway.Domain.Concrete {
             return predicate == null ? _dbSet.FirstOrDefault() : _dbSet.FirstOrDefault(predicate);
         }
 
-        public void Add(T entity) {
+        public void Add(T entity,bool detectChanges = true){
+            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
             _dbSet.Add(entity);
         }
+
         /// <summary>
         /// Mark all field of record as dirty => update all field (marking the whole entity as dirty)
         /// </summary>
         /// <param name="entity"></param>
-        public void Update(T entity) {
-            _context.Entry(entity).State = EntityState.Modified;
+        /// <param name="detectChanges"></param>
+        public void Update(T entity, bool detectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+            Context.Entry(entity).State = EntityState.Modified;
         }
 
         public void Delete(Expression<Func<T, bool>> predicate) {
             var entity = _dbSet.FirstOrDefault(predicate);
 
             if (entity != null)
-                _context.Entry(entity).State = EntityState.Deleted;
+                Context.Entry(entity).State = EntityState.Deleted;
         }
 
         public void Delete(T entity) {
-            _context.Entry(entity).State = EntityState.Deleted;
+            Context.Entry(entity).State = EntityState.Deleted;
         }
 
         /// <summary>
         /// if call saveChanges after change some property, this EntityState update only need field
         /// </summary>
         /// <param name="entity"></param>
-        public void Edit(T entity) {
+        /// <param name="detectChanges"></param>
+        public void Edit(T entity, bool detectChanges = true) {
             //_dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Unchanged;
+            Context.Entry(entity).State = EntityState.Unchanged;
         }
 
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing)
-                    _context.Dispose();
+                    Context.Dispose();
             }
             _disposed = true;
         }

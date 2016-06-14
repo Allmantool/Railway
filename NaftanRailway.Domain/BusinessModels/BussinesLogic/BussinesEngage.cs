@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using LinqKit;
-using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -23,8 +22,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             Uow = unitOfWork;
             _disposed = false;
         }
-        /// <summary>
-        /// Формирования объекта отображения информации об отправках
+
+        /// <summary>   
+        /// Формирования объекта отображения информации об отправках (по накладной за отчётный месяц)
         /// </summary>
         /// <param name="templShNumber">Regular expression for searched filter</param>
         /// <param name="operationCategory">filter on category</param>
@@ -32,22 +32,32 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="page">Current page</param>
         /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
+        /// <param name="recordCount"></param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, int page = 1, int pageSize = 8) {
-            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree)
+        public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out int recordCount) {
+            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
+            var cashSrc = Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate)
+                .GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
+                .OrderBy(x => x.Key.idDeliviryNote).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
+            //linqkit
+            var votprPredicate = PredicateBuilder.False<v_otpr>();//and(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All) +inner join 
+            votprPredicate = cashSrc.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
+            var cashSrc2 = Uow.Repository<v_otpr>().Get_all(votprPredicate, false).ToList();
 
-            var result = from kg in Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate).ToList()
-                         join vo in Uow.Repository<v_otpr>().Get_all(x => x.state == 32).AsExpandable() on kg.idDeliviryNote equals vo.id into g1
-                         from j1 in g1.DefaultIfEmpty()
-                         //join e in Uow.Repository<etsng>().Get_all().AsExpandable() on j1.cod_tvk_etsng equals e.etsng1 into g2
-                         //from j2 in g2.DefaultIfEmpty()
-                         select new Shipping(){
-                             //VOtpr = j1,
-                             Guild18 = kg,
-                             //Etsng = j2
-                         };
+            var result = (from kg in cashSrc join vo in cashSrc2 on kg.Key.idDeliviryNote equals vo.id
+                         join e in Uow.Repository<etsng>().Get_all(enablecaching:false) on vo.cod_tvk_etsng equals e.etsng1
+                         select new Shipping() {
+                             VOtpr = vo,
+                             Etsng = e,
+                             Guild18 = new krt_Guild18 {
+                                 reportPeriod = kg.Key.reportPeriod, 
+                                 idDeliviryNote = kg.Key.idDeliviryNote, 
+                                 warehouse = kg.Key.warehouse
+                             }
+                         }).Where(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All).ToList();
 
-            return result.ToList();
+            recordCount = result.Count();
+            return result;
         }
         /// <summary>
         /// Autocomplete function
@@ -127,7 +137,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
         public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate).Count();
+                return Uow.Repository<T>().Get_all(predicate, false).Count();
             }
         }
         /// <summary>
@@ -142,12 +152,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <returns>Return definition count rows of specific entity</returns>
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(filterPredicate).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
+                return Uow.Repository<T>().Get_all(filterPredicate, false).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
         public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate).GroupBy(groupPredicate).OrderBy(x=>x.Key).Select(x => x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate, false).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
             }
         }
         /// <summary>
@@ -164,8 +174,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    Uow.Repository<krt_Naftan_orc_sapod>()._context.Database.CommandTimeout = 120;
-                    Uow.Repository<krt_Naftan_orc_sapod>()._context.Database.ExecuteSqlCommand(@"EXEC @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
+                    Uow.Repository<krt_Naftan_orc_sapod>().Context.Database.CommandTimeout = 120;
+                    Uow.Repository<krt_Naftan_orc_sapod>().Context.Database.ExecuteSqlCommand(@"EXEC @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
                     //alternative, get gropu of entities and then  save in db
                     //this.Database.SqlQuery<YourEntityType>("storedProcedureName",params);
 
@@ -173,11 +183,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     krt_Naftan chRecord = Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
 
                     Uow.Repository<krt_Naftan>().Edit(chRecord);
-                    if (!chRecord.Confirmed){
+                    if (!chRecord.Confirmed) {
                         chRecord.Confirmed = true;
                         chRecord.CounterVersion = 1;
                     }
-                    
+
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
                 } catch (Exception e) {
                     msgError = e.Message;

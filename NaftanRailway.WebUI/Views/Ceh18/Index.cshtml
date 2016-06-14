@@ -22,11 +22,11 @@
         </div>  
 
         <!--pagging -->
-        <div class="col-lg-12 text-right bottom">
-            @if (Model.PagingInfo.TotalItems > 0){
+        <div class="text-center navbar-fixed-bottom navbar navbar-default">
+            @if (Model.PagingInfo.TotalItems > 0) {
                 <div class="btn-group hidden-xs">
                     @Html.PageLinks(Model.PagingInfo, 21, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
-                        new{
+                        new {
                             page = x,
                             operationCategory = Model.OperationCategory,
                             reportPeriod = Model.Menu.ReportPeriod != null ?
@@ -37,7 +37,7 @@
                 </div>
                 <div class="btn-group pull-right visible-xs">
                     @Html.PageLinks(Model.PagingInfo, 10, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
-                        new{
+                        new {
                             page = x,
                             operationCategory = Model.OperationCategory,
                             reportPeriod = Model.Menu.ReportPeriod != null ?

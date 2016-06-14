@@ -7,7 +7,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Actual working dbContext
         /// </summary>
-        System.Data.Entity.DbContext _context { get; }
+        System.Data.Entity.DbContext Context { get; }
 
         /// <summary>
         /// Get all or filter result
@@ -27,17 +27,22 @@ namespace NaftanRailway.Domain.Abstract {
         /// Add general entity
         /// </summary>
         /// <param name="entity"></param>
-        void Add(T entity);
+        /// <param name="detectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Add(T entity,bool detectChanges = true);
+
         /// <summary>
         /// Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
         /// </summary>
         /// <param name="entity"></param>
-        void Edit(T entity);
+        /// <param name="detectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Edit(T entity, bool detectChanges = true);
+
         /// <summary>
         /// Update concrete entity  (Update all property, mark entity as modified)
         /// </summary>
         /// <param name="entity"></param>
-        void Update(T entity);
+        /// <param name="detectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Update(T entity,bool detectChanges = true);
         /// <summary>
         /// Delete concrete entity
         /// </summary>

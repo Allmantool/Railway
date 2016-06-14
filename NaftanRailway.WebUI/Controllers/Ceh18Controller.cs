@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -26,9 +24,8 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ViewResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
-            const int pageSize = 8;
-        
-            menuView.ShippingChoise = menuView.ShippingChoise ?? string.Empty;
+            const int pageSize = 10;
+            int recordCount;
 
             if (menuView.ReportPeriod == null) 
                 { menuView.ReportPeriod = storage.ReportPeriod; }
@@ -36,12 +33,12 @@ namespace NaftanRailway.WebUI.Controllers {
 
             DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
-            DispatchListViewModel model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(menuView.ShippingChoise, operationCategory, chooseDate, page, pageSize),
+            var model = new DispatchListViewModel() {
+                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, chooseDate, page, pageSize,out recordCount),
                 PagingInfo = new PagingInfo() {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = _bussinesEngage.GetCountRows<krt_Guild18>(x=>x.reportPeriod == chooseDate )//&& (operationCategory == EnumOperationType.All || x.oper == (short)operationCategory))
+                    TotalItems = recordCount
                 },
                 OperationCategory = operationCategory,
                 Menu = menuView
@@ -54,21 +51,21 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //public RedirectToRouteResult Index(InputMenuViewModel menuView) {
-        //    if(menuView.ShippingChoise == "") {
-        //        return RedirectToRoute("Period", new {
-        //            reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
-        //            page = 1
-        //        });
-        //    }
+        [HttpPost]
+        public RedirectToRouteResult Index(InputMenuViewModel menuView) {
+            if (menuView.ShippingChoise == "") {
+                return RedirectToRoute("Period", new {
+                    reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+                    page = 1
+                });
+            }
 
-        //    return RedirectToRoute("Path_Full", new {
-        //        reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
-        //        templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
-        //        page = 1
-        //    });
-        //}
+            return RedirectToRoute("Path_Full", new {
+                reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+                templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
+                page = 1
+            });
+        }
         /// <summary>
         /// For shipping number autoComplete
         /// </summary>
