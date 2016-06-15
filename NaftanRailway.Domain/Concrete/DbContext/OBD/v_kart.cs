@@ -21,14 +21,9 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public Nullable<System.DateTime> date_okrt { get; set; }
         public string cod_pl { get; set; }
         public Nullable<short> nod_pl { get; set; }
-        public string mfo { get; set; }
-        public string rash { get; set; }
-        public Nullable<int> num_plat_por { get; set; }
-        public Nullable<System.DateTime> date_plat_por { get; set; }
         public Nullable<short> type_kart { get; set; }
         public string cod_ls { get; set; }
         public string num_dogovor { get; set; }
-        public string cod_currency { get; set; }
         public Nullable<decimal> summa { get; set; }
         public Nullable<long> state { get; set; }
         public string num_fdu93 { get; set; }

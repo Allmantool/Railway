@@ -17,123 +17,25 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public int id { get; set; }
         public Nullable<int> state { get; set; }
         public Nullable<long> n_visas { get; set; }
-        public string num_zag { get; set; }
-        public string uni_otpr { get; set; }
         public string stan_oper { get; set; }
         public Nullable<short> oper { get; set; }
         public Nullable<System.DateTime> date_oper { get; set; }
         public string n_otpr { get; set; }
-        public Nullable<short> vid_doc { get; set; }
-        public Nullable<short> cod_vidot { get; set; }
-        public Nullable<short> cod_v_soob { get; set; }
-        public Nullable<short> skor { get; set; }
-        public Nullable<System.DateTime> date_p { get; set; }
-        public Nullable<System.DateTime> date_o { get; set; }
         public string cod_st_otpr { get; set; }
-        public Nullable<short> cod_coun_otpr { get; set; }
         public string cod_kl_otpr { get; set; }
-        public Nullable<short> nod_kl_otpr { get; set; }
-        public string cod_st_nazn { get; set; }
-        public Nullable<short> cod_coun_nazn { get; set; }
         public string cod_klient_pol { get; set; }
-        public Nullable<short> nod_kl_pol { get; set; }
-        public Nullable<int> rast_bel { get; set; }
         public string cod_currency { get; set; }
-        public Nullable<short> cod_o_mas { get; set; }
-        public string pogr { get; set; }
-        public string paragr { get; set; }
-        public string glava { get; set; }
         public string g6 { get; set; }
-        public Nullable<decimal> cena { get; set; }
-        public Nullable<short> shema { get; set; }
-        public Nullable<decimal> plata { get; set; }
-        public string rod_ps { get; set; }
-        public Nullable<short> cod_vidras { get; set; }
-        public Nullable<short> cod_vidrab { get; set; }
         public string g4 { get; set; }
-        public string g16 { get; set; }
-        public string codrsd { get; set; }
         public string g8 { get; set; }
-        public string g91 { get; set; }
-        public Nullable<short> cod_adm_o { get; set; }
-        public Nullable<short> cod_adm_n { get; set; }
-        public Nullable<System.DateTime> date_dostav { get; set; }
-        public Nullable<int> massa_rasch { get; set; }
-        public string g5 { get; set; }
         public string g11 { get; set; }
-        public string g18 { get; set; }
-        public string g19 { get; set; }
-        public string g20 { get; set; }
-        public string g26 { get; set; }
-        public string g1 { get; set; }
         public string cod_tvk_etsng { get; set; }
-        public string cod_tvk_algng { get; set; }
         public Nullable<int> massa_otpr { get; set; }
-        public Nullable<short> cod_upak { get; set; }
-        public Nullable<short> tvg_k_mest { get; set; }
-        public Nullable<short> tvg_tara { get; set; }
-        public string tvk_zn_otpr { get; set; }
-        public string rem_isk_tarif { get; set; }
-        public string tiptarif { get; set; }
-        public string dogovor_kl_kl { get; set; }
-        public string cod_st_sort_kont { get; set; }
-        public string cod_plat { get; set; }
-        public string name_plat { get; set; }
-        public Nullable<short> nod_plat { get; set; }
         public Nullable<int> type_doc { get; set; }
-        public Nullable<short> vid_vag_pf { get; set; }
-        public Nullable<short> container_train { get; set; }
-        public Nullable<int> cod_tip_tar { get; set; }
-        public Nullable<decimal> pl_provoz { get; set; }
-        public Nullable<decimal> nds_pl_provoz { get; set; }
-        public Nullable<decimal> pl_prov { get; set; }
-        public Nullable<decimal> nds_pl_prov { get; set; }
-        public Nullable<decimal> pl_dsb { get; set; }
-        public Nullable<decimal> nds_pl_dsb { get; set; }
-        public Nullable<decimal> pl_all { get; set; }
-        public Nullable<decimal> pl_pr_ot { get; set; }
-        public Nullable<decimal> pl_prov_ot { get; set; }
-        public Nullable<decimal> pl_prib_tranzit { get; set; }
-        public Nullable<decimal> pl_ot_tran { get; set; }
-        public Nullable<int> pr_nds_pl_provoz { get; set; }
-        public Nullable<int> pr_nds_dsb { get; set; }
-        public Nullable<decimal> k_usr_br { get; set; }
-        public Nullable<decimal> k_rur_br { get; set; }
-        public Nullable<decimal> tp_stavka { get; set; }
-        public string g8_1 { get; set; }
-        public string adr_kl_1000 { get; set; }
-        public string fio_kl_1000 { get; set; }
-        public Nullable<decimal> ves_one_places { get; set; }
-        public Nullable<int> vidkoforrr { get; set; }
-        public Nullable<bool> extract_passport { get; set; }
-        public string stan_izlom0 { get; set; }
-        public string stan_izlom1 { get; set; }
-        public string stan_izlom2 { get; set; }
-        public Nullable<decimal> kof_tp { get; set; }
-        public Nullable<decimal> nds_tp { get; set; }
-        public string g8_stik { get; set; }
-        public Nullable<decimal> pogr_ves { get; set; }
-        public Nullable<bool> save_dispatcher_g20 { get; set; }
-        public string num_doc_reforwarding { get; set; }
-        public string stan_transfer { get; set; }
-        public Nullable<short> rate_divide_scales { get; set; }
-        public string rem_vid_ras { get; set; }
-        public string rem_skidki { get; set; }
-        public Nullable<short> skidka { get; set; }
-        public Nullable<decimal> kof_skid { get; set; }
-        public Nullable<int> pr_external_work { get; set; }
         public string adr_otpr { get; set; }
         public string adr_pol { get; set; }
         public string nam_otpr { get; set; }
-        public string nam_pol { get; set; }
         public string fio_tk { get; set; }
-        public string id_plant { get; set; }
-        public string class_dan { get; set; }
-        public Nullable<short> num_oon { get; set; }
-        public Nullable<short> num_dan_kart { get; set; }
-        public Nullable<int> id_mes_plan { get; set; }
-        public Nullable<decimal> return_empty_vag { get; set; }
-        public Nullable<decimal> nds_return_empty { get; set; }
-        public Nullable<decimal> prib_return_empty { get; set; }
+        public string nam_pol { get; set; }
     }
 }

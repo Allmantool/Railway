@@ -44,13 +44,10 @@ $('#sandbox-container .input-group').datepicker({
     orientation: "bottom auto",
     forceParse: true
 }).on('changeDate', function(e) {
-    var datePicker = moment($(e.date)).format('YYYY.MM.01');
-    //    var strReportDate = chkRow.children("td[class*=DTBUHOTCHET]").text().split(/\s+/);
-    //    moment(new Date(strReportDate[1],
-    //            $.inArray(strReportDate[0], ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]) + 1))
-    //        .format('YYYY.MM.01');
+    $(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
+    //window.href ='/All/Page1/Period' +  datePicker;
 }).on('show', function(e) {
-    var datePicker = moment($(e.date)).format('YYYY.MM.01');
+   // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
 /*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)

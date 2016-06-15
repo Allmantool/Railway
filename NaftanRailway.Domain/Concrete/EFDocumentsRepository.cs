@@ -7,6 +7,7 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using MoreLinq;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 
 
 namespace NaftanRailway.Domain.Concrete {

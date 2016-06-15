@@ -21,10 +21,8 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         public PartialViewResult MenuTypeOperations(InputMenuViewModel menuView, string operationCategory = null) {
             ViewBag.SelectedCategory = operationCategory;
-
-            var typeOperations = _bussinesEngage.GetGroup<v_otpr, short?>(x => x.oper); 
             //Передаем динамически типы операций
-            ViewBag.TypeOperation = typeOperations.AsEnumerable();
+            ViewBag.TypeOperation = _bussinesEngage.GetGroup<v_otpr, short?>(x => x.oper).ToList(); 
 
             return PartialView("FlexMenu", menuView);
         }

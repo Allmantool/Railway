@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;

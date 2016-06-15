@@ -1,4 +1,4 @@
-﻿@model NaftanRailway.Domain.BusinessModels.Shipping
+﻿@model NaftanRailway.Domain.BusinessModels.BussinesLogic.Shipping
 @{
     Layout = null;
 }
@@ -7,18 +7,25 @@
         <div class="col-lg-2 row">
             <ul class="list-inline text-capitalize">
                 <li class="panel-title">
-                    @(ViewData["index"])) <span class ="@(Model.VOtpr.oper == 1 ? "glyphicon glyphicon-road" : "glyphicon glyphicon-home")"> </span>  
-                    <a href="#@(ViewData["index"])" data-toggle="collapse">@Model.VOtpr.n_otpr</a>
+                    @(ViewData["index"]))
+                    @if(Model.VOtpr != null){
+                        <span class ="@(Model.VOtpr.oper == 1 ? "glyphicon glyphicon-road" : "glyphicon glyphicon-home")"></span>  
+                        <a href="#@(ViewData["index"])" data-toggle="collapse">@Model.VOtpr.n_otpr</a>
+                    } else {
+                        <a href="#@(ViewData["index"])" data-toggle="collapse">Доп. сбор</a>
+                    }
                 </li>
             </ul>
         </div>
         <div class="col-lg-9 row">
             <ul class="list-inline text-center">
-                <li><strong>От:</strong> @Model.VOtpr.adr_otpr @Model.VOtpr.nam_otpr</li>
-                <li><span class="glyphicon glyphicon-arrow-right"></span></li>
-                <li><strong>Кому:</strong> @Model.VOtpr.adr_pol @Model.VOtpr.nam_pol</li>
-                <li><strong>Груз:</strong> @String.Join(", ", Model.Etsng)<span class="small">(ЕТСНГ: @Model.VOtpr.cod_tvk_etsng)</span></li>
-                <li><strong>Склад:</strong> @Model.Guild18.warehouse</li>
+               @if (Model.VOtpr != null){
+                   <li><strong>От:</strong> @Model.VOtpr.adr_otpr @Model.VOtpr.nam_otpr</li>
+                   <li><span class="glyphicon glyphicon-arrow-right"></span></li>
+                   <li><strong>Кому:</strong> @Model.VOtpr.adr_pol @Model.VOtpr.nam_pol</li>
+                   <li><strong>Груз:</strong> @String.Join(", ", Model.Etsng)<span class="small">(ЕТСНГ: @Model.VOtpr.cod_tvk_etsng)</span></li>
+                   <li><strong>Склад:</strong> @Model.Guild18.warehouse</li>
+               }
             </ul>
         </div>
         <div class="col-lg-0 text-right pull-right">
@@ -40,21 +47,25 @@
     <div id="@(ViewData["index"])" class="collapse row">
         <div class="panel-body">
             <ul class="list-inline text-center small">
-                <li><strong>Вагон(ы) №:</strong> @String.Join(", ", 1)</li>
-                <li><strong>Ведомости: </strong></li>
-                <li><strong>Акты: </strong></li>
-                <li><strong>Накопительные карточки: </strong></li>
+            @if (Model.VOtpr != null){
+                <li><strong>Вагон(ы) №:</strong> @String.Join(", ", Model.Vovs)</li>
+                <li><strong>Ведомости:</strong> @String.Join(", ", Model.VPams.Select(x=>x.nved))</li>
+                <li><strong>Акты:</strong> @String.Join(", ", Model.VAkts.Select(x=>x.nakt))</li>
+                <li><strong>Накопительные карточки:</strong> @String.Join(", ", Model.VKarts.Select(x=>x.num_kart))</li>
                 <li><strong>Описание:</strong> @Model.VOtpr.g11</li>
-                <li><strong>Договор:</strong> @(Model.VOtpr.g6.Length > 0 ?  Model.VOtpr.g6 : string.Empty)</li>
+                <li><strong>Договор:</strong> @(Model.VOtpr.g6.Length > 0 ? Model.VOtpr.g6 : string.Empty)</li>
+            }
             </ul>
         </div>
         <div class="panel-footer small">
             <ul class="list-inline">
+            @if (Model.VOtpr != null){
                 <li class="pull-left">
                     @(Model.VOtpr.oper == 1 ? "Отправка" : "Прибытие")
                     @(Model.VOtpr.date_oper != null ? Model.VOtpr.date_oper.Value.ToString("d MMM yyyy") : "Не указана")
                 </li>
                 <li class="pull-right">@Model.VOtpr.fio_tk</li>
+            }
             </ul>
         </div>
     </div>

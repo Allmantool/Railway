@@ -655,6 +655,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\Errors.cshtml" />
+    <Content Include="Views\Storage\Summary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />

@@ -26,35 +26,61 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>   
         /// Формирования объекта отображения информации об отправках (по накладной за отчётный месяц)
         /// </summary>
-        /// <param name="templShNumber">Regular expression for searched filter</param>
         /// <param name="operationCategory">filter on category</param>
         /// <param name="chooseDate">Work period</param>
         /// <param name="page">Current page</param>
-        /// <param name="shiftDate">correction number</param>
         /// <param name="pageSize">Count item on page</param>
         /// <param name="recordCount"></param>
         /// <returns></returns>
         public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out int recordCount) {
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
-            var cashSrc = Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate)
-                .GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
+            var mainSrc = GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
+            var veds = mainSrc.Where(y => y.type_doc == 2).Select(z => z.idSrcDocument);
+            var cashSrc = mainSrc.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             //linqkit
-            var votprPredicate = PredicateBuilder.False<v_otpr>();//and(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All) +inner join 
+            var votprPredicate = PredicateBuilder.False<v_otpr>();
             votprPredicate = cashSrc.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
             var cashSrc2 = Uow.Repository<v_otpr>().Get_all(votprPredicate, false).ToList();
 
-            var result = (from kg in cashSrc join vo in cashSrc2 on kg.Key.idDeliviryNote equals vo.id
-                          join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on vo.cod_tvk_etsng equals e.etsng1
+            var vovPredicate = PredicateBuilder.False<v_o_v>();
+            vovPredicate = cashSrc2.Select(x=>x.id).Aggregate(vovPredicate,(current,value)=>current.Or(v=>v.id_otpr == value)).Expand();
+            var cashSrc3 = Uow.Repository<v_o_v>().Get_all(vovPredicate, false).ToList();
+
+            var result = (from kg in cashSrc join vo in cashSrc2 on kg.Key.idDeliviryNote equals vo.id into g1
+                          from item in g1.DefaultIfEmpty()
+                          join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on item == null ? "" : item.cod_tvk_etsng equals e.etsng1 into g2
+                          from item2 in g2.DefaultIfEmpty()
                           select new Shipping() {
-                              VOtpr = vo,
-                              Etsng = e,
+                              VOtpr = item,
+                              Vovs = cashSrc3.Where(x=>(x!=null) && x.id_otpr == item.id),
+                              VPams = Uow.ActiveContext.Database.SqlQuery<v_pam>(@"select distinct vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
+                                from [db2].[nsd2].[dbo].krt_Guild18 as kg left outer join [obd].[dbo].v_pam as vp 
+                                    on kg.idSrcDocument = vp.id_ved 
+                                where kg.type_doc = 2 and vp.[state] = 32 and vp.[kodkl] IN (N'3494',N'349402') 
+                                    and kg.reportPeriod = @param1 and kg.idDeliviryNote = @param2",
+                                 new SqlParameter("@param1", chooseDate),
+                                 new SqlParameter("@param2", item != null?item.id:0)),
+                              VAkts = Uow.ActiveContext.Database.SqlQuery<v_akt>(@"select distinct nakt,dakt,nkrt,id_kart
+                                from [db2].[nsd2].[dbo].[krt_Guild18] as kg left outer join [obd].[dbo].v_akt as va 
+                                    on kg.idSrcDocument  = va.id
+                                where kg.type_doc = 3 and va.[state] = 32 and va.kodkl in (N'3494',N'349402')
+                                    and kg.reportPeriod = @param1 and kg.idDeliviryNote = @param2",
+                              new SqlParameter("@param1", chooseDate),
+                              new SqlParameter("@param2", item != null?item.id:0)),
+                              VKarts = Uow.ActiveContext.Database.SqlQuery<v_kart>(@"select vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
+                                from [db2].[nsd2].[dbo].[krt_Guild18] as kg left outer join [obd].[dbo].v_kart as vk
+                                    on kg.idCard  = vk.id
+                                where vk.cod_pl in (N'3494',N'349402') and kg.reportPeriod = @param1 and kg.idDeliviryNote = @param2",
+                              new SqlParameter("@param1", chooseDate),
+                              new SqlParameter("@param2", item != null ? item.id : 0)),
+                              Etsng = item2,
                               Guild18 = new krt_Guild18 {
                                   reportPeriod = kg.Key.reportPeriod,
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          }).Where(x => x.VOtpr.oper == (short)operationCategory || operationCategory == EnumOperationType.All).ToList();
+                          }).Where(x => ((x.VOtpr != null) && x.VOtpr.oper == (short)operationCategory) || operationCategory == EnumOperationType.All).ToList();
 
             recordCount = result.Count();
             return result;
