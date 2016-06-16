@@ -8,6 +8,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// Return general information about despatch (v_otpr,v_o_v,entsg)
     /// </summary>
     public class Shipping {
+        //[Column(TypeName = "varchar")]
         private bool IsSelected { get; set; }
         public v_otpr VOtpr { get; set; }
         public etsng Etsng { get; set; }
