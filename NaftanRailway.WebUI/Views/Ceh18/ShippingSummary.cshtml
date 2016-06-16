@@ -12,6 +12,7 @@
                         <span class ="@(Model.VOtpr.oper == 1 ? "glyphicon glyphicon-road" : "glyphicon glyphicon-home")"></span>  
                         <a href="#@(ViewData["index"])" data-toggle="collapse">@Model.VOtpr.n_otpr</a>
                     } else {
+                        <span class="glyphicon glyphicon-usd"></span>
                         <a href="#@(ViewData["index"])" data-toggle="collapse">Доп. сбор</a>
                     }
                 </li>
@@ -46,16 +47,42 @@
     </div>
     <div id="@(ViewData["index"])" class="collapse row">
         <div class="panel-body">
-            <ul class="list-inline text-center small">
             @if (Model.VOtpr != null){
-                <li><strong>Вагон(ы) №:</strong> @String.Join(", ", Model.Vovs)</li>
-                <li><strong>Ведомости:</strong> @String.Join(", ", Model.VPams.Select(x=>x.nved))</li>
-                <li><strong>Акты:</strong> @String.Join(", ", Model.VAkts.Select(x=>x.nakt))</li>
-                <li><strong>Накопительные карточки:</strong> @String.Join(", ", Model.VKarts.Select(x=>x.num_kart))</li>
-                <li><strong>Описание:</strong> @Model.VOtpr.g11</li>
-                <li><strong>Договор:</strong> @(Model.VOtpr.g6.Length > 0 ? Model.VOtpr.g6 : string.Empty)</li>
+                <ul class="list-inline text-center small">
+                    @if (Model.Vovs.Any()) {
+                        <li><strong>Вагон(ы) №:</strong> @String.Join(", ", Model.Vovs)</li>
+                    }
+                    @if (Model.VPams.Any()) {
+                        <li><strong>Ведомости:</strong> @String.Join(", ", Model.VPams.Select(x=>x.nved))</li>
+                    }
+                    @if (Model.VAkts.Any()) {
+                        <li><strong>Акты:</strong> @String.Join(", ", Model.VAkts.Select(x=>x.nakt))</li>
+                    }
+                    @if (Model.VKarts.Any()) {
+                        <li><strong>Накопительные карточки:</strong> @String.Join(", ", Model.VKarts.Select(x => x.num_kart))</li>
+                    }
+                    @if (Model.KNaftan.Any()) {
+                        <li><strong>Перечени:</strong> @String.Join(", ", Model.KNaftan.Select(x => x.NKRT))</li>
+                    }
+                    @if (Model.VOtpr.g6.Length > 0){
+                        <li><strong>Договор:</strong> @Model.VOtpr.g6</li>
+                    }
+                    @if (Model.VOtpr.g11.Length > 0) {
+                        <li><strong>Описание:</strong> @Model.VOtpr.g11</li>
+                    }
+                </ul>
+            }else{
+            <div>
+                <ul class="list-inline text-center small">
+                    @if (Model.VKarts.Any()) {
+                        <li><strong>Накопительные карточки:</strong> @String.Join(", ", Model.VKarts.Select(x => x.num_kart))</li>
+                    }
+                    @if (Model.KNaftan.Any()) {
+                        <li><strong>Перечени:</strong> @String.Join(", ", Model.KNaftan.Select(x => x.NKRT))</li>
+                    }
+                </ul>
+            </div>
             }
-            </ul>
         </div>
         <div class="panel-footer small">
             <ul class="list-inline">

@@ -14,3 +14,5 @@ J:\GitHub\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.Quali
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.csprojResolveAssemblyReference.cache
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.dll
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.pdb
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml

@@ -16,6 +16,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IEnumerable<v_pam> VPams { get; set; }
         public IEnumerable<v_akt> VAkts { get; set; }
         public IEnumerable<v_kart> VKarts { get; set; }
+        public IEnumerable<krt_Naftan> KNaftan{ get; set; }
         public Shipping() {
             IsSelected = true;
         }
