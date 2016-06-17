@@ -36,7 +36,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
             var cashSrc = Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate, false)
                 .GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
-                .OrderBy(x => x.Key.idDeliviryNote).Skip(pageSize * (page - 1)).Take(pageSize);
+                .OrderBy(x => x.Key.idDeliviryNote).Skip(pageSize * (page - 1)).Take(pageSize).ToList();
             //linqkit
             var votprPredicate = PredicateBuilder.False<v_otpr>();
             votprPredicate = cashSrc.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
@@ -89,7 +89,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          }).Where(x => ((x.VOtpr != null) && x.VOtpr.oper == (short)operationCategory) || operationCategory == EnumOperationType.All);
+                          }).Where(x => ((x.VOtpr != null) && x.VOtpr.oper == (short)operationCategory) || operationCategory == EnumOperationType.All).ToList();
 
 
             recordCount = result.Count();
