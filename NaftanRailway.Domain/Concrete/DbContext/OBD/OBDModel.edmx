@@ -806,7 +806,6 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="state" Type="Int32" />
-          <Property Name="n_visas" Type="Int64" />
           <Property Name="stan_oper" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
           <Property Name="oper" Type="Int16" />
           <Property Name="date_oper" Type="DateTime" />
@@ -814,10 +813,7 @@
           <Property Name="cod_st_otpr" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
           <Property Name="cod_kl_otpr" Type="String" MaxLength="20" Unicode="false" FixedLength="true" />
           <Property Name="cod_klient_pol" Type="String" MaxLength="20" Unicode="false" FixedLength="true" />
-          <Property Name="cod_currency" Type="String" MaxLength="3" Unicode="false" FixedLength="true" />
           <Property Name="g6" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
-          <Property Name="g4" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="g8" Type="String" MaxLength="40" Unicode="false" FixedLength="false" />
           <Property Name="g11" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
           <Property Name="cod_tvk_etsng" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
           <Property Name="massa_otpr" Type="Int32" />
@@ -827,6 +823,7 @@
           <Property Name="nam_otpr" Type="String" MaxLength="130" Unicode="false" FixedLength="false" />
           <Property Name="fio_tk" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
           <Property Name="nam_pol" Type="String" Nullable="false" />
+          <Property Name="g8" Type="String" Nullable="false" />
           </EntityType>
         <EntityType Name="v_pam">
           <Key>
@@ -960,10 +957,10 @@
             <ScalarProperty Name="massa" ColumnName="massa" />
             </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="v_otprs"><EntityTypeMapping TypeName="OBDModelEntities.v_otpr"><MappingFragment StoreEntitySet="v_otpr">
+                <ScalarProperty Name="g8" ColumnName="g8" />
                 <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
                 <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="state" ColumnName="state" />
-            <ScalarProperty Name="n_visas" ColumnName="n_visas" />
             <ScalarProperty Name="stan_oper" ColumnName="stan_oper" />
             <ScalarProperty Name="oper" ColumnName="oper" />
             <ScalarProperty Name="date_oper" ColumnName="date_oper" />
@@ -971,10 +968,7 @@
             <ScalarProperty Name="cod_st_otpr" ColumnName="cod_st_otpr" />
             <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
             <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
-            <ScalarProperty Name="cod_currency" ColumnName="cod_currency" />
             <ScalarProperty Name="g6" ColumnName="g6" />
-            <ScalarProperty Name="g4" ColumnName="g4" />
-            <ScalarProperty Name="g8" ColumnName="g8" />
             <ScalarProperty Name="g11" ColumnName="g11" />
             <ScalarProperty Name="cod_tvk_etsng" ColumnName="cod_tvk_etsng" />
             <ScalarProperty Name="massa_otpr" ColumnName="massa_otpr" />

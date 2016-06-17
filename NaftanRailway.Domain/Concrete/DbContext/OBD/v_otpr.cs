@@ -16,7 +16,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
     {
         public int id { get; set; }
         public Nullable<int> state { get; set; }
-        public Nullable<long> n_visas { get; set; }
         public string stan_oper { get; set; }
         public Nullable<short> oper { get; set; }
         public Nullable<System.DateTime> date_oper { get; set; }
@@ -24,10 +23,7 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public string cod_st_otpr { get; set; }
         public string cod_kl_otpr { get; set; }
         public string cod_klient_pol { get; set; }
-        public string cod_currency { get; set; }
         public string g6 { get; set; }
-        public string g4 { get; set; }
-        public string g8 { get; set; }
         public string g11 { get; set; }
         public string cod_tvk_etsng { get; set; }
         public Nullable<int> massa_otpr { get; set; }
@@ -37,5 +33,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public string nam_otpr { get; set; }
         public string fio_tk { get; set; }
         public string nam_pol { get; set; }
+        public string g8 { get; set; }
     }
 }

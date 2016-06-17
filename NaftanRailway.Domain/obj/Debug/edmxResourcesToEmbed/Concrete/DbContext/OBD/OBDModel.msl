@@ -95,10 +95,10 @@
     <EntitySetMapping Name="v_otprs">
       <EntityTypeMapping TypeName="OBDModelEntities.v_otpr">
         <MappingFragment StoreEntitySet="v_otpr">
+          <ScalarProperty Name="g8" ColumnName="g8" />
           <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="n_visas" ColumnName="n_visas" />
           <ScalarProperty Name="stan_oper" ColumnName="stan_oper" />
           <ScalarProperty Name="oper" ColumnName="oper" />
           <ScalarProperty Name="date_oper" ColumnName="date_oper" />
@@ -106,10 +106,7 @@
           <ScalarProperty Name="cod_st_otpr" ColumnName="cod_st_otpr" />
           <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
           <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
-          <ScalarProperty Name="cod_currency" ColumnName="cod_currency" />
           <ScalarProperty Name="g6" ColumnName="g6" />
-          <ScalarProperty Name="g4" ColumnName="g4" />
-          <ScalarProperty Name="g8" ColumnName="g8" />
           <ScalarProperty Name="g11" ColumnName="g11" />
           <ScalarProperty Name="cod_tvk_etsng" ColumnName="cod_tvk_etsng" />
           <ScalarProperty Name="massa_otpr" ColumnName="massa_otpr" />
