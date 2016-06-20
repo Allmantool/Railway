@@ -24,7 +24,6 @@
     <Property Name="nkrt" Type="String" MaxLength="6" Unicode="false" FixedLength="true" />
     <Property Name="id_kart" Type="Int32" />
     <Property Name="state" Type="Int32" />
-    <Property Name="pr_external_work" Type="Int32" />
   </EntityType>
   <EntityType Name="v_akt_sb">
     <Key>

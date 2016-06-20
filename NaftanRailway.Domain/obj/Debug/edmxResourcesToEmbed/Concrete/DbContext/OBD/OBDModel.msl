@@ -12,7 +12,6 @@
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
           <ScalarProperty Name="id_kart" ColumnName="id_kart" />
           <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="pr_external_work" ColumnName="pr_external_work" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

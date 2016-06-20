@@ -22,6 +22,5 @@ namespace NaftanRailway.Domain.Concrete.DbContext.OBD
         public string nkrt { get; set; }
         public Nullable<int> id_kart { get; set; }
         public Nullable<int> state { get; set; }
-        public Nullable<int> pr_external_work { get; set; }
     }
 }
