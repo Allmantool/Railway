@@ -42,7 +42,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 .Take(pageSize);
             /*linqkit*/
             //v_otpr
-            var votprPredicate = PredicateBuilder.False<v_otpr>().And(x=>x.state==32 && ( new[] {"3494","349402"}.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
+            var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
             votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
             var voSrc = Uow.Repository<v_otpr>().Get_all(votprPredicate, false).ToList();
             //v_o_v
@@ -54,60 +54,73 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(etsngPredicate, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
             var etsngSrc = Uow.Repository<etsng>().Get_all(etsngPredicate, false).ToList();
 
-            var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1 
-                          from item in g1.DefaultIfEmpty() where (item !=null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
+            var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1
+                          from item in g1.DefaultIfEmpty() where (item != null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
                           join e in etsngSrc on item == null ? "" : item.cod_tvk_etsng equals e.etsng1 into g2
                           from item2 in g2.DefaultIfEmpty()
                           select new Shipping() {
                               VOtpr = item,
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == item.id),
                               VPams =
-                              //(from wd in wrkData join vp in Uow.Repository<v_pam>().Get_all(x => x.state == 32 && 
-                              //        new[] { "3494", "349402" }.Contains(x.kodkl), false) on wd.idSrcDocument equals vp.id_ved
-                              //        where wd.type_doc == 2 && wd.idDeliviryNote == (item != null ? item.id : 0)
-                              //        select vp).ToList(),
-                              Uow.ActiveContext.Database.SqlQuery<v_pam>(@"
-                                SELECT vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
-                                FROM [obd].[dbo].v_pam as vp
-                                WHERE vp.[kodkl] IN (N'3494',N'349402') AND vp.[state] = 32 AND vp.id_ved in 
-                                    (SELECT src.idSrcDocument 
-                                    FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
-                                    WHERE type_doc = 2 AND vp.id_ved = src.idSrcDocument AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
-                                 new SqlParameter("@param1", chooseDate),
-                                 new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
-                              VAkts = Uow.ActiveContext.Database.SqlQuery<v_akt>(@"
-                                SELECT nakt,dakt,nkrt,id_kart
-                                FROM [obd].[dbo].v_akt as va 
-                                WHERE kodkl IN (N'3494',N'349402') AND va.id IN 
-                                    (SELECT src.idSrcDocument FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
-                                    WHERE src.type_doc = 3 AND va.id = src.idSrcDocument 
-                                        AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
-                              new SqlParameter("@param1", chooseDate),
-                              new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
-                              VKarts = Uow.ActiveContext.Database.SqlQuery<v_kart>(@"
-                                SELECT vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
-                                FROM [obd].[dbo].v_kart as vk   
-                                WHERE vk.cod_pl in (N'3494',N'349402') AND vk.id IN 
-                                    (SELECT idCard FROM [db2].[nsd2].[dbo].[krt_Guild18] as src WHERE idCard = vk.id  
-                                    AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
-                              new SqlParameter("@param1", chooseDate),
-                              new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
-                              KNaftan = Uow.ActiveContext.Database.SqlQuery<krt_Naftan>(@"
-                                WITH src AS (SELECT idDeliviryNote,idScroll FROM [db2].[nsd2].[dbo].krt_Guild18 GROUP BY idDeliviryNote,idScroll)
-                                SELECT src.idDeliviryNote, KEYKRT,nkrt,NTREB,DTBUHOTCHET,DTBUHOTCHET,DTOPEN,SMTREB,NDSTREB,P_TYPE,RecordCount,Scroll_Sbor
-                                FROM src inner join [db2].[nsd2].[dbo].[krt_Naftan] AS kn
-                                    ON src.idScroll = kn.KEYKRT
-                                WHERE src.reportPeriod = @param1 AND src.idDeliviryNote = @param2;",
-                                new SqlParameter("@param1", chooseDate),
-                                new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
+                              wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2)
+                                .Join(Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false),
+                              l => l.idSrcDocument, r => r.id_ved, (l, r) => r).Distinct().ToList(),
+                              //Uow.ActiveContext.Database.SqlQuery<v_pam>(@"
+                              //  SELECT vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
+                              //  FROM [obd].[dbo].v_pam as vp
+                              //  WHERE vp.[kodkl] IN ('3494','349402') AND vp.[state] = 32 AND vp.id_ved in 
+                              //      (SELECT src.idSrcDocument 
+                              //      FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
+                              //      WHERE type_doc = 2 AND vp.id_ved = src.idSrcDocument AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
+                              //   new SqlParameter("@param1", chooseDate),
+                              //   new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
+                              VAkts =
+                               wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3)
+                                .Join(Uow.Repository<v_akt>().Get_all(x => new[] { "3494", "349402" }.Contains(x.kodkl), false),
+                                l => l.idSrcDocument, r => r.id, (l, r) => r).Distinct().ToList(),
+                              //Uow.ActiveContext.Database.SqlQuery<v_akt>(@"
+                              //  SELECT nakt,dakt,nkrt,id_kart
+                              //  FROM [obd].[dbo].v_akt as va 
+                              //  WHERE kodkl IN ('3494','349402') AND va.id IN 
+                              //      (SELECT src.idSrcDocument FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
+                              //      WHERE src.type_doc = 3 AND va.id = src.idSrcDocument 
+                              //          AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
+                              //new SqlParameter("@param1", chooseDate),
+                              //new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
+                              VKarts =
+                              //Uow.Repository<v_kart>().Get_all(PredicateBuilder.False<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl)).And(x=>
+                              //  wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard).Contains(x.id)))
+                              // .ToList(),
+                              wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : (int?)null))
+                                .Join(Uow.Repository<v_kart>().Get_all(x => new[] { "3494", "349402" }.Contains(x.cod_pl), false),
+                                l => l.idCard, r => r.id, (l, r) => r).Distinct().ToList(),
+                              //Uow.ActiveContext.Database.SqlQuery<v_kart>(@"
+                              //  SELECT vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
+                              //  FROM [obd].[dbo].v_kart as vk   
+                              //  WHERE vk.cod_pl in ('3494','349402') AND vk.id IN 
+                              //      (SELECT idCard FROM [db2].[nsd2].[dbo].[krt_Guild18] as src WHERE idCard = vk.id  
+                              //      AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2 OR (ISNULL(@param2,0) = 0 AND src.idDeliviryNote IS NULL));",
+                              //new SqlParameter("@param1", chooseDate),
+                              //new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
+                              KNaftan =
+                              wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : (int?) null))
+                              .GroupBy(x=>new {x.reportPeriod,x.idDeliviryNote,x.idScroll})
+                                .Join(Uow.Repository<krt_Naftan>().Get_all(enablecaching: false), l => l.Key.idScroll, r => r.KEYKRT,(l, r) => r).ToList(),
+                              //Uow.ActiveContext.Database.SqlQuery<krt_Naftan>(@"
+                              //  WITH src AS (SELECT reportPeriod,idDeliviryNote,idScroll FROM [db2].[nsd2].[dbo].krt_Guild18 GROUP BY reportPeriod,idDeliviryNote,idScroll)
+                              //  SELECT src.idDeliviryNote, KEYKRT,nkrt,NTREB,DTBUHOTCHET,EndDate_Per,DTOPEN,SMTREB,NDSTREB,P_TYPE,RecordCount,Scroll_Sbor
+                              //  FROM src inner join [db2].[nsd2].[dbo].[krt_Naftan] AS kn
+                              //      ON src.idScroll = kn.KEYKRT
+                              //  WHERE src.reportPeriod = @param1 AND src.idDeliviryNote = @param2 OR (ISNULL(@param2,0) = 0 AND src.idDeliviryNote IS NULL);",
+                              //  new SqlParameter("@param1", chooseDate),
+                              //  new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
                               Etsng = item2,
                               Guild18 = new krt_Guild18 {
                                   reportPeriod = kg.Key.reportPeriod,
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          });
-
+                          }).ToList();
 
             recordCount = result.Count();
             return result.ToList();
