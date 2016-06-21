@@ -28,11 +28,19 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
 
             return Expression.Lambda<Func<T, bool>>(containsMethodExp, arg);
         }
-        public static Expression<Func<TEntity, bool>> ContainsPredicate<TEntity, T>(T[] arr, string fieldname) where TEntity : class {
-            ParameterExpression entity = Expression.Parameter(typeof(TEntity), "entityType");
-            MemberExpression member = Expression.Property(entity, fieldname);
+        /// <summary>
+        /// Main containt method (avoid err: в данном контексте можно использовать только типы примитивы
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <param name="fieldname"></param>
+        /// <returns></returns>
+        public static Expression<Func<TEntity, bool>> ContainsPredicate<TEntity, T>(IEnumerable<T> arr, string fieldname) where TEntity : class {
+            ParameterExpression entity = Expression.Parameter(typeof(TEntity), "nameParam"); //class people
+            MemberExpression member = Expression.Property(entity, fieldname); // property people.Age
 
-            MethodInfo method = typeof(string).GetMethod("Contains", new[] { typeof(string) }).MakeGenericMethod(member.Type);
+            MethodInfo method = typeof(string).GetMethod("Contains", new[] {typeof (string) }).MakeGenericMethod(member.Type);
 
             var exprContains = Expression.Call(method, new Expression[] { Expression.Constant(arr), member });
 

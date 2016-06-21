@@ -10,6 +10,7 @@ using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.ExpressionTreeExtensions;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
@@ -87,13 +88,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               //          AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
                               //new SqlParameter("@param1", chooseDate),
                               //new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
-                              VKarts =
-                              //Uow.Repository<v_kart>().Get_all(PredicateBuilder.False<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl)).And(x=>
-                              //  wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard).Contains(x.id)))
-                              // .ToList(),
-                              wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : (int?)null))
-                                .Join(Uow.Repository<v_kart>().Get_all(x => new[] { "3494", "349402" }.Contains(x.cod_pl), false),
-                                l => l.idCard, r => r.id, (l, r) => r).Distinct().ToList(),
+                              VKarts = Uow.Repository<v_kart>().Get_all(PredicateBuilder.False<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
+                                .And(EtExtensions.ContainsPredicate<v_kart,int>(wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard), "id")))
+                                .ToList(),
+                              //wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : (int?)null))
+                              //  .Join(Uow.Repository<v_kart>().Get_all(x => new[] { "3494", "349402" }.Contains(x.cod_pl), false),
+                              //  l => l.idCard, r => r.id, (l, r) => r).Distinct().ToList(),
                               //Uow.ActiveContext.Database.SqlQuery<v_kart>(@"
                               //  SELECT vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
                               //  FROM [obd].[dbo].v_kart as vk   
