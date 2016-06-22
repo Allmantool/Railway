@@ -20,7 +20,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="predicate"></param>
         /// <param name="enablecaching"></param>
         /// <returns></returns>
-        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null,bool enablecaching = true) {
+        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enablecaching = true) {
             if (predicate != null) {
                 /*//sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
@@ -47,7 +47,7 @@ namespace NaftanRailway.Domain.Concrete {
             return predicate == null ? _dbSet.FirstOrDefault() : _dbSet.FirstOrDefault(predicate);
         }
 
-        public void Add(T entity,bool detectChanges = true){
+        public void Add(T entity, bool detectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = detectChanges;
             _dbSet.Add(entity);
         }

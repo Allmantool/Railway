@@ -44,8 +44,16 @@ $('#sandbox-container .input-group').datepicker({
     orientation: "bottom auto",
     forceParse: true
 }).on('changeDate', function(e) {
-    $(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
-    //window.href ='/All/Page1/Period' +  datePicker;
+    //$(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
+    $.ajax({
+        url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
+        type: "Get", traditional: true, contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function (result) {
+            $("#infoArea").empty().append(result);
+            //filterMenu();
+        },
+        error: function (data) { console.log("datepicker ajax request error:" + data) }
+    });
 }).on('show', function(e) {
    // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });

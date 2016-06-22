@@ -32,7 +32,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
         /// <returns></returns>
         public Expression<Func<T, bool>> FilterByField<T>() where T : class{
             var predicate = PredicateBuilder.False<T>();
-            predicate = CheckedValues.Aggregate(predicate, (current, innerItem) => current.Or(EtExtensions.FilterByName<T>(SortFieldName, innerItem)));
+            predicate = CheckedValues.Aggregate(predicate, (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(SortFieldName, innerItem)));
             
             return predicate;
         } 

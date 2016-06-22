@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
@@ -23,18 +24,16 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="page">current page</param>
         /// <returns></returns>
         [HttpGet]
-        public ViewResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
+        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
             const int pageSize = 10;
             int recordCount;
 
-            if (menuView.ReportPeriod == null) 
-                { menuView.ReportPeriod = storage.ReportPeriod; }
-            else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
+            if (menuView.ReportPeriod == null) { menuView.ReportPeriod = storage.ReportPeriod; } else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
 
             DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
 
             var model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, chooseDate, page, pageSize,out recordCount),
+                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, chooseDate, page, pageSize, out recordCount),
                 PagingInfo = new PagingInfo() {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
@@ -43,7 +42,9 @@ namespace NaftanRailway.WebUI.Controllers {
                 OperationCategory = operationCategory,
                 Menu = menuView
             };
-
+            if (Request.IsAjaxRequest()) {
+                return PartialView("ShippingSummary", model.Dispatchs);
+            }
             return View(model);
         }
         /// <summary>
