@@ -117,7 +117,7 @@ namespace NaftanRailway.Domain.BusinessModels {
             foreach (var line in _linesCollection) {
                 result.Add(new ReportModel() {
                     n_otpr = line.Shipping.n_otpr,
-                    n_vag = String.Join(",\n",line.WagonsNumbers),
+                    n_vag = String.Join(",\n", line.WagonsNumbers),
                     date_oper = line.Shipping.date_oper.Value,
                     cod_sb = "300",
                     nameSb = "Тариф по отправке БЧ",

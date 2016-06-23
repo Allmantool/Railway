@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -20,9 +18,9 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="operationCategory"></param>
         /// <returns></returns>
         public PartialViewResult MenuTypeOperations(InputMenuViewModel menuView, string operationCategory = null) {
-            ViewBag.SelectedCategory = operationCategory;
             //Передаем динамически типы операций
-            ViewBag.TypeOperation = _bussinesEngage.GetGroup<v_otpr, short?>(x => x.oper).ToList(); 
+            menuView.SelectedOperCategory = operationCategory;
+            menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);
 
             return PartialView("FlexMenu", menuView);
         }

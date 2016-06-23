@@ -2,20 +2,21 @@
 @model IEnumerable<Shipping>
 @{
     Layout = null;
+    int i = (int)(ViewData["index"] ?? 0);
 }
 @foreach (var sh in Model) {
-    <div class="panel panel-default col-lg-12" id="myPanel@(ViewData["index"])">
+    <div class="panel panel-default col-lg-12" id="myPanel@(++i))">
         <div class="panel-heading small row small">
             <div class="col-lg-2 row">
                 <ul class="list-inline text-capitalize">
                     <li class="panel-title">
-                        @(ViewData["index"]))
+                        @(i)
                         @if (sh.VOtpr != null) {
                             <span class="@(sh.VOtpr.oper == 1 ? "glyphicon glyphicon-road" : "glyphicon glyphicon-home")"></span>
-                            <a href="#@(ViewData["index"])" data-toggle="collapse">@sh.VOtpr.n_otpr</a>
+                            <a href="#@(i)" data-toggle="collapse">@sh.VOtpr.n_otpr</a>
                         } else {
                             <span class="glyphicon glyphicon-usd"></span>
-                            <a href="#@(ViewData["index"])" data-toggle="collapse">Доп. сбор</a>
+                            <a href="#@(i)" data-toggle="collapse">Доп. сбор</a>
                         }
                     </li>
                 </ul>
@@ -37,20 +38,20 @@
                 @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
                     @Html.HiddenFor(x => sh.VOtpr.id)
                     @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
-                    <button type="submit" class="btn btn-sm btn-link btn-default" data-loading-text="Loading..." id="btn@(ViewData["index"])">
+                    <button type="submit" class="btn btn-sm btn-link btn-default" data-loading-text="Loading..." id="btn@(i)">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 }
                 @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
                     @Html.HiddenFor(x => sh.VOtpr.id)
                     @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
-                    <button type="submit" class="btn btn-sm btn-link btn-warning" data-loading-text="Loading..." id="btn@(ViewData["index"])">
+                    <button type="submit" class="btn btn-sm btn-link btn-warning" data-loading-text="Loading..." id="btn@(i)">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 }
             </div>
         </div>
-        <div id="@(ViewData["index"])" class="collapse row">
+        <div id="@(i)" class="collapse row">
             <div class="panel-body">
                 @if (sh.VOtpr != null) {
                     <ul class="list-inline text-center small">

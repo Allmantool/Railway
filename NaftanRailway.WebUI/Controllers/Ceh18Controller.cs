@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
@@ -24,27 +23,29 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="page">current page</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, int page = 1) {
-            const int pageSize = 10;
-            int recordCount;
+        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
+            const short pageSize = 10;
+            short recordCount;
+            //reload page (save select report date)
+            if (storage.ReportPeriod == DateTime.MinValue && menuView.ReportPeriod == DateTime.MinValue) {
+                menuView.ReportPeriod = DateTime.Today;
+            } else if (storage.ReportPeriod != DateTime.MinValue && menuView.ReportPeriod == DateTime.MinValue) {
+                menuView.ReportPeriod = storage.ReportPeriod;
+            } else {
+                storage.ReportPeriod = menuView.ReportPeriod;
+            }
 
-            if (menuView.ReportPeriod == null) { menuView.ReportPeriod = storage.ReportPeriod; } else { storage.ReportPeriod = menuView.ReportPeriod.Value; }
-
-            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
 
             var model = new DispatchListViewModel() {
                 Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, chooseDate, page, pageSize, out recordCount),
-                PagingInfo = new PagingInfo() {
-                    CurrentPage = page,
-                    ItemsPerPage = pageSize,
-                    TotalItems = recordCount
-                },
+                PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount },
                 OperationCategory = operationCategory,
                 Menu = menuView
             };
-            if (Request.IsAjaxRequest()) {
-                return PartialView("ShippingSummary", model.Dispatchs);
-            }
+
+            if (Request.IsAjaxRequest()) { return PartialView("ShippingSummary", model.Dispatchs); }
+
             return View(model);
         }
         /// <summary>
@@ -56,13 +57,13 @@ namespace NaftanRailway.WebUI.Controllers {
         public RedirectToRouteResult Index(InputMenuViewModel menuView) {
             if (menuView.ShippingChoise == "") {
                 return RedirectToRoute("Period", new {
-                    reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+                    reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.ToString("MMyyyy") : null,
                     page = 1
                 });
             }
 
             return RedirectToRoute("Path_Full", new {
-                reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.Value.ToString("MMyyyy") : null,
+                reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.ToString("MMyyyy") : null,
                 templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
                 page = 1
             });
@@ -76,7 +77,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
             if (menuView.ReportPeriod == null) return Json("", JsonRequestBehavior.AllowGet);
 
-            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
             IEnumerable<string> result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, chooseDate);
 
             return Json(result, JsonRequestBehavior.AllowGet);

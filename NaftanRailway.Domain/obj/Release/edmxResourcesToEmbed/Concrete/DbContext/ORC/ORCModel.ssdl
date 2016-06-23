@@ -1,20 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="ORCModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="ORCModelEntitiesStoreContainer">
-    <EntitySet Name="krt_DetailsProgress" EntityType="ORCModelEntities.Store.krt_DetailsProgress" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="krt_Naftan" EntityType="ORCModelEntities.Store.krt_Naftan" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="krt_Naftan_orc_sapod" EntityType="ORCModelEntities.Store.krt_Naftan_orc_sapod" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="orc_krt" EntityType="ORCModelEntities.Store.orc_krt" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="orc_sbor" EntityType="ORCModelEntities.Store.orc_sbor" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_krt__Naftan" Association="ORCModelEntities.Store.FK_krt__Naftan">
-      <End Role="krt_Naftan" EntitySet="krt_Naftan" />
-      <End Role="krt_Naftan_orc_sapod" EntitySet="krt_Naftan_orc_sapod" />
-    </AssociationSet>
-    <AssociationSet Name="FK_orc_sbor_orc_krt" Association="ORCModelEntities.Store.FK_orc_sbor_orc_krt">
-      <End Role="orc_krt" EntitySet="orc_krt" />
-      <End Role="orc_sbor" EntitySet="orc_sbor" />
-    </AssociationSet>
-  </EntityContainer>
+<Schema Namespace="ORCModelEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="krt_DetailsProgress">
     <Key>
       <PropertyRef Name="tDoc" />
@@ -27,6 +12,25 @@
     <Property Name="nameSbr" Type="nvarchar(max)" />
     <Property Name="lastDate" Type="date" />
   </EntityType>
+  <EntityType Name="krt_Guild18">
+    <Key>
+      <PropertyRef Name="reportPeriod" />
+      <PropertyRef Name="recordNumber" />
+    </Key>
+    <Property Name="reportPeriod" Type="date" Nullable="false" />
+    <Property Name="recordNumber" Type="int" Nullable="false" />
+    <Property Name="warehouse" Type="int" />
+    <Property Name="idDeliviryNote" Type="int" />
+    <Property Name="idCarriage" Type="bigint" />
+    <Property Name="type_doc" Type="tinyint" />
+    <Property Name="idSrcDocument" Type="bigint" />
+    <Property Name="codeType" Type="bit" Nullable="false" />
+    <Property Name="code" Type="int" Nullable="false" />
+    <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+    <Property Name="idScroll" Type="bigint" Nullable="false" />
+    <Property Name="idCard" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>
       <PropertyRef Name="KEYKRT" />
@@ -38,10 +42,10 @@
     <Property Name="DTTREB" Type="date" />
     <Property Name="DTOPEN" Type="date" />
     <Property Name="DTCLOSE" Type="date" />
-    <Property Name="SMTREB" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="NDSTREB" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="SMTREB" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="NDSTREB" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="U_KOD" Type="smallint" Nullable="false" />
-    <Property Name="P_TYPE" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="P_TYPE" Type="nvarchar" MaxLength="1" Nullable="false" />
     <Property Name="DATE_OBRABOT" Type="datetime" Nullable="false" />
     <Property Name="IN_REAL" Type="bit" Nullable="false" />
     <Property Name="RecordCount" Type="int" Nullable="false" />
@@ -61,18 +65,18 @@
     </Key>
     <Property Name="keykrt" Type="bigint" Nullable="false" />
     <Property Name="keysbor" Type="bigint" Nullable="false" />
-    <Property Name="nomot" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="nomot" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="dt" Type="date" Nullable="false" />
     <Property Name="gruname" Type="nvarchar(max)" Nullable="false" />
     <Property Name="vidsbr" Type="smallint" Nullable="false" />
     <Property Name="namesbr" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="sm_no_nds" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="sm_nds" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="sm" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="stnds" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="sm_no_nds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="sm_nds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="sm" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="stnds" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="txt" Type="nvarchar(max)" />
-    <Property Name="UNI_OTPR" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="nkrt" Type="nvarchar" Nullable="false" MaxLength="10" />
+    <Property Name="UNI_OTPR" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="nkrt" Type="nvarchar" MaxLength="10" Nullable="false" />
     <Property Name="tdoc" Type="tinyint" Nullable="false" />
     <Property Name="ORC_ID_ED" Type="int" Nullable="false" />
     <Property Name="id" Type="int" />
@@ -80,10 +84,10 @@
     <Property Name="id_otpr" Type="int" />
     <Property Name="date_raskr" Type="datetime" />
     <Property Name="num_doc" Type="nvarchar" MaxLength="10" />
-    <Property Name="cena" Type="decimal" Scale="2" />
-    <Property Name="kol" Type="decimal" Scale="2" />
-    <Property Name="summa" Type="decimal" Scale="2" />
-    <Property Name="nds" Type="decimal" Scale="2" />
+    <Property Name="cena" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="kol" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="summa" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="nds" Type="decimal" Precision="18" Scale="2" />
     <Property Name="textm" Type="nvarchar(max)" />
     <Property Name="ID_ED" Type="int" />
     <Property Name="ErrorState" Type="tinyint" />
@@ -98,8 +102,8 @@
     <Property Name="DTTREB" Type="datetime" />
     <Property Name="DTOPEN" Type="datetime" />
     <Property Name="DTCLOSE" Type="datetime" />
-    <Property Name="SMTREB" Type="decimal" Scale="2" />
-    <Property Name="NDSTREB" Type="decimal" Scale="2" />
+    <Property Name="SMTREB" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="NDSTREB" Type="decimal" Precision="18" Scale="2" />
     <Property Name="U_KOD" Type="int" />
     <Property Name="P_TYPE" Type="char" MaxLength="1" />
     <Property Name="DATE_OBRABOT" Type="datetime" />
@@ -117,9 +121,9 @@
     <Property Name="VIDSBR" Type="int" />
     <Property Name="NAMESBR" Type="nvarchar" MaxLength="150" />
     <Property Name="TXT" Type="nvarchar" MaxLength="20" />
-    <Property Name="SM" Type="decimal" Scale="2" />
-    <Property Name="SM_NDS" Type="decimal" Scale="2" />
-    <Property Name="STNDS" Type="decimal" Scale="2" />
+    <Property Name="SM" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="SM_NDS" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="STNDS" Type="decimal" Precision="18" Scale="2" />
     <Property Name="UNI_OTPR" Type="nvarchar" MaxLength="20" />
     <Property Name="ID_KART" Type="nvarchar" MaxLength="20" />
     <Property Name="NKRT" Type="nvarchar" MaxLength="20" />
@@ -129,10 +133,10 @@
     <Property Name="ID_ED" Type="int" />
   </EntityType>
   <Association Name="FK_krt__Naftan">
-    <End Role="krt_Naftan" Type="ORCModelEntities.Store.krt_Naftan" Multiplicity="1">
+    <End Role="krt_Naftan" Type="Self.krt_Naftan" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
-    <End Role="krt_Naftan_orc_sapod" Type="ORCModelEntities.Store.krt_Naftan_orc_sapod" Multiplicity="*" />
+    <End Role="krt_Naftan_orc_sapod" Type="Self.krt_Naftan_orc_sapod" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="krt_Naftan">
         <PropertyRef Name="KEYKRT" />
@@ -143,8 +147,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_orc_sbor_orc_krt">
-    <End Role="orc_krt" Type="ORCModelEntities.Store.orc_krt" Multiplicity="1" />
-    <End Role="orc_sbor" Type="ORCModelEntities.Store.orc_sbor" Multiplicity="*" />
+    <End Role="orc_krt" Type="Self.orc_krt" Multiplicity="1" />
+    <End Role="orc_sbor" Type="Self.orc_sbor" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="orc_krt">
         <PropertyRef Name="KEYKRT" />
@@ -158,4 +162,20 @@
     <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
   </Function>
   <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="ORCModelEntitiesStoreContainer">
+    <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orc_krt" EntityType="Self.orc_krt" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orc_sbor" EntityType="Self.orc_sbor" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_krt__Naftan" Association="Self.FK_krt__Naftan">
+      <End Role="krt_Naftan" EntitySet="krt_Naftan" />
+      <End Role="krt_Naftan_orc_sapod" EntitySet="krt_Naftan_orc_sapod" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orc_sbor_orc_krt" Association="Self.FK_orc_sbor_orc_krt">
+      <End Role="orc_krt" EntitySet="orc_krt" />
+      <End Role="orc_sbor" EntitySet="orc_sbor" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>
