@@ -1,0 +1,9 @@
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\NaftanRailway.UnitTests.dll
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\NaftanRailway.UnitTests.pdb
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\Moq.dll
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\Moq.xml
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Git\Railway\NaftanRailway.UnitTests\obj\Release\NaftanRailway.UnitTests.csprojResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway.UnitTests\obj\Release\NaftanRailway.UnitTests.dll
+C:\Git\Railway\NaftanRailway.UnitTests\obj\Release\NaftanRailway.UnitTests.pdb

@@ -1,49 +1,44 @@
 ﻿@using NaftanRailway.Domain.BusinessModels
-@model NaftanRailway.WebUI.ViewModels.InputMenuViewModel
+@model InputMenuViewModel
 @{
     Layout = null;
     bool horizontal = ((bool)(ViewContext.RouteData.Values["horizontalLayout"] ?? false));
     string wrapperClasses = horizontal ? "btn-group btn-group-sm btn-group-justified" : null;
-    IEnumerable<short?> typeOperation = (IEnumerable<short?>)ViewBag.TypeOperation;
 }
-<div class="@wrapperClasses">
-    <ul class="list-group">
-        <li class="list-group-item @(EnumOperationType.All.ToString() == ViewBag.SelectedCategory ? " active" : "")">
-            <span class="badge" id ="bangeTotal"></span>
-            @Html.RouteLink("Все",
-                new{
-                    operationCategory = (EnumOperationType.All).ToString(),
-                    page = 1,
-                    reportPeriod = Model.ReportPeriod != null ?
-                        Model.ReportPeriod.Value.ToString("MMyyyy") :
-                        DateTime.Today.ToString("MMyyyy"),
-                    templateNumber = Model.ShippingChoise ?? ""
-                },
-                new{
-                    @class = (horizontal ? "btn btn-default btn-sm" :
-                        "list-group-item-text") 
-                })
-        </li>
-
-    @foreach (short? link in typeOperation){
-        if (link != null){
-            <li class="list-group-item @(((EnumOperationType) link).ToString() == ViewBag.SelectedCategory ? " active" : "")">
-                <span class="badge" id ="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>
-                @Html.RouteLink(link == 1 ? "Отправка" : "Прибытие",
-                    new{
-                        operationCategory = ((EnumOperationType) link).ToString(),
+@if (Model.TypesOfOperation.Any()) {
+    <div class="@wrapperClasses">
+        <ul class="list-group">
+            <li class="list-group-item @(EnumOperationType.All.ToString() == Model.SelectedOperCategory ? " active" : "")">
+                <span class="badge" id="bangeTotal"></span>
+                @Html.RouteLink("Все",
+                    new {
+                        operationCategory = (EnumOperationType.All).ToString(),
                         page = 1,
-                        reportPeriod = Model.ReportPeriod != null ?
-                            Model.ReportPeriod.Value.ToString("MMyyyy") :
-                            DateTime.Today.ToString("MMyyyy"),
+                        reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
                         templateNumber = Model.ShippingChoise ?? ""
                     },
-                    new{
-                        @class = (horizontal ? "btn btn-default btn-sm"
-                            : "list-group-item-text") 
+                    new {
+                        @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")
                     })
             </li>
-        }
-    }
-</ul>
-</div>
+            
+            @foreach (short? link in Model.TypesOfOperation) {
+                if (link != null) {
+                    <li class="list-group-item @(((EnumOperationType) link).ToString() == Model.SelectedOperCategory ? " active" : "")">
+                        <span class="badge" id="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>
+                        @Html.RouteLink(link == 1 ? "Отправка" : "Прибытие",
+                            new {
+                                operationCategory = ((EnumOperationType)link).ToString(),
+                                page = 1,
+                                reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
+                                templateNumber = Model.ShippingChoise ?? ""
+                            },
+                            new {
+                                @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")
+                            })
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+}

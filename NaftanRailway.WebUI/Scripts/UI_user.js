@@ -47,7 +47,8 @@ $('#sandbox-container .input-group').datepicker({
     //$(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
-        type: "Get", traditional: true, contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        //data: JSON.stringify({ "ReportPeriod": moment(e.date).format('01.MM.YYYY')}),
         success: function (result) {
             $("#infoArea").empty().append(result);
             //filterMenu();

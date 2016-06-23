@@ -165,3 +165,4 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Release\RdlCompile.cache
 C:\Git\Railway\NaftanRailway.WebUI\obj\Release\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway.WebUI\obj\Release\NaftanRailway.WebUI.pdb
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.Common.dll

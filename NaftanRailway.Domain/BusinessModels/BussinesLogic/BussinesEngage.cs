@@ -33,9 +33,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="pageSize">Count item on page</param>
         /// <param name="recordCount"></param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out int recordCount) {
+        public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
             var wrkData = Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate, false).ToList();
+            //exit when empty result (discrease count server query)
+            if (wrkData.Count == 0 ){
+                recordCount = 0;
+                return  new List<Shipping>() ;
+            }
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote)
@@ -120,8 +125,19 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               }
                           }).ToList();
 
-            recordCount = result.Count();
+            recordCount =(short) result.Count();
             return result.ToList();
+        }
+
+        /// <summary>
+        /// Get current avaible type of operation on dispatch
+        /// </summary>
+        /// <param name="chooseDate"></param>
+        /// <returns></returns>
+        public List<short> GetTypeOfOpers(DateTime chooseDate){
+           return Uow.Repository<v_otpr>().Get_all(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)),false)
+                .Where(PredicateExtensions.InnerContainsPredicate<v_otpr, int>("id", GetTable<krt_Guild18,long>( x => x.reportPeriod == chooseDate && x.idDeliviryNote != null)
+                    .GroupBy(x => new { x.recordNumber, x.idDeliviryNote }).Select(x=>(int)x.Key.idDeliviryNote))).GroupBy(x=>x.oper).Select(x=>x.Key.Value).ToList();
         }
         /// <summary>
         /// Autocomplete function
@@ -194,14 +210,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Get General table with predicate ( load in memory)
         /// </summary>
-        public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null) where T : class {
+        public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null,bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate).ToList() : Uow.Repository<T>().Get_all(predicate).OrderByDescending(orderPredicate).ToList();
+                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate,caсhe).ToList() : Uow.Repository<T>().Get_all(predicate, caсhe).OrderByDescending(orderPredicate).ToList();
             }
         }
-        public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
+        public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, false).Count();
+                return Uow.Repository<T>().Get_all(predicate, caсhe).Count();
             }
         }
         /// <summary>
@@ -214,14 +230,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="orderPredicate">Condition for ordering</param>
         /// <param name="filterPredicate">Condition for filtering</param>
         /// <returns>Return definition count rows of specific entity</returns>
-        public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null) where T : class {
+        public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(filterPredicate, false).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
+                return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
-        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null) where T : class {
+        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, false).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
             }
         }
         /// <summary>
