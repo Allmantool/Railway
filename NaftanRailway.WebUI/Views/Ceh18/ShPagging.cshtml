@@ -1,0 +1,31 @@
+﻿@model DispatchListViewModel
+@{
+    Layout = null;
+}
+@if (Model.PagingInfo.TotalItems > 0) {
+    <div class="btn-group hidden-xs">
+        @Html.AjaxPageLinks(Model.PagingInfo, 21, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
+            new {
+                page = x,
+                operationCategory = Model.OperationCategory,
+                reportPeriod = Model.Menu.ReportPeriod.ToString("MMyyyy"),
+                templateNumber = Model.Menu.ShippingChoise ?? ""
+            }))
+    </div>
+    <div class="btn-group pull-right visible-xs">
+        @Html.AjaxPageLinks(Model.PagingInfo, 10, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
+            new {
+                page = x,
+                operationCategory = Model.OperationCategory,
+                reportPeriod = Model.Menu.ReportPeriod.ToString("MMyyyy"),
+                templateNumber = Model.Menu.ShippingChoise ?? ""
+            }))
+    </div>
+    <div>
+        @Ajax.RouteLink("ajax", "Path_Full",
+            new RouteValueDictionary() { {"page", "1" }, {"operationCategory","All"}, {"reportPeriod","022015"}, { "templateNumber", "08245647"} },
+            new AjaxOptions() {
+                HttpMethod ="Get",InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea"
+            })
+    </div>
+}

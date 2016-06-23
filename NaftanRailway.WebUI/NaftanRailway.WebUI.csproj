@@ -656,6 +656,8 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\Errors.cshtml" />
     <Content Include="Views\Storage\Summary.cshtml" />
+    <Content Include="Views\Ceh18\Dispatchs.cshtml" />
+    <Content Include="Views\Ceh18\ShPagging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />

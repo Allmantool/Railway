@@ -1,47 +1,8 @@
-﻿@using NaftanRailway.Domain.BusinessModels.BussinesLogic
-@model DispatchListViewModel
+﻿@model DispatchListViewModel
 @{
     Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = @"Номер отправки";
-    int i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
 }
-<div class="row">
-    <div id="categories" class="col-lg-2 hidden-xs">
-        @{Html.RenderAction("MenuTypeOperations", "Navigation");}
-    </div>
-
-    <div class="col-xs-12 col-lg-10">
-        <!--body summary.cshtml -->
-        <div class="panel-group col-lg-12" id="infoArea">
-               @{Html.RenderPartial("ShippingSummary", Model.Dispatchs, new ViewDataDictionary { { "index", i } });}
-        </div>  
-
-        <!--pagging -->
-        <div class="text-center navbar-fixed-bottom navbar navbar-default">
-            @if (Model.PagingInfo.TotalItems > 0) {
-                <div class="btn-group hidden-xs">
-                    @Html.PageLinks(Model.PagingInfo, 21, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
-                        new {
-                            page = x,
-                            operationCategory = Model.OperationCategory,
-                            reportPeriod = Model.Menu.ReportPeriod != null ?
-                                Model.Menu.ReportPeriod.ToString("MMyyyy") :
-                                DateTime.Today.ToString("MMyyyy"),
-                            templateNumber = Model.Menu.ShippingChoise ?? ""
-                        }))
-                </div>
-                <div class="btn-group pull-right visible-xs">
-                    @Html.PageLinks(Model.PagingInfo, 10, x => Url.RouteUrl(Model.Menu.ShippingChoise == "" ? "Period" : "Path_Full",
-                        new {
-                            page = x,
-                            operationCategory = Model.OperationCategory,
-                            reportPeriod = Model.Menu.ReportPeriod != null ?
-                                Model.Menu.ReportPeriod.ToString("MMyyyy") :
-                                DateTime.Today.ToString("MMyyyy"),
-                            templateNumber = Model.Menu.ShippingChoise ?? ""
-                        }))
-                </div>
-            }
-        </div>
-    </div>
+<div class="row" id="infoArea">
+    @{Html.RenderPartial("ShippingSummary", Model) ;}
 </div>

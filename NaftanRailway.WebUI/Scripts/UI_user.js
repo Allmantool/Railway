@@ -1,6 +1,6 @@
 ﻿/*Fuction for IE8 compebility search space sign*/
 if (!Array.prototype.filter) {
-    Array.prototype.filter = function(fun/*, thisArg*/) {
+    Array.prototype.filter = function (fun/*, thisArg*/) {
         'use strict';
 
         if (this === void 0 || this === null) {
@@ -43,7 +43,7 @@ $('#sandbox-container .input-group').datepicker({
     todayBtn: "linked",
     orientation: "bottom auto",
     forceParse: true
-}).on('changeDate', function(e) {
+}).on('changeDate', function (e) {
     //$(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
@@ -55,8 +55,8 @@ $('#sandbox-container .input-group').datepicker({
         },
         error: function (data) { console.log("datepicker ajax request error:" + data) }
     });
-}).on('show', function(e) {
-   // var datePicker = moment($(e.date)).format('YYYY.MM.01');
+}).on('show', function (e) {
+    // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
 /*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
@@ -79,7 +79,7 @@ function filterMenu() {
             /*numberDisplayed: 3,*/
             /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-            onChange: function(option, checked, select) {
+            onChange: function (option, checked, select) {
                 $.ajax({
                     url: "Filter/Menu/",
                     type: "Post",
@@ -87,35 +87,36 @@ function filterMenu() {
                     contentType: 'application/json; charset=utf-8',
                     /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
                     data: JSON.stringify(
-                        {"filters": [
-                            {
-                                "SortFieldName": "nkrt",
-                                "NameDescription": $('select#nkrt').prev().val(),
-                                "ActiveFilter": ('nkrt' === $(option).parent('select').attr('id')) ? true : false,
-                                "CheckedValues": $('#nkrt option:selected').map(function() { return $(this).val(); }).toArray(),
-                                "AllAvailableValues": $('#nkrt option').map(function() { return $(this).val(); }).toArray()
-                            }, {
-                                "SortFieldName": "tdoc",
-                                "NameDescription": $('select#tdoc').prev().val(),
-                                "ActiveFilter": ('tdoc' === $(option).parent('select').attr('id')) ? true : false,
-                                "CheckedValues": $('#tdoc option:selected').map(function() { return $(this).val(); }).toArray(),
-                                "AllAvailableValues": $('#tdoc option').map(function() { return $(this).val(); }).toArray()
-                            }, {
-                                "SortFieldName": "vidsbr",
-                                "NameDescription": $('select#vidsbr').prev().val(),
-                                "ActiveFilter": ('vidsbr' === $(option).parent('select').attr('id')) ? true : false,
-                                "CheckedValues": $('#vidsbr option:selected').map(function() { return $(this).val(); }).toArray(),
-                                "AllAvailableValues": $('#vidsbr option').map(function() { return $(this).val(); }).toArray()
-                            }
-                        ],
-                        "numberScroll": +$("#numberScroll").val(),
-                        "reportYear": +$("#reportYear").val()
-                    }),
-                    success: function(result) {
+                        {
+                            "filters": [
+                               {
+                                   "SortFieldName": "nkrt",
+                                   "NameDescription": $('select#nkrt').prev().val(),
+                                   "ActiveFilter": ('nkrt' === $(option).parent('select').attr('id')) ? true : false,
+                                   "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
+                                   "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
+                               }, {
+                                   "SortFieldName": "tdoc",
+                                   "NameDescription": $('select#tdoc').prev().val(),
+                                   "ActiveFilter": ('tdoc' === $(option).parent('select').attr('id')) ? true : false,
+                                   "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
+                                   "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
+                               }, {
+                                   "SortFieldName": "vidsbr",
+                                   "NameDescription": $('select#vidsbr').prev().val(),
+                                   "ActiveFilter": ('vidsbr' === $(option).parent('select').attr('id')) ? true : false,
+                                   "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
+                                   "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
+                               }
+                            ],
+                            "numberScroll": +$("#numberScroll").val(),
+                            "reportYear": +$("#reportYear").val()
+                        }),
+                    success: function (result) {
                         $("#filterForm").empty().append(result);
                         filterMenu();
                     },
-                    error: function(data) { console.log("multiselect custom error:" + data) }
+                    error: function (data) { console.log("multiselect custom error:" + data) }
                 });
             },
             buttonText: function (options, select) {
@@ -130,7 +131,7 @@ function filterMenu() {
                     return 'Выбрано ' + selSize + ' ' + nameFilter;
                 } else {
                     var labels = [];
-                    options.each(function() {
+                    options.each(function () {
                         if ($(this).attr('label') !== undefined) {
                             labels.push($(this).attr('label'));
                         } else {
@@ -143,7 +144,7 @@ function filterMenu() {
         });
         $this.next(".btn-group").css("margin-left", "0.3em");
     });
-        PaggingSuccess();
+    PaggingSuccess();
 };
 
 /*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
@@ -153,15 +154,16 @@ type => Specifies the type of request. (GET or POST)
 dataType => The data type expected of the server response.
 data => Specifies data to be sent to the server
 */
-$(function() {
-    $("#ShippingChoise").autocomplete({source: function(request, response) {
+$(function () {
+    $("#ShippingChoise").autocomplete({
+        source: function (request, response) {
             $.ajax({
                 url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
                 type: "Get",
                 dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
-                success: function(data) {
-                    response($.map(data.slice(0, 12), function(item) {
+                success: function (data) {
+                    response($.map(data.slice(0, 12), function (item) {
                         return { label: item };
                     }));
                 }
@@ -170,55 +172,55 @@ $(function() {
         minLength: 1,
         messages: {
             noResults: "",
-            results: function() { }
+            results: function () { }
         }
-    }).on('dblclick', function() {
+    }).on('dblclick', function () {
         $(this).val('');
     });
 });
 
 /*Change color selecting panel ceh18*/
-$(function() {
-    $("div .panel").filter("[id^='myPanel']").mouseover(function() {
+$(function () {
+    $("div .panel").filter("[id^='myPanel']").mouseover(function () {
         if (!$(this).hasClass('panel-success')) {
             $(this).removeClass('panel-default').addClass('panel-primary');
         }
-    }).on('mouseout', function() {
+    }).on('mouseout', function () {
         $(this).removeClass('panel-primary').addClass('panel-default');
     });
 });
 
 /*choisen accordion panel*/
-$(function() {
-    $(".panel .btn").on('click', function() {
+$(function () {
+    $(".panel .btn").on('click', function () {
         $(this).children('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-ok').parents(".panel").removeClass('panel-default panel-primary').addClass('panel-success');
     });
 });
 
 /*Modal*/
 //hide modal when show report
-$('#reportShow').on('click', function() {
+$('#reportShow').on('click', function () {
     $('.modal').modal('hide');
 });
-$('#dateModal').on('show.bs.modal', function(e) {
+$('#dateModal').on('show.bs.modal', function (e) {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 /*edit modal (correction)*/
-$('#chargeOfList').on('click','tr', function(e) {
-//    var selRow = $(e.target).parent('tr');
+$('#chargeOfList').on('click', 'tr', function (e) {
+    //    var selRow = $(e.target).parent('tr');
     var selRow = $(this);
-    var _parse = function(name) {
+    var _parse = function (name) {
         var element = selRow.find(name),
             text = element.text();
-        return parseInt(text.split('').filter(function(i) { return !isNaN(parseInt(i)) }).join(''));
+        return parseInt(text.split('').filter(function (i) { return !isNaN(parseInt(i)) }).join(''));
     }
-    
+
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
     var summa = _parse(".summa");
     var sm = _parse(".sm");
-    var sm_nds = _parse(".sm_nds"); 
-    var nds = _parse(".nds"); 
-    var sm_no_nds =  _parse(".sm_no_nds"); 
+    var sm_nds = _parse(".sm_nds");
+    var nds = _parse(".nds");
+    var sm_no_nds = _parse(".sm_no_nds");
 
     $('label[for=sm]').text(sm);
     $('#sm').val(sm);
@@ -237,17 +239,17 @@ $('#chargeOfList').on('click','tr', function(e) {
     $("#EditModal").modal('show');
 });
 
-$('#summa').on('input', function() {
+$('#summa').on('input', function () {
     $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
 });
-$('#nds').on('input', function() {
+$('#nds').on('input', function () {
     $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
 });
 /*IE8*/
-$('#summa').on('propertychange', function() {
+$('#summa').on('propertychange', function () {
     $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
 });
-$('#nds').on('propertychange', function() {
+$('#nds').on('propertychange', function () {
     $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
 });
 
@@ -260,13 +262,13 @@ function UpdateDate(dateRow) {
     var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
 
     if ($('#valMultiDate').val() === "True") {
-        $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function(index, item) {
+        $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function (index, item) {
             $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
-        }); 
+        });
     } else {
         target.find('.DTBUHOTCHET').empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
     }
-    
+
     messageInfo.empty().append("Дата изменена");
     $('.modal').modal('hide');
 }
@@ -289,7 +291,7 @@ function UpdateData(dataRow) {
     //error report
 
     var reportStr = $('#reportShow').attr('href');
-//    window.location.assign( $('base').attr('href') + reportStr);
+    //    window.location.assign( $('base').attr('href') + reportStr);
     if ($('#errFrame').length === 0) {
         $('<iframe />', {
             name: 'errFrame',
@@ -315,7 +317,7 @@ function UpdateData(dataRow) {
         $('#BuhFrame').attr('src', arrSplit.join('/'));
     } */
 
-    var refreshIntervalId = window.setInterval(function() { //monitor for existence of cookie 
+    var refreshIntervalId = window.setInterval(function () { //monitor for existence of cookie 
         var cookieValue = $.cookie("SSRSfileDownloadToken"); // **uses jquery.cookie plugin
         if (cookieValue === "true") {
             // 100 %
@@ -336,7 +338,7 @@ function FixUpdate(dataRow) {
 }
 
 /*Event click on table row + mark as work row for ajax request (event delegation)*/
-$('body').on('click', '#scrollList tr', function(e) {
+$('body').on('click', '#scrollList tr', function (e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
     This property is very useful in event delegation, when events bubble.*/
@@ -353,7 +355,7 @@ $('body').on('click', '#scrollList tr', function(e) {
     //    chkRow.attr('id', 'updateRow');
 
     /*color row (selected)*/
-    $('#scrollList').children('tr').not(chkRow).each(function(index, value) {
+    $('#scrollList').children('tr').not(chkRow).each(function (index, value) {
         if ($(value).find('.confirmed').val() === "False") {
             $(value).removeClass('info').addClass('success');
         } else {
@@ -382,7 +384,7 @@ $('body').on('click', '#scrollList tr', function(e) {
     var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
     var strDetails = "Scroll/ScrollDetails/" + arg;
     var strCorrection = "Scroll/ScrollCorrection/" + arg;
-    var actReportStr = 'Scroll/Reports/krt_Naftan_act_of_Reconciliation/' + arg; ;
+    var actReportStr = 'Scroll/Reports/krt_Naftan_act_of_Reconciliation/' + arg;;
 
     $('#reportShow').attr('href', errorReportStr);
     $('#MenuLinkErrReport').attr('href', errorReportStr);
@@ -402,12 +404,12 @@ $('body').on('click', '#scrollList tr', function(e) {
 });
 
 /*change mode date update (multiDate in intext.csthml (scroll controller))*/
-$('#multiDateRadio input').on('change', function() {
-    $('#valMultiDate').attr('value',$(this).val());
+$('#multiDateRadio input').on('change', function () {
+    $('#valMultiDate').attr('value', $(this).val());
 });
 
 /*move to top page*/
-$("a[href='#top']").on('click', function() {
+$("a[href='#top']").on('click', function () {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     return false;
 });
@@ -416,14 +418,14 @@ $("a[href='#top']").on('click', function() {
 function PaggingSuccess(e) {
     /*Dont support in Html4 browsers (IE8)
     Solustion: https://github.com/browserstate/history.js*/
-    History.Adapter.bind(window, 'statechange', function() { // Note: We are using statechange instead of popstate
+    History.Adapter.bind(window, 'statechange', function () { // Note: We are using statechange instead of popstate
         var State = History.getState(); // Note: We are using History.getState() instead of event.state
         console.log(State);
     });
 
     History.pushState(null, null, $(e).find('.active a').attr('href'));
 
-//    window.location = $(e).find('.active a').attr('href');
-//    location.assign($(e).find('.active a').attr('href'));
+    //    window.location = $(e).find('.active a').attr('href');
+    //    location.assign($(e).find('.active a').attr('href'));
     $("html, body").animate({ scrollTop: 0 }, 0);
 }

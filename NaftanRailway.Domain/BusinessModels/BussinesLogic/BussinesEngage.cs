@@ -34,31 +34,31 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="recordCount"></param>
         /// <returns></returns>
         public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
-            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
-            var wrkData = Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == chooseDate, false).ToList();
             //exit when empty result (discrease count server query)
-            if (wrkData.Count == 0 ){
+            if (GetCountRows<krt_Guild18>(x => x.reportPeriod == chooseDate) == 0) {
                 recordCount = 0;
-                return  new List<Shipping>() ;
+                return new List<Shipping>();
             }
+            //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
+            var wrkData = GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote)
                 .Skip(pageSize * (page - 1))
-                .Take(pageSize);
+                .Take(pageSize).ToList();
             /*linqkit*/
             //v_otpr
             var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
             votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
-            var voSrc = Uow.Repository<v_otpr>().Get_all(votprPredicate, false).ToList();
+            var voSrc = GetTable<v_otpr, int>(votprPredicate).ToList();
             //v_o_v
             var vovPredicate = PredicateBuilder.False<v_o_v>();
             vovPredicate = voSrc.Select(x => x.id).Aggregate(vovPredicate, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
-            var vovSrc = Uow.Repository<v_o_v>().Get_all(vovPredicate, false).ToList();
+            var vovSrc = GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
             var etsngPredicate = PredicateBuilder.False<etsng>();
             etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(etsngPredicate, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
-            var etsngSrc = Uow.Repository<etsng>().Get_all(etsngPredicate, false).ToList();
+            var etsngSrc = GetTable<etsng, int>(etsngPredicate).ToList();
 
             var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1
                           from item in g1.DefaultIfEmpty() where (item != null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
@@ -67,9 +67,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                           select new Shipping() {
                               VOtpr = item,
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == item.id),
-                              VPams = Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false)
-                                .Where(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
-                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => (int)y.idSrcDocument)))
+                              VPams = GetTable<v_pam, int>(PredicateBuilder.True<v_pam>().And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
+                                .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
+                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => (int)y.idSrcDocument))).Expand())
                                 .ToList(),
                               /*Uow.ActiveContext.Database.SqlQuery<v_pam>(@"
                                 SELECT vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
@@ -80,10 +80,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                     WHERE type_doc = 2 AND vp.id_ved = src.idSrcDocument AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
                                  new SqlParameter("@param1", chooseDate),
                                  new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
-                              VAkts = Uow.Repository<v_akt>().Get_all(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state==32, false)
-                                .Where(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
-                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3)
-                                        .Select(y => (int) y.idSrcDocument)))
+                              VAkts = GetTable<v_akt, int>(PredicateBuilder.True<v_akt>().And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
+                                .And(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
+                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => (int)y.idSrcDocument))).Expand())
                                 .ToList(),
                               /*Uow.ActiveContext.Database.SqlQuery<v_akt>(@"
                                 SELECT nakt,dakt,nkrt,id_kart
@@ -94,9 +93,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                         AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
                               new SqlParameter("@param1", chooseDate),
                               new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
-                              VKarts = Uow.Repository<v_kart>().Get_all(x => new[] { "3494", "349402" }.Contains(x.cod_pl),false)
-                                .Where(PredicateExtensions.InnerContainsPredicate<v_kart,int>("id",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard)))
+                              VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
+                                .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard))).Expand())
                                 .ToList(),
                               /*Uow.ActiveContext.Database.SqlQuery<v_kart>(@"
                                 SELECT vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
@@ -106,7 +105,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                     AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2 OR (ISNULL(@param2,0) = 0 AND src.idDeliviryNote IS NULL));",
                               new SqlParameter("@param1", chooseDate),
                               new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
-                              KNaftan = Uow.Repository<krt_Naftan>().Get_all(enablecaching: false).Where(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
+                              KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll)))
                                 .ToList(),
                               /* Uow.ActiveContext.Database.SqlQuery<krt_Naftan>(@"
@@ -125,7 +124,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               }
                           }).ToList();
 
-            recordCount =(short) result.Count();
+            recordCount = (short)result.Count();
             return result.ToList();
         }
 
@@ -134,10 +133,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         /// <param name="chooseDate"></param>
         /// <returns></returns>
-        public List<short> GetTypeOfOpers(DateTime chooseDate){
-           return Uow.Repository<v_otpr>().Get_all(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)),false)
-                .Where(PredicateExtensions.InnerContainsPredicate<v_otpr, int>("id", GetTable<krt_Guild18,long>( x => x.reportPeriod == chooseDate && x.idDeliviryNote != null)
-                    .GroupBy(x => new { x.recordNumber, x.idDeliviryNote }).Select(x=>(int)x.Key.idDeliviryNote))).GroupBy(x=>x.oper).Select(x=>x.Key.Value).ToList();
+        public List<short> GetTypeOfOpers(DateTime chooseDate) {
+            return Uow.Repository<v_otpr>().Get_all(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)), false)
+                 .Where(PredicateExtensions.InnerContainsPredicate<v_otpr, int>("id", GetTable<krt_Guild18, long>(x => x.reportPeriod == chooseDate && x.idDeliviryNote != null)
+                     .GroupBy(x => new { x.recordNumber, x.idDeliviryNote }).Select(x => (int)x.Key.idDeliviryNote))).GroupBy(x => x.oper).Select(x => x.Key.Value).ToList();
         }
         /// <summary>
         /// Autocomplete function
@@ -210,9 +209,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <summary>
         /// Get General table with predicate ( load in memory)
         /// </summary>
-        public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null,bool caсhe = false) where T : class {
+        public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate,caсhe).ToList() : Uow.Repository<T>().Get_all(predicate, caсhe).OrderByDescending(orderPredicate).ToList();
+                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate, caсhe).ToList() : Uow.Repository<T>().Get_all(predicate, caсhe).OrderByDescending(orderPredicate).ToList();
             }
         }
         public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {

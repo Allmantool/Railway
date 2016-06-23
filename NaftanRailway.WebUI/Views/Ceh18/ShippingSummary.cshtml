@@ -1,111 +1,21 @@
-﻿@using NaftanRailway.Domain.BusinessModels.BussinesLogic
-@model IEnumerable<Shipping>
+﻿@model DispatchListViewModel
 @{
     Layout = null;
-    int i = (int)(ViewData["index"] ?? 0);
+    var i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
 }
-@foreach (var sh in Model) {
-    <div class="panel panel-default col-lg-12" id="myPanel@(++i))">
-        <div class="panel-heading small row small">
-            <div class="col-lg-2 row">
-                <ul class="list-inline text-capitalize">
-                    <li class="panel-title">
-                        @(i)
-                        @if (sh.VOtpr != null) {
-                            <span class="@(sh.VOtpr.oper == 1 ? "glyphicon glyphicon-road" : "glyphicon glyphicon-home")"></span>
-                            <a href="#@(i)" data-toggle="collapse">@sh.VOtpr.n_otpr</a>
-                        } else {
-                            <span class="glyphicon glyphicon-usd"></span>
-                            <a href="#@(i)" data-toggle="collapse">Доп. сбор</a>
-                        }
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-9 row">
-                @if (sh.VOtpr != null) {
-                    <ul class="list-inline text-center">
-                        <li><strong>От:</strong> @sh.VOtpr.adr_otpr @sh.VOtpr.nam_otpr</li>
-                        <li><span class="glyphicon glyphicon-arrow-right"></span></li>
-                        <li><strong>Кому:</strong> @sh.VOtpr.adr_pol @sh.VOtpr.nam_pol</li>
-                        <li><strong>Груз:</strong> @String.Join(", ", sh.Etsng)<span class="small">(ЕТСНГ: @sh.VOtpr.cod_tvk_etsng)</span></li>
-                        <li><strong>Склад:</strong> @sh.Guild18.warehouse</li>
-                    </ul>
-                } else {
-                    <p style="font-size: 1.5em; vertical-align: middle; text-align: center;">@(sh.KNaftan.Select(x => x.U_KOD).FirstOrDefault() == 2 ? "Багаж ст. Витебск" : "Прохождение проверки знаний")</p>
-                }
-            </div>
-            <div class="col-lg-0 text-right pull-right">
-                @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
-                    @Html.HiddenFor(x => sh.VOtpr.id)
-                    @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
-                    <button type="submit" class="btn btn-sm btn-link btn-default" data-loading-text="Loading..." id="btn@(i)">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                }
-                @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
-                    @Html.HiddenFor(x => sh.VOtpr.id)
-                    @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
-                    <button type="submit" class="btn btn-sm btn-link btn-warning" data-loading-text="Loading..." id="btn@(i)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                }
-            </div>
-        </div>
-        <div id="@(i)" class="collapse row">
-            <div class="panel-body">
-                @if (sh.VOtpr != null) {
-                    <ul class="list-inline text-center small">
-                        @if (sh.Vovs.Any()) {
-                            <li><strong>Вагон(ы) №:</strong> @String.Join(", ", sh.Vovs)</li>
-                        }
-                        @if (sh.VPams.Any()) {
-                            <li><strong>Ведомости:</strong> @String.Join(", ", sh.VPams.Select(x => x.nved))</li>
-                        }
-                        @if (sh.VAkts.Any()) {
-                            <li><strong>Акты:</strong> @String.Join(", ", sh.VAkts.Select(x => x.nakt))</li>
-                        }
-                        @if (sh.VKarts.Any()) {
-                            <li><strong>Накопительные карточки:</strong> @String.Join(", ", sh.VKarts.Select(x => x.num_kart))</li>
-                        }
-                        @if (sh.KNaftan.Any()) {
-                            <li><strong>Перечни:</strong> @String.Join(", ", sh.KNaftan.Select(x => x.NKRT))</li>
-                        }
-                        @if (sh.VOtpr.g6.Length > 0) {
-                            <li><strong>Договор:</strong> @sh.VOtpr.g6</li>
-                        }
-                        @if (sh.VOtpr.g11.Length > 0) {
-                            <li><strong>Описание:</strong> @sh.VOtpr.g11</li>
-                        }
-                    </ul>
-                } else {
-                    <div>
-                        <ul class="list-inline text-center small">
-                            @if (sh.VKarts.Any()) {
-                                <li><strong>Накопительные карточки:</strong> @String.Join(", ", sh.VKarts.Select(x => x.num_kart))</li>
-                            }
-                            @if (sh.KNaftan.Any()) {
-                                <li><strong>Перечни:</strong> @String.Join(", ", sh.KNaftan.Select(x => x.NKRT))</li>
-                            }
-                        </ul>
-                    </div>
-                }
-            </div>
-            <div class="panel-footer small">
-                <ul class="list-inline">
-                    @if (sh.VOtpr != null) {
-                        <li class="pull-left">
-                            @(sh.VOtpr.oper == 1 ? "Отправка" : "Прибытие")
-                            @(sh.VOtpr.date_oper != null ? sh.VOtpr.date_oper.Value.ToString("d MMM yyyy") : "Не указана")
-                        </li>
-                        <li class="pull-right">@sh.VOtpr.fio_tk</li>
-                    } else {
-                        <li class="pull-left">
-                            <span>Дополн. сбор</span>
-                            @(sh.KNaftan != null ? @String.Join(", ", sh.KNaftan.Select(x => x.EndDate_PER.ToString("d MMM yyyy"))) : "Не указана")
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
+
+<div id="categories" class="col-lg-2 hidden-xs">
+    @{Html.RenderAction("MenuTypeOperations", "Navigation");}
+</div>
+
+<div class="col-xs-12 col-lg-10">
+    <!--body summary.cshtml -->
+    <div class="panel-group col-lg-12">
+        @{Html.RenderPartial("Dispatchs", Model.Dispatchs, new ViewDataDictionary { { "index", i } });}
     </div>
-}
+
+    <!--pagging -->
+    <div class="text-center navbar-fixed-bottom navbar navbar-default">
+        @{Html.RenderPartial("ShPagging", Model);}
+    </div>
+</div>

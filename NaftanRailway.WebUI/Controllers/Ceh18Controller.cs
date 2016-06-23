@@ -44,7 +44,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 Menu = menuView
             };
 
-            if (Request.IsAjaxRequest()) { return PartialView("ShippingSummary", model.Dispatchs); }
+            if (Request.IsAjaxRequest()) { return PartialView("ShippingSummary", model); }
 
             return View(model);
         }
