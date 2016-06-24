@@ -14,13 +14,13 @@
             </div>
             <div class="col-md-5">
                 @using (@Ajax.BeginRouteForm("Path_Full", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "Index" } },
-                new AjaxOptions() { HttpMethod = "Get", OnSuccess = "", InsertionMode = InsertionMode.Replace, UpdateTargetId = "" },
-                new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
+                    new AjaxOptions() { HttpMethod = "Post",Url = "/Ceh18/Index"},
+                    new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
                     <div class="form-group col-md-5" id="sandbox-container">
                         <div class="input-group date">
                             @Html.TextBoxFor(m => m.ReportPeriod, new {
                            @class = "form-control", type = "text", @readonly = "readonly",
-                           @Value = (Model.ReportPeriod != null) ? Model.ReportPeriod.ToString("MMMM yyyy") : DateTime.Today.ToString("MMMM yyyy").ToLower()
+                           @Value = Model.ReportPeriod.ToString("MMMM yyyy")
                        })
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>

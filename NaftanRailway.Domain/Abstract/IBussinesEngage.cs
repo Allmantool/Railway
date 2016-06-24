@@ -19,6 +19,13 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <returns></returns>
         List<short> GetTypeOfOpers(DateTime chooseDate);
+        /// <summary>
+        /// Sync time between session storage and menu on the page (this done for reload and ajax sync) =>correct sql =>return actual data
+        /// </summary>
+        /// <param name="storage"></param>
+        /// <param name="menuTime"></param>
+        /// <returns></returns>
+        DateTime SyncActualDate(SessionStorage storage, DateTime menuTime);
         ///long ShippingsViewsCount(string templShNumber, EnumOperationType operationCategory, DateTime chooseDate, byte shiftPage = 3);
         IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3);
         //IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3);

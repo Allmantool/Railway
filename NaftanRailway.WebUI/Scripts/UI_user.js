@@ -159,11 +159,11 @@ $(function () {
         source: function (request, response) {
             $.ajax({
                 url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
-                type: "Get",
+                type: "Post",
                 dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
                 success: function (data) {
-                    response($.map(data.slice(0, 12), function (item) {
+                    response($.map(data, function (item) {
                         return { label: item };
                     }));
                 }

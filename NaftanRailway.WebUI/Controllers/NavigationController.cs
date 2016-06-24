@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.WebUI.ViewModels;
@@ -14,10 +15,14 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <summary>
         /// Menu type operasion
         /// </summary>
+        /// <param name="storage"></param>
         /// <param name="menuView"></param>
         /// <param name="operationCategory"></param>
         /// <returns></returns>
-        public PartialViewResult MenuTypeOperations(InputMenuViewModel menuView, string operationCategory = null) {
+        public PartialViewResult MenuTypeOperations(SessionStorage storage,InputMenuViewModel menuView, string operationCategory = null) {
+            //reload page (save select report date)
+            menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
+            
             //Передаем динамически типы операций
             menuView.SelectedOperCategory = operationCategory;
             menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.WebUI.ViewModels;
@@ -26,19 +24,11 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
             const short pageSize = 10;
             short recordCount;
-            //reload page (save select report date)
-            if (storage.ReportPeriod == DateTime.MinValue && menuView.ReportPeriod == DateTime.MinValue) {
-                menuView.ReportPeriod = DateTime.Today;
-            } else if (storage.ReportPeriod != DateTime.MinValue && menuView.ReportPeriod == DateTime.MinValue) {
-                menuView.ReportPeriod = storage.ReportPeriod;
-            } else {
-                storage.ReportPeriod = menuView.ReportPeriod;
-            }
 
-            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
+            menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
             var model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, chooseDate, page, pageSize, out recordCount),
+                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
                 PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount },
                 OperationCategory = operationCategory,
                 Menu = menuView
@@ -54,33 +44,19 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <returns></returns>
         [HttpPost]
-        public RedirectToRouteResult Index(InputMenuViewModel menuView) {
-            if (menuView.ShippingChoise == "") {
-                return RedirectToRoute("Period", new {
-                    reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.ToString("MMyyyy") : null,
-                    page = 1
-                });
-            }
-
-            return RedirectToRoute("Path_Full", new {
-                reportPeriod = menuView.ReportPeriod != null ? menuView.ReportPeriod.ToString("MMyyyy") : null,
-                templateNumber = menuView.ShippingChoise == "" ? null : menuView.ShippingChoise,
-                page = 1
-            });
+        public ActionResult Index(InputMenuViewModel menuView){
+            return new EmptyResult();
         }
         /// <summary>
         /// For shipping number autoComplete
         /// </summary>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
-            if (menuView.ReportPeriod == null) return Json("", JsonRequestBehavior.AllowGet);
+            var result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, menuView.ReportPeriod);
 
-            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
-            IEnumerable<string> result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, chooseDate);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
         /// <summary>
         /// Return grouping by oper result

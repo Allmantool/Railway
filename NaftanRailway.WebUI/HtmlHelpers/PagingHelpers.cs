@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
+using System.Web.Routing;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.HtmlHelpers {
@@ -103,9 +105,14 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
             return MvcHtmlString.Create(result.ToString());
         }
 
-        public static MvcHtmlString AjaxPageLinks(this HtmlHelper html, PagingInfo pagingInfo, int sizePatginatonBar, Func<int, string> pageUrl) {
+        public static MvcHtmlString AjaxPageLinks(this HtmlHelper html, PagingInfo pagingInfo, int sizePatginatonBar, Func<int, string> pageUrl, AjaxOptions optAjax) {
             //if (html == null) throw new ArgumentNullException("html");
-
+            var ajaxAttr = new RouteValueDictionary(){
+                { "data-ajax", "true" },
+                { "data-ajax-method", optAjax.HttpMethod },
+                { "data-ajax-mode", optAjax.InsertionMode.ToString() },
+                { "data-ajax-update", optAjax.UpdateTargetId },
+            };
             StringBuilder result = new StringBuilder();
 
             //for best view paging (selection always in middle)
@@ -125,6 +132,7 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
             TagBuilder atag = new TagBuilder("a");
             //retrive url
             atag.MergeAttribute("href", pagingInfo.CurrentPage > 1 ? pageUrl(pagingInfo.CurrentPage - 1) : pageUrl(1));
+            atag.MergeAttributes(ajaxAttr);
             atag.MergeAttribute("aria-label", "Previous");
 
             TagBuilder stspanTag = new TagBuilder("span");
@@ -150,6 +158,8 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
                 srSpan.AddCssClass("sr-only");
                 srSpan.InnerHtml = "(current)";
                 apagetag.MergeAttribute("href", pageUrl(i));
+                apagetag.MergeAttributes(ajaxAttr);
+
                 if (i == pagingInfo.CurrentPage) {
                     //lipageTag.AddCssClass("active");
                     apagetag.InnerHtml = i + srSpan.ToString();
@@ -170,6 +180,7 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
             TagBuilder nexttag = new TagBuilder("a");
 
             nexttag.MergeAttribute("href", pagingInfo.CurrentPage < pagingInfo.TotalPages ? pageUrl(pagingInfo.CurrentPage + 1) : pageUrl(pagingInfo.TotalPages));
+            nexttag.MergeAttributes(ajaxAttr);
             nexttag.MergeAttribute("aria-label", "Next");
 
             TagBuilder endSpanTag = new TagBuilder("span");

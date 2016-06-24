@@ -10,32 +10,28 @@
         <ul class="list-group">
             <li class="list-group-item @(EnumOperationType.All.ToString() == Model.SelectedOperCategory ? " active" : "")">
                 <span class="badge" id="bangeTotal"></span>
-                @Html.RouteLink("Все",
+                @Ajax.RouteLink("Все",
                     new {
                         operationCategory = (EnumOperationType.All).ToString(),
                         page = 1,
                         reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
                         templateNumber = Model.ShippingChoise ?? ""
-                    },
-                    new {
-                        @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")
-                    })
+                    },new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
+                    new {@class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")})
             </li>
-            
+
             @foreach (short? link in Model.TypesOfOperation) {
                 if (link != null) {
                     <li class="list-group-item @(((EnumOperationType) link).ToString() == Model.SelectedOperCategory ? " active" : "")">
                         <span class="badge" id="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>
-                        @Html.RouteLink(link == 1 ? "Отправка" : "Прибытие",
+                        @Ajax.RouteLink(link == 1 ? "Отправка" : "Прибытие",
                             new {
                                 operationCategory = ((EnumOperationType)link).ToString(),
                                 page = 1,
                                 reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
                                 templateNumber = Model.ShippingChoise ?? ""
-                            },
-                            new {
-                                @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")
-                            })
+                            },new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
+                            new {@class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")})
                     </li>
                 }
             }

@@ -127,16 +127,32 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             recordCount = (short)result.Count();
             return result.ToList();
         }
-
         /// <summary>
         /// Get current avaible type of operation on dispatch
         /// </summary>
         /// <param name="chooseDate"></param>
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
-            return Uow.Repository<v_otpr>().Get_all(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)), false)
-                 .Where(PredicateExtensions.InnerContainsPredicate<v_otpr, int>("id", GetTable<krt_Guild18, long>(x => x.reportPeriod == chooseDate && x.idDeliviryNote != null)
-                     .GroupBy(x => new { x.recordNumber, x.idDeliviryNote }).Select(x => (int)x.Key.idDeliviryNote))).GroupBy(x => x.oper).Select(x => x.Key.Value).ToList();
+            var wrkDispatch = GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).ToList();
+            var result = GetGroup<v_otpr, short>(x => (short)x.oper,
+                x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) && wrkDispatch.Contains(x.id))
+                .ToList();
+
+            return result;
+        }
+        public DateTime SyncActualDate(SessionStorage storage, DateTime menuTime) {
+            //reload page (save select report date)
+            if (storage.ReportPeriod == DateTime.MinValue && menuTime == DateTime.MinValue) {
+                return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            }
+
+            if (storage.ReportPeriod != DateTime.MinValue && menuTime == DateTime.MinValue) {
+                return storage.ReportPeriod;
+            }
+
+            storage.ReportPeriod = menuTime;
+
+            return menuTime;
         }
         /// <summary>
         /// Autocomplete function
@@ -145,12 +161,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="chooseDate"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
+        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 7) {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddDays(shiftPage);
 
-            return GetGroup<v_otpr, string>(x => new { x.id, x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
-                && (x.date_oper >= startDate && x.date_oper <= endDate)).OrderByDescending(x => x).Take(20);
+            return GetGroup<v_otpr, string>(x => new { x.id, x.n_otpr }.n_otpr,x => x.n_otpr.StartsWith(templShNumber) 
+                && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
+                && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
+                .OrderByDescending(x => x).Take(10);
         }
         public ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse) {
             throw new NotImplementedException();
