@@ -74,7 +74,7 @@ namespace NaftanRailway.Domain.BusinessModels {
         /// <summary>
         /// apply changes (check/unchecked and etc)
         /// </summary>
-        public void Update(ShippingInfoLine line) {
+        /*public void Update(ShippingInfoLine line) {
             //wagons
             if (line.WagonsNumbers != null) {
                 List<v_o_v> fixLine = line.WagonsNumbers.ToList().FindAll(w => w.IsSelected);
@@ -103,7 +103,7 @@ namespace NaftanRailway.Domain.BusinessModels {
                 line.Cards.Clear();
                 line.Cards = fixLine;
             }
-        }
+        }*/
 
         /// <summary>
         /// Подготовка модели для:
@@ -128,7 +128,7 @@ namespace NaftanRailway.Domain.BusinessModels {
                     n_per_list = "25795",
                     n_kart = "ЖТ2922",
                     note = "160303",
-                    warehouse = line.Warehouse.ToString()
+                    //warehouse = line.Warehouse.ToString()
                 });
             }
 

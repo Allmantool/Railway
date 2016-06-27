@@ -592,6 +592,8 @@
     <Content Include="Scripts\bundle\html4\jquery.history.js" />
     <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
+    <Content Include="Scripts\_General.js" />
+    <Content Include="Scripts\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
@@ -638,7 +640,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectivizr-1.0.2.js" />
     <Content Include="Scripts\selectivizr-1.0.2.min.js" />
-    <Content Include="Scripts\UI_user.js" />
+    <Content Include="Scripts\_Scrolls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -658,6 +660,9 @@
     <Content Include="Views\Storage\Summary.cshtml" />
     <Content Include="Views\Ceh18\Dispatchs.cshtml" />
     <Content Include="Views\Ceh18\ShPagging.cshtml" />
+    <Content Include="Views\Ceh18\_DeliveryPreviewModal.cshtml" />
+    <Content Include="Views\Ceh18\DispatchsMini.cshtml" />
+    <Content Include="Views\Ceh18\_NotFoundModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />

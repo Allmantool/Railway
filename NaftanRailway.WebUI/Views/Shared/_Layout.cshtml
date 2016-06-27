@@ -24,7 +24,7 @@
                 <div class="alert alert-success">@TempData["message"]</div>
             }
         </div>
-        <div class="container-fluid">@RenderBody()</div>
+        <div class="container-fluid" id="Guild18Body">@RenderBody()</div>
     </div>
 
     <!--[if lte IE 8]>
@@ -38,7 +38,7 @@
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
     <!--<![endif]-->
-
+    <script type="text/javascript" src="~/Scripts/_Guild18.js" defer></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

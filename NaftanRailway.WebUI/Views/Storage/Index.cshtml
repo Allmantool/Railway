@@ -20,13 +20,13 @@
             <th class="text-center">№</th>
             <th class="text-left">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping)</th>
             <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().WagonsNumbers)</th>
-            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Bills)</th>
+            @*<th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Bills)</th>
             <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Acts)</th>
-            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Cards)</th>
+            <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Cards)</th>*@
             <th class="text-center">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.g11)</th>
             <th class="text-left">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.g8)</th>
             <th class="text-right">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Shipping.fio_tk)</th>
-            <th class="text-right">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Warehouse)</th>
+            @*<th class="text-right">@Html.DisplayNameFor(m => m.Storage.Lines.FirstOrDefault().Warehouse)</th>*@
         </tr>
     </thead>
    
@@ -43,7 +43,7 @@
                          @String.Join(", ", line.WagonsNumbers)
                     }
                 </td>
-                <td class="text-center">
+                @*<td class="text-center">
                     @if (line.Bills !=null){
                          @String.Join(", ", line.Bills)
                     }
@@ -57,11 +57,11 @@
                     @if (line.Cards != null) {
                         @String.Join(", ",line.Cards)
                     }  
-                </td>
+                </td>*@
                 <td class="text-center"><small>@Html.DisplayFor(l => line.Shipping.g11)</small></td>
                 <td class="text-center"><small>@Html.DisplayFor(l => line.Shipping.g8)</small></td>
                 <td class="text-right"><small>@Html.DisplayFor(l => line.Shipping.fio_tk)</small></td>
-                <td class="text-center">@Html.DisplayFor(l => line.Warehouse)</td>
+                @*<td class="text-center">@Html.DisplayFor(l => line.Warehouse)</td>*@
             </tr>
             <tr>
                 <td colspan="8"></td>

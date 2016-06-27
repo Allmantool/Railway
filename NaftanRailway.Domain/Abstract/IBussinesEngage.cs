@@ -32,10 +32,10 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Get All info 
         /// </summary>
-        /// <param name="shipping">requered shipping number</param>
-        /// <param name="warehouse">correcting warehouse</param>
+        /// <param name="deliveryNote">correcting warehouse</param>
+        /// <param name="recordCount">correcting warehouse</param>
         /// <returns></returns>
-        ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse);
+        ShippingInfoLine PackDocuments(string deliveryNote, out short recordCount);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
