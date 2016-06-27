@@ -165,13 +165,30 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddDays(shiftPage);
 
-            return GetGroup<v_otpr, string>(x => new { x.id, x.n_otpr }.n_otpr,x => x.n_otpr.StartsWith(templShNumber) 
-                && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
-                && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
+            return GetGroup<v_otpr, string>(x => new { x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
+                 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
+                 && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
-        public ShippingInfoLine PackDocuments(v_otpr shipping, int warehouse) {
-            throw new NotImplementedException();
+        public ShippingInfoLine PackDocuments(string deliveryNote, out short recordCount) {
+            IEnumerable<ShippingInfoLine> result;
+
+            if (GetCountRows<v_otpr>(x => x.n_otpr == deliveryNote) > 0) {
+                recordCount = 0;
+            } else {
+                var delivery = GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote);
+                //one trunsaction (one request per one dbcontext)
+                using (Uow = new UnitOfWork()) {
+                    result = (from sh in delivery join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on sh.cod_tvk_etsng equals e.etsng1
+                              select new ShippingInfoLine() {
+                                  Shipping = sh,
+                                  CargoEtsngName = e,
+                                  WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == sh.id),
+                              }).ToList();
+                }
+                recordCount = (short)result.ToList().Count;
+            }
+            return new ShippingInfoLine();
         }
         public IQueryable<Shipping> ShippingInformation {
             get { throw new NotImplementedException(); }

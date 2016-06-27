@@ -35,7 +35,6 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         public RedirectToRouteResult AddRow(SessionStorage storage, int id, string returnUrl) {
             ShippingInfoLine line = storage.Lines.FirstOrDefault(sh => sh.Shipping.id == id);
-
             if (line == null) {
                 v_otpr shipping = _bussinesEngage.GetTable<v_otpr,bool>(x=>x.id == id).FirstOrDefault();
 
@@ -43,7 +42,8 @@ namespace NaftanRailway.WebUI.Controllers {
                     //temp variant(time period)
                     storage.ReportPeriod = shipping.date_oper ?? DateTime.Today;
 
-                    ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping, 2);
+                    short recordCount;
+                    ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping.n_otpr, out recordCount);
 
                     storage.AddItem(packDocument);
                 }
@@ -96,7 +96,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult EditRow(SessionStorage storage, InfoLineViewModel line) {
-            storage.Update(line.DocumentPackLine);
+            //storage.Update(line.DocumentPackLine);
 
             if (ModelState.IsValid) {
                 storage.SaveLine(line.DocumentPackLine);

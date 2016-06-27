@@ -128,13 +128,13 @@ namespace NaftanRailway.Domain.Concrete {
 
             //don't need empty constructor
             return new ShippingInfoLine() {
-                Warehouse = warehouese,
+                //Warehouse = warehouese,
                 Shipping = shipping,
                 WagonsNumbers = wagonsNumbers,
-                Bills = bills,
+                /*Bills = bills,
                 Acts = acts,
                 Cards = cards,
-                Luggages = luggages
+                Luggages = luggages*/
             };
         }
 

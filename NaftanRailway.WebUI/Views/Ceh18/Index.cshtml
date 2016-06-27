@@ -4,5 +4,7 @@
     ViewBag.Title = @"Номер отправки";
 }
 <div class="row" id="infoArea">
-    @{Html.RenderPartial("ShippingSummary", Model) ;}
+    @{Html.RenderPartial("ShippingSummary", Model);}
+</div>
+<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
 </div>

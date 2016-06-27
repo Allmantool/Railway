@@ -44,7 +44,16 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(InputMenuViewModel menuView){
+        public ActionResult Index(InputMenuViewModel menuView) {          
+            if (Request.IsAjaxRequest()) {
+                short recordCount;
+                var result = _bussinesEngage.PackDocuments(menuView.ShippingChoise, out recordCount);
+
+                if (recordCount == 0) {
+                    return PartialView("_NotFoundModal", result);
+                }
+                return PartialView("_DeliveryPreviewModal", result);
+            }
             return new EmptyResult();
         }
         /// <summary>

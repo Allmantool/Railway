@@ -29,7 +29,7 @@ namespace NaftanRailway.WebUI.Controllers {
             ShippingInfoLine line = storage.Lines.FirstOrDefault(l => l.Shipping.id == wagon.id_otpr);
 
             if (line != null) {
-                line.WagonsNumbers.Remove(line.WagonsNumbers.FirstOrDefault(w => w.id == wagon.id));
+                //line.WagonsNumbers.Remove(line.WagonsNumbers.FirstOrDefault(w => w.id == wagon.id));
 
                 //replace(update)
                 storage.RemoveLine(line.Shipping);

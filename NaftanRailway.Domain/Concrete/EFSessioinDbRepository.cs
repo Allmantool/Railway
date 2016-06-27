@@ -33,7 +33,7 @@ namespace NaftanRailway.Domain.Concrete.DbContext {
                             reportPeriod = new DateTime(session.ReportPeriod.Year, session.ReportPeriod.Month, 1),
                             n_otpr = line.Shipping.n_otpr,
                             n_wag = wagonsNumber.n_vag,
-                            warehouse = line.Warehouse,
+                            //warehouse = line.Warehouse,
                             cargo = line.Shipping.g11,
                             address = line.Shipping.g8,
                             executor = line.Shipping.fio_tk,

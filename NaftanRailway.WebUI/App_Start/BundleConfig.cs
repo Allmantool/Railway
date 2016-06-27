@@ -22,15 +22,14 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/jquery.validate.min.js",
                          "~/Scripts/jquery.validate.unobtrusive.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.min.js",
-                         "~/Scripts/bundle/html5/jquery.history.js"
-                         ));
+                         "~/Scripts/bundle/html5/jquery.history.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8")
                 .Include("~/Scripts/modernizr-custom.js",
                           "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
-                .Include("~/Scripts/UI_user.js"));
+                .Include("~/Scripts/_General.js"));
 
             bundles.Add(new StyleBundle("~/Content/cssbundle")
                 .Include("~/Content/bootstrap.min.css",
