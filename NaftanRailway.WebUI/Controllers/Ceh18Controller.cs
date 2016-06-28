@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.WebUI.ViewModels;
@@ -44,13 +45,13 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(InputMenuViewModel menuView) {          
+        public ActionResult Index(InputMenuViewModel menuView) {
             if (Request.IsAjaxRequest()) {
                 short recordCount;
-                var result = _bussinesEngage.PackDocuments(menuView.ShippingChoise, out recordCount);
+                var result = _bussinesEngage.PackDocuments(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
 
                 if (recordCount == 0) {
-                    return PartialView("_NotFoundModal", result);
+                    return PartialView("_NotFoundModal", menuView.ShippingChoise);
                 }
                 return PartialView("_DeliveryPreviewModal", result);
             }
@@ -73,16 +74,14 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <param name="operationCategory"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
-        //    if(menuView.ReportPeriod != null) {
-        //        DateTime chooseDate = new DateTime(menuView.ReportPeriod.Value.Year, menuView.ReportPeriod.Value.Month, 1);
+        [HttpPost]
+        public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
 
-        //        var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
+            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
 
-        //        return Json(resultGroup, JsonRequestBehavior.AllowGet);
-        //    }
-        //    return Json("", JsonRequestBehavior.AllowGet);
-        //}
+            //var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
     }
 }

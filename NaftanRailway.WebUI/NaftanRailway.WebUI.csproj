@@ -304,7 +304,8 @@
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
-    <Content Include="Content\CustomUser.css" />
+    <Content Include="Content\_General.css" />
+    <Content Include="Content\_Scrolls.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActsController.cs" />
     <Compile Include="Controllers\BillsController.cs" />
@@ -387,6 +388,7 @@
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\Images\Aha-Soft-Transport-Train.ico" />
     <Content Include="Content\Images\Gear.gif" />
+    <Content Include="Content\Images\NotFound.png" />
     <Content Include="Content\Images\repair.png" />
     <Content Include="Content\Images\Train.gif" />
     <Content Include="Content\Images\Home.gif" />
@@ -575,6 +577,7 @@
     <Content Include="Content\jquery.ui.theme.css" />
     <Content Include="Content\jquery.ui.theme.font-awesome.css" />
     <Content Include="Content\UI8Style.css" />
+    <Content Include="Content\_Guild18.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Images\no.png" />
     <Content Include="Content\Images\block_blue.png" />

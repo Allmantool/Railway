@@ -170,13 +170,17 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
-        public ShippingInfoLine PackDocuments(string deliveryNote, out short recordCount) {
-            IEnumerable<ShippingInfoLine> result;
+        public IEnumerable<ShippingInfoLine> PackDocuments(string deliveryNote, DateTime dateOper, out short recordCount) {
+            DateTime startDate = dateOper.AddDays(-7);
+            DateTime endDate = dateOper.AddMonths(1).AddDays(7);
+            IEnumerable<ShippingInfoLine> result = new List<ShippingInfoLine>();
 
-            if (GetCountRows<v_otpr>(x => x.n_otpr == deliveryNote) > 0) {
+            var delivery = GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
+               (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))).ToList();
+
+            if (!delivery.Any()) {
                 recordCount = 0;
             } else {
-                var delivery = GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote);
                 //one trunsaction (one request per one dbcontext)
                 using (Uow = new UnitOfWork()) {
                     result = (from sh in delivery join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on sh.cod_tvk_etsng equals e.etsng1
@@ -186,9 +190,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                   WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == sh.id),
                               }).ToList();
                 }
-                recordCount = (short)result.ToList().Count;
+                recordCount = (short)result.Count();
             }
-            return new ShippingInfoLine();
+            return result;
         }
         public IQueryable<Shipping> ShippingInformation {
             get { throw new NotImplementedException(); }

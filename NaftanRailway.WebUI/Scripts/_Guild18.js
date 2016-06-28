@@ -77,3 +77,6 @@ $('#sandbox-container .input-group').datepicker({
     // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 /***************************Render modal view (preview for adding precess)*********************************************************************/
+function findResult(data) {
+    $("#previewDeliveryModal").modal('show');
+};
