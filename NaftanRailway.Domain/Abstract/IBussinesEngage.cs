@@ -33,9 +33,10 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get All info 
         /// </summary>
         /// <param name="deliveryNote">correcting warehouse</param>
+        /// <param name="dateOper"></param>
         /// <param name="recordCount">correcting warehouse</param>
         /// <returns></returns>
-        ShippingInfoLine PackDocuments(string deliveryNote, out short recordCount);
+        IEnumerable<ShippingInfoLine> PackDocuments(string deliveryNote,DateTime dateOper, out short recordCount);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>

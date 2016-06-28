@@ -43,9 +43,9 @@ namespace NaftanRailway.WebUI.Controllers {
                     storage.ReportPeriod = shipping.date_oper ?? DateTime.Today;
 
                     short recordCount;
-                    ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping.n_otpr, out recordCount);
+                    //ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping.n_otpr, out recordCount);
 
-                    storage.AddItem(packDocument);
+                    //storage.AddItem(packDocument);
                 }
             }
             TempData["returnUrl"] = returnUrl;

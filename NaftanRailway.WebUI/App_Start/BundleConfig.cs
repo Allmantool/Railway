@@ -4,7 +4,6 @@ namespace NaftanRailway.WebUI {
     public static class BundleConfig {
         // Дополнительные сведения о Bundling см. по адресу http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles) {
-
             bundles.Add(new ScriptBundle("~/bundles/JQuery1")
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
@@ -40,8 +39,7 @@ namespace NaftanRailway.WebUI {
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
                          "~/Content/jquery.ui.theme.font-awesome.css",
-                         "~/Content/ErrorStyles.css",
-                         "~/Content/CustomUser.css"));
+                         "~/Content/ErrorStyles.css"));
         }
     }
 }

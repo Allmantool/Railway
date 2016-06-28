@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-5">
                 @using (@Ajax.BeginRouteForm("Path_Full", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "Index" } },
-                    new AjaxOptions() { HttpMethod = "Post",InsertionMode = InsertionMode.Replace,UpdateTargetId = "previewDeliveryModal",OnComplete = "findResult" },
+                    new AjaxOptions() { HttpMethod = "Post",InsertionMode = InsertionMode.Replace,UpdateTargetId = "previewDeliveryModal",OnSuccess = "findResult" },
                     new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
                     <div class="form-group col-md-5" id="sandbox-container">
                         <div class="input-group date">
