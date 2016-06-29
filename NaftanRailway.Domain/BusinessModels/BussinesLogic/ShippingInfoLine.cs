@@ -20,5 +20,8 @@ namespace NaftanRailway.Domain.BusinessModels {
 
         [DisplayName("Наименование груза (ETСНГ)")]
         public etsng CargoEtsngName { get; set; }
+
+        [DisplayName("Номер склада")]
+        public int Warehouse { get; set; }
     }
 }

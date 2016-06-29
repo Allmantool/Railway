@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
@@ -48,11 +49,13 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult Index(InputMenuViewModel menuView) {
             if (Request.IsAjaxRequest()) {
                 short recordCount;
-                var result = _bussinesEngage.PackDocuments(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
+                var result = _bussinesEngage.ShippingPreview(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
 
                 if (recordCount == 0) {
                     return PartialView("_NotFoundModal", menuView.ShippingChoise);
                 }
+                //report main date (month/year)
+                ViewBag.datePeriod = menuView.ReportPeriod;
                 return PartialView("_DeliveryPreviewModal", result);
             }
             return new EmptyResult();
@@ -82,6 +85,17 @@ namespace NaftanRailway.WebUI.Controllers {
             //var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
 
             return Json("", JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// Add information about distach in db
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AddDocumentsInfo(DateTime reportPeriod,IEnumerable<ShippingInfoLine> docInfo){
+            if (Request.IsAjaxRequest()) {
+                var result = _bussinesEngage.PackDocuments(reportPeriod, docInfo);
+            }
+            return new EmptyResult();
         }
     }
 }
