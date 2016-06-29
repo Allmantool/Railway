@@ -4,7 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web.UI;
 using LinqKit;
+using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -170,7 +172,34 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
-        public IEnumerable<ShippingInfoLine> PackDocuments(string deliveryNote, DateTime dateOper, out short recordCount) {
+        public IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IEnumerable<ShippingInfoLine> preview) {
+            //reload object => fill information about id's
+            var wrkData = preview.Select(x => new ShippingInfoLine() {
+                CargoEtsngName = x.CargoEtsngName,
+                Shipping = GetTable<v_otpr, int>(z => z.n_otpr == x.Shipping.n_otpr && z.date_oper == x.Shipping.date_oper && z.oper == x.Shipping.oper && z.state == 32 && (new[] { "3494", "349402" }.Contains(z.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(z.cod_klient_pol))).ToList().First(),
+                WagonsNumbers = GetTable<v_o_v, int>(z => z.id_otpr == x.Shipping.id).ToList(),
+                Warehouse = x.Warehouse
+            }).ToList();
+
+            //type_doc 1
+            //one trunsaction (one request per one dbcontext)
+            using (Uow = new UnitOfWork()) {
+                var result = from item in wrkData select new krt_Guild18() {
+                    reportPeriod = reportPeriod,
+                    recordNumber = 1,
+                    warehouse = item.Warehouse,
+                    idDeliviryNote = item.Shipping.id,
+                    idCarriage = item.WagonsNumbers.First().id,
+                    type_doc = 1,
+                    idSrcDocument = item.Shipping.id,
+                   // codeType = new[] {166,173,300,301,344}.Contains(item)
+                   //code = GetTable<v_nach,int>(x=>x.date_raskr !=null && x.id_otpr == item.Shipping.id).Select(x=>x.cod_sbor)
+                };
+            }
+            return new List<krt_Guild18>();
+        }
+
+        public IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
             DateTime startDate = dateOper.AddDays(-7);
             DateTime endDate = dateOper.AddMonths(1).AddDays(7);
             IEnumerable<ShippingInfoLine> result = new List<ShippingInfoLine>();
@@ -193,9 +222,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 recordCount = (short)result.Count();
             }
             return result;
-        }
-        public IQueryable<Shipping> ShippingInformation {
-            get { throw new NotImplementedException(); }
         }
         public IQueryable<v_o_v> CarriageNumbers {
             get { throw new NotImplementedException(); }

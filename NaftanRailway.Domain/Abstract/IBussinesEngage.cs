@@ -32,15 +32,14 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Get All info 
         /// </summary>
-        /// <param name="deliveryNote">correcting warehouse</param>
-        /// <param name="dateOper"></param>
-        /// <param name="recordCount">correcting warehouse</param>
+        /// <param name="reportPeriod"></param>
+        /// <param name="preview"></param>
         /// <returns></returns>
-        IEnumerable<ShippingInfoLine> PackDocuments(string deliveryNote,DateTime dateOper, out short recordCount);
+        IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IEnumerable<ShippingInfoLine> preview);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
-        IQueryable<Shipping> ShippingInformation { get; }
+        IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount);
         /// <summary>
         /// Get Shipping info
         /// </summary>
