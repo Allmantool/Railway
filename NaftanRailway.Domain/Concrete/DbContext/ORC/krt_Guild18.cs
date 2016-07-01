@@ -28,5 +28,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public Nullable<long> idScroll { get; set; }
         public Nullable<int> idCard { get; set; }
         public string comment { get; set; }
+        public Nullable<int> Count065 { get; set; }
     }
 }

@@ -178,5 +178,6 @@
     <Property Name="idScroll" Type="Int64" />
     <Property Name="idCard" Type="Int32" />
     <Property Name="comment" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+    <Property Name="Count065" Type="Int32" />
   </EntityType>
 </Schema>

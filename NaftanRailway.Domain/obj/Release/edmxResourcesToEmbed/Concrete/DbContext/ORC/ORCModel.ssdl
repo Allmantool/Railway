@@ -30,7 +30,7 @@
     <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
     <Property Name="idScroll" Type="bigint" />
     <Property Name="idCard" Type="int" />
-    <Property Name="comment" Type="nchar" MaxLength="35" />
+    <Property Name="Count065" Type="int" />
   </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>

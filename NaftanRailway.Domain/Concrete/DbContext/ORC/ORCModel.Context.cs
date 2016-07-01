@@ -9,6 +9,5 @@
 
 namespace NaftanRailway.Domain.Concrete.DbContext.ORC
 {
-
-
+    
 }

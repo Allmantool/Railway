@@ -35,7 +35,7 @@
           <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
           <Property Name="idScroll" Type="bigint" />
           <Property Name="idCard" Type="int" />
-          <Property Name="comment" Type="nchar" MaxLength="35" />
+          <Property Name="Count065" Type="int" />
         </EntityType>
         <EntityType Name="krt_Naftan">
           <Key>
@@ -366,6 +366,7 @@
           <Property Name="idScroll" Type="Int64" />
           <Property Name="idCard" Type="Int32" />
           <Property Name="comment" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <Property Name="Count065" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -476,7 +477,7 @@
           <EntitySetMapping Name="krt_Guild18">
             <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
               <MappingFragment StoreEntitySet="krt_Guild18">
-                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="Count065" ColumnName="Count065" />
                 <ScalarProperty Name="idCard" ColumnName="idCard" />
                 <ScalarProperty Name="idScroll" ColumnName="idScroll" />
                 <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />

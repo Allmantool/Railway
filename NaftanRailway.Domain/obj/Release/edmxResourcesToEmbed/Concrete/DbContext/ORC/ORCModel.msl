@@ -120,7 +120,7 @@
     <EntitySetMapping Name="krt_Guild18">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
         <MappingFragment StoreEntitySet="krt_Guild18">
-          <ScalarProperty Name="comment" ColumnName="comment" />
+          <ScalarProperty Name="Count065" ColumnName="Count065" />
           <ScalarProperty Name="idCard" ColumnName="idCard" />
           <ScalarProperty Name="idScroll" ColumnName="idScroll" />
           <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
