@@ -19,13 +19,14 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public Nullable<int> warehouse { get; set; }
         public Nullable<int> idDeliviryNote { get; set; }
         public Nullable<long> idCarriage { get; set; }
-        public Nullable<byte> type_doc { get; set; }
+        public byte type_doc { get; set; }
         public Nullable<long> idSrcDocument { get; set; }
         public bool codeType { get; set; }
         public int code { get; set; }
         public decimal sum { get; set; }
         public decimal rateVAT { get; set; }
-        public long idScroll { get; set; }
-        public int idCard { get; set; }
+        public Nullable<long> idScroll { get; set; }
+        public Nullable<int> idCard { get; set; }
+        public string comment { get; set; }
     }
 }

@@ -97,7 +97,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
                               VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard))).Expand())
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (int)y.idCard))).Expand())
                                 .ToList(),
                               /*Uow.ActiveContext.Database.SqlQuery<v_kart>(@"
                                 SELECT vk.id,vk.num_kart,vk.date_okrt,vk.summa,vk.date_fdu93,vk.date_zkrt
@@ -108,7 +108,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               new SqlParameter("@param1", chooseDate),
                               new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
                               KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll)))
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (long)y.idScroll)))
                                 .ToList(),
                               /* Uow.ActiveContext.Database.SqlQuery<krt_Naftan>(@"
                                  WITH src AS (SELECT reportPeriod,idDeliviryNote,idScroll FROM [db2].[nsd2].[dbo].krt_Guild18 GROUP BY reportPeriod,idDeliviryNote,idScroll)
@@ -181,22 +181,35 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 Warehouse = x.Warehouse
             }).ToList();
 
+            List<krt_Guild18> result;
             //type_doc 1
             //one trunsaction (one request per one dbcontext)
             using (Uow = new UnitOfWork()) {
-                var result = from item in wrkData select new krt_Guild18() {
-                    reportPeriod = reportPeriod,
-                    recordNumber = 1,
-                    warehouse = item.Warehouse,
-                    idDeliviryNote = item.Shipping.id,
-                    idCarriage = item.WagonsNumbers.First().id,
-                    type_doc = 1,
-                    idSrcDocument = item.Shipping.id,
-                   // codeType = new[] {166,173,300,301,344}.Contains(item)
-                   //code = GetTable<v_nach,int>(x=>x.date_raskr !=null && x.id_otpr == item.Shipping.id).Select(x=>x.cod_sbor)
-                };
+                result = (from item in wrkData join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                               on item.Shipping.id equals vn.id_otpr
+                          select new krt_Guild18() {
+                              reportPeriod = reportPeriod,
+                              recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
+                              warehouse = item.Warehouse,
+                              idDeliviryNote = item.Shipping.id,
+                              //if one carriage => number, if all (more than one) = > null
+                              idCarriage = (item.WagonsNumbers.Count() > 1) ? (long?)null : item.WagonsNumbers.First().id,
+                              type_doc = 1, idSrcDocument = item.Shipping.id,
+                              code = Convert.ToInt32(vn.cod_sbor),
+                              sum = (decimal)(vn.summa + vn.nds),
+                              rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+                              codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
+                              idCard = vn.id_kart,
+                              idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
+                          }).ToList();
             }
-            return new List<krt_Guild18>();
+            //type_doc 2
+            //one trunsaction (one request per one dbcontext)
+            using (Uow = new UnitOfWork()) {
+                 //result.AddRange(from item in wrkData join vov in Uow.Repository<v_o_v>().Get_all(enablecaching:false) on item.Shipping.id equals vov.id_otpr into g1
+                 //                join vp in Uow.Repository<v_pam>().Get_all(x=>x.dzakr !=null && new[] { "3494", "349402" }.Contains(x.kodkl) && x.state==32, false));
+            }
+            return result;
         }
 
         public IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
