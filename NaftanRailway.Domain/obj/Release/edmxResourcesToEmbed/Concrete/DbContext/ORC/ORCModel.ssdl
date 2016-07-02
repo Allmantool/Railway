@@ -22,14 +22,15 @@
     <Property Name="warehouse" Type="int" />
     <Property Name="idDeliviryNote" Type="int" />
     <Property Name="idCarriage" Type="bigint" />
-    <Property Name="type_doc" Type="tinyint" />
+    <Property Name="type_doc" Type="tinyint" Nullable="false" />
     <Property Name="idSrcDocument" Type="bigint" />
     <Property Name="codeType" Type="bit" Nullable="false" />
     <Property Name="code" Type="int" Nullable="false" />
     <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
-    <Property Name="idScroll" Type="bigint" Nullable="false" />
-    <Property Name="idCard" Type="int" Nullable="false" />
+    <Property Name="idScroll" Type="bigint" />
+    <Property Name="idCard" Type="int" />
+    <Property Name="Count065" Type="int" />
   </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>

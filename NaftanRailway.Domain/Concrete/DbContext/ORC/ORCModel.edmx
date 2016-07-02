@@ -27,14 +27,15 @@
           <Property Name="warehouse" Type="int" />
           <Property Name="idDeliviryNote" Type="int" />
           <Property Name="idCarriage" Type="bigint" />
-          <Property Name="type_doc" Type="tinyint" />
+          <Property Name="type_doc" Type="tinyint" Nullable="false" />
           <Property Name="idSrcDocument" Type="bigint" />
           <Property Name="codeType" Type="bit" Nullable="false" />
           <Property Name="code" Type="int" Nullable="false" />
           <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
-          <Property Name="idScroll" Type="bigint" Nullable="false" />
-          <Property Name="idCard" Type="int" Nullable="false" />
+          <Property Name="idScroll" Type="bigint" />
+          <Property Name="idCard" Type="int" />
+          <Property Name="Count065" Type="int" />
         </EntityType>
         <EntityType Name="krt_Naftan">
           <Key>
@@ -356,14 +357,16 @@
           <Property Name="warehouse" Type="Int32" />
           <Property Name="idDeliviryNote" Type="Int32" />
           <Property Name="idCarriage" Type="Int64" />
-          <Property Name="type_doc" Type="Byte" />
+          <Property Name="type_doc" Type="Byte" Nullable="false" />
           <Property Name="idSrcDocument" Type="Int64" />
           <Property Name="codeType" Type="Boolean" Nullable="false" />
           <Property Name="code" Type="Int32" Nullable="false" />
           <Property Name="sum" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="rateVAT" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
-          <Property Name="idScroll" Type="Int64" Nullable="false" />
-          <Property Name="idCard" Type="Int32" Nullable="false" />
+          <Property Name="idScroll" Type="Int64" />
+          <Property Name="idCard" Type="Int32" />
+          <Property Name="comment" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <Property Name="Count065" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -474,6 +477,7 @@
           <EntitySetMapping Name="krt_Guild18">
             <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
               <MappingFragment StoreEntitySet="krt_Guild18">
+                <ScalarProperty Name="Count065" ColumnName="Count065" />
                 <ScalarProperty Name="idCard" ColumnName="idCard" />
                 <ScalarProperty Name="idScroll" ColumnName="idScroll" />
                 <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
