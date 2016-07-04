@@ -51,3 +51,4 @@ C:\Git\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\ru\System.Web.Mvc.resources.dll
+C:\Git\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache

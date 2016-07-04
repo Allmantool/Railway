@@ -192,9 +192,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
                               warehouse = item.Warehouse,
                               idDeliviryNote = item.Shipping.id,
-                              //if one carriage => number, if all (more than one) = > null
-                              idCarriage = (item.WagonsNumbers.Count() > 1) ? (long?)null : item.WagonsNumbers.First().id,
-                              type_doc = 1, idSrcDocument = item.Shipping.id,
+                              type_doc = (byte)vn.type_doc, idSrcDocument = item.Shipping.id,
                               code = Convert.ToInt32(vn.cod_sbor),
                               sum = (decimal)(vn.summa + vn.nds),
                               rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
@@ -205,10 +203,26 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
             //type_doc 2
             //one trunsaction (one request per one dbcontext)
-            using (Uow = new UnitOfWork()) {
-                 //result.AddRange(from item in wrkData join vov in Uow.Repository<v_o_v>().Get_all(enablecaching:false) on item.Shipping.id equals vov.id_otpr into g1
-                 //                join vp in Uow.Repository<v_pam>().Get_all(x=>x.dzakr !=null && new[] { "3494", "349402" }.Contains(x.kodkl) && x.state==32, false));
-            }
+            //using (Uow = new UnitOfWork()) {
+            //    result.AddRange(from item in wrkData join vov in Uow.Repository<v_o_v>().Get_all(enablecaching: false) on item.Shipping.id equals vov.id_otpr
+            //                    join vpm in Uow.Repository<v_pam_vag>().Get_all(x=>x.,enablecaching: false) on vov.n_vag equals vpm.nomvag
+            //                    join vp in Uow.Repository<v_pam>().Get_all(enablecaching: false) on vpm.id_ved equals vp.id_ved
+            //                    join vn in Uow.Repository<v_nach>().Get_all(enablecaching: false) on new { f1 = vp.id_kart, f2 = 2 } equals new { f1 = vn.id_kart, f2 = vn.type_doc }
+            //                    select new krt_Guild18() {
+            //                        reportPeriod = reportPeriod,
+            //                        recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
+            //                        warehouse = item.Warehouse,
+            //                        idDeliviryNote = item.Shipping.id,
+            //                        type_doc = (byte)vn.type_doc, idSrcDocument = item.Shipping.id,
+            //                        code = Convert.ToInt32(vn.cod_sbor),
+            //                        sum = (decimal)(vn.summa + vn.nds),
+            //                        rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+            //                        codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
+            //                        idCard = vn.id_kart,
+            //                        idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
+            //                    }).ToList();
+
+            //}
             return result;
         }
 
