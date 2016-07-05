@@ -168,7 +168,6 @@
     <Property Name="recordNumber" Type="Int32" Nullable="false" />
     <Property Name="warehouse" Type="Int32" />
     <Property Name="idDeliviryNote" Type="Int32" />
-    <Property Name="idCarriage" Type="Int64" />
     <Property Name="type_doc" Type="Byte" Nullable="false" />
     <Property Name="idSrcDocument" Type="Int64" />
     <Property Name="codeType" Type="Boolean" Nullable="false" />
@@ -177,7 +176,5 @@
     <Property Name="rateVAT" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
     <Property Name="idScroll" Type="Int64" />
     <Property Name="idCard" Type="Int32" />
-    <Property Name="comment" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
-    <Property Name="Count065" Type="Int32" />
   </EntityType>
 </Schema>

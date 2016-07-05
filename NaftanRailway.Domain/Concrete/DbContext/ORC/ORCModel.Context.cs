@@ -7,7 +7,3 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NaftanRailway.Domain.Concrete.DbContext.ORC
-{
-    
-}

@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 
 namespace NaftanRailway.Domain.Abstract {
@@ -40,41 +37,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
         IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount);
-        /// <summary>
-        /// Get Shipping info
-        /// </summary>
-        //IQueryable<v_otpr> ShippinNumbers { get; }
-        /// <summary>
-        /// Get info abount wagons
-        /// </summary>
-        IQueryable<v_o_v> CarriageNumbers { get; }
-        /// <summary>
-        /// Get bills info
-        /// </summary>
-        IQueryable<Bill> Bills { get; }
-        /// <summary>
-        /// Get info abount acts
-        /// </summary>
-        IQueryable<Certificate> Certificates { get; }
-        /// <summary>
-        /// Get info about Accumulative Cards
-        /// </summary>
-        IQueryable<AccumulativeCard> Cards { get; }
-        /// <summary>
-        /// Get luggage
-        /// </summary>
-        IQueryable<Luggage> Baggage { get; }
-        IQueryable<v_pam_vag> PamVags { get; }
-        IQueryable<v_pam_sb> PamSbs { get; }
-        IQueryable<v_pam> Pams { get; }
-        IQueryable<v_akt> Akts { get; }
-        IQueryable<v_akt_sb> AktSbs { get; }
-        IQueryable<v_akt_vag> AktVags { get; }
-        IQueryable<v_kart> Karts { get; }
-        IQueryable<v_nach> Naches { get; }
-        IQueryable<orc_krt> OrcKrts { get; }
-        IQueryable<orc_sbor> OrcSbors { get; }
-        IQueryable<etsng> Etsngs { get; }
         /// <summary>
         /// Get rows from table (filter & order)
         /// </summary>
@@ -112,7 +74,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// <typeparam name="TKey"></typeparam>
         /// <param name="groupPredicate"></param>
         /// <param name="predicate"></param>
-        /// <param name="orderPredicate"></param>
         /// <returns></returns>
         IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
         bool AddKrtNaftan(long key, out string msgError);

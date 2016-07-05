@@ -18,7 +18,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public int recordNumber { get; set; }
         public Nullable<int> warehouse { get; set; }
         public Nullable<int> idDeliviryNote { get; set; }
-        public Nullable<long> idCarriage { get; set; }
         public byte type_doc { get; set; }
         public Nullable<long> idSrcDocument { get; set; }
         public bool codeType { get; set; }
@@ -27,7 +26,5 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public decimal rateVAT { get; set; }
         public Nullable<long> idScroll { get; set; }
         public Nullable<int> idCard { get; set; }
-        public string comment { get; set; }
-        public Nullable<int> Count065 { get; set; }
     }
 }
