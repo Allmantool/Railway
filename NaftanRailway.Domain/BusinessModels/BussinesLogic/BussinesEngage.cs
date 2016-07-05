@@ -4,9 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web.UI;
 using LinqKit;
-using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -73,15 +71,15 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => (int)y.idSrcDocument))).Expand())
                                 .ToList(),
-                              /*Uow.ActiveContext.Database.SqlQuery<v_pam>(@"
-                                SELECT vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
-                                FROM [obd].[dbo].v_pam as vp
-                                WHERE vp.[kodkl] IN ('3494','349402') AND vp.[state] = 32 AND vp.id_ved in 
-                                    (SELECT src.idSrcDocument 
-                                    FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
-                                    WHERE type_doc = 2 AND vp.id_ved = src.idSrcDocument AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
-                                 new SqlParameter("@param1", chooseDate),
-                                 new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),*/
+                              //Uow.ActiveContext.Database.SqlQuery<v_pam>(@"
+                              //  SELECT vp.id_ved,vp.nved,vp.dzakr,vp.id_kart,vp.nkrt 
+                              //  FROM [obd].[dbo].v_pam as vp
+                              //  WHERE vp.[kodkl] IN ('3494','349402') AND vp.[state] = 32 AND vp.id_ved in 
+                              //      (SELECT src.idSrcDocument 
+                              //      FROM [db2].[nsd2].[dbo].[krt_Guild18] as src 
+                              //      WHERE type_doc = 2 AND vp.id_ved = src.idSrcDocument AND src.reportPeriod = @param1 AND src.idDeliviryNote = @param2);",
+                              //   new SqlParameter("@param1", chooseDate),
+                              //   new SqlParameter("@param2", item != null ? item.id : 0)).ToList(),
                               VAkts = GetTable<v_akt, int>(PredicateBuilder.True<v_akt>().And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
                                 .And(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => (int)y.idSrcDocument))).Expand())
@@ -182,8 +180,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }).ToList();
 
             List<krt_Guild18> result;
-            //type_doc 1
-            //one trunsaction (one request per one dbcontext)
+            //type_doc 1 => one trunsaction (one request per one dbcontext)
             using (Uow = new UnitOfWork()) {
                 result = (from item in wrkData join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                on item.Shipping.id equals vn.id_otpr
@@ -192,7 +189,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
                               warehouse = item.Warehouse,
                               idDeliviryNote = item.Shipping.id,
-                              type_doc = (byte)vn.type_doc, idSrcDocument = item.Shipping.id,
+                              type_doc = 1, idSrcDocument = item.Shipping.id,
                               code = Convert.ToInt32(vn.cod_sbor),
                               sum = (decimal)(vn.summa + vn.nds),
                               rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
@@ -201,31 +198,87 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
                           }).ToList();
             }
-            //type_doc 2
-            //one trunsaction (one request per one dbcontext)
-            //using (Uow = new UnitOfWork()) {
-            //    result.AddRange(from item in wrkData join vov in Uow.Repository<v_o_v>().Get_all(enablecaching: false) on item.Shipping.id equals vov.id_otpr
-            //                    join vpm in Uow.Repository<v_pam_vag>().Get_all(x=>x.,enablecaching: false) on vov.n_vag equals vpm.nomvag
-            //                    join vp in Uow.Repository<v_pam>().Get_all(enablecaching: false) on vpm.id_ved equals vp.id_ved
-            //                    join vn in Uow.Repository<v_nach>().Get_all(enablecaching: false) on new { f1 = vp.id_kart, f2 = 2 } equals new { f1 = vn.id_kart, f2 = vn.type_doc }
-            //                    select new krt_Guild18() {
-            //                        reportPeriod = reportPeriod,
-            //                        recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
-            //                        warehouse = item.Warehouse,
-            //                        idDeliviryNote = item.Shipping.id,
-            //                        type_doc = (byte)vn.type_doc, idSrcDocument = item.Shipping.id,
-            //                        code = Convert.ToInt32(vn.cod_sbor),
-            //                        sum = (decimal)(vn.summa + vn.nds),
-            //                        rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
-            //                        codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
-            //                        idCard = vn.id_kart,
-            //                        idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
-            //                    }).ToList();
 
-            //}
+            foreach (var dispatch in wrkData) {
+                var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
+                //type_doc 2 =>one trunsaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
+                using (Uow = new UnitOfWork()) {
+                    result.AddRange((from vpm in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join vp in Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false) on vpm.id_ved equals vp.id_ved
+                                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on vp.id_kart equals vn.id_kart
+                                     select new krt_Guild18 {
+                                         reportPeriod = reportPeriod,
+                                         //recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
+                                         warehouse = dispatch.Warehouse,
+                                         idDeliviryNote = dispatch.Shipping.id,
+                                         type_doc = 2, idSrcDocument = vp.id_ved,
+                                         code = Convert.ToInt32(vn.cod_sbor),
+                                         sum = (decimal)(vn.summa + vn.nds),
+                                         rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+                                         codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
+                                         idCard = vn.id_kart,
+                                         //idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
+                                     }));
+                }
+                //065
+                using (Uow = new UnitOfWork()) {
+                    result.AddRange((from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on
+                                         new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
+                                     select new krt_Guild18 {
+                                         reportPeriod = reportPeriod,
+                                         //recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
+                                         warehouse = dispatch.Warehouse,
+                                         idDeliviryNote = dispatch.Shipping.id,
+                                         type_doc = 4,
+                                         idSrcDocument = vn.id_kart,
+                                         code = Convert.ToInt32(vn.cod_sbor),
+                                         sum = (decimal)(vn.summa + vn.nds),
+                                         rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+                                         codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
+                                         idCard = vn.id_kart,
+                                         //idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
+                                     }));
+                }
+                //type_doc 3 =>one trunsaction (one request per one dbcontext)
+                using (Uow = new UnitOfWork()) {
+                    result.AddRange((from vav in Uow.Repository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join va in Uow.Repository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false) on vav.id_akt equals va.id
+                                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on va.id_kart equals vn.id_kart
+                                     select new krt_Guild18 {
+                                         reportPeriod = reportPeriod,
+                                         //recordNumber = (int)GetCountRows<krt_Guild18>(x => x.reportPeriod == reportPeriod) + 1,
+                                         warehouse = dispatch.Warehouse,
+                                         idDeliviryNote = dispatch.Shipping.id,
+                                         type_doc = 3,
+                                         idSrcDocument = va.id,
+                                         code = Convert.ToInt32(vn.cod_sbor),
+                                         sum = (decimal)(vn.summa + vn.nds),
+                                         rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+                                         codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor)),
+                                         idCard = vn.id_kart,
+                                         //idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).First()
+                                     }));
+
+                }
+            }
+                //luggage
+                result.AddRange(GetTable<krt_Naftan_orc_sapod, long>(x => new[] { 611, 629, 125 }.Contains(x.vidsbr) && x.dt.Month == reportPeriod.Month && x.dt.Year == reportPeriod.Year).
+                    Select(x => new krt_Guild18 {
+                        reportPeriod = reportPeriod,
+                        //recordNumber = (int)GetCountRows<krt_Guild18>(y => y.reportPeriod == reportPeriod) + 1,
+                        type_doc = x.tdoc,
+                        idSrcDocument = x.id_kart,
+                        code = x.vidsbr,
+                        sum = x.sm,
+                        rateVAT = Math.Round((decimal)(x.nds / x.sm_no_nds), 2),
+                        codeType = new[] { 166, 173, 300, 301, 344 }.Contains(x.vidsbr),
+                        idCard = x.id_kart,
+                        idScroll = x.keykrt
+                    }));
+
             return result;
         }
-
         public IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
             DateTime startDate = dateOper.AddDays(-7);
             DateTime endDate = dateOper.AddMonths(1).AddDays(7);
@@ -249,54 +302,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 recordCount = (short)result.Count();
             }
             return result;
-        }
-        public IQueryable<v_o_v> CarriageNumbers {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<Bill> Bills {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<Certificate> Certificates {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<AccumulativeCard> Cards {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<Luggage> Baggage {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_pam_vag> PamVags {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_pam_sb> PamSbs {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_pam> Pams {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_akt> Akts {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_akt_sb> AktSbs {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_akt_vag> AktVags {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_kart> Karts {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<v_nach> Naches {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<orc_krt> OrcKrts {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<orc_sbor> OrcSbors {
-            get { throw new NotImplementedException(); }
-        }
-        public IQueryable<etsng> Etsngs {
-            get { throw new NotImplementedException(); }
         }
         /// <summary>
         /// Get General table with predicate ( load in memory)
