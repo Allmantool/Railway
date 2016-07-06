@@ -120,6 +120,7 @@
     <EntitySetMapping Name="krt_Guild18">
       <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
         <MappingFragment StoreEntitySet="krt_Guild18">
+          <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="idCard" ColumnName="idCard" />
           <ScalarProperty Name="idScroll" ColumnName="idScroll" />
           <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
@@ -130,7 +131,6 @@
           <ScalarProperty Name="type_doc" ColumnName="type_doc" />
           <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />
           <ScalarProperty Name="warehouse" ColumnName="warehouse" />
-          <ScalarProperty Name="recordNumber" ColumnName="recordNumber" />
           <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
         </MappingFragment>
       </EntityTypeMapping>

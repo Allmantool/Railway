@@ -121,40 +121,44 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContext\OBD\OBDModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBDModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\OBD\OBDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OBDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\DbContext\OBD\OBDModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_akt.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_akt_sb.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_akt_vag.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_kart.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_nach.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_otpr.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_o_v.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_pam.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_pam_sb.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\OBD\v_pam_vag.cs">
-      <DependentUpon>OBDEntities.tt</DependentUpon>
+      <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_DetailsProgress.cs">
       <DependentUpon>ORCModelEntities.tt</DependentUpon>
@@ -381,7 +385,18 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Concrete\DbContext\OBD\OBDModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OBDModel.Context.cs</LastGenOutput>
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Concrete\DbContext\OBD\OBDModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OBDModel.cs</LastGenOutput>
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

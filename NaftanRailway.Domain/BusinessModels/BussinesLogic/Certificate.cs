@@ -15,10 +15,6 @@ namespace NaftanRailway.Domain.BusinessModels {
         /// Вагоны к актам
         /// </summary>
         public v_akt_vag VAktVag { get; set; }
-        /// <summary>
-        /// Сборы по актам
-        /// </summary>
-        public v_akt_sb VAktSb { get; set; }
 
         public override string ToString() {
             return VAkt.nakt;

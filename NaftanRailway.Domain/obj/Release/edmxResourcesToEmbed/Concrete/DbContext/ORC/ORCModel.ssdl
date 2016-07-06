@@ -14,14 +14,13 @@
   </EntityType>
   <EntityType Name="krt_Guild18">
     <Key>
-      <PropertyRef Name="reportPeriod" />
-      <PropertyRef Name="recordNumber" />
+      <PropertyRef Name="id" />
     </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="reportPeriod" Type="date" Nullable="false" />
-    <Property Name="recordNumber" Type="int" Nullable="false" />
     <Property Name="warehouse" Type="int" />
     <Property Name="idDeliviryNote" Type="int" />
-    <Property Name="type_doc" Type="tinyint" Nullable="false" />
+    <Property Name="type_doc" Type="tinyint" />
     <Property Name="idSrcDocument" Type="bigint" />
     <Property Name="codeType" Type="bit" Nullable="false" />
     <Property Name="code" Type="int" Nullable="false" />

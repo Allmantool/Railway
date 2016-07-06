@@ -15,10 +15,9 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
     public partial class krt_Guild18
     {
         public System.DateTime reportPeriod { get; set; }
-        public int recordNumber { get; set; }
         public Nullable<int> warehouse { get; set; }
         public Nullable<int> idDeliviryNote { get; set; }
-        public byte type_doc { get; set; }
+        public Nullable<byte> type_doc { get; set; }
         public Nullable<long> idSrcDocument { get; set; }
         public bool codeType { get; set; }
         public int code { get; set; }
@@ -26,5 +25,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
         public decimal rateVAT { get; set; }
         public Nullable<long> idScroll { get; set; }
         public Nullable<int> idCard { get; set; }
+        public int id { get; set; }
     }
 }
