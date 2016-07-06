@@ -2,6 +2,7 @@
 @{
     var numberRow = @Model.Count();
     var reportPeriod = (DateTime)@ViewBag.datePeriod;
+    var indx=0;
 }
 <!--Date Modal-->
 <div class="modal-dialog modal-lg" role="document">
@@ -30,10 +31,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model) { @(++indx)
                             <tr>
                                 <td><input type="checkbox" checked /></td>
-                                <td>@((item.Shipping.type_doc == 1) ? "Отправка" : "Прибытие")</td>
+                                <td>@Html.Label("type_doc", (item.Shipping.type_doc == 1) ? "Отправка" : "Прибытие")</td>
                                 <td>@item.Shipping.date_oper.Value.ToString("d MMM yyyy")</td>
                                 <td>@String.Join(", ", @item.WagonsNumbers.Select(x => x.n_vag))</td>
                                 <td class="small">@item.CargoEtsngName.name</td>

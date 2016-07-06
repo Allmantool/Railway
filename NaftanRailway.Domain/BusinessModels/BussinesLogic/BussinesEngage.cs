@@ -161,7 +161,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="chooseDate"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 7) {
+        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 5) {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddDays(shiftPage);
 

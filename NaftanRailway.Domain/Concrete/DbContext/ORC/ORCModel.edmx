@@ -507,9 +507,9 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="ORCModel" ZoomLevel="71">
-        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="5.75" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="1.5" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
+      <edmx:Diagram Name="ORCModel" ZoomLevel="81">
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan" Width="1.5" PointX="6" PointY="2.25" Height="4.3862109375" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Naftan_orc_sapod" Width="2" PointX="8.625" PointY="1.25" Height="5.7009895833333326" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_krt" Width="1.5" PointX="0.75" PointY="1.5" Height="3.0714322916666656" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.orc_sbor" Width="1.5" PointX="3.25" PointY="1" Height="4.0575162760416656" IsExpanded="true" />
         <edmx:AssociationConnector Association="ORCModelEntities.FK_krt__Naftan" ManuallyRouted="false">
@@ -520,7 +520,7 @@
           <edmx:ConnectorPoint PointX="2.25" PointY="3.0357161458333328" />
           <edmx:ConnectorPoint PointX="3" PointY="3.0357161458333328" />
         </edmx:AssociationConnector>
-        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.5" PointX="2.875" PointY="6.625" Height="1.9210009765624996" />
+        <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_DetailsProgress" Width="1.875" PointX="2.875" PointY="6.625" Height="1.9210009765624996" />
         <edmx:EntityTypeShape EntityType="ORCModelEntities.krt_Guild18" Width="1.5" PointX="1" PointY="6" />
       </edmx:Diagram>
     </edmx:Diagrams>

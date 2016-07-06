@@ -161,21 +161,19 @@
   </EntityType>
   <EntityType Name="krt_Guild18">
     <Key>
-      <PropertyRef Name="reportPeriod" />
-      <PropertyRef Name="recordNumber" />
+      <PropertyRef Name="id" />
     </Key>
     <Property Name="reportPeriod" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="recordNumber" Type="Int32" Nullable="false" />
     <Property Name="warehouse" Type="Int32" />
     <Property Name="idDeliviryNote" Type="Int32" />
-    <Property Name="idCarriage" Type="Int64" />
     <Property Name="type_doc" Type="Byte" />
     <Property Name="idSrcDocument" Type="Int64" />
     <Property Name="codeType" Type="Boolean" Nullable="false" />
     <Property Name="code" Type="Int32" Nullable="false" />
     <Property Name="sum" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
     <Property Name="rateVAT" Type="Decimal" Nullable="false" Precision="3" Scale="2" />
-    <Property Name="idScroll" Type="Int64" Nullable="false" />
-    <Property Name="idCard" Type="Int32" Nullable="false" />
+    <Property Name="idScroll" Type="Int64" />
+    <Property Name="idCard" Type="Int32" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
   </EntityType>
 </Schema>

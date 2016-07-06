@@ -121,11 +121,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\OBDModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OBDModel.Context.tt</DependentUpon>
-    </Compile>
     <Compile Include="Concrete\DbContext\OBD\OBDModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,11 +166,6 @@
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Naftan_orc_sapod.cs">
       <DependentUpon>ORCModelEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ORCModel.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\ORCModel.cs">
       <AutoGen>True</AutoGen>
@@ -316,11 +306,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OBDEntities.cs</LastGenOutput>
     </None>
-    <None Include="Concrete\DbContext\ORC\ORCModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ORCModel.Context.cs</LastGenOutput>
-      <DependentUpon>ORCModel.edmx</DependentUpon>
-    </None>
     <None Include="Concrete\DbContext\ORC\ORCModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ORCModel.cs</LastGenOutput>
@@ -386,11 +371,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Concrete\DbContext\OBD\OBDModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OBDModel.Context.cs</LastGenOutput>
-      <DependentUpon>OBDModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Concrete\DbContext\OBD\OBDModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OBDModel.cs</LastGenOutput>

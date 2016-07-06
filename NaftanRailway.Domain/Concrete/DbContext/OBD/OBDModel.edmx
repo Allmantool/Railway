@@ -967,12 +967,12 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="OBDModel" ZoomLevel="74">
+      <edmx:Diagram Name="OBDModel" ZoomLevel="84">
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_akt" Width="1.5" PointX="7.25" PointY="7.875" Height="2.41404296875" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_akt_vag" Width="1.5" PointX="5.125" PointY="9.125" Height="1.4279589843749996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_kart" Width="1.5" PointX="11.25" PointY="5.75" Height="4.5505582682291656" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_nach" Width="1.5" PointX="9.25" PointY="5.875" Height="4.0575162760416665" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="OBDModelEntities.v_o_v" Width="1.5" PointX="3.375" PointY="7.75" Height="8.1661995442708317" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="OBDModelEntities.v_o_v" Width="1.5" PointX="3" PointY="7.625" Height="8.1661995442708317" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_otpr" Width="1.5" PointX="1" PointY="6.25" Height="20.820944010416667" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_pam" Width="1.5" PointX="7.25" PointY="4.875" Height="4.5505582682291674" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="OBDModelEntities.v_pam_vag" Width="1.5" PointX="5.125" PointY="5.625" Height="5.0436002604166674" IsExpanded="true" />

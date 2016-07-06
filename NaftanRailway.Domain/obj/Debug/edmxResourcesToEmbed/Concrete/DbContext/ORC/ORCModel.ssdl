@@ -14,22 +14,20 @@
   </EntityType>
   <EntityType Name="krt_Guild18">
     <Key>
-      <PropertyRef Name="reportPeriod" />
-      <PropertyRef Name="recordNumber" />
+      <PropertyRef Name="id" />
     </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="reportPeriod" Type="date" Nullable="false" />
-    <Property Name="recordNumber" Type="int" Nullable="false" />
     <Property Name="warehouse" Type="int" />
     <Property Name="idDeliviryNote" Type="int" />
-    <Property Name="idCarriage" Type="bigint" />
     <Property Name="type_doc" Type="tinyint" />
     <Property Name="idSrcDocument" Type="bigint" />
     <Property Name="codeType" Type="bit" Nullable="false" />
     <Property Name="code" Type="int" Nullable="false" />
     <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
-    <Property Name="idScroll" Type="bigint" Nullable="false" />
-    <Property Name="idCard" Type="int" Nullable="false" />
+    <Property Name="idScroll" Type="bigint" />
+    <Property Name="idCard" Type="int" />
   </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="OBDModelEntitiesStoreContainer" CdmEntityContainer="OBDEntities">
     <EntitySetMapping Name="v_akts">
       <EntityTypeMapping TypeName="OBDModelEntities.v_akt">
@@ -12,19 +12,6 @@
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
           <ScalarProperty Name="id_kart" ColumnName="id_kart" />
           <ScalarProperty Name="state" ColumnName="state" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="v_akt_sbs">
-      <EntityTypeMapping TypeName="OBDModelEntities.v_akt_sb">
-        <MappingFragment StoreEntitySet="v_akt_sb">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_akt" ColumnName="id_akt" />
-          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
-          <ScalarProperty Name="kod_sb" ColumnName="kod_sb" />
-          <ScalarProperty Name="sum_sb" ColumnName="sum_sb" />
-          <ScalarProperty Name="nds_sb" ColumnName="nds_sb" />
-          <ScalarProperty Name="textm" ColumnName="textm" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -46,7 +33,6 @@
           <ScalarProperty Name="cod_stan" ColumnName="cod_stan" />
           <ScalarProperty Name="date_okrt" ColumnName="date_okrt" />
           <ScalarProperty Name="cod_pl" ColumnName="cod_pl" />
-          <ScalarProperty Name="nod_pl" ColumnName="nod_pl" />
           <ScalarProperty Name="type_kart" ColumnName="type_kart" />
           <ScalarProperty Name="cod_ls" ColumnName="cod_ls" />
           <ScalarProperty Name="num_dogovor" ColumnName="num_dogovor" />
@@ -98,11 +84,9 @@
           <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="stan_oper" ColumnName="stan_oper" />
           <ScalarProperty Name="oper" ColumnName="oper" />
           <ScalarProperty Name="date_oper" ColumnName="date_oper" />
           <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
-          <ScalarProperty Name="cod_st_otpr" ColumnName="cod_st_otpr" />
           <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
           <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
           <ScalarProperty Name="g6" ColumnName="g6" />
@@ -127,22 +111,7 @@
           <ScalarProperty Name="kodkl" ColumnName="kodkl" />
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
           <ScalarProperty Name="id_kart" ColumnName="id_kart" />
-          <ScalarProperty Name="nper" ColumnName="nper" />
           <ScalarProperty Name="state" ColumnName="state" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="v_pam_sbs">
-      <EntityTypeMapping TypeName="OBDModelEntities.v_pam_sb">
-        <MappingFragment StoreEntitySet="v_pam_sb">
-          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
-          <ScalarProperty Name="kod_sb" ColumnName="kod_sb" />
-          <ScalarProperty Name="sum_sb" ColumnName="sum_sb" />
-          <ScalarProperty Name="nds_sb" ColumnName="nds_sb" />
-          <ScalarProperty Name="kodusl" ColumnName="kodusl" />
-          <ScalarProperty Name="textm" ColumnName="textm" />
-          <ScalarProperty Name="d_sb" ColumnName="d_sb" />
-          <ScalarProperty Name="kol_oper" ColumnName="kol_oper" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -152,7 +121,6 @@
           <ScalarProperty Name="id_vag" ColumnName="id_vag" />
           <ScalarProperty Name="id_ved" ColumnName="id_ved" />
           <ScalarProperty Name="npam" ColumnName="npam" />
-          <ScalarProperty Name="npp" ColumnName="npp" />
           <ScalarProperty Name="nomvag" ColumnName="nomvag" />
           <ScalarProperty Name="sob_s" ColumnName="sob_s" />
           <ScalarProperty Name="sob_v" ColumnName="sob_v" />
@@ -161,19 +129,7 @@
           <ScalarProperty Name="kodgr" ColumnName="kodgr" />
           <ScalarProperty Name="kodop" ColumnName="kodop" />
           <ScalarProperty Name="d_pod" ColumnName="d_pod" />
-          <ScalarProperty Name="d_vig" ColumnName="d_vig" />
-          <ScalarProperty Name="d_ok" ColumnName="d_ok" />
           <ScalarProperty Name="d_ub" ColumnName="d_ub" />
-          <ScalarProperty Name="t_man" ColumnName="t_man" />
-          <ScalarProperty Name="t_nor" ColumnName="t_nor" />
-          <ScalarProperty Name="t_dop" ColumnName="t_dop" />
-          <ScalarProperty Name="krat" ColumnName="krat" />
-          <ScalarProperty Name="prim" ColumnName="prim" />
-          <ScalarProperty Name="prob" ColumnName="prob" />
-          <ScalarProperty Name="prsvnor" ColumnName="prsvnor" />
-          <ScalarProperty Name="id_otpr1" ColumnName="id_otpr1" />
-          <ScalarProperty Name="id_otpr2" ColumnName="id_otpr2" />
-          <ScalarProperty Name="no_plat_podach" ColumnName="no_plat_podach" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
