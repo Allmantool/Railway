@@ -18,10 +18,6 @@ namespace NaftanRailway.Domain.BusinessModels {
         /// Вагоны к ведомости
         /// </summary>
         public v_pam_vag VPamVag { get; set; }
-        /// <summary>
-        /// Сборы к ведомости
-        /// </summary>
-        public v_pam_sb VPamSb { get; set; }
 
         public override string ToString() {
             return VPam.nved;

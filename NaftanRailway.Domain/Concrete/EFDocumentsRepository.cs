@@ -25,112 +25,112 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="warehouese"></param>
         /// <returns></returns>
         public ShippingInfoLine PackDocuments(v_otpr shipping, int warehouese = 1) {
-            if(shipping.date_oper == null) {
-                return new ShippingInfoLine();
-            }
-            DateTime chooseDate = new DateTime(shipping.date_oper.Value.Year, shipping.date_oper.Value.Month, 1);
-            DateTime startDate = chooseDate.AddDays(-ShiftDate);
-            DateTime endDate = chooseDate.AddMonths(1).AddDays(ShiftDate);
+            //if(shipping.date_oper == null) {
+            //    return new ShippingInfoLine();
+            //}
+            //DateTime chooseDate = new DateTime(shipping.date_oper.Value.Year, shipping.date_oper.Value.Month, 1);
+            //DateTime startDate = chooseDate.AddDays(-ShiftDate);
+            //DateTime endDate = chooseDate.AddMonths(1).AddDays(ShiftDate);
 
-            #region Wagons Number
+            //#region Wagons Number
 
-            List<v_o_v> wagonsNumbers = CarriageNumbers
-                .Where(v => v.id_otpr == shipping.id)
-                .DistinctBy(v => v.id)
-                .OrderByDescending(w => w.n_vag)
-                .ToList();
+            //List<v_o_v> wagonsNumbers = CarriageNumbers
+            //    .Where(v => v.id_otpr == shipping.id)
+            //    .DistinctBy(v => v.id)
+            //    .OrderByDescending(w => w.n_vag)
+            //    .ToList();
 
-            #endregion
+            //#endregion
 
-            //(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
-            var numbersVagons = wagonsNumbers.Select(v => v.n_vag);
+            ////(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
+            //var numbersVagons = wagonsNumbers.Select(v => v.n_vag);
 
-            #region Bills
+            //#region Bills
 
-            List<Bill> bills = (Bills)
-                .Where(b => numbersVagons.Contains(b.VPamVag.nomvag) && (b.VPam.dved >= startDate && b.VPam.dved <= endDate))
-                .DistinctBy(b => b.VPam.id_ved)
-                .OrderByDescending(b => b.VPam.nved)
-                .ToList();
+            //List<Bill> bills = (Bills)
+            //    .Where(b => numbersVagons.Contains(b.VPamVag.nomvag) && (b.VPam.dved >= startDate && b.VPam.dved <= endDate))
+            //    .DistinctBy(b => b.VPam.id_ved)
+            //    .OrderByDescending(b => b.VPam.nved)
+            //    .ToList();
 
-            #endregion
+            //#endregion
 
-            #region Cerificates
+            //#region Cerificates
 
-            List<Certificate> acts = (Certificates)
-                .Where(a => numbersVagons.Contains(a.VAktVag.nomvag) && (a.VAkt.dakt >= startDate && a.VAkt.dakt <= endDate))
-                .DistinctBy(a => a.VAkt.id)
-                .OrderByDescending(a => a.VAkt.nakt)
-                .ToList();
+            //List<Certificate> acts = (Certificates)
+            //    .Where(a => numbersVagons.Contains(a.VAktVag.nomvag) && (a.VAkt.dakt >= startDate && a.VAkt.dakt <= endDate))
+            //    .DistinctBy(a => a.VAkt.id)
+            //    .OrderByDescending(a => a.VAkt.nakt)
+            //    .ToList();
 
-            #endregion
+            //#endregion
 
-            //(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
-            var billNumbers = bills.Select(b => b.VPam.nved);
-            var actNumbers = acts.Select(a => a.VAkt.nakt);
+            ////(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
+            //var billNumbers = bills.Select(b => b.VPam.nved);
+            //var actNumbers = acts.Select(a => a.VAkt.nakt);
 
-            #region Accumulative Cards
+            //#region Accumulative Cards
 
-            var listUb = bills.Select(b => b.VPamVag.d_ub != null ? b.VPamVag.d_ub.Value.Date : new DateTime());
-            var listUbPod = bills.Select(b => b.VPamVag.d_pod != null ? b.VPamVag.d_pod.Value.Date : new DateTime());
+            //var listUb = bills.Select(b => b.VPamVag.d_ub != null ? b.VPamVag.d_ub.Value.Date : new DateTime());
+            //var listUbPod = bills.Select(b => b.VPamVag.d_pod != null ? b.VPamVag.d_pod.Value.Date : new DateTime());
 
-            //065
-            List<AccumulativeCard> cards = (Cards)
-                .Where(c => c.VNach.type_doc == 4 && c.VNach.cod_sbor == "065" &&
-                            (listUb.Contains(c.VNach.date_raskr.Value) || listUbPod.Contains(c.VNach.date_raskr.Value)) &&
-                            (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate))
-                .DistinctBy(c => c.VKart.id)
-                .ToList();
+            ////065
+            //List<AccumulativeCard> cards = (Cards)
+            //    .Where(c => c.VNach.type_doc == 4 && c.VNach.cod_sbor == "065" &&
+            //                (listUb.Contains(c.VNach.date_raskr.Value) || listUbPod.Contains(c.VNach.date_raskr.Value)) &&
+            //                (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate))
+            //    .DistinctBy(c => c.VKart.id)
+            //    .ToList();
 
-            //Current Document
-            cards.AddRange((Cards)
-                .Where(c => (shipping.n_otpr == c.VNach.num_doc ||
-                             numbersVagons.Contains(c.VNach.num_doc) ||
-                             billNumbers.Contains(c.VNach.num_doc) ||
-                             actNumbers.Contains(c.VNach.num_doc)) &&
-                            (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate))
-                .DistinctBy(c => c.VKart.id));
+            ////Current Document
+            //cards.AddRange((Cards)
+            //    .Where(c => (shipping.n_otpr == c.VNach.num_doc ||
+            //                 numbersVagons.Contains(c.VNach.num_doc) ||
+            //                 billNumbers.Contains(c.VNach.num_doc) ||
+            //                 actNumbers.Contains(c.VNach.num_doc)) &&
+            //                (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate))
+            //    .DistinctBy(c => c.VKart.id));
 
-            /* Advantage cards (for user option)
-             * cards.AddRange(((IQueryable<AccumulativeCard>)Cards)
-                .Where(c => c.VNach.type_doc == 4 && 
-                    (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate) &&
-                     new[] { "065","067" }.Contains(c.VNach.cod_sbor))
-                .DistinctBy(c => c.VKart.id)
-                .OrderByDescending(c => c.VKart.num_kart));
-             */
+            ///* Advantage cards (for user option)
+            // * cards.AddRange(((IQueryable<AccumulativeCard>)Cards)
+            //    .Where(c => c.VNach.type_doc == 4 && 
+            //        (c.VNach.date_raskr >= startDate && c.VNach.date_raskr <= endDate) &&
+            //         new[] { "065","067" }.Contains(c.VNach.cod_sbor))
+            //    .DistinctBy(c => c.VKart.id)
+            //    .OrderByDescending(c => c.VKart.num_kart));
+            // */
 
-            #endregion
+            //#endregion
 
-            //(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
-            var cardNumbers = cards.Select(c => c.VKart.num_kart);
+            ////(LINQ to Entity) поддерживаются только типы-примитивы и типы перечисления
+            //var cardNumbers = cards.Select(c => c.VKart.num_kart);
 
-            #region Luggage
+            //#region Luggage
 
-            //Related document
-            List<Luggage> luggages = (Baggage)
-                .Where(l => l.OrcSbor.NOMOT == shipping.n_otpr ||
-                            numbersVagons.Contains(l.OrcSbor.NOMOT) ||
-                            billNumbers.Contains(l.OrcSbor.NOMOT) ||
-                            actNumbers.Contains(l.OrcSbor.NOMOT) ||
-                            cardNumbers.Contains(l.OrcSbor.NOMOT) &&
-                            (l.OrcKrt.DTOPEN >= startDate && l.OrcKrt.DTOPEN <= endDate))
-                .DistinctBy(l => l.OrcKrt.KEYKRT)
-                .ToList();
+            ////Related document
+            //List<Luggage> luggages = (Baggage)
+            //    .Where(l => l.OrcSbor.NOMOT == shipping.n_otpr ||
+            //                numbersVagons.Contains(l.OrcSbor.NOMOT) ||
+            //                billNumbers.Contains(l.OrcSbor.NOMOT) ||
+            //                actNumbers.Contains(l.OrcSbor.NOMOT) ||
+            //                cardNumbers.Contains(l.OrcSbor.NOMOT) &&
+            //                (l.OrcKrt.DTOPEN >= startDate && l.OrcKrt.DTOPEN <= endDate))
+            //    .DistinctBy(l => l.OrcKrt.KEYKRT)
+            //    .ToList();
 
-            //Baggage
-            luggages.AddRange((Baggage)
-                .Where(l => l.OrcKrt.U_KOD == 2 && (l.OrcKrt.DTOPEN >= startDate && l.OrcKrt.DTOPEN <= endDate))
-                .DistinctBy(l => l.OrcKrt.KEYKRT)
-                .ToList());
+            ////Baggage
+            //luggages.AddRange((Baggage)
+            //    .Where(l => l.OrcKrt.U_KOD == 2 && (l.OrcKrt.DTOPEN >= startDate && l.OrcKrt.DTOPEN <= endDate))
+            //    .DistinctBy(l => l.OrcKrt.KEYKRT)
+            //    .ToList());
 
-            #endregion
+            //#endregion
 
             //don't need empty constructor
             return new ShippingInfoLine() {
                 //Warehouse = warehouese,
                 Shipping = shipping,
-                WagonsNumbers = wagonsNumbers,
+                //WagonsNumbers = wagonsNumbers,
                 /*Bills = bills,
                 Acts = acts,
                 Cards = cards,
@@ -150,37 +150,6 @@ namespace NaftanRailway.Domain.Concrete {
             }
         }
 
-        /// <summary>
-        /// Первичная выборка ведомостей
-        /// </summary>
-        public IQueryable<Bill> Bills {
-            get {
-                return (from pv in _dbSopodContext.v_pam_vags
-                        join p in _dbSopodContext.v_pams on pv.id_ved equals p.id_ved into gPams
-                        from pam in gPams.DefaultIfEmpty()
-                        join psb in _dbSopodContext.v_pam_sbs on pv.id_ved equals psb.id_ved into gPamsSb
-                        from pamSb in gPamsSb.DefaultIfEmpty()
-                        where pam.state == 32 && new[] { "3494", "349402" }.Contains(pam.kodkl)
-                        select new Bill() { VPam = pam, VPamVag = pv, VPamSb = pamSb }).AsQueryable();
-            }
-        }
-        /// <summary>
-        /// Первичная выборка актов
-        /// </summary>
-        public IQueryable<Certificate> Certificates {
-            get {
-                return (from av in _dbSopodContext.v_akt_vags
-                        join a in _dbSopodContext.v_akts
-                            on av.id_akt equals a.id into gAkts
-                        from act in gAkts.DefaultIfEmpty()
-                        join aSb in _dbSopodContext.v_akt_sbs
-                            on av.id_akt equals aSb.id_akt into gaSb
-                        from aSb in gaSb.DefaultIfEmpty()
-                        where act.state == 32 && new[] { "3494", "349402" }.Contains(act.kodkl)
-                        select new Certificate { VAkt = act, VAktVag = av, VAktSb = aSb })
-                    .AsQueryable();
-            }
-        }
         /// <summary>
         /// Первичная выборка накопительных карточек
         /// </summary>
@@ -235,22 +204,8 @@ namespace NaftanRailway.Domain.Concrete {
             get { return _dbSopodContext.v_pam_vags.AsQueryable(); }
         }
 
-        public IQueryable<v_pam_sb> PamSbs {
-            get { return _dbSopodContext.v_pam_sbs.AsQueryable(); }
-        }
-
-        public IQueryable<v_pam> Pams {
-            get {
-                _dbSopodContext.v_pam_sbs.AsQueryable();
-                return null;
-            }
-        }
 
         public IQueryable<v_akt> Akts {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IQueryable<v_akt_sb> AktSbs {
             get { throw new NotImplementedException(); }
         }
 

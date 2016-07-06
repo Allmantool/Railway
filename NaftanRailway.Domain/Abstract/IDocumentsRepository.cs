@@ -31,14 +31,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         IQueryable<v_o_v> CarriageNumbers { get; }
         /// <summary>
-        /// Get bills info
-        /// </summary>
-        IQueryable<Bill> Bills { get; }
-        /// <summary>
-        /// Get info abount acts
-        /// </summary>
-        IQueryable<Certificate> Certificates { get; }
-        /// <summary>
         /// Get info about Accumulative Cards
         /// </summary>
         IQueryable <AccumulativeCard> Cards { get; }
@@ -46,20 +38,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get luggage
         /// </summary>
         IQueryable<Luggage> Baggage { get; }
-
-        IQueryable<v_pam_vag> PamVags { get; }
-        IQueryable<v_pam_sb> PamSbs {get;}
-        IQueryable<v_pam> Pams { get; }
-        IQueryable<v_akt> Akts { get; }
-        IQueryable<v_akt_sb> AktSbs { get; }
-        IQueryable<v_akt_vag> AktVags { get; }
-        IQueryable<v_kart> Karts { get; }
-        IQueryable<v_nach> Naches { get; }
-        IQueryable<orc_krt> OrcKrts { get; }
-        IQueryable<orc_sbor> OrcSbors { get; }
-        IQueryable<etsng> Etsngs { get; }
-        IQueryable<krt_Naftan> KrtNaftans { get; }
-        IQueryable<krt_Naftan_orc_sapod> KrtNaftanOrcSapods { get; }
 
         void AddKrtNaftan(krt_Naftan record);
     }

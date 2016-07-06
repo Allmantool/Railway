@@ -41,14 +41,7 @@
 @*               @Html.HiddenFor(m => m[i].vPamVag)  *@
            }
             
-           @if (Model[i].VPamSb != null) {
-               foreach (PropertyInfo prop in Model[i].VPamSb.GetType().GetProperties()) {
-                   Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "DocumentPackLine.Bills[" + i + "].vPamSb";
-                    @Html.Hidden(prop.Name,prop.GetValue(Model[i].VPamSb,null))
-               }
-           } else {
-@*               @Html.HiddenFor(m => m[i].vPamSb) *@ 
-           }
+  
             
              @Html.DisplayFor(m => m[i].VPam.nved)
         </span> 
