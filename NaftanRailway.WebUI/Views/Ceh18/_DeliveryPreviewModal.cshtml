@@ -5,7 +5,8 @@
 }
 <!--Date Modal-->
 <div class="modal-dialog modal-lg" role="document">
-    @using (Ajax.BeginForm("AddDocumentsInfo",new RouteValueDictionary() { {"controller","Ceh18"}, {"action", "AddDocumentsInfo" } }, new AjaxOptions() { HttpMethod = "Post",Url = "/Ceh18/AddDocumentsInfo" })) {
+    @using (Ajax.BeginForm("AddDocumentsInfo", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
+                new AjaxOptions() { HttpMethod = "Post", Url = Url.Action("AddDocumentsInfo", "Ceh18") })) {
         @Html.Hidden("reportPeriod", reportPeriod)
         <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +55,7 @@
                                     }
                                 </td>
                                 <td>
-                                    @for(var carriage =0; carriage < Model[indx].WagonsNumbers.Count();carriage++) {
+                                    @for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
                                         @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
                                     }
                                     @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))
