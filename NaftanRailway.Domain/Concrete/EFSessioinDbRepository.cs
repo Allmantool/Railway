@@ -4,6 +4,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.SessionState;
 

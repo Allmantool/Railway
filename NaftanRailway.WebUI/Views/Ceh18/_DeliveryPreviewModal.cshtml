@@ -1,11 +1,11 @@
-﻿@model IList<NaftanRailway.Domain.BusinessModels.ShippingInfoLine>
+﻿@model IList<NaftanRailway.Domain.BusinessModels.BussinesLogic.ShippingInfoLine>
 @{
     var numberRow = @Model.Count();
     var reportPeriod = (DateTime)@ViewBag.datePeriod;
 }
 <!--Date Modal-->
 <div class="modal-dialog modal-lg" role="document">
-    @using (Ajax.BeginForm("AddDocumentsInfo", new AjaxOptions() { HttpMethod = "Post" })) {
+    @using (Ajax.BeginForm("AddDocumentsInfo",new RouteValueDictionary() { {"controller","Ceh18"}, {"action", "AddDocumentsInfo" } }, new AjaxOptions() { HttpMethod = "Post",Url = "/Ceh18/AddDocumentsInfo" })) {
         @Html.Hidden("reportPeriod", reportPeriod)
         <div class="modal-content">
             <div class="modal-header">
@@ -40,7 +40,7 @@
                                     So, if you leave the checkbox unchecked then nothing will be sent to the server when in many situations you would want false to be sent instead.
                                     As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
                                      -->
-                                    @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox" })
+                                    @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
                                     @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)
                                 </td>
                                 <td>
@@ -53,7 +53,12 @@
                                         @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
                                     }
                                 </td>
-                                <td>@Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))</td>
+                                <td>
+                                    @for(var carriage =0; carriage < Model[indx].WagonsNumbers.Count();carriage++) {
+                                        @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
+                                    }
+                                    @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))
+                                </td>
                                 <td class="small">
                                     @Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)
                                 </td>

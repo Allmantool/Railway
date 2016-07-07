@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.WebUI.ViewModels;
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 
-namespace NaftanRailway.Domain.BusinessModels {
+namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
     /// PreVeiw informataion about one delivery
     /// </summary>
@@ -16,7 +16,7 @@ namespace NaftanRailway.Domain.BusinessModels {
 
         [DisplayName("Номера вагона(ов)")]
         [UIHint("v_o_v")]
-        public IEnumerable<v_o_v> WagonsNumbers { get; set; }
+        public IList<v_o_v> WagonsNumbers { get; set; }
 
         [DisplayName("Наименование груза (ETСНГ)")]
         public etsng CargoEtsngName { get; set; }
@@ -25,5 +25,9 @@ namespace NaftanRailway.Domain.BusinessModels {
         [Range(1, 1000, ErrorMessage = "Пожалуйста введите верный номер склада!")]
         [Required(ErrorMessage = "Пожалуйста введите номер склада!")]
         public int Warehouse { get; set; }
+
+        public ShippingInfoLine() {
+            IsSelected = true;
+        }
     }
 }

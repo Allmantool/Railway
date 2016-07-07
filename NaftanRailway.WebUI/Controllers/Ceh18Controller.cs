@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -92,7 +93,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddDocumentsInfo(DateTime reportPeriod,IEnumerable<ShippingInfoLine> docInfo){
+        public ActionResult AddDocumentsInfo(DateTime reportPeriod, IEnumerable<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
                 var result = _bussinesEngage.PackDocuments(reportPeriod, docInfo);
             }

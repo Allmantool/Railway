@@ -292,7 +292,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               select new ShippingInfoLine() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
-                                  WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == sh.id),
+                                  WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == sh.id).ToList(),
                               }).ToList();
                 }
                 recordCount = (short)result.Count();
