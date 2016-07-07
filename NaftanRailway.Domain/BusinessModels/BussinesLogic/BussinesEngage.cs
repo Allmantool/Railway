@@ -174,7 +174,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             //reload object => fill information about id's
             var wrkData = preview.Select(x => new ShippingInfoLine() {
                 CargoEtsngName = x.CargoEtsngName,
-                Shipping = GetTable<v_otpr, int>(z => z.n_otpr == x.Shipping.n_otpr && z.date_oper == x.Shipping.date_oper && z.oper == x.Shipping.oper && z.state == 32 && (new[] { "3494", "349402" }.Contains(z.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(z.cod_klient_pol))).ToList().First(),
+                Shipping = GetTable<v_otpr, int>(z =>z.id==x.Shipping.id && z.date_oper == x.Shipping.date_oper && z.oper == x.Shipping.oper && z.state == 32 && (new[] { "3494", "349402" }.Contains(z.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(z.cod_klient_pol))).ToList().First(),
                 WagonsNumbers = GetTable<v_o_v, int>(z => z.id_otpr == x.Shipping.id).ToList(),
                 Warehouse = x.Warehouse
             }).ToList();

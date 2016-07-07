@@ -8,17 +8,17 @@ var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);
 var typeMapper = new TypeMapper(code, ef, textTransform.Errors);
 var	fileManager = EntityFrameworkTemplateFileManager.Create(this);
-var itemCollection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmItemCollection(inputFile);
+var Model[indx]Collection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmModel[indx]Collection(inputFile);
 var codeStringGenerator = new CodeStringGenerator(code, typeMapper, ef);
 
-if (!typeMapper.VerifyCaseInsensitiveTypeUniqueness(typeMapper.GetAllGlobalItems(itemCollection), inputFile))
+if (!typeMapper.VerifyCaseInsensitiveTypeUniqueness(typeMapper.GetAllGlobalModel[indx]s(Model[indx]Collection), inputFile))
 {
     return string.Empty;
 }
 
 WriteHeader(codeStringGenerator, fileManager);
 
-foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection))
+foreach (var entity in typeMapper.GetModel[indx]sToGenerate<EntityType>(Model[indx]Collection))
 {
     fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(code);
@@ -113,7 +113,7 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     EndNamespace(code);
 }
 
-foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollection))
+foreach (var complex in typeMapper.GetModel[indx]sToGenerate<ComplexType>(Model[indx]Collection))
 {
     fileManager.StartNewFile(complex.Name + ".cs");
     BeginNamespace(code);
@@ -179,7 +179,7 @@ foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollectio
     EndNamespace(code);
 }
 
-foreach (var enumType in typeMapper.GetEnumItemsToGenerate(itemCollection))
+foreach (var enumType in typeMapper.GetEnumModel[indx]sToGenerate(Model[indx]Collection))
 {
     fileManager.StartNewFile(enumType.Name + ".cs");
     BeginNamespace(code);
@@ -198,7 +198,7 @@ foreach (var enumType in typeMapper.GetEnumItemsToGenerate(itemCollection))
 <#
     var foundOne = false;
     
-    foreach (MetadataItem member in typeMapper.GetEnumMembers(enumType))
+    foreach (MetadataModel[indx] member in typeMapper.GetEnumMembers(enumType))
     {
         foundOne = true;
 #>
@@ -540,7 +540,7 @@ public class TypeMapper
         return typeof(object);
     }
     
-    public object GetEnumMemberValue(MetadataItem enumMember)
+    public object GetEnumMemberValue(MetadataModel[indx] enumMember)
     {
         ArgumentNotNull(enumMember, "enumMember");
         
@@ -548,7 +548,7 @@ public class TypeMapper
         return valueProperty == null ? null : valueProperty.GetValue(enumMember, null);
     }
     
-    public string GetEnumMemberName(MetadataItem enumMember)
+    public string GetEnumMemberName(MetadataModel[indx] enumMember)
     {
         ArgumentNotNull(enumMember, "enumMember");
         
@@ -563,7 +563,7 @@ public class TypeMapper
         var membersProperty = enumType.GetType().GetProperty("Members");
         return membersProperty != null 
             ? (System.Collections.IEnumerable)membersProperty.GetValue(enumType, null)
-            : Enumerable.Empty<MetadataItem>();
+            : Enumerable.Empty<MetadataModel[indx]>();
     }
     
     public bool EnumIsFlags(EdmType enumType)
@@ -574,7 +574,7 @@ public class TypeMapper
         return isFlagsProperty != null && (bool)isFlagsProperty.GetValue(enumType, null);
     }
 
-    public bool IsEnumType(GlobalItem edmType)
+    public bool IsEnumType(GlobalModel[indx] edmType)
     {
         ArgumentNotNull(edmType, "edmType");
 
@@ -604,7 +604,7 @@ public class TypeMapper
         ArgumentNotNull(sourceFile, "sourceFile");
         
         var hash = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-        if (types.Any(item => !hash.Add(item)))
+        if (types.Any(Model[indx] => !hash.Add(Model[indx])))
         {
             _errors.Add(
                 new CompilerError(sourceFile, -1, -1, "6023",
@@ -614,36 +614,36 @@ public class TypeMapper
         return true;
     }
     
-    public IEnumerable<SimpleType> GetEnumItemsToGenerate(IEnumerable<GlobalItem> itemCollection)
+    public IEnumerable<SimpleType> GetEnumModel[indx]sToGenerate(IEnumerable<GlobalModel[indx]> Model[indx]Collection)
     {
-        return GetItemsToGenerate<SimpleType>(itemCollection)
+        return GetModel[indx]sToGenerate<SimpleType>(Model[indx]Collection)
             .Where(e => IsEnumType(e));
     }
     
-    public IEnumerable<T> GetItemsToGenerate<T>(IEnumerable<GlobalItem> itemCollection) where T: EdmType
+    public IEnumerable<T> GetModel[indx]sToGenerate<T>(IEnumerable<GlobalModel[indx]> Model[indx]Collection) where T: EdmType
     {
-        return itemCollection
+        return Model[indx]Collection
             .OfType<T>()
             .Where(i => !i.MetadataProperties.Any(p => p.Name == ExternalTypeNameAttributeName))
             .OrderBy(i => i.Name);
     }
 
-    public IEnumerable<string> GetAllGlobalItems(IEnumerable<GlobalItem> itemCollection)
+    public IEnumerable<string> GetAllGlobalModel[indx]s(IEnumerable<GlobalModel[indx]> Model[indx]Collection)
     {
-        return itemCollection
+        return Model[indx]Collection
             .Where(i => i is EntityType || i is ComplexType || i is EntityContainer || IsEnumType(i))
-            .Select(g => GetGlobalItemName(g));
+            .Select(g => GetGlobalModel[indx]Name(g));
     }
 
-    public string GetGlobalItemName(GlobalItem item)
+    public string GetGlobalModel[indx]Name(GlobalModel[indx] Model[indx])
     {
-        if (item is EdmType)
+        if (Model[indx] is EdmType)
         {
-            return ((EdmType)item).Name;
+            return ((EdmType)Model[indx]).Name;
         }
         else
         {
-            return ((EntityContainer)item).Name;
+            return ((EntityContainer)Model[indx]).Name;
         }
     }
 

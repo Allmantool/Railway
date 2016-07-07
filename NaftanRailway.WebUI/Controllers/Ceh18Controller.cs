@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
@@ -56,7 +57,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 }
                 //report main date (month/year)
                 ViewBag.datePeriod = menuView.ReportPeriod;
-                return PartialView("_DeliveryPreviewModal", result);
+                return PartialView("_DeliveryPreviewModal", result.ToList());
             }
             return new EmptyResult();
         }

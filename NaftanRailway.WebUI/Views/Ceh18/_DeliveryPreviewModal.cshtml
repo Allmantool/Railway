@@ -1,20 +1,19 @@
-﻿@model IEnumerable<NaftanRailway.Domain.BusinessModels.ShippingInfoLine>
+﻿@model IList<NaftanRailway.Domain.BusinessModels.ShippingInfoLine>
 @{
     var numberRow = @Model.Count();
     var reportPeriod = (DateTime)@ViewBag.datePeriod;
-    var indx=0;
 }
 <!--Date Modal-->
 <div class="modal-dialog modal-lg" role="document">
     @using (Ajax.BeginForm("AddDocumentsInfo", new AjaxOptions() { HttpMethod = "Post" })) {
-        @Html.Hidden("reportPeriod", reportPeriod);
+        @Html.Hidden("reportPeriod", reportPeriod)
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title text-center" id="gridSystemModalLabel">
-                    Найдена @numberRow @((numberRow > 1) ? "записи" : "запись") по накладной: "@Model.FirstOrDefault().Shipping.n_otpr"
+                    Найдена @numberRow @((numberRow > 1) ? "записи" : "запись") по накладной: "@Model[0].Shipping.n_otpr"
                 </h4>
             </div>
             <div class="modal-body text-center">
@@ -31,15 +30,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) { @(++indx)
+                        @for (var indx = 0; indx < Model.Count(); indx++) {
                             <tr>
-                                <td><input type="checkbox" checked /></td>
-                                <td>@Html.Label("type_doc", (item.Shipping.type_doc == 1) ? "Отправка" : "Прибытие")</td>
-                                <td>@item.Shipping.date_oper.Value.ToString("d MMM yyyy")</td>
-                                <td>@String.Join(", ", @item.WagonsNumbers.Select(x => x.n_vag))</td>
-                                <td class="small">@item.CargoEtsngName.name</td>
-                                <td class="small">@((item.Shipping.type_doc == 1) ? @item.Shipping.nam_pol : @item.Shipping.nam_otpr)</td>
-                                <td class="small">@Html.TextBox("Warehouse", @item.Warehouse, new { @class = "text-center form-control input-sm", type = "number" })
+                                <td>
+                                    <!--How does it work:
+                                    If checkbox not checked, form submit only hidden (false)
+                                    If checked, then form submit two fields (false and true) and MVC set true for bool property
+                                    When you submit a form with a checkbox, the value is only posted if the checkbox is checked.
+                                    So, if you leave the checkbox unchecked then nothing will be sent to the server when in many situations you would want false to be sent instead.
+                                    As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
+                                     -->
+                                    @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox" })
+                                    @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
+                                    @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")
+                                </td>
+                                <td>
+                                    @if (Model[indx].Shipping.date_oper != null) {
+                                        @Html.HiddenFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value)
+                                        @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
+                                    }
+                                </td>
+                                <td>@Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))</td>
+                                <td class="small">
+                                    @Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)
+                                </td>
+                                <td class="small">
+                                    @if (Model[indx].Shipping.type_doc == 1) {
+                                        @Html.LabelFor(x => x[indx].Shipping.nam_pol, Model[indx].Shipping.nam_pol)
+                                    } else {
+                                        @Html.LabelFor(x => x[indx].Shipping.nam_otpr, Model[indx].Shipping.nam_otpr)
+                                    }
+                                </td>
+                                <td class="small col-md-1">
+                                    @Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })
+                                </td>
                             </tr>
                         }
                     </tbody>

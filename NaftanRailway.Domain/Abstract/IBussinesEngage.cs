@@ -64,7 +64,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="orderPredicate">predicate for order</param>
         /// <param name="filterPredicate">predicate for filter result</param>
         /// <param name="page">current page</param>
-        /// <param name="size">page item size</param>
+        /// <param name="size">page Model[indx] size</param>
         /// <returns></returns>
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
         /// <summary>
