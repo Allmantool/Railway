@@ -36,7 +36,7 @@ namespace NaftanRailway.Domain.BusinessModels {
         /// Add shippingInfo line
         /// </summary>
         /// <param name="documentPack"></param>
-        public void AddItem(ShippingInfoLine documentPack) {
+        public void Additem(ShippingInfoLine documentPack) {
             ShippingInfoLine line = _linesCollection.FirstOrDefault(sh => sh.Shipping.id == documentPack.Shipping.id);
 
             if (line == null) {
@@ -68,7 +68,7 @@ namespace NaftanRailway.Domain.BusinessModels {
                 RemoveLine(line.Shipping);
             }
 
-            AddItem(line);
+            Additem(line);
         }
 
         /// <summary>

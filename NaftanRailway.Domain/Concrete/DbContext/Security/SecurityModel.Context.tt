@@ -8,11 +8,11 @@ var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);
 var typeMapper = new TypeMapper(code, ef, textTransform.Errors);
 var loader = new EdmMetadataLoader(textTransform.Host, textTransform.Errors);
-var itemCollection = loader.CreateEdmItemCollection(inputFile);
+var Model[indx]Collection = loader.CreateEdmModel[indx]Collection(inputFile);
 var modelNamespace = loader.GetModelNamespace(inputFile);
 var codeStringGenerator = new CodeStringGenerator(code, typeMapper, ef);
 
-var container = itemCollection.OfType<EntityContainer>().FirstOrDefault();
+var container = Model[indx]Collection.OfType<EntityContainer>().FirstOrDefault();
 if (container == null)
 {
     return string.Empty;
@@ -416,7 +416,7 @@ public class TypeMapper
         return typeof(object);
     }
     
-    public object GetEnumMemberValue(MetadataItem enumMember)
+    public object GetEnumMemberValue(MetadataModel[indx] enumMember)
     {
         ArgumentNotNull(enumMember, "enumMember");
         
@@ -424,7 +424,7 @@ public class TypeMapper
         return valueProperty == null ? null : valueProperty.GetValue(enumMember, null);
     }
     
-    public string GetEnumMemberName(MetadataItem enumMember)
+    public string GetEnumMemberName(MetadataModel[indx] enumMember)
     {
         ArgumentNotNull(enumMember, "enumMember");
         
@@ -439,7 +439,7 @@ public class TypeMapper
         var membersProperty = enumType.GetType().GetProperty("Members");
         return membersProperty != null 
             ? (System.Collections.IEnumerable)membersProperty.GetValue(enumType, null)
-            : Enumerable.Empty<MetadataItem>();
+            : Enumerable.Empty<MetadataModel[indx]>();
     }
     
     public bool EnumIsFlags(EdmType enumType)
@@ -450,7 +450,7 @@ public class TypeMapper
         return isFlagsProperty != null && (bool)isFlagsProperty.GetValue(enumType, null);
     }
 
-    public bool IsEnumType(GlobalItem edmType)
+    public bool IsEnumType(GlobalModel[indx] edmType)
     {
         ArgumentNotNull(edmType, "edmType");
 
@@ -480,7 +480,7 @@ public class TypeMapper
         ArgumentNotNull(sourceFile, "sourceFile");
         
         var hash = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-        if (types.Any(item => !hash.Add(item)))
+        if (types.Any(Model[indx] => !hash.Add(Model[indx])))
         {
             _errors.Add(
                 new CompilerError(sourceFile, -1, -1, "6023",
@@ -490,36 +490,36 @@ public class TypeMapper
         return true;
     }
     
-    public IEnumerable<SimpleType> GetEnumItemsToGenerate(IEnumerable<GlobalItem> itemCollection)
+    public IEnumerable<SimpleType> GetEnumModel[indx]sToGenerate(IEnumerable<GlobalModel[indx]> Model[indx]Collection)
     {
-        return GetItemsToGenerate<SimpleType>(itemCollection)
+        return GetModel[indx]sToGenerate<SimpleType>(Model[indx]Collection)
             .Where(e => IsEnumType(e));
     }
     
-    public IEnumerable<T> GetItemsToGenerate<T>(IEnumerable<GlobalItem> itemCollection) where T: EdmType
+    public IEnumerable<T> GetModel[indx]sToGenerate<T>(IEnumerable<GlobalModel[indx]> Model[indx]Collection) where T: EdmType
     {
-        return itemCollection
+        return Model[indx]Collection
             .OfType<T>()
             .Where(i => !i.MetadataProperties.Any(p => p.Name == ExternalTypeNameAttributeName))
             .OrderBy(i => i.Name);
     }
 
-    public IEnumerable<string> GetAllGlobalItems(IEnumerable<GlobalItem> itemCollection)
+    public IEnumerable<string> GetAllGlobalModel[indx]s(IEnumerable<GlobalModel[indx]> Model[indx]Collection)
     {
-        return itemCollection
+        return Model[indx]Collection
             .Where(i => i is EntityType || i is ComplexType || i is EntityContainer || IsEnumType(i))
-            .Select(g => GetGlobalItemName(g));
+            .Select(g => GetGlobalModel[indx]Name(g));
     }
 
-    public string GetGlobalItemName(GlobalItem item)
+    public string GetGlobalModel[indx]Name(GlobalModel[indx] Model[indx])
     {
-        if (item is EdmType)
+        if (Model[indx] is EdmType)
         {
-            return ((EdmType)item).Name;
+            return ((EdmType)Model[indx]).Name;
         }
         else
         {
-            return ((EntityContainer)item).Name;
+            return ((EntityContainer)Model[indx]).Name;
         }
     }
 
@@ -613,13 +613,13 @@ public class EdmMetadataLoader
         _errors = errors;
     }
 
-    public IEnumerable<GlobalItem> CreateEdmItemCollection(string sourcePath)
+    public IEnumerable<GlobalModel[indx]> CreateEdmModel[indx]Collection(string sourcePath)
     {
         ArgumentNotNull(sourcePath, "sourcePath");
 
         if (!ValidateInputPath(sourcePath))
         {
-            return new EdmItemCollection();
+            return new EdmModel[indx]Collection();
         }
 
         var schemaElement = LoadRootElement(_host.ResolvePath(sourcePath));
@@ -628,14 +628,14 @@ public class EdmMetadataLoader
             using (var reader = schemaElement.CreateReader())
             {
                 IList<EdmSchemaError> errors;
-                var itemCollection = MetadataItemCollectionFactory.CreateEdmItemCollection(new[] { reader }, out errors);
+                var Model[indx]Collection = MetadataModel[indx]CollectionFactory.CreateEdmModel[indx]Collection(new[] { reader }, out errors);
 
                 ProcessErrors(errors, sourcePath);
 
-                return itemCollection;
+                return Model[indx]Collection;
             }
         }
-        return new EdmItemCollection();
+        return new EdmModel[indx]Collection();
     }
 
     public string GetModelNamespace(string sourcePath)
@@ -663,7 +663,7 @@ public class EdmMetadataLoader
         {
             _errors.Add(
                 new CompilerError(_host.TemplateFile ?? sourcePath, 0, 0, string.Empty,
-                    GetResourceString("Template_ReplaceVsItemTemplateToken")));
+                    GetResourceString("Template_ReplaceVsModel[indx]TemplateToken")));
             return false;
         }
 
@@ -723,7 +723,7 @@ public static void ArgumentNotNull<T>(T arg, string name) where T : class
     
 private static readonly Lazy<System.Resources.ResourceManager> ResourceManager =
     new Lazy<System.Resources.ResourceManager>(
-        () => new System.Resources.ResourceManager("System.Data.Entity.Design", typeof(MetadataItemCollectionFactory).Assembly), isThreadSafe: true);
+        () => new System.Resources.ResourceManager("System.Data.Entity.Design", typeof(MetadataModel[indx]CollectionFactory).Assembly), isThreadSafe: true);
 
 public static string GetResourceString(string resourceName)
 {

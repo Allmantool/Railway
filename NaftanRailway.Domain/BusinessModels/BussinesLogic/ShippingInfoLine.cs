@@ -9,9 +9,9 @@ namespace NaftanRailway.Domain.BusinessModels {
     /// PreVeiw informataion about one delivery
     /// </summary>
     public class ShippingInfoLine {
-        [DisplayName("Отправки")]
-        //[Range(1, 1000, ErrorMessage = "Пожалуйста введите верный номер склада!")]
-        //[Required(ErrorMessage = "Пожалуйста введите номер склада!")]
+        public bool IsSelected { get; set; }
+
+        [DisplayName("Номер накладной")]
         public v_otpr Shipping { get; set; }
 
         [DisplayName("Номера вагона(ов)")]
@@ -22,6 +22,8 @@ namespace NaftanRailway.Domain.BusinessModels {
         public etsng CargoEtsngName { get; set; }
 
         [DisplayName("Номер склада")]
+        [Range(1, 1000, ErrorMessage = "Пожалуйста введите верный номер склада!")]
+        [Required(ErrorMessage = "Пожалуйста введите номер склада!")]
         public int Warehouse { get; set; }
     }
 }
