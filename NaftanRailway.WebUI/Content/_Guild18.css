@@ -13,9 +13,11 @@ table > thead > tr > th,table > tbody > tr > td {
     text-align: center;
 }
 table > tbody > tr > td {
-   vertical-align: middle !important; 
+    vertical-align: middle !important;
 }
-
+#previewBody>tr>td>label {
+    margin-top:0.4em !important;
+}
 table > thead {
     border-color: #337ab7;
     color: #fff;

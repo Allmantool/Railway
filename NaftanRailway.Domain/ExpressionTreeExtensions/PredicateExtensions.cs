@@ -28,7 +28,6 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
 
             return Expression.Lambda<Func<T, bool>>(containsMethodExp, arg);
         }
-
         /// <summary>
         /// Main containt method (avoid err: в данном контексте можно использовать только типы примитивы)
         /// Расширение позволяет  работать динамически отсылая на сервер TSQL запрос (IN (arg1,arg2.. arg-n)
@@ -40,23 +39,14 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
         /// <param name="propertyName"></param>
         /// <param name="colItems"></param>
         /// <returns></returns>
-        public static Expression<Func<TEntity, bool>> InnerContainsPredicate<TEntity,T>(string propertyName, IEnumerable<T> colItems) where TEntity : class {
+        public static Expression<Func<TEntity, bool>> InnerContainsPredicate<TEntity, T>(string propertyName, IEnumerable<T> colItems) where TEntity : class {
             ParameterExpression entity = Expression.Parameter(typeof(TEntity), "srcObj"); //class people
             MemberExpression member = Expression.Property(entity, propertyName); // property people.Age
 
             var someValue = Expression.Constant(colItems);
-            var body = Expression.Call(typeof (Enumerable), "Contains", new Type[] {member.Type}, someValue, member);
+            var body = Expression.Call(typeof(Enumerable), "Contains", new Type[] { member.Type }, someValue, member);
 
             return Expression.Lambda<Func<TEntity, bool>>(body, entity);
-        }
-        /// <summary>
-        /// ext. for iquerable interface
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        public static IQueryable<T> NestedContains<T>(this IQueryable<T> query) where T : class {
-            return query;
         }
         /// <summary>
         /// Build lambda expression (in this particular way for groupBy operation), in another side expresssion is general => this's mean it's be suitable for many cases
@@ -80,35 +70,12 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
             //Basically with expression three we build hard-wired lambda expression (etc. x=>x.Name )
             return Expression.Lambda<Func<T, string>>(Expression.Call(property, toStrMethod), param);
         }
-        //makes expression for specific prop
-        public static Expression<Func<TSource, object>> GetExpression<TSource>(string propertyName) {
-            var param = Expression.Parameter(typeof(TSource), "x");
-            //important to use the Expression.Convert
-            Expression conversion = Expression.Convert(Expression.Property(param, propertyName), typeof(object));
-            return Expression.Lambda<Func<TSource, object>>(conversion, param);
-        }
-        //makes deleget for specific prop
-        public static Func<TSource, object> GetFunc<TSource>(string propertyName) {
-            return GetExpression<TSource>(propertyName).Compile();  //only need compiled expression
-        }
-        //OrderBy overload
-        public static IOrderedEnumerable<TSource> GroupBy<TSource>(this IEnumerable<TSource> source, string propertyName) {
-            return source.OrderBy(GetFunc<TSource>(propertyName));
-        }
-        //OrderBy overload
-        public static IOrderedQueryable<TSource> GroupBy<TSource>(this IQueryable<TSource> source, string propertyName) {
-            return source.OrderBy(GetExpression<TSource>(propertyName));
-        }
-
-        public static Expression<Func<string, string, bool>> expFunc = (name, value) => name.Contains(value);
-
         public static Expression<Func<TItem, bool>> PropertyEquals<TItem, TValue>(PropertyInfo property, TValue value) {
             var param = Expression.Parameter(typeof(TItem));
             var body = Expression.Equal(Expression.Property(param, property),
                 Expression.Constant(value));
             return Expression.Lambda<Func<TItem, bool>>(body, param);
         }
-
         public static Expression<Func<TEntity, bool>> ContainsPredicate<TEntity, T>(T[] arr, string fieldname) where TEntity : class {
             ParameterExpression entity = Expression.Parameter(typeof(TEntity), "entity");
             MemberExpression member = Expression.Property(entity, fieldname);
@@ -125,6 +92,24 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
             method = method.MakeGenericMethod(member.Type);
             var exprContains = Expression.Call(method, new Expression[] { Expression.Constant(arr), member });
             return Expression.Lambda<Func<TEntity, bool>>(exprContains, entity);
+        }
+
+        /// <summary>
+        /// Replace for Convert function in Linq to SQL
+        /// </summary>
+        /// <typeparam name="TInput">Input type</typeparam>
+        /// <typeparam name="TOutput">Output type</typeparam>
+        /// <returns></returns>
+        public static Expression<Func<TInput>> ConvertInt32<TInput>(string fieldName, string propertyValue) {
+            ParameterExpression param = Expression.Parameter(typeof(TInput), "type");
+            MemberExpression expr = Expression.Property(param, fieldName);
+
+            MethodInfo convertMethod = typeof(Convert).GetMethod("ToInt32");
+            ConstantExpression someValue = Expression.Constant(propertyValue, typeof(string));
+
+            var containsMethodExp = Expression.Call(expr, convertMethod, someValue);
+
+            return Expression.Lambda<Func<TInput>>(containsMethodExp, param);
         }
     }
 }

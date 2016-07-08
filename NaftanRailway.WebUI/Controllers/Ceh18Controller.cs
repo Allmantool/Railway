@@ -93,7 +93,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddDocumentsInfo(DateTime reportPeriod, IEnumerable<ShippingInfoLine> docInfo) {
+        public ActionResult AddDocumentsInfo(DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
                 var result = _bussinesEngage.PackDocuments(reportPeriod, docInfo);
             }

@@ -62,12 +62,6 @@ namespace NaftanRailway.WebUI {
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" });
 
             routes.MapRoute(
-                name: "TypeOperation",
-                url: "{operationCategory}",
-                namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
-                defaults: new { controller = "Ceh18", action = "Index", page = 1 });
-
-            routes.MapRoute(
                 name: "PagingLink",
                 url: "Page{page}",
                 defaults: new { controller = "Ceh18", action = "Index", operationCategory = EnumOperationType.All },
