@@ -16,6 +16,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enablecaching">Enable caching on side EF</param>
         /// <returns></returns>
         IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enablecaching = true);
+
         /// <summary>
         /// Get single entity 
         /// </summary>
@@ -53,5 +54,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <param name="predicate"></param>
         void Delete(Expression<Func<T, bool>> predicate);
+
+
     }
 }
