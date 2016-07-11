@@ -207,7 +207,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                          //code = PredicateExtensions.ConvertInt32<v_nach>("cod_sbor",vn.cod_sbor.Split(new[] { '.', ',' })[0]) ,
                                          sum = (decimal)(vn.summa + vn.nds),
                                          rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
-                                         codeType = new[] {"166", "173", "300", "301", "344" }.Contains(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                         codeType = new[] { "166", "173", "300", "301", "344" }.Contains(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
                                          idCard = vn.id_kart,
                                          idScroll = Uow.Repository<krt_Naftan_orc_sapod>().Get_all(x => x.id_kart == vn.id_kart, false).AsExpandable().GroupBy(x => x.keykrt).ToList().Select(x => x.Key).First()
                                      }).ToList());
