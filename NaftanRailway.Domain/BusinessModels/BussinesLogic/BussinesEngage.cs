@@ -163,15 +163,17 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <returns></returns>
         public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 5) {
             var startDate = chooseDate.AddDays(-shiftPage);
-            var endDate = chooseDate.AddDays(shiftPage);
+            var endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
             return GetGroup<v_otpr, string>(x => new { x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
                  && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
-        public IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview) {
+        public IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5) {
             List<krt_Guild18> result;
+            var startDate = reportPeriod.AddDays(-shiftPage);
+            var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
 
             //type_doc 1 => one trunsaction (one request per one dbcontext)
             result = (from item in preview join vn in GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
@@ -193,13 +195,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
             foreach (var dispatch in preview) {
                 var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
-               
-                ////type_doc 2 =>one trunsaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
+
+                //type_doc 2 =>one trunsaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
+                //in memory because not all method support entity to sql => more easy do it in memory
                 using (Uow = new UnitOfWork()) {
-                    var temp2Coll = (from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false) group vpv by vpv.id_ved into vpvGroup
-                                     join vp in Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false) on vpvGroup.Key equals vp.id_ved
-                                    
+                    result.AddRange((from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join vp in Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
                                      join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on vp.id_kart equals vn.id_kart
+<<<<<<< HEAD
 
                                      select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).ToList();
 
@@ -207,69 +210,79 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     if (temp2Coll.Any()) {
                         result.AddRange(temp2Coll.Select(x => new krt_Guild18 {
                             reportPeriod = reportPeriod, warehouse = dispatch.Warehouse,
+=======
+                                     select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
+                                        .Select(x => new krt_Guild18 {
+                                            reportPeriod = reportPeriod, warehouse = dispatch.Warehouse,
+                                            idDeliviryNote = dispatch.Shipping.id,
+                                            type_doc = 2, idSrcDocument = x.id_ved,
+                                            code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                            sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
+                                            rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
+                                            codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                            idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                        }));
+                }
+                //065
+                using (Uow = new UnitOfWork()) {
+                    result.AddRange((from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
+                                         new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
+                                     select new { vpv.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList().Select(x =>
+                        new krt_Guild18 {
+                            reportPeriod = reportPeriod,
+                            warehouse = dispatch.Warehouse,
+>>>>>>> 525b814f8e42096b1995d7e56890b7e5733f7897
                             idDeliviryNote = dispatch.Shipping.id,
-                            type_doc = 2, idSrcDocument = x.id_ved,
+                            type_doc = 4,
+                            idSrcDocument = x.id_kart,
                             code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
                             sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
                             rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                             codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
                             idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
                         }));
-                    }
                 }
+                ////type_doc 3 =>one trunsaction (one request per one dbcontext)
+                using (Uow = new UnitOfWork()) {
+                    result.AddRange((from vav in Uow.Repository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                     join va in Uow.Repository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
+                                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on va.id_kart equals vn.id_kart
+                                     select new { va.id, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList().Select(x =>
+                                      new krt_Guild18 {
+                                          reportPeriod = reportPeriod,
+                                          warehouse = dispatch.Warehouse,
+                                          idDeliviryNote = dispatch.Shipping.id,
+                                          type_doc = 3,
+                                          idSrcDocument = x.id,
+                                          code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                          sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
+                                          rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
+                                          codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                          idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                      }));
+
+                }
+                //luggage (type_doc 0 or 4)
+                result.AddRange(GetTable<krt_Naftan_orc_sapod, long>(x => new[] { 611, 629, 125 }.Contains(x.vidsbr) && x.dt.Month == reportPeriod.Month && x.dt.Year == reportPeriod.Year).ToList()
+                    .Select(x => new krt_Guild18 {
+                        reportPeriod = reportPeriod,
+                        type_doc = x.tdoc,
+                        idSrcDocument = x.id_kart,
+                        code = x.vidsbr,
+                        sum = x.sm,
+                        rateVAT = Math.Round((decimal)(x.nds / x.sm_no_nds), 2),
+                        codeType = new[] { 166, 173, 300, 301, 344 }.Contains(x.vidsbr),
+                        idCard = x.id_kart,
+                        idScroll = x.keykrt
+                    }));
             }
-            //065
-            //result.AddRange((from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-            //                 join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on
-            //                     new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
-            //                 select new krt_Guild18 {
-            //                     reportPeriod = reportPeriod,
-            //                     warehouse = dispatch.Warehouse,
-            //                     idDeliviryNote = dispatch.Shipping.id,
-            //                     type_doc = 4,
-            //                     idSrcDocument = vn.id_kart,
-            //                     code = PredicateExtensions.ConvertInt32<v_nach>("cod_sbor", (vn.cod_sbor.Split(new[] { '.', ',' })[0])).Compile().Invoke(vn),
-            //                     sum = (decimal)(vn.summa + vn.nds),
-            //                     rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
-            //                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
-            //                     idCard = vn.id_kart,
-            //                     idScroll = Uow.Repository<krt_Naftan_orc_sapod>().Get_all(x => x.id_kart == vn.id_kart, false).GroupBy(x => x.keykrt).ToList().Select(x => x.Key).First()
-            //                 }));
-            ////type_doc 3 =>one trunsaction (one request per one dbcontext)
-            //using (Uow = new UnitOfWork()) {
-            //    result.AddRange((from vav in Uow.Repository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-            //                     join va in Uow.Repository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl), false) on vav.id_akt equals va.id
-            //                     join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on va.id_kart equals vn.id_kart
-            //                     select new krt_Guild18 {
-            //                         reportPeriod = reportPeriod,
-            //                         warehouse = dispatch.Warehouse,
-            //                         idDeliviryNote = dispatch.Shipping.id,
-            //                         type_doc = 3,
-            //                         idSrcDocument = va.id,
-            //                         code = Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
-            //                         sum = (decimal)(vn.summa + vn.nds),
-            //                         rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
-            //                         codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0])),
-            //                         idCard = vn.id_kart,
-            //                         idScroll = Uow.Repository<krt_Naftan_orc_sapod>().Get_all(x => x.id_kart == vn.id_kart, false).GroupBy(x => x.keykrt).ToList().Select(x => x.Key).First()
-            //                     }));
 
-            //}
-            //luggage (type_doc 0 or 4)
-            var temp4Coll = GetTable<krt_Naftan_orc_sapod, long>(x => new[] { 611, 629, 125 }.Contains(x.vidsbr) && x.dt.Month == reportPeriod.Month && x.dt.Year == reportPeriod.Year).ToList();
-
-            if (temp4Coll.Any()) {
-                result.AddRange(temp4Coll.Select(x => new krt_Guild18 {
-                    reportPeriod = reportPeriod,
-                    type_doc = x.tdoc,
-                    idSrcDocument = x.id_kart,
-                    code = x.vidsbr,
-                    sum = x.sm,
-                    rateVAT = Math.Round((decimal)(x.nds / x.sm_no_nds), 2),
-                    codeType = new[] { 166, 173, 300, 301, 344 }.Contains(x.vidsbr),
-                    idCard = x.id_kart,
-                    idScroll = x.keykrt
-                }));
+            using (Uow = new UnitOfWork()) {
+                foreach (var item in result) {
+                    Uow.Repository<krt_Guild18>().Add(item);
+                }
+                Uow.Save();
             }
 
             return result;
