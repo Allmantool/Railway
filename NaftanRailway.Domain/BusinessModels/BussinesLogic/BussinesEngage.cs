@@ -161,7 +161,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="chooseDate"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 5) {
+        public IEnumerable<string> AutoCompleteShipping(string templShNumber, DateTime chooseDate, byte shiftPage = 3) {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
@@ -170,7 +170,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
-        public IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5) {
+        public IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
             List<krt_Guild18> result;
             var startDate = reportPeriod.AddDays(-shiftPage);
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
@@ -192,25 +192,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                           idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(x => x.keykrt, x => x.id_kart == vn.id_kart).FirstOrDefault()
                       }).ToList();
 
-
             foreach (var dispatch in preview) {
                 var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
-
                 //type_doc 2 =>one trunsaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
                 //in memory because not all method support entity to sql => more easy do it in memory
                 using (Uow = new UnitOfWork()) {
                     result.AddRange((from vpv in Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
                                      join vp in Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
                                      join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false) on vp.id_kart equals vn.id_kart
-<<<<<<< HEAD
-
-                                     select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).ToList();
-
-                    //in memory because not all method support entity to sql => more easy do it in memory
-                    if (temp2Coll.Any()) {
-                        result.AddRange(temp2Coll.Select(x => new krt_Guild18 {
-                            reportPeriod = reportPeriod, warehouse = dispatch.Warehouse,
-=======
                                      select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                                         .Select(x => new krt_Guild18 {
                                             reportPeriod = reportPeriod, warehouse = dispatch.Warehouse,
@@ -229,19 +218,17 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                      join vn in Uow.Repository<v_nach>().Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
                                          new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
                                      select new { vpv.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList().Select(x =>
-                        new krt_Guild18 {
-                            reportPeriod = reportPeriod,
-                            warehouse = dispatch.Warehouse,
->>>>>>> 525b814f8e42096b1995d7e56890b7e5733f7897
-                            idDeliviryNote = dispatch.Shipping.id,
-                            type_doc = 4,
-                            idSrcDocument = x.id_kart,
-                            code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                            sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
-                            rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
-                            codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                            idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
-                        }));
+                                        new krt_Guild18 {
+                                            reportPeriod = reportPeriod,
+                                            warehouse = dispatch.Warehouse,
+                                            idDeliviryNote = dispatch.Shipping.id,
+                                            type_doc = 4, idSrcDocument = x.id_kart,
+                                            code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                            sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
+                                            rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
+                                            codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                            idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                        }));
                 }
                 ////type_doc 3 =>one trunsaction (one request per one dbcontext)
                 using (Uow = new UnitOfWork()) {
@@ -253,8 +240,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                           reportPeriod = reportPeriod,
                                           warehouse = dispatch.Warehouse,
                                           idDeliviryNote = dispatch.Shipping.id,
-                                          type_doc = 3,
-                                          idSrcDocument = x.id,
+                                          type_doc = 3, idSrcDocument = x.id,
                                           code = Convert.ToInt32(x.cod_sbor.Split(new[] { '.', ',' })[0]),
                                           sum = (decimal)(x.summa + x.nds), idCard = x.id_kart,
                                           rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
@@ -277,7 +263,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         idScroll = x.keykrt
                     }));
             }
-
+            //read to db
             using (Uow = new UnitOfWork()) {
                 foreach (var item in result) {
                     Uow.Repository<krt_Guild18>().Add(item);

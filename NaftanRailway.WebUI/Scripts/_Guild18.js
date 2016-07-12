@@ -76,7 +76,11 @@ $('#sandbox-container .input-group').datepicker({
 }).on('show', function (e) {
     // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
-/***************************Render modal view (preview for adding precess)*********************************************************************/
+/***************************Render modal view (preview for adding process)*********************************************************************/
 function findResult(data) {
     $("#previewDeliveryModal").modal('show');
 };
+function AddSuccuss(data) {
+    $('#MessageInfo').appendText("Ok")
+    $("#previewDeliveryModal").modal('hide');
+}

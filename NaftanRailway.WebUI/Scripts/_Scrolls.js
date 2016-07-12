@@ -1,7 +1,5 @@
-﻿
-/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
-http://davidstutz.github.io/bootstrap-multiselect/
-*/
+﻿/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
+http://davidstutz.github.io/bootstrap-multiselect/*/
 function filterMenu() {
     $("select.filter").each(function (index) {
         var $this = $(this);
