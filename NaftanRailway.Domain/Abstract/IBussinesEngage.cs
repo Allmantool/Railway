@@ -32,7 +32,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="reportPeriod"></param>
         /// <param name="preview"></param>
         /// <returns></returns>
-        IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview);
+        IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
