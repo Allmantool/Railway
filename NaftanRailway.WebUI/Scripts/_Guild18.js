@@ -80,7 +80,14 @@ $('#sandbox-container .input-group').datepicker({
 function findResult(data) {
     $("#previewDeliveryModal").modal('show');
 };
-function AddSuccuss(data) {
-    $('#MessageInfo').appendText("Ok")
-    $("#previewDeliveryModal").modal('hide');
+function RenderSync(data) {
+    $(".modal").modal('hide');
+    $.ajax({
+        url: "/",
+        type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function (result) {
+            $("#infoArea").empty().append(result);
+        },
+        error: function (data) { console.log("datepicker ajax request error:" + data) }
+    });
 }

@@ -19,12 +19,6 @@
     <div>
         @{Html.RenderAction("GeneralMenu", "Navigation");}
         <!--<div class="visible-xs">@{ Html.RenderAction("MenuTypeOperations", "Navigation", new { horizontalLayout = true }); }</div>-->
-
-        <div class="row">
-            @if (TempData["message"] != null) {
-                <div id="MessageInfo" class="alert alert-success">@TempData["message"]</div>
-            }
-        </div>
         <div class="container-fluid" id="Guild18Body">@RenderBody()</div>
     </div>
 

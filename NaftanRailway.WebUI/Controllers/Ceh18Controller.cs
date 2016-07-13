@@ -26,7 +26,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
-            const short pageSize = 10;
+            const short pageSize = 9;
             short recordCount;
 
             menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
@@ -95,7 +95,21 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public ActionResult AddDocumentsInfo(DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
-                var result = _bussinesEngage.PackDocuments(reportPeriod, docInfo);
+                var strInfo = String.Join(", ", docInfo.Select(x => x.Shipping.n_otpr));
+                TempData["message"] = (_bussinesEngage.PackDocuments(reportPeriod, docInfo)) ? "Успешно добавлена информация по накладной(ым)" : "Ошибка добавления записей по накладной(ым)" + strInfo;
+            }
+            return new EmptyResult();
+        }
+        /// <summary>
+        /// Delete information about invoice from database
+        /// </summary>
+        /// <param name="reportPeriod"></param>
+        /// <param name="idInvoice"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteDocInfo(DateTime reportPeriod, int idInvoice) {
+            if (Request.IsAjaxRequest()) {
+                TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
             }
             return new EmptyResult();
         }

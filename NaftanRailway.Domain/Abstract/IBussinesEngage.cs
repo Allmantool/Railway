@@ -10,6 +10,7 @@ namespace NaftanRailway.Domain.Abstract {
     /// This interface use for work with data DB (to select data in ORC and Sopod)
     /// </summary>
     public interface IBussinesEngage : IDisposable {
+        bool DeleteInvoice(DateTime reportPeriod, int idInvoice);
         IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount);
         /// <summary>
         /// Get current avaible type of operation on dispatch
@@ -32,7 +33,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="reportPeriod"></param>
         /// <param name="preview"></param>
         /// <returns></returns>
-        IEnumerable<krt_Guild18> PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5);
+        bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>

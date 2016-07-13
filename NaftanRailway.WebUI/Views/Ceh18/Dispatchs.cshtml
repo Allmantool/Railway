@@ -42,8 +42,9 @@
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 }
-                @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
-                    @Html.HiddenFor(x => sh.VOtpr.id)
+                @using (Ajax.BeginForm("DeleteDocInfo", "Ceh18", new AjaxOptions() {HttpMethod = "Post",Url=Url.Action("DeleteDocInfo", "Ceh18"),OnSuccess = "RenderSync" } , new { role = "form" })) {
+                    @Html.Hidden("idInvoice", sh.VOtpr.id)
+                    @Html.Hidden("reportPeriod",(DateTime) ViewData["reportPeriod"])
                     @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
                     <button type="submit" class="btn btn-sm btn-link btn-warning" data-loading-text="Loading..." id="btn@(i)">
                         <span class="glyphicon glyphicon-trash"></span>

@@ -63,10 +63,12 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         public void Delete(Expression<Func<T, bool>> predicate) {
-            var entity = _dbSet.FirstOrDefault(predicate);
+            var entitysRange = _dbSet.Where(predicate);
 
-            if (entity != null)
+            foreach (var entity in entitysRange){
                 Context.Entry(entity).State = EntityState.Deleted;
+            }
+                
         }
 
         public void Delete(T entity) {

@@ -8,7 +8,7 @@
     @using (Ajax.BeginForm("AddDocumentsInfo", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
                         new AjaxOptions() {
                             HttpMethod = "Post", Url = Url.Action("AddDocumentsInfo", "Ceh18"),
-                            OnSuccess = "AddSuccuss", OnFailure = "AddFailed", LoadingElementId = "AddLoading", LoadingElementDuration = 1000
+                            OnSuccess = "RenderSync", OnFailure = "AddFailed", LoadingElementId = "AddLoading", LoadingElementDuration = 1000
                         })) {
         @Html.Hidden("reportPeriod", reportPeriod)
         <div class="modal-content">

@@ -21,8 +21,8 @@
         <td class="DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@item.NTREB</td>
         <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
-        <td class="currencyField">@((item.KEYKRT >= 15072000209229) ? item.SMTREB.ToString("#,##") : item.SMTREB.ToString("#,#"))</td>
-        <td class="currencyField">@((item.KEYKRT >= 15072000209229) ? item.NDSTREB.ToString("#,##") : item.NDSTREB.ToString("#,#"))</td>
+        <td class="currencyField text-right">@((item.KEYKRT >= 15072000209229) ? item.SMTREB.ToString("#,0.00") : item.SMTREB.ToString("#,#"))</td>
+        <td class="currencyField text-right">@((item.KEYKRT >= 15072000209229) ? item.NDSTREB.ToString("#,0.00") : item.NDSTREB.ToString("#,#"))</td>
         <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
         <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
