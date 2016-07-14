@@ -1,4 +1,7 @@
 ﻿/*body style for panel fixed-top*/
+.layer {
+    margin-top: 6em;
+}
 /*Row*/
 .top-buffer { margin-top:10px; }
 

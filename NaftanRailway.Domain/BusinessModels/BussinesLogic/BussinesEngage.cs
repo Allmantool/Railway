@@ -273,11 +273,15 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
             //add/update
             using (Uow = new UnitOfWork()) {
-                foreach (var item in result) {
-                    var item1 = item;
-                    if (Uow.Repository<krt_Guild18>().Get_all(x => x.reportPeriod == item1.reportPeriod && x.idDeliviryNote == item1.idDeliviryNote).Any()) {
-                        Uow.Repository<krt_Guild18>().Edit(item);
-                    } else { Uow.Repository<krt_Guild18>().Add(item); }
+                var groupInvoce = result.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Select(x => new { x.Key.reportPeriod, x.Key.idDeliviryNote });
+                //circle 1 per 1 cilcle invoice
+                foreach (var invoce in groupInvoce) {
+                    var temp = invoce;
+                    //if exist some information => delete , because we don't have appreate primary key for merge/Update operations
+                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote,false);
+
+                    //add information about 1 per 1 cicle invoice
+                    Uow.Repository<krt_Guild18>().AddRange(result.Where(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote), false);
                 }
                 Uow.Save();
             }

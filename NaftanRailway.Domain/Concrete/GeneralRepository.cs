@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 
 namespace NaftanRailway.Domain.Concrete {
@@ -51,7 +53,12 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Configuration.AutoDetectChangesEnabled = detectChanges;
             _dbSet.Add(entity);
         }
-
+        //http://entityframework-extensions.net/
+        public void AddRange(IEnumerable<T> entityColl, bool detectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+            _dbSet.AddRange(entityColl);
+            Context.Configuration.AutoDetectChangesEnabled = true;
+        }
         /// <summary>
         /// Mark all field of record as dirty => update all field (marking the whole entity as dirty)
         /// </summary>
@@ -62,13 +69,14 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(Expression<Func<T, bool>> predicate) {
+        public void Delete(Expression<Func<T, bool>> predicate, bool detectChanges = true) {
             var entitysRange = _dbSet.Where(predicate);
 
-            foreach (var entity in entitysRange){
+            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+            foreach (var entity in entitysRange) {
                 Context.Entry(entity).State = EntityState.Deleted;
             }
-                
+            Context.Configuration.AutoDetectChangesEnabled = true;
         }
 
         public void Delete(T entity) {

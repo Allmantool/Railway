@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -32,6 +33,13 @@ namespace NaftanRailway.Domain.Abstract {
         void Add(T entity,bool detectChanges = true);
 
         /// <summary>
+        /// Add Range of entity
+        /// </summary>
+        /// <param name="entityColl"></param>
+        /// <param name="detectChanges"></param>
+        void AddRange(IEnumerable<T> entityColl , bool detectChanges = true);
+
+        /// <summary>
         /// Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
         /// </summary>
         /// <param name="entity"></param>
@@ -49,12 +57,12 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <param name="entity"></param>
         void Delete(T entity);
+
         /// <summary>
         /// Delete method with predicate condition
         /// </summary>
         /// <param name="predicate"></param>
-        void Delete(Expression<Func<T, bool>> predicate);
-
-
+        /// <param name="detectChanges"></param>
+        void Delete(Expression<Func<T, bool>> predicate, bool detectChanges = true);
     }
 }
