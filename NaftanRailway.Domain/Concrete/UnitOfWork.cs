@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -13,7 +12,7 @@ namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using) */
     public sealed class UnitOfWork : IUnitOfWork {
         private bool _disposed;
-        public System.Data.Entity.DbContext ActiveContext { get; private set; }
+        public System.Data.Entity.DbContext ActiveContext { get; set; }
         private System.Data.Entity.DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         /// <summary>

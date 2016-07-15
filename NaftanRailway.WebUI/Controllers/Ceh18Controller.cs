@@ -95,8 +95,9 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public ActionResult AddDocumentsInfo(DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
-                var strInfo = String.Join(", ", docInfo.Select(x => x.Shipping.n_otpr));
-                TempData["message"] = (_bussinesEngage.PackDocuments(reportPeriod, docInfo)) ? "Успешно добавлена информация по накладной(ым)" : "Ошибка добавления записей по накладной(ым)" + strInfo;
+                //var strInfo = String.Join(", ", docInfo.Select(x => x.Shipping.n_otpr));
+                //TempData["message"] = (_bussinesEngage.PackDocuments(reportPeriod, docInfo)) ? "Успешно добавлена информация по накладной(ым)" : "Ошибка добавления записей по накладной(ым)" + strInfo;
+                _bussinesEngage.PackDocSQL(reportPeriod, docInfo);
             }
             return new EmptyResult();
         }

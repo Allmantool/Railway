@@ -278,7 +278,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 foreach (var invoce in groupInvoce) {
                     var temp = invoce;
                     //if exist some information => delete , because we don't have appreate primary key for merge/Update operations
-                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote,false);
+                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote, false);
 
                     //add information about 1 per 1 cicle invoice
                     Uow.Repository<krt_Guild18>().AddRange(result.Where(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote), false);
@@ -287,7 +287,85 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
             return true;
         }
+        /// <summary>
+        /// Альтернатива PAckDocuments. Т.к EF6  не поддерживает работу Join с двумя котестами (таблицы находяться на разных серверах)=>
+        /// Возможные варианты (выбран 3)
+        /// 1)Создание view для таблиц из другого сервера 
+        /// 2)ковыряние в edmx (необходимо также работа c synonem в  SQL)
+        /// 3)Написание SQL прямых заросов и разметка сущностей (теряем обстракцию, т.к необходимо указывать явные имена linkid servers)
+        /// </summary>
+        /// <param name="reportPeriod"></param>
+        /// <param name="preview"></param>
+        /// <param name="shiftPage"></param>
+        /// <returns></returns>
+        public bool PackDocSQL(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
+            var startDate = reportPeriod.AddDays(-shiftPage).ToString("dd.MM.yyyy");
+            var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage).ToString("dd.MM.yyyy");
+            List<krt_Guild18> result = null;
 
+            foreach (var dispatch in preview) {
+                var temp = dispatch;
+                var shNumbers = string.Join(",", string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'",x.n_vag))).ToList());
+
+                using (Uow = new UnitOfWork()){
+                    //Выбираем с какой стороны работать (сервер) по сущности
+                    Uow.ActiveContext = Uow.Repository<krt_Guild18>().Context;
+                    result.AddRange(Uow.ActiveContext.Database.SqlQuery<krt_Guild18>(@"
+                        SELECT 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],vo.id AS [idDeliviryNote],knos.tdoc AS [type_doc],vo.id AS [idSrcDocument],
+                            CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],
+                            keykrt  AS [idScroll],knos.id_kart AS [idCard]
+                        FROM [tsc-srv].[obd].[dbo].[v_otpr] as vo INNER JOIN [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+		                        ON knos.id_otpr = vo.id 
+                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) and vo.n_otpr in(@id_otpr) AND knos.tdoc =1
+                        UNION ALL    
+                        SELECT distinct 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],
+                        CASE knos.tdoc WHEN 2 then vp.id_ved ELSE knos.id_kart end AS [idSrcDocument],
+                        CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
+                        knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],knos.keykrt AS [idScroll],knos.id_kart AS [idCard]
+                        FROM [tsc-srv].[obd].[dbo].v_pam as vp INNER JOIN [tsc-srv].[obd].[dbo].v_pam_vag AS vpv
+	                        ON vpv.id_ved = vp.id_ved LEFT JOIN [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+		                        ON (knos.id_kart = vp.id_kart and knos.tdoc =2) OR 
+			                        (date_raskr IN (convert(date,d_pod),convert(date,d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
+                        WHERE vpv.nomvag in (@Carreages) AND vp.kodkl in ('3494','349402')  and [state] = 32 AND (dved BETWEEN '@stDate' AND '@endDate')
+                        UNION ALL 
+                        SELECT distinct 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],va.id AS [idSrcDocument],
+                        CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
+                        knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],knos.id_kart AS [idCard]
+                        FROM [tsc-srv].[obd].[dbo].v_akt_vag as vav INNER JOIN [tsc-srv].[obd].[dbo].v_akt as va
+	                        ON va.id = vav.id_akt left join [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+		                        ON knos.id_kart = va.id_kart
+                        WHERE vav.nomvag in (@Carreages) and [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN '@stDate' AND '@endDate')
+                        UNION ALL      
+                        SELECT 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],NULL AS [idDeliviryNote],tdoc as [type_doc],null AS [idSrcDocument],
+                        CASE WHEN vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
+                        vidsbr AS [code],sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],nkrt AS [idCard]
+                        FROM [nsd2].[dbo].krt_Naftan_orc_sapod AS knos
+                        WHERE vidsbr in (611,629,125) AND dt BETWEEN '@stDate' AND '@endDate'",
+                        new SqlParameter("@reportPeriod", reportPeriod),
+                        new SqlParameter("@warehouse", temp.Warehouse),
+                        new SqlParameter("@id_otpr",temp.Shipping.id),
+                        new SqlParameter("@stDate", startDate),
+                        new SqlParameter("@endDate", endDate),
+                        new SqlParameter("@Carreages", shNumbers)).ToList());
+                }
+            }
+
+            //add/update
+            using (Uow = new UnitOfWork()) {
+                var groupInvoce = result.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Select(x => new { x.Key.reportPeriod, x.Key.idDeliviryNote });
+                //circle 1 per 1 cilcle invoice
+                foreach (var invoce in groupInvoce) {
+                    var temp = invoce;
+                    //if exist some information => delete , because we don't have appreate primary key for merge/Update operations
+                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote, false);
+
+                    //add information about 1 per 1 cicle invoice
+                    Uow.Repository<krt_Guild18>().AddRange(result.Where(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote), false);
+                }
+                Uow.Save();
+            }
+            return true;
+        }
         public bool DeleteInvoice(DateTime reportPeriod, int idInvoice) {
             using (Uow = new UnitOfWork()) {
                 try {

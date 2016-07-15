@@ -34,6 +34,8 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="preview"></param>
         /// <returns></returns>
         bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5);
+
+        bool PackDocSQL(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3);
         /// <summary>
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
