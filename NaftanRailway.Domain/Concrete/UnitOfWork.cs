@@ -67,8 +67,9 @@ namespace NaftanRailway.Domain.Concrete {
         }
         private void Dispose(bool disposing) {
             if (!_disposed) {
-                if (disposing)
-                    ActiveContext.Dispose();
+                if (disposing && (ActiveContext != null)) { 
+                   ActiveContext.Dispose();
+                }
             }
             _disposed = true;
         }
