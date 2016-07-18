@@ -301,52 +301,61 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public bool PackDocSQL(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
             var startDate = reportPeriod.AddDays(-shiftPage).ToString("dd.MM.yyyy");
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage).ToString("dd.MM.yyyy");
+
             List<krt_Guild18> result = null;
 
             foreach (var dispatch in preview) {
                 var temp = dispatch;
-                var shNumbers = string.Join(",", string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'",x.n_vag))).ToList());
+                var shNumbers = string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag)).ToList());
 
-                using (Uow = new UnitOfWork()){
+                using (Uow = new UnitOfWork()) {
                     //Выбираем с какой стороны работать (сервер) по сущности
                     Uow.ActiveContext = Uow.Repository<krt_Guild18>().Context;
+                    var db2Conn = Uow.Repository<krt_Guild18>().Context.Database.Connection;
+                    var tscSrvConn = Uow.Repository<v_otpr>().Context.Database.Connection;
+
                     result.AddRange(Uow.ActiveContext.Database.SqlQuery<krt_Guild18>(@"
-                        SELECT 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],vo.id AS [idDeliviryNote],knos.tdoc AS [type_doc],vo.id AS [idSrcDocument],
-                            CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],
-                            keykrt  AS [idScroll],knos.id_kart AS [idCard]
-                        FROM [tsc-srv].[obd].[dbo].[v_otpr] as vo INNER JOIN [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+                        SELECT 0 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],vo.id AS [idDeliviryNote],knos.tdoc AS [type_doc],vo.id AS [idSrcDocument],
+                            CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],knos.vidsbr AS [code],knos.sm as [sum],
+                            CONVERT(decimal(3,2),knos.stnds/100) as [rateVAT],keykrt  AS [idScroll],knos.id_kart AS [idCard]
+                        FROM [@TSC_SRV_Server].[@TSC_SRV_Db].[dbo].[v_otpr] as vo INNER JOIN [@DB2_Server].[@DB2_Db].[dbo].[krt_Naftan_orc_sapod] AS knos    
 		                        ON knos.id_otpr = vo.id 
-                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) and vo.n_otpr in(@id_otpr) AND knos.tdoc =1
-                        UNION ALL    
-                        SELECT distinct 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],
-                        CASE knos.tdoc WHEN 2 then vp.id_ved ELSE knos.id_kart end AS [idSrcDocument],
-                        CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
-                        knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],knos.keykrt AS [idScroll],knos.id_kart AS [idCard]
-                        FROM [tsc-srv].[obd].[dbo].v_pam as vp INNER JOIN [tsc-srv].[obd].[dbo].v_pam_vag AS vpv
-	                        ON vpv.id_ved = vp.id_ved LEFT JOIN [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
-		                        ON (knos.id_kart = vp.id_kart and knos.tdoc =2) OR 
-			                        (date_raskr IN (convert(date,d_pod),convert(date,d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
-                        WHERE vpv.nomvag in (@Carreages) AND vp.kodkl in ('3494','349402')  and [state] = 32 AND (dved BETWEEN '@stDate' AND '@endDate')
-                        UNION ALL 
-                        SELECT distinct 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],va.id AS [idSrcDocument],
-                        CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
-                        knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],knos.id_kart AS [idCard]
-                        FROM [tsc-srv].[obd].[dbo].v_akt_vag as vav INNER JOIN [tsc-srv].[obd].[dbo].v_akt as va
-	                        ON va.id = vav.id_akt left join [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
-		                        ON knos.id_kart = va.id_kart
-                        WHERE vav.nomvag in (@Carreages) and [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN '@stDate' AND '@endDate')
-                        UNION ALL      
-                        SELECT 1 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],NULL AS [idDeliviryNote],tdoc as [type_doc],null AS [idSrcDocument],
-                        CASE WHEN vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
-                        vidsbr AS [code],sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],nkrt AS [idCard]
-                        FROM [nsd2].[dbo].krt_Naftan_orc_sapod AS knos
-                        WHERE vidsbr in (611,629,125) AND dt BETWEEN '@stDate' AND '@endDate'",
+                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) AND vo.id = @id_otpr AND knos.tdoc = 1",
+                        //UNION ALL    
+                        //SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],
+                        //CASE knos.tdoc WHEN 2 then vp.id_ved ELSE knos.id_kart end AS [idSrcDocument],
+                        //CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],knos.vidsbr AS [code],knos.sm as [sum],
+                        //CONVERT(decimal(3,2),knos.stnds/100) as [rateVAT],knos.keykrt AS [idScroll],knos.id_kart AS [idCard]
+                        //FROM [tsc-srv].[obd].[dbo].v_pam as vp INNER JOIN [tsc-srv].[obd].[dbo].v_pam_vag AS vpv
+                        // ON vpv.id_ved = vp.id_ved LEFT JOIN [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+                        //  ON (knos.id_kart = vp.id_kart and knos.tdoc =2) OR 
+                        //   (date_raskr IN (convert(date,d_pod),convert(date,d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
+                        //WHERE vpv.nomvag in (@Carreages) AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (dved BETWEEN '@stDate' AND '@endDate')
+                        //UNION ALL 
+                        //SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],@id_otpr AS [idDeliviryNote],knos.tdoc AS [type_doc],va.id AS [idSrcDocument],
+                        //CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
+                        //knos.vidsbr AS [code],knos.sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],knos.id_kart AS [idCard]
+                        //FROM [tsc-srv].[obd].[dbo].v_akt_vag as vav INNER JOIN [tsc-srv].[obd].[dbo].v_akt as va
+                        // ON va.id = vav.id_akt left join [nsd2].[dbo].[krt_Naftan_orc_sapod] AS knos
+                        //  ON knos.id_kart = va.id_kart
+                        //WHERE vav.nomvag in (@Carreages) and [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN '@stDate' AND '@endDate')
+                        //UNION ALL      
+                        //SELECT 0 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],NULL AS [idDeliviryNote],tdoc as [type_doc],null AS [idSrcDocument],
+                        //CASE WHEN vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END AS [codeType],
+                        //vidsbr AS [code],sm as [sum],knos.stnds/100 as [rateVAT],keykrt AS [idScroll],nkrt AS [idCard]
+                        //FROM [nsd2].[dbo].krt_Naftan_orc_sapod AS knos
+                        //WHERE vidsbr in (611,629,125) AND dt BETWEEN '@stDate' AND '@endDate'",
                         new SqlParameter("@reportPeriod", reportPeriod),
                         new SqlParameter("@warehouse", temp.Warehouse),
-                        new SqlParameter("@id_otpr",temp.Shipping.id),
+                        new SqlParameter("@id_otpr", temp.Shipping.id),
                         new SqlParameter("@stDate", startDate),
                         new SqlParameter("@endDate", endDate),
-                        new SqlParameter("@Carreages", shNumbers)).ToList());
+                        new SqlParameter("@Carreages", shNumbers),
+                        new SqlParameter("@DB2_Server", db2Conn.DataSource),
+                        new SqlParameter("@DB2_Db", db2Conn.Database),
+                        new SqlParameter("@TSC_SRV_Server", tscSrvConn.DataSource),
+                        new SqlParameter("@TSC_SRV_Db", tscSrvConn.Database)
+                        ).ToList());
                 }
             }
 

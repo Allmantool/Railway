@@ -352,7 +352,7 @@
           <Property Name="warehouse" Type="Int32" />
           <Property Name="idDeliviryNote" Type="Int32" />
           <Property Name="type_doc" Type="Byte" />
-          <Property Name="idSrcDocument" Type="Int64" />
+          <Property Name="idSrcDocument" Type="Int32" />
           <Property Name="codeType" Type="Boolean" Nullable="false" />
           <Property Name="code" Type="Int32" Nullable="false" />
           <Property Name="sum" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
