@@ -114,5 +114,67 @@ namespace NaftanRailway.WebUI.Controllers {
             }
             return new EmptyResult();
         }
+
+        public ActionResult Reports(string reportName, int? numberScroll, int? reportYear) {
+            const string serverName = @"DB2";
+            const string folderName = @"Orders";
+
+            ////link to SSRS buil-in repors
+            //if (numberScroll == null || reportYear == null) {
+            //    string urlReportString = string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+            //        serverName, folderName, reportName, @"rs:Command=Render");
+
+            //    return View("Reports", (object)urlReportString);
+            //}
+            //var selScroll = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
+            ////check exists
+            //if (selScroll != null) {
+            //    const string defaultParameters = @"rs:Format=Excel";
+            //    string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ?
+            //          @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
+            //        : @"nkrt=" + numberScroll + @"&year=" + reportYear;
+
+            //    string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
+            //        folderName, reportName, defaultParameters, filterParameters);
+
+            //    //WebClient client = new WebClient { UseDefaultCredentials = true };
+            //    /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
+            //    WebClient client = new WebClient {
+            //        Credentials =
+            //            new CredentialCache{
+            //                {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
+            //            }
+            //    };
+
+            //    string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
+            //        ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll) : (reportName == @"krt_Naftan_act_of_Reconciliation")
+            //        ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year)
+            //            : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
+
+            //    //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
+            //    //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
+            //    string contentDisposition;
+            //    if (Request.Browser.Browser == "IE" && (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
+            //        contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
+            //    else if (Request.Browser.Browser == "Safari")
+            //        contentDisposition = "attachment; filename=" + nameFile;
+            //    else
+            //        contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
+
+            //    //name file (with encoding)
+            //    Response.AddHeader("Content-Disposition", contentDisposition);
+            //    var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel");
+
+            //    //For js spinner and complete donwload callback
+            //    Response.Cookies.Clear();
+            //    Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
+
+            //    return returnFile;
+            //}
+            //TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
+
+            //return RedirectToAction("Index", "Scroll");
+            return new EmptyResult();
+        }
     }
 }
