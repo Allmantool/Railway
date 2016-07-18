@@ -1,11 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="ORCModelEntitiesStoreContainer" CdmEntityContainer="ORCEntities">
+  <EntityContainerMapping StorageEntityContainer="ORCModelStoreContainer" CdmEntityContainer="ORCEntities">
+    <EntitySetMapping Name="krt_DetailsProgresses">
+      <EntityTypeMapping TypeName="ORCModel.krt_DetailsProgress">
+        <MappingFragment StoreEntitySet="krt_DetailsProgress">
+          <ScalarProperty Name="tDoc" ColumnName="tDoc" />
+          <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
+          <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
+          <ScalarProperty Name="lastDate" ColumnName="lastDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="krt_Guild18s">
+      <EntityTypeMapping TypeName="ORCModel.krt_Guild18">
+        <MappingFragment StoreEntitySet="krt_Guild18">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
+          <ScalarProperty Name="warehouse" ColumnName="warehouse" />
+          <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />
+          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+          <ScalarProperty Name="idSrcDocument" ColumnName="idSrcDocument" />
+          <ScalarProperty Name="codeType" ColumnName="codeType" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="sum" ColumnName="sum" />
+          <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
+          <ScalarProperty Name="idScroll" ColumnName="idScroll" />
+          <ScalarProperty Name="idCard" ColumnName="idCard" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="krt_Naftans">
-      <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan">
+      <EntityTypeMapping TypeName="ORCModel.krt_Naftan">
         <MappingFragment StoreEntitySet="krt_Naftan">
-          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
-          <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
           <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
           <ScalarProperty Name="NKRT" ColumnName="NKRT" />
           <ScalarProperty Name="NTREB" ColumnName="NTREB" />
@@ -26,11 +54,13 @@
           <ScalarProperty Name="Scroll_Sbor" ColumnName="Scroll_Sbor" />
           <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
           <ScalarProperty Name="ErrorState" ColumnName="ErrorState" />
+          <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+          <ScalarProperty Name="CounterVersion" ColumnName="CounterVersion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="krt_Naftan_orc_sapods">
-      <EntityTypeMapping TypeName="ORCModelEntities.krt_Naftan_orc_sapod">
+      <EntityTypeMapping TypeName="ORCModel.krt_Naftan_orc_sapod">
         <MappingFragment StoreEntitySet="krt_Naftan_orc_sapod">
           <ScalarProperty Name="keykrt" ColumnName="keykrt" />
           <ScalarProperty Name="keysbor" ColumnName="keysbor" />
@@ -64,7 +94,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="orc_krts">
-      <EntityTypeMapping TypeName="ORCModelEntities.orc_krt">
+      <EntityTypeMapping TypeName="ORCModel.orc_krt">
         <MappingFragment StoreEntitySet="orc_krt">
           <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
           <ScalarProperty Name="NKRT" ColumnName="NKRT" />
@@ -82,7 +112,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="orc_sbors">
-      <EntityTypeMapping TypeName="ORCModelEntities.orc_sbor">
+      <EntityTypeMapping TypeName="ORCModel.orc_sbor">
         <MappingFragment StoreEntitySet="orc_sbor">
           <ScalarProperty Name="KEYKRT" ColumnName="KEYKRT" />
           <ScalarProperty Name="KEYSBOR" ColumnName="KEYSBOR" />
@@ -102,36 +132,6 @@
           <ScalarProperty Name="DATE_OBRABOT" ColumnName="DATE_OBRABOT" />
           <ScalarProperty Name="TDOC" ColumnName="TDOC" />
           <ScalarProperty Name="ID_ED" ColumnName="ID_ED" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="krt_DetailsProgress">
-      <EntityTypeMapping TypeName="ORCModelEntities.krt_DetailsProgress">
-        <MappingFragment StoreEntitySet="krt_DetailsProgress">
-          <ScalarProperty Name="lastDate" ColumnName="lastDate" />
-          <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
-          <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
-          <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
-          <ScalarProperty Name="tDoc" ColumnName="tDoc" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="krt_Guild18">
-      <EntityTypeMapping TypeName="ORCModelEntities.krt_Guild18">
-        <MappingFragment StoreEntitySet="krt_Guild18">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idCard" ColumnName="idCard" />
-          <ScalarProperty Name="idScroll" ColumnName="idScroll" />
-          <ScalarProperty Name="rateVAT" ColumnName="rateVAT" />
-          <ScalarProperty Name="sum" ColumnName="sum" />
-          <ScalarProperty Name="code" ColumnName="code" />
-          <ScalarProperty Name="codeType" ColumnName="codeType" />
-          <ScalarProperty Name="idSrcDocument" ColumnName="idSrcDocument" />
-          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
-          <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />
-          <ScalarProperty Name="warehouse" ColumnName="warehouse" />
-          <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

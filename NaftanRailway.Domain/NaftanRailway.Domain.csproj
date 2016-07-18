@@ -156,16 +156,21 @@
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_DetailsProgress.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Guild18.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Naftan.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Naftan_orc_sapod.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Concrete\DbContext\ORC\ORCModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ORCModel.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\ORCModel.cs">
       <AutoGen>True</AutoGen>
@@ -177,21 +182,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ORCModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModelEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ORCModelEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModelEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
-    </Compile>
     <Compile Include="Concrete\DbContext\ORC\orc_krt.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\ORC\orc_sbor.cs">
-      <DependentUpon>ORCModelEntities.tt</DependentUpon>
+      <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\DbContext\Security\SecurityModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -290,10 +285,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SessionDbModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Concrete\DbContext\ORC\ORCModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="Concrete\DbContext\OBD\OBDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
@@ -306,18 +297,12 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OBDEntities.cs</LastGenOutput>
     </None>
-    <None Include="Concrete\DbContext\ORC\ORCModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ORCModel.cs</LastGenOutput>
+    <EntityDeploy Include="Concrete\DbContext\ORC\ORCModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContext\ORC\ORCModel.edmx.diagram">
       <DependentUpon>ORCModel.edmx</DependentUpon>
-    </None>
-    <None Include="Concrete\DbContext\ORC\ORCModelEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ORCModelEntities.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\ORC\ORCModelEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ORCModelEntities.cs</LastGenOutput>
     </None>
     <None Include="Concrete\DbContext\Security\SecurityModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -376,7 +361,18 @@
       <LastGenOutput>OBDModel.cs</LastGenOutput>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Concrete\DbContext\ORC\ORCModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ORCModel.edmx</DependentUpon>
+      <LastGenOutput>ORCModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Concrete\DbContext\ORC\ORCModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ORCModel.edmx</DependentUpon>
+      <LastGenOutput>ORCModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
