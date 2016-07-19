@@ -277,7 +277,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     //для динамического соединения
                     var sapodConn = "[" + Uow.Repository<v_otpr>().Context.Database.Connection.DataSource + @"].[" + Uow.Repository<v_otpr>().Context.Database.Connection.Database + @"]";
                     var orcConn = "[" + Uow.Repository<krt_Guild18>().Context.Database.Connection.DataSource + @"].[" + Uow.Repository<krt_Guild18>().Context.Database.Connection.Database + @"]";
-                    var carriages = string.Join(",", temp.WagonsNumbers.Select(x => string.Format("{0}", x.n_vag)));
+                    var carriages = string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag)));
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
@@ -287,7 +287,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                             CONVERT(decimal(3,2),knos.stnds/100) as [rateVAT],keykrt AS [idScroll],knos.id_kart AS [idCard]
                         FROM " + sapodConn + @".[dbo].[v_otpr] as vo 
                             INNER JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos ON knos.id_otpr = vo.id 
-                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) AND knos.tdoc = 1 AND vo.id = @id_otpr AND vo.date_oper
+                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) AND knos.tdoc = 1 AND vo.id = @id_otpr
                         UNION ALL
                         SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS[type_doc],
                             CASE knos.tdoc WHEN 2 then vp.id_ved ELSE knos.id_kart end AS [idSrcDocument],
@@ -297,7 +297,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                             ON vpv.id_ved = vp.id_ved LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
                                 ON (knos.id_kart = vp.id_kart and knos.tdoc = 2) OR
                            (date_raskr IN (CONVERT(date, vpv.d_pod),CONVERT(date, vpv.d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
-                        WHERE vpv.nomvag IN (@Carreages) AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
+                        WHERE vpv.nomvag IN ("+ carriages + @") AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
                         UNION ALL
                         SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS [type_doc], va.id AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
@@ -305,7 +305,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         FROM " + sapodConn + @".[dbo].v_akt_vag as vav INNER JOIN " + sapodConn + @".[dbo].v_akt as va
                             ON va.id = vav.id_akt LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
                                 ON knos.id_kart = va.id_kart
-                        WHERE vav.nomvag IN (@Carreages) AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
+                        WHERE vav.nomvag IN (" + carriages + @") AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
                         UNION ALL
                         SELECT 0 AS [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc AS [type_doc], null AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
@@ -316,8 +316,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         new SqlParameter("@warehouse", temp.Warehouse),
                         new SqlParameter("@id_otpr", (temp.Shipping == null) ? 0 : temp.Shipping.id),
                         new SqlParameter("@stDate", startDate),
-                        new SqlParameter("@endDate", endDate),
-                        new SqlParameter("@Carreages", (temp.WagonsNumbers == null) ? "" : carriages)));
+                        new SqlParameter("@endDate", endDate)));
                 }
             }
 

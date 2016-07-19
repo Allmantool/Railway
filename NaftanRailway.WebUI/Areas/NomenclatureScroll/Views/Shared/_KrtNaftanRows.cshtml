@@ -11,7 +11,7 @@
         <td class="numberScroll">@item.NKRT</td>
         <td>
             @if (item.ErrorState != null) {
-                <img alt="Состояние проверки"
+                <img alt="@(item.ErrorState.Value == 1 ? "Ок" : item.ErrorState.Value == 2 ? "tdoc=0" : "Ошибка")"
                      src="@(item.ErrorState.Value == 1 ? "/Content/Images/good_or_tick.png" : item.ErrorState.Value == 2 ? "/Content/Images/repair.png" : "/Content/Images/no.png")"
                      style="width: 24px; height: 24px" />
             }
