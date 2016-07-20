@@ -299,13 +299,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                            (date_raskr IN (CONVERT(date, vpv.d_pod),CONVERT(date, vpv.d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
                         WHERE vpv.nomvag IN ("+ carriages + @") AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
                         UNION ALL
-                        SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS [type_doc], va.id AS [idSrcDocument],
+                        SELECT 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS [type_doc], va.id AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
                             knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], knos.id_kart AS [idCard]
-                        FROM " + sapodConn + @".[dbo].v_akt_vag as vav INNER JOIN " + sapodConn + @".[dbo].v_akt as va
-                            ON va.id = vav.id_akt LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
+                        FROM " + sapodConn + @".[dbo].v_akt as va LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
                                 ON knos.id_kart = va.id_kart
-                        WHERE vav.nomvag IN (" + carriages + @") AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
+                        WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt ) AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
                         UNION ALL
                         SELECT 0 AS [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc AS [type_doc], null AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
