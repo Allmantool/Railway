@@ -11,6 +11,7 @@ namespace NaftanRailway.Domain.Abstract {
     /// </summary>
     public interface IBussinesEngage : IDisposable {
         bool DeleteInvoice(DateTime reportPeriod, int idInvoice);
+        bool UpdateExists(DateTime reportPeriod);
         IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount);
         /// <summary>
         /// Get current avaible type of operation on dispatch

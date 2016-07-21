@@ -277,7 +277,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     //для динамического соединения
                     var sapodConn = "[" + Uow.Repository<v_otpr>().Context.Database.Connection.DataSource + @"].[" + Uow.Repository<v_otpr>().Context.Database.Connection.Database + @"]";
                     var orcConn = "[" + Uow.Repository<krt_Guild18>().Context.Database.Connection.DataSource + @"].[" + Uow.Repository<krt_Guild18>().Context.Database.Connection.Database + @"]";
-                    var carriages = string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag)));
+                    var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag))) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
@@ -297,7 +297,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                             ON vpv.id_ved = vp.id_ved LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
                                 ON (knos.id_kart = vp.id_kart and knos.tdoc = 2) OR
                            (date_raskr IN (CONVERT(date, vpv.d_pod),CONVERT(date, vpv.d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
-                        WHERE vpv.nomvag IN ("+ carriages + @") AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
+                        WHERE vpv.nomvag IN (" + carriages + @") AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
                         UNION ALL
                         SELECT 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS [type_doc], va.id AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
@@ -306,9 +306,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 ON knos.id_kart = va.id_kart
                         WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt ) AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
                         UNION ALL
-                        SELECT 0 AS [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc AS [type_doc], null AS [idSrcDocument],
+                        SELECT NULL AS [id], @reportPeriod AS [reportPeriod],NULL AS [warehouse], NULL AS [idDeliviryNote], tdoc AS [type_doc], null AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
-                            knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], nkrt AS [idCard]
+                            knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], knos.id_kart AS [idCard]
                         FROM " + orcConn + @".[dbo].krt_Naftan_orc_sapod AS knos
                         WHERE vidsbr in (611, 629, 125) AND dt BETWEEN @stDate AND @endDate;",
                         new SqlParameter("@reportPeriod", reportPeriod),
@@ -344,6 +344,22 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
                 Uow.Save();
             }
+            return true;
+        }
+        /// <summary>
+        /// Update existing information in definite period time
+        /// </summary>
+        /// <param name="reportPeriod"></param>
+        /// <returns></returns>
+        public bool UpdateExists(DateTime reportPeriod) {
+            var dataRows = GetTable<krt_Guild18, int>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).Select(y => new ShippingInfoLine() {
+                Shipping = (y.idDeliviryNote == null) ? new v_otpr() : GetTable<v_otpr, int>(x => x.id == y.idDeliviryNote).First(),
+                WagonsNumbers = (y.idDeliviryNote == null) ? new List<v_o_v>() : GetTable<v_o_v, int>(x => x.id_otpr == y.idDeliviryNote).ToList(),
+                Warehouse = (int)y.warehouse
+            }).ToList();
+
+            PackDocSQL(reportPeriod, dataRows);
+
             return true;
         }
         public IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {

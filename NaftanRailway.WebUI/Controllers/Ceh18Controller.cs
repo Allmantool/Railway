@@ -115,6 +115,14 @@ namespace NaftanRailway.WebUI.Controllers {
             return new EmptyResult();
         }
 
+        [HttpPost]
+        public ActionResult UpdateExists(DateTime reportPeriod) {
+            if (Request.IsAjaxRequest()) {
+                _bussinesEngage.UpdateExists(reportPeriod);
+            }
+            return new EmptyResult();
+        }
+
         public ActionResult Reports(string reportName, int? numberScroll, int? reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
