@@ -80,7 +80,8 @@ $('#sandbox-container .input-group').datepicker({
 function findResult(data) {
     $("#previewDeliveryModal").modal('show');
 };
-function RenderSync(data) {
+/*******************************Update main page ******************************************************************/
+function RenderSync() {
     $(".modal").modal('hide');
     $.ajax({
         url: "/",
@@ -91,3 +92,15 @@ function RenderSync(data) {
         error: function (data) { console.log("datepicker ajax request error:" + data) }
     });
 }
+/*******************************Reload information about have choisen invoices on definition period******************************************************************/
+$("#updateBtn").on('click', function () {
+    $.ajax({
+        url: "/UpdateExists",
+        type: "Post", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        data: { reportPeriod: moment($('#ReportPeriod').val(), "mmmm YYYY").format('01.MM.YYYY') },
+        success: function () {
+            RenderSync();
+        },
+        error: function (data) { console.log("datepicker ajax request error:" + data) }
+    });
+});
