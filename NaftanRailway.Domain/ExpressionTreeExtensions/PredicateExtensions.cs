@@ -100,7 +100,7 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
         /// <typeparam name="TInput">Input type</typeparam>
         /// <typeparam name="TOutput">Output type</typeparam>
         /// <returns></returns>
-        public static Expression<Func<TInput,int>> ConvertInt32<TInput>(string fieldName, string propertyValue) {
+        public static Expression<Func<TInput, int>> ConvertInt32<TInput>(string fieldName, string propertyValue) {
             ParameterExpression param = Expression.Parameter(typeof(TInput), "type");
             MemberExpression expr = Expression.Property(param, fieldName);
 
@@ -110,7 +110,7 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
 
             var containsMethodExp = Expression.Call(expr, convertMethod, someValue);
 
-            return Expression.Lambda<Func<TInput,int>>(containsMethodExp, param);
+            return Expression.Lambda<Func<TInput, int>>(containsMethodExp, param);
         }
     }
 }

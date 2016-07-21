@@ -77,7 +77,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 .ToList(),
                               VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (int)y.idCard))).Expand())
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard??0))).Expand())
                                 .ToList(),
                               KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (long)y.idScroll)))
@@ -306,11 +306,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 ON knos.id_kart = va.id_kart
                         WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt ) AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
                         UNION ALL
-                        SELECT NULL AS [id], @reportPeriod AS [reportPeriod],NULL AS [warehouse], NULL AS [idDeliviryNote], tdoc AS [type_doc], null AS [idSrcDocument],
+                        SELECT 0 AS [id], @reportPeriod AS [reportPeriod],NULL AS [warehouse],NULL AS [idDeliviryNote],knos.tdoc AS [type_doc],
+                            CASE knos.tdoc when 4 then knos.id_kart ELSE null END AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
                             knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], knos.id_kart AS [idCard]
                         FROM " + orcConn + @".[dbo].krt_Naftan_orc_sapod AS knos
-                        WHERE vidsbr in (611, 629, 125) AND dt BETWEEN @stDate AND @endDate;",
+                        WHERE knos.vidsbr IN (611, 629, 125) AND knos.dt BETWEEN @stDate AND @endDate;",
                         new SqlParameter("@reportPeriod", reportPeriod),
                         new SqlParameter("@warehouse", temp.Warehouse),
                         new SqlParameter("@id_otpr", (temp.Shipping == null) ? 0 : temp.Shipping.id),
