@@ -6,7 +6,7 @@ using NaftanRailway.Domain.Concrete.DbContext.OBD;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>
-    /// PreVeiw informataion about one delivery
+    /// PreVeiw informataion about one invoice /dispatch operation
     /// </summary>
     public class ShippingInfoLine {
         public bool IsSelected { get; set; }

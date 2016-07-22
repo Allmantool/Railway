@@ -52,7 +52,7 @@ $(function () {
 });
 
 /**********************************http://bootstrap-datepicker.readthedocs.org/en/latest*********************************** */
-$('#sandbox-container .input-group').datepicker({
+$('.datepicker').datepicker({
     format: "MM yyyy",
     startView: 1,
     minViewMode: 1,
@@ -97,7 +97,7 @@ $("#updateBtn").on('click', function () {
     $.ajax({
         url: "/UpdateExists",
         type: "Post", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        data: { reportPeriod: moment($('#ReportPeriod').val(), "mmmm YYYY").format('01.MM.YYYY') },
+        data: { reportPeriod: moment($('.datepicker').datepicker('getUTCDate')).format('01.MM.YYYY') },
         success: function () {
             RenderSync();
         },

@@ -353,10 +353,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         public bool UpdateExists(DateTime reportPeriod) {
-            var dataRows = GetTable<krt_Guild18, int>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).Select(y => new ShippingInfoLine() {
-                Shipping = (y.idDeliviryNote == null) ? new v_otpr() : GetTable<v_otpr, int>(x => x.id == y.idDeliviryNote).First(),
-                WagonsNumbers = (y.idDeliviryNote == null) ? new List<v_o_v>() : GetTable<v_o_v, int>(x => x.id_otpr == y.idDeliviryNote).ToList(),
-                Warehouse = (int)y.warehouse
+            var dataRows = GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x=>new {x.idDeliviryNote,x.warehouse})
+                .Select(y => new ShippingInfoLine() {
+                    Shipping =  GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
+                    WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == y.Key.idDeliviryNote).ToList(),
+                    Warehouse = (int)y.Key.warehouse
             }).ToList();
 
             PackDocSQL(reportPeriod, dataRows);
@@ -480,23 +481,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
             }
         }
-        /// <summary>
-        /// Count operation throughtout badges
-        /// </summary>
-        /// <param name="templShNumber"></param>
-        /// <param name="chooseDate"></param>
-        /// <param name="operationCategory"></param>
-        /// <param name="shiftPage"></param>
-        /// <returns></returns>
-        //public IDictionary<short, int> Badges(string templShNumber, DateTime chooseDate, EnumOperationType operationCategory, byte shiftPage = 3) {
-        //    return ShippinNumbers.Where(sh =>
-        //             sh.n_otpr.StartsWith(templShNumber)
-        //                    && (sh.date_oper >= chooseDate.AddDays(-shiftPage) && sh.date_oper <= chooseDate.AddMonths(1).AddDays(shiftPage))
-        //                        && ((int)operationCategory == 0 || sh.oper == (int)operationCategory))
-        //             .GroupBy(x => new { x.oper })
-        //             .Select(g => new { g.Key.oper, operCount = g.Count() })
-        //             .ToDictionary(item => item.oper.Value, item => item.operCount);
-        //}
         /// <summary>
         /// Edit Row (sm, sm_nds (Sapod))
         /// Check row as fix => check ErrorState in krt_Naftan_Sapod 
