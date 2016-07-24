@@ -15,10 +15,10 @@ namespace NaftanRailway.WebUI {
             routes.RouteExistingFiles = false;
 
             /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}",new StopRoutingHandler());
+            routes.IgnoreRoute("{resource}.axd/{*pathInfo}", new StopRoutingHandler());
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "fonts" });
             routes.IgnoreRoute("{folder}/{*pathInfo}", new { folder = "Content" });
-            
+
             /*For web forms page*/
             //routes.MapPageRoute()
 
@@ -57,7 +57,7 @@ namespace NaftanRailway.WebUI {
 
             routes.MapRoute(
                 name: "Report",
-                url: "Report/{action}",
+                url: "Report/{action}/{reportPeriod}",
                 defaults: new { controller = "Report", action = "Index" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" });
 

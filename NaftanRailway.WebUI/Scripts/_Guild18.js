@@ -11,8 +11,7 @@ $(function () {
         source: function (request, response) {
             $.ajax({
                 url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
-                type: "Post",
-                dataType: "json",
+                type: "Post",dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
                 success: function (data) {
                     response($.map(data, function (item) {
@@ -62,10 +61,10 @@ $('.datepicker').datepicker({
     orientation: "bottom auto",
     forceParse: true
 }).on('changeDate', function (e) {
-    //$(location).attr('href', '/All/Page1/Period' + moment(e.date).format('MMYYYY'));
+    $('#excelExport').attr('href', moment($(this).datepicker('getUTCDate')).format('01.MM.YYYY'));
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
-        type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
         //data: JSON.stringify({ "ReportPeriod": moment(e.date).format('01.MM.YYYY')}),
         success: function (result) {
             $("#infoArea").empty().append(result);
@@ -81,22 +80,29 @@ function findResult(data) {
     $("#previewDeliveryModal").modal('show');
 };
 /*******************************Update main page ******************************************************************/
+/*This type cross-domain request need CORS. In IE9- this don't support => Solusion: 1)extensiton instead XMLHttpRequest native microsoft XDomainRequest 2)don't work with cross domain request, work only server side
+More information: https://learn.javascript.ru/xhr-crossdomain*/
 function RenderSync() {
     $(".modal").modal('hide');
-    $.ajax({
-        url: "/",
-        type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-        success: function (result) {
-            $("#infoArea").empty().append(result);
-        },
-        error: function (data) { console.log("datepicker ajax request error:" + data) }
-    });
+    //$.ajax({
+    //    url: "/",
+    //    crossDomain: true,
+    //    type: "Get", dataType: "html",contenType:"application/x-www-form-urlencoded; charset=UTF-8",
+    //    success: function (result) {
+    //        $("#infoArea").empty().append(result);
+    //    },
+    //    error: function (data) { console.log("datepicker ajax request error:" + data) }
+    //});
 }
 /*******************************Reload information about have choisen invoices on definition period******************************************************************/
+//dataType: The type of data that you're expecting back from the server.
+//contentType: When sending data to the server, use this content-type.
 $("#updateBtn").on('click', function () {
+    //jQuery.support.cors = true;
     $.ajax({
         url: "/UpdateExists",
-        type: "Post", contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        crossDomain: true,
+        type: "Post",contenType:"application/x-www-form-urlencoded; charset=UTF-8",
         data: { reportPeriod: moment($('.datepicker').datepicker('getUTCDate')).format('01.MM.YYYY') },
         success: function () {
             RenderSync();

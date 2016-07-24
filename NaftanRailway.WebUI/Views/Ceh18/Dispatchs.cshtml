@@ -42,7 +42,7 @@
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
                 }
-                @using (Ajax.BeginForm("DeleteDocInfo", "Ceh18",new RouteValueDictionary() { }, new AjaxOptions() { HttpMethod = "Post", Url = Url.Action("DeleteDocInfo", "Ceh18"), OnSuccess = "RenderSync" }, new { role = "form" })) {
+                @using (Ajax.BeginForm("DeleteDocInfo", "Ceh18",new { }, new AjaxOptions() { HttpMethod = "Post", Url = Url.Action("DeleteDocInfo", "Ceh18"),UpdateTargetId = "infoArea",InsertionMode = InsertionMode.Replace}, new { role = "form" })) {
                     if (sh.VOtpr != null) { @Html.Hidden("idInvoice", sh.VOtpr.id); }
                     @Html.Hidden("reportPeriod", (DateTime)ViewData["reportPeriod"])
                     @Html.Hidden("id",sh.Guild18.id)

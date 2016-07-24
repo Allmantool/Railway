@@ -77,7 +77,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 .ToList(),
                               VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard??0))).Expand())
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard ?? 0))).Expand())
                                 .ToList(),
                               KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (long)y.idScroll)))
@@ -339,7 +339,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public bool DeleteInvoice(DateTime reportPeriod, int idInvoice) {
             using (Uow = new UnitOfWork()) {
                 try {
-                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice);
+                    if (idInvoice == 0) {
+                        //Доб. сборы
+                        Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == null, false);
+                    } else { Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false); }
+
                 } catch (Exception) {
                     return false;
                 }
@@ -353,12 +357,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         public bool UpdateExists(DateTime reportPeriod) {
-            var dataRows = GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x=>new {x.idDeliviryNote,x.warehouse})
+            var dataRows = GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x => new { x.idDeliviryNote, x.warehouse })
                 .Select(y => new ShippingInfoLine() {
-                    Shipping =  GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
+                    Shipping = GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
                     WagonsNumbers = GetTable<v_o_v, int>(x => x.id_otpr == y.Key.idDeliviryNote).ToList(),
                     Warehouse = (int)y.Key.warehouse
-            }).ToList();
+                }).ToList();
 
             PackDocSQL(reportPeriod, dataRows);
 

@@ -595,6 +595,7 @@
     <Content Include="Scripts\bundle\html4\jquery.history.js" />
     <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
+    <Content Include="Scripts\IE9-.js" />
     <Content Include="Scripts\_General.js" />
     <Content Include="Scripts\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
