@@ -99,7 +99,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
                 };
 
-                string nameFile = string.Format(@"Отчёт по провозным платежам и дополнительным сборам Бел. ж/д за {0}.xls", reportPeriod);
+                string nameFile = string.Format(@"Отчёт по провозным платежам и дополнительным сборам Бел. ж/д за {0}.xls", reportPeriod.ToShortDateString());
 
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
                 //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
