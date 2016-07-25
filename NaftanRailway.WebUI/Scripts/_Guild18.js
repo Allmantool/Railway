@@ -61,7 +61,9 @@ $('.datepicker').datepicker({
     orientation: "bottom auto",
     forceParse: true
 }).on('changeDate', function (e) {
-    $('#excelExport').attr('href', moment($(this).datepicker('getUTCDate')).format('01.MM.YYYY'));
+    var target = $('#excelExport');
+    var link = target.attr('href');
+    target.attr('href', link.replace(link.match("[0-9]{1,2}.[0-9]{1,2}.[0-9]{4}"), moment($(this).datepicker('getUTCDate')).format('01.MM.YYYY')));
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
         type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
