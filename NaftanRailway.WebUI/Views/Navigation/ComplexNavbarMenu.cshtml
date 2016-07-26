@@ -43,7 +43,7 @@
                     @if (@User.Identity.Name != string.Empty) {
                         <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
                     }
-                    <li><a id="excelExport" href="@Url.Action("Guild18", "Report",new {reportPeriod=Model.ReportPeriod.Date.ToString("01.MM.yyyy") })">Excel<span class="glyphicon glyphicon-save-file" style="margin-left: 0.3em;"></span></a></li>
+                    <li><a id="excelExport" href="@Url.Action("Guild18", "Report",new {reportPeriod=Model.ReportPeriod.Date.ToString("01-MM-yyyy") })">Excel<span class="glyphicon glyphicon-save-file" style="margin-left: 0.3em;"></span></a></li>
                     @*<li>
                                 <a href="@Url.Action("Index", "Storage")">
                                     Итог:<span style="margin-left: 0.1em;">@storage.Lines.Count()</span>

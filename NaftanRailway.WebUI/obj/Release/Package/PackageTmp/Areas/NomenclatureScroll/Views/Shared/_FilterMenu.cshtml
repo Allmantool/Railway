@@ -1,0 +1,16 @@
+﻿@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
+@{ var i = 0;}
+    @foreach (var item in Model) {
+        var menuItem = item;
+        @Html.Hidden("filters[" + i + "].SortFieldName", item.SortFieldName)
+        @Html.Hidden("filters[" + i + "].NameDescription", item.NameDescription)
+        @Html.DropDownList("filters[" + i + "].CheckedValues",
+        from listItem in item.AllAvailableValues select new SelectListItem() {
+            Value = listItem,
+            Text = listItem,
+            Selected = menuItem.CheckedValues.Contains(listItem)
+        },
+            //new MultiSelectList(item.AllAvailableValues, "string", "string", item.CheckedValues),
+            new { @class = "form-group form-control filter", type = "search", multiple = "multiple", id = menuItem.SortFieldName })
+        i++;
+    }

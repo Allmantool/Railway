@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -79,17 +80,30 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing uculture prop don't help)
         /// problime on iis culture and  SSRS
+        /// Why argument type not date?
+        /// When looking for the value to parse, the framework looks in a specific order namely:
+        ///     RouteData (not shown above)
+        ///     URI query string
+        ///      Request form
+        /// Only the last of these will be culture aware however. There is a very good reason for this, from a localization perspective. 
+        /// Imagine that I have written a web application showing airline flight information that I publish online. 
+        /// I look up flights on a certain date by clicking on a link for that day (perhaps something like http://www.melsflighttimes.com/Flights/2008-11-21),
+        ///  and then want to email that link to my colleague in the US. The only way that we could guarantee that we will both be looking at the same page of data is 
+        /// if the InvariantCulture is used. By contrast, if I'm using a form to book my flight, everything is happening in a tight cycle. The data can respect the CurrentCulture 
+        /// when it is written to the form, and so needs to respect it when coming back from the form.
         /// </summary>
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Guild18(DateTime reportPeriod) {
+        public ActionResult Guild18(string reportPeriod) {
                 const string serverName = @"db2";
                 const string folderName = @"Orders";
                 const string reportName = @"krt_Naftan_Guild18Report";
-                
+
+                var period = DateTime.ParseExact(reportPeriod,"dd-MM-yyyy", new CultureInfo("ru", true));
                 const string defaultParameters = @"rs:Format=Excel";
-                string filterParameters = @"reportPeriod=" + reportPeriod;
+                string filterParameters = @"reportPeriod=" + period.ToString("MM.dd.yyyy");
+
                 //http://desktop-lho63th/ReportServer?/Orders/krt_Naftan_Guild18Report&rs:Format=Excel&reportPeriod=01-01-2016
                 string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
@@ -99,7 +113,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
                 };
 
-                string nameFile = string.Format(@"Отчёт по провозным платежам и дополнительным сборам Бел. ж/д за {0}.xls", reportPeriod.ToShortDateString());
+                string nameFile = string.Format(@"Отчёт по провозным платежам и дополнительным сборам Бел. ж/д за {0} {1}г.xls", period.ToString("MMMM"), period.Year);
 
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
                 //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)

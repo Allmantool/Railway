@@ -14,7 +14,8 @@ namespace NaftanRailway.WebUI.Infrastructure {
 
         public JsonNetResult() {
             Settings = new JsonSerializerSettings {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                //DateFormatString = "dd.MM.yyyy"
             };
         }
 

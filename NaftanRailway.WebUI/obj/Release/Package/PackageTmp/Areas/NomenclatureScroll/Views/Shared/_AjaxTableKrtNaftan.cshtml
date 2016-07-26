@@ -1,0 +1,48 @@
+﻿@model NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.IndexModelView
+@{
+    Model.PagingInfo.AjaxOptions = new AjaxOptions() {
+        HttpMethod = "Get",
+        UpdateTargetId = "ScrollTable",
+        InsertionMode = InsertionMode.Replace,
+        OnSuccess = "filterMenu"
+    };
+}
+<table id="" class="small table table-hover table-responsive table-striped table-condensed table-bordered table-fixed">
+    <colgroup id="selectCols" span="2">
+        <col id="radioSel" span ="1"/>
+        <col id="paramSel" span="1"/>
+    </colgroup>
+    <thead class="tableHeader">
+        <tr>
+            <!--Don't work external CSS(questaion in enfluens bootstrap classes)-->
+            <th colspan="2" scope="colgroup">Номер перечня</th>
+            <th scope="col">Результат<br />сверки</th>
+            <th scope="col">Признак<br />коррект.<br />перечня</th>
+            <th scope="col">Вид<br />услуг</th>
+            <th scope="col">Период<br />отчётности</th>
+            <th scope="col">№ счёт-<br />фактуры</th>
+            <th scope="col">Дата счёт-<br />фактуры</th>
+            <th scope="col">Стоимость услуг<br />с НДС, руб.</th>
+            <th scope="col">НДС, руб.</th>
+            <th scope="col">Начальная<br />дата<br />данных</th>
+            <th scope="col">Конечная<br />дата<br />данных</th>
+            <th scope="col">Список кодов сборов по услугам в перечне</th>
+            <th scope="col">Число<br />записей в перечне</th>
+            <th scope="col">Дата эл. письма ОРЦ</th>
+            <th scope="col">Текущая версия</th>
+        </tr>
+    </thead>
+    <tbody class="tableBody" id="scrollList">
+        @{ Html.RenderPartial("_krtNaftanRows", @Model.ListKrtNaftan);}
+    </tbody>
+    <tfoot>
+        <tr><!--Ajax paging-->
+            <th colspan="16">
+                &copy; 2016 ОАО "Нафтан"
+                @{ Html.RenderPartial("_AjaxPagging", Model.PagingInfo);}
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<!--Don't support in partioal view (this html helper alternative-->
+@*@Html.Script(@<script type="text/javascript" src="~/Scripts/UI_user.js" defer></script>)*@

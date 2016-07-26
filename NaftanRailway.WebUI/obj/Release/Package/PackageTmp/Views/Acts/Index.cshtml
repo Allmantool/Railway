@@ -1,0 +1,25 @@
+﻿@model NaftanRailway.Domain.BusinessModels.BussinesLogic.ShippingInfoLine
+@{
+    Layout = null;
+    int i = 0;
+}
+<style>
+    .checkBoxList {
+        max-height: 175px;
+        height: auto !important;
+        height: 105px;
+    }
+</style>
+
+@*@if (Model.Acts !=null && Model.Acts.Count > 0){
+    <label>@Html.DisplayNameFor(m => m.Acts) </label>
+    
+    <div class="checkBoxList" style="overflow-y: scroll; width: auto; height: auto">
+            @foreach (var a in Model.Acts) {
+                @Html.Partial("ActsSummary", a,
+                    new ViewDataDictionary{
+                        {"index", i++}
+                    })
+            }
+    </div>
+}*@

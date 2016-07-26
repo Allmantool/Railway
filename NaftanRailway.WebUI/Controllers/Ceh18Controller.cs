@@ -124,9 +124,10 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         [HttpPost]
-        public ActionResult UpdateExists(DateTime reportPeriod) {
+        public ActionResult UpdateExists(SessionStorage storage,DateTime reportPeriod) {
             if (Request.IsAjaxRequest()) {
                 _bussinesEngage.UpdateExists(reportPeriod);
+                return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
             }
             return new EmptyResult();
         }

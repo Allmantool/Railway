@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="ORCModelEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="krt_DetailsProgress">
     <Key>
       <PropertyRef Name="tDoc" />
@@ -21,7 +21,7 @@
     <Property Name="warehouse" Type="int" />
     <Property Name="idDeliviryNote" Type="int" />
     <Property Name="type_doc" Type="tinyint" />
-    <Property Name="idSrcDocument" Type="bigint" />
+    <Property Name="idSrcDocument" Type="int" />
     <Property Name="codeType" Type="bit" Nullable="false" />
     <Property Name="code" Type="int" Nullable="false" />
     <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
@@ -156,11 +156,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="sp_fill_krt_Naftan_orc_sapod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="KEYKRT" Type="bigint" Mode="In" />
-  </Function>
-  <Function Name="sp_UpdateKrt_Naftan" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <EntityContainer Name="ORCModelEntitiesStoreContainer">
+  <EntityContainer Name="ORCModelStoreContainer">
     <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
