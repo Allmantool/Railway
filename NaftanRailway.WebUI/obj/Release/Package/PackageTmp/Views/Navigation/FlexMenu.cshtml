@@ -9,8 +9,8 @@
     <div class="@wrapperClasses">
         <ul class="list-group">
             <li class="list-group-item @(EnumOperationType.All.ToString() == Model.SelectedOperCategory ? " active" : "")">
-                <span class="badge" id="bangeTotal"></span>
-                @Ajax.RouteLink("Все",
+                @*<span class="badge" id="bangeTotal"></span>*@
+                @Ajax.RouteLink(@"Все",
                     new {
                         operationCategory = (EnumOperationType.All).ToString(),
                         page = 1,
@@ -23,8 +23,8 @@
             @foreach (short? link in Model.TypesOfOperation) {
                 if (link != null) {
                     <li class="list-group-item @(((EnumOperationType) link).ToString() == Model.SelectedOperCategory ? " active" : "")">
-                        <span class="badge" id="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>
-                        @Ajax.RouteLink(link == 1 ? "Отправка" : "Прибытие",
+                        @*<span class="badge" id="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>*@
+                        @Ajax.RouteLink(link == 1 ? @"Отправка" : @"Прибытие",
                             new {
                                 operationCategory = ((EnumOperationType)link).ToString(),
                                 page = 1,

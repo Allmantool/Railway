@@ -41,6 +41,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
             var wrkData = GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
+
+            recordCount = (short)wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Count();
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote)
@@ -69,18 +71,18 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == item.id),
                               VPams = GetTable<v_pam, int>(PredicateBuilder.True<v_pam>().And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
-                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => (int)y.idSrcDocument))).Expand())
+                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
                               VAkts = GetTable<v_akt, int>(PredicateBuilder.True<v_akt>().And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
                                 .And(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
-                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => (int)y.idSrcDocument))).Expand())
+                                    wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
                               VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard ?? 0))).Expand())
                                 .ToList(),
                               KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => (long)y.idScroll)))
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll != null ? (long)y.idScroll : 0 )))
                                 .ToList(),
                               Etsng = item2,
                               Guild18 = new krt_Guild18 {
@@ -88,10 +90,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          }).ToList();
+                          }).OrderByDescending(x=>x.VOtpr != null? x.VOtpr.n_otpr:x.Guild18.id.ToString()).ToList();
 
-            recordCount = (short)result.Count();
-            return result.ToList();
+            return result;
         }
         /// <summary>
         /// Get current avaible type of operation on dispatch
@@ -136,6 +137,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
+        /// <summary>
+        /// Получение данных со стороны  БД САПОД (используется для предварительного просмотра текущей документации по накладным)
+        /// </summary>
+        /// <param name="reportPeriod"></param>
+        /// <param name="preview"></param>
+        /// <param name="shiftPage"></param>
+        /// <returns></returns>
         public bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
             var startDate = reportPeriod.AddDays(-shiftPage);
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
@@ -143,8 +151,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
             try {
                 //type_doc 1 => one trunsaction (one request per one dbcontext)
-                result = (from item in preview join vn in GetTable<v_nach, int>(
-                                  PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
+                result = (from item in preview join vn in GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
                                       .And(PredicateExtensions.InnerContainsPredicate<v_nach, int?>("id_otpr", preview.Select(x => (int?)x.Shipping.id))).Expand())
                               on item.Shipping.id equals vn.id_otpr
                           select new krt_Guild18() {
@@ -237,24 +244,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             } catch (Exception) {
                 return false;
             }
-            //add/update
-            using (Uow = new UnitOfWork()) {
-                var groupInvoce = result.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Select(x => new { x.Key.reportPeriod, x.Key.idDeliviryNote });
-                //circle 1 per 1 cilcle invoice
-                foreach (var invoce in groupInvoce) {
-                    var temp = invoce;
-                    //if exist some information => delete , because we don't have appreate primary key for merge/Update operations
-                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote, false);
-
-                    //add information about 1 per 1 cicle invoice
-                    Uow.Repository<krt_Guild18>().AddRange(result.Where(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote), false);
-                }
-                Uow.Save();
-            }
             return true;
         }
         /// <summary>
-        /// Альтернатива PAckDocuments. Т.к EF6  не поддерживает работу Join с двумя котестами (таблицы находяться на разных серверах)=>
+        /// Альтернатива PAckDocuments на стороне БД ОРЦ (т.е контрольные данные=> приходят поздже).
+        /// Т.к EF6  не поддерживает работу Join с двумя котестами (таблицы находяться на разных серверах)=>
         /// Возможные варианты (выбран 3)
         /// 1)Создание view для таблиц из другого сервера 
         /// 2)ковыряние в edmx (необходимо также работа c synonem в  SQL)

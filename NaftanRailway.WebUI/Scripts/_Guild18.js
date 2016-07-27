@@ -92,6 +92,7 @@ function RenderSync() {
 //contentType: When sending data to the server, use this content-type.
 $("#updateBtn").on('click', function () {
     //jQuery.support.cors = true;
+    this.css('cursor', 'progress');
     $.ajax({
         url: "/UpdateExists", 
         //crossDomain: true,
@@ -104,4 +105,5 @@ $("#updateBtn").on('click', function () {
         },
         error: function (data) { console.log("datepicker ajax request error:" + data) }
     });
+    this.css('cursor', 'auto');
 });

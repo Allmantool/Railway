@@ -20,7 +20,7 @@ namespace NaftanRailway.Domain.BusinessModels {
 
         public SessionStorage() {
             _linesCollection = new List<ShippingInfoLine>();
-            ReportPeriod = DateTime.Today;
+            ReportPeriod = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
         }
 
         [Required]

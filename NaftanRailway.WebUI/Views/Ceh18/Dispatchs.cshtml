@@ -34,14 +34,14 @@
                     <p style="font-size: 1.5em; vertical-align: middle; text-align: center;">@(sh.KNaftan.Select(x => x.U_KOD).FirstOrDefault() == 2 ? "Багаж ст. Витебск" : "Прохождение проверки знаний")</p>
                 }
             </div>
-            <div class="col-lg-0 text-right pull-right">
-                @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
+           <div class="col-lg-0 text-right pull-right">
+               @* @using (Html.BeginForm("AddRow", "Storage", FormMethod.Post, new { role = "form" })) {
                     @Html.HiddenFor(x => sh.VOtpr.id)
                     @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
                     <button type="submit" class="btn btn-sm btn-link btn-default" data-loading-text="Loading..." id="btn@(i)">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                }
+                }*@
                 @using (Ajax.BeginForm("DeleteDocInfo", "Ceh18",new { }, new AjaxOptions() { HttpMethod = "Post", Url = Url.Action("DeleteDocInfo", "Ceh18"),UpdateTargetId = "infoArea",InsertionMode = InsertionMode.Replace}, new { role = "form" })) {
                     if (sh.VOtpr != null) { @Html.Hidden("idInvoice", sh.VOtpr.id); }
                     @Html.Hidden("reportPeriod", (DateTime)ViewData["reportPeriod"])

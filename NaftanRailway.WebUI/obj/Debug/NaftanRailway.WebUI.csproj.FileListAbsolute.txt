@@ -166,3 +166,7 @@ C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\RdlCompile.compiled
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.dll
 C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.Common.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Global.asax
+C:\Git\Railway\NaftanRailway.WebUI\bin\Web.config
+C:\Git\Railway\NaftanRailway.WebUI\bin\packages.config
+C:\Git\Railway\NaftanRailway.WebUI\bin\Global.asax.cs
