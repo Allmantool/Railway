@@ -57,8 +57,8 @@ namespace NaftanRailway.WebUI {
 
             routes.MapRoute(
                 name: "Report",
-                url: "Report/{action}/{reportPeriod}",
-                defaults: new { controller = "Report", action = "Index" },
+                url: "Report/{reportName}/{reportPeriod}",
+                defaults: new { controller = "Report", action = "GUild18" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" });
 
             routes.MapRoute(

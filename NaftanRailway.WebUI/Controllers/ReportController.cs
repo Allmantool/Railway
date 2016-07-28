@@ -6,18 +6,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
-using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class ReportController : Controller {
-        private readonly ISessionDbRepository _sessionRepository;
-
-        public ReportController(ISessionDbRepository sessionRepository) {
-            _sessionRepository = sessionRepository;
-        }
-
         /// <summary>
         /// Render SSRS report (This method apply if you don't have Report Server enviroment
         /// </summary>
@@ -77,6 +70,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 return View("Index");
             }
         }
+
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing uculture prop don't help)
         /// problime on iis culture and  SSRS
@@ -92,13 +86,13 @@ namespace NaftanRailway.WebUI.Controllers {
         /// if the InvariantCulture is used. By contrast, if I'm using a form to book my flight, everything is happening in a tight cycle. The data can respect the CurrentCulture 
         /// when it is written to the form, and so needs to respect it when coming back from the form.
         /// </summary>
+        /// <param name="reportName"></param>
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Guild18(string reportPeriod) {
+        public ActionResult Guild18(string reportName, string reportPeriod) {
                 const string serverName = @"db2";
                 const string folderName = @"Orders";
-                const string reportName = @"krt_Naftan_Guild18Report";
 
                 var period = DateTime.ParseExact(reportPeriod,"dd-MM-yyyy", new CultureInfo("ru", true));
                 const string defaultParameters = @"rs:Format=Excel";
@@ -113,7 +107,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
                 };
 
-                string nameFile = string.Format(@"Отчёт по провозным платежам и дополнительным сборам Бел. ж/д за {0} {1}г.xls", period.ToString("MMMM"), period.Year);
+                string nameFile = string.Format(@"Отчёт {0} за {1} {2}г.xls", reportName, period.ToString("MMMM"), period.Year);
 
                 //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
                 //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)

@@ -121,10 +121,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 09:53:18</publishTime>
     </File>
     <File Include="bin/NaftanRailway.Domain.dll">
-      <publishTime>07/27/2016 09:00:27</publishTime>
+      <publishTime>07/28/2016 09:40:10</publishTime>
     </File>
     <File Include="bin/NaftanRailway.WebUI.dll">
-      <publishTime>07/27/2016 09:00:32</publishTime>
+      <publishTime>07/28/2016 09:40:17</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>06/16/2016 09:53:13</publishTime>
@@ -226,7 +226,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2010 19:31:26</publishTime>
     </File>
     <File Include="bin/Web.config">
-      <publishTime>07/25/2016 15:00:58</publishTime>
+      <publishTime>07/27/2016 10:56:18</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>06/16/2016 09:53:14</publishTime>
@@ -826,7 +826,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/27/2016 14:00:48</publishTime>
     </File>
     <File Include="Scripts/_Guild18.js">
-      <publishTime>07/26/2016 10:43:14</publishTime>
+      <publishTime>07/28/2016 10:10:11</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>06/16/2016 09:52:59</publishTime>
@@ -883,7 +883,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/29/2016 09:20:47</publishTime>
     </File>
     <File Include="Views/Navigation/ComplexNavbarMenu.cshtml">
-      <publishTime>07/26/2016 10:42:35</publishTime>
+      <publishTime>07/28/2016 10:16:16</publishTime>
     </File>
     <File Include="Views/Navigation/FlexMenu.cshtml">
       <publishTime>07/26/2016 13:29:27</publishTime>
@@ -910,7 +910,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 09:52:59</publishTime>
     </File>
     <File Include="Views/Shared/Errors.cshtml">
-      <publishTime>06/16/2016 09:52:59</publishTime>
+      <publishTime>07/27/2016 10:43:18</publishTime>
     </File>
     <File Include="Views/Shared/_AdminLayout.cshtml">
       <publishTime>06/16/2016 09:52:59</publishTime>
@@ -949,7 +949,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/16/2016 09:52:59</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/25/2016 15:00:58</publishTime>
+      <publishTime>07/27/2016 10:56:18</publishTime>
     </File>
   </ItemGroup>
 </Project>

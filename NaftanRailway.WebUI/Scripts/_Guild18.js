@@ -46,7 +46,7 @@ $(function () {
 /***************************choisen accordion panel*********************************************************************/
 $(function () {
     $(".panel .btn").on('click', function () {
-        $(this).children('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-ok').parents(".panel").removeClass('panel-default panel-primary').addClass('panel-success');
+        $(this).children('.glyphicon').addClass('glyphicon-ok').parents(".panel").removeClass('panel-default panel-primary').addClass('panel-success');
     });
 });
 
@@ -61,9 +61,15 @@ $('.datepicker').datepicker({
     orientation: "bottom auto",
     forceParse: true
 }).on('changeDate', function (e) {
-    var target = $('#excelExport');
-    var link = target.attr('href');
-    target.attr('href', link.replace(link.match("[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}"), moment($(this).datepicker('getUTCDate')).format('01-MM-YYYY')));
+    var target = $('.excelExport');
+    var selDate = moment($(this).datepicker('getUTCDate')).format('01-MM-YYYY');
+
+    target.each(function (index, value) {
+        var element = $(value);
+        var link = element.attr('href');
+        element.attr('href', link.replace(link.match("[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}"), selDate));
+    });
+    
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
         type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
