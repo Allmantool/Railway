@@ -170,3 +170,7 @@ C:\Git\Railway\NaftanRailway.WebUI\bin\Global.asax
 C:\Git\Railway\NaftanRailway.WebUI\bin\Web.config
 C:\Git\Railway\NaftanRailway.WebUI\bin\packages.config
 C:\Git\Railway\NaftanRailway.WebUI\bin\Global.asax.cs
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\Global.asax
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\Web.config
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\Global.asax.cs
+J:\GitHub\Railway\NaftanRailway.WebUI\bin\packages.config

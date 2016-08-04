@@ -82,7 +82,7 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
 
-            DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
+            //DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
 
             //var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
 
@@ -111,7 +111,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="idInvoice"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, Nullable<int> idInvoice) {
+        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice) {
             if (Request.IsAjaxRequest()) {
                 TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
 
@@ -121,7 +121,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         [HttpPost]
-        public ActionResult UpdateExists(SessionStorage storage,DateTime reportPeriod) {
+        public ActionResult UpdateExists(SessionStorage storage, DateTime reportPeriod) {
             if (Request.IsAjaxRequest()) {
                 _bussinesEngage.UpdateExists(reportPeriod);
                 return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });

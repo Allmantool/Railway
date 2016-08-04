@@ -40,23 +40,20 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return new List<Shipping>();
             }
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
-
             var wrkData = GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
-
-            recordCount = (short)wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Count();
 
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
-                .OrderBy(x => x.Key.idDeliviryNote)
-                .Skip(pageSize * (page - 1))
-                .Take(pageSize).ToList();
+                .OrderBy(x => x.Key.idDeliviryNote).ToList();
+     
             /*linqkit*/
             //v_otpr
-            var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
-            votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value)).Expand();
+            var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => ((x.oper == (short)operationCategory) || operationCategory == EnumOperationType.All) && x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
+                votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value && ((e.oper == (short)operationCategory) || operationCategory == EnumOperationType.All))).Expand();
             var voSrc = GetTable<v_otpr, int>(votprPredicate).ToList();
-            //v_o_v
-            var vovPredicate = PredicateBuilder.False<v_o_v>();
+            recordCount = (short)voSrc.Count();
+           //v_o_v
+           var vovPredicate = PredicateBuilder.False<v_o_v>();
             vovPredicate = voSrc.Select(x => x.id).Aggregate(vovPredicate, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
             var vovSrc = GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
@@ -92,7 +89,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          }).OrderByDescending(x => x.VOtpr != null ? x.VOtpr.n_otpr : x.Guild18.idDeliviryNote.ToString()).ToList();
+                          }).Skip(pageSize * (page - 1)).Take(pageSize).OrderByDescending(x => x.VOtpr != null ? x.VOtpr.n_otpr : x.Guild18.idDeliviryNote.ToString()).ToList();
 
             return result;
         }
@@ -324,7 +321,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         new SqlParameter("@id_otpr", (temp.Shipping == null) ? 0 : temp.Shipping.id),
                         new SqlParameter("@stDate", startDate),
                         new SqlParameter("@endDate", endDate)).ToList();
-                    
+
                     //Add or Delete
                     foreach (var entity in result) {
                         var e = entity;
