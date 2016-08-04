@@ -25,7 +25,6 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<krt_DetailsProgress> krt_DetailsProgresses { get; set; }
         public virtual DbSet<krt_Guild18> krt_Guild18s { get; set; }
         public virtual DbSet<krt_Naftan> krt_Naftans { get; set; }
         public virtual DbSet<krt_Naftan_orc_sapod> krt_Naftan_orc_sapods { get; set; }

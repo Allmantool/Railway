@@ -40,9 +40,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return new List<Shipping>();
             }
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
+
             var wrkData = GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
 
             recordCount = (short)wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Count();
+
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote)
@@ -79,10 +81,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 .ToList(),
                               VKarts = GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard ?? 0))).Expand())
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard != null ? (int)y.idCard : 0))).Expand())
                                 .ToList(),
                               KNaftan = GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
-                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll != null ? (long)y.idScroll : 0 )))
+                                    wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll != null ? (long)y.idScroll : 0)))
                                 .ToList(),
                               Etsng = item2,
                               Guild18 = new krt_Guild18 {
@@ -90,7 +92,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                   idDeliviryNote = kg.Key.idDeliviryNote,
                                   warehouse = kg.Key.warehouse
                               }
-                          }).OrderByDescending(x=>x.VOtpr != null? x.VOtpr.n_otpr:x.Guild18.id.ToString()).ToList();
+                          }).OrderByDescending(x => x.VOtpr != null ? x.VOtpr.n_otpr : x.Guild18.idDeliviryNote.ToString()).ToList();
 
             return result;
         }
@@ -101,9 +103,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
             var wrkDispatch = GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).ToList();
-            var result = GetGroup<v_otpr, short>(x => (short)x.oper,
-                x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) && wrkDispatch.Contains(x.id))
-                .ToList();
+            var result = GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) && wrkDispatch.Contains(x.id)).ToList();
 
             return result;
         }
@@ -132,7 +132,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
-            return GetGroup<v_otpr, string>(x => new { x.n_otpr }.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
+            return GetGroup<v_otpr, string>(x => x.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
                  && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
@@ -147,25 +147,24 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
             var startDate = reportPeriod.AddDays(-shiftPage);
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
-            List<krt_Guild18> result;
 
             try {
                 //type_doc 1 => one trunsaction (one request per one dbcontext)
-                result = (from item in preview join vn in GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
+                List<krt_Guild18> result = (from item in preview join vn in GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
                                       .And(PredicateExtensions.InnerContainsPredicate<v_nach, int?>("id_otpr", preview.Select(x => (int?)x.Shipping.id))).Expand())
                               on item.Shipping.id equals vn.id_otpr
-                          select new krt_Guild18() {
-                              reportPeriod = reportPeriod,
-                              warehouse = item.Warehouse,
-                              idDeliviryNote = item.Shipping.id,
-                              type_doc = 1, idSrcDocument = item.Shipping.id,
-                              code = Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
-                              sum = (decimal)(vn.summa + vn.nds),
-                              rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
-                              codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0])),
-                              idCard = vn.id_kart,
-                              idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(x => x.keykrt, x => x.id_kart == vn.id_kart).FirstOrDefault()
-                          }).ToList();
+                                            select new krt_Guild18() {
+                                                reportPeriod = reportPeriod,
+                                                warehouse = item.Warehouse,
+                                                idDeliviryNote = item.Shipping.id,
+                                                type_doc = 1, idSrcDocument = item.Shipping.id,
+                                                code = Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0]),
+                                                sum = (decimal)(vn.summa + vn.nds),
+                                                rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
+                                                codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0])),
+                                                idCard = vn.id_kart,
+                                                idScroll = GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).FirstOrDefault()
+                                            }).ToList();
 
                 foreach (var dispatch in preview) {
                     var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
@@ -186,7 +185,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                 sum = (decimal)(x.summa + x.nds),
                                 idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                 codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                idScroll = GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
                             }));
                     }
                     //065
@@ -205,7 +204,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                     sum = (decimal)(x.summa + x.nds),
                                     idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                    idScroll = GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
                                 }));
                     }
                     ////type_doc 3 =>one trunsaction (one request per one dbcontext)
@@ -226,7 +225,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                                     idCard = x.id_kart,
                                     rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = GetGroup<krt_Naftan_orc_sapod, long?>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                    idScroll = GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
                                 }));
 
                     }
@@ -235,10 +234,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         .Select(x => new krt_Guild18 {
                             reportPeriod = reportPeriod,
                             type_doc = x.tdoc,
-                            idSrcDocument = x.id_kart, code = x.vidsbr,
+                            idSrcDocument = (int)x.id_kart, code = x.vidsbr,
                             sum = x.sm, rateVAT = Math.Round((decimal)(x.nds / x.sm_no_nds), 2),
                             codeType = new[] { 166, 173, 300, 301, 344 }.Contains(x.vidsbr),
-                            idCard = x.id_kart, idScroll = x.keykrt
+                            idCard = (int)x.id_kart, idScroll = x.keykrt
                         }));
                 }
             } catch (Exception) {
@@ -262,8 +261,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             var startDate = reportPeriod.AddDays(-shiftPage).Date;
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage).Date;
 
-            var result = new List<krt_Guild18>();
-
             foreach (var dispatch in preview) {
                 var temp = dispatch;
 
@@ -275,69 +272,77 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
-                    result.AddRange(Uow.Repository<krt_Guild18>().Context.Database.SqlQuery<krt_Guild18>(@"
-                        SELECT 0 as [id], @reportPeriod AS [reportPeriod],@warehouse AS [warehouse],vo.id AS [idDeliviryNote],knos.tdoc AS [type_doc],vo.id AS [idSrcDocument],
-                            CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],CONVERT(int,knos.vidsbr) AS [code],knos.sm as [sum],
-                            CONVERT(decimal(3,2),knos.stnds/100) as [rateVAT],keykrt AS [idScroll],knos.id_kart AS [idCard]
-                        FROM " + sapodConn + @".[dbo].[v_otpr] as vo 
-                            INNER JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos ON knos.id_otpr = vo.id 
-                        WHERE vo.[state] = 32 AND (vo.cod_kl_otpr in ('3494','349402') OR vo.cod_klient_pol in ('3494','349402')) AND knos.tdoc = 1 AND vo.id = @id_otpr
+                    var result = Uow.Repository<krt_Guild18>().Context.Database.SqlQuery<krt_Guild18>(@"
+                    WITH SubResutl AS (
+                        SELECT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl],
+                            CASE vn.cod_sbor WHEN '125' THEN NULL ELSE @warehouse END AS [warehouse],
+                            CASE vn.cod_sbor WHEN '125' THEN NULL ELSE @id_otpr END AS [idDeliviryNote],
+                            CONVERT(tinyint,vn.type_doc) AS [type_doc],@id_otpr AS [idSrcDocument],
+                            CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
+                            CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
+                            CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
+                        FROM " + sapodConn + @".[dbo].[v_nach] AS vn 
+                        WHERE (vn.id_otpr = (@id_otpr) OR vn.cod_sbor IN ('125')) AND vn.type_doc IN (1,4) AND (vn.date_raskr BETWEEN @stDate AND @endDate) AND vn.cod_kl IN ('3494','349402')
                         UNION ALL
-                        SELECT distinct 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS[type_doc],
-                            CASE knos.tdoc WHEN 2 then vp.id_ved ELSE knos.id_kart end AS [idSrcDocument],
-                            CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], knos.sm as [sum],
-                            CONVERT(decimal(3, 2), knos.stnds / 100) as [rateVAT], knos.keykrt AS [idScroll], knos.id_kart AS [idCard]
+                        SELECT DISTINCT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl], @warehouse AS [warehouse],
+                            @id_otpr AS [idDeliviryNote], CONVERT(tinyint,vn.type_doc) AS [type_doc],
+                            CASE vn.type_doc when 2 then vp.id_ved ELSE vn.id_kart END AS [idSrcDocument],
+                            CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
+                            CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
+                            CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
                         FROM " + sapodConn + @".[dbo].v_pam as vp INNER JOIN " + sapodConn + @".[dbo].v_pam_vag AS vpv
-                            ON vpv.id_ved = vp.id_ved LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
-                                ON (knos.id_kart = vp.id_kart and knos.tdoc = 2) OR
-                           (date_raskr IN (CONVERT(date, vpv.d_pod),CONVERT(date, vpv.d_ub)) AND knos.vidsbr = 65 AND knos.tdoc = 4)
-                        WHERE vpv.nomvag IN (" + carriages + @") AND vp.kodkl in ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
+                            ON vpv.id_ved = vp.id_ved INNER JOIN " + sapodConn + @".[dbo].[v_nach] AS vn
+                                ON ((vn.id_kart = vp.id_kart AND vn.type_doc = 2) AND vp.kodkl IN ('3494','349402')) OR
+                           (vn.date_raskr IN (convert(date,vpv.d_pod),convert(date,vpv.d_ub)) AND vn.cod_sbor = '065' AND vn.type_doc = 4)
+                        WHERE vpv.nomvag IN (" + carriages + @") AND vn.cod_kl IN ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
                         UNION ALL
-                        SELECT 0 as [id], @reportPeriod AS [reportPeriod], @warehouse AS [warehouse], @id_otpr AS [idDeliviryNote], knos.tdoc AS [type_doc], va.id AS [idSrcDocument],
-                            CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
-                            knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], knos.id_kart AS [idCard]
-                        FROM " + sapodConn + @".[dbo].v_akt as va LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
-                                ON knos.id_kart = va.id_kart
-                        WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt ) AND [state] = 32 AND knos.tdoc = 3 AND (va.dakt BETWEEN @stDate AND @endDate)
-                        UNION ALL
-                        SELECT 0 AS [id], @reportPeriod AS [reportPeriod],NULL AS [warehouse],NULL AS [idDeliviryNote],knos.tdoc AS [type_doc],
-                            CASE knos.tdoc when 4 then knos.id_kart ELSE null END AS [idSrcDocument],
-                            CONVERT(BIT,CASE WHEN knos.vidsbr IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType], CONVERT(int,knos.vidsbr) AS [code], 
-                            knos.sm AS [sum], CONVERT(decimal(3, 2), knos.stnds / 100) AS [rateVAT], keykrt AS [idScroll], knos.id_kart AS [idCard]
-                        FROM " + orcConn + @".[dbo].krt_Naftan_orc_sapod AS knos
-                        WHERE knos.vidsbr IN (611, 629, 125) AND knos.dt BETWEEN @stDate AND @endDate;",
+                        SELECT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl], @warehouse AS [warehouse],
+                            @id_otpr AS [idDeliviryNote], CONVERT(tinyint,vn.type_doc) AS [type_doc], va.id AS [idSrcDocument],
+                            CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
+                            CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
+                            CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
+                        FROM " + sapodConn + @".[dbo].v_akt as va INNER JOIN " + sapodConn + @".[dbo].[v_nach] AS vn
+                                ON vn.id_kart = va.id_kart AND vn.type_doc = 3 AND va.kodkl IN ('3494','349402') AND vn.cod_kl IN ('3494','349402') AND [state] = 32
+                        WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt) AND (va.dakt BETWEEN @stDate AND @endDate)
+                    )
+                        SELECT 0 as [id], sr.reportPeriod,sr.idSapod, knos.keykrt AS [idScroll],knos.keysbor AS [scrollColl], sr.warehouse, sr.idDeliviryNote,sr.type_doc, sr.idSrcDocument,
+                        CONVERT(BIT,CASE WHEN CONVERT(int,sr.codeType) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
+                        sr.code, ISNULL(knos.sm,sr.[sum]) AS [sum], sr.[rateVat],sr.idCard
+                        FROM SubResutl AS sr LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
+	                        ON knos.id = sr.idSapod AND knos.tdoc = sr.type_doc
+                        UNION ALL 
+                        SELECT 0 as [id], @reportPeriod AS [reportPeriod], knos.id AS [idSapod],
+                            kn.keykrt AS [idScroll],knos.keysbor AS [scrollColl],@warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc as [type_doc],
+                            CASE tdoc when 4 THEN knos.id_kart else NULL END AS [idSrcDocument],
+                            CONVERT(BIT,1) AS [codeType], vidsbr AS [code], sm as [sum],
+                            CONVERT(decimal(18,2),knos.stnds/100) as [rateVAT],knos.id_kart AS [idCard]
+                        FROM " + orcConn + @".[dbo].krt_naftan AS kn INNER JOIN " + orcConn + @".[dbo].krt_Naftan_orc_sapod AS knos
+	                        ON knos.keykrt = kn.keykrt AND KN.U_KOD = 2
+                        WHERE knos.dt BETWEEN @stDate AND @endDate;",
                         new SqlParameter("@reportPeriod", reportPeriod),
                         new SqlParameter("@warehouse", temp.Warehouse),
                         new SqlParameter("@id_otpr", (temp.Shipping == null) ? 0 : temp.Shipping.id),
                         new SqlParameter("@stDate", startDate),
-                        new SqlParameter("@endDate", endDate)));
-                }
-            }
+                        new SqlParameter("@endDate", endDate)).ToList();
+                    
+                    //Add or Delete
+                    foreach (var entity in result) {
+                        var e = entity;
+                        var item = Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
-            //add/update
-            using (Uow = new UnitOfWork()) {
-                var groupInvoce = result.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote }).Select(x => new { x.Key.reportPeriod, x.Key.idDeliviryNote });
-                //circle 1 per 1 cilcle invoice
-                foreach (var invoce in groupInvoce) {
-                    var temp = invoce;
-                    //if exist some information => delete , because we don't have appreate primary key for merge/Update operations
-                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote, false);
-                    //add information about 1 per 1 cicle invoice
-                    Uow.Repository<krt_Guild18>().AddRange(result.Where(x => x.reportPeriod == temp.reportPeriod && x.idDeliviryNote == temp.idDeliviryNote), false);
+                        entity.id = (item == null) ? 0 : item.id;
+                        Uow.Repository<krt_Guild18>().Merge(entity);
+                    }
                     Uow.Save();
                 }
-
             }
+
             return true;
         }
-        public bool DeleteInvoice(DateTime reportPeriod, int idInvoice) {
+        public bool DeleteInvoice(DateTime reportPeriod, Nullable<int> idInvoice) {
             using (Uow = new UnitOfWork()) {
                 try {
-                    if (idInvoice == 0) {
-                        //Доб. сборы
-                        Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == null, false);
-                    } else { Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false); }
-
+                    Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false);
                 } catch (Exception) {
                     return false;
                 }

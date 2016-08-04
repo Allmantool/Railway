@@ -1,32 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="krt_DetailsProgress">
-    <Key>
-      <PropertyRef Name="tDoc" />
-      <PropertyRef Name="vidSbr" />
-    </Key>
-    <Property Name="tDoc" Type="tinyint" Nullable="false" />
-    <Property Name="vidSbr" Type="smallint" Nullable="false" />
-    <Property Name="state" Type="tinyint" Nullable="false" />
-    <Property Name="StDetailDate" Type="date" />
-    <Property Name="nameSbr" Type="nvarchar(max)" />
-    <Property Name="lastDate" Type="date" />
-  </EntityType>
   <EntityType Name="krt_Guild18">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="reportPeriod" Type="date" Nullable="false" />
+    <Property Name="idSapod" Type="int" />
+    <Property Name="idScroll" Type="bigint" />
+    <Property Name="scrollColl" Type="bigint" />
     <Property Name="warehouse" Type="int" />
     <Property Name="idDeliviryNote" Type="int" />
-    <Property Name="type_doc" Type="tinyint" />
+    <Property Name="type_doc" Type="tinyint" Nullable="false" />
     <Property Name="idSrcDocument" Type="int" />
     <Property Name="codeType" Type="bit" Nullable="false" />
     <Property Name="code" Type="int" Nullable="false" />
     <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
-    <Property Name="idScroll" Type="bigint" />
     <Property Name="idCard" Type="int" />
   </EntityType>
   <EntityType Name="krt_Naftan">
@@ -109,6 +99,7 @@
   </EntityType>
   <EntityType Name="orc_sbor">
     <Key>
+      <PropertyRef Name="KEYKRT" />
       <PropertyRef Name="KEYSBOR" />
     </Key>
     <Property Name="KEYKRT" Type="bigint" Nullable="false" />
@@ -157,7 +148,6 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="ORCModelStoreContainer">
-    <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />

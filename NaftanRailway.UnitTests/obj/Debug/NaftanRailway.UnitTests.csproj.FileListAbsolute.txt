@@ -5,6 +5,8 @@ C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Moq.xml
 C:\Git\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.csprojResolveAssemblyReference.cache
 C:\Git\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.dll
 C:\Git\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.pdb
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 J:\GitHub\Railway\NaftanRailway.UnitTests\bin\Debug\NaftanRailway.UnitTests.dll
 J:\GitHub\Railway\NaftanRailway.UnitTests\bin\Debug\NaftanRailway.UnitTests.pdb
 J:\GitHub\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
@@ -14,5 +16,12 @@ J:\GitHub\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.Quali
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.csprojResolveAssemblyReference.cache
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.dll
 J:\GitHub\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.pdb
-C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Git\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\NaftanRailway.UnitTests.dll
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\NaftanRailway.UnitTests.pdb
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\Moq.dll
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\Moq.xml
+N:\Railway\NaftanRailway.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+N:\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.csprojResolveAssemblyReference.cache
+N:\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.dll
+N:\Railway\NaftanRailway.UnitTests\obj\Debug\NaftanRailway.UnitTests.pdb

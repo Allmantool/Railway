@@ -155,9 +155,6 @@
     <Compile Include="Concrete\DbContext\OBD\v_pam_vag.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\krt_DetailsProgress.cs">
-      <DependentUpon>ORCModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Concrete\DbContext\ORC\krt_Guild18.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>

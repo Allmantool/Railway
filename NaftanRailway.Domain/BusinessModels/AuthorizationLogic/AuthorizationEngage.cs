@@ -5,7 +5,7 @@ using System.Web.Security;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Security;
-using WebMatrix.WebData;
+//using WebMatrix.WebData;
 
 namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
     public class AuthorizationEngage : IAuthorizationEngage {
@@ -64,17 +64,17 @@ namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
             return false;
         }
         public bool Login(string username, string password) {
-            bool result = WebSecurity.Login(username, password);
+            //bool result = WebSecurity.Login(username, password);
 
-            return result;
+            return true;
         }
         public bool Logout() {
             bool result = true;
 
-            try { WebSecurity.Logout(); }
-            catch(Exception) {
-                result = false;
-            }
+            //try { WebSecurity.Logout(); }
+            //catch(Exception) {
+            //    result = false;
+            //}
 
             return result;
         }
@@ -82,8 +82,8 @@ namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
             bool result = true;
 
             try {
-                WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { model.Email });
-                Roles.AddUserToRole(model.UserName, model.Role);
+                //WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new { model.Email });
+                //Roles.AddUserToRole(model.UserName, model.Role);
             }
             catch(MembershipCreateUserException) {
                 result = false;

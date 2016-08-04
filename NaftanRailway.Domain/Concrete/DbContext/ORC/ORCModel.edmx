@@ -4,34 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="krt_DetailsProgress">
-          <Key>
-            <PropertyRef Name="tDoc" />
-            <PropertyRef Name="vidSbr" />
-          </Key>
-          <Property Name="tDoc" Type="tinyint" Nullable="false" />
-          <Property Name="vidSbr" Type="smallint" Nullable="false" />
-          <Property Name="state" Type="tinyint" Nullable="false" />
-          <Property Name="StDetailDate" Type="date" />
-          <Property Name="nameSbr" Type="nvarchar(max)" />
-          <Property Name="lastDate" Type="date" />
-        </EntityType>
+    <Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="krt_Guild18">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="reportPeriod" Type="date" Nullable="false" />
+          <Property Name="idSapod" Type="int" />
+          <Property Name="idScroll" Type="bigint" />
+          <Property Name="scrollColl" Type="bigint" />
           <Property Name="warehouse" Type="int" />
           <Property Name="idDeliviryNote" Type="int" />
-          <Property Name="type_doc" Type="tinyint" />
+          <Property Name="type_doc" Type="tinyint" Nullable="false" />
           <Property Name="idSrcDocument" Type="int" />
           <Property Name="codeType" Type="bit" Nullable="false" />
           <Property Name="code" Type="int" Nullable="false" />
           <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="rateVAT" Type="decimal" Precision="3" Scale="2" Nullable="false" />
-          <Property Name="idScroll" Type="bigint" />
           <Property Name="idCard" Type="int" />
         </EntityType>
         <EntityType Name="krt_Naftan">
@@ -114,6 +104,7 @@
         </EntityType>
         <EntityType Name="orc_sbor">
           <Key>
+            <PropertyRef Name="KEYKRT" />
             <PropertyRef Name="KEYSBOR" />
           </Key>
           <Property Name="KEYKRT" Type="bigint" Nullable="false" />
@@ -162,7 +153,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ORCModelStoreContainer">
-          <EntitySet Name="krt_DetailsProgress" EntityType="Self.krt_DetailsProgress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
@@ -177,39 +167,28 @@
             <End Role="orc_sbor" EntitySet="orc_sbor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ORCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="krt_DetailsProgress">
-          <Key>
-            <PropertyRef Name="tDoc" />
-            <PropertyRef Name="vidSbr" />
-          </Key>
-          <Property Name="tDoc" Type="Byte" Nullable="false" />
-          <Property Name="vidSbr" Type="Int16" Nullable="false" />
-          <Property Name="state" Type="Byte" Nullable="false" />
-          <Property Name="StDetailDate" Type="DateTime" Precision="0" />
-          <Property Name="nameSbr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="lastDate" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityType Name="krt_Guild18">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="reportPeriod" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="warehouse" Type="Int32" />
-          <Property Name="idDeliviryNote" Type="Int32" />
-          <Property Name="type_doc" Type="Byte" />
-          <Property Name="idSrcDocument" Type="Int32" />
+          <Property Name="warehouse" Type="Int32" Nullable="true" />
+          <Property Name="idDeliviryNote" Type="Int32" Nullable="true" />
+          <Property Name="type_doc" Type="Byte" Nullable="false" />
+          <Property Name="idSrcDocument" Type="Int32" Nullable="true" />
           <Property Name="codeType" Type="Boolean" Nullable="false" />
           <Property Name="code" Type="Int32" Nullable="false" />
           <Property Name="sum" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="rateVAT" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
-          <Property Name="idScroll" Type="Int64" />
-          <Property Name="idCard" Type="Int32" />
+          <Property Name="idScroll" Type="Int64" Nullable="true" />
+          <Property Name="idCard" Type="Int32" Nullable="true" />
+          <Property Name="idSapod" Type="Int32" Nullable="true" />
+          <Property Name="scrollColl" Type="Int64" Nullable="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="krt_Naftan">
           <Key>
@@ -295,6 +274,7 @@
         <EntityType Name="orc_sbor">
           <Key>
             <PropertyRef Name="KEYSBOR" />
+            <PropertyRef Name="KEYKRT" />
           </Key>
           <Property Name="KEYKRT" Type="Int64" Nullable="false" />
           <Property Name="KEYSBOR" Type="Int64" Nullable="false" />
@@ -343,7 +323,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ORCEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="krt_DetailsProgresses" EntityType="Self.krt_DetailsProgress" />
           <EntitySet Name="krt_Guild18s" EntityType="Self.krt_Guild18" />
           <EntitySet Name="krt_Naftans" EntityType="Self.krt_Naftan" />
           <EntitySet Name="krt_Naftan_orc_sapods" EntityType="Self.krt_Naftan_orc_sapod" />
@@ -364,22 +343,12 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ORCModelStoreContainer" CdmEntityContainer="ORCEntities">
-          <EntitySetMapping Name="krt_DetailsProgresses">
-            <EntityTypeMapping TypeName="ORCModel.krt_DetailsProgress">
-              <MappingFragment StoreEntitySet="krt_DetailsProgress">
-                <ScalarProperty Name="tDoc" ColumnName="tDoc" />
-                <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
-                <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
-                <ScalarProperty Name="lastDate" ColumnName="lastDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="krt_Guild18s">
             <EntityTypeMapping TypeName="ORCModel.krt_Guild18">
               <MappingFragment StoreEntitySet="krt_Guild18">
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="scrollColl" ColumnName="scrollColl" />
+                <ScalarProperty Name="idSapod" ColumnName="idSapod" />
                 <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
                 <ScalarProperty Name="warehouse" ColumnName="warehouse" />
                 <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />

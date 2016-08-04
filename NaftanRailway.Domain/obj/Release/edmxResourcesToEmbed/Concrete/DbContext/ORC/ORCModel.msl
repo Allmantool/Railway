@@ -1,22 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ORCModelStoreContainer" CdmEntityContainer="ORCEntities">
-    <EntitySetMapping Name="krt_DetailsProgresses">
-      <EntityTypeMapping TypeName="ORCModel.krt_DetailsProgress">
-        <MappingFragment StoreEntitySet="krt_DetailsProgress">
-          <ScalarProperty Name="tDoc" ColumnName="tDoc" />
-          <ScalarProperty Name="vidSbr" ColumnName="vidSbr" />
-          <ScalarProperty Name="state" ColumnName="state" />
-          <ScalarProperty Name="StDetailDate" ColumnName="StDetailDate" />
-          <ScalarProperty Name="nameSbr" ColumnName="nameSbr" />
-          <ScalarProperty Name="lastDate" ColumnName="lastDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="krt_Guild18s">
       <EntityTypeMapping TypeName="ORCModel.krt_Guild18">
         <MappingFragment StoreEntitySet="krt_Guild18">
           <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="scrollColl" ColumnName="scrollColl" />
+          <ScalarProperty Name="idSapod" ColumnName="idSapod" />
           <ScalarProperty Name="reportPeriod" ColumnName="reportPeriod" />
           <ScalarProperty Name="warehouse" ColumnName="warehouse" />
           <ScalarProperty Name="idDeliviryNote" ColumnName="idDeliviryNote" />

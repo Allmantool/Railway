@@ -96,9 +96,9 @@ function RenderSync() {
 /*******************************Reload information about have choisen invoices on definition period******************************************************************/
 //dataType: The type of data that you're expecting back from the server.
 //contentType: When sending data to the server, use this content-type.
-$("#updateBtn").on('click', function () {
+$("#updateBtn").on('click', function (e) {
     //jQuery.support.cors = true;
-    this.css('cursor', 'progress');
+    $(this).css('cursor', 'progress');
     $.ajax({
         url: "/UpdateExists", 
         //crossDomain: true,
@@ -111,5 +111,5 @@ $("#updateBtn").on('click', function () {
         },
         error: function (data) { console.log("datepicker ajax request error:" + data) }
     });
-    this.css('cursor', 'auto');
+    $(this).css('cursor', 'auto');
 });

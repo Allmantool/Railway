@@ -95,9 +95,6 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
-                var selInvoice = docInfo.Where(x => x.IsSelected).ToList();
-                var strInfo = string.Join(", ", selInvoice.Select(x => x.Shipping.n_otpr));
-                TempData["message"] = (_bussinesEngage.PackDocuments(reportPeriod, selInvoice)) ? "Успешно добавлена информация по накладной(ым)" : "Ошибка добавления записей по накладной(ым)" + strInfo;
                 _bussinesEngage.PackDocSQL(reportPeriod, docInfo);
 
                 return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
@@ -114,7 +111,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="idInvoice"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int idInvoice = 0) {
+        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, Nullable<int> idInvoice) {
             if (Request.IsAjaxRequest()) {
                 TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
 

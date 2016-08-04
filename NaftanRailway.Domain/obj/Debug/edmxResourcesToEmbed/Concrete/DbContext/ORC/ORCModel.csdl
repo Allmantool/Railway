@@ -1,33 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ORCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="krt_DetailsProgress">
-    <Key>
-      <PropertyRef Name="tDoc" />
-      <PropertyRef Name="vidSbr" />
-    </Key>
-    <Property Name="tDoc" Type="Byte" Nullable="false" />
-    <Property Name="vidSbr" Type="Int16" Nullable="false" />
-    <Property Name="state" Type="Byte" Nullable="false" />
-    <Property Name="StDetailDate" Type="DateTime" Precision="0" />
-    <Property Name="nameSbr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="lastDate" Type="DateTime" Precision="0" />
-  </EntityType>
   <EntityType Name="krt_Guild18">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="reportPeriod" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="warehouse" Type="Int32" />
-    <Property Name="idDeliviryNote" Type="Int32" />
-    <Property Name="type_doc" Type="Byte" />
-    <Property Name="idSrcDocument" Type="Int32" />
+    <Property Name="warehouse" Type="Int32" Nullable="true" />
+    <Property Name="idDeliviryNote" Type="Int32" Nullable="true" />
+    <Property Name="type_doc" Type="Byte" Nullable="false" />
+    <Property Name="idSrcDocument" Type="Int32" Nullable="true" />
     <Property Name="codeType" Type="Boolean" Nullable="false" />
     <Property Name="code" Type="Int32" Nullable="false" />
     <Property Name="sum" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="rateVAT" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
-    <Property Name="idScroll" Type="Int64" />
-    <Property Name="idCard" Type="Int32" />
+    <Property Name="idScroll" Type="Int64" Nullable="true" />
+    <Property Name="idCard" Type="Int32" Nullable="true" />
+    <Property Name="idSapod" Type="Int32" Nullable="true" />
+    <Property Name="scrollColl" Type="Int64" Nullable="true" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
   </EntityType>
   <EntityType Name="krt_Naftan">
     <Key>
@@ -113,6 +103,7 @@
   <EntityType Name="orc_sbor">
     <Key>
       <PropertyRef Name="KEYSBOR" />
+      <PropertyRef Name="KEYKRT" />
     </Key>
     <Property Name="KEYKRT" Type="Int64" Nullable="false" />
     <Property Name="KEYSBOR" Type="Int64" Nullable="false" />
@@ -161,7 +152,6 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="ORCEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="krt_DetailsProgresses" EntityType="Self.krt_DetailsProgress" />
     <EntitySet Name="krt_Guild18s" EntityType="Self.krt_Guild18" />
     <EntitySet Name="krt_Naftans" EntityType="Self.krt_Naftan" />
     <EntitySet Name="krt_Naftan_orc_sapods" EntityType="Self.krt_Naftan_orc_sapod" />

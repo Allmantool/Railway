@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
 
 namespace NaftanRailway.Domain.Abstract {
     /// <summary>
     /// This interface use for work with data DB (to select data in ORC and Sopod)
     /// </summary>
     public interface IBussinesEngage : IDisposable {
-        bool DeleteInvoice(DateTime reportPeriod, int idInvoice);
+        bool DeleteInvoice(DateTime reportPeriod, Nullable<int> idInvoice);
         bool UpdateExists(DateTime reportPeriod);
         IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount);
         /// <summary>
