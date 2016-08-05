@@ -328,7 +328,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         var item = Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
                         entity.id = (item == null) ? 0 : item.id;
-                        Uow.Repository<krt_Guild18>().Merge(entity);
+                        Uow.Repository<krt_Guild18>().Merge(entity,false);
                     }
                     Uow.Save();
                 }

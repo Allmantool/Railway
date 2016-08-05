@@ -116,7 +116,7 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
         /// <summary>
-        /// Merge only change values + exclude property
+        /// Merge only change values + exclude property (in develop)
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="predicate"></param>

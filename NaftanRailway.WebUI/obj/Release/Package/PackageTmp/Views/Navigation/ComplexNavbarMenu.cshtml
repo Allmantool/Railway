@@ -15,8 +15,8 @@
             </div>
             <div class="col-md-5">
                 @using (@Ajax.BeginRouteForm("Path_Full", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "Index" } },
-        new AjaxOptions() { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "previewDeliveryModal", OnSuccess = "findResult" },
-        new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
+                        new AjaxOptions() { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "previewDeliveryModal", OnSuccess = "findResult" },
+                        new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
                     <div class="form-group col-md-5">
                         <div class="input-group date datepicker">
                             @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
