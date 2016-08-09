@@ -25,29 +25,25 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    @using (Ajax.BeginForm("ChangeDate", "Scroll",
-                new { },
+                    @using (Ajax.BeginForm("ChangeDate", "Scroll",new { },
                     new AjaxOptions() {
                         OnFailure = "UpdateFailure",
                         OnSuccess = "UpdateDate",
                         HttpMethod = "Post",
                         Url = @Url.Action("ChangeDate", "Scroll")
-                    },
-                 new { @class = "form-inline navbar-form", role = "form", id = "ChangeDateForm" })) {
+                    }, new { @class = "form-inline navbar-form", role = "form", id = "ChangeDateForm" })) {
                         <div class="form-group col-lg-6">
                             @Html.HiddenFor(m => m.Nkrt)
                             @Html.HiddenFor(m => m.MultiDate, new { id = "valMultiDate", Value = true })
-                            <div id="sandbox-container">
-                                <div class="input-group date">
-                                    @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", @readonly = "readonly" })
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                </div>
+                            <div class="input-group date datepicker">
+                                @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", @readonly = "readonly", type = "text" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>
-                            <div class="pull-right">
-                                @Html.ActionLink("Отчёт", "Reports", new { numberScroll = "", reportYear = "" }, new { @class = "btn btn-default", id = "reportShow" })
-                                <button id="BtnChangeDate" type="submit" class="btn btn-primary">Изменить</button>
-                            </div>
+                        <div class="pull-right">
+                            @Html.ActionLink("Отчёт", "Reports", new { numberScroll = "", reportYear = "" }, new { @class = "btn btn-default", id = "reportShow" })
+                            <button id="" type="submit" class="btn btn-primary">Изменить</button>
+                        </div>
                     }
                 </div>
             </div>

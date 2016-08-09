@@ -28,6 +28,6 @@
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
         <td>@item.RecordCount</td>
         <td>@item.DATE_OBRABOT</td>
-        <td>@(item.CounterVersion == 0 ? "" : item.CounterVersion.ToString())</td>
+        <td>@(item.CounterVersion <= 1 ? "" : item.CounterVersion.ToString())</td>
     </tr>
 }

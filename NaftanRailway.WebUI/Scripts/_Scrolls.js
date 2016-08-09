@@ -85,6 +85,20 @@ function filterMenu() {
     PaggingSuccess();
 };
 
+$('.datepicker').datepicker({
+    format: "MM yyyy",
+    startView: 1,
+    minViewMode: 1,
+    language: "ru",
+    autoclose: true,
+    todayBtn: "linked",
+    orientation: "bottom auto",
+    forceParse: true
+}).on('changeDate', function (e) {
+}).on('show', function (e) {
+    // var datePicker = moment($(e.date)).format('YYYY.MM.01');
+});
+
 /*Modal*/
 //hide modal when show report
 $('#reportShow').on('click', function () {
@@ -143,7 +157,7 @@ $('#nds').on('propertychange', function () {
 
 function UpdateFailure(data) { }
 
-/*Update date in confirmed row(s)*/
+/**********************************************************Update date in confirmed row(s)**************************************************************************/
 function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
     var currentNkrt = $(dateRow).find('.numberScroll').text();
@@ -161,7 +175,7 @@ function UpdateDate(dateRow) {
     $('.modal').modal('hide');
 }
 
-/*Update data in confirmed row + spinner (wait ssrs)*/
+/**********************************Update data in confirmed row + spinner (wait ssrs)****************************************************************************/
 function UpdateData(dataRow) {
     var messageInfo = $('#loading').children('td');
     var currentNkrt = $(dataRow).find('.numberScroll').text();
@@ -225,7 +239,7 @@ function FixUpdate(dataRow) {
     $('#EditModal').modal('hide');
 }
 
-/*Event click on table row + mark as work row for ajax request (event delegation)*/
+/**************************************Event click on table row + mark as work row for ajax request (event delegation)*******************************************/
 $('body').on('click', '#scrollList tr', function (e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
@@ -291,7 +305,7 @@ $('body').on('click', '#scrollList tr', function (e) {
     }
 });
 
-/*change mode date update (multiDate in intext.csthml (scroll controller))*/
+/*****************************************change mode date update (multiDate in intext.csthml (scroll controller))************************************************/
 $('#multiDateRadio input').on('change', function () {
     $('#valMultiDate').attr('value', $(this).val());
 });

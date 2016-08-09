@@ -1,17 +1,16 @@
 ﻿
-/*AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',
+/***********************AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',***************
 function need working state datepicker
 url => Specifies the URL to send the request to. Default is the current page
 type => Specifies the type of request. (GET or POST)
 dataType => The data type expected of the server response.
-data => Specifies data to be sent to the server
-*/
+data => Specifies data to be sent to the server*/
 $(function () {
     $("#ShippingChoise").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
-                type: "Post",dataType: "json",
+                type: "Post", dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
                 success: function (data) {
                     response($.map(data, function (item) {
@@ -69,7 +68,7 @@ $('.datepicker').datepicker({
         var link = element.attr('href');
         element.attr('href', link.replace(link.match("[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}"), selDate));
     });
-    
+
     $.ajax({
         url: "/All/Page1/Period" + moment(e.date).format('MMYYYY'),
         type: "Get", contentType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
@@ -100,7 +99,7 @@ $("#updateBtn").on('click', function (e) {
     //jQuery.support.cors = true;
     $(this).css('cursor', 'progress');
     $.ajax({
-        url: "/UpdateExists", 
+        url: "/UpdateExists",
         //crossDomain: true,
         type: "Post",
         contenType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",

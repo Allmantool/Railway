@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using LinqKit;
+using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
@@ -468,13 +469,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="multiChange">Change single or multi date</param>
         public bool ChangeBuhDate(DateTime period, long key, bool multiChange = true) {
             using (Uow = new UnitOfWork()) {
-                var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key) : Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key);
-                try {
-                    foreach (krt_Naftan item in listRecords.OrderByDescending(x => x.KEYKRT).ToList()) {
-                        Uow.Repository<krt_Naftan>().Edit(item);
-                        item.DTBUHOTCHET = period;
-                    }
-                    Uow.Save();
+                var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key,false) : Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key, false);
+                try {listRecords.ForEach(x=>x.DTBUHOTCHET=period);
+                        Uow.Save();
                     return true;
                 } catch (Exception e) {
                     return false;
