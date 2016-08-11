@@ -304,6 +304,7 @@
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
+    <Content Include="Content\Images\loadingArrow.gif" />
     <Content Include="Content\_General.css" />
     <Content Include="Content\_Scrolls.css" />
     <Compile Include="Controllers\AccountController.cs" />

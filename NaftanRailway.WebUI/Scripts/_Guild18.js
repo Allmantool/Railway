@@ -97,7 +97,14 @@ function RenderSync() {
 //contentType: When sending data to the server, use this content-type.
 $("#updateBtn").on('click', function (e) {
     //jQuery.support.cors = true;
-    $(this).css('cursor', 'progress');
+    //$(this).css('cursor', 'progress');
+    var elem = $("#updateBtn");
+    var updIcon = $("#updRefresh");
+    var updLoadingPng = $("#updLoading");
+    //animation
+    elem.toggleClass(" btn-warning");
+    updIcon.toggleClass("glyphicon glyphicon-refresh");
+    updLoadingPng.css("display", "inline");
     $.ajax({
         url: "/UpdateExists",
         //crossDomain: true,
@@ -107,8 +114,11 @@ $("#updateBtn").on('click', function (e) {
         success: function (result) {
             //RenderSync();
             $("#infoArea").empty().append(result);
+            elem.toggleClass(" btn-warning");
+            updIcon.toggleClass("glyphicon glyphicon-refresh");
+            updLoadingPng.css("display", "none");
         },
         error: function (data) { console.log("datepicker ajax request error:" + data) }
     });
-    $(this).css('cursor', 'auto');
+    //$(this).css('cursor', 'auto');
 });
