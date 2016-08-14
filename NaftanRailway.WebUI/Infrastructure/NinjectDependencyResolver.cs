@@ -6,7 +6,6 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContext;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
@@ -22,7 +21,7 @@ namespace NaftanRailway.WebUI.Infrastructure {
         }
 
         /// <summary>
-        /// Put bindings here
+        /// Put bindings of dependecy injection here
         /// </summary>
         private void AddBindings() {
             _kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
@@ -30,7 +29,6 @@ namespace NaftanRailway.WebUI.Infrastructure {
             _kernel.Bind<IUnitOfWork>().To<UnitOfWork>()
                 .WithConstructorArgument("contexts", new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
 
-            _kernel.Bind<ISessionDbRepository>().To<EFSessioinDbRepository>();
             _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }
 

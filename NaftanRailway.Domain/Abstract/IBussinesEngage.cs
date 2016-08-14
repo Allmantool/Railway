@@ -40,6 +40,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
         IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount);
+
         /// <summary>
         /// Get rows from table (filter & order)
         /// </summary>
@@ -47,8 +48,9 @@ namespace NaftanRailway.Domain.Abstract {
         /// <typeparam name="TKey"></typeparam>
         /// <param name="predicate"></param>
         /// <param name="orderPredicate"></param>
+        /// <param name="caсhe"></param>
         /// <returns></returns>
-        IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class;
+        IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false, bool tracking = false) where T : class;
         /// <summary>
         /// Return rows count of current row
         /// </summary>

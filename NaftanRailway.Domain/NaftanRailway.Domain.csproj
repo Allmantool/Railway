@@ -82,9 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IBussinesEngage.cs" />
-    <Compile Include="Abstract\IDocumentsRepository.cs" />
     <Compile Include="Abstract\IGeneralRepository.cs" />
-    <Compile Include="Abstract\ISessionDbRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\AuthorizationEngage.cs" />
     <Compile Include="Abstract\IAuthorizationEngage.cs" />
@@ -229,14 +227,14 @@
       <DependentUpon>SessionDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\UnitOfWork.cs" />
-    <Compile Include="Concrete\EFSessioinDbRepository.cs" />
     <Compile Include="Concrete\DbContext\Security\SimpleMemberShipDb.Designer.cs">
       <DependentUpon>SimpleMemberShipDb.edmx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Concrete\EFDocumentsRepository.cs" />
     <Compile Include="Concrete\GeneralRepository.cs" />
+    <Compile Include="DbConfiguration\Configuration.cs" />
+    <Compile Include="DbConfiguration\EFInterceptor .cs" />
     <Compile Include="EntitiesMetaData\etsng.cs" />
     <Compile Include="EntitiesMetaData\krt_Naftan.cs" />
     <Compile Include="EntitiesMetaData\krt_Naftan_orc_sapod.cs" />
