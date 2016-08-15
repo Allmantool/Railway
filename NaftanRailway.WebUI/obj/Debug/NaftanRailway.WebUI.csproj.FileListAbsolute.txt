@@ -179,3 +179,8 @@ J:\GitHub\Railway\NaftanRailway.WebUI\bin\Glimpse.Core.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Glimpse.EF6.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Glimpse.AspNet.dll
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\Glimpse.Mvc4.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.Ado.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.AspNet.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.Core.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.EF6.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.Mvc4.dll
