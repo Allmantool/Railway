@@ -46,15 +46,15 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
                 .OrderBy(x => x.Key.idDeliviryNote).ToList();
-     
+
             /*linqkit*/
             //v_otpr
             var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => ((x.oper == (short)operationCategory) || operationCategory == EnumOperationType.All) && x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
-                votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value && ((e.oper == (short)operationCategory) || operationCategory == EnumOperationType.All))).Expand();
+            votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value && ((e.oper == (short)operationCategory) || operationCategory == EnumOperationType.All))).Expand();
             var voSrc = GetTable<v_otpr, int>(votprPredicate).ToList();
             recordCount = (short)voSrc.Count();
-           //v_o_v
-           var vovPredicate = PredicateBuilder.False<v_o_v>();
+            //v_o_v
+            var vovPredicate = PredicateBuilder.False<v_o_v>();
             vovPredicate = voSrc.Select(x => x.id).Aggregate(vovPredicate, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
             var vovSrc = GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
@@ -329,7 +329,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         var item = Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
                         entity.id = (item == null) ? 0 : item.id;
-                        Uow.Repository<krt_Guild18>().Merge(entity,false);
+                        Uow.Repository<krt_Guild18>().Merge(entity, false);
                     }
                     Uow.Save();
                 }
@@ -378,7 +378,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             } else {
                 //one trunsaction (one request per one dbcontext)
                 using (Uow = new UnitOfWork()) {
-                    result = (from sh in delivery join e in Uow.Repository<etsng>().Get_all(enablecaching: false) on sh.cod_tvk_etsng equals e.etsng1
+                    result = (from sh in delivery join e in Uow.Repository<etsng>().Get_all(enableAutoDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
                               select new ShippingInfoLine() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
@@ -394,12 +394,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// </summary>
         public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate, caсhe).ToList() : Uow.Repository<T>().Get_all(predicate, caсhe).OrderByDescending(orderPredicate).ToList();
+                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate,enableAutoDetectChanges: caсhe).ToList() : 
+                    Uow.Repository<T>().Get_all(predicate, enableAutoDetectChanges: caсhe).OrderByDescending(orderPredicate).ToList();
             }
         }
-        public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
+        public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, caсhe).Count();
+                return Uow.Repository<T>().Get_all(predicate,false,false).Count();
             }
         }
         /// <summary>
@@ -411,15 +412,16 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="size">Count row per one page</param>
         /// <param name="orderPredicate">Condition for ordering</param>
         /// <param name="filterPredicate">Condition for filtering</param>
+        /// <param name="caсhe"></param>
         /// <returns>Return definition count rows of specific entity</returns>
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
+                return Uow.Repository<T>().Get_all(filterPredicate, enableAutoDetectChanges: caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
         public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate,enableAutoDetectChanges: caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
             }
         }
         /// <summary>
@@ -469,9 +471,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="multiChange">Change single or multi date</param>
         public bool ChangeBuhDate(DateTime period, long key, bool multiChange = true) {
             using (Uow = new UnitOfWork()) {
-                var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key,false) : Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key, false);
-                try {listRecords.ForEach(x=>x.DTBUHOTCHET=period);
-                        Uow.Save();
+                var listRecords = multiChange ? Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT >= key, enableAutoDetectChanges: false) : 
+                        Uow.Repository<krt_Naftan>().Get_all(x => x.KEYKRT == key, enableAutoDetectChanges: false);
+                try {
+                    listRecords.ForEach(x => x.DTBUHOTCHET = period);
+                    Uow.Save();
                     return true;
                 } catch (Exception e) {
                     return false;

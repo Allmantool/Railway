@@ -15,8 +15,8 @@
             </div>
             <div class="col-md-5">
                 @using (@Ajax.BeginRouteForm("Path_Full", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "Index" } },
-                        new AjaxOptions() { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "previewDeliveryModal", OnSuccess = "findResult" },
-                        new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
+                    new AjaxOptions() { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "previewDeliveryModal", OnSuccess = "findResult"},
+                    new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
                     <div class="form-group col-md-5">
                         <div class="input-group date datepicker">
                             @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
@@ -28,13 +28,17 @@
                         <div class="input-group col-md-9">
                             @Html.TextBoxFor(m => m.ShippingChoise, new { @class = "form-control ui-autocomplete-input", placeholder = "Поиск" })
                             <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default" id="searchBtn">
+                                <button type="submit" class="btn btn-default" title="Поиск накладной" id="searchBtn">
                                     <!--data-toggle="modal" data-target="#previewDeliveryModal"-->
                                     <span class="glyphicon glyphicon-search"></span>
                                 </button>
                             </span>
                         </div>
-                        <button class="btn btn-success" type="button" id="updateBtn"><span class="glyphicon glyphicon-refresh"></span></button>
+                        <button class="btn btn-success"  title="Обновить данные" type="button" id="updateBtn">
+                            <span id="updRefresh" class="glyphicon glyphicon-refresh">
+                                <img id="updLoading" alt="Loading..." src="~/Content/Images/loadingArrow.gif" style="width: 1em; height: 1.3em; display: none;" />
+                            </span>
+                        </button>
                     </div>
                 }
             </div>
@@ -51,12 +55,12 @@
                         </ul>
                     </li>
                     @*<li>
-                        <a href="@Url.Action("Index", "Storage")">
-                            Итог:<span style="margin-left: 0.1em;">@storage.Lines.Count()</span>
-                            <span class="glyphicon glyphicon-floppy-open"></span>
-                        </a>
-                       </li>
-                    <li><a href="@Url.Action("Logout", "Account")">Выйти<span class="glyphicon glyphicon-log-out" style="margin-left: 0.3em;"></span></a></li>*@
+                            <a href="@Url.Action("Index", "Storage")">
+                                Итог:<span style="margin-left: 0.1em;">@storage.Lines.Count()</span>
+                                <span class="glyphicon glyphicon-floppy-open"></span>
+                            </a>
+                           </li>
+                        <li><a href="@Url.Action("Logout", "Account")">Выйти<span class="glyphicon glyphicon-log-out" style="margin-left: 0.3em;"></span></a></li>*@
                 </ul>
             </div>
         </div>

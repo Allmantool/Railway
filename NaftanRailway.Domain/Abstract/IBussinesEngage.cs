@@ -32,6 +32,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <param name="reportPeriod"></param>
         /// <param name="preview"></param>
+        /// <param name="shiftPage"></param>
         /// <returns></returns>
         bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 5);
 
@@ -40,6 +41,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
         IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount);
+
         /// <summary>
         /// Get rows from table (filter & order)
         /// </summary>
@@ -47,6 +49,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <typeparam name="TKey"></typeparam>
         /// <param name="predicate"></param>
         /// <param name="orderPredicate"></param>
+        /// <param name="caсhe"></param>
         /// <returns></returns>
         IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class;
         /// <summary>
@@ -55,7 +58,8 @@ namespace NaftanRailway.Domain.Abstract {
         /// <typeparam name="T"></typeparam>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        long GetCountRows<T>(Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
+        long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class;
+
         /// <summary>
         /// I dont find method work with Expression three and func (TDelegate). 
         /// I want pass diffrent intergated function (OrderBy,Skip,Take etc ...) in body Expression three
@@ -68,8 +72,10 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="filterPredicate">predicate for filter result</param>
         /// <param name="page">current page</param>
         /// <param name="size">page Model[indx] size</param>
+        /// <param name="caсhe"></param>
         /// <returns></returns>
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
+
         /// <summary>
         /// Get group result (Group by + order by)
         /// </summary>
@@ -77,6 +83,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <typeparam name="TKey"></typeparam>
         /// <param name="groupPredicate"></param>
         /// <param name="predicate"></param>
+        /// <param name="caсhe"></param>
         /// <returns></returns>
         IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
         bool AddKrtNaftan(long key, out string msgError);

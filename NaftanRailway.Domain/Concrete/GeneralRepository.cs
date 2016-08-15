@@ -17,50 +17,55 @@ namespace NaftanRailway.Domain.Concrete {
             Context = context;
             _dbSet = context.Set<T>();
         }
+
         /// <summary>
         /// Get lazy data set (with cashing or not (attr MergeOption )
         /// </summary>
         /// <param name="predicate"></param>
+        /// <param name="enableTracking"></param>
         /// <param name="enablecaching"></param>
         /// <returns></returns>
-        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enablecaching = true) {
+        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableTracking = true, bool enablecaching = true) {
             if (predicate != null) {
                 /*//sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
                 _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
                 _context.SaveChanges();*/
+                Context.Configuration.AutoDetectChangesEnabled = enablecaching;
+                var result = (enableTracking) ? _dbSet.Where(predicate) : _dbSet.AsNoTracking().Where(predicate);
+                Context.Configuration.AutoDetectChangesEnabled = true;
 
-                return (enablecaching) ? _dbSet.Where(predicate) : _dbSet.AsNoTracking().Where(predicate);
+                return result;
             }
 
             //sync data in Db & EF (if change not tracking for EF)
             //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet);
             // _context.Entry(_dbSet.GetType()).Reload();
-            return (enablecaching) ? _dbSet.AsNoTracking() : _dbSet;
+            return (enableTracking) ? _dbSet.AsNoTracking() : _dbSet;
         }
 
-        public T Get(Expression<Func<T, bool>> predicate = null, bool enablecaching = true) {
+        public T Get(Expression<Func<T, bool>> predicate = null, bool enableAutoDetectChanges = true) {
             //sync data in Db & EF (if change not tracking for EF)
             //var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             //ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
             //((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
             //_context.Entry(_dbSet.Where(predicate)).Reload();
             //_context.SaveChanges();
-            Context.Configuration.AutoDetectChangesEnabled = enablecaching;
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             var result = predicate == null ? _dbSet.FirstOrDefault() : _dbSet.FirstOrDefault(predicate);
             Context.Configuration.AutoDetectChangesEnabled = true;
 
             return result;
         }
 
-        public void Add(T entity, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        public void Add(T entity, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             _dbSet.Add(entity);
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
         //http://entityframework-extensions.net/
-        public void AddRange(IEnumerable<T> entityColl, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        public void AddRange(IEnumerable<T> entityColl, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             _dbSet.AddRange(entityColl);
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
@@ -69,9 +74,9 @@ namespace NaftanRailway.Domain.Concrete {
         /// Work in disconnect scenario
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="detectChanges"></param>
-        public void Update(T entity, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        /// <param name="enableAutoDetectChanges"></param>
+        public void Update(T entity, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             //if context don't keep tracked entity
             //_dbSet.Attach(entity);
             Context.Entry(entity).State = EntityState.Modified;
@@ -85,29 +90,29 @@ namespace NaftanRailway.Domain.Concrete {
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="predicate"></param>
-        /// <param name="detectChanges"></param>
-        public void Update(T entity, Expression<Func<T, bool>> predicate, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        /// <param name="enableAutoDetectChanges"></param>
+        public void Update(T entity, Expression<Func<T, bool>> predicate, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             Context.Entry(Get(predicate)).State = EntityState.Modified;
 
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
-        public void Delete(Expression<Func<T, bool>> predicate, bool detectChanges = true) {
+        public void Delete(Expression<Func<T, bool>> predicate, bool enableAutoDetectChanges = true) {
             var entitysRange = _dbSet.Where(predicate);
 
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             foreach (var entity in entitysRange) {
                 Context.Entry(entity).State = EntityState.Deleted;
             }
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
-        public void Merge(T entity, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        public void Merge(T entity, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             _dbSet.AddOrUpdate(entity);
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
-        public void Merge(IEnumerable<T> entityColl, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        public void Merge(IEnumerable<T> entityColl, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             foreach (var item in entityColl) {
                 var entity = item;
                 _dbSet.AddOrUpdate(entity);
@@ -121,20 +126,19 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="entity"></param>
         /// <param name="predicate"></param>
         /// <param name="excludeFieds"></param>
-        /// <param name="enablecaching"></param>
-        public void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enablecaching = true) {
-            Context.Configuration.AutoDetectChangesEnabled = enablecaching;
+        /// <param name="enableAutoDetectChanges"></param>
+        public void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
 
             if (_dbSet.Any(predicate.Compile())) {
                 //connection scenario http://www.entityframeworktutorial.net/update-entity-in-entity-framework.aspx
                 T item = _dbSet.Where(predicate).First();
                 DbEntityEntry entry = Context.Entry(item);
-                foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds))
-                {
-                   //entry.CurrentValues.;
+                foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
+                    //entry.CurrentValues.;
                 }
 
-               
+
                 foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
                     // Get the old field value from the database.
                     var original = entry.GetDatabaseValues().GetValue<object>(propertyName);
@@ -160,14 +164,13 @@ namespace NaftanRailway.Domain.Concrete {
         /// Work in disconnect scenario
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="detectChanges"></param>
-        public void Edit(T entity, bool detectChanges = true) {
-            Context.Configuration.AutoDetectChangesEnabled = detectChanges;
+        /// <param name="enableAutoDetectChanges"></param>
+        public void Edit(T entity, bool enableAutoDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableAutoDetectChanges;
             //_dbSet.Attach(entity);
             Context.Entry(entity).State = EntityState.Unchanged;
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
-
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing)
