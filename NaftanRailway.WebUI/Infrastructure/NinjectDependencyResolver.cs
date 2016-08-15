@@ -25,6 +25,8 @@ namespace NaftanRailway.WebUI.Infrastructure {
         /// </summary>
         private void AddBindings() {
             _kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
+            _kernel.Bind<IRailwayModule>().To<RailwayModule>();
+            _kernel.Bind<INomenclatureModule>().To<NomenclatureModule>();
 
             _kernel.Bind<IUnitOfWork>().To<UnitOfWork>()
                 .WithConstructorArgument("contexts", new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });

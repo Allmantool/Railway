@@ -5,9 +5,9 @@ using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
     public class NavigationController : Controller {
-        private readonly IBussinesEngage _bussinesEngage;
+        private readonly IRailwayModule _bussinesEngage;
 
-        public NavigationController(IBussinesEngage bussinesEngage) {
+        public NavigationController(IRailwayModule bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -18,10 +18,10 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <param name="operationCategory"></param>
         /// <returns></returns>
-        public PartialViewResult MenuTypeOperations(SessionStorage storage,InputMenuViewModel menuView, string operationCategory = null) {
+        public PartialViewResult MenuTypeOperations(SessionStorage storage, InputMenuViewModel menuView, string operationCategory = null) {
             //reload page (save select report date)
             menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
-            
+
             //Передаем динамически типы операций
             menuView.SelectedOperCategory = operationCategory;
             menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);

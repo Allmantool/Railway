@@ -26,19 +26,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpPost]
         //[ChildActionOnly]
-        public ActionResult Menu(int numberScroll, int reportYear,IList<CheckListFilterModel> filters) {
+        public ActionResult Menu(int numberScroll, int reportYear, IList<CheckListFilterModel> filters) {
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
 
             //build lambda expression basic on active filter(linqKit)
             var finalPredicate = PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == findKrt.KEYKRT);
-            finalPredicate = filters.Where(x=>x.ActiveFilter)
+            finalPredicate = filters.Where(x => x.ActiveFilter)
                 .Aggregate(finalPredicate, (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
-            
+
             //update filters
             if (Request.IsAjaxRequest() && findKrt != null) {
-                foreach (var item in filters){
+                foreach (var item in filters) {
                     item.CheckedValues = _bussinesEngage.GetGroup(
-                        PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(), 
+                        PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(),
                         finalPredicate.Expand()
                     );
                 }

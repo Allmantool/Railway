@@ -16,7 +16,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {
         /// </summary>
         [Required]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:MMMM yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? ReportPeriod { get; set; }
+        public DateTime ReportPeriod { get; set; }
         public int Nkrt { get; set; }
         /// <summary>
         /// Info about pagination (count page, current page, line on the page and etc)

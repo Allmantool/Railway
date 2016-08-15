@@ -10,9 +10,9 @@ using NaftanRailway.WebUI.ViewModels;
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class Ceh18Controller : Controller {
-        private readonly IBussinesEngage _bussinesEngage;
+        private readonly IRailwayModule _bussinesEngage;
 
-        public Ceh18Controller(IBussinesEngage bussinesEngage) {
+        public Ceh18Controller(IRailwayModule bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -95,7 +95,7 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
-                _bussinesEngage.PackDocSQL(reportPeriod, docInfo);
+                _bussinesEngage.PackDocSql(reportPeriod, docInfo);
 
                 return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
             }
