@@ -14,73 +14,130 @@ namespace NaftanRailway.Domain.Abstract {
         /// Get all or filter result
         /// </summary>
         /// <param name="predicate">Func = IEnumarable, Expression = IQueryable</param>
+<<<<<<< HEAD
         /// <param name="enableTracking">Tracking or not change of entity</param>
         /// <param name="enableAutoDetectChanges">Enable caching on side EF</param>
         /// <returns></returns>
         IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableTracking = true, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        /// <param name="enableTracking"></param>
+        /// <returns></returns>
+        IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Get single entity 
         /// </summary>
         /// <param name="predicate"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        /// <param name="enableTracking"></param>
+        /// <returns></returns>
+        T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Add general entity
         /// </summary>
         /// <param name="entity"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the enableAutoDetectChanges method. Whats important to know about enableAutoDetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
         void Add(T entity,bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Add(T entity, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Add Range of entity
         /// </summary>
         /// <param name="entityColl"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         void AddRange(IEnumerable<T> entityColl , bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        void Add(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
         /// </summary>
         /// <param name="entity"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the enableAutoDetectChanges method. Whats important to know about enableAutoDetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
         void Edit(T entity, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="detectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Edit(T entity, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Update concrete entity  (Update all property, mark entity as modified)
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="predicate"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the enableAutoDetectChanges method. Whats important to know about enableAutoDetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
         void Update(T entity, Expression<Func<T, bool>> predicate, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        void Update(T entity, Expression<Func<T, bool>> predicate, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Update on predicate
         /// </summary>
         /// <param name="entity"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         void Update(T entity, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        void Update(T entity, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Delete concrete entity
         /// </summary>
         /// <param name="entity"></param>
-        void Delete(T entity);
+        /// <param name="enableDetectChanges"></param>
+        void Delete(T entity, bool enableDetectChanges = true);
         /// <summary>
         /// Delete method with predicate condition
         /// </summary>
         /// <param name="predicate"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         void Delete(Expression<Func<T, bool>> predicate, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        void Delete(Expression<Func<T, bool>> predicate, bool enableDetectChanges = true);
+        void Delete(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Update if exist or add
         /// </summary>
         /// <param name="entity"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         void Merge(T entity, bool enableAutoDetectChanges = true);
         void Merge(IEnumerable<T> entityColl, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        void Merge(T entity, bool enableDetectChanges = true);
+        void Merge(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
         /// <summary>
         /// Merge on predicate
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="predicate"></param>
         /// <param name="excludeFieds"></param>
+<<<<<<< HEAD
         /// <param name="enableAutoDetectChanges"></param>
         void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableAutoDetectChanges = true);
+=======
+        /// <param name="enableDetectChanges"></param>
+        void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true);
+>>>>>>> cdc9ebe0e345bb68fee0e692453b89cab37cbf71
     }
 }

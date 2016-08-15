@@ -9,18 +9,22 @@ using NaftanRailway.Domain.Concrete.DbContext.OBD;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 
 namespace NaftanRailway.Domain.Concrete {
-    /*best approach that short live context (using) */
+    /*best approach that short live context (using)*/
     public sealed class UnitOfWork : IUnitOfWork {
         private bool _disposed;
         public System.Data.Entity.DbContext ActiveContext { get; set; }
         private System.Data.Entity.DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         /// <summary>
-        /// Create UOW per request with requer dbContexts
+        /// Create UOW per request with requer dbContexts by default
         /// </summary>
         public UnitOfWork() {
             Contexts = new System.Data.Entity.DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
         }
+        /// <summary>
+        /// Constructor with specific dbContext
+        /// </summary>
+        /// <param name="context"></param>
         public UnitOfWork(System.Data.Entity.DbContext context) {
             ActiveContext = context;
             /*Отключает Lazy loading необходим для Json
@@ -28,13 +32,16 @@ namespace NaftanRailway.Domain.Concrete {
                 ActiveContext.Configuration.ProxyCreationEnabled = false;
              */
         }
-        /*Ninject (Dependency Injection)*/
+        /// <summary>
+        /// Ninject (Dependency Injection). Pass a custom set of dbContext
+        /// </summary>
+        /// <param name="contexts"></param>
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;
         }
         /// <summary>
         /// Collection repositories
-        /// Return repositories if it's in collection repositories, if not add in collection with specific db context
+        /// Return repositories if it's in collection repositories, if not add in collection with specific dbcontext
         /// Definition active dbcontext (depend on type of entity)
         /// </summary>
         public IGeneralRepository<T> Repository<T>() where T : class {
@@ -48,6 +55,10 @@ namespace NaftanRailway.Domain.Concrete {
                     //reflection (search by name in object metadata)
                     if (metaWorkspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
                         ActiveContext = contextItem;
+                        /*log for EF6 dbcontext in output window (debug mode)*/
+                        //ActiveContext.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
+                        //ActiveContext.Database.Log = message => Trace.Write(message);
+                        //ActiveContext.Database.Log = (Console.WriteLine);
                         break;
                     }
                 }
@@ -62,13 +73,13 @@ namespace NaftanRailway.Domain.Concrete {
             try {
                 ActiveContext.SaveChanges();
             } catch (DbUpdateConcurrencyException ex) {
-                Console.WriteLine("Optimistic Concurrency exception occured");
+                Console.WriteLine("Optimistic Concurrency exception occured" + ex.Message);
             }
         }
         private void Dispose(bool disposing) {
             if (!_disposed) {
-                if (disposing && (ActiveContext != null)) { 
-                   ActiveContext.Dispose();
+                if (disposing && (ActiveContext != null)) {
+                    ActiveContext.Dispose();
                 }
             }
             _disposed = true;

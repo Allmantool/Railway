@@ -51,7 +51,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="orderPredicate"></param>
         /// <param name="caсhe"></param>
         /// <returns></returns>
-        IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class;
+        IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false, bool tracking = false) where T : class;
         /// <summary>
         /// Return rows count of current row
         /// </summary>
