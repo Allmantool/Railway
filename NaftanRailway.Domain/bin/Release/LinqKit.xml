@@ -4,6 +4,50 @@
         <name>LinqKit</name>
     </assembly>
     <members>
+        <member name="T:System.Linq.AggregateExtensions">
+            <summary> Extension methods for expression tree balancing. </summary>
+        </member>
+        <member name="M:System.Linq.AggregateExtensions.AggregateBalanced``1(``0[],System.Func{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,``0})">
+            <summary>
+            Generates balanced binary trees for list of conditions.
+            E.g.: AndAlso or OrElse
+            The reason is avoid StackOverFlowExceptions:
+            var result = lambdas.Aggregate(AndAlso); // StackOverflow when lambdas.Length is 20 000
+            var result = lambdas.AggregateBalanced(AndAlso); // Ok still when lambdas.Length is 1 000 000
+            </summary>
+        </member>
+        <member name="M:System.Linq.AggregateExtensions.AggregateBalanced``1(System.Linq.Expressions.Expression{``0}[],System.Func{System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0}})">
+            <summary>
+            Generates balanced binary trees for list of conditions. Generic version.
+            E.g.: AndAlso or OrElse
+            The reason is avoid StackOverFlowExceptions:
+            var result = lambdas.Aggregate(AndAlso); // StackOverflow when lambdas.Length is 20 000
+            var result = lambdas.AggregateBalanced(AndAlso); // Ok still when lambdas.Length is 1 000 000
+            </summary>
+        </member>
+        <member name="M:System.Linq.AggregateExtensions.AggregateBalancedAsync``1(``0[],System.Func{System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,``0})">
+            <summary>
+            Generates balanced binary trees for list of conditions.
+            E.g.: AndAlso or OrElse
+            The reason is avoid StackOverFlowExceptions:
+            var result = lambdas.Aggregate(AndAlso); // StackOverflow when lambdas.Length is 20 000
+            var result = lambdas.AggregateBalanced(AndAlso); // Ok still when lambdas.Length is 1 000 000
+            </summary>
+        </member>
+        <member name="M:System.Linq.AggregateExtensions.AggregateBalancedAsync``1(System.Linq.Expressions.Expression{``0}[],System.Func{System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0},System.Linq.Expressions.Expression{``0}})">
+            <summary>
+            Generates balanced binary trees for list of conditions. Generic version.
+            E.g.: AndAlso or OrElse
+            The reason is avoid StackOverFlowExceptions:
+            var result = lambdas.Aggregate(AndAlso); // StackOverflow when lambdas.Length is 20 000
+            var result = lambdas.AggregateBalanced(AndAlso); // Ok still when lambdas.Length is 1 000 000
+            </summary>
+        </member>
+        <member name="T:System.Reflection.IntrospectionExtensions">
+            <summary>
+            https://github.com/castleproject/Core/blob/netcore/src/Castle.Core/Compatibility/IntrospectionExtensions.cs
+            </summary>
+        </member>
         <member name="T:LinqKit.ExpandableQuery`1">
             <summary>
             An IQueryable wrapper that allows us to visit the query's expression tree just before LINQ to SQL gets to it.
@@ -27,6 +71,94 @@
             Flatten calls to Invoke so that Entity Framework can understand it. Calls to Invoke are generated
             by PredicateBuilder.
             </summary>
+        </member>
+        <member name="T:LinqKit.ExpressionStarter`1">
+            <summary>
+            ExpressionStarter{T} which eliminates the default 1=0 or 1=1 stub expressions
+            </summary>
+            <typeparam name="T">The type</typeparam>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.Predicate">
+            <summary>The actual Predicate. It can only be set by calling Start.</summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.IsStarted">
+            <summary>Determines if the predicate is started.</summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.UseDefaultExpression">
+            <summary> A default expression to use only when the expression is null </summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.DefaultExpression">
+            <summary>The default expression</summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.Start(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>Set the Expression predicate</summary>
+            <param name="exp">The first expression</param>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.Or(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>Or</summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.And(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>And</summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.ToString">
+            <summary> Show predicate string </summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.op_Implicit(LinqKit.ExpressionStarter{`0})~System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}}">
+            <summary>
+            Allows this object to be implicitely converted to an Expression{Func{T, bool}}.
+            </summary>
+            <param name="right"></param>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.op_Implicit(LinqKit.ExpressionStarter{`0})~System.Func{`0,System.Boolean}">
+            <summary>
+            Allows this object to be implicitely converted to an Expression{Func{T, bool}}.
+            </summary>
+            <param name="right"></param>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.op_Implicit(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})~LinqKit.ExpressionStarter{`0}">
+            <summary>
+            Allows this object to be implicitely converted to an Expression{Func{T, bool}}.
+            </summary>
+            <param name="right"></param>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.Compile">
+            <summary></summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.Compile(System.Runtime.CompilerServices.DebugInfoGenerator)">
+            <summary></summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.Update(System.Linq.Expressions.Expression,System.Collections.Generic.IEnumerable{System.Linq.Expressions.ParameterExpression})">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.Body">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.NodeType">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.Parameters">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.Type">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.Name">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.ReturnType">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.TailCall">
+            <summary></summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.CompileToMethod(System.Reflection.Emit.MethodBuilder)">
+            <summary></summary>
+        </member>
+        <member name="M:LinqKit.ExpressionStarter`1.CompileToMethod(System.Reflection.Emit.MethodBuilder,System.Runtime.CompilerServices.DebugInfoGenerator)">
+            <summary></summary>
+        </member>
+        <member name="P:LinqKit.ExpressionStarter`1.CanReduce">
+            <summary></summary>
         </member>
         <member name="T:LinqKit.ExpressionVisitor">
             <summary>
@@ -113,6 +245,9 @@
         <member name="M:LinqKit.Extensions.Expand``1(System.Linq.Expressions.Expression{``0})">
             <summary> LinqKit: Expands expression </summary>
         </member>
+        <member name="M:LinqKit.Extensions.Expand``1(LinqKit.ExpressionStarter{``0})">
+            <summary> LinqKit: Expands expression </summary>
+        </member>
         <member name="M:LinqKit.Extensions.Expand(System.Linq.Expressions.Expression)">
             <summary> LinqKit: Expands expression </summary>
         </member>
@@ -167,10 +302,25 @@
             Returns the given anonymous function as a Func delegate
             </summary>
         </member>
+        <member name="T:LinqKit.PredicateOperator">
+            <summary> The Predicate Operator </summary>
+        </member>
+        <member name="F:LinqKit.PredicateOperator.Or">
+            <summary> The "Or" </summary>
+        </member>
+        <member name="F:LinqKit.PredicateOperator.And">
+            <summary> The "And" </summary>
+        </member>
         <member name="T:LinqKit.PredicateBuilder">
             <summary>
             See http://www.albahari.com/expressions for information and examples.
             </summary>
+        </member>
+        <member name="M:LinqKit.PredicateBuilder.New``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary> Start an expression </summary>
+        </member>
+        <member name="M:LinqKit.PredicateBuilder.New``1(System.Boolean)">
+            <summary> Create an expression with a stub expression true or false to use when the expression is not yet started. </summary>
         </member>
         <member name="M:LinqKit.PredicateBuilder.True``1">
             <summary> Always true </summary>
@@ -183,6 +333,26 @@
         </member>
         <member name="M:LinqKit.PredicateBuilder.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
             <summary> AND </summary>
+        </member>
+        <member name="M:LinqKit.PredicateBuilder.Extend``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},LinqKit.PredicateOperator)">
+            <summary>
+            Extends the specified source Predicate with another Predicate and the specified PredicateOperator.
+            </summary>
+            <typeparam name="T">The type</typeparam>
+            <param name="first">The source Predicate.</param>
+            <param name="second">The second Predicate.</param>
+            <param name="operator">The Operator (can be "And" or "Or").</param>
+            <returns>Expression{Func{T, bool}}</returns>
+        </member>
+        <member name="M:LinqKit.PredicateBuilder.Extend``1(LinqKit.ExpressionStarter{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},LinqKit.PredicateOperator)">
+            <summary>
+            Extends the specified source Predicate with another Predicate and the specified PredicateOperator.
+            </summary>
+            <typeparam name="T">The type</typeparam>
+            <param name="first">The source Predicate.</param>
+            <param name="second">The second Predicate.</param>
+            <param name="operator">The Operator (can be "And" or "Or").</param>
+            <returns>Expression{Func{T, bool}}</returns>
         </member>
     </members>
 </doc>

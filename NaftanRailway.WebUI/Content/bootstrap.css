@@ -5996,6 +5996,7 @@ button.close {
   font-weight: normal;
   line-height: 1.42857143;
   text-align: left;
+    /* ReSharper disable once InvalidValue */
   text-align: start;
   text-decoration: none;
   text-shadow: none;
@@ -6115,6 +6116,7 @@ button.close {
   font-weight: normal;
   line-height: 1.42857143;
   text-align: left;
+    /* ReSharper disable once InvalidValue */
   text-align: start;
   text-decoration: none;
   text-shadow: none;
@@ -6253,6 +6255,7 @@ button.close {
 .carousel-inner > .item > a > img {
   line-height: 1;
 }
+/* ReSharper disable once CssNotResolved */
 @media all and (transform-3d), (-webkit-transform-3d) {
   .carousel-inner > .item {
     -webkit-transition: -webkit-transform .6s ease-in-out;

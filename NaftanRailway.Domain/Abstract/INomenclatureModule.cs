@@ -6,7 +6,8 @@ namespace NaftanRailway.Domain.Abstract {
     public interface INomenclatureModule : IDisposable {
         IBussinesEngage _engage { get; set; }
         IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out int recordCount);
-        bool AddKrtNaftan(int numberScroll, int reportYear, out string msgError);
+        krt_Naftan AddKrtNaftan(int numberScroll, int reportYear, out string msgError);
+        void SyncWithORC();
         /// <summary>
         /// Change Reporting date
         /// </summary>

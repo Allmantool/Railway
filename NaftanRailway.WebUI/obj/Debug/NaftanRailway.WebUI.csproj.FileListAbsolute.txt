@@ -130,7 +130,6 @@ C:\Git\Railway\NaftanRailway.WebUI\bin\Antlr3.Runtime.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\EntityFramework.xml
 C:\Git\Railway\NaftanRailway.WebUI\bin\EntityFramework.SqlServer.xml
 C:\Git\Railway\NaftanRailway.WebUI\bin\EntityFramework.SqlServerCompact.xml
-C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.WebUI\bin\LinqKit.xml
 C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.ReportViewer.WebForms.xml
 C:\Git\Railway\NaftanRailway.WebUI\bin\Moq.xml
@@ -184,3 +183,16 @@ C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.AspNet.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.Core.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.EF6.dll
 C:\Git\Railway\NaftanRailway.WebUI\bin\Glimpse.Mvc4.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.IO.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.Runtime.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.Threading.Tasks.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.xml
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Git\Railway\NaftanRailway.WebUI\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.IO.xml
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.Runtime.xml
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.Threading.Tasks.xml
+C:\Git\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.csproj.App.config

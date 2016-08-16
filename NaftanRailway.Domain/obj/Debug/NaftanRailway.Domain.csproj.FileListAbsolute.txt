@@ -6,7 +6,6 @@ C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\MoreLinq.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.xml
-C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.pdb
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\LinqKit.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\MoreLinq.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\WebMatrix.Data.xml
@@ -65,3 +64,16 @@ C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Helpers.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\System.Web.Mvc.resources.dll
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.Extensions.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.IO.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Runtime.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Threading.Tasks.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.Extensions.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.IO.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Runtime.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Threading.Tasks.xml
+C:\Git\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csproj.App.config

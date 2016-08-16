@@ -68,6 +68,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
         /// <summary>
+        /// Get nomenclature from ORC
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AdmitScroll() {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+                _bussinesEngage.SyncWithORC();
+                return Index();
+            }
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
+        }
+        /// <summary>
         /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
         /// </summary>
         /// <param name="numberScroll"></param>
@@ -77,9 +89,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Confirmed(int numberScroll, int reportYear) {
             string msgError = "";
 
-            if (Request.IsAjaxRequest() && ModelState.IsValid && _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError)) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
-                return Index();
+                return PartialView("_KrtNaftanRows", new List<krt_Naftan>() { _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError) });
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
@@ -190,7 +202,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
         }
-
         /// <summary>
         /// Fix scroll row on side of Sapod
         /// </summary>
@@ -230,7 +241,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
-
         /// <summary>
         /// Edit (nds and summa)
         /// If count fix rows better then 0 then display partial view with them, anothor hand redirect to main page (index)
@@ -271,7 +281,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
-
         /// <summary>
         /// General method for donwload files or display report throught SSRS
         /// </summary>
