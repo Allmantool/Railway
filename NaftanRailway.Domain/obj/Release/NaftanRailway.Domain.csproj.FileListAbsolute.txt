@@ -51,7 +51,6 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Web.Infrastructure.
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.Helpers.dll
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.WebPages.Deployment.dll
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\EntityFramework.xml
-J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\LinqKit.pdb
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\LinqKit.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\MoreLinq.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Web.Mvc.xml
@@ -95,3 +94,16 @@ C:\Git\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Web.Infrastructure.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.Helpers.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Release\System.Web.WebPages.Deployment.xml
 C:\Git\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csproj.App.config
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.Extensions.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.IO.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Runtime.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Threading.Tasks.dll
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.Extensions.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.IO.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Runtime.xml
+J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Threading.Tasks.xml
+J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csproj.App.config
