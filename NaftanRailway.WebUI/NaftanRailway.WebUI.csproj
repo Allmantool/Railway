@@ -346,6 +346,7 @@
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\CheckCharges.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\CheckListFilterModel.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Models\DetailModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
