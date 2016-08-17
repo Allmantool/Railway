@@ -16,9 +16,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             _engage = engage;
         }
 
-        public IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out int recordCount) {
-            recordCount = (int)_engage.GetCountRows<krt_Naftan>();
-            return _engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, x => x.KEYKRT);
+        //public T DetailsData<T>(int numberScroll, int reportYear, int page) where T :class, new()
+        //{
+
+        //}
+        public IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out long recordCount) {
+            return _engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT);
         }
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan

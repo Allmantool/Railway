@@ -5,7 +5,7 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 namespace NaftanRailway.Domain.Abstract {
     public interface INomenclatureModule : IDisposable {
         IBussinesEngage _engage { get; set; }
-        IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out int recordCount);
+        IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out long recordCount);
         krt_Naftan AddKrtNaftan(int numberScroll, int reportYear, out string msgError);
         void SyncWithORC();
         /// <summary>

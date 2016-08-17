@@ -13,81 +13,82 @@
 <div id="loadingInfiniteScroll" class="text-center" style="display: none">
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
-<!--Date Modal-->
-<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="dateModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="gridSystemModalLabel">Изменение отчётной даты</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    @using (Ajax.BeginForm("ChangeDate", "Scroll",new { },
-                    new AjaxOptions() {
-                        OnFailure = "UpdateFailure",
-                        OnSuccess = "UpdateDate",
-                        HttpMethod = "Post",
-                        Url = @Url.Action("ChangeDate", "Scroll")
-                    }, new { @class = "form-inline navbar-form", role = "form", id = "ChangeDateForm" })) {
-                        <div class="form-group col-lg-6">
-                            @Html.HiddenFor(m => m.Nkrt)
-                            @Html.HiddenFor(m => m.MultiDate, new { id = "valMultiDate", Value = true })
-                            <div class="input-group date datepicker">
-                                @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", @readonly = "readonly", type = "text" })
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+<div id ="">
+    <!--Date Modal-->
+    <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="dateModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="gridSystemModalLabel">Изменение отчётной даты</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @using (Ajax.BeginForm("ChangeDate", "Scroll", new { },
+                            new AjaxOptions() {
+                                OnFailure = "UpdateFailure",
+                                OnSuccess = "UpdateDate",
+                                HttpMethod = "Post",
+                                Url = @Url.Action("ChangeDate", "Scroll")
+                            }, new { @class = "form-inline navbar-form", role = "form", id = "ChangeDateForm" })) {
+                            <div class="form-group col-lg-6">
+                                @Html.HiddenFor(m => m.Nkrt)
+                                @Html.HiddenFor(m => m.MultiDate, new { id = "valMultiDate", Value = true })
+                                <div class="input-group date datepicker">
+                                    @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", @readonly = "readonly", type = "text" })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="pull-right">
-                            @Html.ActionLink("Отчёт", "Reports", new { numberScroll = "", reportYear = "" }, new { @class = "btn btn-default", id = "reportShow" })
-                            <button id="" type="submit" class="btn btn-primary">Изменить</button>
-                        </div>
-                    }
+                            <div class="pull-right">
+                                @Html.ActionLink("Отчёт", "Reports", new { numberScroll = "", reportYear = "" }, new { @class = "btn btn-default", id = "reportShow" })
+                                <button id="" type="submit" class="btn btn-primary">Изменить</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="pull-left col-lg-6 row" id="multiDateRadio">
+                        <label class="radio-inline">
+                            @Html.RadioButton("multiDate", true, true, new { @class = "multiDate" })
+                            <span>Мульти дата</span>
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButton("multiDate", false, false, new { @class = "multiDate" })
+                            <span>Одиночная дата</span>
+                        </label>
+                    </div>
+                    <!--Unobstrusive requered-->
+                    <div class="col-lg-6">
+                        @Html.ValidationMessageFor(m => m.ReportPeriod, "Неверная дата")
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <div class="pull-left col-lg-6 row" id="multiDateRadio">
-                    <label class="radio-inline">
-                        @Html.RadioButton("multiDate", true, true, new { @class = "multiDate" })
-                        <span>Мульти дата</span>
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButton("multiDate", false, false, new { @class = "multiDate" })
-                        <span>Одиночная дата</span>
-                    </label>
-                </div>
-                <!--Unobstrusive requered-->
-                <div class="col-lg-6">
-                    @Html.ValidationMessageFor(m => m.ReportPeriod, "Неверная дата")
-                </div>
-            </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!--Wait Modal-->
-<div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="waitModalLabel">Идет формирование отчётности. Пожалуйста подождите....</h4>
-            </div>
-            <div class="modal-body">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
-                        <span class="sr-only">10% Complete</span>
+    <!--Wait Modal-->
+    <div class="modal fade" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="waitModalLabel">Идет формирование отчётности. Пожалуйста подождите....</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
+                            <span class="sr-only">10% Complete</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 <!--pagging
 <div class="bottom-right pull-right">
     @Html.PageLinks(Model.PagingInfo, 21, x => Url.RouteUrl("NomenclatureScroll_default", new RouteValueDictionary() {{"page", x}}))
 </div>
 -->
+</div>

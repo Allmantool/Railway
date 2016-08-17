@@ -31,16 +31,23 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
         }
         /// <summary>
-        /// Return pagging part of table
+        /// Return pagging part of table and general count of rows
         /// </summary>
         /// <typeparam name="T">Current enity</typeparam>
         /// <typeparam name="TKey">Type for ordering</typeparam>
         /// <param name="page">Number page</param>
         /// <param name="size">Count row per one page</param>
+        /// <param name="recordCount"></param>
         /// <param name="orderPredicate">Condition for ordering</param>
         /// <param name="filterPredicate">Condition for filtering</param>
         /// <param name="caсhe"></param>
         /// <returns>Return definition count rows of specific entity</returns>
+        public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, out long recordCount, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
+            using (Uow = new UnitOfWork()) {
+                recordCount = GetCountRows(filterPredicate);
+                return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
+            }
+        }
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
                 return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();

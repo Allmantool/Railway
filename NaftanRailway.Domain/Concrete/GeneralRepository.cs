@@ -49,6 +49,17 @@ namespace NaftanRailway.Domain.Concrete {
 
             return result;
         }
+        /// <summary>
+        /// Alternative method apposite Get. Diffrents => find first search in context.When not found in context then request to source(Db)
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="enableDetectChanges"></param>
+        /// <returns></returns>
+        public T Find (dynamic key, bool enableDetectChanges = true)
+        {
+            Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
+            return _dbSet.Find(key);
+        }
         public void Add(T entity, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             _dbSet.Add(entity);

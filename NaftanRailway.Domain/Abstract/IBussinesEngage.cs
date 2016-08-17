@@ -34,12 +34,14 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TKey"></typeparam>
+        /// <param name="recordCount"></param>
         /// <param name="orderPredicate">predicate for order</param>
         /// <param name="filterPredicate">predicate for filter result</param>
         /// <param name="page">current page</param>
         /// <param name="size">page Model[indx] size</param>
         /// <param name="caсhe"></param>
         /// <returns></returns>
+        IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, out long recordCount, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
         /// <summary>
         /// Get group result (Group by + order by)

@@ -26,6 +26,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enableTracking"></param>
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
+        T Find(dynamic key, bool enableDetectChanges);
         /// <summary>
         /// Add general entity
         /// </summary>
@@ -42,7 +43,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="detectChanges">Snapshot change detection takes a copy of every entity in the system when they are added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is that it has to go through all of your tracked entities each time its called, so the more stuff you have in your context the longer it takes to traverse.</param>
+        /// <param name="enableDetectChanges"></param>
         void Edit(T entity, bool enableDetectChanges = true);
         /// <summary>
         /// Update concrete entity  (Update all property, mark entity as modified)

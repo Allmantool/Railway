@@ -37,8 +37,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             //update filters
             if (Request.IsAjaxRequest() && findKrt != null) {
                 foreach (var item in filters) {
-                    item.CheckedValues = _bussinesEngage.GetGroup(
-                        PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(),
+                    item.CheckedValues = _bussinesEngage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(),
                         finalPredicate.Expand()
                     );
                 }

@@ -39,7 +39,9 @@
                                                 LoadingElementId = "loading"
                                             }, new { id = "Reglink" })
                                     </li>
-                                    <li>@Ajax.ActionLink(@"Получить перечни", "AdmitScroll", "Scroll", new { }, new AjaxOptions { HttpMethod = "Post" }, new { id = "adminScroll" })</li>
+                                    <li>@Ajax.ActionLink(@"Получить перечни", "AdmitScroll", "Scroll", new { }, 
+                                       new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "nomenclatureTable" }, new { id = "adminScroll" })
+                                    </li>
                                     <li>@Html.ActionLink(@"Отчёт проверки перечня", "Reports", "Scroll", new { area = "NomenclatureScroll" }, new { id = "MenuLinkErrReport" })</li>
                                     <li>@Ajax.ActionLink(@"Просмотр информации по перечню", "ScrollDetails",new { controller = "Scroll" },
                                             new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", /*InsertionMode = InsertionMode.Replace,Url ="/"*/OnSuccess = "filterMenu" },
@@ -64,40 +66,40 @@
                                     <li>@Ajax.RouteLink(@"Таблица перечней", new RouteValueDictionary() { { "page", 1 }, { "action", "index" } },
                                             new AjaxOptions() { HttpMethod = "Get", UpdateTargetId = "ScrollTable", InsertionMode = InsertionMode.Replace, OnSuccess = "PaggingSuccess" })
                                     </li>
-            </ul>
-        </li>
-        <li class="dropdown col-lg-2">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <b>Журнал Ведомостей ГУ-46</b><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li role="separator" class="divider"></li>
-            </ul>
-        </li>
-        <li class="dropdown col-lg-2">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <b>Журнал Актов<br />ГУ-23</b><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu"></ul>
-        </li>
-        <li class="dropdown col-lg-5">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <b>Журнал<br />Карточек<br />ФДУ-92</b><span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu"></ul>
-        </li>
-    </ul>
-</div>
-<div class="col-md-2">
-    <ul class="nav navbar-nav navbar-right">
-        @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
-        <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
-    </ul>
-</div>
-</div>
-</div>
-</div>
-</div>
+                                </ul>
+                            </li>
+                            <li class="dropdown col-lg-2">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал Ведомостей ГУ-46</b><span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li role="separator" class="divider"></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown col-lg-2">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал Актов<br />ГУ-23</b><span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu"></ul>
+                            </li>
+                            <li class="dropdown col-lg-5">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал<br />Карточек<br />ФДУ-92</b><span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu"></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
+                        <ul class="nav navbar-nav navbar-right">
+                            @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
+                            <li class="pull-right" style=""><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="panel row">
     @if (TempData["message"] != null && ((string)TempData["message"]).Length > 0) {
         <div id="MessageInfo" class="alert alert-info">@TempData["message"]</div>
