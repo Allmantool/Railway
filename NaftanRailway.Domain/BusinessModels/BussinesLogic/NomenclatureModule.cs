@@ -16,10 +16,6 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             _engage = engage;
         }
 
-        //public T DetailsData<T>(int numberScroll, int reportYear, int page) where T :class, new()
-        //{
-
-        //}
         public IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out long recordCount) {
             return _engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT);
         }

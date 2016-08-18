@@ -1,14 +1,11 @@
-﻿@using NaftanRailway.Domain.Concrete.DbContext.ORC;
-@model IEnumerable<krt_Naftan_orc_sapod>
+﻿@model NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.DetailModelView
 @{
     ViewBag.Title = ViewBag.Title ?? "Сборы по перечням";
     Layout = "../Shared/_Layout.cshtml";
     Html.EnableClientValidation(false);
     Html.EnableUnobtrusiveJavaScript(true);
 }
-<div id = "ScrollTable">
-    @{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD", @Model);}
-</div>
+<div id = "ScrollTable">@{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD", @Model);}</div>
 
 <!-- Large modal (for edit row) -->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="EditModal">
@@ -38,27 +35,27 @@
                   HttpMethod = "Post",
                   Url = @Url.Action("ScrollCorrection", "Scroll")
               },new {@class = "", role = "form", id = "CorrectionForm"})){
-                   @Html.HiddenFor(x=>x.First().nomot)
-                   @Html.HiddenFor(x=>x.First().vidsbr)
-                   @Html.HiddenFor(x=>x.First().sm_nds)
-                   @Html.HiddenFor(x=>x.First().sm)
+                   @Html.HiddenFor(x=>x.CollDetails.First().nomot)
+                   @Html.HiddenFor(x=>x.CollDetails.First().vidsbr)
+                   @Html.HiddenFor(x=>x.CollDetails.First().sm_nds)
+                   @Html.HiddenFor(x=>x.CollDetails.First().sm)
                   <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-1 col-lg-3">
                           @Html.Label("", "Сумма с НДС: ", new {@class = "lead"})
                       </div>
-                      <div class="col-lg-3">@Html.LabelFor(x=>x.First().sm , new {@class = "form-control-static"})</div>
+                      <div class="col-lg-3">@Html.LabelFor(x=>x.CollDetails.First().sm , new {@class = "form-control-static"})</div>
                       <div class="col-lg-3">
                          @* @Html.TextBox("summa_with_nds", "",new {@class = "form-control", style = "text-align: center;"})*@
-                          @Html.LabelFor(x => x.First().summa, new { @class = "form-control-static"})
+                          @Html.LabelFor(x => x.CollDetails.First().summa, new { @class = "form-control-static"})
                       </div>
                   </div>
                 <div class="row form-inline top-buffer">
                       <div class="col-lg-offset-2 col-lg-2">
                           @Html.Label("", "Сумма: ", new { @class = "lead" })
                       </div>
-                      <div class="col-lg-3">@Html.LabelFor(x => x.First().sm_no_nds, new { @class = "form-control-static"})</div>
+                      <div class="col-lg-3">@Html.LabelFor(x => x.CollDetails.First().sm_no_nds, new { @class = "form-control-static"})</div>
                       <div class="col-lg-3">
-                          @Html.TextBoxFor(x => x.First().summa, new { @class = "form-control", style = "text-align: center;" })
+                          @Html.TextBoxFor(x => x.CollDetails.First().summa, new { @class = "form-control", style = "text-align: center;" })
                       </div>
                   </div>
                   <div class="row form-inline top-buffer">
@@ -68,7 +65,7 @@
                       <div class="col-lg-3 text-center">@Html.Label("sm_nds", new { @class = "form-control-static"})</div>
                       <div class="col-lg-3">
                           @*@Html.TextBox("nds",(Model.First().nds == null)? "": Model.First().nds.ToString(),new {@class = "form-control", style = "text-align: center;"})*@
-                          @Html.TextBoxFor(x => x.First().nds, new { @class = "form-control", style = "text-align: center;" })
+                          @Html.TextBoxFor(x => x.CollDetails.First().nds, new { @class = "form-control", style = "text-align: center;" })
                       </div>
                   </div>
                   <div class="modal-footer">
