@@ -32,7 +32,10 @@ namespace NaftanRailway.Domain.DbConfiguration {
         public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) {
             Log(String.Format("ScalarExecuting with the command {0}", command.CommandText));
         }
-
+        /// <summary>
+        /// Destination of log
+        /// </summary>
+        /// <param name="message"></param>
         private void Log(string message) {
             Console.WriteLine(message);
         }
