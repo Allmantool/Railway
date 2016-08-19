@@ -55,8 +55,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="key"></param>
         /// <param name="enableDetectChanges"></param>
         /// <returns></returns>
-        public T Find (dynamic key, bool enableDetectChanges = true)
-        {
+        public T Find(dynamic key, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             return _dbSet.Find(key);
         }
@@ -110,7 +109,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="enableDetectChanges"></param>
         public void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
-
+            //(Engage.Uow.ActiveContext.Entry(x).Property(p => p.DTBUHOTCHET).IsModified = true
             if (_dbSet.Any(predicate.Compile())) {
                 //connection scenario http://www.entityframeworktutorial.net/update-entity-in-entity-framework.aspx
                 T item = _dbSet.Where(predicate).First();
@@ -166,8 +165,15 @@ namespace NaftanRailway.Domain.Concrete {
         /// <param name="enableDetectChanges"></param>
         public void Edit(T entity, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
-            _dbSet.Attach(entity);
             Context.Entry(entity).State = EntityState.Unchanged;
+        }
+
+        public void Edit(IEnumerable<T> entityColl, Action<T> operations, bool enableDetectChanges = true) {
+            Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
+            var list = entityColl.ToList();
+
+            list.ForEach(entity => Context.Entry(entity).State = EntityState.Unchanged);
+            list.ForEach(operations);
         }
         private void Dispose(bool disposing) {
             if (!_disposed) {

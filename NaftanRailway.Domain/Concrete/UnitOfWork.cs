@@ -25,12 +25,13 @@ namespace NaftanRailway.Domain.Concrete {
         /// Constructor with specific dbContext
         /// </summary>
         /// <param name="context"></param>
-        public UnitOfWork(System.Data.Entity.DbContext context) {
+        /// <param name="lazyLoading"></param>
+        /// <param name="proxy"></param>
+        public UnitOfWork(System.Data.Entity.DbContext context, bool lazyLoading = true, bool proxy = true) {
             ActiveContext = context;
-            /*Отключает Lazy loading необходим для Json
-                ActiveContext.Configuration.LazyLoadingEnabled = false; 
-                ActiveContext.Configuration.ProxyCreationEnabled = false;
-             */
+            /*Отключает Lazy loading необходим для Json (для сериализации entity to json*/
+            ActiveContext.Configuration.LazyLoadingEnabled = lazyLoading;
+            ActiveContext.Configuration.ProxyCreationEnabled = proxy;
         }
         /// <summary>
         /// Ninject (Dependency Injection). Pass a custom set of dbContext
@@ -39,6 +40,7 @@ namespace NaftanRailway.Domain.Concrete {
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;
         }
+
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific dbcontext
