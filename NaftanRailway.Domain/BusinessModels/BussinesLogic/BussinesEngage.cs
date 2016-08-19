@@ -43,8 +43,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="caсhe"></param>
         /// <returns>Return definition count rows of specific entity</returns>
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, out long recordCount, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
+            recordCount = GetCountRows(filterPredicate);
             using (Uow = new UnitOfWork()) {
-                recordCount = GetCountRows(filterPredicate);
                 return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using MoreLinq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
@@ -11,13 +10,13 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     public class NomenclatureModule : INomenclatureModule {
         private bool _disposed;
-        public IBussinesEngage _engage { get; set; }
+        public IBussinesEngage Engage { get; set; }
         public NomenclatureModule(IBussinesEngage engage) {
-            _engage = engage;
+            Engage = engage;
         }
 
         public IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out long recordCount) {
-            return _engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT);
+            return Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT);
         }
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
@@ -26,8 +25,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="msgError"></param>
         /// <param name="numberScroll"></param>
         public krt_Naftan AddKrtNaftan(int numberScroll, int reportYear, out string msgError) {
-            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
-            using (_engage.Uow = new UnitOfWork()) {
+            var key = Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+            using (Engage.Uow = new UnitOfWork()) {
                 try {
                     SqlParameter parm = new SqlParameter() {
                         ParameterName = "@ErrId",
@@ -35,12 +34,12 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    var db = _engage.Uow.Repository<krt_Naftan_orc_sapod>().Context.Database;
+                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Context.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                     //Confirmed
-                    krt_Naftan chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
 
                     //Uow.Repository<krt_Naftan>().Edit(chRecord);
                     if (!chRecord.Confirmed) {
@@ -51,7 +50,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     msgError = "";
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
 
-                    _engage.Uow.Save();
+                    Engage.Uow.Save();
 
                     return chRecord;
                 } catch (Exception e) {
@@ -60,9 +59,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
             }
         }
-        public void SyncWithORC() {
-            using (_engage.Uow = new UnitOfWork()) {
-                var db = _engage.Uow.Repository<krt_Naftan>().Context.Database;
+        public void SyncWithOrc() {
+            using (Engage.Uow = new UnitOfWork()) {
+                var db = Engage.Uow.Repository<krt_Naftan>().Context.Database;
                 db.CommandTimeout = 120;
                 db.ExecuteSqlCommand(@"EXEC dbo.sp_UpdateKrt_Naftan");
             }
@@ -74,13 +73,14 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="numberScroll"></param>
         /// <param name="multiChange">Change single or multi date</param>
         public IEnumerable<krt_Naftan> ChangeBuhDate(DateTime period, int numberScroll, bool multiChange = true) {
-            using (_engage.Uow = new UnitOfWork()) {
-                var listRecords = multiChange ? _engage.Uow.Repository<krt_Naftan>().Get_all(x => x.NKRT >= numberScroll && x.DTBUHOTCHET.Year == period.Year) :
-                    _engage.Uow.Repository<krt_Naftan>().Get_all(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == period.Year);
+        var listRecords = multiChange ? Engage.GetTable<krt_Naftan,int>(x => x.NKRT >= numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList() :
+                    Engage.GetTable<krt_Naftan,int>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList();
 
+            using (Engage.Uow = new UnitOfWork()) {
                 try {
-                    listRecords.ForEach(x => x.DTBUHOTCHET = period);
-                    _engage.Uow.Save();
+                    //add to tracking (for apdate only change property)
+                    Engage.Uow.Repository<krt_Naftan>().Edit(listRecords,x => x.DTBUHOTCHET = period);
+                    Engage.Uow.Save();
                     return listRecords;
                 } catch (Exception) {
                     throw new Exception("Error on change date method");
@@ -97,22 +97,22 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="summa"></param>
         /// <returns></returns>
         public bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa) {
-            using (_engage.Uow = new UnitOfWork()) {
+            using (Engage.Uow = new UnitOfWork()) {
                 try {
                     //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = _engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
-                    _engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
+                    var itemRow = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
+                    Engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
                     itemRow.nds = nds;
                     itemRow.summa = summa;
                     itemRow.ErrorState = 2;
 
                     //krt_Naftan (check as correction)
-                    var parentRow = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
-                    _engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
+                    var parentRow = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
+                    Engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
 
                     parentRow.ErrorState = 2;
 
-                    _engage.Uow.Save();
+                    Engage.Uow.Save();
 
                 } catch (Exception) {
                     return false;
@@ -128,7 +128,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing) {
-                    _engage.Dispose();
+                    Engage.Dispose();
                 }
                 _disposed = true;
             }

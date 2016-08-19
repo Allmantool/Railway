@@ -45,6 +45,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="entity"></param>
         /// <param name="enableDetectChanges"></param>
         void Edit(T entity, bool enableDetectChanges = true);
+        void Edit(IEnumerable<T> entityColl, Action<T> operations, bool enableDetectChanges = true);
         /// <summary>
         /// Update concrete entity  (Update all property, mark entity as modified)
         /// </summary>
