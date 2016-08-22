@@ -28,7 +28,7 @@ namespace NaftanRailway.WebUI {
                           "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
-                .Include("~/Scripts/_General.js"));
+                .Include("~/Scripts/GeneralJs/_General.js"));
 
             bundles.Add(new StyleBundle("~/Content/cssbundle")
                 .Include("~/Content/bootstrap.min.css",

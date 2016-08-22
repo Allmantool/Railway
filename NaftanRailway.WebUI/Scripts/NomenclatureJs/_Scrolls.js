@@ -1,7 +1,9 @@
 ﻿/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
 http://davidstutz.github.io/bootstrap-multiselect/*/
-function filterMenu() {
-    $("select.filter").each(function (index) {
+function filterMenu(obj) {
+    var selRequest;
+    if (obj.length > 0 && obj.length < 50) { selRequest = obj; } else { selRequest = "#filterForm div>select"; }
+    $(selRequest).each(function (index) {
         var $this = $(this);
         $this.multiselect({
             includeSelectAllOption: true,
@@ -18,6 +20,7 @@ function filterMenu() {
             /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
             onChange: function (option, checked, select) {
+                if ($('select#nomot.form-group.form-control.filters').next().find('li.active').size()===0) { return; }
                 $.ajax({
                     url: "Filter/Menu/",
                     type: "Post",
@@ -45,14 +48,25 @@ function filterMenu() {
                                    "ActiveFilter": ('vidsbr' === $(option).parent('select').attr('id')) ? true : false,
                                    "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
                                    "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
+                               }, {
+                                   "SortFieldName": "nomot",
+                                   "NameDescription": $('select#nomot').prev().val(),
+                                   "ActiveFilter": ('nomot' === $(option).parent('select').attr('id')) ? true : false,
+                                   "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
+                                   "AllAvailableValues": $('#nomot option').map(function () { return $(this).val(); }).toArray()
                                }
                             ],
                             "numberScroll": +$("#numberScroll").val(),
                             "reportYear": +$("#reportYear").val()
                         }),
                     success: function (result) {
-                        $("#filterForm").empty().append(result);
-                        filterMenu();
+                        var sel = $(result).find('input[value=True]').parent('div').attr('id');
+                        //update filter element
+                        $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
+                            $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
+                        });
+
+                        filterMenu('#filterForm div>select:not(#' + sel + ')');
                     },
                     error: function (data) { console.log("multiselect custom error:" + data) }
                 });

@@ -27,24 +27,24 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpPost]
         //[ChildActionOnly]
         public ActionResult Menu(int numberScroll, int reportYear, IList<CheckListFilterModel> filters) {
-            var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
+            var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault();
 
             //build lambda expression basic on active filter(linqKit)
-            var finalPredicate = PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == findKrt.KEYKRT);
-            finalPredicate = filters.Where(x => x.ActiveFilter)
-                .Aggregate(finalPredicate, (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
+            var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
+                .And(x => x.keykrt == findKrt.KEYKRT), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
 
             //update filters
             if (Request.IsAjaxRequest() && findKrt != null) {
                 foreach (var item in filters) {
-                    item.CheckedValues = _bussinesEngage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(),
-                        finalPredicate.Expand()
-                    );
+                    item.CheckedValues = _bussinesEngage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(),finalPredicate.Expand());
                 }
 
                 //return Json(filters, JsonRequestBehavior.DenyGet);
                 return PartialView("_FilterMenu", filters);
             }
+            ModelState.AddModelError("Menu", @"Ошибка в работе фильтров!");
+            TempData["message"] = @"Ошибка возникла в работе фильтров!";
+
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", 1 } });
         }
     }

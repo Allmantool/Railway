@@ -194,6 +194,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     return View("_AjaxTableKrtNaftan_ORC_SAPOD", result);
                 }
             }
+            ModelState.AddModelError("Confirmed", @"Перечень не нуждается в корректировке");
             TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });

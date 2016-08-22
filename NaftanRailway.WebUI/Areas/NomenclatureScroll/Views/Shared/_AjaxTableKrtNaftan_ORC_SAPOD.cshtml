@@ -45,8 +45,8 @@
                 @Html.Hidden("numberScroll", numberScroll)
                 @Html.Hidden("reportYear", reportYear.Year)
 
-                <span id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</span>
-                <button type="submit" class="form-control btn btn-primary">Фильтр</button>
+                <div id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</div>
+                <button type="submit" class="form-control btn btn-primary pull-left" style="margin-left: 0.5em;">Фильтр</button>
             }
         </th>
     </tr>
