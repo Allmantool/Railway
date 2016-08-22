@@ -43,10 +43,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 return PartialView("_AjaxTableKrtNaftan", result);
             }
             return View(result);
-
-            ////Add Error
-            //TempData["message"] = @"Укажите верную страницу!";
-            //ModelState.AddModelError("ErrPage", @"Укажите верную страницу!");
         }
         /// <summary>
         /// Change Buh Data
@@ -120,7 +116,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                         TotalItems = findKrt.RecordCount
                     },
                     CollDetails = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,
-                                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, 
+                                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt },
                                     x => x.keykrt == findKrt.KEYKRT)
                 };
 

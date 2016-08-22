@@ -115,7 +115,6 @@
     <Compile Include="Abstract\IAuthorizationEngage.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\RegistrationViewModel.cs" />
     <Compile Include="BusinessModels\BussinesLogic\BussinesEngage.cs" />
-    <Compile Include="BusinessModels\SessionLogic\ReportModel.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\SecurityInfoLine.cs" />
     <Compile Include="BusinessModels\BussinesLogic\Shipping.cs" />
     <Compile Include="Concrete\DbContext\Mesplan\etsng.cs">
@@ -268,8 +267,6 @@
     <Compile Include="EntitiesMetaData\v_akt_vag.cs" />
     <Compile Include="EntitiesMetaData\v_otpr.cs" />
     <Compile Include="EntitiesMetaData\v_o_v.cs" />
-    <Compile Include="BusinessModels\BussinesLogic\AccumulativeCard.cs" />
-    <Compile Include="BusinessModels\BussinesLogic\Bill.cs" />
     <Compile Include="BusinessModels\BussinesLogic\NomenclatureModule.cs" />
     <Compile Include="BusinessModels\BussinesLogic\EnumOperationType.cs" />
     <Compile Include="BusinessModels\BussinesLogic\RailwayModule.cs" />

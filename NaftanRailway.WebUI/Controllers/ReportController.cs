@@ -36,9 +36,9 @@ namespace NaftanRailway.WebUI.Controllers {
                     return View("Index");
                 }
 
-                ReportDataSource dc = new ReportDataSource("ReportDataSource", storage.ToReport());
+                //ReportDataSource dc = new ReportDataSource("ReportDataSource", storage.ToReport());
 
-                lr.DataSources.Add(dc);
+                //lr.DataSources.Add(dc);
 
                 string reportType = id;
                 string mimeType;

@@ -1,4 +1,4 @@
-﻿@using System.Reflection
+﻿@*@using System.Reflection
 @model List<NaftanRailway.Domain.BusinessModels.Bill>
 @{
     Layout = null;
@@ -32,7 +32,7 @@
 @*               @Html.HiddenFor(m => m[i].vPam)  *@
             }
             
-           @if (Model[i].VPamVag != null) {
+           @*@if (Model[i].VPamVag != null) {
                foreach (PropertyInfo prop in Model[i].VPamVag.GetType().GetProperties()) {
                    Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "DocumentPackLine.Bills[" + i + "].vPamVag ";
                     @Html.Hidden(prop.Name,prop.GetValue(Model[i].VPamVag,null))
@@ -43,11 +43,11 @@
             
   
             
-             @Html.DisplayFor(m => m[i].VPam.nved)
+             @*@Html.DisplayFor(m => m[i].VPam.nved)
         </span> 
     </div>  
         }
     } else {
         @Html.HiddenFor(m => m)
     }
-</div>
+</div>*@*@*@

@@ -112,28 +112,28 @@ namespace NaftanRailway.Domain.BusinessModels {
         /// 2)средствами Report Server отобразить данные записанные в БД
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ReportModel> ToReport() {
-            List<ReportModel> result = new List<ReportModel>();
+        //public IEnumerable<ReportModel> ToReport() {
+        //    List<ReportModel> result = new List<ReportModel>();
 
-            foreach (var line in _linesCollection) {
-                result.Add(new ReportModel() {
-                    n_otpr = line.Shipping.n_otpr,
-                    n_vag = String.Join(",\n", line.WagonsNumbers),
-                    date_oper = line.Shipping.date_oper.Value,
-                    cod_sb = "300",
-                    nameSb = "Тариф по отправке БЧ",
-                    sum_no_nds = 2930988,
-                    nds = 20,
-                    sum_nds = 586198,
-                    sum_with_nds = 3517186,
-                    n_per_list = "25795",
-                    n_kart = "ЖТ2922",
-                    note = "160303",
-                    //warehouse = line.Warehouse.ToString()
-                });
-            }
+        //    foreach (var line in _linesCollection) {
+        //        result.Add(new ReportModel() {
+        //            n_otpr = line.Shipping.n_otpr,
+        //            n_vag = String.Join(",\n", line.WagonsNumbers),
+        //            date_oper = line.Shipping.date_oper.Value,
+        //            cod_sb = "300",
+        //            nameSb = "Тариф по отправке БЧ",
+        //            sum_no_nds = 2930988,
+        //            nds = 20,
+        //            sum_nds = 586198,
+        //            sum_with_nds = 3517186,
+        //            n_per_list = "25795",
+        //            n_kart = "ЖТ2922",
+        //            note = "160303",
+        //            //warehouse = line.Warehouse.ToString()
+        //        });
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }

@@ -23,7 +23,7 @@ namespace NaftanRailway.Domain.DbConfigurations {
         }
 
         public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) {
-            Log(String.Format("ReaderExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
+            Log(string.Format("ReaderExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
         public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) {
@@ -53,7 +53,7 @@ namespace NaftanRailway.Domain.DbConfigurations {
         private void Log(string message) {
             /*log for EF6 dbcontext in output window (debug mode)*/
             Debug.WriteLine(message);
-            //Trace.Write(message);
+            Trace.Write(message);
         }
     }
 }
