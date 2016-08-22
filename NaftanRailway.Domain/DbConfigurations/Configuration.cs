@@ -9,8 +9,8 @@ namespace NaftanRailway.Domain.DbConfigurations {
     /// </summary>
     public class Configuration : DbConfiguration {
         public Configuration() {
-            //this.AddInterceptor(new EFInterceptor());
-            DbInterception.Add(new EfInterceptor());
+            this.AddInterceptor(new EfInterceptor());
+            //DbInterception.Add(new EfInterceptor());
         }
     }
 }

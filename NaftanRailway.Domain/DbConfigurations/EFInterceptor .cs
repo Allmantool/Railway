@@ -53,7 +53,7 @@ namespace NaftanRailway.Domain.DbConfigurations {
         private void Log(string message) {
             /*log for EF6 dbcontext in output window (debug mode)*/
             Debug.WriteLine(message);
-            Trace.Write(message);
+            //    Trace.Write(message);
         }
     }
 }

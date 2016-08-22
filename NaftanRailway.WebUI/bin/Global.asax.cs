@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Data.Entity.Infrastructure.Interception;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -47,8 +48,8 @@ namespace NaftanRailway.WebUI {
              Install-Package Microsoft.AspNet.WebPages.Data
              (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
              */
-            WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
-            
+            //WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
+
             /*Custom value provider (order sense)
              * (First)
              * ValueProviderFactories.Factories.Insert(0,new CustomValueProviderFactory());

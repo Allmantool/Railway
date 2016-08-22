@@ -3,7 +3,7 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
 function filterMenu(obj) {
     var selRequest;
     if (obj.length > 0 && obj.length < 50) { selRequest = obj; } else { selRequest = "#filterForm div>select"; }
-    $(selRequest).each(function (index) {
+    $(selRequest).each(function () {
         var $this = $(this);
         $this.multiselect({
             includeSelectAllOption: true,
@@ -19,8 +19,9 @@ function filterMenu(obj) {
             /*numberDisplayed: 3,*/
             /*A function which is triggered on the change event of the options. 
         Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-            onChange: function (option, checked, select) {
-                if ($('select#nomot.form-group.form-control.filters').next().find('li.active').size()===0) { return; }
+            onChange: function (option) {
+                var selMulti = $(option).parent('select');
+                if (selMulti.next().find('li.active').size() === 0) { return; }
                 $.ajax({
                     url: "Filter/Menu/",
                     type: "Post",
@@ -33,25 +34,25 @@ function filterMenu(obj) {
                                {
                                    "SortFieldName": "nkrt",
                                    "NameDescription": $('select#nkrt').prev().val(),
-                                   "ActiveFilter": ('nkrt' === $(option).parent('select').attr('id')) ? true : false,
+                                   "ActiveFilter": ('nkrt' === selMulti.attr('id')) ? true : false,
                                    "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
                                    "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
                                }, {
                                    "SortFieldName": "tdoc",
                                    "NameDescription": $('select#tdoc').prev().val(),
-                                   "ActiveFilter": ('tdoc' === $(option).parent('select').attr('id')) ? true : false,
+                                   "ActiveFilter": ('tdoc' === selMulti.attr('id')) ? true : false,
                                    "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
                                    "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
                                }, {
                                    "SortFieldName": "vidsbr",
                                    "NameDescription": $('select#vidsbr').prev().val(),
-                                   "ActiveFilter": ('vidsbr' === $(option).parent('select').attr('id')) ? true : false,
+                                   "ActiveFilter": ('vidsbr' === selMulti.attr('id')) ? true : false,
                                    "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
                                    "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
                                }, {
                                    "SortFieldName": "nomot",
                                    "NameDescription": $('select#nomot').prev().val(),
-                                   "ActiveFilter": ('nomot' === $(option).parent('select').attr('id')) ? true : false,
+                                   "ActiveFilter": ('nomot' === selMulti.attr('id')) ? true : false,
                                    "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
                                    "AllAvailableValues": $('#nomot option').map(function () { return $(this).val(); }).toArray()
                                }
@@ -108,8 +109,8 @@ $('.datepicker').datepicker({
     todayBtn: "linked",
     orientation: "bottom auto",
     forceParse: true
-}).on('changeDate', function (e) {
-}).on('show', function (e) {
+}).on('changeDate', function () {
+}).on('show', function () {
     // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
@@ -118,33 +119,33 @@ $('.datepicker').datepicker({
 $('#reportShow').on('click', function () {
     $('.modal').modal('hide');
 });
-$('#dateModal').on('show.bs.modal', function (e) {
+$('#dateModal').on('show.bs.modal', function () {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 /*edit modal (correction)*/
-$('#chargeOfList').on('click', 'tr', function (e) {
+$('#chargeOfList').on('click', 'tr', function () {
     //    var selRow = $(e.target).parent('tr');
     var selRow = $(this);
-    var _parse = function (name) {
+    var parse = function (name) {
         var element = selRow.find(name),
             text = element.text();
         return parseInt(text.split('').filter(function (i) { return !isNaN(parseInt(i)) }).join(''));
     }
 
     $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
-    var summa = _parse(".summa");
-    var sm = _parse(".sm");
-    var sm_nds = _parse(".sm_nds");
-    var nds = _parse(".nds");
-    var sm_no_nds = _parse(".sm_no_nds");
+    var summa = parse(".summa");
+    var sm = parse(".sm");
+    var smNds = parse(".sm_nds");
+    var nds = parse(".nds");
+    var smNoNds = parse(".sm_no_nds");
 
     $('label[for=sm]').text(sm);
     $('#sm').val(sm);
 
-    $('label[for=sm_nds]').text(sm_nds);
-    $('#sm_nds').val(sm_nds);
+    $('label[for=sm_nds]').text(smNds);
+    $('#sm_nds').val(smNds);
 
-    $('label[for=sm_no_nds]').text(sm_no_nds);
+    $('label[for=sm_no_nds]').text(smNoNds);
     $('label[for=summa]').text(summa + nds);
     $('#summa').val(summa);
 
@@ -169,7 +170,7 @@ $('#nds').on('propertychange', function () {
     $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
 });
 
-function UpdateFailure(data) { }
+function UpdateFailure() { }
 
 /**********************************************************Update date in confirmed row(s)**************************************************************************/
 function UpdateDate(dateRow) {
@@ -335,8 +336,8 @@ function PaggingSuccess(e) {
     /*Dont support in Html4 browsers (IE8)
     Solustion: https://github.com/browserstate/history.js*/
     History.Adapter.bind(window, 'statechange', function () { // Note: We are using statechange instead of popstate
-        var State = History.getState(); // Note: We are using History.getState() instead of event.state
-        console.log(State);
+        var state = History.getState(); // Note: We are using History.getState() instead of event.state
+        console.log(state);
     });
 
     History.pushState(null, null, $(e).find('.active a').attr('href'));
