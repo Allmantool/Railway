@@ -1,0 +1,18 @@
+﻿@*@model NaftanRailway.Domain.BusinessModels.Bill
+@{
+    Layout = null;
+    Html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "DocumentPackLine.Bills[" + ViewData["index"] + "]";
+}
+<div class="input-group">
+    <span class="input-group-addon">
+        @Html.CheckBoxFor(x => x.IsSelected,new {@checked = true })
+    </span> 
+    <span class="form-control">
+        @Html.DisplayFor(b => b.VPam.nved)
+        @Html.HiddenFor(b=>b.VPam.id_ved)
+        @Html.HiddenFor(b => b.VPam.nved)
+        @Html.HiddenFor(b=>b.VPamVag.d_pod)
+        @Html.HiddenFor(b=>b.VPamVag.d_ub)
+    </span>
+</div>*@         
+            

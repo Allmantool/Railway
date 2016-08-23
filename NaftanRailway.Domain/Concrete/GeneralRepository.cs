@@ -11,7 +11,7 @@ using NaftanRailway.Domain.Abstract;
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
         private bool _disposed;
-        public System.Data.Entity.DbContext Context { get; private set; }
+        public System.Data.Entity.DbContext Context { get; }
         private readonly DbSet<T> _dbSet;
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
@@ -167,14 +167,15 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             Context.Entry(entity).State = EntityState.Unchanged;
         }
-
         public void Edit(IEnumerable<T> entityColl, Action<T> operations, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             var list = entityColl.ToList();
-
+            
+            //list.ForEach(entity => _dbSet.Attach(entity));
             list.ForEach(entity => Context.Entry(entity).State = EntityState.Unchanged);
             list.ForEach(operations);
         }
+
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing)

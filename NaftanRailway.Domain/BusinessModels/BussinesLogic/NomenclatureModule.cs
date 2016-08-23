@@ -73,13 +73,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="numberScroll"></param>
         /// <param name="multiChange">Change single or multi date</param>
         public IEnumerable<krt_Naftan> ChangeBuhDate(DateTime period, int numberScroll, bool multiChange = true) {
-        var listRecords = multiChange ? Engage.GetTable<krt_Naftan,int>(x => x.NKRT >= numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList() :
-                    Engage.GetTable<krt_Naftan,int>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList();
+            var listRecords = multiChange ? Engage.GetTable<krt_Naftan, int>(x => x.NKRT >= numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList() :
+                        Engage.GetTable<krt_Naftan, int>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList();
 
             using (Engage.Uow = new UnitOfWork()) {
                 try {
                     //add to tracking (for apdate only change property)
-                    Engage.Uow.Repository<krt_Naftan>().Edit(listRecords,x => x.DTBUHOTCHET = period);
+                    Engage.Uow.Repository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
                     Engage.Uow.Save();
                     return listRecords;
                 } catch (Exception) {

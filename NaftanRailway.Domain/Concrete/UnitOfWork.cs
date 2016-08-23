@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -10,11 +11,12 @@ using NaftanRailway.Domain.Concrete.DbContext.ORC;
 
 namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using)*/
-    public sealed class UnitOfWork : IUnitOfWork {
+    public class UnitOfWork : IUnitOfWork {
         private bool _disposed;
         public System.Data.Entity.DbContext ActiveContext { get; set; }
         private System.Data.Entity.DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
+
         /// <summary>
         /// Create UOW per request with requer dbContexts by default
         /// </summary>
@@ -72,12 +74,18 @@ namespace NaftanRailway.Domain.Concrete {
             return repo;
         }
         public void Save() {
-            try {
-                ActiveContext.SaveChanges();
-            } catch (DbUpdateConcurrencyException ex) {
-                Console.WriteLine("Optimistic Concurrency exception occured" + ex.Message);
+            using (var transaction = ActiveContext.Database.BeginTransaction()) {
+                try {
+                    //ActiveContext.ChangeTracker.DetectChanges();
+                    ActiveContext.SaveChanges();
+                    transaction.Commit();
+                } catch (DbUpdateConcurrencyException ex) {
+                    Console.WriteLine("Optimistic Concurrency exception occured" + ex.Message);
+                    transaction.Rollback();
+                }
             }
         }
+
         private void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing && (ActiveContext != null)) {

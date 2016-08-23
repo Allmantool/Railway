@@ -281,9 +281,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
     <EntityDeploy Include="Concrete\DbContext\Mesplan\ModelMesplan.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
@@ -339,7 +336,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SessionDbModel.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\NaftanRailway.Domain.BusinessModels.ReportModel.datasource" />
   </ItemGroup>
   <ItemGroup>

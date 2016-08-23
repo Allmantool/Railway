@@ -55,9 +55,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         }
         public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, enableDetectChanges: caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
+                return Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
             }
         }
+
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);

@@ -28,8 +28,8 @@ namespace NaftanRailway.WebUI.Infrastructure {
             _kernel.Bind<IRailwayModule>().To<RailwayModule>();
             _kernel.Bind<INomenclatureModule>().To<NomenclatureModule>();
 
-            _kernel.Bind<IUnitOfWork>().To<UnitOfWork>()
-                .WithConstructorArgument("contexts", new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
+            _kernel.Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts", 
+                new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
 
             _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }

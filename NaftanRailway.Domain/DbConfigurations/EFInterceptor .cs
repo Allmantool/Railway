@@ -13,7 +13,12 @@ namespace NaftanRailway.Domain.DbConfigurations {
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) {
             Log(String.Format("NonQueryExecuted with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
-
+        /// <summary>
+        /// ExecuteNonQuery used for executing queries that does not return any data. 
+        /// It is used to execute the sql statements like update, insert, delete etc.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="interceptionContext"></param>
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) {
             Log(String.Format("NonQueryExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
