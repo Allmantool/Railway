@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 using LinqKit;
 using NaftanRailway.Domain.Abstract;
@@ -142,19 +143,24 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 var finalPredicate = filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
                     .And(x => x.keykrt == findKrt.KEYKRT), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
 
+                long recordCount;
+                var srcRows = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,out recordCount,
+                    x => new {x.nkrt, x.tdoc, x.vidsbr, x.dt}, finalPredicate.Expand()).ToList();
+
                 var result = new DetailModelView() {
                     Scroll = findKrt,
+                    Filters = filters,
                     PagesInfo = new PagingInfo {
                         CurrentPage = page,
                         ItemsPerPage = initialSizeItem,
-                        TotalItems = findKrt.RecordCount
+                        TotalItems = recordCount
                     },
-                    CollDetails = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, finalPredicate.Expand())
+                    CollDetails = srcRows
                 };
 
                 if (result.CollDetails.Any()) {
                     if (Request.IsAjaxRequest()) {
-                        return PartialView("_KrtNaftan_ORC_SAPODRows", result.CollDetails);
+                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);
                     }
 
                     return View("ScrollDetails", result);

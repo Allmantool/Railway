@@ -73,15 +73,15 @@ function filterMenu(obj) {
                 });
             },
             buttonText: function (options, select) {
-                var nameFilter = $(select).prev().val();
-                var selSize = options.length;
+                var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
+                var $selSize = options.length;
 
-                if (selSize === 0) {
+                if ($selSize === 0) {
                     return 'Не выбрано ...';
-                } else if (selSize === $(select).children('option').size()) {
+                } else if ($selSize === $(select).children('option').size()) {
                     return nameFilter + '(Все)' + ' (' + $(select).children('option').length + ')';
-                } else if (selSize > 3) {
-                    return 'Выбрано ' + selSize + ' ' + nameFilter;
+                } else if ($selSize > 3) {
+                    return 'Выбрано ' + $selSize + ' ' + nameFilter;
                 } else {
                     var labels = [];
                     options.each(function () {

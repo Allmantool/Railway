@@ -1,4 +1,5 @@
-﻿@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
+﻿@using System.Collections
+@model IEnumerable<NaftanRailway.WebUI.Areas.NomenclatureScroll.Models.CheckListFilterModel>
 @{
     int i = 0;
 }
@@ -8,12 +9,14 @@
         @Html.Hidden("filters[" + i + "].ActiveFilter", item.ActiveFilter)
         @Html.Hidden("filters[" + i + "].SortFieldName", item.SortFieldName)
         @Html.Hidden("filters[" + i + "].NameDescription", item.NameDescription)
-        @Html.DropDownList("filters[" + (i++) + "].CheckedValues",
-            from listItem in item.AllAvailableValues
-            select new SelectListItem() {
-                Value = listItem, Text = listItem, Selected = menuItem.CheckedValues.Contains(listItem)
-            },
-            //new MultiSelectList(item.AllAvailableValues, "string", "string", item.CheckedValues),
-            new { @class = "form-group form-control filters", type = "search", multiple = "multiple", id = menuItem.SortFieldName })
+        @for (int q = 0; q < item.AllAvailableValues.Count(); q++) {
+            @Html.Hidden("filters[" + i + "].AllAvailableValues[" + q + "]", ((IList)item.AllAvailableValues)[q])
+        }
+        <select class="form-group form-control filters" type="search" multiple="multiple" id=@menuItem.SortFieldName name=@String.Format("filters[{0}].CheckedValues", i++) style="display: none;">
+            @for (int q = 0; q < item.AllAvailableValues.Count(); q++) {
+                var indElem = ((IList)item.AllAvailableValues)[q];
+                <option @(menuItem.CheckedValues.Contains(indElem) ? "selected" : "") value=@indElem>@indElem</option>
+            }
+        </select>
     </div>
 }
