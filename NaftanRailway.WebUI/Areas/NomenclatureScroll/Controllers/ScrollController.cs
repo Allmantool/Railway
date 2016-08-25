@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 using LinqKit;
 using NaftanRailway.Domain.Abstract;
@@ -144,8 +143,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     .And(x => x.keykrt == findKrt.KEYKRT), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
 
                 long recordCount;
-                var srcRows = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem,out recordCount,
-                    x => new {x.nkrt, x.tdoc, x.vidsbr, x.dt}, finalPredicate.Expand()).ToList();
+                var srcRows = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, out recordCount,
+                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, finalPredicate.Expand()).ToList();
 
                 var result = new DetailModelView() {
                     Scroll = findKrt,
