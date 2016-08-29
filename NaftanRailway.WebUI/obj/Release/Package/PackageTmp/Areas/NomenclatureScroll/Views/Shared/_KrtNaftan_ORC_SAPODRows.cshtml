@@ -22,8 +22,8 @@
             @{if (@item.date_raskr != null) {
                     @((Regex.IsMatch(@item.vidsbr.ToString(), @"30[01]", RegexOptions.IgnoreCase))
                     ? @item.date_raskr.Value.ToString("dd.MM.yyyy HH:mm")
-                    : @item.date_raskr.Value.ToString("dd.MM.yyyy"));
-                }
+                    : @item.date_raskr.Value.ToString("dd.MM.yyyy"))
+              }
             }
         </td>
         <td class="success vert-align">@item.num_doc</td>

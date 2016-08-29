@@ -31,25 +31,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/16/2016 21:05:24</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_AjaxPagging.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/26/2016 11:45:18</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_AjaxTableKrtNaftan.cshtml">
-      <publishTime>08/17/2016 10:43:29</publishTime>
+      <publishTime>08/26/2016 10:21:34</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_AjaxTableKrtNaftan_ORC_SAPOD.cshtml">
-      <publishTime>08/22/2016 12:07:58</publishTime>
+      <publishTime>08/26/2016 11:49:17</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_FilterMenu.cshtml">
-      <publishTime>08/22/2016 12:20:26</publishTime>
+      <publishTime>08/24/2016 12:20:01</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_KrtNaftanRows.cshtml">
       <publishTime>08/09/2016 09:00:37</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_KrtNaftan_ORC_SAPODRows.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/24/2016 08:35:33</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_Layout.cshtml">
-      <publishTime>08/22/2016 08:37:18</publishTime>
+      <publishTime>08/25/2016 11:20:52</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Web.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -127,13 +127,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2011 02:35:08</publishTime>
     </File>
     <File Include="bin/Microsoft.Threading.Tasks.dll">
-      <publishTime>07/04/2014 12:26:14</publishTime>
+      <publishTime>04/07/2014 12:26:14</publishTime>
     </File>
     <File Include="bin/Microsoft.Threading.Tasks.Extensions.Desktop.dll">
-      <publishTime>07/04/2014 12:26:14</publishTime>
+      <publishTime>04/07/2014 12:26:14</publishTime>
     </File>
     <File Include="bin/Microsoft.Threading.Tasks.Extensions.dll">
-      <publishTime>07/04/2014 12:26:14</publishTime>
+      <publishTime>04/07/2014 12:26:14</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -145,10 +145,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:05</publishTime>
     </File>
     <File Include="bin/NaftanRailway.Domain.dll">
-      <publishTime>08/23/2016 08:17:44</publishTime>
+      <publishTime>08/26/2016 12:23:38</publishTime>
     </File>
     <File Include="bin/NaftanRailway.WebUI.dll">
-      <publishTime>08/23/2016 08:17:51</publishTime>
+      <publishTime>08/26/2016 12:24:05</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -160,7 +160,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:03</publishTime>
     </File>
     <File Include="bin/packages.config">
-      <publishTime>08/16/2016 08:42:55</publishTime>
+      <publishTime>08/23/2016 11:00:50</publishTime>
     </File>
     <File Include="bin/ru/EntityFramework.resources.dll">
       <publishTime>07/16/2016 22:43:01</publishTime>
@@ -169,16 +169,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:01</publishTime>
     </File>
     <File Include="bin/ru/System.Net.Http.Formatting.resources.dll">
-      <publishTime>05/07/2013 13:11:38</publishTime>
+      <publishTime>07/05/2013 13:11:38</publishTime>
     </File>
     <File Include="bin/ru/System.Net.Http.resources.dll">
-      <publishTime>07/10/2012 23:41:14</publishTime>
+      <publishTime>10/07/2012 23:41:14</publishTime>
     </File>
     <File Include="bin/ru/System.Web.Http.resources.dll">
-      <publishTime>05/07/2013 13:11:40</publishTime>
+      <publishTime>07/05/2013 13:11:40</publishTime>
     </File>
     <File Include="bin/ru/System.Web.Http.WebHost.resources.dll">
-      <publishTime>05/07/2013 13:11:40</publishTime>
+      <publishTime>07/05/2013 13:11:40</publishTime>
     </File>
     <File Include="bin/ru/System.Web.Mvc.resources.dll">
       <publishTime>08/18/2014 17:29:04</publishTime>
@@ -202,7 +202,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2010 19:31:26</publishTime>
     </File>
     <File Include="bin/System.IO.dll">
-      <publishTime>07/04/2014 10:39:28</publishTime>
+      <publishTime>04/07/2014 10:39:28</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -211,10 +211,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:02</publishTime>
     </File>
     <File Include="bin/System.Runtime.dll">
-      <publishTime>07/04/2014 10:39:28</publishTime>
+      <publishTime>04/07/2014 10:39:28</publishTime>
     </File>
     <File Include="bin/System.Threading.Tasks.dll">
-      <publishTime>07/04/2014 10:39:28</publishTime>
+      <publishTime>04/07/2014 10:39:28</publishTime>
     </File>
     <File Include="bin/System.Web.Abstractions.dll">
       <publishTime>03/18/2010 19:31:26</publishTime>
@@ -259,7 +259,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2010 19:31:26</publishTime>
     </File>
     <File Include="bin/Web.config">
-      <publishTime>08/23/2016 08:16:55</publishTime>
+      <publishTime>08/23/2016 11:52:13</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>07/16/2016 22:43:04</publishTime>
@@ -931,7 +931,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>08/16/2016 08:42:55</publishTime>
+      <publishTime>08/23/2016 11:00:50</publishTime>
     </File>
     <File Include="Scripts/bootstrap-datepicker.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -964,7 +964,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/GeneralJs/_General.js">
-      <publishTime>07/16/2016 22:43:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/html5shiv.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1096,7 +1096,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/16/2016 08:42:40</publishTime>
     </File>
     <File Include="Scripts/NomenclatureJs/_Scrolls.js">
-      <publishTime>08/23/2016 07:08:04</publishTime>
+      <publishTime>08/24/2016 14:39:03</publishTime>
     </File>
     <File Include="Scripts/RailwayJs/_Guild18.js">
       <publishTime>08/11/2016 12:08:51</publishTime>
@@ -1249,7 +1249,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/23/2016 08:16:55</publishTime>
+      <publishTime>08/23/2016 11:52:13</publishTime>
     </File>
   </ItemGroup>
 </Project>

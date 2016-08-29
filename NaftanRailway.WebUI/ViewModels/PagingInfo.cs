@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc.Ajax;
+using System.Web.Routing;
 
 namespace NaftanRailway.WebUI.ViewModels {
     /// <summary>
@@ -13,5 +14,6 @@ namespace NaftanRailway.WebUI.ViewModels {
             get { return (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage); }
         }
         public AjaxOptions AjaxOptions { get; set; }
+        public RouteValueDictionary RoutingDictionary { get; set; }
     }
 }

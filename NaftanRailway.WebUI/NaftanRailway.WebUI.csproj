@@ -573,7 +573,7 @@
     <Content Include="Scripts\bundle\html4\jquery.history.js" />
     <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
-    <Content Include="Scripts\IE9-.js" />
+    <Content Include="Scripts\IEJs\IE9-.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
