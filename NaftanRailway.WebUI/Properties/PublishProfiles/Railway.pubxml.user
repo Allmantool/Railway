@@ -24,6 +24,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Areas/NomenclatureScroll/Views/Shared/EditorTemplates/Enum.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Areas/NomenclatureScroll/Views/Shared/Errors.cshtml">
+      <publishTime>08/29/2016 14:08:52</publishTime>
+    </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_AjaxKrtNaftanRow.cshtml">
       <publishTime>03/07/2016 01:32:06</publishTime>
     </File>
@@ -50,6 +53,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Shared/_Layout.cshtml">
       <publishTime>08/25/2016 11:20:52</publishTime>
+    </File>
+    <File Include="Areas/NomenclatureScroll/Views/Shared/_ViewStart.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/NomenclatureScroll/Views/Web.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -112,7 +118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Global.asax.cs">
-      <publishTime>08/23/2016 07:08:04</publishTime>
+      <publishTime>08/29/2016 13:24:27</publishTime>
     </File>
     <File Include="bin/LinqKit.dll">
       <publishTime>07/28/2016 21:00:10</publishTime>
@@ -145,10 +151,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:05</publishTime>
     </File>
     <File Include="bin/NaftanRailway.Domain.dll">
-      <publishTime>08/26/2016 12:23:38</publishTime>
+      <publishTime>08/29/2016 11:40:15</publishTime>
     </File>
     <File Include="bin/NaftanRailway.WebUI.dll">
-      <publishTime>08/26/2016 12:24:05</publishTime>
+      <publishTime>08/29/2016 14:10:05</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -259,7 +265,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2010 19:31:26</publishTime>
     </File>
     <File Include="bin/Web.config">
-      <publishTime>08/23/2016 11:52:13</publishTime>
+      <publishTime>08/29/2016 13:55:41</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>07/16/2016 22:43:04</publishTime>
@@ -972,6 +978,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/IE9-.js">
       <publishTime>07/25/2016 00:33:33</publishTime>
     </File>
+    <File Include="Scripts/IEJs/IE9-.js">
+      <publishTime>07/25/2016 00:33:33</publishTime>
+    </File>
     <File Include="Scripts/jquery-1.11.3.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
@@ -1210,7 +1219,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/Errors.cshtml">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>08/29/2016 10:32:45</publishTime>
     </File>
     <File Include="Views/Shared/_AdminLayout.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1249,7 +1258,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/23/2016 11:52:13</publishTime>
+      <publishTime>08/29/2016 13:55:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -518,7 +518,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\ScrollDetails.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxTableKrtNaftan.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Scroll\Reports.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_ViewStart.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Configuration\Index.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxTableKrtNaftan_ORC_SAPOD.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\EditorTemplates\Enum.cshtml" />
@@ -719,7 +719,7 @@
     <Content Include="Views\Cards\CardsSummary.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\Errors.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\Errors.cshtml" />
     <Content Include="Views\Storage\Summary.cshtml" />
     <Content Include="Views\Ceh18\Dispatchs.cshtml" />
     <Content Include="Views\Ceh18\ShPagging.cshtml" />

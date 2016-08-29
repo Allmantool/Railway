@@ -10,9 +10,13 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
+using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
+    //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
+    //[HandleError(ExceptionType = typeof(ArgumentNullException),View = "NomenclatureErrorNull",Master = "")] //Return HandleErrorInfo as model object
+    [ExceptionFilter]
     public class ScrollController : AsyncController {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {
@@ -81,7 +85,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             string msgError = "";
 
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                //return Json(selectKrt, "application/json", JsonRequestBehavior.DenyGet);
                 return PartialView("_KrtNaftanRows", new List<krt_Naftan>() { _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError) });
             }
 

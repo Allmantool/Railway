@@ -44,8 +44,8 @@ namespace NaftanRailway.Domain.Concrete {
             _context.Entry(_dbSet.Where(predicate)).Reload();
             _context.SaveChanges();*/
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
-            if (predicate == null) return (enableTracking) ? _dbSet.FirstOrDefault() : _dbSet.AsNoTracking().FirstOrDefault();
-            var result = (enableTracking) ? _dbSet.Where(predicate).FirstOrDefault() : _dbSet.AsNoTracking().Where(predicate).FirstOrDefault();
+            if (predicate == null) return (enableTracking) ? _dbSet.FirstOrDefault() : _dbSet.AsNoTracking().SingleOrDefault();
+            var result = (enableTracking) ? _dbSet.Where(predicate).FirstOrDefault() : _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
 
             return result;
         }

@@ -1,4 +1,4 @@
-﻿using System.Data.Entity.Infrastructure.Interception;
+﻿using System;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -8,7 +8,6 @@ using Filters;
 using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.WebUI.Infrastructure.Binders;
 using NaftanRailway.WebUI.ViewModels;
-using WebMatrix.WebData;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
@@ -60,6 +59,16 @@ namespace NaftanRailway.WebUI {
             /*Controller Builder
             ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
             */
+        }
+        /// <summary>
+        /// Handling as a fallback for any unexpected and unhandled errors
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Application_Error(object sender, EventArgs e) {
+                Exception exception = Server.GetLastError();
+                Server.ClearError();
+                Response.Redirect("~/Views/Shared/Errors.cshtml");
         }
     }
 }

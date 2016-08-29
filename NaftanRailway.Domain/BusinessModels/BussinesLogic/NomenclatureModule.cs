@@ -40,6 +40,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                     //Confirmed
                     krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    //Engage.Uow.Repository<krt_Naftan>().Edit(chRecord);
 
                     //Uow.Repository<krt_Naftan>().Edit(chRecord);
                     if (!chRecord.Confirmed) {
@@ -55,7 +56,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     return chRecord;
                 } catch (Exception e) {
                     msgError = e.Message;
-                    throw new Exception("Failed confirmed data");
+                    throw new Exception("Failed confirmed data: " + msgError);
                 }
             }
         }
