@@ -720,7 +720,7 @@
     <Content Include="Views\Cards\CardsSummary.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\Errors.cshtml" />
+    <Content Include="Views\Shared\Errors.cshtml" />
     <Content Include="Views\Storage\Summary.cshtml" />
     <Content Include="Views\Ceh18\Dispatchs.cshtml" />
     <Content Include="Views\Ceh18\ShPagging.cshtml" />

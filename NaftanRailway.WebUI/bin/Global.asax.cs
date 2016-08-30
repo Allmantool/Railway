@@ -69,10 +69,6 @@ namespace NaftanRailway.WebUI {
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e) {
             Exception exception = Server.GetLastError();
-<<<<<<< HEAD
-            Server.ClearError();
-            Response.Redirect("~/Areas/NomenclatureScroll/Views/Shared/Errors.cshtml");
-=======
             if (exception is HttpUnhandledException) {
                 exception = exception.InnerException;
             }
@@ -81,9 +77,8 @@ namespace NaftanRailway.WebUI {
             if (exception != null) {
                 System.Diagnostics.Debug.WriteLine(exception.Message);
                 //Response.Redirect("~/Areas/NomenclatureScroll/Views/Shared/Errors.cshtml");
+                //Server.ClearError();
             }
-            Server.ClearError();
->>>>>>> def3af003a3c83baaee67acf797225e403ea1497
         }
     }
 }

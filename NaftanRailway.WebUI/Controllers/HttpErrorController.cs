@@ -5,13 +5,19 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult NotFound() {
             //return HttpNotFound();
             //throw new HttpException(404, "Not found");
-            Response.StatusCode = 400;
+            Response.StatusCode = 404;
             
             return View();
         }
 
-        //public ActionResult Forbidden() {
-        //    return View();
-        //}
+        public ActionResult Forbidden() {
+            return RedirectToAction("NotFound");
+        }
+
+        public ActionResult ServerCrash()
+        {
+           var result = HttpContext;
+           return RedirectToAction("NotFound");
+        }
     }
 }

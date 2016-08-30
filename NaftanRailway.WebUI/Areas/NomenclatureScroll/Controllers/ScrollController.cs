@@ -10,7 +10,6 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContext.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
-using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
