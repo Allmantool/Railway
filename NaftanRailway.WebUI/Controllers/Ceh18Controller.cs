@@ -9,6 +9,8 @@ using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
+    //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
+    //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
     public class Ceh18Controller : Controller {
         private readonly IRailwayModule _bussinesEngage;
 

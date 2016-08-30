@@ -1,0 +1,36 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="Author" content="P.Chizhikov" />
+    <meta charset="utf-8" />
+    <title>Страница не найдена!</title>
+    <base href="@(string.Format("{0}://{1}{2}/", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))" />
+    <meta name="Description" content="Custom error page" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+    <meta http-equiv="refresh" content="1800" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @Styles.Render("~/Content/cssbundle")
+    <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1>404 Страница не найдена <span>:(</span></h1>
+            <p>Извините, но страница которую вы пытаетесь просмотреть не существуют.</p>
+            <p>Эта ошибка могла стать результатом следующих действий:</p>
+            <ul>
+                <li>указан неверный адрес(URL) в строке поиска</li>
+                <li>устаревшая ссылка</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

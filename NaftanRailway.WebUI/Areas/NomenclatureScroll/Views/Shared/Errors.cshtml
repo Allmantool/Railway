@@ -1,5 +1,4 @@
-﻿@using System.Web.Optimization
-@model ExceptionContext
+﻿@model ExceptionContext
 @{
     Layout = null;
 }
@@ -44,6 +43,18 @@
                 <tr>
                     <th><span>Mashine name:</span></th>
                     <td>@Model.RequestContext.HttpContext.Server.MachineName</td>
+                </tr>
+                <tr>
+                    <th><span>IIS version:</span></th>
+                    <td>@Model.RequestContext.HttpContext.Request.ServerVariables["SERVER_SOFTWARE"]</td>
+                </tr>
+                <tr>
+                    <th><span>ASP.NET MVC version:</span></th>
+                    <td>@typeof(Page).Assembly.GetName().Version</td>
+                </tr>
+                <tr>
+                    <th><span>.NET Framework version:</span></th>
+                    <td>@Environment.Version.ToString()</td>
                 </tr>
                 <tr>
                     <th><span>time-out (sec):</span></th>

@@ -14,9 +14,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[SessionState(SessionStateBehavior.Disabled)]
-    //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
-    //[HandleError(ExceptionType = typeof(ArgumentNullException),View = "NomenclatureErrorNull",Master = "")] //Return HandleErrorInfo as model object
-    [ExceptionFilter]
+    //[ExceptionFilter]
     public class ScrollController : AsyncController {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {

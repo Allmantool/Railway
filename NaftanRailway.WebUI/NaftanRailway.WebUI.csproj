@@ -363,6 +363,7 @@
     <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\Ceh18Controller.cs" />
+    <Compile Include="Controllers\HttpErrorController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
@@ -728,6 +729,7 @@
     <Content Include="Views\Ceh18\_NotFoundModal.cshtml" />
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <Content Include="Views\HttpError\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />
