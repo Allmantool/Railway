@@ -66,9 +66,9 @@ namespace NaftanRailway.WebUI {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e) {
-                Exception exception = Server.GetLastError();
-                Server.ClearError();
-                Response.Redirect("~/Views/Shared/Errors.cshtml");
+            Exception exception = Server.GetLastError();
+            Server.ClearError();
+            Response.Redirect("~/Areas/NomenclatureScroll/Views/Shared/Errors.cshtml");
         }
     }
 }
