@@ -5,7 +5,9 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 namespace Filters {
     public static class FilterConfig {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
-            filters.Add(new HandleErrorAttribute());
+            /*Register inbuilt exception filter provided ASP.NET MVC (filter will be invoke on each contoller)*/
+            //filters.Add(new HandleErrorAttribute());
+            filters.Add(new ExceptionFilterAttribute());
             /*The final thing we need to do is to register our new ActionFilter in App_Start/FilterConfig.cs 
              * so it’ll be activated for all action methods automatically.
              * Now, everytime you execute an action method according to the first initial example above, 
