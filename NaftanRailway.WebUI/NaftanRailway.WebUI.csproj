@@ -355,6 +355,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Images\500-Internal-Server-Error-Design-Inspiration.gif" />
     <Content Include="Content\Images\loadingArrow.gif" />
     <Content Include="Content\_General.css" />
     <Content Include="Content\_Scrolls.css" />
@@ -730,6 +731,8 @@
     <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\HttpError\NotFound.cshtml" />
+    <Content Include="Views\HttpError\ServerCrash.cshtml" />
+    <Content Include="Views\Shared\_Layout.HttpErrors.cshtml.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />

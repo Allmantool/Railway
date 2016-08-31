@@ -76,7 +76,8 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 // Prepare the response code.  
                 filterContext.ExceptionHandled = true;
                 filterContext.HttpContext.Response.Clear();
-                //filterContext.HttpContext.Response.StatusCode = statusCode;
+
+                if (!filterContext.HttpContext.Request.IsLocal) { filterContext.HttpContext.Response.StatusCode = statusCode; }
 
                 // Certain versions of IIS will sometimes use their own error page when
                 // they detect a server error. Setting this property indicates that we

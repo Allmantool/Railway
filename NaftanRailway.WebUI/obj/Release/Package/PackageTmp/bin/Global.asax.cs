@@ -18,6 +18,7 @@ namespace NaftanRailway.WebUI {
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
+            // This method call registers all filters 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
@@ -62,13 +63,22 @@ namespace NaftanRailway.WebUI {
         }
         /// <summary>
         /// Handling as a fallback for any unexpected and unhandled errors
+        /// The route errors (404) is not mapped to ASP.NET
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e) {
-                Exception exception = Server.GetLastError();
-                Server.ClearError();
-                Response.Redirect("~/Views/Shared/Errors.cshtml");
+            Exception exception = Server.GetLastError();
+            if (exception is HttpUnhandledException) {
+                exception = exception.InnerException;
+            }
+
+            // log exception message using   
+            if (exception != null) {
+                System.Diagnostics.Debug.WriteLine(exception.Message);
+                //Response.Redirect("~/Areas/NomenclatureScroll/Views/Shared/Errors.cshtml");
+                //Server.ClearError();
+            }
         }
     }
 }

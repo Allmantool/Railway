@@ -16,8 +16,8 @@ namespace NaftanRailway.WebUI.Controllers {
 
         public ActionResult ServerCrash()
         {
-           var result = HttpContext;
-           return RedirectToAction("NotFound");
+            Response.StatusCode = 500;
+            return View();
         }
     }
 }

@@ -118,7 +118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Global.asax.cs">
-      <publishTime>08/29/2016 13:24:27</publishTime>
+      <publishTime>08/31/2016 07:23:03</publishTime>
     </File>
     <File Include="bin/LinqKit.dll">
       <publishTime>07/28/2016 21:00:10</publishTime>
@@ -154,7 +154,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/29/2016 11:40:15</publishTime>
     </File>
     <File Include="bin/NaftanRailway.WebUI.dll">
-      <publishTime>08/29/2016 14:10:05</publishTime>
+      <publishTime>08/31/2016 09:31:26</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -265,7 +265,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/18/2010 19:31:26</publishTime>
     </File>
     <File Include="bin/Web.config">
-      <publishTime>08/29/2016 13:55:41</publishTime>
+      <publishTime>08/31/2016 08:12:03</publishTime>
     </File>
     <File Include="bin/WebActivatorEx.dll">
       <publishTime>07/16/2016 22:43:04</publishTime>
@@ -593,6 +593,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/fonts/glyphicons-halflings-regular.woff2">
       <publishTime>08/15/2016 07:59:15</publishTime>
+    </File>
+    <File Include="Content/Images/500-Internal-Server-Error-Design-Inspiration.gif">
+      <publishTime>08/31/2016 08:06:24</publishTime>
     </File>
     <File Include="Content/Images/accent.png">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1191,6 +1194,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Ceh18/_NotFoundModal.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
+    <File Include="Views/HttpError/NotFound.cshtml">
+      <publishTime>08/31/2016 08:39:17</publishTime>
+    </File>
+    <File Include="Views/HttpError/ServerCrash.cshtml">
+      <publishTime>08/31/2016 09:19:44</publishTime>
+    </File>
     <File Include="Views/Navigation/ComplexNavbarMenu.cshtml">
       <publishTime>08/11/2016 14:36:48</publishTime>
     </File>
@@ -1219,13 +1228,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/Errors.cshtml">
-      <publishTime>08/29/2016 10:32:45</publishTime>
+      <publishTime>08/31/2016 07:23:04</publishTime>
     </File>
     <File Include="Views/Shared/_AdminLayout.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/22/2016 08:37:56</publishTime>
+      <publishTime>08/31/2016 08:27:19</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.HttpErrors.cshtml.cshtml">
+      <publishTime>08/31/2016 08:27:59</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.Mobile.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1258,7 +1270,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/29/2016 13:55:41</publishTime>
+      <publishTime>08/31/2016 08:12:03</publishTime>
     </File>
   </ItemGroup>
 </Project>

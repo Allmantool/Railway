@@ -16,11 +16,10 @@
 </head>
 
 <body>
-    <div>
-        @{Html.RenderAction("GeneralMenu", "Navigation");}
-        <!--<div class="visible-xs">@{ Html.RenderAction("MenuTypeOperations", "Navigation", new { horizontalLayout = true }); }</div>-->
-        <div class="container-fluid" id="Guild18Body">@RenderBody()</div>
-    </div>
+    @{Html.RenderAction("GeneralMenu", "Navigation");}
+    <!--<div class="visible-xs">@{ Html.RenderAction("MenuTypeOperations", "Navigation", new { horizontalLayout = true }); }</div>-->
+    <div class="container-fluid" id="Guild18Body">@RenderBody()</div>
+
 
     <!--[if lte IE 8]>
         @Scripts.Render("~/bundles/JQuery1")
