@@ -151,10 +151,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/16/2016 22:43:05</publishTime>
     </File>
     <File Include="bin/NaftanRailway.Domain.dll">
-      <publishTime>08/29/2016 11:40:15</publishTime>
+      <publishTime>02/09/2016 12:08:32</publishTime>
     </File>
     <File Include="bin/NaftanRailway.WebUI.dll">
-      <publishTime>08/31/2016 09:31:26</publishTime>
+      <publishTime>09/02/2016 12:15:19</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>07/16/2016 22:43:03</publishTime>
@@ -1111,7 +1111,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/24/2016 14:39:03</publishTime>
     </File>
     <File Include="Scripts/RailwayJs/_Guild18.js">
-      <publishTime>08/11/2016 12:08:51</publishTime>
+      <publishTime>02/09/2016 10:28:04</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1198,7 +1198,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/31/2016 08:39:17</publishTime>
     </File>
     <File Include="Views/HttpError/ServerCrash.cshtml">
-      <publishTime>08/31/2016 09:19:44</publishTime>
+      <publishTime>09/02/2016 12:14:38</publishTime>
     </File>
     <File Include="Views/Navigation/ComplexNavbarMenu.cshtml">
       <publishTime>08/11/2016 14:36:48</publishTime>

@@ -6,7 +6,6 @@ namespace NaftanRailway.WebUI.Controllers {
             //return HttpNotFound();
             //throw new HttpException(404, "Not found");
             Response.StatusCode = 404;
-            
             return View();
         }
 
@@ -14,9 +13,11 @@ namespace NaftanRailway.WebUI.Controllers {
             return RedirectToAction("NotFound");
         }
 
-        public ActionResult ServerCrash()
-        {
+        public ActionResult ServerCrash() {
             Response.StatusCode = 500;
+
+            //var result = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "#";
+
             return View();
         }
     }
