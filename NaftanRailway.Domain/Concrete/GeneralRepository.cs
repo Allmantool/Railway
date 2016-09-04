@@ -11,8 +11,8 @@ using NaftanRailway.Domain.Abstract;
 namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
         private bool _disposed;
-        public System.Data.Entity.DbContext Context { get; }
         private readonly DbSet<T> _dbSet;
+        public System.Data.Entity.DbContext Context { get; }
 
         public GeneralRepository(System.Data.Entity.DbContext context) {
             Context = context;
@@ -36,7 +36,7 @@ namespace NaftanRailway.Domain.Concrete {
 
             return result;
         }
-        public T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true) {
+        public T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)  {
             //sync data in Db & EF (if change not tracking for EF)
             /*var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
@@ -44,8 +44,8 @@ namespace NaftanRailway.Domain.Concrete {
             _context.Entry(_dbSet.Where(predicate)).Reload();
             _context.SaveChanges();*/
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
-            if (predicate == null) return (enableTracking) ? _dbSet.FirstOrDefault() : _dbSet.AsNoTracking().SingleOrDefault();
-            var result = (enableTracking) ? _dbSet.Where(predicate).FirstOrDefault() : _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
+            if (predicate == null) return (enableTracking) ? _dbSet.SingleOrDefault() : _dbSet.AsNoTracking().SingleOrDefault();
+            var result = (enableTracking) ? _dbSet.Where(predicate).SingleOrDefault() : _dbSet.AsNoTracking().Where(predicate).SingleOrDefault();
 
             return result;
         }
@@ -114,9 +114,9 @@ namespace NaftanRailway.Domain.Concrete {
                 //connection scenario http://www.entityframeworktutorial.net/update-entity-in-entity-framework.aspx
                 T item = _dbSet.Where(predicate).First();
                 DbEntityEntry entry = Context.Entry(item);
-                foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
-                    //entry.CurrentValues.;
-                }
+                //foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
+                //entry.CurrentValues.;
+                //}
 
 
                 foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
@@ -170,7 +170,7 @@ namespace NaftanRailway.Domain.Concrete {
         public void Edit(IEnumerable<T> entityColl, Action<T> operations, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             var list = entityColl.ToList();
-            
+
             //list.ForEach(entity => _dbSet.Attach(entity));
             list.ForEach(entity => Context.Entry(entity).State = EntityState.Unchanged);
             list.ForEach(operations);

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
-using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 
 namespace NaftanRailway.WebUI {
     public static class RouteConfig {

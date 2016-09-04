@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using System.Data.Entity.Core.Metadata.Edm;
@@ -83,7 +82,7 @@ namespace NaftanRailway.Domain.Concrete {
                     Console.WriteLine("Optimistic Concurrency exception occured" + ex.Message);
                     transaction.Rollback();
 
-                    throw  new Exception("Error occured in save method (Uow)");
+                    throw new Exception("Error occured in save method (Uow)");
                 }
             }
         }

@@ -44,7 +44,7 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
             MemberExpression member = Expression.Property(entity, propertyName); // property people.Age
 
             var someValue = Expression.Constant(colItems);
-            var body = Expression.Call(typeof(Enumerable), "Contains", new Type[] { member.Type }, someValue, member);
+            var body = Expression.Call(typeof(Enumerable), "Contains", new[] { member.Type }, someValue, member);
 
             return Expression.Lambda<Func<TEntity, bool>>(body, entity);
         }
@@ -98,7 +98,6 @@ namespace NaftanRailway.Domain.ExpressionTreeExtensions {
         /// Replace for Convert function in Linq to SQL
         /// </summary>
         /// <typeparam name="TInput">Input type</typeparam>
-        /// <typeparam name="TOutput">Output type</typeparam>
         /// <returns></returns>
         public static Expression<Func<TInput, int>> ConvertInt32<TInput>(string fieldName, string propertyValue) {
             ParameterExpression param = Expression.Parameter(typeof(TInput), "type");
