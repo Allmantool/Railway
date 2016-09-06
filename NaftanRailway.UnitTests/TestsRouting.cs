@@ -1,11 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace NaftanRailway.UnitTests {
     [TestClass]
     public class TestsRouting {
+        /// <summary>
+        /// Testing incoming Urls (arrange/act/assert - A/A/A)
+        /// </summary>
         [TestMethod]
-        public void TestMethod1() {
+        public void IncomingUrl() {
         }
     }
 }

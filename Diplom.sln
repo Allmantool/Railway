@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.Domain", "Naf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.WebUI", "NaftanRailway.WebUI\NaftanRailway.WebUI.csproj", "{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.UnitTests", "NaftanRailway.UnitTests\NaftanRailway.UnitTests.csproj", "{A3869685-A11B-4BCA-AF1A-31A1CF8D407A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3869685-A11B-4BCA-AF1A-31A1CF8D407A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3869685-A11B-4BCA-AF1A-31A1CF8D407A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3869685-A11B-4BCA-AF1A-31A1CF8D407A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3869685-A11B-4BCA-AF1A-31A1CF8D407A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

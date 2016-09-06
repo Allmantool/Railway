@@ -175,7 +175,7 @@ function UpdateFailure() { }
 /**********************************************************Update date in confirmed row(s)**************************************************************************/
 function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
-    var currentNkrt = $(dateRow).find('.numberScroll').text();
+    var currentNkrt = $(dateRow).find('.numberScroll').first().text();
     var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
 
     if ($('#valMultiDate').val() === "True") {

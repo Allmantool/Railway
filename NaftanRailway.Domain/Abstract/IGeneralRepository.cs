@@ -26,7 +26,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enableTracking"></param>
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
-        T Find(dynamic key, bool enableDetectChanges);
+        T Find<TK>(TK key, bool enableDetectChanges = true);
         /// <summary>
         /// Add general entity
         /// </summary>
@@ -72,6 +72,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enableDetectChanges"></param>
         void Delete(Expression<Func<T, bool>> predicate, bool enableDetectChanges = true);
         void Delete(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+        void Delete<TK>(TK key, bool enableDetectChanges = true);
         /// <summary>
         /// Update if exist or add
         /// </summary>

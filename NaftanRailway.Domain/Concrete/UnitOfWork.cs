@@ -72,7 +72,9 @@ namespace NaftanRailway.Domain.Concrete {
 
             return repo;
         }
+
         public void Save() {
+            //TransactionScore score = new TransactionScore(); //old style
             using (var transaction = ActiveContext.Database.BeginTransaction()) {
                 try {
                     //ActiveContext.ChangeTracker.DetectChanges();

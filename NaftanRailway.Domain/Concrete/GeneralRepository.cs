@@ -36,7 +36,7 @@ namespace NaftanRailway.Domain.Concrete {
 
             return result;
         }
-        public T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)  {
+        public T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true) {
             //sync data in Db & EF (if change not tracking for EF)
             /*var ctx = ((IObjectContextAdapter) _context).ObjectContext;
             ctx.Refresh(RefreshMode.StoreWins, ctx.ObjectStateManager.GetObjectStateEntries(EntityState.Modified));
@@ -49,16 +49,18 @@ namespace NaftanRailway.Domain.Concrete {
 
             return result;
         }
+
         /// <summary>
         /// Alternative method apposite Get. Diffrents => find first search in context.When not found in context then request to source(Db)
         /// </summary>
         /// <param name="key"></param>
         /// <param name="enableDetectChanges"></param>
         /// <returns></returns>
-        public T Find(dynamic key, bool enableDetectChanges = true) {
+        public T Find<TK>(TK key, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             return _dbSet.Find(key);
         }
+
         public void Add(T entity, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             _dbSet.Add(entity);
@@ -68,6 +70,7 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             _dbSet.AddRange(entityColl);
         }
+
         /// <summary>
         /// Mark all field of record as dirty => update all field (marking the whole entity as dirty)
         /// Work in disconnect scenario
@@ -92,6 +95,7 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Entry(Get(predicate)).State = EntityState.Modified;
             //_dbSet.Find(entity);
         }
+
         public void Merge(T entity, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             _dbSet.AddOrUpdate(entity);
@@ -134,6 +138,10 @@ namespace NaftanRailway.Domain.Concrete {
 
             Context.Configuration.AutoDetectChangesEnabled = true;
         }
+
+        public void Delete<TK>(TK key, bool enableDetectChanges = true) {
+            _dbSet.Remove(Find(key, enableDetectChanges));
+        }
         public void Delete(T entity, bool enableDetectChanges = true) {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             //if context don't keep tracked entity
@@ -157,6 +165,7 @@ namespace NaftanRailway.Domain.Concrete {
             Context.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             _dbSet.Where(predicate).ForEach(x => Context.Entry(x).State = EntityState.Deleted);
         }
+
         /// <summary>
         /// if call saveChanges after change some property, this EntityState update only need field
         /// Work in disconnect scenario

@@ -45,6 +45,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return View(model);
         }
+
         /// <summary>
         /// Action to responde to post request (for routing system actualy display selecting month)
         /// </summary>
@@ -65,6 +66,7 @@ namespace NaftanRailway.WebUI.Controllers {
             }
             return new EmptyResult();
         }
+
         /// <summary>
         /// For shipping number autoComplete
         /// </summary>
@@ -76,6 +78,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return Json(result, JsonRequestBehavior.DenyGet);
         }
+
         /// <summary>
         /// Return grouping by oper result
         /// </summary>
@@ -91,6 +94,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return Json("", JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// Add information about distach in db
         /// </summary>

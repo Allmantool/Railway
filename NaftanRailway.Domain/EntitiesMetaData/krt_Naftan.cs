@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Script.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NaftanRailway.Domain.Concrete.DbContext.ORC {
     [MetadataType(typeof(ObjMetaData))]
@@ -9,5 +7,11 @@ namespace NaftanRailway.Domain.Concrete.DbContext.ORC {
     internal class ObjMetaData {
         //[ScriptIgnore]
         //public virtual ICollection<krt_Naftan_orc_sapod> krt_Naftan_orc_sapod { get; set; }
+
+        //Optimistic Concurrency
+        //[Timestamp()]
+        //public byte[] RowVersion { get; set; }
+        //[ConcurrencyCheck]
+        //public int Version { get; set; }
     }
 }
