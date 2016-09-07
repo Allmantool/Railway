@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContext.OBD;
@@ -21,27 +22,39 @@ namespace NaftanRailway.Domain.Concrete {
         /// </summary>
         public UnitOfWork() {
             Contexts = new System.Data.Entity.DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
+            SetUpContext();
         }
         /// <summary>
         /// Constructor with specific dbContext
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="lazyLoading"></param>
-        /// <param name="proxy"></param>
-        public UnitOfWork(System.Data.Entity.DbContext context, bool lazyLoading = true, bool proxy = true) {
+        public UnitOfWork(System.Data.Entity.DbContext context) {
             ActiveContext = context;
-            /*Отключает Lazy loading необходим для Json (для сериализации entity to json*/
-            ActiveContext.Configuration.LazyLoadingEnabled = lazyLoading;
-            ActiveContext.Configuration.ProxyCreationEnabled = proxy;
+            SetUpContext();
         }
+
         /// <summary>
         /// Ninject (Dependency Injection). Pass a custom set of dbContext
         /// </summary>
         /// <param name="contexts"></param>
         public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
             Contexts = contexts;
+            SetUpContext();
         }
-
+        
+        /// <summary>
+        /// Configuraton setting of exist contexts
+        /// </summary>
+        /// <param name="lazyLoading"></param>
+        /// <param name="proxy"></param>
+        private void SetUpContext(bool lazyLoading = false, bool proxy = true)
+        {
+            /*Отключает Lazy loading необходим для Json (для сериализации entity to json*/
+            foreach (var item in Contexts) {
+                item.Configuration.LazyLoadingEnabled = lazyLoading;
+                item.Configuration.ProxyCreationEnabled = proxy;
+            }
+        }
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific dbcontext
