@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NaftanRailway.Domain.Concrete.DbContext.ORC {
+namespace NaftanRailway.Domain.Concrete.DbContexts.ORC {
     [MetadataType(typeof(ObjMetaData))]
     public partial class krt_Naftan {
     }

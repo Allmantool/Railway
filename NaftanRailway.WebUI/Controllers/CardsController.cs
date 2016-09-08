@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]

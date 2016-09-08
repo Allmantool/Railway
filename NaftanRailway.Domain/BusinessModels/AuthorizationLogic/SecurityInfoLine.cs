@@ -1,4 +1,4 @@
-﻿namespace NaftanRailway.Domain.BusinessModels {
+﻿namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
     /// <summary>
     /// One info row(line)
     /// </summary>

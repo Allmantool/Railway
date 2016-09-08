@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     /// <summary>

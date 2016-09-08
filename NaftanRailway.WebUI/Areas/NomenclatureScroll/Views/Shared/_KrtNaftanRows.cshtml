@@ -1,8 +1,8 @@
-﻿@using NaftanRailway.Domain.Concrete.DbContext.ORC
+﻿@using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 @model IEnumerable<krt_Naftan>
 @{ var i = 0;}
 
-@foreach (krt_Naftan item in Model) {
+@foreach (var item in Model) {
     <tr class="@(item.Confirmed ? "" : "success")">
         <td>
             <input type="radio" name="optionsRadios" id="optionsRadios@(i++)" class="radio">

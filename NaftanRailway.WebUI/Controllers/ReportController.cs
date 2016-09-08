@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
-using NaftanRailway.Domain.BusinessModels;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]

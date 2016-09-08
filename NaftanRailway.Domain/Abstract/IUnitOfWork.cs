@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Data.Entity;
 
 namespace NaftanRailway.Domain.Abstract {
     public interface IUnitOfWork : IDisposable {
         /// <summary>
         /// Active DbContext (current)
         /// </summary>
-        System.Data.Entity.DbContext ActiveContext { get; set; }
+        DbContext ActiveContext { get; set; }
 
         /// <summary>
         /// General type repository

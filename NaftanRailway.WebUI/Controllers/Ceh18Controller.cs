@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Controllers {

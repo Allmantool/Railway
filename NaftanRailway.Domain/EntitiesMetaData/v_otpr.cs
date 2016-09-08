@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace NaftanRailway.Domain.Concrete.DbContext.OBD {
+namespace NaftanRailway.Domain.Concrete.DbContexts.OBD {
     [MetadataType(typeof(ShippingMetaData))]
     public partial class v_otpr {}
 

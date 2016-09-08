@@ -89,3 +89,6 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.IO.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.Runtime.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Debug\System.Threading.Tasks.xml
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csproj.App.config
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.SqlServer.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.SqlServer.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.SqlServer.resources.dll

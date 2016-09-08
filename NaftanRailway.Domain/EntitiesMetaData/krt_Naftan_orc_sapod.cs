@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace NaftanRailway.Domain.Concrete.DbContext.ORC {
+namespace NaftanRailway.Domain.Concrete.DbContexts.ORC {
     [MetadataType(typeof(MetaDataKrt_Naftan_orc_sapod))]
     public partial class krt_Naftan_orc_sapod { }
 

@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
     public class NomenclatureModule : INomenclatureModule {

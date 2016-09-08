@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
 
 namespace NaftanRailway.Domain.Abstract {
     public interface IRailwayModule : IDisposable {

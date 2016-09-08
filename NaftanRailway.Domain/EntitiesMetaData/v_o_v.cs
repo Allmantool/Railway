@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NaftanRailway.Domain.Concrete.DbContext.OBD {
+﻿namespace NaftanRailway.Domain.Concrete.DbContexts.OBD {
     public partial class v_o_v {
-        public bool IsSelected { get; set; }
+        public bool IsSelected { get; }
         public v_o_v() {
             IsSelected = true;
         }

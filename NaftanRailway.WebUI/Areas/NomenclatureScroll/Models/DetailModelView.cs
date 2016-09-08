@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Models {

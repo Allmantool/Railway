@@ -5,30 +5,30 @@ using NaftanRailway.Domain.Abstract;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using)*/
     public class UnitOfWork : IUnitOfWork {
         private bool _disposed;
-        public System.Data.Entity.DbContext ActiveContext { get; set; }
-        private System.Data.Entity.DbContext[] Contexts { get; set; }
+        public DbContext ActiveContext { get; set; }
+        private DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
         /// <summary>
         /// Create UOW per request with requer dbContexts by default
         /// </summary>
         public UnitOfWork() {
-            Contexts = new System.Data.Entity.DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
+            Contexts = new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
             SetUpContext();
         }
         /// <summary>
         /// Constructor with specific dbContext
         /// </summary>
         /// <param name="context"></param>
-        public UnitOfWork(System.Data.Entity.DbContext context) {
+        public UnitOfWork(DbContext context) {
             ActiveContext = context;
             SetUpContext();
         }
@@ -37,24 +37,24 @@ namespace NaftanRailway.Domain.Concrete {
         /// Ninject (Dependency Injection). Pass a custom set of dbContext
         /// </summary>
         /// <param name="contexts"></param>
-        public UnitOfWork(params System.Data.Entity.DbContext[] contexts) {
+        public UnitOfWork(params DbContext[] contexts) {
             Contexts = contexts;
             SetUpContext();
         }
-        
+
         /// <summary>
         /// Configuraton setting of exist contexts
         /// </summary>
         /// <param name="lazyLoading"></param>
         /// <param name="proxy"></param>
-        private void SetUpContext(bool lazyLoading = false, bool proxy = true)
-        {
+        private void SetUpContext(bool lazyLoading = false, bool proxy = true) {
             /*Отключает Lazy loading необходим для Json (для сериализации entity to json*/
             foreach (var item in Contexts) {
                 item.Configuration.LazyLoadingEnabled = lazyLoading;
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
         }
+
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific dbcontext

@@ -12,9 +12,9 @@ namespace NaftanRailway.Domain.Concrete {
     public class GeneralRepository<T> : IGeneralRepository<T> where T : class {
         private bool _disposed;
         private readonly DbSet<T> _dbSet;
-        public System.Data.Entity.DbContext Context { get; }
+        public DbContext Context { get; }
 
-        public GeneralRepository(System.Data.Entity.DbContext context) {
+        public GeneralRepository(DbContext context) {
             Context = context;
             _dbSet = context.Set<T>();
         }

@@ -4,10 +4,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using LinqKit;
 using NaftanRailway.Domain.Abstract;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
 using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContext.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
-using NaftanRailway.Domain.Concrete.DbContext.ORC;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.Domain.ExpressionTreeExtensions;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {

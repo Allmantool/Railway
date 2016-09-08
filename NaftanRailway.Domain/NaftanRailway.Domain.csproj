@@ -50,6 +50,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LinqKit, Version=1.1.7.1, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.7.1\lib\net40\LinqKit.dll</HintPath>
       <Private>True</Private>
@@ -117,147 +121,94 @@
     <Compile Include="BusinessModels\BussinesLogic\BussinesEngage.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\SecurityInfoLine.cs" />
     <Compile Include="BusinessModels\BussinesLogic\Shipping.cs" />
-    <Compile Include="Concrete\DbContext\Mesplan\etsng.cs">
+    <Compile Include="Concrete\DbContexts\Mesplan\etsng.cs">
       <DependentUpon>ModelMesplan.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.Context.cs">
+    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMesplan.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.cs">
+    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMesplan.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\Mesplan\ModelMesplan.Designer.cs">
+    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMesplan.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\OBDEntities.Context.cs">
+    <Compile Include="Concrete\DbContexts\OBD\OBDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>OBDEntities.Context.tt</DependentUpon>
+      <DependentUpon>OBDModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\OBDEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OBDEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\OBD\OBDModel.cs">
+    <Compile Include="Concrete\DbContexts\OBD\OBDModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\OBDModel.Designer.cs">
+    <Compile Include="Concrete\DbContexts\OBD\OBDModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_akt.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_akt.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_akt_vag.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_akt_vag.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_kart.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_kart.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_nach.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_nach.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_otpr.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_otpr.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_o_v.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_o_v.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_pam.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_pam.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\OBD\v_pam_vag.cs">
+    <Compile Include="Concrete\DbContexts\OBD\v_pam_vag.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\krt_Guild18.cs">
+    <Compile Include="Concrete\DbContexts\ORC\krt_Guild18.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\krt_Naftan.cs">
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\krt_Naftan_orc_sapod.cs">
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan_orc_sapod.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModel.Context.cs">
+    <Compile Include="Concrete\DbContexts\ORC\ORCModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ORCModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModel.cs">
+    <Compile Include="Concrete\DbContexts\ORC\ORCModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\ORCModel.Designer.cs">
+    <Compile Include="Concrete\DbContexts\ORC\ORCModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ORCModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\orc_krt.cs">
+    <Compile Include="Concrete\DbContexts\ORC\orc_krt.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Concrete\DbContext\ORC\orc_sbor.cs">
+    <Compile Include="Concrete\DbContexts\ORC\orc_sbor.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\SecurityModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SecurityModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\SecurityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SecurityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\UserProfile.cs">
-      <DependentUpon>SecurityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\webpages_Membership.cs">
-      <DependentUpon>SecurityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\webpages_OAuthMembership.cs">
-      <DependentUpon>SecurityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\Security\webpages_Roles.cs">
-      <DependentUpon>SecurityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\SessionState\SessionBill.cs">
-      <DependentUpon>SessionDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SessionDbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SessionDbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\SessionState\SessionDbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SessionDbModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContext\SessionState\SessionShipping.cs">
-      <DependentUpon>SessionDbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\UnitOfWork.cs" />
-    <Compile Include="Concrete\DbContext\Security\SimpleMemberShipDb.Designer.cs">
-      <DependentUpon>SimpleMemberShipDb.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Concrete\GeneralRepository.cs" />
     <Compile Include="DbConfigurations\Configuration.cs" />
     <Compile Include="DbConfigurations\EFInterceptor .cs" />
@@ -281,60 +232,26 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Concrete\DbContext\Mesplan\ModelMesplan.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Concrete\DbContext\Mesplan\ModelMesplan.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\Mesplan\ModelMesplan.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelMesplan.cs</LastGenOutput>
-    </None>
-    <EntityDeploy Include="Concrete\DbContext\Security\SimpleMemberShipDb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SimpleMemberShipDb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="Concrete\DbContext\SessionState\SessionDbModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SessionDbModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <EntityDeploy Include="Concrete\DbContext\OBD\OBDModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Concrete\DbContext\OBD\OBDEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OBDEntities.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\OBD\OBDEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OBDEntities.cs</LastGenOutput>
-    </None>
-    <EntityDeploy Include="Concrete\DbContext\ORC\ORCModel.edmx">
+    <EntityDeploy Include="Concrete\DbContexts\ORC\ORCModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Concrete\DbContext\ORC\ORCModel.edmx.diagram">
+    <EntityDeploy Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.diagram">
+      <DependentUpon>ModelMesplan.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="Concrete\DbContexts\OBD\OBDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Concrete\DbContexts\OBD\OBDModel.edmx.diagram">
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+    </None>
+    <None Include="Concrete\DbContexts\ORC\ORCModel.edmx.diagram">
       <DependentUpon>ORCModel.edmx</DependentUpon>
-    </None>
-    <None Include="Concrete\DbContext\Security\SecurityModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SecurityModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\Security\SecurityModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SecurityModel.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\SessionState\SessionDbModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SessionDbModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Concrete\DbContext\SessionState\SessionDbModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SessionDbModel.cs</LastGenOutput>
     </None>
     <None Include="Properties\DataSources\NaftanRailway.Domain.BusinessModels.ReportModel.datasource" />
   </ItemGroup>
@@ -371,23 +288,40 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Concrete\DbContext\OBD\OBDModel.tt">
+    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OBDModel.cs</LastGenOutput>
-      <DependentUpon>OBDModel.edmx</DependentUpon>
+      <DependentUpon>ModelMesplan.edmx</DependentUpon>
+      <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Concrete\DbContext\ORC\ORCModel.Context.tt">
+    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelMesplan.edmx</DependentUpon>
+      <LastGenOutput>ModelMesplan.cs</LastGenOutput>
+    </Content>
+    <Content Include="Concrete\DbContexts\OBD\OBDModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+      <LastGenOutput>OBDModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Concrete\DbContexts\OBD\OBDModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OBDModel.edmx</DependentUpon>
+      <LastGenOutput>OBDModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Concrete\DbContexts\ORC\ORCModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ORCModel.edmx</DependentUpon>
       <LastGenOutput>ORCModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Concrete\DbContext\ORC\ORCModel.tt">
+    <Content Include="Concrete\DbContexts\ORC\ORCModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ORCModel.edmx</DependentUpon>
       <LastGenOutput>ORCModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Concrete\DbContexts\Security\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

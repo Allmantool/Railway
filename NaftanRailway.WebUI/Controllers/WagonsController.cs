@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using NaftanRailway.Domain.BusinessModels;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.Concrete.DbContext.OBD;
+using NaftanRailway.Domain.BusinessModels.SessionLogic;
+using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
