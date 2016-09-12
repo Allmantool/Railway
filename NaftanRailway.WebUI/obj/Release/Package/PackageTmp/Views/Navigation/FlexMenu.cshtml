@@ -1,4 +1,4 @@
-﻿@using NaftanRailway.Domain.BusinessModels
+﻿@using NaftanRailway.Domain.BusinessModels.BussinesLogic
 @model InputMenuViewModel
 @{
     Layout = null;
@@ -16,8 +16,8 @@
                         page = 1,
                         reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
                         templateNumber = Model.ShippingChoise ?? ""
-                    },new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
-                    new {@class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")})
+                    }, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
+                    new { @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text") })
             </li>
 
             @foreach (short? link in Model.TypesOfOperation) {
@@ -30,8 +30,8 @@
                                 page = 1,
                                 reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
                                 templateNumber = Model.ShippingChoise ?? ""
-                            },new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
-                            new {@class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text")})
+                            }, new AjaxOptions() { HttpMethod = "Get", InsertionMode = InsertionMode.Replace, UpdateTargetId = "infoArea" },
+                            new { @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text") })
                     </li>
                 }
             }

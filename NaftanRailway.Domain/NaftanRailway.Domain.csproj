@@ -117,8 +117,8 @@
     <Compile Include="Abstract\IUnitOfWork.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\AuthorizationEngage.cs" />
     <Compile Include="Abstract\IAuthorizationEngage.cs" />
-    <Compile Include="BusinessModels\AuthorizationLogic\CustomPrincipal.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\RegistrationViewModel.cs" />
+    <Compile Include="BusinessModels\AuthorizationLogic\SecurityService.cs" />
     <Compile Include="BusinessModels\BussinesLogic\BussinesEngage.cs" />
     <Compile Include="BusinessModels\AuthorizationLogic\SecurityInfoLine.cs" />
     <Compile Include="BusinessModels\BussinesLogic\Shipping.cs" />

@@ -1,5 +1,5 @@
-﻿@using NaftanRailway.Domain.BusinessModels
-@model NaftanRailway.WebUI.ViewModels.InputMenuViewModel
+﻿@using NaftanRailway.Domain.BusinessModels.BussinesLogic
+@model InputMenuViewModel
 @{
     Layout = null;
     IEnumerable<short?> typeOperation = (IEnumerable<short?>)ViewBag.TypeOperation;
@@ -7,17 +7,18 @@
 <div data-role="navbar">
     <ul>
         <li>
-            @Html.ActionLink("Все","Index","Ceh18",
-            new { controller = "Ceh18",action = "Index",operationCategory = EnumOperationType.All.ToString() },
-            new {@class = (EnumOperationType.All.ToString() == ViewBag.SelectedCategory ? "ui-btn-active" : "")})
+            @Html.ActionLink("Все", "Index", "Ceh18",
+            new { controller = "Ceh18", action = "Index", operationCategory = EnumOperationType.All.ToString() },
+            new { @class = (EnumOperationType.All.ToString() == ViewBag.SelectedCategory ? "ui-btn-active" : "") })
         </li>
         @foreach (var link in typeOperation) {
             <li>
                 @if (link != null) {
                     @Html.RouteLink(link == 1 ? "Отправка" : "Прибытие",
-                        new {controller = "Ceh18", action = "Index", operationCategory = ((EnumOperationType) link).ToString(), page = 1},
-                        new {data_transition = "fade" ,
-                            @class = (((EnumOperationType) link).ToString() == ViewBag.SelectedCategory ?
+                        new { controller = "Ceh18", action = "Index", operationCategory = ((EnumOperationType)link).ToString(), page = 1 },
+                        new {
+                            data_transition = "fade",
+                            @class = (((EnumOperationType)link).ToString() == ViewBag.SelectedCategory ?
                                 "ui-btn-active" : null)
                         })
                 }

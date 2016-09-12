@@ -94,3 +94,6 @@ J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Runtime.xml
 J:\GitHub\Railway\NaftanRailway.Domain\bin\Release\System.Threading.Tasks.xml
 J:\GitHub\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csproj.App.config
 C:\Git\Railway\NaftanRailway.Domain\obj\Release\NaftanRailway.Domain.csprojResolveAssemblyReference.cache
+C:\Git\Railway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Release\EntityFramework.SqlServer.xml
+C:\Git\Railway\NaftanRailway.Domain\bin\Release\ru\EntityFramework.SqlServer.resources.dll

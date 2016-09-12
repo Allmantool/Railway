@@ -360,7 +360,6 @@
     <Content Include="Content\_General.css" />
     <Content Include="Content\_Scrolls.css" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ActsController.cs" />
     <Compile Include="Controllers\BillsController.cs" />
     <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\Ceh18Controller.cs" />
@@ -732,7 +731,9 @@
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\HttpError\NotFound.cshtml" />
     <Content Include="Views\HttpError\ServerCrash.cshtml" />
-    <Content Include="Views\Shared\_Layout.HttpErrors.cshtml.cshtml" />
+    <Content Include="Views\Shared\_Layout.HttpErrors.cshtml" />
+    <Content Include="Views\Account\SingUp.cshtml" />
+    <Content Include="Views\HttpError\NotAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />
