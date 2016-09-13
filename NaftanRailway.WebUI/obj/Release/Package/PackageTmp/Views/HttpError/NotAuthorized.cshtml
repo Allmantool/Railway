@@ -6,7 +6,7 @@
 <div class="row ">
     <div class="page-header">
         <h2 class="text-center modal-title">
-            You're (etc. <span class="small">@*@(User.Identity!= null?User.Identity.Name:"I don't see this user")*@</span>) unauthorized on this site!
+            You're (etc. <span class="small">@(User != null ? User.Identity.Name:"unknown user")</span>) unauthorized on this site!
         </h2>
     </div>
     <div class="container-fluid">

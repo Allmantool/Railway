@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.DirectoryServices.AccountManagement;
 
 namespace NaftanRailway.WebUI.Controllers {
     [AllowAnonymous]
@@ -22,12 +23,23 @@ namespace NaftanRailway.WebUI.Controllers {
             return View();
         }
 
-        public ActionResult NotAuthorized(){
-            Response.StatusCode = 401;
+        public ActionResult NotAuthorized() {
+            //Response.StatusCode = 401;
+
             //Response.ClearHeaders();
             //Response.AddHeader("WWW-Authenticate", "Basic");
             //Response.Headers.Remove("WWW-Authenticate");
+            if (!Request.IsLocal) {
+                var domainName = (HttpContext.User.Identity.Name.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by");
 
+                using (PrincipalContext context = new PrincipalContext(ContextType.Domain, domainName)) {
+                    using (UserPrincipal adUser = UserPrincipal.FindByIdentity(context, User.Identity.Name)) {
+                        if (adUser != null) {
+                            return View(adUser);
+                        }
+                    }
+                }
+            }
             return View();
         }
     }

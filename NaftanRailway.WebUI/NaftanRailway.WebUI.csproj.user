@@ -4,6 +4,8 @@
     <ProjectView>ProjectFiles</ProjectView>
     <NameOfLastUsedPublishProfile>Railway</NameOfLastUsedPublishProfile>
     <UseIISExpress>true</UseIISExpress>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -17,8 +17,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
     <FileUpgradeFlags>
@@ -233,6 +233,7 @@
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
@@ -360,14 +361,11 @@
     <Content Include="Content\_General.css" />
     <Content Include="Content\_Scrolls.css" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BillsController.cs" />
-    <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\Ceh18Controller.cs" />
     <Compile Include="Controllers\HttpErrorController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StorageController.cs" />
-    <Compile Include="Controllers\WagonsController.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
