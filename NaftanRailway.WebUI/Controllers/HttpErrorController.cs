@@ -29,7 +29,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //Response.ClearHeaders();
             //Response.AddHeader("WWW-Authenticate", "Basic");
             //Response.Headers.Remove("WWW-Authenticate");
-            if (!Request.IsLocal) {
+            if (!Request.IsLocal && Request.IsAuthenticated) {
                 var domainName = (HttpContext.User.Identity.Name.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by");
 
                 using (PrincipalContext context = new PrincipalContext(ContextType.Domain, domainName)) {
