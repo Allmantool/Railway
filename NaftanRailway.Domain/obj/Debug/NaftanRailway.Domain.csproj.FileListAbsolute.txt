@@ -92,3 +92,15 @@ J:\GitHub\Railway\NaftanRailway.Domain\obj\Debug\NaftanRailway.Domain.csproj.App
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.SqlServer.dll
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\EntityFramework.SqlServer.xml
 C:\Git\Railway\NaftanRailway.Domain\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\Microsoft.CSharp.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.ComponentModel.DataAnnotations.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Data.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Data.SqlServerCe.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Net.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Runtime.Serialization.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Security.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.ApplicationServices.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Web.Extensions.dll
+C:\Git\Railway\NaftanRailway.Domain\bin\Debug\System.Xml.dll

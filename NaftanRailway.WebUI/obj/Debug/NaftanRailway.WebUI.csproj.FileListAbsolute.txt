@@ -208,3 +208,5 @@ J:\GitHub\Railway\NaftanRailway.WebUI\bin\System.IO.xml
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\System.Runtime.xml
 J:\GitHub\Railway\NaftanRailway.WebUI\bin\System.Threading.Tasks.xml
 J:\GitHub\Railway\NaftanRailway.WebUI\obj\Debug\NaftanRailway.WebUI.csproj.App.config
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.DirectoryServices.AccountManagement.dll
+C:\Git\Railway\NaftanRailway.WebUI\bin\System.Net.dll
