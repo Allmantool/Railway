@@ -265,43 +265,59 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     //Выбираем с какой стороны работать (сервер) по сущности
                     var result = _engage.Uow.Repository<krt_Guild18>().Context.Database.SqlQuery<krt_Guild18>(@"
                     WITH SubResutl AS (
-                        SELECT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl],
-                            CASE vn.cod_sbor WHEN '125' THEN NULL ELSE @warehouse END AS [warehouse],
-                            CASE vn.cod_sbor WHEN '125' THEN NULL ELSE @id_otpr END AS [idDeliviryNote],
+                        /*Doc from Invoices*/
+                        SELECT @reportPeriod AS [reportPeriod],     vn.[id] AS [idSapod],     null AS [idScroll], null AS [scrollColl],
+                            CASE vn.[cod_sbor] WHEN '125' THEN NULL ELSE @warehouse END AS [warehouse],   CASE vn.[cod_sbor] WHEN '125' THEN NULL ELSE @id_otpr END AS [idDeliviryNote],
                             CONVERT(tinyint,vn.type_doc) AS [type_doc],@id_otpr AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
-                            CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
-                            CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
+                            CONVERT(int,left(vn.[cod_sbor],3)) AS [code], vn.[summa] + vn.[nds] as [sum],
+                            NULL AS [parseTextm],
+                            CONVERT(decimal(18,2),vn.[nds]/vn.[summa]) as [rateVAT], vn.[id_kart] AS [idCard]
                         FROM " + sapodConn + @".[dbo].[v_nach] AS vn 
-                        WHERE (vn.id_otpr = (@id_otpr) OR vn.cod_sbor IN ('125')) AND vn.type_doc IN (1,4) AND (vn.date_raskr BETWEEN @stDate AND @endDate) AND vn.cod_kl IN ('3494','349402')
+                        WHERE (vn.[id_otpr] = (@id_otpr) OR vn.[cod_sbor] IN ('125')) AND vn.[type_doc] IN (1,4) AND (vn.[date_raskr] BETWEEN @stDate AND @endDate) AND vn.[cod_kl] IN ('3494','349402')
+                        
                         UNION ALL
-                        SELECT DISTINCT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl], @warehouse AS [warehouse],
-                            @id_otpr AS [idDeliviryNote], CONVERT(tinyint,vn.type_doc) AS [type_doc],
-                            CASE vn.type_doc when 2 then vp.id_ved ELSE vn.id_kart END AS [idSrcDocument],
-                            CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
-                            CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
-                            CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
-                        FROM " + sapodConn + @".[dbo].v_pam as vp INNER JOIN " + sapodConn + @".[dbo].v_pam_vag AS vpv
-                            ON vpv.id_ved = vp.id_ved INNER JOIN " + sapodConn + @".[dbo].[v_nach] AS vn
-                                ON ((vn.id_kart = vp.id_kart AND vn.type_doc = 2) AND vp.kodkl IN ('3494','349402')) OR
-                           (vn.date_raskr IN (convert(date,vpv.d_pod),convert(date,vpv.d_ub)) AND vn.cod_sbor = '065' AND vn.type_doc = 4)
-                        WHERE vpv.nomvag IN (" + carriages + @") AND vn.cod_kl IN ('3494','349402') AND [state] = 32 AND (vp.dved BETWEEN @stDate AND @endDate)
+
+                        /*Doc from Scrolls*/
+                        SELECT DISTINCT @reportPeriod AS [reportPeriod], vn.[id] AS [idSapod], null AS [idScroll], null AS [scrollColl], @warehouse AS [warehouse],
+                            @id_otpr AS [idDeliviryNote], CONVERT(tinyint,vn.[type_doc]) AS [type_doc],
+                            CASE vn.[type_doc] when 2 then vp.[id_ved] ELSE vn.[id_kart] END AS [idSrcDocument],
+                            CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.[cod_sbor],3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
+                            CONVERT(int,left(vn.[cod_sbor],3)) AS [code], vn.[summa] + vn.[nds] as [sum],
+                            CASE CONVERT(int,left(vn.[cod_sbor],3)) WHEN 65 THEN ISNULL(REPLACE(SUBSTRING(REPLACE(RTRIM(LTRIM(CONVERT(VARCHAR(max),vn.[textm]))),' ',''),CHARINDEX(',',REPLACE(RTRIM(LTRIM(CAST(vn.[textm] AS VARCHAR(max)))),' ',''),6),4),',',''),0) ELSE NULL END AS [parseTextm],
+                            CONVERT(decimal(18,2),vn.[nds]/vn.[summa]) as [rateVAT], vn.[id_kart] AS [idCard]
+                        FROM " + sapodConn + @".[dbo].[v_pam] as vp INNER JOIN " + sapodConn + @".[dbo].[v_pam_vag] AS vpv
+                            ON vpv.[id_ved] = vp.[id_ved] INNER JOIN " + sapodConn + @".[dbo].[v_nach] AS vn
+                                ON ((vn.[id_kart] = vp.[id_kart] AND vn.[type_doc] = 2) AND vp.[kodkl] IN ('3494','349402')) OR
+                           (vn.[date_raskr] IN (convert(date,vpv.[d_pod]),convert(date,vpv.[d_ub])) AND vn.[cod_sbor] = '065' AND vn.[type_doc] = 4)
+                        WHERE vpv.[nomvag] IN (" + carriages + @") AND vn.[cod_kl] IN ('3494','349402') AND [state] = 32 AND (vp.[dved] BETWEEN @stDate AND @endDate)
+                        
                         UNION ALL
+
+                        /*Doc from Act*/
                         SELECT @reportPeriod AS [reportPeriod], vn.id AS [idSapod], null AS [idScroll], null AS [scrollColl], @warehouse AS [warehouse],
                             @id_otpr AS [idDeliviryNote], CONVERT(tinyint,vn.type_doc) AS [type_doc], va.id AS [idSrcDocument],
                             CONVERT(BIT,CASE WHEN CONVERT(int,left(vn.cod_sbor,3)) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
                             CONVERT(int,left(vn.cod_sbor,3)) AS [code], vn.summa + vn.nds as [sum],
+                            NULL AS [parseTextm],
                             CONVERT(decimal(18,2),vn.nds/vn.summa) as [rateVAT], vn.id_kart AS [idCard]
                         FROM " + sapodConn + @".[dbo].v_akt as va INNER JOIN " + sapodConn + @".[dbo].[v_nach] AS vn
                                 ON vn.id_kart = va.id_kart AND vn.type_doc = 3 AND va.kodkl IN ('3494','349402') AND vn.cod_kl IN ('3494','349402') AND [state] = 32
                         WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt) AND (va.dakt BETWEEN @stDate AND @endDate)
                     )
+                        
                         SELECT 0 as [id], sr.reportPeriod,sr.idSapod, knos.keykrt AS [idScroll],knos.keysbor AS [scrollColl], sr.warehouse, sr.idDeliviryNote,sr.type_doc, sr.idSrcDocument,
                         CONVERT(BIT,CASE WHEN CONVERT(int,sr.codeType) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
-                        sr.code, ISNULL(knos.sm,sr.[sum]) AS [sum], sr.[rateVat],sr.idCard
+                        sr.code, CASE sr.code 
+							WHEN 65 THEN  
+								ROUND(ISNULL(ISNULL(knos.sm,sr.[sum]) / cast('' as xml).value('sql:column(""""""parseTextm"""""") cast as xs:integer ?', 'int') * @countCarriages,0),4)
+                            ELSE ISNULL(knos.sm, sr.[sum])
+                        END AS[sum], sr.[rateVat],sr.idCard
                         FROM SubResutl AS sr LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
 	                        ON knos.id = sr.idSapod AND knos.tdoc = sr.type_doc
+                        
                         UNION ALL 
+                        
                         SELECT 0 as [id], @reportPeriod AS [reportPeriod], knos.id AS [idSapod],
                             kn.keykrt AS [idScroll],knos.keysbor AS [scrollColl],@warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc as [type_doc],
                             CASE tdoc when 4 THEN knos.id_kart else NULL END AS [idSrcDocument],
@@ -314,7 +330,8 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         new SqlParameter("@warehouse", temp.Warehouse),
                         new SqlParameter("@id_otpr", (temp.Shipping == null) ? 0 : temp.Shipping.id),
                         new SqlParameter("@stDate", startDate),
-                        new SqlParameter("@endDate", endDate)).ToList();
+                        new SqlParameter("@endDate", endDate),
+                        new SqlParameter("@countCarriages", temp.WagonsNumbers.Count)).ToList();
 
                     //Add or Delete
                     foreach (var entity in result) {
@@ -384,6 +401,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             }
             return result;
         }
+
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);
