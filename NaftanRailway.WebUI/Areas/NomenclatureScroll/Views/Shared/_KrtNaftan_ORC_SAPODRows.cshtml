@@ -1,6 +1,7 @@
 ﻿@using System.Text.RegularExpressions
 @using NaftanRailway.Domain.Concrete.DbContexts.ORC
 @model IEnumerable<krt_Naftan_orc_sapod>
+@{/*Some condition exp (item.keykrt >= 15072000209229) is result of denomination */}
 
 @foreach (krt_Naftan_orc_sapod item in Model) {
     <tr class="@((item.sm != item.summa + item.nds)? "danger":(item.ErrorState ==2)?"primary":"")">
@@ -15,8 +16,8 @@
         <td class="text-right vert-align">@item.stnds.ToString(@"#,#0'%'")</td>
         <td class="vert-align" style="white-space: nowrap">@item.txt</td>
         <td class="vert-align text-left" style="min-width: 230px;">@item.namesbr</td>
-        <td class="vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ORC_ID_ED</td>
-        <td class="success vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ID_ED</td>
+        <td class="vert-align" style="color:" @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ORC_ID_ED</td>
+        <td class="success vert-align" style="color:" @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ID_ED</td>
         <td class="success vert-align" style="@(item.textm != null && item.textm.Length>40?@"min-width:320px;":"white-space:nowrap")">@item.textm</td>
         <td class="success vert-align">
             @{if (@item.date_raskr != null) {

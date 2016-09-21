@@ -9,7 +9,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 navbar-header">
-                <a class="navbar-brand" href="#">
+                <a tabindex="0" placement="bottom" data-toggle="popover" data-trigger="click" title="Цех 18: Получение первичных док-ов по номеру накладной" 
+                   data-content="And here's some amazing content. It's very engaging. Right?" class="navbar-brand" href="#">
                     <img alt="Brand" id="Brand" src="~/Content/Images/vagon.gif" class="img-responsive"/>
                 </a>
             </div>
@@ -23,7 +24,7 @@
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
-                    @Html.ValidationSummary();
+                    @Html.ValidationSummary()
                     <div class="form-group col-md-7">
                         <div class="input-group col-md-9">
                             @Html.TextBoxFor(m => m.ShippingChoise, new { @class = "form-control ui-autocomplete-input", placeholder = "Поиск" })

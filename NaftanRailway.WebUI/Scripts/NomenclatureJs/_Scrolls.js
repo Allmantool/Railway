@@ -122,8 +122,8 @@ $('#reportShow').on('click', function () {
 $('#dateModal').on('show.bs.modal', function () {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
-/*edit modal (correction)*/
-$('#chargeOfList').on('click', 'tr', function () {
+/*********************************************************Correction or Upload crash row*********************************************************************/
+$('#chargeOfList').on('click', 'tr', function (event) {
     //    var selRow = $(e.target).parent('tr');
     var selRow = $(this);
     var parse = function (name) {
@@ -132,28 +132,44 @@ $('#chargeOfList').on('click', 'tr', function () {
         return parseInt(text.split('').filter(function (i) { return !isNaN(parseInt(i)) }).join(''));
     }
 
-    $('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
-    var summa = parse(".summa");
-    var sm = parse(".sm");
-    var smNds = parse(".sm_nds");
-    var nds = parse(".nds");
-    var smNoNds = parse(".sm_no_nds");
+    $("#dialog").dialog({
+        autoOpen: false,
+        show: {
+            effect: "blind",
+            duration: 1000
+        },
+        hide: {
+            effect: "explode",
+            duration: 1000
+        }
+    });
 
-    $('label[for=sm]').text(sm);
-    $('#sm').val(sm);
+    $("#opener").on("click", function () {
+        $("#dialog").dialog("open");
+    });
 
-    $('label[for=sm_nds]').text(smNds);
-    $('#sm_nds').val(smNds);
+    //$('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
+    //var summa = parse(".summa");
+    //var sm = parse(".sm");
+    //var smNds = parse(".sm_nds");
+    //var nds = parse(".nds");
+    //var smNoNds = parse(".sm_no_nds");
 
-    $('label[for=sm_no_nds]').text(smNoNds);
-    $('label[for=summa]').text(summa + nds);
-    $('#summa').val(summa);
+    //$('label[for=sm]').text(sm);
+    //$('#sm').val(sm);
 
-    $('#nds').val(nds);
-    $('#nomot').val(selRow.find('.nomot').text());
-    $('#vidsbr').val(selRow.find('.vidsbr').text());
+    //$('label[for=sm_nds]').text(smNds);
+    //$('#sm_nds').val(smNds);
 
-    $("#EditModal").modal('show');
+    //$('label[for=sm_no_nds]').text(smNoNds);
+    //$('label[for=summa]').text(summa + nds);
+    //$('#summa').val(summa);
+
+    //$('#nds').val(nds);
+    //$('#nomot').val(selRow.find('.nomot').text());
+    //$('#vidsbr').val(selRow.find('.vidsbr').text());
+
+    //$("#EditModal").modal('show');
 });
 
 $('#summa').on('input', function () {
