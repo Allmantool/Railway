@@ -123,7 +123,7 @@ $('#dateModal').on('show.bs.modal', function () {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 /*********************************************************Correction or Upload crash row*********************************************************************/
-$('#chargeOfList').on('click', 'tr', function (event) {
+$('body').on('click', '#chargeOfList>tr>td', function (event) {
     //    var selRow = $(e.target).parent('tr');
     var selRow = $(this);
     var parse = function (name) {
@@ -132,58 +132,25 @@ $('#chargeOfList').on('click', 'tr', function (event) {
         return parseInt(text.split('').filter(function (i) { return !isNaN(parseInt(i)) }).join(''));
     }
 
+    //var $dialogDiv = $("<div id='dialog' title='Basic dialog'><p>This's dialog box</p></div>");
+
     $("#dialog").dialog({
-        autoOpen: false,
+        autoOpen: true,
         show: {
             effect: "blind",
-            duration: 1000
+            duration: 400
         },
         hide: {
             effect: "explode",
-            duration: 1000
-        }
-    });
-
-    $("#opener").on("click", function () {
-        $("#dialog").dialog("open");
-    });
-
-    //$('#gridSystemModalLabel').html('Первичный документ: ' + selRow.find('.nomot').text() + '&nbsp;&nbsp;&nbsp;' + 'Код сбора № ' + selRow.find('.vidsbr').text());
-    //var summa = parse(".summa");
-    //var sm = parse(".sm");
-    //var smNds = parse(".sm_nds");
-    //var nds = parse(".nds");
-    //var smNoNds = parse(".sm_no_nds");
-
-    //$('label[for=sm]').text(sm);
-    //$('#sm').val(sm);
-
-    //$('label[for=sm_nds]').text(smNds);
-    //$('#sm_nds').val(smNds);
-
-    //$('label[for=sm_no_nds]').text(smNoNds);
-    //$('label[for=summa]').text(summa + nds);
-    //$('#summa').val(summa);
-
-    //$('#nds').val(nds);
-    //$('#nomot').val(selRow.find('.nomot').text());
-    //$('#vidsbr').val(selRow.find('.vidsbr').text());
-
-    //$("#EditModal").modal('show');
-});
-
-$('#summa').on('input', function () {
-    $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
-});
-$('#nds').on('input', function () {
-    $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
-});
-/*IE8*/
-$('#summa').on('propertychange', function () {
-    $('label[for=summa]').text(parseInt($('#nds').val()) + parseInt(this.value));
-});
-$('#nds').on('propertychange', function () {
-    $('label[for=summa]').text(parseInt($('#summa').val()) + parseInt(this.value));
+            duration: 400
+        },
+        closeOnEscape: true,
+        //closeText: "hide",
+        position: { my: "left top", at: "left bottom", of: this },
+        width: 100,
+        //height: auto,
+        title: null
+    }).dialog("open");
 });
 
 function UpdateFailure() { }
