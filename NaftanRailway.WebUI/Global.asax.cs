@@ -74,9 +74,12 @@ namespace NaftanRailway.WebUI {
             }
 
             // log exception message using   
-            if (exception != null) {
+            var thisRequest = HttpContext.Current.Request;
+
+            if (exception != null && thisRequest.IsLocal) {
                 System.Diagnostics.Debug.WriteLine(exception.Message);
-                //Response.Redirect("~/Areas/NomenclatureScroll/Views/Shared/Errors.cshtml");
+
+                //Response.Redirect("~Views/Shared/Errors.cshtml");
                 //Server.ClearError();
             }
         }

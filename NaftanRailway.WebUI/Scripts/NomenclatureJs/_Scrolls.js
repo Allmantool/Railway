@@ -123,34 +123,35 @@ $('#dateModal').on('show.bs.modal', function () {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
 /*********************************************************Correction or Upload crash row*********************************************************************/
-$('body').on('click', '#chargeOfList>tr>td', function (event) {
-    //    var selRow = $(e.target).parent('tr');
-    var selRow = $(this);
-    var parse = function (name) {
-        var element = selRow.find(name),
-            text = element.text();
-        return parseInt(text.split('').filter(function (i) { return !isNaN(parseInt(i)) }).join(''));
-    }
-
-    //var $dialogDiv = $("<div id='dialog' title='Basic dialog'><p>This's dialog box</p></div>");
+$('body').on('click', '#chargeOfList>tr>td', function () {
+    var $selRow = $(this);
 
     $("#dialog").dialog({
-        autoOpen: true,
+        autoOpen: false,
+        closeOnEscape: true,
+        position: { my: "left top", at: "left bottom", of: $selRow },
+        clases: {
+            "ui-dialog": "modal-content",
+            "ui-dialog-titlebar": "modal-header",
+            "ui-dialog-title": "modal-title",
+            "ui-dialog-titlebar-close": "close",
+            "ui-dialog-content": "modal-body",
+            "ui-dialog-buttonpane": "modal-footer"
+        },
+        resizable: false,
+        width: 100,
+        title: "Find/Edit",
         show: {
             effect: "blind",
-            duration: 400
+            duration: 100
         },
         hide: {
             effect: "explode",
-            duration: 400
-        },
-        closeOnEscape: true,
-        //closeText: "hide",
-        position: { my: "left top", at: "left bottom", of: this },
-        width: 100,
-        //height: auto,
-        title: null
-    }).dialog("open");
+            duration: 300
+        }
+    });
+
+    $("#dialog").dialog("open");
 });
 
 function UpdateFailure() { }

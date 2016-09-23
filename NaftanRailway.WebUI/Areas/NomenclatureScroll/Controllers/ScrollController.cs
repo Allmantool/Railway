@@ -313,5 +313,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll");
         }
+
+        [HttpPost]
+        public ActionResult GeneralCorrection()
+        {
+            if (Request.IsAjaxRequest() && ModelState.IsValid)
+            {
+                return PartialView("_JoinRows");
+            }
+
+            return new EmptyResult();
+        } 
     }
 }

@@ -44,15 +44,15 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
 
             // if the request is AJAX return JSON else view.  
             //At Ajax request time, If any exception occurred then its will return error view , which is not a good things
-            if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
-                filterContext.Result = new JsonResult {
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-                    Data = new {
-                        error = true,
-                        message = filterContext.Exception.Message
-                    }
-                };
-            } else {
+            //if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
+            //    filterContext.Result = new JsonResult {
+            //        JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+            //        Data = new {
+            //            error = true,
+            //            message = filterContext.Exception.Message
+            //        }
+            //    };
+            //} else {
                 //var controllerName = filterContext.RouteData.Values["controller"].ToString();
                 //var actionName = filterContext.RouteData.Values["action"].ToString();
                 //var errormodel = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
@@ -83,7 +83,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 // they detect a server error. Setting this property indicates that we
                 // want it to try to render ASP.NET MVC's error page instead.
                 filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-            }
+            //}
         }
     }
 }
