@@ -310,7 +310,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         CONVERT(BIT,CASE WHEN CONVERT(int,sr.codeType) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
                         sr.code, CASE sr.code 
 							WHEN 65 THEN  
-								ROUND(ISNULL(ISNULL(knos.sm,sr.[sum]) / cast('' as xml).value('sql:column(""""""parseTextm"""""") cast as xs:integer ?', 'int') * @countCarriages,0),4)
+								ROUND(ISNULL(ISNULL(knos.sm,sr.[sum]) / cast('' as xml).value('sql:column(" + @"""" + "parseTextm" + @"""" + @") cast as xs:integer ?', 'int') * @countCarriages,0),4)
                             ELSE ISNULL(knos.sm, sr.[sum])
                         END AS[sum], sr.[rateVat],sr.idCard
                         FROM SubResutl AS sr LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos

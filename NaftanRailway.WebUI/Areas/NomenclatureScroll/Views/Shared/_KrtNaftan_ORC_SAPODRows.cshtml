@@ -3,7 +3,7 @@
 @model IEnumerable<krt_Naftan_orc_sapod>
 @{/*Some condition exp (item.keykrt >= 15072000209229) is result of denomination */}
 
-@foreach (krt_Naftan_orc_sapod item in Model) {
+@foreach (var item in Model) {
     <tr class="@((item.sm != item.summa + item.nds)? "danger":(item.ErrorState ==2)?"primary":"")">
         <td class="vert-align">@item.nkrt</td>
         <td class="vert-align">@item.tdoc</td>

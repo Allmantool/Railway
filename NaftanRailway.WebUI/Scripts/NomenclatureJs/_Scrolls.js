@@ -124,12 +124,16 @@ $('#dateModal').on('show.bs.modal', function () {
 });
 /*********************************************************Correction or Upload crash row*********************************************************************/
 $('body').on('click', '#chargeOfList>tr>td', function () {
-    var $selRow = $(this);
+    var $selCell = $(this);
+    var $selRow = $selCell.parent('tr');
+
+    //active style for row
+    $selRow.addClass("info");
 
     $("#dialog").dialog({
         autoOpen: false,
         closeOnEscape: true,
-        position: { my: "left top", at: "left bottom", of: $selRow },
+        position: { my: "left top", at: "left bottom", of: $selCell },
         clases: {
             "ui-dialog": "modal-content",
             "ui-dialog-titlebar": "modal-header",
