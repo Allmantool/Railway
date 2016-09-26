@@ -1,4 +1,5 @@
-﻿using System.Web.Optimization;
+﻿using System.Collections.Generic;
+using System.Web.Optimization;
 
 namespace NaftanRailway.WebUI {
     public static class BundleConfig {
@@ -6,13 +7,15 @@ namespace NaftanRailway.WebUI {
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.IgnoreList.Clear();
 
+            //bundle.Orderer = new NonOrderingBundleOrderer();
+
             bundles.Add(new ScriptBundle("~/bundles/JQuery1")
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery2")
                 .Include("~/Scripts/jquery-2.2.4.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Jquery")
+            bundles.Add(new ScriptBundle("~/bundles/Jquery").NonOrdering()
                 .Include("~/Scripts/jquery.cookie-1.4.1.min.js",
                          "~/Scripts/bootstrap.min.js",
                          "~/Scripts/bootstrap-datepicker.min.js",
@@ -25,14 +28,14 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/jquery.unobtrusive-ajax.min.js",
                          "~/Scripts/bundle/html5/jquery.history.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8")
+            bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8").NonOrdering()
                 .Include("~/Scripts/modernizr-custom.js",
                           "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
                 .Include("~/Scripts/GeneralJs/_General.js"));
 
-            bundles.Add(new StyleBundle("~/Content/cssbundle")
+            bundles.Add(new StyleBundle("~/Content/cssbundle").NonOrdering()
                 .Include("~/Content/bootstrap.min.css",
                          "~/Content/bootstrap-multiselect.css",
                          "~/Content/bootstrap-theme.min.css",
@@ -45,7 +48,32 @@ namespace NaftanRailway.WebUI {
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
-            bundles.UseCdn = true;
+            bundles.UseCdn = false;
+        }
+    }
+
+    /// <summary>
+    /// To reduce codes during creating bundles, i suggest you create an extension method. Require infrastructure classes:
+    /// </summary>
+    static class BundleExtentions {
+        public static Bundle NonOrdering(this Bundle bundle) {
+            bundle.Orderer = new NonOrderingBundleOrderer();
+
+            return bundle;
+        }
+    }
+    /// <summary>
+    /// Set up order in bundles
+    /// </summary>
+    internal class NonOrderingBundleOrderer : IBundleOrderer {
+        /// <summary>
+        /// Order by existing in bundles tree
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        public IEnumerable<BundleFile> OrderFiles(BundleContext context, IEnumerable<BundleFile> files) {
+            return files;
         }
     }
 }

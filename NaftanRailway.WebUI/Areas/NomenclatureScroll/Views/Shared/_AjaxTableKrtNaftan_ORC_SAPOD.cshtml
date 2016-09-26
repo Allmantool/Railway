@@ -84,14 +84,17 @@
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
 <div style="display:none" id="dialog" class="row btn-group" role="group" aria-label="...">
-    <div class="col-lg-6" style="padding: 1px;">
+    <div class="col-lg-4" style="padding: 1px;">
         @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post", OnSuccess = "" }, null)) {
             <input type = "image" title = "Найти соответсвие" class="btn-block" name="image" src="@Url.Content("~/Content/Images/1474628564_magnifyingglass.png")" alt="Rows join submit"/>
             
         }
     </div>
-    <div class="col-lg-6" style="padding: 1px;">
-        <input type="image" title="Редактировать" class="btn-block" name="image" src="~/Content/Images/1474628461_pencil.png" alt="edit submit" />
+    <div class="col-lg-4" style="padding: 1px;">
+        <input type="image" title="Редактировать" class="btn-block" name="image" src="~/Content/Images/1474628461_pencil.png" alt="edit submit"/>
+    </div>
+    <div class="col-lg-4" style="padding: 1px;">
+        <input type="image" title="Удалить" class="btn-block" name="image" src="~/Content/Images/1474894106_scissors.png" alt="edit submit" />
     </div>
 </div>
 <!--Don't support in partioal view (this html helper alternative-->
@@ -107,4 +110,4 @@
                     {"page", x}
                 }))
         </div>
-    }*@
+}*@
