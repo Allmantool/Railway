@@ -369,16 +369,12 @@
     <Content Include="Content\images\1474628905_chat.png" />
     <Content Include="Content\images\1474628907_gear.png" />
     <Content Include="Content\images\1474628910_Save.png" />
-<<<<<<< HEAD
+    <Content Include="Content\images\1474894055_denied.png" />
+    <Content Include="Content\images\1474894106_scissors.png" />
+    <Content Include="Content\images\256x256.png" />
     <Content Include="Content\images\500-Internal-Server-Error-Design-Inspiration.gif" />
     <Content Include="Content\images\loadingArrow.gif" />
     <Content Include="Content\images\seo-chain-link-icon.png" />
-=======
-    <Content Include="Content\images\1474894055_denied.png" />
-    <Content Include="Content\images\1474894106_scissors.png" />
-    <Content Include="Content\images\500-Internal-Server-Error-Design-Inspiration.gif" />
-    <Content Include="Content\images\loadingArrow.gif" />
->>>>>>> fb1672627e562790f795be395972b70c9d4bb16e
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_55_f8da4e_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_75_79c9ec_1x400.png" />
@@ -480,10 +476,6 @@
     <Content Include="Content\images\Gear.gif" />
     <Content Include="Content\images\NotFound.png" />
     <Content Include="Content\images\repair.png" />
-<<<<<<< HEAD
-=======
-    <Content Include="Content\images\Train.gif" />
->>>>>>> fb1672627e562790f795be395972b70c9d4bb16e
     <Content Include="Content\images\Home.gif" />
     <Content Include="Content\images\AWT-Train.ico" />
     <Content Include="Content\images\My Documents.gif" />
