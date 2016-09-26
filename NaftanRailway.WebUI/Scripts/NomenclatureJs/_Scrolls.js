@@ -126,14 +126,25 @@ $('#dateModal').on('show.bs.modal', function () {
 $('body').on('click', '#chargeOfList>tr>td', function () {
     var $selCell = $(this);
     var $selRow = $selCell.parent('tr');
+<<<<<<< HEAD
 
     //active style for row
     $selRow.addClass("info");
+=======
+    var $selBody = $('#chargeOfList');
+
+
+
+    //refresh hightlight area
+    $('#chargeOfList>tr.info').removeClass('info');
+    $selRow.addClass('info');
+>>>>>>> fb1672627e562790f795be395972b70c9d4bb16e
 
     $("#dialog").dialog({
         autoOpen: false,
         closeOnEscape: true,
         position: { my: "left top", at: "left bottom", of: $selCell },
+<<<<<<< HEAD
         clases: {
             "ui-dialog": "modal-content",
             "ui-dialog-titlebar": "modal-header",
@@ -142,9 +153,19 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
             "ui-dialog-content": "modal-body",
             "ui-dialog-buttonpane": "modal-footer"
         },
+=======
+        //clases: {
+        //    "ui-dialog": "modal-content",
+        //    "ui-dialog-titlebar": "modal-header",
+        //    "ui-dialog-title": "modal-title",
+        //    "ui-dialog-titlebar-close": "close",
+        //    "ui-dialog-content": "modal-body",
+        //    "ui-dialog-buttonpane": "modal-footer"
+        //},
+>>>>>>> fb1672627e562790f795be395972b70c9d4bb16e
         resizable: false,
-        width: 100,
-        title: "Find/Edit",
+        width: 80,
+        title: "Find / Edit / Delete",
         show: {
             effect: "blind",
             duration: 100
@@ -152,6 +173,9 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
         hide: {
             effect: "explode",
             duration: 300
+        },
+        close: function(event, ui) {
+            $selRow.removeClass('info');
         }
     });
 
