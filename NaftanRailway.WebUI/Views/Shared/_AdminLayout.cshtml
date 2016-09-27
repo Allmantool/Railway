@@ -11,7 +11,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content="180" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    @Styles.Render("~/Contents/cssbundle")
+    @Styles.Render("~/Content/CSSbundle")
     <link rel="shortcut icon" href="../../Content/Images/AWT-Train.ico" type="image/x-icon" />
 </head>
 <body>
@@ -43,14 +43,16 @@
     </div>
 <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
-    @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/JQueryUI")
+    @Scripts.Render("~/bundles/BootsrapUI")
     @Scripts.Render("~/bundles/BootstrapIE8")
-    @Scripts.Render("~/bundles/UserFunctions")
+    @Scripts.Render("~/bundles/UserRail")
 <![endif]-->
 <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQueryUI")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/BootsrapUI")
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserRail")
 <!--<![endif]-->
 
     @RenderSection("scripts", required: false)

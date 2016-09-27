@@ -7,35 +7,42 @@ namespace NaftanRailway.WebUI {
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.IgnoreList.Clear();
 
-            //bundle.Orderer = new NonOrderingBundleOrderer();
-
+            //*************************************************************** JS scripts *****************************************************************/
             bundles.Add(new ScriptBundle("~/bundles/JQuery1")
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery2")
                 .Include("~/Scripts/jquery-2.2.4.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Jquery").NonOrdering()
+            bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
                 .Include("~/Scripts/jquery.cookie-1.4.1.min.js",
-                         "~/Scripts/bootstrap.min.js",
-                         "~/Scripts/bootstrap-datepicker.min.js",
-                         "~/Content/locales/bootstrap-datepicker.ru.min.js",
-                         "~/Scripts/bootstrap-multiselect.js",
-                         "~/Scripts/moment-with-locales.min.js",
                          "~/Scripts/jquery-ui-1.11.4.min.js",
                          "~/Scripts/jquery.validate.min.js",
                          "~/Scripts/jquery.validate.unobtrusive.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.min.js",
                          "~/Scripts/bundle/html5/jquery.history.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/BootsrapUI").NonOrdering()
+                .Include("~/Scripts/bootstrap.min.js",
+                         "~/Scripts/bootstrap-datepicker.min.js",
+                         "~/Content/locales/bootstrap-datepicker.ru.min.js",
+                         "~/Scripts/bootstrap-multiselect.js",
+                         "~/Scripts/moment-with-locales.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8").NonOrdering()
                 .Include("~/Scripts/modernizr-custom.js",
-                          "~/Scripts/respond.min.js"));
+                         "~/Scripts/respond.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/UserFunctions")
-                .Include("~/Scripts/GeneralJs/_General.js"));
+            bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
+                .Include("~/Scripts/GeneralJs/_General.js",
+                         "~/Scripts/RailwayJs/_Guild18.js"));
 
-            bundles.Add(new StyleBundle("~/Content/cssbundle").NonOrdering()
+            bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
+                .Include("~/Scripts/GeneralJs/_General.js",
+                         "~/Scripts/NomenclatureJs/_Scrolls.js"));
+
+            //*************************************************************** CSS styles *****************************************************************/
+            bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
                 .Include("~/Content/bootstrap.min.css",
                          "~/Content/bootstrap-multiselect.css",
                          "~/Content/bootstrap-theme.min.css",
@@ -43,8 +50,18 @@ namespace NaftanRailway.WebUI {
                          "~/Content/bootstrap-datepicker3.min.css",
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
-                         "~/Content/jquery.ui.theme.font-awesome.css",
-                         "~/Content/ErrorStyles.css"));
+                         //conflict with jquery ui icons (dialog close btn)
+                         //"~/Content/jquery.ui.theme.font-awesome.css",
+                         "~/Content/GeneralCustomCSS/ErrorStyles.css"));
+
+            bundles.Add(new StyleBundle("~/Content/ScrollCSS").NonOrdering()
+                .Include("~/Content/GeneralCustomCSS/_General.css",
+                         "~/Content/NomenclatureCSS/_Scrolls.css",
+                         "~/Content/NomenclatureCSS/CustomJQueryUI.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Rail").NonOrdering()
+                .Include("~/Content/GeneralCustomCSS/_General.css",
+                         "~/Content/Guild18CSS/_Guild18.css"));
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;

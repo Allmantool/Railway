@@ -3,16 +3,15 @@
 <html style="width: 100%;">
 <head>
     <title>@ViewBag.Title</title>
-    <base href="@(string.Format("{0}://{1}{2}Nomenclature/", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))" />
+    <base href="@(string.Format("{0}://{1}{2}Nomenclature/",Request.Url.Scheme, Request.Url.Authority, Url.Content("~")))" />
     <meta name="author" content="P.Chizhikov" />
     <meta name="Description" content="Nomenclature project" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta http-equiv="refresh" content="1800" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @Styles.Render("~/Content/cssbundle")
-    @Styles.Render("~/Content/_Scrolls.css")
-    @Styles.Render("~/Content/NomenclatureCSS/CustomJQueryUI.css")
+    @Styles.Render("~/Content/CSSbundle")
+    @Styles.Render("~/Content/ScrollCSS")
     <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon" />
 </head>
 <body>
@@ -110,16 +109,17 @@
 
 <!--[if lte IE 8]>
     @Scripts.Render("~/bundles/JQuery1")
-    @Scripts.Render("~/bundles/Jquery")
+    @Scripts.Render("~/bundles/JQueryUI")
+    @Scripts.Render("~/bundles/BootsrapUI")
     @Scripts.Render("~/bundles/BootstrapIE8")
-    @Scripts.Render("~/bundles/UserFunctions")
 <![endif]-->
 <!--[if !IE 8]><!-->
 @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQuery2")
-@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Jquery")
-@* @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserFunctions")*@
+@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/JQueryUI")
+@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/BootsrapUI")
+
 <!--<![endif]-->
-<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>
+@Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserNomenclature")
 @RenderSection("Scripts", required: false)
 <!--MVC by default not support section  in partial views (this's alternative path => html helper-->
 @Html.RenderScripts()

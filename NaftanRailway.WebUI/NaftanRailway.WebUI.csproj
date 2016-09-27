@@ -396,8 +396,8 @@
     <Content Include="Content\images\ui-icons_fcd113_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\NomenclatureCSS\CustomJQueryUI.css" />
-    <Content Include="Content\_General.css" />
-    <Content Include="Content\_Scrolls.css" />
+    <Content Include="Content\GeneralCustomCSS\_General.css" />
+    <Content Include="Content\NomenclatureCSS\_Scrolls.css" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Ceh18Controller.cs" />
     <Compile Include="Controllers\HttpErrorController.cs" />
@@ -471,7 +471,7 @@
     <Content Include="Content\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\Bootstrap_AutoComplete.css" />
-    <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\GeneralCustomCSS\ErrorStyles.css" />
     <Content Include="Content\images\Aha-Soft-Transport-Train.ico" />
     <Content Include="Content\images\Gear.gif" />
     <Content Include="Content\images\NotFound.png" />
@@ -587,8 +587,8 @@
     <Content Include="Content\images\ui-icons_B94A48_256x240.png" />
     <Content Include="Content\jquery.ui.theme.css" />
     <Content Include="Content\jquery.ui.theme.font-awesome.css" />
-    <Content Include="Content\UI8Style.css" />
-    <Content Include="Content\_Guild18.css" />
+    <Content Include="Content\IECSS\UI8Style.css" />
+    <Content Include="Content\Guild18CSS\_Guild18.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -807,7 +807,6 @@
     <Content Include="Views\Storage\EditRow.cshtml" />
     <Content Include="Views\Storage\ReportCeh18.cshtml" />
     <Content Include="Views\Navigation\FlexMenu.cshtml" />
-    <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
     <Content Include="Views\Navigation\FlexMenu.Mobile.cshtml" />
     <Content Include="Views\Ceh18\ShippingSummary.Mobile.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
@@ -817,7 +816,6 @@
     <Content Include="Views\Shared\EditorTemplates\AccumulativeCard.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Luggage.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.Report.cshtml.cshtml" />
     <Content Include="Views\Navigation\ComplexNavbarMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>

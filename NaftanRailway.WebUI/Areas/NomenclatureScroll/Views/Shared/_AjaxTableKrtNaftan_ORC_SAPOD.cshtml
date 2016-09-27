@@ -97,9 +97,9 @@
         <input type="image" title="Удалить" class="btn-block" name="image" src="~/Content/Images/1474894106_scissors.png" alt="edit submit" />
     </div>
 </div>
-<!--Don't support in partioal view (this html helper alternative-->
+<!--Don't support in partioal view (this html helper alternative
 @Html.Script(@<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>)
-
+-->
 <!--Simple link pagging-->
 @*@if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
         <div class="bottom-right pull-right">
@@ -109,5 +109,5 @@
                     {"reportYear",@ViewBag.DtBuhOtchet.Year},
                     {"page", x}
                 }))
-        </div>
+        </div>  
 }*@
