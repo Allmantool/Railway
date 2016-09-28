@@ -10,4 +10,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         Sending = 1,
         Arrivals = 2,
     }
+    /// <summary>
+    /// Type of opertion in menu
+    /// </summary>
+    [Serializable]
+    public enum EnumMenuOperation : short {
+        Join = 0,
+        Edit = 1,
+        Delete = 2,
+    }
 }

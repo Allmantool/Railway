@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
@@ -122,6 +123,22 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 return true;
             }
         }
+
+        public krt_Naftan_orc_sapod OperationOnScrollDetail(long key, EnumMenuOperation operation) {
+            var row = Engage.GetTable<krt_Naftan_orc_sapod, long>(x => x.keysbor == key, caсhe: true, tracking: true).SingleOrDefault();
+
+            switch (operation) {
+                case EnumMenuOperation.Join:
+                    return row;
+                case EnumMenuOperation.Edit:
+                    return row;
+                case EnumMenuOperation.Delete:
+                    return row;
+                default:
+                    return row;
+            }
+        }
+
         public void Dispose() {
             Dispose(true);
             GC.SuppressFinalize(this);

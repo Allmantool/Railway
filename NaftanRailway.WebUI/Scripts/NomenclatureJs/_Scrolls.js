@@ -126,23 +126,16 @@ $('#dateModal').on('show.bs.modal', function () {
 $('body').on('click', '#chargeOfList>tr>td', function () {
     var $selCell = $(this);
     var $selRow = $selCell.parent('tr');
+    var $preveosSelRow = $('#chargeOfList>tr.info');
 
     //refresh hightlight area
-    $('#chargeOfList>tr.info').removeClass('info');
+    $preveosSelRow.removeClass('info');
     $selRow.addClass('info');
 
     $("#dialog").dialog({
         autoOpen: false,
         closeOnEscape: true,
         position: { my: "left top", at: "left bottom", of: $selCell },
-        //clases: {
-        //    "ui-dialog": "modal-content",
-        //    "ui-dialog-titlebar": "modal-header",
-        //    "ui-dialog-title": "modal-title",
-        //    "ui-dialog-titlebar-close": "close",
-        //    "ui-dialog-content": "modal-body",
-        //    "ui-dialog-buttonpane": "modal-footer"
-        //},
         resizable: false,
         width: 80,
         title: "Find / Edit / Delete",

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using LinqKit;
+using Microsoft.Ajax.Utilities;
 using NaftanRailway.Domain.Abstract;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
@@ -19,6 +22,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ScrollController(INomenclatureModule bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
+
         /// <summary>
         /// View table krt_Naftan (with infinite scrolling)
         /// For increase jquery perfomance in IE8 method apply paging instead of ajax infinite scrolling
@@ -50,6 +54,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+
         [HttpPost]
         public ActionResult ChangeDate(IndexModelView model) {
             //Custom value provider binding => TryUpdateModel(model, new FormValueProvider(ControllerContext));
@@ -59,6 +64,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
+
         /// <summary>
         /// Get nomenclature from ORC
         /// </summary>
@@ -71,6 +77,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
+
         /// <summary>
         /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
         /// </summary>
@@ -89,6 +96,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
+
         /// <summary>
         /// Return krt_Naftan_orc_sapod
         /// Detail gathering of one scroll 
@@ -133,6 +141,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
         }
+
         [HttpPost]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, List<CheckListFilterModel> filters, int page = 1, byte initialSizeItem = 80) {
             var findKrt = _bussinesEngage.Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).FirstOrDefault();
@@ -170,6 +179,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
         }
+
         /// <summary>
         /// Fix scroll row on side of Sapod
         /// </summary>
@@ -204,6 +214,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
+
         /// <summary>
         /// Edit (nds and summa)
         /// If count fix rows better then 0 then display partial view with them, anothor hand redirect to main page (index)
@@ -244,6 +255,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
+
         /// <summary>
         /// General method for donwload files or display report throught SSRS
         /// </summary>
@@ -314,15 +326,27 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return RedirectToAction("Index", "Scroll");
         }
 
+        /// <summary>
+        /// Work with JQuery dialog menu
+        /// </summary>
+        /// <param name="imageMenu">type of operation</param>
+        /// <param name="feeKey">KEYSBOR</param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult GeneralCorrection()
-        {
+        public ActionResult GeneralCorrection(EnumMenuOperation imageMenu,long feeKey) {
             if (Request.IsAjaxRequest() && ModelState.IsValid)
             {
-                return PartialView("_JoinRows");
+                var result = _bussinesEngage.OperationOnScrollDetail(feeKey, imageMenu);
+
+                switch (imageMenu) {
+                    case EnumMenuOperation.Join: return PartialView("_JoinRows", result);
+                    case EnumMenuOperation.Edit: return PartialView("_EditRows");
+                    case EnumMenuOperation.Delete: break;
+                    default: return new EmptyResult();
+                }
             }
 
             return new EmptyResult();
-        } 
+        }
     }
 }

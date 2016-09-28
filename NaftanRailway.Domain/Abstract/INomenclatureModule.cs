@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.Domain.Abstract {
@@ -17,5 +18,6 @@ namespace NaftanRailway.Domain.Abstract {
         /// <returns></returns>
         IEnumerable<krt_Naftan> ChangeBuhDate(DateTime period, int numberScroll, bool multiChange = true);
         bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa);
+        krt_Naftan_orc_sapod OperationOnScrollDetail(long key, EnumMenuOperation operation);
     }
 }

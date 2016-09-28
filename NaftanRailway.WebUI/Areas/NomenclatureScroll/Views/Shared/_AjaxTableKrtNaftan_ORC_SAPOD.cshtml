@@ -1,4 +1,5 @@
 ﻿@using System.Web.Mvc.Html
+@using NaftanRailway.Domain.BusinessModels.BussinesLogic
 @using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models
 @using NaftanRailway.WebUI.ViewModels
 @model DetailModelView
@@ -83,23 +84,25 @@
 <div id="loadingInfiniteScroll" class="text-center" style="display: none">
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
+<!--Next step => greate template-->
 <div style="display:none" id="dialog" class="row btn-group" role="group" aria-label="...">
     <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post", OnSuccess = "" }, null)) {
-            <input type = "image" title = "Найти соответсвие" class="btn-block" name="image" src="@Url.Content("~/Content/Images/seo-chain-link-icon.png")" alt="Rows join submit"/>
-            
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post"}, null)) {
+            <input value=@EnumMenuOperation.Join type = "image" title = "Найти соответсвие" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/seo-chain-link-icon.png")" alt="Rows join submit"/>
         }
     </div>
     <div class="col-lg-4" style="padding: 1px;">
-        <input type="image" title="Редактировать" class="btn-block" name="image" src="~/Content/Images/1474628461_pencil.png" alt="edit submit"/>
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post" }, null)) {
+            <input value=@EnumMenuOperation.Edit type="image" title="Редактировать" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474628461_pencil.png")" alt="edit submit"/>
+        }
     </div>
     <div class="col-lg-4" style="padding: 1px;">
-        <input type="image" title="Удалить" class="btn-block" name="image" src="~/Content/Images/1474894106_scissors.png" alt="edit submit" />
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post"}, null)) {
+            <input value=@EnumMenuOperation.Delete type="image" title="Удалить" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474894106_scissors.png")" alt="delete submit"/>
+        }
     </div>
 </div>
-<!--Don't support in partioal view (this html helper alternative
-@Html.Script(@<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>)
--->
+
 <!--Simple link pagging-->
 @*@if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
         <div class="bottom-right pull-right">
