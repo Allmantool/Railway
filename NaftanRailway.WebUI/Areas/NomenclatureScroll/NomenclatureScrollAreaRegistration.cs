@@ -44,7 +44,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "General",
                 url: "Nomenclature/{controller}/{action}",
-                defaults: new { action = "Index", controller = "Scroll" },
+                defaults: new { area = "Nomenclature", action = "Index", controller = "Scroll" },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
         }

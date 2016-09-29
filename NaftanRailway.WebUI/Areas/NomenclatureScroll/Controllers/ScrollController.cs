@@ -4,10 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using LinqKit;
-using Microsoft.Ajax.Utilities;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
@@ -181,82 +179,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         /// <summary>
-        /// Fix scroll row on side of Sapod
-        /// </summary>
-        /// <param name="numberScroll"></param>
-        /// <param name="reportYear"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult ScrollCorrection(int numberScroll, int reportYear, int page = 1) {
-            const byte initialSizeItem = 47;
-            var findKrt = _bussinesEngage.Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault();
-
-            if (findKrt != null) {
-                var fixRow = _bussinesEngage.Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == findKrt.KEYKRT && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds));
-
-                if (fixRow.Any()) {
-                    var result = new DetailModelView() {
-                        Title = String.Format(@"Корректировка записей перечня №{0}", numberScroll),
-                        Scroll = findKrt,
-                        PagesInfo = new PagingInfo {
-                            CurrentPage = page,
-                            ItemsPerPage = initialSizeItem,
-                            TotalItems = fixRow.Count()
-                        }
-                    };
-
-                    return View("_AjaxTableKrtNaftan_ORC_SAPOD", result);
-                }
-            }
-            ModelState.AddModelError("Confirmed", @"Перечень не нуждается в корректировке");
-            TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
-
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
-        }
-
-        /// <summary>
-        /// Edit (nds and summa)
-        /// If count fix rows better then 0 then display partial view with them, anothor hand redirect to main page (index)
-        /// </summary>
-        /// <param name="smNds"></param>
-        /// <param name="nds"></param>
-        /// <param name="sm"></param>
-        /// <param name="summa"></param>
-        /// <param name="nomot"></param>
-        /// <param name="vidsbr"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult ScrollCorrection(decimal smNds, decimal nds, decimal sm, decimal summa, string nomot, int vidsbr, int page = 1) {
-            const byte initialSizeItem = 47;
-
-            var corretionItem = _bussinesEngage.Engage.GetTable<krt_Naftan_orc_sapod, long>(x => x.nomot == nomot && x.vidsbr == vidsbr && x.sm == sm && x.sm_nds == smNds).FirstOrDefault();
-            string numberScroll = _bussinesEngage.Engage.GetTable<krt_Naftan, long>(x => x.KEYKRT == corretionItem.keykrt).SingleOrDefault().NKRT.ToString();
-
-            if (Request.IsAjaxRequest() && corretionItem != null) {
-                _bussinesEngage.EditKrtNaftanOrcSapod(corretionItem.keykrt, corretionItem.keysbor, nds, summa);
-                //Trouble
-                var fixRow = _bussinesEngage.Engage.GetTable<krt_Naftan_orc_sapod, object>(x => x.keykrt == corretionItem.keykrt && (x.sm != (x.summa + x.nds) || x.sm_nds != x.nds), x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }).ToList();
-                var result = new DetailModelView() { };
-                //Info about paging
-                ViewBag.Title = String.Format(@"Корректировка записей перечня №{0}.", numberScroll);
-                ViewBag.PagingInfo = new PagingInfo {
-                    CurrentPage = page,
-                    ItemsPerPage = initialSizeItem,
-                    TotalItems = fixRow.Count()
-                };
-
-                if (!fixRow.Any())
-                    TempData["message"] = String.Format(@"Перечень №{0} не нуждается в корректировке!", numberScroll);
-
-                return (fixRow.Any()) ? (ActionResult)PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result) : RedirectToAction("Index", "Scroll");
-
-            }
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
-        }
-
-        /// <summary>
         /// General method for donwload files or display report throught SSRS
         /// </summary>
         /// <param name="reportName"></param>
@@ -329,18 +251,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <summary>
         /// Work with JQuery dialog menu
         /// </summary>
-        /// <param name="imageMenu">type of operation</param>
+        /// <param name="operation">type of operation</param>
         /// <param name="feeKey">KEYSBOR</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GeneralCorrection(EnumMenuOperation imageMenu,long feeKey) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid)
-            {
-                var result = _bussinesEngage.OperationOnScrollDetail(feeKey, imageMenu);
+        public ActionResult GeneralCorrection(EnumMenuOperation operation, long feeKey) {
 
-                switch (imageMenu) {
-                    case EnumMenuOperation.Join: return PartialView("_JoinRows", result);
-                    case EnumMenuOperation.Edit: return PartialView("_EditRows");
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+                var result = _bussinesEngage.OperationOnScrollDetail(feeKey, operation);
+
+                switch (operation) {
+                    case EnumMenuOperation.Join: return PartialView("_JoinRowsModal", result);
+                    case EnumMenuOperation.Edit: return PartialView("_EditRowsModal");
                     case EnumMenuOperation.Delete: break;
                     default: return new EmptyResult();
                 }

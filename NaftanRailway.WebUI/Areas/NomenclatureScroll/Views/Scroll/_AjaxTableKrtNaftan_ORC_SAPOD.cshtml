@@ -31,22 +31,15 @@
             <th class="text-center">Карточка<br />(NKRT)<span class="glyphicon glyphicon-filter"></span></th>
             <th class="text-center">Тип<br /><span style="white-space: nowrap">док.</span><span class="glyphicon glyphicon-filter"></span></th>
             <th class="text-center">Вид<br /><span style="white-space: nowrap">сбора<span class="glyphicon glyphicon-filter"></span></span></th>
-            <th class="text-center">DT</th>
-            <th class="text-center">NOMOT</th>
-            <th class="text-center">Сумма без НДС</th>
-            <th class="text-center">Сумма НДС</th>
-            <th class="text-center">Сумма</th>
-            <th class="text-center">Ставка НДС</th>
-            <th class="text-center">txt<br />OРЦ</th>
-            <th class="text-center">Наименование сбора</th>
-            <th class="text-center">ID_ED<br />ОРЦ</th>
-            <th class="text-center">ID_ED<br />САПОД</th>
-            <th class="text-center">textm<br />САПОД</th>
-            <th class="text-center">date<br />raskr</th>
-            <th class="text-center">num_doc</th>
-            <th class="text-center">kol</th>
-            <th class="text-center">summa</th>
-            <th class="text-center">nds</th>
+            
+            <th class="text-center">DT</th>                     <th class="text-center">NOMOT</th>
+            <th class="text-center">Сумма без НДС</th>          <th class="text-center">Сумма НДС</th>
+            <th class="text-center">Сумма</th>                  <th class="text-center">Ставка НДС</th>
+            <th class="text-center">txt<br />OРЦ</th>           <th class="text-center">Наименование сбора</th>
+            <th class="text-center">ID_ED<br />ОРЦ</th>         <th class="text-center">ID_ED<br />САПОД</th>
+            <th class="text-center">textm<br />САПОД</th>       <th class="text-center">date<br />raskr</th>
+            <th class="text-center">num_doc</th>                <th class="text-center">kol</th>
+            <th class="text-center">summa</th>                  <th class="text-center">nds</th>
         </tr>
         <!--Grid filter-->
         <tr class="filter-menu">
@@ -85,32 +78,44 @@
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
 <!--Next step => greate template-->
-<div style="display:none" id="dialog" class="row btn-group" role="group" aria-label="...">
+@*@{Html.RenderAction("OperationQuickMenu", "ServerUI");}*@
+@*@Html.Action("OperationQuickMenu", "UserInterface")*@
+@*<div style="display:none" id="dialog" class="row btn-group" role="group" aria-label="...">
     <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post"}, null)) {
-            <input value=@EnumMenuOperation.Join type = "image" title = "Найти соответсвие" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/seo-chain-link-icon.png")" alt="Rows join submit"/>
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
+                new AjaxOptions(){
+                    HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "operationScrollModal",
+                    OnSuccess = "showModalResult"
+                }, null)) {
+            <input type="hidden" name="feeKey" class="feeKey" />
+            <input type="hidden" name="operation" value=@EnumMenuOperation.Join />
+            <input type = "image" title = "Найти соответсвие" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/seo-chain-link-icon.png")" alt="Rows join submit"/>
         }
     </div>
     <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post" }, null)) {
-            <input value=@EnumMenuOperation.Edit type="image" title="Редактировать" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474628461_pencil.png")" alt="edit submit"/>
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
+            new AjaxOptions()
+            {
+                HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "operationScrollModal",
+                OnSuccess = "showModalResult"
+            }, null)) {
+            <input type="hidden" name="feeKey" class="feeKey"/>
+            <input type="hidden" name="operation" value=@EnumMenuOperation.Edit />
+            <input  type="image" title="Редактировать" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474628461_pencil.png")" alt="edit submit"/>
         }
     </div>
     <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null, new AjaxOptions() { HttpMethod = "Post"}, null)) {
-            <input value=@EnumMenuOperation.Delete type="image" title="Удалить" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474894106_scissors.png")" alt="delete submit"/>
+        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
+            new AjaxOptions() {
+                HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "operationScrollModal",
+                OnSuccess = "showModalResult"
+            }, null)) {
+            <input type="hidden" name="feeKey" class="feeKey"/>
+            <input type="hidden" name="operation" value=@EnumMenuOperation.Delete />
+            <input type="image" title="Удалить" class="btn-block" src="@Url.Content("~/Content/Images/1474894106_scissors.png")" alt="delete submit"/>
         }
     </div>
-</div>
-
-<!--Simple link pagging-->
-@*@if(Request.UserAgent != null && Regex.IsMatch(Request.UserAgent,@"MSIE 7")){
-        <div class="bottom-right pull-right">
-            @Html.PageLinks(pageInfo, 21, x => Url.RouteUrl("DetailsRoutesWithParams",
-                new RouteValueDictionary(){
-                    {"numberScroll",ViewBag.nper},
-                    {"reportYear",@ViewBag.DtBuhOtchet.Year},
-                    {"page", x}
-                }))
-        </div>  
-}*@
+</div>*@

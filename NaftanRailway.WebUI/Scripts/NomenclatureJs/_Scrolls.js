@@ -23,7 +23,7 @@ function filterMenu(obj) {
                 var selMulti = $(option).parent('select');
                 if (selMulti.next().find('li.active').size() === 0) { return; }
                 $.ajax({
-                    url: "Filter/Menu/",
+                    url: "UserInterface/FilterMenu/",
                     type: "Post",
                     traditional: true,
                     contentType: 'application/json; charset=utf-8',
@@ -100,6 +100,7 @@ function filterMenu(obj) {
     PaggingSuccess();
 };
 
+/******************************************************* DatePicker UI **************************************************************************************/
 $('.datepicker').datepicker({
     format: "MM yyyy",
     startView: 1,
@@ -114,7 +115,7 @@ $('.datepicker').datepicker({
     // var datePicker = moment($(e.date)).format('YYYY.MM.01');
 });
 
-/*Modal*/
+/******************************************************* Modal **************************************************************************************/
 //hide modal when show report
 $('#reportShow').on('click', function () {
     $('.modal').modal('hide');
@@ -122,15 +123,20 @@ $('#reportShow').on('click', function () {
 $('#dateModal').on('show.bs.modal', function () {
     $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 });
-/*********************************************************Correction or Upload crash row*********************************************************************/
+/********************************************************* Dialog UI (quick Menu) *********************************************************************/
 $('body').on('click', '#chargeOfList>tr>td', function () {
     var $selCell = $(this);
     var $selRow = $selCell.parent('tr');
     var $preveosSelRow = $('#chargeOfList>tr.info');
+    var $idPayment = $selRow.find('.idPayment');
+    var $menuIdsPayment = $('body .feeKey');
 
     //refresh hightlight area
     $preveosSelRow.removeClass('info');
     $selRow.addClass('info');
+
+    //set value in inputs elemnt for binding on the server side
+    $menuIdsPayment.val($idPayment.text());
 
     $("#dialog").dialog({
         autoOpen: false,
@@ -157,7 +163,7 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
 
 function UpdateFailure() { }
 
-/**********************************************************Update date in confirmed row(s)**************************************************************************/
+/********************************************************** Update date in confirmed row(s) **************************************************************************/
 function UpdateDate(dateRow) {
     var messageInfo = $('#loading').children('td');
     var currentNkrt = $(dateRow).find('.numberScroll').first().text();
@@ -285,14 +291,12 @@ $('body').on('click', '#scrollList tr', function (e) {
     var errorReportStr = "Scroll/Reports/" + correctionState + "/" + arg;
     var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
     var strDetails = "Scroll/ScrollDetails/" + arg;
-    var strCorrection = "Scroll/ScrollCorrection/" + arg;
     var actReportStr = 'Scroll/Reports/krt_Naftan_act_of_Reconciliation/' + arg;;
 
     $('#reportShow').attr('href', errorReportStr);
     $('#MenuLinkErrReport').attr('href', errorReportStr);
     $('#MenuLinkBookKeeperReport').attr('href', bookKeeperStr);
     $('#scrollDetails').attr("href", strDetails);
-    $('#scrollFix').attr("href", strCorrection);
     $('#MenuLinkReconciliationActReport').attr('href', actReportStr);
 
     //Confirmed
