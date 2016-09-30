@@ -6,8 +6,8 @@
 
 <div style="display: none" id="dialog" class="row btn-group" role="group" aria-label="...">
     @foreach (var item in Model) {
-        <div class="col-lg-" @widthGried style="padding: 1px;">
-            @using (Ajax.BeginForm(@item.RouteValues["actionName"].ToString(), @item.RouteValues["controllerName"].ToString(), @item.RouteValues, @item.OptionsAjax, @item.HtmlAttrs)) {
+        <div class="col-lg-@widthGried" style="padding: 1px;">
+            @using (Ajax.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(),null, item.OptionsAjax, item.HtmlAttrs)) {
                 <input type="hidden" name="feeKey" class="feeKey" />
                 <input type="hidden" name="operation" value=@item.TypeOperation />
                 <input type="image" title=@item.Title class="btn-block" name="imageQuickMenu" src=@item.Location alt=@item.Title />

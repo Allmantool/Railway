@@ -1,5 +1,4 @@
 ﻿@using System.Web.Mvc.Html
-@using NaftanRailway.Domain.BusinessModels.BussinesLogic
 @using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models
 @using NaftanRailway.WebUI.ViewModels
 @model DetailModelView
@@ -55,13 +54,11 @@
 
                     <div id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</div>
                     <button type="submit" class="form-control btn btn-primary pull-left" style="margin-left: 0.5em;">Фильтр</button>
-                        }
+                }
             </th>
         </tr>
     </thead>
-    <tbody class="text-center" id="chargeOfList">
-        @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model.CollDetails);}
-    </tbody>
+    <tbody class="text-center" id="chargeOfList">@{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model.CollDetails);}</tbody>
     <tfoot>
         <tr>
             <!--Ajax paging-->
@@ -74,48 +71,11 @@
         </tr>
     </tfoot>
 </table>
+
+<!--Loading-->
 <div id="loadingInfiniteScroll" class="text-center" style="display: none">
     <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
 </div>
-<!--Next step => greate template-->
-@*@{Html.RenderAction("OperationQuickMenu", "ServerUI");}*@
-@*@Html.Action("OperationQuickMenu", "UserInterface")*@
-@*<div style="display:none" id="dialog" class="row btn-group" role="group" aria-label="...">
-    <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
-                new AjaxOptions(){
-                    HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "operationScrollModal",
-                    OnSuccess = "showModalResult"
-                }, null)) {
-            <input type="hidden" name="feeKey" class="feeKey" />
-            <input type="hidden" name="operation" value=@EnumMenuOperation.Join />
-            <input type = "image" title = "Найти соответсвие" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/seo-chain-link-icon.png")" alt="Rows join submit"/>
-        }
-    </div>
-    <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
-            new AjaxOptions()
-            {
-                HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "operationScrollModal",
-                OnSuccess = "showModalResult"
-            }, null)) {
-            <input type="hidden" name="feeKey" class="feeKey"/>
-            <input type="hidden" name="operation" value=@EnumMenuOperation.Edit />
-            <input  type="image" title="Редактировать" class="btn-block" name="imageMenu" src="@Url.Content("~/Content/Images/1474628461_pencil.png")" alt="edit submit"/>
-        }
-    </div>
-    <div class="col-lg-4" style="padding: 1px;">
-        @using (Ajax.BeginForm("GeneralCorrection", "Scroll", null,
-            new AjaxOptions() {
-                HttpMethod = "Post", InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "operationScrollModal",
-                OnSuccess = "showModalResult"
-            }, null)) {
-            <input type="hidden" name="feeKey" class="feeKey"/>
-            <input type="hidden" name="operation" value=@EnumMenuOperation.Delete />
-            <input type="image" title="Удалить" class="btn-block" src="@Url.Content("~/Content/Images/1474894106_scissors.png")" alt="delete submit"/>
-        }
-    </div>
-</div>*@
+
+<!--Quick Menu -->
+@{Html.RenderAction("OperationQuickMenu", "UserInterface",new { area = "" });}

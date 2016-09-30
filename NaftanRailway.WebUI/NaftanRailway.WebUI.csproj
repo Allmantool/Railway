@@ -775,10 +775,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\NomenclatureScroll\Views\Filter\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
+    <Folder Include="Areas\NomenclatureScroll\Views\UserInterface\" />
     <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Infrastructure\ViewEngines\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />

@@ -19,6 +19,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public UserInterfaceController(IBussinesEngage bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
+
         /// <summary>
         /// Update render filter menu on page
         /// </summary>
@@ -54,12 +55,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [ChildActionOnly]
-        public PartialViewResult OperationQuickMenu() {
+        public ActionResult OperationQuickMenu() {
             var result = new[]
             {
                 new QuickDialogMenuModel(){
                     HtmlAttrs = null,
-                    Title = "Найти соответствие",
+                    Title = @"Найти соответствие",
                     Location = Url.Content("~/Content/Images/seo-chain-link-icon.png"),
                     OptionsAjax = new AjaxOptions() {
                         HttpMethod = "Post",
