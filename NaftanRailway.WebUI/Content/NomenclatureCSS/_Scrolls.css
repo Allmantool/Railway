@@ -17,12 +17,13 @@ thead, tfoot {
 div#ScrollTable {
     border-top: 1px solid black;
 }
+/****************************************************** Sroll Details table **************************************************************************/
 thead.tableHeader>tr>th {
-    border: 1px solid black;
-    text-align: center;
-    padding: 3px;
-    vertical-align: middle;
-    font-size: 0.95em;
+    border: 1px solid black !important;
+    text-align: center !important;
+    padding: 3px !important;
+    vertical-align: middle !important;
+    font-size: 0.95em !important;
 }
 /*table header style*/
 tbody.tableBody>tr>td {
@@ -163,6 +164,3 @@ tbody.tableBody>tr>td.currencyField {
 .navbar-custom .navbar-link:hover {
   color: #c0c0c0;
 }
-
-/*****************************************************************************************************************************************************/              
-/**************************************************************JQuery UI******************************************************************************/

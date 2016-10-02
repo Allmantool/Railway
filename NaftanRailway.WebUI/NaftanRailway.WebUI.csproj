@@ -564,7 +564,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxPagging.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_JoinRowsModal.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_EditRowsModal.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\_QuickMenu.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\UserInterface\_QuickMenu.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
@@ -778,7 +778,6 @@
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
-    <Folder Include="Areas\NomenclatureScroll\Views\UserInterface\" />
     <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Infrastructure\ViewEngines\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />

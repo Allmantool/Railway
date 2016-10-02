@@ -153,7 +153,7 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
             effect: "explode",
             duration: 300
         },
-        close: function(event, ui) {
+        close: function (event, ui) {
             $selRow.removeClass('info');
         }
     });

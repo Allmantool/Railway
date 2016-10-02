@@ -27,18 +27,14 @@
     </caption>
     <thead class="tableHeader">
         <tr>
-            <th class="text-center">Карточка<br />(NKRT)<span class="glyphicon glyphicon-filter"></span></th>
-            <th class="text-center">Тип<br /><span style="white-space: nowrap">док.</span><span class="glyphicon glyphicon-filter"></span></th>
-            <th class="text-center">Вид<br /><span style="white-space: nowrap">сбора<span class="glyphicon glyphicon-filter"></span></span></th>
-            
-            <th class="text-center">DT</th>                     <th class="text-center">NOMOT</th>
-            <th class="text-center">Сумма без НДС</th>          <th class="text-center">Сумма НДС</th>
-            <th class="text-center">Сумма</th>                  <th class="text-center">Ставка НДС</th>
-            <th class="text-center">txt<br />OРЦ</th>           <th class="text-center">Наименование сбора</th>
-            <th class="text-center">ID_ED<br />ОРЦ</th>         <th class="text-center">ID_ED<br />САПОД</th>
-            <th class="text-center">textm<br />САПОД</th>       <th class="text-center">date<br />raskr</th>
-            <th class="text-center">num_doc</th>                <th class="text-center">kol</th>
-            <th class="text-center">summa</th>                  <th class="text-center">nds</th>
+            <th>Карточка<br />(NKRT)<span class="glyphicon glyphicon-filter"></span></th>
+            <th>Тип<br /><span style="white-space: nowrap">док.</span><span class="glyphicon glyphicon-filter"></span></th>
+            <th>Вид<br /><span style="white-space: nowrap">сбора<span class="glyphicon glyphicon-filter"></span></span></th>
+
+            <th>DT</th>                 <th>NOMOT</th>              <th>Сумма без НДС</th>          <th>Сумма НДС</th>          <th>Сумма</th>
+            <th>Ставка НДС</th>         <th>txt<br />OРЦ</th>       <th>Наименование сбора</th>     <th>ID_ED<br />ОРЦ</th>     <th>ID_ED<br />САПОД</th>
+            <th>textm<br />САПОД</th>   <th>date<br />raskr</th>    <th>num_doc</th>                <th>kol</th>                <th>summa</th>
+            <th>nds</th>
         </tr>
         <!--Grid filter-->
         <tr class="filter-menu">
@@ -49,11 +45,11 @@
                     UpdateTargetId = "DetailsTable",
                     OnSuccess = "filterMenu"
                 }, new { @class = "form-inline" })) {
-                    @Html.Hidden("numberScroll", numberScroll)
-                    @Html.Hidden("reportYear", reportYear.Year)
+                @Html.Hidden("numberScroll", numberScroll)
+                @Html.Hidden("reportYear", reportYear.Year)
 
-                    <div id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</div>
-                    <button type="submit" class="form-control btn btn-primary pull-left" style="margin-left: 0.5em;">Фильтр</button>
+                <div id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</div>
+                <button type="submit" class="form-control btn btn-primary pull-left" style="margin-left: 0.5em;">Фильтр</button>
                 }
             </th>
         </tr>
@@ -62,8 +58,7 @@
     <tfoot>
         <tr>
             <!--Ajax paging-->
-            <th colspan="19">
-                &copy; 2016 ОАО "Нафтан"
+            <th colspan="19">&copy; 2016 ОАО "Нафтан"
                 <span class="ajaxPagging">
                     @{ Html.RenderPartial("_AjaxPagging", pageInfo);}
                 </span>
@@ -78,4 +73,4 @@
 </div>
 
 <!--Quick Menu -->
-@{Html.RenderAction("OperationQuickMenu", "UserInterface",new { area = "" });}
+@{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}

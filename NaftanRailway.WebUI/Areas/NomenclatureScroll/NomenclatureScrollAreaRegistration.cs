@@ -11,7 +11,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
         }
 
         public override void RegisterArea(AreaRegistrationContext context) {
-            context.Routes.IgnoreRoute("Nomenclature/{resource}.axd/{*pathInfo}",new StopRoutingHandler());
+            context.Routes.IgnoreRoute("Nomenclature/{resource}.axd/{*pathInfo}", new StopRoutingHandler());
             context.MapRoute(
                 name: "ReportRoutesWithParams",
                 url: "{area}/{controller}/{action}/{reportName}/{numberScroll}/{reportYear}/{*catchall}",
@@ -44,12 +44,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "General",
                 url: "Nomenclature/{controller}/{action}",
-                defaults: new {action = "Index", controller = "Scroll"},
-                namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
-            );
-            context.MapRoute(
-                name: "",
-                url: "{area}/{controller}/{action}",
+                defaults: new { action = "Index", controller = "Scroll" },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );
         }

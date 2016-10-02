@@ -82,7 +82,8 @@ namespace NaftanRailway.WebUI {
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Ceh18", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Ceh18", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "NaftanRailway.WebUI.Controllers" }
             );
         }
     }

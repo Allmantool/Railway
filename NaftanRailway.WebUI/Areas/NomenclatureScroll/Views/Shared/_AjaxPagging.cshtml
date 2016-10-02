@@ -4,7 +4,7 @@
         @{for (var q = 1; q <= Model.TotalPages; q++) {
                 <li class="@(q == Model.CurrentPage ? "active" : "")">
                     @Ajax.RouteLink(q.ToString(), Model.RoutingDictionary != null ?
-                            new Func<int, RouteValueDictionary>(x => { Model.RoutingDictionary["page"] = x; return Model.RoutingDictionary;}).Invoke(q) 
+                            new Func<int, RouteValueDictionary>(x => { Model.RoutingDictionary["page"] = x; return Model.RoutingDictionary; }).Invoke(q)
                             : new RouteValueDictionary() { { "page", q } },
                         Model.AjaxOptions, new Dictionary<string, object>() { { "enctype", "application/x-www-form-urlencoded" } })
                 </li>
