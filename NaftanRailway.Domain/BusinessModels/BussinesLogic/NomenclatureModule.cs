@@ -37,7 +37,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                     //set active context => depend on type of entity
                     var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Context.Database;
                     db.CommandTimeout = 120;
-                    db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.sp_fill_krt_Naftan_orc_sapod @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
+                    db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                     //Confirmed
                     krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);

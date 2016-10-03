@@ -165,19 +165,19 @@ function UpdateFailure() { }
 
 /********************************************************** Update date in confirmed row(s) **************************************************************************/
 function UpdateDate(dateRow) {
-    var messageInfo = $('#loading').children('td');
-    var currentNkrt = $(dateRow).find('.numberScroll').first().text();
-    var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
+    var $messageInfo = $('#loading').children('td');
+    var $currentNkrt = $(dateRow).find('.numberScroll').first().text();
+    var $target = $('table').find(".numberScroll:contains('" + $currentNkrt + "')").parents('tr');
 
     if ($('#valMultiDate').val() === "True") {
-        $(target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function (index, item) {
+        $($target.prevAll('tr').andSelf().find('.DTBUHOTCHET')).each(function (index, item) {
             $(item).empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
         });
     } else {
-        target.find('.DTBUHOTCHET').empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
+        $target.find('.DTBUHOTCHET').empty().append(moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
     }
 
-    messageInfo.empty().append("Дата изменена");
+    $messageInfo.empty().append("Дата изменена");
     $('.modal').modal('hide');
 }
 
@@ -245,7 +245,7 @@ function FixUpdate(dataRow) {
     $('#EditModal').modal('hide');
 }
 
-/**************************************Event click on table row + mark as work row for ajax request (event delegation)*******************************************/
+/************************************** Event click on table row + mark as work row for ajax request (event delegation) *******************************************/
 $('body').on('click', '#scrollList tr', function (e) {
     /*The target property can be the element that registered for the event or a descendant of it. 
     It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
