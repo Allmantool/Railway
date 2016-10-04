@@ -10,7 +10,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
         /// </summary>
         /// <param name="filterContext"></param>
         public override void OnActionExecuted(ActionExecutedContext filterContext) {
-            if(filterContext.Result.GetType()==typeof(JsonResult)) {
+            if (filterContext.Result.GetType() == typeof(JsonResult)) {
                 //Get the standard result object with unserialized data
                 JsonResult result = filterContext.Result as JsonResult;
 
@@ -29,6 +29,5 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 base.OnActionExecuted(filterContext);
             }
         }
-
     }
 }

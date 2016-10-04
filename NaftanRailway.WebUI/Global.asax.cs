@@ -43,6 +43,9 @@ namespace NaftanRailway.WebUI {
             ModelBinders.Binders.Add(typeof(SessionStorage), new StorageTableModelBinder());
             ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
 
+            //MVC4 Quick Tip #3–Removing the XML Formatter from ASP.Net Web API
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
             /* Step 3: Inizialize simpleMembership db
              Install-Package Microsoft.AspNet.WebHelpers
              Install-Package Microsoft.AspNet.WebPages.Data
@@ -61,6 +64,7 @@ namespace NaftanRailway.WebUI {
             ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
             */
         }
+
         /// <summary>
         /// Handling as a fallback for any unexpected and unhandled errors
         /// The route errors (404) is not mapped to ASP.NET

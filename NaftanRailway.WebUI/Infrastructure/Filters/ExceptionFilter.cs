@@ -2,6 +2,8 @@
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// <summary>
@@ -42,48 +44,49 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 statusCode = new HttpException(null, filterContext.Exception).GetHttpCode();
             }
 
-            // if the request is AJAX return JSON else view.  
-            //At Ajax request time, If any exception occurred then its will return error view , which is not a good things
-            //if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
-            //    filterContext.Result = new JsonResult {
-            //        JsonRequestBehavior = JsonRequestBehavior.AllowGet,
-            //        Data = new {
-            //            error = true,
-            //            message = filterContext.Exception.Message
-            //        }
-            //    };
-            //} else {
-                //var controllerName = filterContext.RouteData.Values["controller"].ToString();
-                //var actionName = filterContext.RouteData.Values["action"].ToString();
-                //var errormodel = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
+            //prepare error info object
+            var controllerName = filterContext.RouteData.Values["controller"].ToString();
+            var actionName = filterContext.RouteData.Values["action"].ToString();
+            var errormodel = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
 
-                //filterContext.Result = new ViewResult {
-                //    ViewName = View,
-                //    MasterName = Master,
-                //    ViewData = new ViewDataDictionary(errormodel),
-                //    TempData = filterContext.Controller.TempData
-                //};
-
-                //filterContext.Result = new RedirectResult("~/Views/Shared/Errors.cshtml");
+            // if the request is AJAX return JSON else view. At Ajax request time, If any exception occurred then its will return error view , which is not a good things
+            if (filterContext.HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest") {
+                filterContext.Result = new JsonResult {
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    Data = new {
+                        error = true,
+                        message = filterContext.Exception.Message,
+                        errorObj =  JsonConvert.SerializeObject(errormodel,new JsonSerializerSettings {
+                            Formatting = Formatting.Indented,
+                            //TypeNameHandling = TypeNameHandling.Objects,
+                            ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        })
+                    },
+                    ContentEncoding = System.Text.Encoding.UTF8,
+                    ContentType = "application/json"
+                };
+            } else {
                 filterContext.Result = new ViewResult() {
                     ViewName = "Errors",
-                    ViewData = new ViewDataDictionary<ExceptionContext>(filterContext)
+                    MasterName = "_Layout.HttpErrors",
+                    //ViewData = new ViewDataDictionary(errormodel),
+                    ViewData = new ViewDataDictionary<ExceptionContext>(filterContext),
+                    TempData = filterContext.Controller.TempData
                 };
-                //}
+            }
 
-                //mark exception as handled (other filters not doing attepting work)
-                Debug.WriteLine(filterContext.Exception.Message);
-                // Prepare the response code.  
-                filterContext.ExceptionHandled = true;
-                filterContext.HttpContext.Response.Clear();
+            //mark exception as handled (other filters not doing attepting work)
+            Debug.WriteLine(filterContext.Exception.Message);
+            // Prepare the response code.  
+            filterContext.ExceptionHandled = true;
+            //filterContext.HttpContext.Response.Clear();
 
-                if (!filterContext.HttpContext.Request.IsLocal) { filterContext.HttpContext.Response.StatusCode = statusCode; }
+            if (!filterContext.HttpContext.Request.IsLocal) { filterContext.HttpContext.Response.StatusCode = statusCode; }
 
-                // Certain versions of IIS will sometimes use their own error page when
-                // they detect a server error. Setting this property indicates that we
-                // want it to try to render ASP.NET MVC's error page instead.
-                filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
-            //}
+            // Certain versions of IIS will sometimes use their own error page when
+            // they detect a server error. Setting this property indicates that we
+            // want it to try to render ASP.NET MVC's error page instead.
+            filterContext.HttpContext.Response.TrySkipIisCustomErrors = true;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         public IEnumerable<krt_Naftan> SkipScrollTable(int page, int initialSizeItem, out long recordCount) {
             return Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT);
         }
+
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
         /// </summary>
@@ -56,11 +57,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                     return chRecord;
                 } catch (Exception e) {
-                    msgError = e.Message;
-                    throw new Exception("Failed confirmed data: " + msgError);
+                    throw new Exception("Failed confirmed data: " + e.Message);
                 }
             }
         }
+
         public void SyncWithOrc() {
             using (Engage.Uow = new UnitOfWork()) {
                 var db = Engage.Uow.Repository<krt_Naftan>().Context.Database;
@@ -68,6 +69,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 db.ExecuteSqlCommand(@"EXEC dbo.sp_UpdateKrt_Naftan");
             }
         }
+        
         /// <summary>
         /// Change date all later records
         /// </summary>
@@ -89,6 +91,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 }
             }
         }
+        
         /// <summary>
         /// Edit Row (sm, sm_nds (Sapod))
         /// Check row as fix => check ErrorState in krt_Naftan_Sapod 
@@ -129,13 +132,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
