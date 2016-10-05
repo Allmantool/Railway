@@ -8,10 +8,10 @@ namespace NaftanRailway.WebUI {
             bundles.IgnoreList.Clear();
 
             //*************************************************************** JS scripts *****************************************************************/
-            bundles.Add(new ScriptBundle("~/bundles/JQuery1")
+            bundles.Add(new ScriptBundle("~/bundles/JQuery1", "http://code.jquery.com/jquery-1.11.3.min.js")
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/JQuery2")
+            bundles.Add(new ScriptBundle("~/bundles/JQuery2", "http://code.jquery.com/jquery-2.2.4.min.js")
                 .Include("~/Scripts/jquery-2.2.4.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
@@ -65,7 +65,7 @@ namespace NaftanRailway.WebUI {
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
-            bundles.UseCdn = false;
+            bundles.UseCdn = true;
         }
     }
 
