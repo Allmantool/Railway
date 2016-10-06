@@ -11,11 +11,12 @@ using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
+using System.Web.UI;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    //[SessionState(SessionStateBehavior.Disabled)]
     //[ExceptionFilter]
-    public class ScrollController : AsyncController {
+    //[SessionState(SessionStateBehavior.Disabled)]
+    public class ScrollController : Controller {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {
             _bussinesEngage = bussinesEngage;
@@ -28,6 +29,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        //[ValidateInput(false)]
+        //[OutputCache(Duration = 5, Location = OutputCacheLocation.Any)]
         //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
             const byte initialSizeItem = 100;
@@ -87,7 +90,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             string msgError = "";
 
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                return PartialView("_KrtNaftanRows", new List<krt_Naftan>() { _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError) });
+                return PartialView("_KrtNaftanRows", new[] { _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError) });
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
@@ -107,7 +110,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (findKrt != null) {
                 var result = new DetailModelView() {
                     Scroll = findKrt,
-                    Filters = new[]{ new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt == findKrt.KEYKRT))
+                    Filters = new [] { new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt == findKrt.KEYKRT))
                         {SortFieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
                         new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt == findKrt.KEYKRT))
                         {SortFieldName = "tdoc",NameDescription = "Тип документа:"},

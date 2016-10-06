@@ -13,6 +13,14 @@ namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using)*/
     public class UnitOfWork : IUnitOfWork {
         private bool _disposed;
+        /// <summary>
+        /// (Маркер блокировки)
+        /// В прошлом для блокировки объектов очень часто применялась конструкция lock (this). 
+        /// Но она пригодна только в том случае, если this является ссылкой на закрытый объект. 
+        /// В связи с возможными программными и концептуальными ошибками, к которым может привести конструкция lock (this), применять ее больше не рекомендуется. 
+        /// Вместо нее лучше создать закрытый объект, чтобы затем заблокировать его.
+        /// </summary>
+        private readonly object _disposeLock = new object();
         public DbContext ActiveContext { get; set; }
         private DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
@@ -102,13 +110,16 @@ namespace NaftanRailway.Domain.Concrete {
             }
         }
 
-        private void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing && (ActiveContext != null)) {
-                    ActiveContext.Dispose();
+        protected virtual void Dispose(bool disposing) {
+            //маркер блокировки 
+            lock (_disposeLock) {
+                if (!_disposed) {
+                    if (disposing && (ActiveContext != null)) {
+                        ActiveContext.Dispose();
+                    }
+                    _disposed = true;
                 }
             }
-            _disposed = true;
         }
         public void Dispose() {
             Dispose(true);
