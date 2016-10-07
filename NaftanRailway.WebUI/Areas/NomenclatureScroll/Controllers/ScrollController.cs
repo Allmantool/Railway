@@ -12,10 +12,11 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
 using NaftanRailway.WebUI.ViewModels;
 using System.Web.UI;
+using System.Web.SessionState;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[ExceptionFilter]
-    //[SessionState(SessionStateBehavior.Disabled)]
+    [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : Controller {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {
@@ -28,9 +29,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// (IsAjaxRequest leave for compability with older version (ajax)
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        //[ValidateInput(false)]
-        //[OutputCache(Duration = 5, Location = OutputCacheLocation.Any)]
+        [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
         public ActionResult Index(int page = 1) {
             const byte initialSizeItem = 100;
