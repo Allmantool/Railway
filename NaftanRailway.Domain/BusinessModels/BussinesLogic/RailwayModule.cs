@@ -257,13 +257,13 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
                 using (_engage.Uow = new UnitOfWork()) {
                     //для динамического соединения
-                    var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().Context.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().Context.Database.Connection.Database + @"]";
-                    var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().Context.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().Context.Database.Connection.Database + @"]";
+                    var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveContext.Database.Connection.Database + @"]";
+                    var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.Connection.Database + @"]";
                     var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag))) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
-                    var result = _engage.Uow.Repository<krt_Guild18>().Context.Database.SqlQuery<krt_Guild18>(@"
+                    var result = _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.SqlQuery<krt_Guild18>(@"
                     WITH SubResutl AS (
                         /*Doc from Invoices*/
                         SELECT @reportPeriod AS [reportPeriod],     vn.[id] AS [idSapod],     null AS [idScroll], null AS [scrollColl],

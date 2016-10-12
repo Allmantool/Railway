@@ -36,7 +36,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Context.Database;
+                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveContext.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
@@ -64,7 +64,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
         public void SyncWithOrc() {
             using (Engage.Uow = new UnitOfWork()) {
-                var db = Engage.Uow.Repository<krt_Naftan>().Context.Database;
+                var db = Engage.Uow.Repository<krt_Naftan>().ActiveContext.Database;
                 db.CommandTimeout = 120;
                 db.ExecuteSqlCommand(@"EXEC dbo.sp_UpdateKrt_Naftan");
             }

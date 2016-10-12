@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -49,12 +49,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
             return View(result);
         }
+
         /// <summary>
         /// Change Buh Data
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-
         [HttpPost]
         public ActionResult ChangeDate(IndexModelView model) {
             //Custom value provider binding => TryUpdateModel(model, new FormValueProvider(ControllerContext));

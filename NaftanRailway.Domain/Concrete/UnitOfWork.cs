@@ -11,16 +11,7 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using)*/
-    public class UnitOfWork : IUnitOfWork {
-        private bool _disposed;
-        /// <summary>
-        /// (Маркер блокировки)
-        /// В прошлом для блокировки объектов очень часто применялась конструкция lock (this). 
-        /// Но она пригодна только в том случае, если this является ссылкой на закрытый объект. 
-        /// В связи с возможными программными и концептуальными ошибками, к которым может привести конструкция lock (this), применять ее больше не рекомендуется. 
-        /// Вместо нее лучше создать закрытый объект, чтобы затем заблокировать его.
-        /// </summary>
-        private readonly object _disposeLock = new object();
+    public class UnitOfWork : Disposable, IUnitOfWork {
         public DbContext ActiveContext { get; set; }
         private DbContext[] Contexts { get; set; }
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
@@ -40,7 +31,6 @@ namespace NaftanRailway.Domain.Concrete {
             ActiveContext = context;
             SetUpContext();
         }
-
         /// <summary>
         /// Ninject (Dependency Injection). Pass a custom set of dbContext
         /// </summary>
@@ -62,7 +52,6 @@ namespace NaftanRailway.Domain.Concrete {
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
         }
-
         /// <summary>
         /// Collection repositories
         /// Return repositories if it's in collection repositories, if not add in collection with specific dbcontext
@@ -93,7 +82,6 @@ namespace NaftanRailway.Domain.Concrete {
 
             return repo;
         }
-
         public void Save() {
             //TransactionScore score = new TransactionScore(); //old style
             using (var transaction = ActiveContext.Database.BeginTransaction()) {
@@ -110,20 +98,9 @@ namespace NaftanRailway.Domain.Concrete {
             }
         }
 
-        protected virtual void Dispose(bool disposing) {
-            //маркер блокировки 
-            lock (_disposeLock) {
-                if (!_disposed) {
-                    if (disposing && (ActiveContext != null)) {
-                        ActiveContext.Dispose();
-                    }
-                    _disposed = true;
-                }
-            }
-        }
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+        protected override void DisposeCore() {
+            if (ActiveContext != null)
+                ActiveContext.Dispose();
         }
     }
 }

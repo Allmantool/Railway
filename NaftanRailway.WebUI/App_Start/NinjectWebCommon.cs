@@ -1,18 +1,18 @@
-using System;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-using NaftanRailway.WebUI;
-using Ninject;
-using Ninject.Web.Common;
-using NaftanRailway.WebUI.Infrastructure;
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NaftanRailway.WebUI.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NaftanRailway.WebUI.App_Start.NinjectWebCommon), "Stop")]
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
+namespace NaftanRailway.WebUI.App_Start {
+    using System;
+    using System.Web;
 
-namespace NaftanRailway.WebUI {
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+
+    using Ninject;
+    using Ninject.Web.Common;
+    using System.Web.Mvc;
+
     public static class NinjectWebCommon {
-        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -20,14 +20,14 @@ namespace NaftanRailway.WebUI {
         public static void Start() {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            Bootstrapper.Initialize(CreateKernel);
+            bootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>
         /// Stops the application.
         /// </summary>
         public static void Stop() {
-            Bootstrapper.ShutDown();
+            bootstrapper.ShutDown();
         }
 
         /// <summary>
@@ -36,7 +36,6 @@ namespace NaftanRailway.WebUI {
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel() {
             var kernel = new StandardKernel();
-
             try {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
@@ -54,7 +53,7 @@ namespace NaftanRailway.WebUI {
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel) {
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            DependencyResolver.SetResolver(new Infrastructure.NinjectDependencyResolver(kernel));
         }
     }
 }

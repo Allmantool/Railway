@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -8,7 +9,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         /// Actual working dbContext
         /// </summary>
-        System.Data.Entity.DbContext Context { get; }
+        DbContext ActiveContext { get; set; }
 
         /// <summary>
         /// Get all or filter result
