@@ -149,6 +149,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net40\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -424,6 +428,7 @@
     <Compile Include="Infrastructure\Filters\FileDownloadCompleteFilter.cs" />
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
+    <Compile Include="Infrastructure\Mapping\AutoMapperConfiguration.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\RoutesConstraint\UserAgentConstraint.cs" />
     <Compile Include="Infrastructure\ValidationAttributes\MustBeTrueAttribute.cs" />

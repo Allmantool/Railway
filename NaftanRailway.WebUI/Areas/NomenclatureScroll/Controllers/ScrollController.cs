@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -109,7 +109,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (findKrt != null) {
                 var result = new DetailModelView() {
                     Scroll = findKrt,
-                    Filters = new [] { new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt == findKrt.KEYKRT))
+                    Filters = new[] { new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt == findKrt.KEYKRT))
                         {SortFieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
                         new CheckListFilterModel(_bussinesEngage.Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt == findKrt.KEYKRT))
                         {SortFieldName = "tdoc",NameDescription = "Тип документа:"},

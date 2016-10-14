@@ -8,9 +8,13 @@ using Filters;
 using NaftanRailway.Domain.BusinessModels.SessionLogic;
 using NaftanRailway.WebUI.Infrastructure.Binders;
 using NaftanRailway.WebUI.ViewModels;
+using NaftanRailway.WebUI.Infrastructure.Mapping;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
+        /// <summary>
+        /// Also we hava ability set diffrent type of configuration throughtout diffrent bootstraper class (convention => name may be diffrent)
+        /// </summary>
         protected void Application_Start() {
             //Attribute Routing in MVC5
             //routes.MapMvcAttributeRoutes();
@@ -18,14 +22,15 @@ namespace NaftanRailway.WebUI {
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
+
             // This method call registers all filters 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            /*Work only with razor View Engine
-               •	 {0} represents the name of the view.
-               •	 {1} represents the name of the controller.
-               •	 {2} represents the name of the area.
+            /* Work only with razor View Engine
+             * {0} represents the name of the view.
+             * {1} represents the name of the controller.
+             * {2} represents the name of the area.
              */
             ViewEngines.Engines.Clear();
             /*Avoid seached each view instead in .cshtml files*/
@@ -46,12 +51,15 @@ namespace NaftanRailway.WebUI {
             //MVC4 Quick Tip #3–Removing the XML Formatter from ASP.Net Web API
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
-            /* Step 3: Inizialize simpleMembership db
-             Install-Package Microsoft.AspNet.WebHelpers
-             Install-Package Microsoft.AspNet.WebPages.Data
-             (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
-             */
-            //WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
+            //Configure AutoMapper
+            AutoMapperConfiguration.Configure();
+
+            /* Inizialize simpleMembership
+            * Install-Package Microsoft.AspNet.WebHelpers
+            * Install-Package Microsoft.AspNet.WebPages.Data
+            * (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
+            * WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
+            */
 
             /*Custom value provider (order sense)
              * (First)
@@ -61,8 +69,8 @@ namespace NaftanRailway.WebUI {
              */
 
             /*Controller Builder
-            ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
-            */
+             * ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
+             */
         }
 
         /// <summary>
