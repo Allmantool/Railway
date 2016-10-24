@@ -8,6 +8,7 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
     /// Partial views don't support @section by default
     /// </summary>
     public static class HtmlExtensions {
+
         /// <summary>
         /// Give unical Guid for script
         /// </summary>
@@ -18,6 +19,7 @@ namespace NaftanRailway.WebUI.HtmlHelpers {
             htmlHelper.ViewContext.HttpContext.Items["_script_" + Guid.NewGuid()] = template;
             return MvcHtmlString.Empty;
         }
+        
         /// <summary>
         /// Searched and then Write directly into html (unical script)
         /// </summary>

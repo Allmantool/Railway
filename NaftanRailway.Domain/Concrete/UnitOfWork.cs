@@ -19,7 +19,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// <summary>
         /// Create UOW per request with requer dbContexts by default
         /// </summary>
-        public UnitOfWork() {
+       public UnitOfWork() {
             Contexts = new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
             SetUpContext();
         }

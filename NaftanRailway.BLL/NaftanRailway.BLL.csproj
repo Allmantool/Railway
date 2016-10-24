@@ -30,7 +30,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LinqKit, Version=1.1.7.3, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.7.3\lib\net452\LinqKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,7 +61,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IAuthorizationEngage.cs" />
+    <Compile Include="Abstract\IBussinesEngage.cs" />
+    <Compile Include="Abstract\INomenclatureModule.cs" />
+    <Compile Include="Abstract\IRailwayModule.cs" />
+    <Compile Include="Abstract\ISessionStorage.cs" />
+    <Compile Include="Concrete\AuthorizationLogic\AuthorizationEngage.cs" />
+    <Compile Include="DTO\Security\RegistrationDTO.cs" />
+    <Compile Include="DTO\Nomenclature\ScrollDetailDTO.cs" />
+    <Compile Include="DTO\Nomenclature\ScrollLineDTO.cs" />
+    <Compile Include="DTO\Security\SecurityInfoLineDTO.cs" />
+    <Compile Include="POCO\CheckListFilter.cs" />
+    <Compile Include="Services\Mapping\AutoMappingConfiguration.cs" />
+    <Compile Include="Services\SecurityService.cs" />
+    <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />
+    <Compile Include="Services\EnumOperationType.cs" />
+    <Compile Include="Concrete\BussinesLogic\NomenclatureModule.cs" />
+    <Compile Include="Concrete\BussinesLogic\RailwayModule.cs" />
+    <Compile Include="DTO\Guild18\ShippingDTO.cs" />
+    <Compile Include="DTO\Guild18\ShippingInfoLineDTO.cs" />
+    <Compile Include="Concrete\SessionLogic\SessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ExpressionTreeExtensions\PredicateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NaftanRailway.Domain\NaftanRailway.Domain.csproj">
@@ -48,12 +90,10 @@
       <Name>NaftanRailway.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="BusinessModel\" />
-    <Folder Include="Concrete\" />
-    <Folder Include="DTO\" />
-    <Folder Include="Services\" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

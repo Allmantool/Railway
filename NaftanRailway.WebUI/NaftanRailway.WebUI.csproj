@@ -185,10 +185,6 @@
       <HintPath>..\packages\Glimpse.Mvc4.1.5.3\lib\net40\Glimpse.Mvc4.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LinqKit, Version=1.1.7.3, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
-      <HintPath>..\packages\LinqKit.1.1.7.3\lib\net40\LinqKit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -209,10 +205,6 @@
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MoreLinq, Version=1.4.18916.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.1.4.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -354,15 +346,17 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Controllers\BaseController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\UserInterfaceController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\CheckCharges.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\CheckListFilterModel.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\DetailModelView.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\IndexModelView.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Models\QuickDialogMenuModel.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\CheckCharges.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\DetailModelView.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\IndexModelView.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\QuickDialogMenuModel.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
+    <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
+    <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -439,6 +433,7 @@
     <Compile Include="ViewModels\InputMenuViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\PagingInfo.cs" />
+    <Compile Include="ViewModels\RegistrationViewModel.cs" />
     <Compile Include="ViewModels\ReportModel.cs" />
     <Compile Include="ViewModels\SessionStorageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -804,12 +799,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NaftanRailway.Domain\NaftanRailway.Domain.csproj">
-      <Project>{09A80099-87FE-485F-BBD4-5CD5C6770BF8}</Project>
-      <Name>NaftanRailway.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Ceh18\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -839,6 +828,13 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NaftanRailway.BLL\NaftanRailway.BLL.csproj">
+      <Project>{96800e14-17b0-4478-9666-863335cde44b}</Project>
+      <Name>NaftanRailway.BLL</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,5 @@
-﻿@using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-@model IEnumerable<krt_Naftan>
+﻿@using NaftanRailway.BLL.DTO.Nomenclature;
+@model IEnumerable<ScrollLineDTO>
 @{ var i = 0;}
 
 @foreach (var item in Model) {
@@ -21,8 +21,8 @@
         <td class="DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@item.NTREB</td>
         <td>@(item.DTTREB == null ? "" : item.DTTREB.Value.ToString("dd.MM.yyyy"))</td>
-        <td class="currencyField text-right">@((item.KEYKRT >= 15072000209229) ? item.SMTREB.ToString("#,0.00") : item.SMTREB.ToString("#,#"))</td>
-        <td class="currencyField text-right">@((item.KEYKRT >= 15072000209229) ? item.NDSTREB.ToString("#,0.00") : item.NDSTREB.ToString("#,#"))</td>
+        <td class="currencyField text-right">@Html.DenominationScroll(item.KEYKRT, item.SMTREB)</td>
+        <td class="currencyField text-right">@Html.DenominationScroll(item.KEYKRT, item.NDSTREB)</td>
         <td>@item.StartDate_PER.ToString("dd.MM.yyyy")</td>
         <td>@item.EndDate_PER.ToString("dd.MM.yyyy")</td>
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
