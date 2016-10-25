@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NaftanRailway.BLL.Abstract;
@@ -172,69 +170,26 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="numberScroll"></param>
         /// <param name="reportYear"></param>
         /// <returns></returns>
-        //[ChildActionOnly]
         //[FileDownloadCompleteFilter]
         public ActionResult Reports(string reportName, int numberScroll, int reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
 
-            //link to SSRS buil-in repors
-            if (numberScroll == null || reportYear == null) {
-                string urlReportString = string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
-                    serverName, folderName, reportName, @"rs:Command=Render");
+            //link to SSRS buil-in repors (default for integer)
+            if (numberScroll == 0 || reportYear == 0) {
 
-                return View("Reports", (object)urlReportString);
+                return View("Reports", (object)string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}", serverName, folderName, reportName, @"rs:Command=Render"));
             }
 
-            var selScroll = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
+            //get report with parameters
+            try {
+                return File(_bussinesEngage.GetNomenclatureReports(this, numberScroll, reportYear, serverName, folderName, reportName), @"application/vnd.ms-excel");
 
-            //check exists
-            if (selScroll != null) {
-                const string defaultParameters = @"rs:Format=Excel";
-                string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ?
-                      @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
-                    : @"nkrt=" + numberScroll + @"&year=" + reportYear;
+            } catch (Exception) {
+                TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
 
-                string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
-                    folderName, reportName, defaultParameters, filterParameters);
-
-                //WebClient client = new WebClient { UseDefaultCredentials = true };
-                /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
-                WebClient client = new WebClient {
-                    Credentials =
-                        new CredentialCache{
-                            {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
-                        }
-                };
-
-                string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
-                    ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll) : (reportName == @"krt_Naftan_act_of_Reconciliation")
-                    ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year)
-                        : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
-
-                //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
-                //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
-                string contentDisposition;
-                if (Request.Browser.Browser == "IE" && (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
-                    contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
-                else if (Request.Browser.Browser == "Safari")
-                    contentDisposition = "attachment; filename=" + nameFile;
-                else
-                    contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
-
-                //name file (with encoding)
-                Response.AddHeader("Content-Disposition", contentDisposition);
-                var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel");
-
-                //For js spinner and complete donwload callback
-                Response.Cookies.Clear();
-                Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
-
-                return returnFile;
+                return RedirectToAction("Index", "Scroll");
             }
-            TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
-
-            return RedirectToAction("Index", "Scroll");
         }
 
         /// <summary>

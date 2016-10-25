@@ -3,12 +3,10 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
-using LinqKit;
-using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-using NaftanRailway.Domain.ExpressionTreeExtensions;
-using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models;
+using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.POCO;
+using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels;
+using NaftanRailway.BLL.Services;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     /// <summary>
@@ -21,21 +19,21 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         /// <summary>
-        /// Update render filter menu on page
+        /// Update render filter menu on page (request from jquery )
         /// </summary>
         /// <param name="reportYear"></param>
         /// <param name="filters">Set of filters</param>
         /// <param name="numberScroll"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult FilterMenu(int numberScroll, int reportYear, IList<CheckListFilterModel> filters) {
+        public ActionResult FilterMenu(int numberScroll, int reportYear, IList<CheckListFilter> filters) {
             var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault();
 
             //build lambda expression basic on active filter(linqKit)
             var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
                 .And(x => x.keykrt == findKrt.KEYKRT), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
 
-            //update filters
+            //update filters base on active filter new values
             if (Request.IsAjaxRequest() && findKrt != null) {
                 foreach (var item in filters) {
                     item.CheckedValues = _bussinesEngage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(), finalPredicate.Expand());
@@ -44,6 +42,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 //return Json(filters, JsonRequestBehavior.DenyGet);
                 return PartialView("_FilterMenu", filters);
             }
+
             ModelState.AddModelError("Menu", @"Ошибка в работе фильтров!");
             TempData["message"] = @"Ошибка возникла в работе фильтров!";
 

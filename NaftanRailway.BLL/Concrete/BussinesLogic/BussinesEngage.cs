@@ -10,12 +10,10 @@ namespace NaftanRailway.BLL.Concrete {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public class BussinesEngage : IBussinesEngage {
-        private bool _disposed;
+    public class BussinesEngage : Disposable, IBussinesEngage {
         public IUnitOfWork Uow { get; set; }
         public BussinesEngage(IUnitOfWork unitOfWork) {
             Uow = unitOfWork;
-            _disposed = false;
         }
 
         /// <summary>
@@ -63,16 +61,9 @@ namespace NaftanRailway.BLL.Concrete {
             }
         }
 
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing)
-                    Uow.Dispose();
-            }
-            _disposed = true;
+        protected override void DisposeCore() {
+            if (Uow != null)
+                Uow.Dispose();
         }
     }
 }

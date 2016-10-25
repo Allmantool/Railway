@@ -11,7 +11,7 @@ namespace NaftanRailway.BLL.Abstract {
 
         void Clear();
 
-        void RemoveLine<T>(T shipping);
+        void RemoveLine(ShippingInfoLineDTO shipping);
 
         void SaveLine(ShippingInfoLineDTO line);
     }

@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using LinqKit;
-using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.BusinessModels.SessionLogic;
+using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.Services;
+using NaftanRailway.BLL.DTO.Guild18;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-using NaftanRailway.Domain.ExpressionTreeExtensions;
+using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 
 namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
-    public class RailwayModule : IRailwayModule {
-        private bool _disposed;
+    public class RailwayModule : Disposable, IRailwayModule {
         private readonly IBussinesEngage _engage;
 
         public RailwayModule(IBussinesEngage engage) {
             _engage = engage;
         }
+
         /// <summary>   
         /// Формирования объекта отображения информации об отправках (по накладной за отчётный месяц)
         /// </summary>
@@ -28,11 +29,11 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="pageSize">Count item on page</param>
         /// <param name="recordCount"></param>
         /// <returns></returns>
-        public IEnumerable<Shipping> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
+        public IEnumerable<ShippingDTO> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
             //exit when empty result (discrease count server query)
             if (_engage.GetCountRows<krt_Guild18>(x => x.reportPeriod == chooseDate) == 0) {
                 recordCount = 0;
-                return new List<Shipping>();
+                return new List<ShippingDTO>();
             }
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
             var wrkData = _engage.GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
@@ -60,7 +61,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                           from item in g1.DefaultIfEmpty() where (item != null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
                           join e in etsngSrc on item == null ? "" : item.cod_tvk_etsng equals e.etsng1 into g2
                           from item2 in g2.DefaultIfEmpty()
-                          select new Shipping() {
+                          select new ShippingDTO() {
                               VOtpr = item,
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == item.id),
                               VPams = _engage.GetTable<v_pam, int>(PredicateBuilder.True<v_pam>().And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
@@ -99,7 +100,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
             return result;
         }
-        public DateTime SyncActualDate(SessionStorage storage, DateTime menuTime) {
+        public DateTime SyncActualDate(ISessionStorage storage, DateTime menuTime) {
             //reload page (save select report date)
             if (storage.ReportPeriod == DateTime.MinValue && menuTime == DateTime.MinValue) {
                 return new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
@@ -136,7 +137,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="preview"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
+        public bool PackDocuments(DateTime reportPeriod, IList<ShippingInfoLineDTO> preview, byte shiftPage = 3) {
             var startDate = reportPeriod.AddDays(-shiftPage);
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
 
@@ -249,7 +250,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <param name="preview"></param>
         /// <param name="shiftPage"></param>
         /// <returns></returns>
-        public bool PackDocSql(DateTime reportPeriod, IList<ShippingInfoLine> preview, byte shiftPage = 3) {
+        public bool PackDocSql(DateTime reportPeriod, IList<ShippingInfoLineDTO> preview, byte shiftPage = 3) {
             var startDate = reportPeriod.AddDays(-shiftPage).Date;
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage).Date;
 
@@ -368,7 +369,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
         /// <returns></returns>
         public bool UpdateExists(DateTime reportPeriod) {
             var dataRows = _engage.GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x => new { x.idDeliviryNote, x.warehouse })
-                .Select(y => new ShippingInfoLine() {
+                .Select(y => new ShippingInfoLineDTO() {
                     Shipping = _engage.GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
                     WagonsNumbers = _engage.GetTable<v_o_v, int>(x => x.id_otpr == y.Key.idDeliviryNote).ToList(),
                     Warehouse = (int)y.Key.warehouse
@@ -378,10 +379,10 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
 
             return true;
         }
-        public IEnumerable<ShippingInfoLine> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
+        public IEnumerable<ShippingInfoLineDTO> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
             DateTime startDate = dateOper.AddDays(-3);
             DateTime endDate = dateOper.AddMonths(1).AddDays(3);
-            IEnumerable<ShippingInfoLine> result = new List<ShippingInfoLine>();
+            IEnumerable<ShippingInfoLineDTO> result = new List<ShippingInfoLineDTO>();
 
             var delivery = _engage.GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
                (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))).ToList();
@@ -392,7 +393,7 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
                 //one trunsaction (one request per one dbcontext)
                 using (_engage.Uow = new UnitOfWork()) {
                     result = (from sh in delivery join e in _engage.Uow.Repository<etsng>().Get_all(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
-                              select new ShippingInfoLine() {
+                              select new ShippingInfoLineDTO() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
                                   WagonsNumbers = _engage.GetTable<v_o_v, int>(x => x.id_otpr == sh.id).ToList(),
@@ -403,17 +404,9 @@ namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
             return result;
         }
 
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing) {
-                    _engage.Dispose();
-                }
-            }
-            _disposed = true;
+        protected override void DisposeCore() {
+            if (_engage != null)
+                _engage.Dispose();
         }
     }
 }

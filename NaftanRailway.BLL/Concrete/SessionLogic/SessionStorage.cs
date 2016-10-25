@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+using NaftanRailway.BLL.DTO.Guild18;
+using NaftanRailway.BLL.Abstract;
 
 namespace NaftanRailway.BLL.Concrete {
     /// <summary>
     /// Save Temp user choose. For greating Report
     /// </summary>
     public class SessionStorage : ISessionStorage {
-        private readonly List<ShippingInfoLine> _linesCollection;
+        private readonly List<ShippingInfoLineDTO> _linesCollection;
         /// <summary>
         /// list shipingInfo lines
         /// </summary>
-        public IEnumerable<ShippingInfoLine> Lines {
+        public IEnumerable<ShippingInfoLineDTO> Lines {
             get { return _linesCollection; }
         }
 
@@ -24,11 +24,11 @@ namespace NaftanRailway.BLL.Concrete {
         public DateTime ReportPeriod { get; set; }
 
         public SessionStorage() {
-            _linesCollection = new List<ShippingInfoLine>();
+            _linesCollection = new List<ShippingInfoLineDTO>();
             ReportPeriod = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
         }
         public SessionStorage(DateTime reportPeriod) {
-            _linesCollection = new List<ShippingInfoLine>();
+            _linesCollection = new List<ShippingInfoLineDTO>();
             ReportPeriod = reportPeriod;
         }
 
@@ -36,20 +36,12 @@ namespace NaftanRailway.BLL.Concrete {
         /// Add shippingInfo line
         /// </summary>
         /// <param name="documentPack"></param>
-        public void Additem(ShippingInfoLine documentPack) {
-            ShippingInfoLine line = _linesCollection.FirstOrDefault(sh => sh.Shipping.id == documentPack.Shipping.id);
+        public void Additem(ShippingInfoLineDTO documentPack) {
+            ShippingInfoLineDTO line = _linesCollection.FirstOrDefault(sh => sh.Shipping.id == documentPack.Shipping.id);
 
             if (line == null) {
                 _linesCollection.Add(documentPack);
             }
-        }
-
-        /// <summary>
-        /// Romove line
-        /// </summary>
-        /// <param name="shipping"></param>
-        public void RemoveLine(v_otpr shipping) {
-            _linesCollection.RemoveAll(l => l.Shipping.id == shipping.id);
         }
 
         /// <summary>
@@ -63,12 +55,16 @@ namespace NaftanRailway.BLL.Concrete {
         /// Save changes/ correction in line
         /// </summary>
         /// <param name="line"></param>
-        public void SaveLine(ShippingInfoLine line) {
+        public void SaveLine(ShippingInfoLineDTO line) {
             if (_linesCollection.Any(m => m.Shipping.id == line.Shipping.id)) {
-                RemoveLine(line.Shipping);
+                RemoveLine(line);
             }
 
             Additem(line);
+        }
+
+        public void RemoveLine(ShippingInfoLineDTO shipping) {
+            throw new NotImplementedException();
         }
     }
 }

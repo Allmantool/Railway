@@ -28,7 +28,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="page">current page</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
+        public ActionResult Index(ISessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
             const short pageSize = 9;
             short recordCount;
 
@@ -100,7 +100,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
+        public ActionResult AddDocumentsInfo(ISessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
             if (Request.IsAjaxRequest()) {
                 _bussinesEngage.PackDocSql(reportPeriod, docInfo);
 
@@ -118,7 +118,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="idInvoice"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice) {
+        public ActionResult DeleteDocInfo(ISessionStorage storage, DateTime reportPeriod, int? idInvoice) {
             if (Request.IsAjaxRequest()) {
                 TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
 
@@ -128,7 +128,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         [HttpPost]
-        public ActionResult UpdateExists(SessionStorage storage, DateTime reportPeriod) {
+        public ActionResult UpdateExists(ISessionStorage storage, DateTime reportPeriod) {
             if (Request.IsAjaxRequest()) {
                 _bussinesEngage.UpdateExists(reportPeriod);
                 return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });

@@ -11,10 +11,12 @@ using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using LinqKit;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
 
 namespace NaftanRailway.BLL.Concrete {
-    public class NomenclatureModule : INomenclatureModule {
-        private bool _disposed;
+    public class NomenclatureModule : Disposable, INomenclatureModule {
         public IBussinesEngage Engage { get; set; }
         public NomenclatureModule(IBussinesEngage engage) {
             Engage = engage;
@@ -42,7 +44,6 @@ namespace NaftanRailway.BLL.Concrete {
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
             return Mapper.Map<ScrollLineDTO>(Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault());
         }
-
 
         /// <summary>
         /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
@@ -166,19 +167,6 @@ namespace NaftanRailway.BLL.Concrete {
             }
         }
 
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private void Dispose(bool disposing) {
-            if (!_disposed) {
-                if (disposing) {
-                    Engage.Dispose();
-                }
-                _disposed = true;
-            }
-        }
-
         public IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key) {
             return new[] { new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt ==  key))
                         {SortFieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
@@ -191,7 +179,7 @@ namespace NaftanRailway.BLL.Concrete {
                     };
         }
 
-        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key,IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
+        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
             //upply filters(linqKit)
             var finalPredicate = filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
                 .And(x => x.keykrt == key), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
@@ -204,6 +192,57 @@ namespace NaftanRailway.BLL.Concrete {
 
         public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
             throw new NotImplementedException();
+        }
+
+        public byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = "rs:Format=Excel") {
+
+            var selScroll = GetNomenclatureByNumber(numberScroll, reportYear);
+
+            string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ? @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
+                : @"nkrt=" + numberScroll + @"&year=" + reportYear;
+
+            string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
+                folderName, reportName, defaultParameters, filterParameters);
+
+            //WebClient client = new WebClient { UseDefaultCredentials = true };
+            /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
+            WebClient client = new WebClient {
+                Credentials =
+                    new CredentialCache{
+                            {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
+                    }
+            };
+
+            string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
+                ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll) : (reportName == @"krt_Naftan_act_of_Reconciliation")
+                ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year)
+                    : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
+
+            //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
+            //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
+            string contentDisposition;
+
+            if (contr.Request.Browser.Browser == "IE" && (contr.Request.Browser.Version == "7.0" || contr.Request.Browser.Version == "8.0"))
+                contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
+            else if (contr.Request.Browser.Browser == "Safari")
+                contentDisposition = "attachment; filename=" + nameFile;
+            else
+                contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
+
+            //name file (with encoding)
+            contr.Response.AddHeader("Content-Disposition", contentDisposition);
+
+            //For js spinner and complete donwload callback
+            contr.Response.Cookies.Clear();
+            contr.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
+
+
+            return client.DownloadData(urlReportString);
+        }
+
+        protected override void DisposeCore() {
+            if (Engage != null)
+                Engage.Dispose();
         }
     }
 }
