@@ -12,7 +12,7 @@ namespace NaftanRailway.BLL.POCO {
     public class CheckListFilter {
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }
-        public string SortFieldName { get; set; }
+        public string FieldName { get; set; }
         //another variant add <T> general type for filter and with reflection return metadata propeprty from entity model
         public string NameDescription { get; set; }
         public bool ActiveFilter { get; set; }
@@ -35,7 +35,7 @@ namespace NaftanRailway.BLL.POCO {
         public Expression<Func<T, bool>> FilterByField<T>() where T : class {
             var predicate = CheckedValues.Aggregate(
                 PredicateBuilder.False<T>(),
-                (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(SortFieldName, innerItem))
+                    (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(FieldName, innerItem))
             );
 
             return predicate;

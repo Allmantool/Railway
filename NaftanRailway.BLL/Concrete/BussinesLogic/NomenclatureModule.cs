@@ -14,8 +14,9 @@ using LinqKit;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 
-namespace NaftanRailway.BLL.Concrete {
+namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class NomenclatureModule : Disposable, INomenclatureModule {
         public IBussinesEngage Engage { get; set; }
         public NomenclatureModule(IBussinesEngage engage) {
@@ -169,13 +170,13 @@ namespace NaftanRailway.BLL.Concrete {
 
         public IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key) {
             return new[] { new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt ==  key))
-                        {SortFieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
+                        {FieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
                         new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt ==  key))
-                        {SortFieldName = "tdoc",NameDescription = "Тип документа:"},
+                        {FieldName = "tdoc",NameDescription = "Тип документа:"},
                         new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(),x => x.keykrt ==  key))
-                        {SortFieldName = "vidsbr",NameDescription = "Вид сбора:"},
+                        {FieldName = "vidsbr",NameDescription = "Вид сбора:"},
                         new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nomot.ToString(),x => x.keykrt == key))
-                        {SortFieldName = "nomot",NameDescription = "Документ:"}
+                        {FieldName = "nomot",NameDescription = "Документ:"}
                     };
         }
 
@@ -238,6 +239,23 @@ namespace NaftanRailway.BLL.Concrete {
 
 
             return client.DownloadData(urlReportString);
+        }
+
+        public bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter) {
+
+            if (scroll == null) return false;
+
+            //build lambda expression basic on active filter(linqKit)
+            var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(
+                    PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == scroll.KEYKRT),
+                        (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())
+                );
+
+            foreach (var item in filters) {
+                item.CheckedValues = Engage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.FieldName).Expand(), finalPredicate.Expand());
+            }
+
+            return true;
         }
 
         protected override void DisposeCore() {

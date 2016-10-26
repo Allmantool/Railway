@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Routing;
@@ -13,8 +12,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     /// Controller for work with general filters
     /// </summary>
     public class UserInterfaceController : Controller {
-        private readonly IBussinesEngage _bussinesEngage;
-        public UserInterfaceController(IBussinesEngage bussinesEngage) {
+        private readonly INomenclatureModule _bussinesEngage;
+        public UserInterfaceController(INomenclatureModule bussinesEngage) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -26,19 +25,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="numberScroll"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult FilterMenu(int numberScroll, int reportYear, IList<CheckListFilter> filters) {
-            var findKrt = _bussinesEngage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault();
+        public ActionResult FilterMenu(int numberScroll, int reportYear, IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter) {
 
-            //build lambda expression basic on active filter(linqKit)
-            var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
-                .And(x => x.keykrt == findKrt.KEYKRT), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
+            var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
             //update filters base on active filter new values
-            if (Request.IsAjaxRequest() && findKrt != null) {
-                foreach (var item in filters) {
-                    item.CheckedValues = _bussinesEngage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.SortFieldName).Expand(), finalPredicate.Expand());
-                }
-
+            if (Request.IsAjaxRequest() && _bussinesEngage.UpdateRelatingFilters(findKrt, ref filters, typeFilter)) {
                 //return Json(filters, JsonRequestBehavior.DenyGet);
                 return PartialView("_FilterMenu", filters);
             }

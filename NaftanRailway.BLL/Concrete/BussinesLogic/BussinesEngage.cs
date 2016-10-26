@@ -6,7 +6,7 @@ using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.BLL.Abstract;
 
-namespace NaftanRailway.BLL.Concrete {
+namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>

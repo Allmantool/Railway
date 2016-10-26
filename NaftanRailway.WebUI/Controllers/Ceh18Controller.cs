@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-using NaftanRailway.Domain.BusinessModels.SessionLogic;
+using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.Services;
 using NaftanRailway.WebUI.ViewModels;
+using NaftanRailway.BLL.DTO.Guild18;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
@@ -100,7 +100,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddDocumentsInfo(ISessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLine> docInfo) {
+        public ActionResult AddDocumentsInfo(ISessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLineDTO> docInfo) {
             if (Request.IsAjaxRequest()) {
                 _bussinesEngage.PackDocSql(reportPeriod, docInfo);
 

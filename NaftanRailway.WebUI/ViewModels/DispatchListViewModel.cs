@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
+using NaftanRailway.BLL.DTO.Guild18;
+using NaftanRailway.BLL.Services;
 
 namespace NaftanRailway.WebUI.ViewModels {
     public class DispatchListViewModel {
@@ -11,7 +11,7 @@ namespace NaftanRailway.WebUI.ViewModels {
         /// <summary>
         /// Collection shipping numbers
         /// </summary>
-        public IEnumerable<Shipping> Dispatchs { get; set; }
+        public IEnumerable<ShippingDTO> Dispatchs { get; set; }
         /// <summary>
         /// Info about pagination (count page, current page, line on the page and etc)
         /// </summary>

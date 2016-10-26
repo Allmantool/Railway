@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 
 namespace NaftanRailway.WebUI.ViewModels {
     /// <summary>

@@ -5,7 +5,7 @@ using System.Linq;
 using NaftanRailway.BLL.DTO.Guild18;
 using NaftanRailway.BLL.Abstract;
 
-namespace NaftanRailway.BLL.Concrete {
+namespace NaftanRailway.BLL.Services {
     /// <summary>
     /// Save Temp user choose. For greating Report
     /// </summary>

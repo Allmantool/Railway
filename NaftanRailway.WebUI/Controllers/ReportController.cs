@@ -6,7 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Reporting.WebForms;
-using NaftanRailway.Domain.BusinessModels.SessionLogic;
+using NaftanRailway.BLL.Abstract;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// Render SSRS report (This method apply if you don't have Report Server enviroment
         /// </summary>
         /// <returns></returns>
-        public ActionResult Index(SessionStorage storage, string id = "PDF") {
+        public ActionResult Index(ISessionStorage storage, string id = "PDF") {
             if (!storage.Lines.Any()) {
                 ModelState.AddModelError("", @"Вы не выбрали ни одного номера отправки!");
             }

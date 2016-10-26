@@ -12,7 +12,7 @@ using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 
-namespace NaftanRailway.Domain.BusinessModels.BussinesLogic {
+namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
         private readonly IBussinesEngage _engage;
 

@@ -1,104 +1,105 @@
-﻿/*MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml)
+﻿/************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
-function filterMenu(obj) {
-    var selRequest;
-    if (obj.length > 0 && obj.length < 50) { selRequest = obj; } else { selRequest = "#filterForm div>select"; }
-    $(selRequest).each(function () {
-        var $this = $(this);
-        $this.multiselect({
-            includeSelectAllOption: true,
-            enableHTML: false,
-            disableIfEmpty: true,
-            disabledText: 'Нет значений ...',
-            nonSelectedText: 'Не выбрано ...',
-            buttonWidth: '230px',
-            maxHeight: '750px',
-            allSelectedText: "allSelectedText",
-            selectAllText: "Выбрать все",
-            inheritClass: true,
-            /*numberDisplayed: 3,*/
-            /*A function which is triggered on the change event of the options. 
-        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-            onChange: function (option) {
-                var selMulti = $(option).parent('select');
-                if (selMulti.next().find('li.active').size() === 0) { return; }
-                $.ajax({
-                    url: "UserInterface/FilterMenu/",
-                    type: "Post",
-                    traditional: true,
-                    contentType: 'application/json; charset=utf-8',
-                    /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-                    data: JSON.stringify(
-                        {
-                            "filters": [
-                               {
-                                   "SortFieldName": "nkrt",
-                                   "NameDescription": $('select#nkrt').prev().val(),
-                                   "ActiveFilter": ('nkrt' === selMulti.attr('id')) ? true : false,
-                                   "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
-                                   "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
-                               }, {
-                                   "SortFieldName": "tdoc",
-                                   "NameDescription": $('select#tdoc').prev().val(),
-                                   "ActiveFilter": ('tdoc' === selMulti.attr('id')) ? true : false,
-                                   "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
-                                   "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
-                               }, {
-                                   "SortFieldName": "vidsbr",
-                                   "NameDescription": $('select#vidsbr').prev().val(),
-                                   "ActiveFilter": ('vidsbr' === selMulti.attr('id')) ? true : false,
-                                   "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
-                                   "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
-                               }, {
-                                   "SortFieldName": "nomot",
-                                   "NameDescription": $('select#nomot').prev().val(),
-                                   "ActiveFilter": ('nomot' === selMulti.attr('id')) ? true : false,
-                                   "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
-                                   "AllAvailableValues": $('#nomot option').map(function () { return $(this).val(); }).toArray()
-                               }
-                            ],
-                            "numberScroll": +$("#numberScroll").val(),
-                            "reportYear": +$("#reportYear").val()
-                        }),
-                    success: function (result) {
-                        var sel = $(result).find('input[value=True]').parent('div').attr('id');
-                        //update filter element
-                        $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
-                            $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
-                        });
+    function filterMenu(obj) {
+        var selRequest;
+        if (obj.length > 0 && obj.length < 50) { selRequest = obj; } else { selRequest = "#filterForm div>select"; }
+        $(selRequest).each(function () {
+            var $this = $(this);
+            $this.multiselect({
+                includeSelectAllOption: true,
+                enableHTML: false,
+                disableIfEmpty: true,
+                disabledText: 'Нет значений ...',
+                nonSelectedText: 'Не выбрано ...',
+                buttonWidth: '230px',
+                maxHeight: '750px',
+                allSelectedText: "allSelectedText",
+                selectAllText: "Выбрать все",
+                inheritClass: true,
+                /*numberDisplayed: 3,*/
+                /*A function which is triggered on the change event of the options. 
+            Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
+                onChange: function (option) {
+                    var selMulti = $(option).parent('select');
+                    if (selMulti.next().find('li.active').size() === 0) { return; }
+                    $.ajax({
+                        url: "UserInterface/FilterMenu/",
+                        type: "Post",
+                        traditional: true,
+                        contentType: 'application/json; charset=utf-8',
+                        /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
+                        data: JSON.stringify(
+                            {
+                                "typeFilter": 1,
+                                "filters": [
+                                   {
+                                       "SortFieldName": "nkrt",
+                                       "NameDescription": $('select#nkrt').prev().val(),
+                                       "ActiveFilter": ('nkrt' === selMulti.attr('id')) ? true : false,
+                                       "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
+                                       "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
+                                   }, {
+                                       "SortFieldName": "tdoc",
+                                       "NameDescription": $('select#tdoc').prev().val(),
+                                       "ActiveFilter": ('tdoc' === selMulti.attr('id')) ? true : false,
+                                       "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
+                                       "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
+                                   }, {
+                                       "SortFieldName": "vidsbr",
+                                       "NameDescription": $('select#vidsbr').prev().val(),
+                                       "ActiveFilter": ('vidsbr' === selMulti.attr('id')) ? true : false,
+                                       "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
+                                       "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
+                                   }, {
+                                       "SortFieldName": "nomot",
+                                       "NameDescription": $('select#nomot').prev().val(),
+                                       "ActiveFilter": ('nomot' === selMulti.attr('id')) ? true : false,
+                                       "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
+                                       "AllAvailableValues": $('#nomot option').map(function () { return $(this).val(); }).toArray()
+                                   }
+                                ],
+                                "numberScroll": +$("#numberScroll").val(),
+                                "reportYear": +$("#reportYear").val()
+                            }),
+                        success: function (result) {
+                            var sel = $(result).find('input[value=True]').parent('div').attr('id');
+                            //update filter element
+                            $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
+                                $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
+                            });
 
-                        filterMenu('#filterForm div>select:not(#' + sel + ')');
-                    },
-                    error: function (data) { console.log("multiselect custom error:" + data) }
-                });
-            },
-            buttonText: function (options, select) {
-                var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
-                var $selSize = options.length;
-
-                if ($selSize === 0) {
-                    return 'Не выбрано ...';
-                } else if ($selSize === $(select).children('option').size()) {
-                    return nameFilter + '(Все)' + ' (' + $(select).children('option').length + ')';
-                } else if ($selSize > 3) {
-                    return 'Выбрано ' + $selSize + ' ' + nameFilter;
-                } else {
-                    var labels = [];
-                    options.each(function () {
-                        if ($(this).attr('label') !== undefined) {
-                            labels.push($(this).attr('label'));
-                        } else {
-                            labels.push($(this).html());
-                        }
+                            filterMenu('#filterForm div>select:not(#' + sel + ')');
+                        },
+                        error: function (data) { console.log("multiselect custom error:" + data) }
                     });
-                    return labels.join(', ') + '';
+                },
+                buttonText: function (options, select) {
+                    var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
+                    var $selSize = options.length;
+
+                    if ($selSize === 0) {
+                        return 'Не выбрано ...';
+                    } else if ($selSize === $(select).children('option').size()) {
+                        return nameFilter + '(Все)' + ' (' + $(select).children('option').length + ')';
+                    } else if ($selSize > 3) {
+                        return 'Выбрано ' + $selSize + ' ' + nameFilter;
+                    } else {
+                        var labels = [];
+                        options.each(function () {
+                            if ($(this).attr('label') !== undefined) {
+                                labels.push($(this).attr('label'));
+                            } else {
+                                labels.push($(this).html());
+                            }
+                        });
+                        return labels.join(', ') + '';
+                    }
                 }
-            }
+            });
+            $this.next(".btn-group").css("margin-left", "0.3em");
         });
-        $this.next(".btn-group").css("margin-left", "0.3em");
-    });
-    PaggingSuccess();
-};
+        PaggingSuccess();
+    };
 
 /******************************************************* DatePicker UI **************************************************************************************/
 $('.datepicker').datepicker({

@@ -29,4 +29,10 @@ namespace NaftanRailway.BLL.Services {
         General = 0,
         Detail = 1
     }
+
+    [Serializable]
+    public enum EnumTypeFilterMenu : short {
+        Nomenclature = 0,
+        NomenclatureDetail = 1
+    }
 }

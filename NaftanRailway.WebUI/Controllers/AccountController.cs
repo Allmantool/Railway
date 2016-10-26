@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using NaftanRailway.Domain.Abstract;
+using NaftanRailway.BLL.Abstract;
 using NaftanRailway.Domain.BusinessModels.AuthorizationLogic;
 using NaftanRailway.WebUI.ViewModels;
 
@@ -56,7 +56,7 @@ namespace NaftanRailway.WebUI.Controllers {
         [Authorize(Roles = "Admin")]
         public ViewResult Register() {
             RegistrationViewModel model = new RegistrationViewModel {
-                UsersList = _engage.GetInfoLines
+                //UsersList = _engage.GetInfoLines
             };
 
             return View(model);
@@ -66,18 +66,18 @@ namespace NaftanRailway.WebUI.Controllers {
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public ActionResult Register(RegistrationViewModel model) {
-            model.UsersList = _engage.GetInfoLines;
+            //model.UsersList = _engage.GetInfoLines;
 
             if (ModelState.IsValid) {
-                if (_engage.Register(model)) {
-                    model.UsersList = _engage.GetInfoLines;
-                    TempData["message"] = string.Format("Пользователь {0} успешно зарегистрирован под ролью {1}", model.UserName, model.Role);
-                    return View(model);
-                } else {
-                    ModelState.AddModelError("", @"Пользователь с таким профилем уже существует. Пожалуйста введите корректные данные");
+                //    if (_engage.Register(model)) {
+                //        model.UsersList = _engage.GetInfoLines;
+                //        TempData["message"] = string.Format("Пользователь {0} успешно зарегистрирован под ролью {1}", model.UserName, model.Role);
+                //        return View(model);
+                //    } else {
+                //        ModelState.AddModelError("", @"Пользователь с таким профилем уже существует. Пожалуйста введите корректные данные");
 
-                    return View(model);
-                }
+                return View(model);
+                //}
             }
 
             ModelState.AddModelError("", @"Указаны неверные учётные данные пользователя");

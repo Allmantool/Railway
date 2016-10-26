@@ -78,14 +78,13 @@
     <Compile Include="DTO\Security\SecurityInfoLineDTO.cs" />
     <Compile Include="POCO\CheckListFilter.cs" />
     <Compile Include="Services\Mapping\AutoMappingConfiguration.cs" />
-    <Compile Include="Services\SecurityService.cs" />
     <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />
     <Compile Include="Services\EnumOperationType.cs" />
     <Compile Include="Concrete\BussinesLogic\NomenclatureModule.cs" />
     <Compile Include="Concrete\BussinesLogic\RailwayModule.cs" />
     <Compile Include="DTO\Guild18\ShippingDTO.cs" />
     <Compile Include="DTO\Guild18\ShippingInfoLineDTO.cs" />
-    <Compile Include="Concrete\SessionLogic\SessionStorage.cs" />
+    <Compile Include="Services\SessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExpressionTreeExtensions\PredicateExtensions.cs" />
   </ItemGroup>
