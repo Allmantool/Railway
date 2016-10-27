@@ -41,9 +41,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     TotalItems = recordCount
                 }
             };
+
             if (Request.IsAjaxRequest()) {
                 return PartialView("_AjaxTableKrtNaftan", result);
             }
+
             return View(result);
         }
 

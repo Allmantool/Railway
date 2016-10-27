@@ -8,6 +8,7 @@ using NaftanRailway.BLL.Abstract;
 namespace NaftanRailway.BLL.Services {
     /// <summary>
     /// Save Temp user choose. For greating Report
+    /// This tool use session mechanism (throught binding 'StorageTableModelBinder') to persist
     /// </summary>
     public class SessionStorage : ISessionStorage {
         private readonly List<ShippingInfoLineDTO> _linesCollection;

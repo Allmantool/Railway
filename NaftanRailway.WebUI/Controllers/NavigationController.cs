@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.Services;
 
 namespace NaftanRailway.WebUI.Controllers {
     public class NavigationController : Controller {
@@ -17,7 +18,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <param name="operationCategory"></param>
         /// <returns></returns>
-        public PartialViewResult MenuTypeOperations(ISessionStorage storage, InputMenuViewModel menuView, string operationCategory = null) {
+        public PartialViewResult MenuTypeOperations(SessionStorage storage, InputMenuViewModel menuView, string operationCategory = null) {
             //reload page (save select report date)
             menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
@@ -27,13 +28,14 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return PartialView("FlexMenu", menuView);
         }
+        
         /// <summary>
         /// Filtering by Date and temlate shipping number
         /// </summary>
         /// <param name="storage"></param>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        public PartialViewResult GeneralMenu(ISessionStorage storage, InputMenuViewModel menuView) {
+        public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView) {
             menuView.ReportPeriod = storage.ReportPeriod;
 
             return PartialView("ComplexNavbarMenu", menuView);
