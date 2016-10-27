@@ -9,15 +9,15 @@ namespace NaftanRailway.WebUI.ViewModels {
     public class ShippingInfoLine {
         public bool IsSelected { get; set; }
 
-        [DisplayName("Номер накладной")]
-        public v_otpr Shipping { get; set; }
+        //[DisplayName("Номер накладной")]
+        //public v_otpr Shipping { get; set; }
 
-        [DisplayName("Номера вагона(ов)")]
-        [UIHint("v_o_v")]
-        public IList<v_o_v> WagonsNumbers { get; set; }
+        //[DisplayName("Номера вагона(ов)")]
+        //[UIHint("v_o_v")]
+        //public IList<v_o_v> WagonsNumbers { get; set; }
 
-        [DisplayName("Наименование груза (ETСНГ)")]
-        public etsng CargoEtsngName { get; set; }
+        //[DisplayName("Наименование груза (ETСНГ)")]
+        //public etsng CargoEtsngName { get; set; }
 
         [DisplayName("Номер склада")]
         [Range(1, 1000, ErrorMessage = "Пожалуйста введите верный номер склада!")]

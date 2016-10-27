@@ -135,6 +135,5 @@ namespace NaftanRailway.WebUI.Controllers {
             }
             return new EmptyResult();
         }
-
     }
 }

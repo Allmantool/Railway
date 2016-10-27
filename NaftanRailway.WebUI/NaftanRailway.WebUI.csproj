@@ -423,7 +423,6 @@
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
     <Compile Include="Infrastructure\Mapping\AutoMapperConfiguration.cs" />
-    <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\RoutesConstraint\UserAgentConstraint.cs" />
     <Compile Include="Infrastructure\ValidationAttributes\MustBeTrueAttribute.cs" />
     <Compile Include="Infrastructure\ValueProvider\CountryValueProvider.cs" />

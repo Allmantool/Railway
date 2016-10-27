@@ -102,7 +102,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             if (ModelState.IsValid) {
                 //storage.SaveLine(line.DocumentPackLine);
-                TempData["message"] = string.Format("Отправка {0} успешно отредактирована", line.DocumentPackLine.Shipping.n_otpr);
+                //TempData["message"] = string.Format("Отправка {0} успешно отредактирована", line.DocumentPackLine.Shipping.n_otpr);
 
                 return RedirectToAction("Index", new { line.ReturnUrl });
             } else {

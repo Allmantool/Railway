@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using NaftanRailway.Domain.BusinessModels.SessionLogic;
+using NaftanRailway.BLL.Services;
 
 namespace NaftanRailway.WebUI.Infrastructure.Binders {
     public class StorageTableModelBinder : IModelBinder {

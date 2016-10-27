@@ -1,8 +1,8 @@
-﻿using NaftanRailway.Domain.BusinessModels.SessionLogic;
+﻿using NaftanRailway.BLL.Abstract;
 
 namespace NaftanRailway.WebUI.ViewModels {
     public class SessionStorageViewModel {
-        public SessionStorage Storage { get; set; }
+        public ISessionStorage Storage { get; set; }
         /// <summary>
         /// Need for return previos page with saving state
         /// </summary>

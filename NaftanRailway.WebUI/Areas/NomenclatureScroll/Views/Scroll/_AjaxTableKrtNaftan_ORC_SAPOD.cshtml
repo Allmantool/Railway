@@ -1,5 +1,5 @@
 ﻿@using System.Web.Mvc.Html
-@using NaftanRailway.WebUI.Areas.NomenclatureScroll.Models
+@using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels
 @using NaftanRailway.WebUI.ViewModels
 @model DetailModelView
 @{
@@ -54,7 +54,7 @@
             </th>
         </tr>
     </thead>
-    <tbody class="text-center" id="chargeOfList">@{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model.CollDetails);}</tbody>
+    <tbody class="text-center" id="chargeOfList">@{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model.ListDetails);}</tbody>
     <tfoot>
         <tr>
             <!--Ajax paging-->

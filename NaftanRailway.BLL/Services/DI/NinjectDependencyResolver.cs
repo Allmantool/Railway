@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Mvc;
 using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using Ninject;
+using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.Concrete.BussinesLogic;
 
-namespace NaftanRailway.WebUI.Infrastructure {
+namespace NaftanRailway.BLL.Services.DI {
     public class NinjectDependencyResolver : IDependencyResolver {
         private readonly IKernel _kernel;
 

@@ -1,6 +1,4 @@
 ﻿using System.Web.Mvc;
-using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
 using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Infrastructure.Binders {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using NaftanRailway.BLL.DTO.Security;
 
 namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
     public class RegistrationViewModel {
@@ -26,6 +27,6 @@ namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
         public string Role { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public IEnumerable<SecurityInfoLine> UsersList { get; set; }
+        public IEnumerable<SecurityInfoLineDTO> UsersList { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using NaftanRailway.Domain.BusinessModels;
-using NaftanRailway.Domain.BusinessModels.BussinesLogic;
-
-namespace NaftanRailway.WebUI.ViewModels {
+﻿namespace NaftanRailway.WebUI.ViewModels {
     public class InfoLineViewModel {
         /// <summary>
         /// object what responde for storage info about one line in session storage
