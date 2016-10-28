@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 
 namespace NaftanRailway.WebUI.Infrastructure.Mapping {
-    public class AutoMapperConfiguration {
+    public class AutoMapperWebConfiguration {
         public static void Configure() {
             Mapper.Initialize(x => {
                 x.AddProfile<DomainToViewModelMappingProfile>();

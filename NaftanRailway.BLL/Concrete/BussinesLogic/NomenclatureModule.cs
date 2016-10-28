@@ -25,12 +25,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         public IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount) {
 
-            var @switch = new Dictionary<Type, IEnumerable<T>> {
-                { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT))},
-                { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, long>(page, initialSizeItem, out recordCount, x => x.keykrt)) },
-            };
+            //var @switch = new Dictionary<Type, IEnumerable<T>> {
+            //    { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT))},
+            //   // { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, long>(page, initialSizeItem, out recordCount, x => x.keykrt)) },
+            //};
+            //@switch[typeof(T)]
 
-            return @switch[typeof(T)];
+            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
         }
         public IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem) {
 

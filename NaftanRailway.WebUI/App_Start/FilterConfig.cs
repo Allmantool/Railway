@@ -2,7 +2,7 @@
 using NaftanRailway.WebUI.Infrastructure.Filters;
 
 //ReSharper disable once CheckNamespace
-namespace Filters {
+namespace NaftanRailway.WebUI {
     public static class FilterConfig {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
             /*Register inbuilt exception filter provided ASP.NET MVC (filter will be invoke on each contoller)*/

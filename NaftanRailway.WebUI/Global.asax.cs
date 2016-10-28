@@ -4,11 +4,10 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Filters;
 using NaftanRailway.WebUI.Infrastructure.Binders;
 using NaftanRailway.WebUI.ViewModels;
-using NaftanRailway.WebUI.Infrastructure.Mapping;
 using NaftanRailway.BLL.Services;
+using NaftanRailway.BLL.Services.Mapping;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
@@ -33,6 +32,7 @@ namespace NaftanRailway.WebUI {
              * {2} represents the name of the area.
              */
             ViewEngines.Engines.Clear();
+
             /*Avoid seached each view instead in .cshtml files*/
             ViewEngines.Engines.Add(new RazorViewEngine() {
                 ViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml", "~/Views/Shared/{0}.cshtml" },
@@ -52,7 +52,7 @@ namespace NaftanRailway.WebUI {
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             //Configure AutoMapper
-            AutoMapperConfiguration.Configure();
+            AutoMapperBLLConfiguration.Configure();
 
             /* Inizialize simpleMembership
             * Install-Package Microsoft.AspNet.WebHelpers

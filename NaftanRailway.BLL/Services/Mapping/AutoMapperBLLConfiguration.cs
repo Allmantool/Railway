@@ -3,9 +3,11 @@ using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.BLL.Services.Mapping {
-    public class AutoMapperConfiguration {
+    public class AutoMapperBLLConfiguration {
         public static void Configure() {
-            Mapper.Initialize(x => {
+            Mapper.Initialize(x =>
+            //x.CreateMap<krt_Naftan, ScrollLineDTO>().ReverseMap());
+            {
                 x.AddProfile<EntityToDTOMappingProfile>();
             });
         }
@@ -15,11 +17,11 @@ namespace NaftanRailway.BLL.Services.Mapping {
     /// Mapping from EF6 entity to dto object (data transfer)
     /// </summary>
     public class EntityToDTOMappingProfile : Profile {
-        public EntityToDTOMappingProfile() : base("EntityToDTOMappingProfile") {
-        }
+        public EntityToDTOMappingProfile() : base("EntityToDTOMappings") { }
+
         protected override void Configure() {
-            Mapper.CreateMap<ScrollLineDTO, krt_Naftan>();
-            Mapper.CreateMap<ScrollDetailDTO, krt_Naftan_orc_sapod>();
+            Mapper.CreateMap<krt_Naftan, ScrollLineDTO>();
+            Mapper.CreateMap<krt_Naftan_orc_sapod, ScrollDetailDTO>();
         }
     }
 }

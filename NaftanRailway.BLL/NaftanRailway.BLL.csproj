@@ -107,7 +107,7 @@
     <Compile Include="DTO\Security\SecurityInfoLineDTO.cs" />
     <Compile Include="POCO\CheckListFilter.cs" />
     <Compile Include="Services\DI\NinjectDependencyResolver.cs" />
-    <Compile Include="Services\Mapping\AutoMappingConfiguration.cs" />
+    <Compile Include="Services\Mapping\AutoMapperBLLConfiguration.cs" />
     <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />
     <Compile Include="Services\EnumOperationType.cs" />
     <Compile Include="Concrete\BussinesLogic\NomenclatureModule.cs" />

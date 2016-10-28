@@ -13,6 +13,7 @@ $(function () {
                 type: "Post", dataType: "json",
                 data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
                 success: function (data) {
+                    //Translate all items in an array or object to new array of items (jQuery.map( array, callback ))
                     response($.map(data, function (item) {
                         return { label: item };
                     }));
