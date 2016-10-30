@@ -1,4 +1,4 @@
-﻿@using NaftanRailway.Domain.BusinessModels
+﻿@using NaftanRailway.BLL.DTO.Security
 @using NaftanRailway.Domain.BusinessModels.AuthorizationLogic
 @model RegistrationViewModel
 @{
@@ -57,7 +57,7 @@
                 <th class="text-center">Действие</th>
             </tr>
             @if (Model != null && Model.UsersList != null) {
-                foreach (SecurityInfoLine item in Model.UsersList) {
+                foreach (SecurityInfoLineDTO item in Model.UsersList) {
                 <tr>
                     <th class="text-center">@item.UserId</th>
                     <th class="text-center">@item.UserName</th>

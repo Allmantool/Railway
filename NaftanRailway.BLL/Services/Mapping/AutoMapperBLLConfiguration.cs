@@ -5,9 +5,8 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 namespace NaftanRailway.BLL.Services.Mapping {
     public class AutoMapperBLLConfiguration {
         public static void Configure() {
-            Mapper.Initialize(x =>
-            //x.CreateMap<krt_Naftan, ScrollLineDTO>().ReverseMap());
-            {
+            Mapper.Initialize(x => {
+                //x.CreateMap<krt_Naftan, ScrollLineDTO>().ReverseMap());
                 x.AddProfile<EntityToDTOMappingProfile>();
             });
         }

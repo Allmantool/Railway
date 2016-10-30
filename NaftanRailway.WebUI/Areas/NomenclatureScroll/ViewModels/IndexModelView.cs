@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.DTO.Nomenclature;
+using NaftanRailway.WebUI.ViewModels;
 
-namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels {
+namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels {
     //[ModelBinder(typeof(ChangeDateModalBinding))]
     public class IndexModelView {
         /// <summary>

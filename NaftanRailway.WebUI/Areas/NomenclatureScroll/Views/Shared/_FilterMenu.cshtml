@@ -7,16 +7,16 @@
 
     var menuItem = item;
 
-    <div id=@(menuItem.SortFieldName + "block") style="display: inline-block; float: left;">
+    <div id=@(menuItem.FieldName + "block") style="display: inline-block; float: left;">
         @Html.Hidden("filters[" + i + "].ActiveFilter", menuItem.ActiveFilter)
-        @Html.Hidden("filters[" + i + "].SortFieldName", menuItem.SortFieldName)
+        @Html.Hidden("filters[" + i + "].SortFieldName", menuItem.FieldName)
         @Html.Hidden("filters[" + i + "].NameDescription", menuItem.NameDescription)
 
         @for (int q = 0; q < menuItem.AllAvailableValues.Count(); q++) {
             @Html.Hidden("filters[" + i + "].AllAvailableValues[" + q + "]", ((IList)menuItem.AllAvailableValues)[q])
         }
 
-        <select class="form-group form-control filters" type="search" multiple="multiple" id=@menuItem.SortFieldName name=@String.Format("filters[{0}].CheckedValues", i++) style="display: none;">
+        <select class="form-group form-control filters" type="search" multiple="multiple" id=@menuItem.FieldName name=@String.Format("filters[{0}].CheckedValues", i++) style="display: none;">
             @for (int q = 0; q < item.AllAvailableValues.Count(); q++) {
                 var indElem = ((IList)item.AllAvailableValues)[q];
 
