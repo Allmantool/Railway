@@ -18,7 +18,7 @@ using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class NomenclatureModule : Disposable, INomenclatureModule {
-        public IBussinesEngage Engage { get; set; }
+        public IBussinesEngage Engage { get; }
         public NomenclatureModule(IBussinesEngage engage) {
             Engage = engage;
         }
