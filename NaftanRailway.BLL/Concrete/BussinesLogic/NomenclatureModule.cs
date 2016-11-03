@@ -35,12 +35,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
         public IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem) {
 
-            var @switch = new Dictionary<Type, IEnumerable<T>> {
-                { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, null, x => x.KEYKRT == key))},
-                { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == key)) },
-            };
+            //var @switch = new Dictionary<Type, IEnumerable<T>> {
+            //    { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, null, x => x.KEYKRT == key))},
+            //    { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == key)) },
+            //};
+            //@switch[typeof(T)];
 
-            return @switch[typeof(T)];
+            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == key));
         }
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {

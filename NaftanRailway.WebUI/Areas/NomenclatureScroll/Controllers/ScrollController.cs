@@ -89,7 +89,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             string msgError = "";
 
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                return PartialView("_KrtNaftanRows",  _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError));
+                return PartialView("_KrtNaftanRows", _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError));
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
