@@ -10,7 +10,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
-    public class BussinesEngage : Disposable, IBussinesEngage {
+    public sealed class BussinesEngage : Disposable, IBussinesEngage {
         public IUnitOfWork Uow { get; set; }
         public BussinesEngage(IUnitOfWork unitOfWork) {
             Uow = unitOfWork;

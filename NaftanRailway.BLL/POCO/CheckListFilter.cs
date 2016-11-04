@@ -35,7 +35,7 @@ namespace NaftanRailway.BLL.POCO {
         public Expression<Func<T, bool>> FilterByField<T>() where T : class {
             var predicate = CheckedValues.Aggregate(
                 PredicateBuilder.False<T>(),
-                    (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(FieldName, innerItem))
+                (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(FieldName, innerItem))
             );
 
             return predicate;

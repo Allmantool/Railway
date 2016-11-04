@@ -139,7 +139,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (findKrt != null) {
 
                 long recordCount;
-                var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(filters, page, initialSizeItem, out recordCount);
+                var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
 
                 var result = new DetailModelView() {
                     Scroll = findKrt,

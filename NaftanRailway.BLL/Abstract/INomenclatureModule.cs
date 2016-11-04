@@ -22,7 +22,7 @@ namespace NaftanRailway.BLL.Abstract {
         IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
-        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount);
+        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount);
 
         /// <summary>
         /// Update linked filters base on src entity (table)
@@ -31,7 +31,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="filters"></param>
         /// <param name="typeFilter">source table type</param>
         /// <returns></returns>
-        bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters , EnumTypeFilterMenu typeFilter);
+        bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter);
 
         byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = @"rs:Format=Excel");
 

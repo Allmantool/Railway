@@ -17,7 +17,7 @@ using System.Web.Mvc;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
-    public class NomenclatureModule : Disposable, INomenclatureModule {
+    public sealed class NomenclatureModule : Disposable, INomenclatureModule {
         public IBussinesEngage Engage { get; }
         public NomenclatureModule(IBussinesEngage engage) {
             Engage = engage;
@@ -83,7 +83,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                     Engage.Uow.Save();
 
-                    return Mapper.Map<IEnumerable<ScrollLineDTO>>(chRecord);
+                    return Mapper.Map<IEnumerable<ScrollLineDTO>>(new[] { chRecord });
                 } catch (Exception e) {
                     throw new Exception("Failed confirmed data: " + e.Message);
                 }
@@ -160,13 +160,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
@@ -191,10 +191,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                    x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, finalPredicate.Expand()).ToList();
 
             return Mapper.Map<IEnumerable<ScrollDetailDTO>>(srcRows);
-        }
-
-        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
-            throw new NotImplementedException();
         }
 
         public byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = "rs:Format=Excel") {
@@ -250,7 +246,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //build lambda expression basic on active filter(linqKit)
             var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(
                     PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == scroll.KEYKRT),
-                        (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())
+                    (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())
                 );
 
             foreach (var item in filters) {

@@ -2,7 +2,7 @@
 
 //General disposing
 public class Disposable : IDisposable {
-    private bool isDisposed;
+    public bool isDisposed { get; private set; }
     /// <summary>
     /// (Маркер блокировки)
     /// В прошлом для блокировки объектов очень часто применялась конструкция lock (this). 
@@ -12,6 +12,9 @@ public class Disposable : IDisposable {
     /// </summary>
     private readonly object _disposeLock = new object();
 
+    /// <summary>
+    /// This makes sense when cleanup is not urgent and hastening it by calling Dispose is more of an optimization than a necessity.
+    /// </summary>
     ~Disposable() {
         Dispose(false);
     }

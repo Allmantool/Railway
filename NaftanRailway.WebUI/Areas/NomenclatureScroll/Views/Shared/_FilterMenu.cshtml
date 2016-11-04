@@ -9,7 +9,7 @@
 
     <div id=@(menuItem.FieldName + "block") style="display: inline-block; float: left;">
         @Html.Hidden("filters[" + i + "].ActiveFilter", menuItem.ActiveFilter)
-        @Html.Hidden("filters[" + i + "].SortFieldName", menuItem.FieldName)
+        @Html.Hidden("filters[" + i + "].FieldName", menuItem.FieldName)
         @Html.Hidden("filters[" + i + "].NameDescription", menuItem.NameDescription)
 
         @for (int q = 0; q < menuItem.AllAvailableValues.Count(); q++) {

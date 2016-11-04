@@ -33,25 +33,25 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                                 "typeFilter": 1,
                                 "filters": [
                                    {
-                                       "SortFieldName": "nkrt",
+                                       "FieldName": "nkrt",
                                        "NameDescription": $('select#nkrt').prev().val(),
                                        "ActiveFilter": ('nkrt' === selMulti.attr('id')) ? true : false,
                                        "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
                                        "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
                                    }, {
-                                       "SortFieldName": "tdoc",
+                                       "FieldName": "tdoc",
                                        "NameDescription": $('select#tdoc').prev().val(),
                                        "ActiveFilter": ('tdoc' === selMulti.attr('id')) ? true : false,
                                        "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
                                        "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
                                    }, {
-                                       "SortFieldName": "vidsbr",
+                                       "FieldName": "vidsbr",
                                        "NameDescription": $('select#vidsbr').prev().val(),
                                        "ActiveFilter": ('vidsbr' === selMulti.attr('id')) ? true : false,
                                        "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
                                        "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
                                    }, {
-                                       "SortFieldName": "nomot",
+                                       "FieldName": "nomot",
                                        "NameDescription": $('select#nomot').prev().val(),
                                        "ActiveFilter": ('nomot' === selMulti.attr('id')) ? true : false,
                                        "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
