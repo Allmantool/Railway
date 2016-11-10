@@ -321,7 +321,7 @@ $("a[href='#top']").on('click', function () {
     return false;
 });
 
-/*ajax pagging (index.cshtml & etc)*/
+/********************************ajax pagging (index.cshtml & etc)**************************************************************************/
 function PaggingSuccess(e) {
     /*Dont support in Html4 browsers (IE8)
     Solustion: https://github.com/browserstate/history.js*/
