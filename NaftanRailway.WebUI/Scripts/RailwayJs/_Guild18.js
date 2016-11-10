@@ -1,4 +1,9 @@
 ﻿
+/*
+ *  Global namespace for js snippet for railway guild 18 part
+ */
+var RailApp = RailApp || {};
+
 /***********************AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',***************
 function need working state datepicker
 url => Specifies the URL to send the request to. Default is the current page
