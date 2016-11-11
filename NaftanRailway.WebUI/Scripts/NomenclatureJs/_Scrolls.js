@@ -20,8 +20,8 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                 /*A function which is triggered on the change event of the options. 
             Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
                 onChange: function (option) {
-                    var selMulti = $(option).parent('select');
-                    if (selMulti.next().find('li.active').size() === 0) { return; }
+                    var $selMulti = $(option).parent('select');
+                    if ($selMulti.next().find('li.active').size() === 0) { return; }
                     $.ajax({
                         url: "UserInterface/FilterMenu/",
                         type: "Post",
@@ -29,38 +29,31 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                         contentType: 'application/json; charset=utf-8',
                         /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
                         data: JSON.stringify(
-                            {
-                                "typeFilter": 1,
-                                "filters": [
-                                   {
-                                       "FieldName": "nkrt",
-                                       "NameDescription": $('select#nkrt').prev().val(),
-                                       "ActiveFilter": ('nkrt' === selMulti.attr('id')) ? true : false,
-                                       "CheckedValues": $('#nkrt option:selected').map(function () { return $(this).val(); }).toArray(),
-                                       "AllAvailableValues": $('#nkrt option').map(function () { return $(this).val(); }).toArray()
-                                   }, {
-                                       "FieldName": "tdoc",
-                                       "NameDescription": $('select#tdoc').prev().val(),
-                                       "ActiveFilter": ('tdoc' === selMulti.attr('id')) ? true : false,
-                                       "CheckedValues": $('#tdoc option:selected').map(function () { return $(this).val(); }).toArray(),
-                                       "AllAvailableValues": $('#tdoc option').map(function () { return $(this).val(); }).toArray()
-                                   }, {
-                                       "FieldName": "vidsbr",
-                                       "NameDescription": $('select#vidsbr').prev().val(),
-                                       "ActiveFilter": ('vidsbr' === selMulti.attr('id')) ? true : false,
-                                       "CheckedValues": $('#vidsbr option:selected').map(function () { return $(this).val(); }).toArray(),
-                                       "AllAvailableValues": $('#vidsbr option').map(function () { return $(this).val(); }).toArray()
-                                   }, {
-                                       "FieldName": "nomot",
-                                       "NameDescription": $('select#nomot').prev().val(),
-                                       "ActiveFilter": ('nomot' === selMulti.attr('id')) ? true : false,
-                                       "CheckedValues": $('#nomot option:selected').map(function () { return $(this).val(); }).toArray(),
-                                       "AllAvailableValues": $('#nomot option').map(function () { return $(this).val(); }).toArray()
-                                   }
-                                ],
-                                "numberScroll": +$("#numberScroll").val(),
-                                "reportYear": +$("#reportYear").val()
-                            }),
+                        {
+                            "typeFilter": 1,
+                            "numberScroll": $("#numberScroll").val(),
+                            "reportYear": $("#reportYear").val(),
+                            "filters": function () {
+                                var filters = [];
+
+                                $('#filterForm>div').each(function (i, val) {
+
+                                    $filter = $(val).attr('id');
+
+                                    var item = {
+                                        FieldName: $(val).find("input[name$='FieldName']").val(),
+                                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
+                                        ActiveFilter: (item.FieldName === $selMulti.attr('id')) ? true : false,
+                                        CheckedValues: $('#' + $filter + ' option:selected').map(function () { return $(this).val(); }).toArray(),
+                                        AllAvailableValues: $('#' + $filter + ' option').map(function () { return $(this).val(); }).toArray()
+                                    }
+
+                                    filters.push(item);
+                                });
+
+                                return filters;
+                            }
+                        }),
                         success: function (result) {
                             var sel = $(result).find('input[value=True]').parent('div').attr('id');
                             //update filter element

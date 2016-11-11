@@ -56,11 +56,12 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                     Data = new {
                         error = true,
                         message = filterContext.Exception.Message,
-                        errorObj =  JsonConvert.SerializeObject(errormodel,new JsonSerializerSettings {
+                        errorObj = JsonConvert.SerializeObject(errormodel, new JsonSerializerSettings {
                             Formatting = Formatting.Indented,
                             //TypeNameHandling = TypeNameHandling.Objects,
                             ContractResolver = new CamelCasePropertyNamesContractResolver()
-                        })
+                        }),
+                        source = filterContext.Exception.Source
                     },
                     ContentEncoding = System.Text.Encoding.UTF8,
                     ContentType = "application/json"
