@@ -29,30 +29,31 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                         contentType: 'application/json; charset=utf-8',
                         /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
                         data: JSON.stringify(
-                            {
-                                "typeFilter": 1,
-                                "numberScroll": $("#numberScroll").val(),
-                                "reportYear": $("#reportYear").val(),
-                                "filters": function () {
-                                    var filters = [];
+                        {
+                            "typeFilter": 1,
+                            "numberScroll": $("#numberScroll").val(),
+                            "reportYear": $("#reportYear").val(),
+                            "filters": function () {
+                                var filters = [];
 
-                                    $('#filterForm>div').each(function (i, val) {
-                                        var item = {};
+                                $('#filterForm>div').each(function (i, val) {
 
-                                        $filter = $(val).attr('id');
+                                    $filter = $(val).attr('id');
 
-                                        item.FieldName = $(val).find("input[name$='FieldName']").val()
-                                        item.NameDescription = $(val).find("input[name$='NameDescription']").val(),
-                                        item.ActiveFilter = (item.FieldName === $selMulti.attr('id')) ? true : false,
-                                        item.CheckedValues = $('#' + $filter + ' option:selected').map(function () { return $(this).val(); }).toArray()
-                                        item.AllAvailableValues = $('#' + $filter + ' option').map(function () { return $(this).val(); }).toArray()
+                                    var item = {
+                                        FieldName: $(val).find("input[name$='FieldName']").val(),
+                                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
+                                        ActiveFilter: (item.FieldName === $selMulti.attr('id')) ? true : false,
+                                        CheckedValues: $('#' + $filter + ' option:selected').map(function () { return $(this).val(); }).toArray(),
+                                        AllAvailableValues: $('#' + $filter + ' option').map(function () { return $(this).val(); }).toArray()
+                                    }
 
-                                        filters.push(item);
-                                    });
+                                    filters.push(item);
+                                });
 
-                                    return filters;
-                                }
-                            }),
+                                return filters;
+                            }
+                        }),
                         success: function (result) {
                             var sel = $(result).find('input[value=True]').parent('div').attr('id');
                             //update filter element
