@@ -26,7 +26,11 @@ namespace NaftanRailway.BLL.POCO {
             AllAvailableValues = availableValues;
             CheckedValues = availableValues;
         }
-        public CheckListFilter() { }
+
+        /// <summary>
+        /// Для данного объекта не определено беспараметрических конструкторов. (from .js)
+        /// </summary>
+        public CheckListFilter(){}
 
         /// <summary>
         /// Filter by concrete(current) fields
@@ -40,5 +44,5 @@ namespace NaftanRailway.BLL.POCO {
 
             return predicate;
         }
-    }
+    }   
 }

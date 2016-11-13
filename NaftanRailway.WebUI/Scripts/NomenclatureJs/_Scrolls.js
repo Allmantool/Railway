@@ -21,6 +21,7 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
             Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
                 onChange: function (option) {
                     var $selMulti = $(option).parent('select');
+
                     if ($selMulti.next().find('li.active').size() === 0) { return; }
                     $.ajax({
                         url: "UserInterface/FilterMenu/",
@@ -28,31 +29,30 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                         traditional: true,
                         contentType: 'application/json; charset=utf-8',
                         /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-                        data: JSON.stringify(
-                        {
+                        data: JSON.stringify({
                             "typeFilter": 1,
                             "numberScroll": $("#numberScroll").val(),
                             "reportYear": $("#reportYear").val(),
-                            "filters": function () {
+                            "filters": (function () {
                                 var filters = [];
 
-                                $('#filterForm>div').each(function (i, val) {
-
-                                    $filter = $(val).attr('id');
+                                filters.push.apply(filters, $('#filterForm>div').map(function (i, val) {
+                                    var $filter = $(val).attr('id');
+                                    var $filterName = $(val).find("input[name$='FieldName']").val();
 
                                     var item = {
-                                        FieldName: $(val).find("input[name$='FieldName']").val(),
+                                        FieldName: $filterName,
                                         NameDescription: $(val).find("input[name$='NameDescription']").val(),
-                                        ActiveFilter: (item.FieldName === $selMulti.attr('id')) ? true : false,
-                                        CheckedValues: $('#' + $filter + ' option:selected').map(function () { return $(this).val(); }).toArray(),
-                                        AllAvailableValues: $('#' + $filter + ' option').map(function () { return $(this).val(); }).toArray()
+                                        ActiveFilter: ($filterName === $selMulti.attr('id')) ? true : false,
+                                        CheckedValues: $('#' + $filter + ' option:selected').map(function (i, item) { return item.value; }).toArray(),
+                                        AllAvailableValues: $('#' + $filter + ' option').map(function (i, item) { return item.value; }).toArray()
                                     }
 
-                                    filters.push(item);
-                                });
+                                    return item;
+                                }));
 
                                 return filters;
-                            }
+                            }).call()
                         }),
                         success: function (result) {
                             var sel = $(result).find('input[value=True]').parent('div').attr('id');
@@ -147,7 +147,7 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
             effect: "explode",
             duration: 300
         },
-        close: function (event, ui) {
+        close: function () {
             $selRow.removeClass('info');
         }
     });

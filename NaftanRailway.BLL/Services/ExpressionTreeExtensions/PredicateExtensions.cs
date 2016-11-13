@@ -115,5 +115,22 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
 
             return Expression.Lambda<Func<TInput, int>>(containsMethodExp, param);
         }
+
+        /// <summary>
+        /// Get property name from some type instance by Linq (Someting wrong). Although use reflection with expression tree
+        /// </summary>
+        /// <typeparam name="T">generating type work's entity</typeparam>
+        /// <param name="lambda">get property through lambda</param>
+        /// <returns></returns>
+        public static string GetPropName<T>(Expression<Func<T, object>> lambda) {
+            //if we need extract addtitional nodyType (ExpressionType.Convert) => this for converting diffrent type to string
+            var body = (lambda.Body as MemberExpression) ?? ((UnaryExpression)lambda.Body).Operand as MemberExpression;
+
+            if (body == null) {
+                throw new ArgumentException("PredicateExtensions.GetPropName error: body is null");
+            }
+
+            return body.Member.Name;
+        }
     }
 }

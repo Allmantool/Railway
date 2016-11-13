@@ -23,6 +23,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="reportYear"></param>
         /// <param name="filters">Set of filters</param>
         /// <param name="numberScroll"></param>
+        /// <param name="typeFilter"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult FilterMenu(int numberScroll, int reportYear, IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter) {

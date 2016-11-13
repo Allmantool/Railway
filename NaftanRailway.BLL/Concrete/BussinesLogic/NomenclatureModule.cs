@@ -3,6 +3,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
@@ -160,26 +161,40 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 
         public IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key) {
-            return new[] { new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt ==  key))
-                        {FieldName = "nkrt",NameDescription = "Накоп. Карточки:"},
-                        new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt ==  key))
-                        {FieldName = "tdoc",NameDescription = "Тип документа:"},
-                        new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(),x => x.keykrt ==  key))
-                        {FieldName = "vidsbr",NameDescription = "Вид сбора:"},
-                        new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nomot.ToString(),x => x.keykrt == key))
-                        {FieldName = "nomot",NameDescription = "Документ:"}
-                    };
+
+            return new[] {
+                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt ==  key)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nkrt),
+                    NameDescription = "Накоп. Карточки:"
+                },
+                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt ==  key)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.tdoc),
+                    NameDescription = "Тип документа:"
+                },
+                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(),x => x.keykrt ==  key)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
+                    NameDescription = "Вид сбора:"
+                },
+                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nomot.ToString(),x => x.keykrt == key)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
+                    NameDescription = "Документ:"
+                },
+                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod,string>(x=>x.dt.ToString(),x=>x.keykrt == key)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
+                    NameDescription = "Период:"
+                },
+            };
         }
 
         public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
