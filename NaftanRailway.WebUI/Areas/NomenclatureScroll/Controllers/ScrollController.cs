@@ -141,6 +141,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 long recordCount;
                 var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
 
+                if (srcRows.Count() == 0) return PartialView("_AlertMsgBox", @"Не найдено результатов");
+
                 var result = new DetailModelView() {
                     Scroll = findKrt,
                     Filters = filters,

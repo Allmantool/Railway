@@ -7,6 +7,10 @@ using System.Reflection;
 namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
     /// <summary>
     /// http://www.albahari.com/nutshell/predicatebuilder.aspx
+    /// Expression have been represented as nodes of a data structure.
+    /// The expression tree is code converted into structure data
+    /// Expression trees were created in order to make the task of converting code such as a query expression into a string that can be passed to some other process and executed there
+    /// if we need out of proccess (IQueryble) use Expression tree if not (IEnumerable) no use
     /// </summary>
     public static class PredicateExtensions {
         /// <summary>
@@ -131,6 +135,19 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
             }
 
             return body.Member.Name;
+        }
+
+        /// <summary>
+        /// Because of the lambda expression, you get not only compile-time error checking, but also full IntelliSense support when typing a member name. 
+        /// And if you rename a property, the compiler will find all the places where the property name is used. 
+        /// Or you can rely on refactoring tools to rename all the instances of the property for you.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static string GetName<T>(Expression<Func<T>> e) {
+            var member = (MemberExpression)e.Body;
+            return member.Member.Name;
         }
     }
 }

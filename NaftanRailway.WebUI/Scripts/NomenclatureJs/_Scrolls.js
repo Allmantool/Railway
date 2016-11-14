@@ -1,8 +1,8 @@
 ﻿/************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
-    function filterMenu(obj) {
-        var selRequest;
-        if (obj.length > 0 && obj.length < 50) { selRequest = obj; } else { selRequest = "#filterForm div>select"; }
+    function filterMenu(recieveData, status) {
+        var selRequest = "#filterForm div>select";
+        //if (recieveData.length > 0 && recieveData.length < 50) { selRequest = recieveData; } else { selRequest = "#filterForm div>select"; }
         $(selRequest).each(function () {
             var $this = $(this);
             $this.multiselect({
@@ -19,53 +19,53 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
                 /*numberDisplayed: 3,*/
                 /*A function which is triggered on the change event of the options. 
             Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-                onChange: function (option) {
-                    var $selMulti = $(option).parent('select');
+                //onChange: function (option) {
+                //    var $selMulti = $(option).parent('select');
 
-                    if ($selMulti.next().find('li.active').size() === 0) { return; }
-                    $.ajax({
-                        url: "UserInterface/FilterMenu/",
-                        type: "Post",
-                        traditional: true,
-                        contentType: 'application/json; charset=utf-8',
-                        /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-                        data: JSON.stringify({
-                            "typeFilter": 1,
-                            "numberScroll": $("#numberScroll").val(),
-                            "reportYear": $("#reportYear").val(),
-                            "filters": (function () {
-                                var filters = [];
+                //    if ($selMulti.next().find('li.active').size() === 0) { return; }
+                //    $.ajax({
+                //        url: "UserInterface/FilterMenu/",
+                //        type: "Post",
+                //        traditional: true,
+                //        contentType: 'application/json; charset=utf-8',
+                //        /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
+                //        data: JSON.stringify({
+                //            "typeFilter": 1,
+                //            "numberScroll": $("#numberScroll").val(),
+                //            "reportYear": $("#reportYear").val(),
+                //            "filters": (function () {
+                //                var filters = [];
 
-                                filters.push.apply(filters, $('#filterForm>div').map(function (i, val) {
-                                    var $filter = $(val).attr('id');
-                                    var $filterName = $(val).find("input[name$='FieldName']").val();
+                //                filters.push.apply(filters, $('#filterForm>div').map(function (i, val) {
+                //                    var $filter = $(val).attr('id');
+                //                    var $filterName = $(val).find("input[name$='FieldName']").val();
 
-                                    var item = {
-                                        FieldName: $filterName,
-                                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
-                                        ActiveFilter: ($filterName === $selMulti.attr('id')) ? true : false,
-                                        CheckedValues: $('#' + $filter + ' option:selected').map(function (i, item) { return item.value; }).toArray(),
-                                        AllAvailableValues: $('#' + $filter + ' option').map(function (i, item) { return item.value; }).toArray()
-                                    }
+                //                    var item = {
+                //                        FieldName: $filterName,
+                //                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
+                //                        ActiveFilter: ($filterName === $selMulti.attr('id')) ? true : false,
+                //                        CheckedValues: $('#' + $filter + ' option:selected').map(function (i, item) { return item.value; }).toArray(),
+                //                        AllAvailableValues: $('#' + $filter + ' option').map(function (i, item) { return item.value; }).toArray()
+                //                    }
 
-                                    return item;
-                                }));
+                //                    return item;
+                //                }));
 
-                                return filters;
-                            }).call()
-                        }),
-                        success: function (result) {
-                            var sel = $(result).find('input[value=True]').parent('div').attr('id');
-                            //update filter element
-                            $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
-                                $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
-                            });
+                //                return filters;
+                //            }).call()
+                //        }),
+                //        success: function (result) {
+                //            var sel = $(result).find('input[value=True]').parent('div').attr('id');
+                //            //update filter element
+                //            $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
+                //                $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
+                //            });
 
-                            filterMenu('#filterForm div>select:not(#' + sel + ')');
-                        },
-                        error: function (data) { console.log("multiselect custom error:" + data) }
-                    });
-                },
+                //            filterMenu('#filterForm div>select:not(#' + sel + ')');
+                //        },
+                //        error: function (data) { console.log("multiselect custom error:" + data) }
+                //    });
+                //},
                 buttonText: function (options, select) {
                     var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
                     var $selSize = options.length;
@@ -155,7 +155,34 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
     $("#dialog").dialog("open");
 });
 
-function UpdateFailure() { }
+/**************************************** General alert msgBox **************************************************************************************/
+function reDrawingDetail(recieveRequest, status) {
+    var $result = $(recieveRequest.responseText);
+
+    switch (status) {
+        case "success":
+
+            $('#detailsTable').find('#chargeOfList').html($result.find('#chargeOfList'));
+            $('#detailsTable').filter('#loadingInfiniteScroll, #dialog').html($result.filter('#loadingInfiniteScroll, #dialog'));
+
+            filterMenu();
+            break;
+        case "error":
+            var $snippet = $(htmlSnippet).draggable();
+            var $alertDom = $('#alertMsg');
+
+            //add or update exist
+            $alertDom == null ? $('body').append($snippet) : $alertDom.replaceWith($snippet);
+            break;
+        default:
+            var reportStatus = {
+                file: "_Scroll.js",
+                message: "json status",
+                Mode: status
+            }
+            return JSON.stringify(reportStatus);
+    }
+}
 
 /********************************************************** Update date in confirmed row(s) **************************************************************************/
 function UpdateDate(dateRow) {

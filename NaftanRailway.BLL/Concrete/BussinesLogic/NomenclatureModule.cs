@@ -161,13 +161,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
