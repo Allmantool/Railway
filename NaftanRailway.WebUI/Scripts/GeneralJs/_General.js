@@ -1,4 +1,11 @@
-﻿/*************************************** Fuction for IE8 compebility search space sign ***************************************/
+﻿/********************************** Global object *********************************************************************************/
+//window.cmsRail = {
+//    Widgets: {},
+//    Utilities: {}
+//}
+
+
+/*************************************** Fuction for IE8 compebility search space sign ***************************************/
 if (!Array.prototype.filter) {
     Array.prototype.filter = function (fun/*, thisArg*/) {
         'use strict';
