@@ -33,6 +33,9 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/modernizr-custom.js",
                          "~/Scripts/respond.min.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Knockout").NonOrdering()
+                .Include("~/Scripts/knockout-3.4.0.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
                 .Include("~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/RailwayJs/_Guild18.js"));

@@ -1,4 +1,17 @@
-﻿/************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
+﻿var AppNomencaluree = window.AppNomencalure || (function ($) {
+    //private scope
+    var _privateFunction = ""
+
+    var viewModel = {
+
+    };
+    //public
+    return {
+        someFunction: ""
+
+    };
+})(Jquery);
+/************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
     function filterMenu(recieveData, status) {
         var selRequest = "#filterForm div>select";
