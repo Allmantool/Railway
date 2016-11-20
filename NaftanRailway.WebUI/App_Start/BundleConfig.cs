@@ -8,10 +8,10 @@ namespace NaftanRailway.WebUI {
             bundles.IgnoreList.Clear();
 
             //*************************************************************** JS scripts *****************************************************************/
-            bundles.Add(new ScriptBundle("~/bundles/JQuery1", "http://code.jquery.com/jquery-1.11.3.min.js")
+            bundles.Add(new ScriptBundle("~/bundles/JQuery1", "//code.jquery.com/jquery-1.11.3.min.js")
                 .Include("~/Scripts/jquery-1.11.3.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/JQuery2", "http://code.jquery.com/jquery-2.2.4.min.js")
+            bundles.Add(new ScriptBundle("~/bundles/JQuery2", "//code.jquery.com/jquery-2.2.4.min.js")
                 .Include("~/Scripts/jquery-2.2.4.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
@@ -33,7 +33,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/modernizr-custom.js",
                          "~/Scripts/respond.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Knockout").NonOrdering()
+            bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js").NonOrdering()
                 .Include("~/Scripts/knockout-3.4.0.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
