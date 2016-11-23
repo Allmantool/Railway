@@ -10,10 +10,10 @@
         someFunction: ""
 
     };
-})(Jquery);
+})(jQuery);
 /************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
-    function filterMenu(recieveData, status) {
+    function filterMenu(recieveData, status,e) {
         var selRequest = "#filterForm div>select";
         //if (recieveData.length > 0 && recieveData.length < 50) { selRequest = recieveData; } else { selRequest = "#filterForm div>select"; }
         $(selRequest).each(function () {
@@ -104,7 +104,7 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
             });
             $this.next(".btn-group").css("margin-left", "0.3em");
         });
-        PaggingSuccess();
+        //PaggingSuccess();
     };
 
 /******************************************************* DatePicker UI **************************************************************************************/
@@ -356,13 +356,14 @@ $("a[href='#top']").on('click', function () {
 
 /********************************ajax pagging (index.cshtml & etc)**************************************************************************/
 function PaggingSuccess(e) {
-    /*Dont support in Html4 browsers (IE8)
+    /*Dont support in Html4 
     Solustion: https://github.com/browserstate/history.js*/
     History.Adapter.bind(window, 'statechange', function () { // Note: We are using statechange instead of popstate
         var state = History.getState(); // Note: We are using History.getState() instead of event.state
+
         console.log(state);
     });
-
+    //
     History.pushState(null, null, $(e).find('.active a').attr('href'));
 
     //    window.location = $(e).find('.active a').attr('href');
