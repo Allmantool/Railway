@@ -613,6 +613,20 @@
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bundled\html4+html5\dojo.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\extjs.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\jquery.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\mootools.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\native.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\right.history.js" />
+    <Content Include="Scripts\bundled\html4+html5\zepto.history.js" />
+    <Content Include="Scripts\bundled\html5\dojo.history.js" />
+    <Content Include="Scripts\bundled\html5\extjs.history.js" />
+    <Content Include="Scripts\bundled\html5\jquery.history.js" />
+    <Content Include="Scripts\bundled\html5\mootools.history.js" />
+    <Content Include="Scripts\bundled\html5\native.history.js" />
+    <Content Include="Scripts\bundled\html5\right.history.js" />
+    <Content Include="Scripts\bundled\html5\zepto.history.js" />
     <Content Include="Scripts\bundle\html4\jquery.history.js" />
     <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
@@ -635,8 +649,12 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\GeneralJs\_General.js" />
-    <Content Include="Scripts\NomenclatureJs\paggingVM.js" />
-    <Content Include="Scripts\NomenclatureJs\scrollDetailsVM.js" />
+    <Content Include="Scripts\NomenclatureJs\DataContext.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\PaginationModel.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\ScrollModel.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\paggingVM.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\scrollDetailsVM.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\ScrVM.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
@@ -747,7 +765,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectivizr-1.0.2.js" />
     <Content Include="Scripts\selectivizr-1.0.2.min.js" />
-    <Content Include="Scripts\NomenclatureJs\_Scrolls.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\_Scrolls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

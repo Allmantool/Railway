@@ -42,7 +42,10 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
                 .Include("~/Scripts/GeneralJs/_General.js",
-                         "~/Scripts/NomenclatureJs/_Scrolls.js"));
+                        "~/Scripts/NomenclatureJs/DataContext.js",
+                        "~/Scripts/NomenclatureJs/Models/*",
+                        "~/Scripts/NomenclatureJs/ViewModels/*",
+                        "~/Scripts/NomenclatureJs/_Scrolls.js"));
 
             //*************************************************************** CSS styles *****************************************************************/
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()

@@ -1,26 +1,11 @@
-﻿'use strict'
-
-//namespace
-var appNomenclature = window.appNomenclature || {};
-
-appNomenclature.SomeClass = (function ($) {
-    $self = $(this);
-
-    //private scope
-    var _privateFunction = ""
-
-    var viewModel = {
-
-    };
-    //public
-    return {
-        someFunction: ""
-
-    };
-})(jQuery);
+﻿'use strict';
+//ready
+$(function () {
+    appNomenclature.SrcVM.init();
+});
 /************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
-    function filterMenu(recieveData, status,e) {
+    function filterMenu(recieveData, status, e) {
         var selRequest = "#filterForm div>select";
         //if (recieveData.length > 0 && recieveData.length < 50) { selRequest = recieveData; } else { selRequest = "#filterForm div>select"; }
         $(selRequest).each(function () {
