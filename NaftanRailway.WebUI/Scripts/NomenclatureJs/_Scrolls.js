@@ -1,4 +1,11 @@
-﻿var AppNomencaluree = window.AppNomencalure || (function ($) {
+﻿'use strict'
+
+//namespace
+var appNomencaluree = window.appNomencalure || {};
+
+appNomencaluree.SomeClass = (function ($) {
+    $self = $(this);
+
     //private scope
     var _privateFunction = ""
 
