@@ -1,9 +1,9 @@
 ﻿'use strict'
 
 //namespace
-var appNomencaluree = window.appNomencalure || {};
+var appNomenclature = window.appNomenclature || {};
 
-appNomencaluree.SomeClass = (function ($) {
+appNomenclature.SomeClass = (function ($) {
     $self = $(this);
 
     //private scope
