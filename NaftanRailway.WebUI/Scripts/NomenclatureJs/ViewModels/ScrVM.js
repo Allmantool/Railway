@@ -1,5 +1,8 @@
 ﻿/// <reference path="../../jquery-1.11.3.js" />
+/// <reference path="../../knockout-3.4.0.debug.js" />
 /// <reference path="../../knockout-3.4.0.js" />
+/// <reference path="../../knockout.mapping-latest.js" />
+/// <reference path="../../knockout.mapping-latest.debug.js" />
 'use strict';
 
 //namespace
@@ -7,22 +10,24 @@ var appNomenclature = window.appNomenclature || {};
 
 //REVEALING MODULE 
 appNomenclature.SrcVM = (function ($, ko, db) {
-    var self = this;
+    var me = {
+        currScr: ko.observable(),
+        scrolls: ko.observableArray([]),
+        pagging: ko.observable(),
+        init: init
+    };
 
-    //private
-
-    //behavior
+/**** behavior  ***/
     function init() {
         db.getScr(function (data) {
-            ko.utils.arrayForEach(data || [], function (item) {
-                scroll.push(new appNomenclature.Scroll(/*item.prop1,item.prop2 etc*/));
-            });
+            me.scrolls = (ko.mapping.fromJS(data.ListKrtNaftan));
+            me.pagging = (ko.mapping.fromJS(data.PagingInfo));
         });
     }
 
-    //public
-    return {
-        scrolls: [],
-        init: init
-    };
+    function selActiveScr(scr) {
+        me.currScr(scr);
+    }
+
+    return me;
 }(jQuery, ko, appNomenclature.DataContext));

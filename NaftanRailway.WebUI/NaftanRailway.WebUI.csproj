@@ -644,6 +644,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -653,7 +655,7 @@
     <Content Include="Scripts\NomenclatureJs\Models\PaginationModel.js" />
     <Content Include="Scripts\NomenclatureJs\Models\ScrollModel.js" />
     <Content Include="Scripts\NomenclatureJs\ViewModels\paggingVM.js" />
-    <Content Include="Scripts\NomenclatureJs\ViewModels\scrollDetailsVM.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\SrcDetailsVM .js" />
     <Content Include="Scripts\NomenclatureJs\ViewModels\ScrVM.js" />
     <Content Include="Scripts\r.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />

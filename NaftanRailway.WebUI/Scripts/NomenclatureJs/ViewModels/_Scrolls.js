@@ -1,8 +1,11 @@
-﻿'use strict';
+﻿//'use strict';
 //ready
 $(function () {
     appNomenclature.SrcVM.init();
+    //initial knockout binding engage
+    ko.applyBindings(appNomenclature.SrcVM);
 });
+
 /************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
 http://davidstutz.github.io/bootstrap-multiselect/*/
     function filterMenu(recieveData, status, e) {

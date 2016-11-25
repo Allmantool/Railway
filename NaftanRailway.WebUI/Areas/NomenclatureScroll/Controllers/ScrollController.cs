@@ -29,7 +29,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
-        public ActionResult Index(int page = 1) {
+        public ActionResult Index(int page = 1, bool asService = false) {
             const byte initialSizeItem = 100;
             long recordCount;
 
@@ -44,7 +44,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             };
 
             if (Request.IsAjaxRequest()) {
-                return PartialView("_AjaxTableKrtNaftan", result);
+                if (asService) {
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                } else {
+                    return PartialView("_AjaxTableKrtNaftan", result);
+                }
             }
 
             return View(result);

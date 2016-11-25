@@ -3,7 +3,7 @@
 @{ var i = 0;}
 
 @foreach (var item in Model) {
-    <tr class="@(item.Confirmed ? "" : "success")">
+    <tr data-bind="click: appNomenclature.SrcVM.selActiveScr()" class="@(item.Confirmed ? "" : "success")">
         <td>
             <input type="radio" name="optionsRadios" id="optionsRadios@(i++)" class="radio">
             <input type="hidden" class="hidden confirmed" value="@item.Confirmed.ToString()" />

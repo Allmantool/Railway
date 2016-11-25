@@ -34,7 +34,8 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js").NonOrdering()
-                .Include("~/Scripts/knockout-3.4.0.js"));
+                .Include("~/Scripts/knockout-3.4.0.js",
+                         "~/Scripts/knockout.mapping-latest.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
                 .Include("~/Scripts/GeneralJs/_General.js",
@@ -42,10 +43,9 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
                 .Include("~/Scripts/GeneralJs/_General.js",
-                        "~/Scripts/NomenclatureJs/DataContext.js",
-                        "~/Scripts/NomenclatureJs/Models/*",
-                        "~/Scripts/NomenclatureJs/ViewModels/*",
-                        "~/Scripts/NomenclatureJs/_Scrolls.js"));
+                        "~/Scripts/NomenclatureJs/DataContext.js")
+                .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
+                .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js"));
 
             //*************************************************************** CSS styles *****************************************************************/
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
@@ -70,7 +70,7 @@ namespace NaftanRailway.WebUI {
                          "~/Content/Guild18CSS/_Guild18.css"));
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
             bundles.UseCdn = true;
         }
     }

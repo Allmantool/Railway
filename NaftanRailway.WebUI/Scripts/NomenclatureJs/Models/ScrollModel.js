@@ -5,6 +5,8 @@ var appNomenclature = window.appNomenclature || {};
 
 //constuctor
 appNomenclature.Scroll = function (keyKrt, confirmed, nkrt, errorState, signAdjustmentlist, dtBuhOtchet, dtClaim, sumClaim, ndsClaim, startDateScr, endDateScr, scrCharges, recordCount, dateWorking, counterVersion) {
+    var self = this;
+
     this.keyScr = keyKrt;
     this.numScr = nkrt;
     this.confirmed = confirmed;
