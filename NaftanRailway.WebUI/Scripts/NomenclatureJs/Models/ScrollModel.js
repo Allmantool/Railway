@@ -4,22 +4,28 @@
 var appNomenclature = window.appNomenclature || {};
 
 //constuctor
-appNomenclature.Scroll = function (keyKrt, confirmed, nkrt, errorState, signAdjustmentlist, dtBuhOtchet, dtClaim, sumClaim, ndsClaim, startDateScr, endDateScr, scrCharges, recordCount, dateWorking, counterVersion) {
+appNomenclature.Scroll = function (parentObj) {
     var self = this;
 
-    this.keyScr = keyKrt;
-    this.numScr = nkrt;
-    this.confirmed = confirmed;
-    this.errState = errorState;
-    this.signAdjustmentList = signAdjustmentlist;
-    this.DtBookkeeper = dtBuhOtchet;
-    this.DtClaim = dtClaim;
-    this.sumClaim = sumClaim;
-    this.VatClaim = ndsClaim;
-    this.startDateScr = startDateScr;
-    this.endDateScr = endDateScr;
-    this.scrCharges = scrCharges;
-    this.recordCount = recordCount;
-    this.dateWorking = dateWorking;
-    this.counterVersion = counterVersion;
+    //if (typeof (parentObj) === 'object') {
+    //    //прототипное наследование
+    //    self.prototype = Object.create(parentObj);
+    //    //назначаем конструктор
+    //    self.prototype.constructor = appNomenclature.Scroll;
+
+    //    /**** behaviors ***/
+    //    self.active = ko.observable("0");
+    //}
+
+
+    //динамически копируем свойства
+    for (var prop in parentObj) {
+        if (parentObj.hasOwnProperty(prop)) {
+            self[prop] = parentObj[prop];
+        }
+    }
+
+    /**** behaviors ***/
+    self.active = ko.observable("0");
+
 };

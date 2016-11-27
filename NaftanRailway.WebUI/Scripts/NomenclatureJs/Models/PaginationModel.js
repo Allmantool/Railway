@@ -5,7 +5,9 @@ var appNomenclature = window.appNomenclature || {};
 
 //constuctor
 appNomenclature.Pagination = function (totalItems, itemsPerPage, currentPage) {
-    this.TotalItems = totalItems;
-    this.ItemsPerPage = itemsPerPage;
-    this.CurrentPage = currentPage;
+    var self = this;
+
+    self.TotalItems = totalItems;
+    self.ItemsPerPage = itemsPerPage;
+    self.CurrentPage = currentPage;
 };

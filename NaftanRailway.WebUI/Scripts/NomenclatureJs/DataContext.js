@@ -20,7 +20,7 @@ appNomenclature.DataContext = (function () {
                     callback(data);
                 },
                 error: function (data) {
-                    console.log("getScr error:" + data)
+                    console.log("getScr error:" + data);
                 }
             });
         }
@@ -35,6 +35,7 @@ appNomenclature.DataContext = (function () {
         }
     };
 
+    /**** public API  ***/
     return {
         getScr: getScr,
         getScrDetails: getScrDetails

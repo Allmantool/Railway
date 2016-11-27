@@ -3,31 +3,44 @@
 /// <reference path="../../knockout-3.4.0.js" />
 /// <reference path="../../knockout.mapping-latest.js" />
 /// <reference path="../../knockout.mapping-latest.debug.js" />
-'use strict';
+/// <reference path="~/Scripts/NomenclatureJs/DataContext.js" />
+/// <reference path="~/Scripts/NomenclatureJs/Models/ScrollModel.js" />
+"use strict";
 
 //namespace
 var appNomenclature = window.appNomenclature || {};
 
 //REVEALING MODULE 
 appNomenclature.SrcVM = (function ($, ko, db) {
-    var me = {
+    /*** Data  ***/
+    var self = {
         currScr: ko.observable(),
-        scrolls: ko.observableArray([]),
         pagging: ko.observable(),
-        init: init
+        scrolls: ko.observableArray([])
     };
 
-/**** behavior  ***/
+    /**** behaviors ***/
     function init() {
         db.getScr(function (data) {
-            me.scrolls = (ko.mapping.fromJS(data.ListKrtNaftan));
-            me.pagging = (ko.mapping.fromJS(data.PagingInfo));
+            self.scrolls($.map(data.ListKrtNaftan, function (val, i) {
+                return new appNomenclature.Scroll(val);
+            }));
+            //self.scrolls(ko.mapping.fromJS(data.ListKrtNaftan));
+            self.pagging(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions", "RoutingDictionary"] }));
         });
     }
 
-    function selActiveScr(scr) {
-        me.currScr(scr);
+    function selActiveScr(selectScr) {
+        //mark as actived
+        self.currScr(selectScr.active(true));
     }
 
-    return me;
+    /**** public API ***/
+    return {
+        currScr: self.currScr,
+        scrolls: self.scrolls,
+        pagging: self.pagging,
+        init: init,
+        chooseScr: selActiveScr
+    };
 }(jQuery, ko, appNomenclature.DataContext));

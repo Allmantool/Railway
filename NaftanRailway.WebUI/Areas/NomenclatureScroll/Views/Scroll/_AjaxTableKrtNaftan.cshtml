@@ -33,8 +33,8 @@
             <th scope="col">Текущая версия</th>
         </tr>
     </thead>
-    <tbody class="tableBody" id="scrollList">
-        @{ Html.RenderPartial("_krtNaftanRows", @Model.ListKrtNaftan);}
+    <tbody data-bind="foreach: appNomenclature.SrcVM.scrolls()" class="tableBody" id="scrollList">
+        @{ Html.RenderPartial("_krtNaftanRows"/*, @Model.ListKrtNaftan*/);}
     </tbody>
     <tfoot>
         <tr>

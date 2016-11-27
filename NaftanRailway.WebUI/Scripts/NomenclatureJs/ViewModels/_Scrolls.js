@@ -2,6 +2,7 @@
 //ready
 $(function () {
     appNomenclature.SrcVM.init();
+
     //initial knockout binding engage
     ko.applyBindings(appNomenclature.SrcVM);
 });
@@ -275,68 +276,68 @@ function FixUpdate(dataRow) {
 }
 
 /************************************** Event click on table row + mark as work row for ajax request (event delegation) *******************************************/
-$('body').on('click', '#scrollList tr', function (e) {
-    /*The target property can be the element that registered for the event or a descendant of it. 
-    It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
-    This property is very useful in event delegation, when events bubble.*/
-    var td = $(e.target) || $(this).val();
-    var chkRow = $(this);
-    var chkRadio = chkRow.find('td input[class*=radio]');
-    moment.locale('ru');
-    var nkrt = chkRow.find('.numberScroll').text(); //    var srcKey = chkRow.find('td input[class*=key]');
-    var dpDate = moment(chkRow.children("td[class*=DTBUHOTCHET]").text(), 'MMMM YYYY').format('MMMM YYYY');
+//$('body').on('click', '#scrollList tr', function (e) {
+//    /*The target property can be the element that registered for the event or a descendant of it. 
+//    It is often useful to compare event.target to this in order to determine if the event is being handled due to event bubbling. 
+//    This property is very useful in event delegation, when events bubble.*/
+//    var td = $(e.target) || $(this).val();
+//    var chkRow = $(this);
+//    var chkRadio = chkRow.find('td input[class*=radio]');
+//    moment.locale('ru');
+//    var nkrt = chkRow.find('.numberScroll').text(); //    var srcKey = chkRow.find('td input[class*=key]');
+//    var dpDate = moment(chkRow.children("td[class*=DTBUHOTCHET]").text(), 'MMMM YYYY').format('MMMM YYYY');
 
-    //check(select row)
-    chkRadio.prop("checked", true);
-    chkRow.addClass('info');
-    //    chkRow.attr('id', 'updateRow');
+//    //check(select row)
+//    chkRadio.prop("checked", true);
+//    chkRow.addClass('info');
+//    //    chkRow.attr('id', 'updateRow');
 
-    /*color row (selected)*/
-    $('#scrollList').children('tr').not(chkRow).each(function (index, value) {
-        if ($(value).find('.confirmed').val() === "False") {
-            $(value).removeClass('info').addClass('success');
-        } else {
-            $(value).removeClass('info success');
-        }
-        //Delete id Update row and loading part
-        $(value).removeAttr("id");
-        $('.load').remove();
-    });
+//    /*color row (selected)*/
+//    $('#scrollList').children('tr').not(chkRow).each(function (index, value) {
+//        if ($(value).find('.confirmed').val() === "False") {
+//            $(value).removeClass('info').addClass('success');
+//        } else {
+//            $(value).removeClass('info success');
+//        }
+//        //Delete id Update row and loading part
+//        $(value).removeAttr("id");
+//        $('.load').remove();
+//    });
 
-    //loading
-    $(chkRow).before("<tr id='loading' class='load' style='display: none' >" +
-        "<td colspan = '15' class='text-center'>Загрузка сборов перечня...</td> " +
-      "</tr>");
+//    //loading
+//    $(chkRow).before("<tr id='loading' class='load' style='display: none' >" +
+//        "<td colspan = '15' class='text-center'>Загрузка сборов перечня...</td> " +
+//      "</tr>");
 
-    //modal window(key and report period)
-    $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + $.trim(nkrt));
-    $('#Nkrt').empty().val(nkrt);
+//    //modal window(key and report period)
+//    $('#gridSystemModalLabel').empty().append("Изменение отчётной даты перечня №" + $.trim(nkrt));
+//    $('#Nkrt').empty().val(nkrt);
 
-    $('#ReportPeriod').attr('value', dpDate);
+//    $('#ReportPeriod').attr('value', dpDate);
 
-    /*Update link (parameters in link) to show correct Report server (modal & menu links)*/
-    var arg = $.trim($('.info .numberScroll').text()) + "/" + moment(dpDate, 'MMMM YYYY').year();
-    var correctionState = (($('.info .singCorrection span').attr('class').length > 0) ? "krt_Naftan_Scroll_compare_Correction" : "krt_Naftan_Scroll_Compare_Normal");
-    var errorReportStr = "Scroll/Reports/" + correctionState + "/" + arg;
-    var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
-    var strDetails = "Scroll/ScrollDetails/" + arg;
-    var actReportStr = 'Scroll/Reports/krt_Naftan_act_of_Reconciliation/' + arg;;
+//    /*Update link (parameters in link) to show correct Report server (modal & menu links)*/
+//    var arg = $.trim($('.info .numberScroll').text()) + "/" + moment(dpDate, 'MMMM YYYY').year();
+//    var correctionState = (($('.info .singCorrection span').attr('class').length > 0) ? "krt_Naftan_Scroll_compare_Correction" : "krt_Naftan_Scroll_Compare_Normal");
+//    var errorReportStr = "Scroll/Reports/" + correctionState + "/" + arg;
+//    var bookKeeperStr = "Scroll/Reports/krt_Naftan_BookkeeperReport/" + arg;
+//    var strDetails = "Scroll/ScrollDetails/" + arg;
+//    var actReportStr = 'Scroll/Reports/krt_Naftan_act_of_Reconciliation/' + arg;;
 
-    $('#reportShow').attr('href', errorReportStr);
-    $('#MenuLinkErrReport').attr('href', errorReportStr);
-    $('#MenuLinkBookKeeperReport').attr('href', bookKeeperStr);
-    $('#scrollDetails').attr("href", strDetails);
-    $('#MenuLinkReconciliationActReport').attr('href', actReportStr);
+//    $('#reportShow').attr('href', errorReportStr);
+//    $('#MenuLinkErrReport').attr('href', errorReportStr);
+//    $('#MenuLinkBookKeeperReport').attr('href', bookKeeperStr);
+//    $('#scrollDetails').attr("href", strDetails);
+//    $('#MenuLinkReconciliationActReport').attr('href', actReportStr);
 
-    //Confirmed
-    var strAdd = "Scroll/Confirmed/" + arg;
-    $('#Reglink').attr('href', (strAdd));
+//    //Confirmed
+//    var strAdd = "Scroll/Confirmed/" + arg;
+//    $('#Reglink').attr('href', (strAdd));
 
-    /*change date*/
-    if (td.hasClass('DTBUHOTCHET')) {
-        $("#dateModal").modal('show');
-    }
-});
+//    /*change date*/
+//    if (td.hasClass('DTBUHOTCHET')) {
+//        $("#dateModal").modal('show');
+//    }
+//});
 
 /*****************************************change mode date update (multiDate in intext.csthml (scroll controller))************************************************/
 $('#multiDateRadio input').on('change', function () {

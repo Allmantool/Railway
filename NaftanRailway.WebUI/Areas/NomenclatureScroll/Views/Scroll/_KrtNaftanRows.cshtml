@@ -1,22 +1,15 @@
-﻿@using NaftanRailway.BLL.DTO.Nomenclature;
-@model IEnumerable<ScrollLineDTO>
-@{ var i = 0;}
-
-@foreach (var item in Model) {
-    <tr data-bind="click: appNomenclature.SrcVM.selActiveScr()" class="@(item.Confirmed ? "" : "success")">
-        <td>
-            <input type="radio" name="optionsRadios" id="optionsRadios@(i++)" class="radio">
-            <input type="hidden" class="hidden confirmed" value="@item.Confirmed.ToString()" />
-        </td>
-        <td class="numberScroll">@item.NKRT</td>
-        <td>
-            @if (item.ErrorState != null) {
-                <img alt="@(item.ErrorState.Value == 1 ? "Ок" : item.ErrorState.Value == 2 ? "tdoc=0" : "Ошибка")"
-                     src="@(item.ErrorState.Value == 1 ? "/Content/Images/good_or_tick.png" : item.ErrorState.Value == 2 ? "/Content/Images/repair.png" : "/Content/Images/no.png")"
-                     style="width: 24px; height: 24px" />
-            }
-        </td>
-        <td class="singCorrection"><span class="@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
+﻿<tr data-bind="click: $root.chooseScr, css: {'success': Confirmed === false }">
+    <td>
+        <input data-bind="attr: {'value': $index, 'checked': $data.active() }" type="radio" name="optionsRadios" class="radio">
+        @*<input data-bind="attr: { 'value': Confirmed()}" type="hidden" class="hidden confirmed" />*@
+    </td>
+    <td data-bind="text: NKRT" class="numberScroll"></td>
+    <td>
+        <img style="width: 24px; height: 24px" bind-data="attr: {'src': '@Url.Content("~/Content/Images/good_or_tick.png")'}">
+        @*attr: {'alt' : $data.ErrorState() == 1 ? 'Ok' : $data.ErrorState() == 2 ? 'tdoc=0' : 'Ошибка',
+            'src' : $data.ErrorState() == 1 ? /Content/Images/good_or_tick.png : $data.ErrorState() == 2 ? /Content/Images/repair.png : /Content/Images/no.png }" />*@
+    </td>
+    @*   <td class="singCorrection"><span class="@(item.SignAdjustment_list ? "glyphicon glyphicon-ok" : "")"></span></td>
         <td>@item.P_TYPE</td>
         <td class="DTBUHOTCHET">@item.DTBUHOTCHET.ToString("MMMM yyyy")</td>
         <td>@item.NTREB</td>
@@ -28,6 +21,5 @@
         <td>@String.Join(", ", @item.Scroll_Sbor.Split(','))</td>
         <td>@item.RecordCount</td>
         <td>@item.DATE_OBRABOT</td>
-        <td>@(item.CounterVersion <= 1 ? "" : item.CounterVersion.ToString())</td>
-    </tr>
-}
+        <td>@(item.CounterVersion <= 1 ? "" : item.CounterVersion.ToString())</td>*@
+</tr>
