@@ -4,6 +4,9 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Linq;
+using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// <summary>
@@ -67,13 +70,23 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                     ContentType = "application/json"
                 };
             } else {
-                filterContext.Result = new ViewResult() {
+                var modules = HttpContext.Current.ApplicationInstance.Modules;
+
+                //exception + httpModules
+                var exceptContext = new ExceptionViewModel {
+                    Model = filterContext,
+                    Modules = modules.AllKeys
+                            .Select(x => new Tuple<string, string>(x.StartsWith("__Dynamic") ? string.Format("Dynamic: {0},{1},{2}", x.Split('_', ',')[3], x.Split('_', ',')[4], x.Split('_', ',')[5]) : x, modules[x].GetType().Name))
+                            .OrderBy(x => x.Item1).ToArray()
+            };
+
+                filterContext.Result = (new ViewResult() {
                     ViewName = "Errors",
                     MasterName = "_Layout.HttpErrors",
                     //ViewData = new ViewDataDictionary(errormodel),
-                    ViewData = new ViewDataDictionary<ExceptionContext>(filterContext),
+                    ViewData = new ViewDataDictionary<ExceptionViewModel>(exceptContext),
                     TempData = filterContext.Controller.TempData
-                };
+                });
             }
 
             //mark exception as handled (other filters not doing attepting work)

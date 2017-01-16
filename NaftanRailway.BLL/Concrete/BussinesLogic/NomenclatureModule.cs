@@ -80,6 +80,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
 
                     msgError = "";
+                    //write state
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
 
                     Engage.Uow.Save();
@@ -89,6 +90,22 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     throw new Exception("Failed confirmed data: " + e.Message);
                 }
             }
+        }
+
+        public ScrollLineDTO DeleteNomenclature(int numberScroll, int reportYear) {
+            var key = Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+
+            using (Engage.Uow = new UnitOfWork()) {
+                krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+
+                //Cascading delete rows in  krt_Naftan_orc_sapod (set up on .odmx model)
+                Engage.Uow.Repository<krt_Naftan>().Delete(chRecord);
+
+                Engage.Uow.Save();
+
+                return Mapper.Map<ScrollLineDTO>(chRecord); ;
+            }
+
         }
 
         public void SyncWithOrc() {
@@ -105,9 +122,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="period"></param>
         /// <param name="numberScroll"></param>
         /// <param name="multiChange">Change single or multi date</param>
-        public IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, int numberScroll, bool multiChange = true) {
-            var listRecords = multiChange ? Engage.GetTable<krt_Naftan, int>(x => x.NKRT >= numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList() :
-                        Engage.GetTable<krt_Naftan, int>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == period.Year).ToList();
+        public IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true) {
+            var listRecords = multiChange ? Engage.GetTable<krt_Naftan, int>(x => x.KEYKRT >= keyScroll).ToList() :
+                                            Engage.GetTable<krt_Naftan, int>(x => x.KEYKRT == keyScroll).ToList();
 
             using (Engage.Uow = new UnitOfWork()) {
                 try {
@@ -161,13 +178,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 

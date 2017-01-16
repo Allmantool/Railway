@@ -9,6 +9,10 @@ namespace NaftanRailway.WebUI {
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //The WebApiConfig.cs file is used to configure Web API rather than the Global.asax.cs file, and the statements
+            //that Visual Studio adds by default configure the url routes that are used to process requests
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

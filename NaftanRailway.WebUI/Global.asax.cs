@@ -32,7 +32,6 @@ namespace NaftanRailway.WebUI {
              * {2} represents the name of the area.
              */
             ViewEngines.Engines.Clear();
-
             /*Avoid seached each view instead in .cshtml files*/
             ViewEngines.Engines.Add(new RazorViewEngine() {
                 ViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml", "~/Views/Shared/{0}.cshtml" },
@@ -49,7 +48,7 @@ namespace NaftanRailway.WebUI {
             ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
 
             //MVC4 Quick Tip #3–Removing the XML Formatter from ASP.Net Web API
-            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             //Configure AutoMapper
             AutoMapperBLLConfiguration.Configure();
@@ -71,6 +70,9 @@ namespace NaftanRailway.WebUI {
             /*Controller Builder
              * ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
              */
+
+            //connected modules
+            //var info = Modules;
         }
 
         /// <summary>
@@ -93,6 +95,7 @@ namespace NaftanRailway.WebUI {
 
                 //Response.Redirect("~Views/Shared/Errors.cshtml");
                 //Server.ClearError();
+                //System.Diagnostics.Debugger.Break();
             }
         }
     }

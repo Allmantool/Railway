@@ -23,7 +23,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
                 name: "DetailsRoutesWithParams",
                 url: "{area}/{controller}/{action}/{numberScroll}/{reportYear}/{page}/{*filters}",
                 defaults: new { area = "Nomenclature", action = "ScrollDetails", controller = "Scroll", page = 1, filters = UrlParameter.Optional },
-                constraints: new { reportYear = @"^\d{4}$", page = @"^\d+$", numberScroll = @"^\d{1,7}$" },
+                constraints: new { reportYear = @"^\d{4}$", page = @"^[1-9][0-9]*$", numberScroll = @"^\d{1,7}$" },
                 //constraints: page = new CompoundRouteConstraint(new IRouteConstraint[] {MinRouteConstraint(1),IntRouteConstraint(),
                 //customConstraint = new UserAgentConstraint("Chrome")},
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
@@ -37,7 +37,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll {
             context.MapRoute(
                 name: "NomenclatureScroll_default",
                 url: "{area}/{controller}/{page}",
-                constraints: new { httpMethod = new HttpMethodConstraint("GET"), page = @"\d+" },
+                constraints: new { httpMethod = new HttpMethodConstraint("GET"), page = @"^[1-9][0-9]*$" },
                 defaults: new { area = "Nomenclature", action = "Index", controller = "Scroll", page = UrlParameter.Optional },
                 namespaces: new[] { "NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers" }
             );

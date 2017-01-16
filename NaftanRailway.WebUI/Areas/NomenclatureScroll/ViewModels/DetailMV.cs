@@ -9,6 +9,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels {
         public ScrollLineDTO Scroll { get; set; }
         public IEnumerable<ScrollDetailDTO> ListDetails { get; set; }
         public IEnumerable<CheckListFilter> Filters { get; set; }
-        public PagingInfo PagesInfo { get; set; }
+        public PagingInfo PagingInfo { get; set; }
     }
 }

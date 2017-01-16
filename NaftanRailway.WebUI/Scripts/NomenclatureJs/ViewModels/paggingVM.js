@@ -1,1 +1,0 @@
-﻿'use strict'//namespacevar appNomenclature = window.appNomenclature || {};appNomenclature.paggin = (function(){	});

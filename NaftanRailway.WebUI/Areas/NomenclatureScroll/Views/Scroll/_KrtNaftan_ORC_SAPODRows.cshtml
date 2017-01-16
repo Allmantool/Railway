@@ -1,36 +1,16 @@
-﻿@using System.Text.RegularExpressions
-@model IEnumerable<NaftanRailway.BLL.DTO.Nomenclature.ScrollDetailDTO>
-@{/*Some condition exp (item.keykrt >= 15072000209229) is result of denomination */}
-
-@foreach (var item in Model) {
-    <tr class="@((item.sm != item.summa + item.nds) ? "danger" : (item.ErrorState == 2) ? "primary" : "")">
-        <td class ="idPayment" style="display: none;">@item.keysbor</td>
-        <td class="vert-align">@item.nkrt</td>
-        <td class="vert-align">@item.tdoc</td>
-        <td class="vert-align vidsbr">@item.vidsbr</td>
-        <td class="vert-align">@item.dt.ToString("dd.MM.yyyy")</td>
-        <td class="vert-align nomot">@item.nomot</td>
-        <td class="text-right vert-align">@((item.keykrt >= 15072000209229) ? item.sm_no_nds.ToString("#,0.00") : item.sm_no_nds.ToString("#,#"))</td>
-        <td class="text-right vert-align">@((item.keykrt >= 15072000209229) ? item.sm_nds.ToString("#,0.00") : item.sm_nds.ToString("#,#"))</td>
-        <td class="text-right vert-align">@((item.keykrt >= 15072000209229) ? item.sm.ToString("#,0.00") : item.sm.ToString("#,#"))</td>
-        <td class="text-right vert-align">@item.stnds.ToString(@"#,#0'%'")</td>
-        <td class="vert-align" style="white-space: nowrap">@item.txt</td>
-        <td class="vert-align text-left" style="min-width: 230px;">@item.namesbr</td>
-        <td class="vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ORC_ID_ED</td>
-        <td class="success vert-align" style="color: " @((item.ORC_ID_ED != @item.ID_ED) ? "red" : "black")>@item.ID_ED</td>
-        <td class="success vert-align" style="@(item.textm != null && item.textm.Length > 40 ? @"min-width:320px;" : "white-space:nowrap")">@item.textm</td>
-        <td class="success vert-align">
-            @{if (@item.date_raskr != null)
-              {
-                  @((Regex.IsMatch(@item.vidsbr.ToString(), @"30[01]", RegexOptions.IgnoreCase))
-                        ? @item.date_raskr.Value.ToString("dd.MM.yyyy HH:mm")
-                        : @item.date_raskr.Value.ToString("dd.MM.yyyy"))
-              }
-            }
-        </td>
-        <td class="success vert-align">@item.num_doc</td>
-        <td class="text-center success vert-align">@((item.kol == null) ? "" : @item.kol.Value.ToString("#,0.00"))</td>
-        <td class="text-right success vert-align">@((item.summa == null) ? "" : @item.summa.Value.ToString("#,0.00"))</td>
-        <td class="text-right success vert-align">@((item.nds == null) ? "" : @item.nds.Value.ToString("#,0.00"))</td>
-    </tr>
-}
+﻿<tr data-bind="css: {'danger': $data.compareMoney()}">
+    <td data-bind="text: $data.nkrt()" class="vert-align"></td>
+    <td data-bind="text: $data.tdoc(), popover:{content: $data.getDocType() , placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.vidsbr(), popover:{title: 'Наименование сбора:', content: $data.namesbr(), placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.gruname()" class="small"></td>
+    <td data-bind="text: moment($data.dt()).format('DD.MM.YYYY')" class="vert-align"></td>
+    <td data-bind="text: $data.date_raskr()" class="success vert-align"></td>
+    <td data-bind="text: $data.nomot(), popover:{title: 'Наименование документа САПОД:', content: $data.getDocType() + ': ' + $data.num_doc(), placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.sm_no_nds(), popover:{title: 'Сумма без НДС САПОД:', content: $data.summa(), placement: 'top'}" class="text-right vert-align"></td>
+    <td data-bind="text: $data.sm_nds(), popover:{title: 'Сумма НДС САПОД:', content: $data.nds(), placement: 'top'}" class="text-right vert-align"></td>
+    <td data-bind="text: $data.sm()" class="text-right vert-align"></td>
+    <td data-bind="text: $data.stnds() + '%'" class="text-right vert-align"></td>
+    <td data-bind="text: $data.txt(), popover:{title: 'Комментарий САПОД:', content: $data.textm(), placement: 'top'}" class="vert-align" style="white-space: nowrap"></td>
+    <td data-bind="text: $data.ORC_ID_ED(), popover:{title: 'Индификатор САПОД:', content: $data.ID_ED(), placement: 'top'}, style:{color: $data.ORC_ID_ED() !==  $data.ID_ED() ? 'red' : 'black'}" class="vert-align"></td>
+    <td data-bind="text: $data.kol()" class="text-center success vert-align"></td>
+</tr>

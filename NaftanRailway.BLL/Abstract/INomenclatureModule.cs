@@ -39,6 +39,8 @@ namespace NaftanRailway.BLL.Abstract {
 
         IEnumerable<ScrollLineDTO> AddKrtNaftan(int numberScroll, int reportYear, out string msgError);
 
+        ScrollLineDTO DeleteNomenclature(int numberScroll, int reportYear);
+
         void SyncWithOrc();
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="numberScroll"></param>
         /// <param name="multiChange"></param>
         /// <returns></returns>
-        IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, int numberScroll, bool multiChange = true);
+        IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true);
 
         bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa);
 

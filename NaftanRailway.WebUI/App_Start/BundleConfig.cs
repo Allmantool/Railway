@@ -45,7 +45,12 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/GeneralJs/_General.js",
                         "~/Scripts/NomenclatureJs/DataContext.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
-                .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js"));
+                .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js")
+                .Include("~/Scripts/NomenclatureJs/MainVM.js")
+                .Include("~/Scripts/NomenclatureJs/CustomBindings/koBindings.js")
+                .Include("~/Scripts/NomenclatureJs/koExtenders/koExtenders.js")
+                .Include("~/Scripts/NomenclatureJs/koComponentsAndCustomElement/koComponents.js")
+                .Include("~/Scripts/NomenclatureJs/_Scrolls.js"));
 
             //*************************************************************** CSS styles *****************************************************************/
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()

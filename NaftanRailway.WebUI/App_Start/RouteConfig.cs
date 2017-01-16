@@ -27,21 +27,21 @@ namespace NaftanRailway.WebUI {
                 url: "{operationCategory}/Page{page}/Period{reportPeriod}/ShippingFilter{ShippingChoise}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
-                constraints: new { page = @"\d+" });
+                constraints: new { page = @"^[1-9][0-9]*$" });
 
             routes.MapRoute(
                 name: "Period",
                 url: "{operationCategory}/Page{page}/Period{reportPeriod}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
-                constraints: new { page = @"\d+" });
+                constraints: new { page = @"^[1-9][0-9]*$" });
 
             routes.MapRoute(
                 name: "TypeOperation_Page",
                 url: "{operationCategory}/Page{page}",
                 defaults: new { controller = "Ceh18", action = "Index" },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
-                constraints: new { page = @"\d+" });
+                constraints: new { page = @"^[1-9][0-9]*$" });
 
             routes.MapRoute(
                 name: "EditStorage",
@@ -66,7 +66,7 @@ namespace NaftanRailway.WebUI {
                 url: "Page{page}",
                 defaults: new { controller = "Ceh18", action = "Index", operationCategory = EnumOperationType.All },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" },
-                constraints: new { page = @"\d+" });
+                constraints: new { page = @"^[1-9][0-9]*$" });
 
             routes.MapRoute(
                name: "RailWayBasic",

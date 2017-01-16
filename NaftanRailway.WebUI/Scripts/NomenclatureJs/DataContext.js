@@ -4,40 +4,38 @@
 //namespace
 var appNomenclature = window.appNomenclature || {};
 
-appNomenclature.DataContext = (function () {
+appNomenclature.DataContext = (function ($) {
+    var self = this;
+
     /*** behavior ***/
 
-    //return specific scrolls
-    function getScr(callback) {
-        if ($.isFunction(callback)) {
-            $.ajax({
-                url: "Scroll/Index/",
-                type: "Get",
-                traditional: true,
-                contentType: 'application/json; charset=utf-8',
-                data: { "asService": true },
-                success: function (data) {
-                    callback(data);
-                },
-                error: function (data) {
-                    console.log("getScr error:" + data);
-                }
-            });
-        }
-    };
+    //return specific scrolls .requestUrl, httpMethod, sendJSON
+    function getScr(callback, opts) {
+        //work with options
+        var defaults = {
+            url: location.pathname,
+            type: "Get",
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            accept: 'application/json',
+            data: { "asService": true },
+            beforeSend: function(){},
+            complete: function () { },
+            success: function (data) { callback(data); },
+            error: function (data) { 
+                console.log(data); }
+        };
 
-    //return detalisation per srcoll
-    function getScrDetails(callback) {
+        var $merged = $.extend(true, defaults, opts);
+
         if ($.isFunction(callback)) {
-            $.getJSON('Data/Catalog.json', function (data) {
-                callback(data.Catalog);
-            });
+            $.ajax($merged);
         }
     };
 
     /**** public API  ***/
     return {
-        getScr: getScr,
-        getScrDetails: getScrDetails
+        getScr: getScr
     };
-}());
+}(jQuery));

@@ -7,6 +7,8 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult NotFound() {
             //return HttpNotFound();
             //throw new HttpException(404, "Not found");
+            var modules = HttpContext.ApplicationInstance.Modules;
+
             Response.StatusCode = 404;
             return View();
         }

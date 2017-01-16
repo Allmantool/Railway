@@ -6,7 +6,7 @@ using NaftanRailway.WebUI.ViewModels;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels {
     //[ModelBinder(typeof(ChangeDateModalBinding))]
-    public class IndexModelView {
+    public class IndexMV {
         /// <summary>
         /// List Scroll rows
         /// </summary>
@@ -19,8 +19,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels {
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:MMMM yyyy}", ApplyFormatInEditMode = true)]
         public DateTime ReportPeriod { get; set; }
 
-        public int Nkrt { get; set; }
-
         /// <summary>
         /// Info about pagination (count page, current page, line on the page and etc)
         /// </summary>
@@ -30,5 +28,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels {
         /// For change date method
         /// </summary>
         public bool MultiDate { get; set; }
+
+        public int Nkrt { get; set; }
     }
 }

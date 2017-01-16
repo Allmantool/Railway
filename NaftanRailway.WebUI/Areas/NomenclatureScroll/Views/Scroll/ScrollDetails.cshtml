@@ -1,18 +1,8 @@
-﻿@model  NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels.DetailModelView
-@{
-    ViewBag.Title = ViewBag.Title ?? "Сборы по перечням";
+﻿@{
+    ViewBag.Title = ViewBag.Title ?? @"Сборы по перечням";
     Layout = "../Shared/_Layout.cshtml";
     Html.EnableClientValidation(false);
     Html.EnableUnobtrusiveJavaScript(true);
 }
-<div id="ScrollTable">@{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD", @Model);}</div>
+<div id="ScrollTable">@{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD");}</div>
 <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="operationScrollModal"></div>
-
-@section Scripts {
-    <!--[if lte IE 8]>
-        @Scripts.Render("~/Scripts/NomenclatureJs/scrollDetailsViewModel.js")
-    <![endif]-->
-    <!--[if !IE 8]><!-->
-        @Scripts.RenderFormat("<script src='{0}' defer></script>", Url.Content("~/Scripts/NomenclatureJs/scrollDetailsViewModel.js"))
-    <!--<![endif]-->
-}     

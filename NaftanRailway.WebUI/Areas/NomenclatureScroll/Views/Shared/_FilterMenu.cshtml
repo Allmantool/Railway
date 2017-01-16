@@ -1,27 +1,13 @@
-﻿@using System.Collections
-@model IEnumerable<NaftanRailway.BLL.POCO.CheckListFilter>
-@{
-    int i = 0;
-}
-@foreach (var item in Model) {
-
-    var menuItem = item;
-
-    <div id=@(menuItem.FieldName + "block") style="display: inline-block; float: left;">
-        @Html.Hidden("filters[" + i + "].ActiveFilter", menuItem.ActiveFilter)
-        @Html.Hidden("filters[" + i + "].FieldName", menuItem.FieldName)
-        @Html.Hidden("filters[" + i + "].NameDescription", menuItem.NameDescription)
-
-        @for (int q = 0; q < menuItem.AllAvailableValues.Count(); q++) {
-            @Html.Hidden("filters[" + i + "].AllAvailableValues[" + q + "]", ((IList)menuItem.AllAvailableValues)[q])
-        }
-
-        <select class="form-group form-control filters" type="search" multiple="multiple" id=@menuItem.FieldName name=@String.Format("filters[{0}].CheckedValues", i++) style="display: none;">
-            @for (int q = 0; q < item.AllAvailableValues.Count(); q++) {
-                var indElem = ((IList)item.AllAvailableValues)[q];
-
-                <option @(menuItem.CheckedValues.Contains(indElem) ? "selected" : "") value=@indElem>@indElem</option>
-            }
-        </select>
-    </div>
-}
+﻿<div style="display: inline-block;" data-bind="foreach: filters">
+    <select multiple="multiple" size="10" class="form-group form-control filters" type="search"
+            data-bind="attr: {'id': 'filter' + $index()},
+                       options: $data.AllAvailableValues, selectedOptions: $data.CheckedValues,
+                       multiselect:{
+                            allSelectedText: $data.NameDescription(),
+                            buttonText: function (options, select) {
+                                return $data.NameDescription() + ' (' + $data.CheckedValues().length + ' / ' +  $data.AllAvailableValues().length +')';
+                            }
+                       }">
+    </select>
+</div>
+<button type="submit" class="form-control btn btn-primary" style="margin-left: 0.5em;">Фильтр</button>

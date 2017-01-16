@@ -4,28 +4,30 @@
 var appNomenclature = window.appNomenclature || {};
 
 //constuctor
-appNomenclature.Scroll = function (parentObj) {
+appNomenclature.Scroll = function (data, asObservables) {
     var self = this;
-
-    //if (typeof (parentObj) === 'object') {
-    //    //прототипное наследование
-    //    self.prototype = Object.create(parentObj);
-    //    //назначаем конструктор
-    //    self.prototype.constructor = appNomenclature.Scroll;
-
-    //    /**** behaviors ***/
-    //    self.active = ko.observable("0");
+    //for (var prop in parentObj) {
+    //    if (parentObj.hasOwnProperty(prop)) {
+    //        self[prop] = parentObj[prop];
+    //    }
     //}
+    if (asObservables) {
+        self = $.extend(true, self, ko.mapping.fromJS(data));
 
+        self.selected = ko.observable(false);
+        self.proccessingState = ko.observable(false);
 
-    //динамически копируем свойства
-    for (var prop in parentObj) {
-        if (parentObj.hasOwnProperty(prop)) {
-            self[prop] = parentObj[prop];
-        }
+        /**** behaviors ***/
+        self.srcKey = ko.pureComputed(function () {
+            return self.NKRT() + '/' + moment(self.DTBUHOTCHET()).format('YYYY');
+        }, self);
     }
+    else {
+        self = $.extend(true, self, data);
+    }    
+}
 
-    /**** behaviors ***/
-    self.active = ko.observable("0");
-
-};
+//prototype shared methods
+//appNomenclature.Scroll.prototype.toggle = function () {
+/// ...
+//}

@@ -14,6 +14,9 @@ namespace NaftanRailway.WebUI.ViewModels {
             get { return (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage); }
         }
         public AjaxOptions AjaxOptions { get; set; }
+        /// <summary>
+        /// Can be use for client side js routing
+        /// </summary>
         public RouteValueDictionary RoutingDictionary { get; set; }
     }
 }

@@ -346,22 +346,35 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManagmentController.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Controllers\APIScrollController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\BaseController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\UserInterfaceController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
-    <Compile Include="Areas\NomenclatureScroll\ViewModels\CheckCharges.cs" />
-    <Compile Include="Areas\NomenclatureScroll\ViewModels\DetailModelView.cs" />
-    <Compile Include="Areas\NomenclatureScroll\ViewModels\IndexModelView.cs" />
-    <Compile Include="Areas\NomenclatureScroll\ViewModels\QuickDialogMenuModel.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\CheckChargesMV.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\DetailMV.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\IndexMV.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\PeriodModalMV.cs" />
+    <Compile Include="Areas\NomenclatureScroll\ViewModels\QuickDialogMenuMV.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
+    <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-datepicker.css" />
+    <Content Include="Content\css\bootstrap-datepicker.min.css" />
+    <Content Include="Content\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\css\bootstrap-datepicker3.css" />
+    <Content Include="Content\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\css\bootstrap-datepicker3.standalone.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\1474628461_pencil.png" />
     <Content Include="Content\images\1474628564_magnifyingglass.png" />
@@ -377,7 +390,9 @@
     <Content Include="Content\images\256x256.png" />
     <Content Include="Content\images\500-Internal-Server-Error-Design-Inspiration.gif" />
     <Content Include="Content\images\loadingArrow.gif" />
+    <Content Include="Content\images\notComplete.png" />
     <Content Include="Content\images\seo-chain-link-icon.png" />
+    <Content Include="Content\images\toTop.png" />
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_55_f8da4e_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_75_79c9ec_1x400.png" />
@@ -398,6 +413,8 @@
     <Content Include="Content\images\ui-icons_f7a50d_256x240.png" />
     <Content Include="Content\images\ui-icons_fcd113_256x240.png" />
     <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\images\Unkomplete2.png" />
+    <Content Include="Content\images\Unkomplete3.png" />
     <Content Include="Content\NomenclatureCSS\CustomJQueryUI.css" />
     <Content Include="Content\GeneralCustomCSS\_General.css" />
     <Content Include="Content\NomenclatureCSS\_Scrolls.css" />
@@ -568,7 +585,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_JoinRowsModal.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_EditRowsModal.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\UserInterface\_QuickMenu.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\_AlertMsgBox.cshtml" />
+    <Content Include="Areas\Admin\Views\Web.config" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
@@ -632,6 +649,7 @@
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\IEJs\IE9-.js" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Scripts\jquery-3.1.0.js" />
     <Content Include="Scripts\jquery-3.1.0.min.js" />
@@ -646,18 +664,24 @@
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\GeneralJs\_General.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\GeneralJs\_General.js" />
+    <Content Include="Scripts\NomenclatureJs\CustomBindings\koBindings.js" />
     <Content Include="Scripts\NomenclatureJs\DataContext.js" />
+    <Content Include="Scripts\NomenclatureJs\koComponentsAndCustomElement\koComponents.js" />
+    <Content Include="Scripts\NomenclatureJs\koExtenders\koExtenders.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\AlertMessageModel.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\ChargeModel.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\ProgBarModel.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\PeriodModalVM.js" />
     <Content Include="Scripts\NomenclatureJs\Models\PaginationModel.js" />
     <Content Include="Scripts\NomenclatureJs\Models\ScrollModel.js" />
-    <Content Include="Scripts\NomenclatureJs\ViewModels\paggingVM.js" />
-    <Content Include="Scripts\NomenclatureJs\ViewModels\SrcDetailsVM .js" />
-    <Content Include="Scripts\NomenclatureJs\ViewModels\ScrVM.js" />
-    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\SrcDetailsVM.js" />
+    <Content Include="Scripts\NomenclatureJs\MainVM.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
@@ -760,14 +784,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\modernizr-custom.js" />
-    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectivizr-1.0.2.js" />
     <Content Include="Scripts\selectivizr-1.0.2.min.js" />
-    <Content Include="Scripts\NomenclatureJs\ViewModels\_Scrolls.js" />
+    <Content Include="Scripts\NomenclatureJs\_Scrolls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -801,11 +824,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
     <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Infrastructure\ViewEngines\" />
+    <Folder Include="Scripts\NomenclatureJs\koExtenstions\" />
+    <Folder Include="Scripts\NomenclatureJs\Templates\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>

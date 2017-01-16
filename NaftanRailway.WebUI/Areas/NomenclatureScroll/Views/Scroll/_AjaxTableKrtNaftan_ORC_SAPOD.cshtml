@@ -1,82 +1,50 @@
-﻿@using System.Web.Mvc.Html
-@using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels
-@using NaftanRailway.WebUI.ViewModels
-@model DetailModelView
-@{
-    PagingInfo pageInfo = Model.PagesInfo;
-    int numberScroll = Model.Scroll.NKRT;
-    DateTime reportYear = Model.Scroll.DTBUHOTCHET;
-
-    pageInfo.AjaxOptions = new AjaxOptions() {
-        HttpMethod = "Post",
-        UpdateTargetId = "detailsTable",
-        OnSuccess = "filterMenu",
-        InsertionMode = InsertionMode.Replace,
-        //Url = Url.Action("ScrollDetails", "Scroll", new { numberScroll = Model.Scroll.NKRT, reportYear = reportYear.Year })
-    };
-    pageInfo.RoutingDictionary = new RouteValueDictionary {
-        { "controller", "Scroll" }, { "action", "ScrollDetails" }, { "numberScroll", numberScroll }, { "reportYear", reportYear.Year },
-        { "filters", Model.Filters }
-    };
-}
-
-<table id="detailsTable" class="small table table-hover table-responsive table-striped table-condensed table-bordered">
+﻿<table id="detailsTable" class="small table table-hover table-responsive table-striped table-condensed table-bordered">
     <caption>
-        <h3 class="text-center control-label">
-            @String.Format(@"Перечень №{0} ", @numberScroll)<br />
-            <span class="small">
-                @String.Format(@"поступил в электронном виде из ОРЦ {0} г. Общее кол-во выбранных записей: {1}", @reportYear.ToShortDateString(), @pageInfo.TotalItems)
-            </span><br />
+        <h3 data-bind="With: $root" class="text-center">
+            <span data-bind="text: 'Перечень №' + currScr().NKRT()"></span>
+            <br />
+            <span class="small" data-bind="text: 'поступил в электронном виде из ОРЦ ' + moment(currScr().DATE_OBRABOT()).format('DD MMMM YYYY г.')"></span>
+            <span class="small" data-bind="text: 'Общее кол-во сборов по перечню: ' + currScr().RecordCount() + ' шт.'"></span>
+            <br />
         </h3>
     </caption>
     <thead class="tableHeader">
         <tr>
-            <th>Карточка<br />(NKRT)<span class="glyphicon glyphicon-filter"></span></th>
-            <th>Тип<br /><span style="white-space: nowrap">док.</span><span class="glyphicon glyphicon-filter"></span></th>
-            <th>Вид<br /><span style="white-space: nowrap">сбора<span class="glyphicon glyphicon-filter"></span></span></th>
-
-            <th>DT</th>                 <th>NOMOT</th>              <th>Сумма без НДС</th>          <th>Сумма НДС</th>          <th>Сумма</th>
-            <th>Ставка НДС</th>         <th>txt<br />OРЦ</th>       <th>Наименование сбора</th>     <th>ID_ED<br />ОРЦ</th>     <th>ID_ED<br />САПОД</th>
-            <th>textm<br />САПОД</th>   <th>date<br />raskr</th>    <th>num_doc</th>                <th>kol</th>                <th>summa</th>
-            <th>nds</th>
+            <th data-bind="tooltip:{title: 'NKRT'}">Карточка<br /></th>
+            <th data-bind="tooltip:{title: 'tdoc'}">Тип</th>
+            <th data-bind="tooltip:{title: 'vidsbr'}">Код<br />сбора</th>
+            <th data-bind="tooltip:{title: 'gruname'}">Наименование<br />груза</th>
+            <th data-bind="tooltip:{title: 'TD'}">Дата<br />требования</th>
+            <th data-bind="tooltip:{title: 'date raskr'}">Дата открытия<br /></th>
+            <th data-bind="tooltip:{title: 'NOMOT'}">Документ<br />ОРЦ</th>
+            <th>Сумма<br />без НДС</th>
+            <th>НДС</th>
+            <th>Сумма</th>
+            <th>Ставка<br /> НДС</th>
+            <th>Комментарий<br />OРЦ</th>
+            <th data-bind="tooltip:{title: 'ID_ED'}">Индификатор<br />ОРЦ</th>
+            <th data-bind="tooltip:{title: 'kol'}">Кол-во</th>
         </tr>
         <!--Grid filter-->
         <tr class="filter-menu">
-            <th colspan="19">
-                @using (Ajax.BeginForm("ScrollDetails", "Scroll", new { controller = "Scroll", action = "ScrollDetails", numberScroll, reportYear.Year, page = 1 }
-                , new AjaxOptions() {
-                    HttpMethod = "Post",
-                    //InsertionMode = InsertionMode.Replace,
-                    //UpdateTargetId = "detailsTable",
-                    //OnSuccess = "filterMenu",
-                    OnComplete = "reDrawingDetail"
-                }, new { @class = "form-inline" })) {
-                @Html.Hidden("numberScroll", numberScroll)
-                @Html.Hidden("reportYear", reportYear.Year)
-
-                <div id="filterForm">@{ Html.RenderPartial("_FilterMenu", Model.Filters);}</div>
-                <button type="submit" class="form-control btn btn-primary pull-left" style="margin-left: 0.5em;">Фильтр</button>
+            <th data-bind="with: $root.scrollDetails" colspan="19">
+                @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Post, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
+                    { Html.RenderPartial("_FilterMenu"); }
                 }
             </th>
         </tr>
     </thead>
-    <tbody class="text-center" id="chargeOfList">@{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows", @Model.ListDetails);}</tbody>
-    <tfoot>
+    <!-- ko with: $root.scrollDetails -->
+    <tbody data-bind="foreach: charges(), visible: true, css:{overlayTable: $root.loadingState()}" style="display: none;" class="text-center" id="chargeOfList">
+        @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows");}
+    </tbody>
+    <tfoot data-bind="if: charges().length > 0">
         <tr>
-            <!--Ajax paging-->
-            <th colspan="19">&copy; 2016 ОАО "Нафтан"
-                <span class="ajaxPagging">
-                    @{ Html.RenderPartial("_AjaxPagging", pageInfo);}
-                </span>
-            </th>
+            <th colspan="19">&copy; 2016 ОАО "Нафтан" @{ Html.RenderPartial("_AjaxPagging");}</th>
         </tr>
     </tfoot>
+    <!-- /ko -->
 </table>
-
-<!--Loading-->
-<div id="loadingInfiniteScroll" class="text-center" style="display: none">
-    <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
-</div>
 
 <!--Quick Menu -->
 @{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}
