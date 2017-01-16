@@ -34,10 +34,10 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
         return pages;
     });//.extend({ deferred: true });
 
-    self.moveToPage = function (root, ev, url) {
-        var self = this;
+    self.moveToPage = function (root, ev, parent) {
+        var self = parent || this;
 
-        var $requestlink = url || $(ev)[0].target.href;
+        var $requestlink = $(ev)[0].target.href;
 
         self.init({
             url: $requestlink
@@ -46,20 +46,13 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
 
     self.previousPage = function (parent, ev, link) {
         if (self.CurrentPage() > 1) {
-            self.CurrentPage(self.CurrentPage() - 1);
+            self.moveToPage(null, ev, parent);
         }
-
-        var link = self.getPageUrl() + self.CurrentPage();
-
-        self.moveToPage(null, null, link);
     };
 
     self.nextPage = function (parent, ev) {
-
         if (self.CurrentPage() < self.allPages().length) {
-            self.CurrentPage(self.CurrentPage() + 1);
+            self.moveToPage(null, ev, parent);
         }
-
-        var link = self.getPageUrl() + self.CurrentPage();
     };
 };

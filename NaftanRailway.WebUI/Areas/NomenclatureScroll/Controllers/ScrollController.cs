@@ -29,7 +29,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
-        public ActionResult Index(int page = 1, bool asService = false, byte initialSizeItem = 15) {
+        public ActionResult Index(int page = 1, bool asService = false, ushort initialSizeItem = 15) {
             if (Request.IsAjaxRequest()) {
                 long recordCount;
 

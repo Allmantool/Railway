@@ -3,7 +3,7 @@
     <li data-bind="css:{disabled: $parent.pagging().CurrentPage() <= 1 }">
         <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === 1 ? 1 : $parent.pagging().CurrentPage() - 1)},
                       click: $parent.pagging().previousPage"
-           aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+           aria-label="Previous">&laquo;</a>
     </li>
     <!-- ko foreach: pagging().allPages() -->
     <li data-bind="visible: $data.pageNumber <= 10, css: {active : $data.pageNumber === $parent.pagging().CurrentPage() }">
@@ -11,7 +11,10 @@
     </li>
     <!-- /ko -->
     <li class="disabled"><span>...</span></li>
-    <li data-bind="disabled: $parent.pagging().CurrentPage() <= $parent.pagging().allPages().length - 1"><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+    <li data-bind="disabled: $parent.pagging().CurrentPage() <= $parent.pagging().allPages().length - 1">
+        <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === $parent.pagging().TotalItems() ? $parent.pagging().TotalItems() : $parent.pagging().CurrentPage() + 1)},
+                      click: $parent.pagging().nextPage, clickBubble: false" aria-label="Next">&raquo;</a>
+    </li>
 </ul>
 
 
