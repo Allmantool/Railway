@@ -11,6 +11,7 @@ using System.Web.SessionState;
 using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels;
+using System.Linq.Expressions;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[ExceptionFilter]
@@ -33,11 +34,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (Request.IsAjaxRequest()) {
                 long recordCount;
 
-                //default
-                Func<ScrollLineDTO, bool> predicate = x => x.DTBUHOTCHET == (period == null ? new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) : period);
-
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, initialSizeItem, out recordCount, x => x.DTBUHOTCHET == (period == null ? new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) : period)),
+                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, period, initialSizeItem, out recordCount),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,

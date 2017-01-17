@@ -16,7 +16,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
-using System.Linq.Expressions;
+
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -25,7 +25,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Engage = engage;
         }
 
-        public IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<ScrollLineDTO, bool>> predicate = null) {
+        public IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount) {
 
             //var @switch = new Dictionary<Type, IEnumerable<T>> {
             //    { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT))},
@@ -33,13 +33,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //};
             //@switch[typeof(T)]
 
-            if (predicate != null) {
+            if (period != null) {
+                var pCriteria = new DateTime(period.Value.Year, period.Value.Month, 1);
                 //convert func types
-                Expression<Func<krt_Naftan, bool>> func = x => predicate(Mapper.Map<ScrollLineDTO>(x));
+                //Func<krt_Naftan, bool> func = x => predicate(Mapper.Map<ScrollLineDTO>(x));
+
                 //wrap in func to expression (is not impossible, maybe if pass method...)
                 //Expression<Func<krt_Naftan, bool>> filter = x => func(x);
 
-                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, func));
+                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, x => x.DTBUHOTCHET == pCriteria));
             }
 
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
