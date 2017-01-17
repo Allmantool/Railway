@@ -4,6 +4,7 @@ using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using System.Web.Mvc;
+using System.Linq.Expressions;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface INomenclatureModule : IDisposable {
@@ -18,7 +19,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="initialSizeItem">item per page</param>
         /// <param name="recordCount"> return whole amount of rows</param>
         /// <returns></returns>
-        IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount);
+        IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null);
         IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);

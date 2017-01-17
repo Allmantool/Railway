@@ -29,12 +29,15 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
-        public ActionResult Index(int page = 1, bool asService = false, ushort initialSizeItem = 15) {
+        public ActionResult Index(DateTime? period = null, int page = 1, bool asService = false, ushort initialSizeItem = 15) {
             if (Request.IsAjaxRequest()) {
                 long recordCount;
 
+                //default
+                Func<ScrollLineDTO, bool> predicate = x => x.DTBUHOTCHET == (period == null ? new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) : period);
+
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, initialSizeItem, out recordCount),
+                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, initialSizeItem, out recordCount, x => x.DTBUHOTCHET == (period == null ? new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) : period)),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
