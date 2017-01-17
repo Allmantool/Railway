@@ -16,7 +16,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
-
+using System.Linq.Expressions;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -32,7 +32,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //   // { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, long>(page, initialSizeItem, out recordCount, x => x.keykrt)) },
             //};
             //@switch[typeof(T)]
-
+            
             if (period != null) {
                 var pCriteria = new DateTime(period.Value.Year, period.Value.Month, 1);
                 //convert func types
