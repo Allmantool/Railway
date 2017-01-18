@@ -149,5 +149,53 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
             var member = (MemberExpression)e.Body;
             return member.Member.Name;
         }
+
+
+        /// <summary>
+        ///Implement visitor pattern.
+        ///In case we want add some functionality in class without changed it.
+        ///My situation is: I've expression tree with concrete class and predicate lambda expression (e.g Expreesion<Func<ClassA, bool>> predicate = x => x.prop == someValue)
+        ///when i want save body predicate (x => x.prop == someValue), but change parameter type (ClassA to ClassB with same naming of propeties) I need implement visitor pattern
+        /// </summary>
+        /// <param name="ConvertToType">typeOf(Destination Class)</param>
+        /// <param name=" expression">source expression</param>
+        public static Expression<Func<OutT, bool>> ConvertTypeExpression<inT, OutT>(Expression expression) where OutT : class {
+
+            var param = Expression.Parameter(typeof(OutT), "x");
+
+            var result = new CustomExpVisitor<OutT>(param).Visit(expression); 
+
+            Expression<Func<OutT, bool>> lambda = Expression.Lambda<Func<OutT, bool>>(result, new[] { param });
+
+            return lambda;
+        }
+
+        //build-in class (LINQ). Start in c# 4.0
+        private class CustomExpVisitor<T> : ExpressionVisitor {
+            ParameterExpression _param;
+
+            public CustomExpVisitor(ParameterExpression param) {
+                _param = param;
+            }
+
+            protected override Expression VisitParameter(ParameterExpression node) {
+                return _param;
+            }
+
+            protected override Expression VisitMember(MemberExpression node) {
+                if (node.Member.MemberType == MemberTypes.Property) {
+                    MemberExpression memberExpression = null;
+
+                    var memberName = node.Member.Name;
+                    var otherMember = typeof(T).GetProperty(memberName);
+
+                    memberExpression = Expression.Property(Visit(node.Expression), otherMember);
+
+                    return memberExpression;
+                } else {
+                    return base.VisitMember(node);
+                }
+            }
+        }
     }
 }

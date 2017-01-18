@@ -3,7 +3,6 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Linq;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
@@ -25,23 +24,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Engage = engage;
         }
 
-        public IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount) {
+        public IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null) {
+            if (predicate != null) {
+                //convert type
+                var filterPredicate = PredicateExtensions.ConvertTypeExpression<ScrollLineDTO, krt_Naftan>(predicate.Body);
 
-            //var @switch = new Dictionary<Type, IEnumerable<T>> {
-            //    { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT))},
-            //   // { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, long>(page, initialSizeItem, out recordCount, x => x.keykrt)) },
-            //};
-            //@switch[typeof(T)]
-            
-            if (period != null) {
-                var pCriteria = new DateTime(period.Value.Year, period.Value.Month, 1);
-                //convert func types
-                //Func<krt_Naftan, bool> func = x => predicate(Mapper.Map<ScrollLineDTO>(x));
-
-                //wrap in func to expression (is not impossible, maybe if pass method...)
-                //Expression<Func<krt_Naftan, bool>> filter = x => func(x);
-
-                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, x => x.DTBUHOTCHET == pCriteria));
+                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
             }
 
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
@@ -59,6 +47,16 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
             return Mapper.Map<ScrollLineDTO>(Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault());
+        }
+
+        /// <summary>
+        /// Get range of avaible month period
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<DateTime> GetListPeriod() {
+            var result = Engage.GetGroup<krt_Naftan, DateTime>(x => x.DTBUHOTCHET);
+
+            return result;
         }
 
         /// <summary>

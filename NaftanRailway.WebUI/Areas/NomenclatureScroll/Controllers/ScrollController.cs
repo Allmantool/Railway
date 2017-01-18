@@ -34,15 +34,20 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (Request.IsAjaxRequest()) {
                 long recordCount;
 
+                //period = period ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                //if period == null => all records
+                Expression<Func<ScrollLineDTO, bool>> predicate = x => x.DTBUHOTCHET == period || ((period == null) == true);
+
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, period, initialSizeItem, out recordCount),
+                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, period, initialSizeItem, out recordCount, predicate),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
                         ItemsPerPage = initialSizeItem,
                         TotalItems = recordCount,
                         RoutingDictionary = Request.RequestContext.RouteData.Values
-                    }
+                    },
+                    RangePeriod = _bussinesEngage.GetListPeriod()
                 };
 
                 if (asService) {

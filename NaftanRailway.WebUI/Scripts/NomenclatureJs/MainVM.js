@@ -16,6 +16,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
     var self = {
         containerName: undefined,
         rowsPerPage: ko.observable(15),
+        wrkPeriods: ko.observableArray([]),
+        wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
@@ -91,7 +93,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
         //work with options
         var defaults = {
-            data: { "initialSizeItem": self.rowsPerPage() },
+            data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() },
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 //firts initialization
@@ -124,7 +126,9 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             //modal date
             self.periodModal.period(self.currScr().DTBUHOTCHET());
-
+            //period + list index select
+            self.wrkPeriods(data.RangePeriod);
+            //pagging
             self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
         }, $merged);
     };
@@ -170,7 +174,14 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
     function changeCountPerPage(link, ev) {
         init({
             url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
-            data: { "initialSizeItem": self.rowsPerPage() }
+            data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
+        }, self);
+    };
+
+    function changePeriodMonth() {
+        init({
+            url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
+            data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
         }, self);
     };
 
@@ -201,7 +212,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             init({
                 url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
-                data: { "initialSizeItem": self.rowsPerPage() }
+                data: { "initialSizeItem": self.rowsPerPage() , "period": self.wrkSelPeriod() }
             }, self);
 
             self.alert().statusMsg('Перечень №' + src.NKRT() + ' успешно удален!').alertType('alert-success').mode(true);
@@ -315,6 +326,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         progressBar: self.progressBar,
         scrollDetails: self.scrollDetails,
         rowsPerPage: self.rowsPerPage,
+        wrkPeriods: self.wrkPeriods,
+        wrkSelPeriod: self.wrkSelPeriod,
         //behavior
         init: init,
         updatePeriod: updatePeriod,
@@ -324,6 +337,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         viewScrDetails: viewScrDetails,
         containerRebind: containerRebind,
         removeSrc: removeSrc,
-        changeCountPerPage: changeCountPerPage
+        changeCountPerPage: changeCountPerPage,
+        changePeriodMonth: changePeriodMonth
     };
 }(jQuery, ko, appNomenclature.DataContext, appNomenclature.PeriodModalVM, appNomenclature.SrcDetailsVM));

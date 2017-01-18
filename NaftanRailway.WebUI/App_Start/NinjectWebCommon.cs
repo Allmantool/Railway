@@ -6,11 +6,9 @@ namespace NaftanRailway.WebUI.App_Start {
     using System.Web;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
+    using BLL.Services.DI;
     using Ninject;
     using Ninject.Web.Common;
-    using System.Web.Mvc;
-    using BLL.Services.DI;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -54,7 +52,7 @@ namespace NaftanRailway.WebUI.App_Start {
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel) {
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
 }

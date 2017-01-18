@@ -19,7 +19,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="initialSizeItem">item per page</param>
         /// <param name="recordCount"> return whole amount of rows</param>
         /// <returns></returns>
-        IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount);
+        IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
         IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
@@ -37,6 +37,8 @@ namespace NaftanRailway.BLL.Abstract {
         byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = @"rs:Format=Excel");
 
         ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear);
+
+        IEnumerable<DateTime> GetListPeriod();
 
         IEnumerable<ScrollLineDTO> AddKrtNaftan(int numberScroll, int reportYear, out string msgError);
 

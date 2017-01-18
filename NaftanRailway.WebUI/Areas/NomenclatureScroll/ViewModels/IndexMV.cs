@@ -24,6 +24,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels {
         /// </summary>
         public PagingInfo PagingInfo { get; set; }
 
+        public IEnumerable<DateTime> RangePeriod { get; set; }
+
         /// <summary>
         /// For change date method
         /// </summary>
