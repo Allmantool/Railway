@@ -242,6 +242,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 buttonText: function (options, select) {
                     return 'buttonText';
                 },
+                maxHeight: 300,
                 //buttonTitle: function (options, select) {
                 //    return '';
                 //},
@@ -262,7 +263,10 @@ appNomenclature.CustBundings = (function ($, ko) {
 
             //Custom disposal logic
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).multiselect("destroy");
+                //$(element).css('visibility', 'hidden');
+
+                $(element).remove();
+                $(element).multiselect('destroy');
             });
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {

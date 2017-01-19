@@ -13,14 +13,17 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         charges: ko.observableArray(undefined),
         filters: ko.observableArray(undefined),
         _filterState: ko.pureComputed(function () {
+            var result = true;
             $.each(self.filters(), function (idx, item) {
                 if (item.CheckedValues().length === 0) {
-                    return false;
+                    result = false;
+                    console.log('counter');
+                    return;
                 }
             });
 
             //ok state (if all)
-            return true;
+            return result;
         }, self)
     };
 
@@ -75,7 +78,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         var link = $(formNode).attr('action');
 
         if (!self._filterState()) {
-            self.alert().statusMsg('Не все фильтры указаны!').alertType('alert-danger').mode(true);
+            _parent.alert().statusMsg('Не все фильтры указаны!').alertType('alert-warning').mode(true);
+
             //exit
             return;
         }
@@ -94,7 +98,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
                 _parent.loadingState(false);
                 _parent.alert().statusMsg('Результат фильтра: ' + self.charges().length + ' записей!').alertType('alert-success').mode(true);
             },
-            error: function () { self.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
+            error: function () { _parent.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
         });
     };
 

@@ -50,24 +50,5 @@
         @{ Html.RenderPartial("_krtNaftanRows");}
     </tbody>
 </table>
-<div class="navbar navbar-default navbar-fixed-bottom" style="display: none;" data-bind="with: $root, visible: true, css:{'display': 'table-footer-group', backgroundCcolor: 'rgb(231, 255, 255)'}">
-    <div class="container-fluid">
-        <label class="col-lg-3 control-label nav navbar-text">&copy; 2016 ОАО "Нафтан"</label>
-
-        <div class="navbar-btn">@{ Html.RenderPartial("_AjaxPagging");}</div>
-
-        <div data-bind="popover: { content: 'Количество записей на странице'}" class="nav pull-right">
-            <select data-bind="value: $root.rowsPerPage, event: {change: $root.changeCountPerPage}"
-                    class="form-control" name="perPage">
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="500">500</option>
-            </select>
-        </div>
-    </div>
-</div>
 <!--Don't support in partial view (this html helper alternative-->
 @*@Html.Script(@<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>)*@

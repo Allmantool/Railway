@@ -36,8 +36,8 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
 
     self.moveToPage = function (root, ev, parent) {
         var self = parent || this;
-
-        var $requestlink = $(ev)[0].target.href;
+        var $el = $(ev.target)
+        var $requestlink = $el.is('a') ? $el.attr('href') : $el.parents('a').attr('href');
 
         self.init({
             url: $requestlink
@@ -50,7 +50,7 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
         }
     };
 
-    self.nextPage = function (parent, ev) {
+    self.nextPage = function (parent, ev, link) {
         if (self.CurrentPage() < self.allPages().length) {
             self.moveToPage(null, ev, parent);
         }

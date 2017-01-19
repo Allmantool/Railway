@@ -173,14 +173,14 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function changeCountPerPage(link, ev) {
         init({
-            url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
+            url: self.pagging().getPageUrl() + 1,
             data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
         }, self);
     };
 
     function changePeriodMonth() {
         init({
-            url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
+            url: self.pagging().getPageUrl() + 1,
             data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
         }, self);
     };
@@ -212,7 +212,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             init({
                 url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
-                data: { "initialSizeItem": self.rowsPerPage() , "period": self.wrkSelPeriod() }
+                data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
             }, self);
 
             self.alert().statusMsg('Перечень №' + src.NKRT() + ' успешно удален!').alertType('alert-success').mode(true);

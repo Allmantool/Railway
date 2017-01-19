@@ -588,6 +588,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_EditRowsModal.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\UserInterface\_QuickMenu.cshtml" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_GridButtomKO.cshtml" />
     <None Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <None Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
     <Content Include="Content\images\logo.gif" />
@@ -670,6 +671,8 @@
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
     <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\GeneralJs\_General.js" />
+    <Content Include="Scripts\knockout.validation.js" />
+    <Content Include="Scripts\knockout.validation.min.js" />
     <Content Include="Scripts\modernizr.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -793,6 +796,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sammy-0.7.5.js" />
+    <Content Include="Scripts\sammy-0.7.5.min.js" />
     <Content Include="Scripts\selectivizr-1.0.2.js" />
     <Content Include="Scripts\selectivizr-1.0.2.min.js" />
     <Content Include="Scripts\NomenclatureJs\_Scrolls.js" />
@@ -824,6 +829,7 @@
     <Content Include="Views\Shared\_Layout.HttpErrors.cshtml" />
     <Content Include="Views\Account\SingUp.cshtml" />
     <Content Include="Views\HttpError\NotAuthorized.cshtml" />
+    <Content Include="Scripts\knockout.validation.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

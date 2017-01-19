@@ -20,6 +20,7 @@ namespace NaftanRailway.WebUI {
 
             AreaRegistration.RegisterAllAreas();
 
+            //GlobalConfiguration.Configure(WebApiConfig.Register);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             // This method call registers all filters 

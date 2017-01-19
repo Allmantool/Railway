@@ -18,8 +18,8 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/jquery-2.2.4.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
-                .Include("~/Scripts/jquery.cookie-1.4.1.min.js",
-                         "~/Scripts/jquery-ui-1.11.4.min.js",
+                .Include("~/Scripts/jquery.cookie-{version}.min.js",
+                         "~/Scripts/jquery-ui-{version}.min.js",
                          "~/Scripts/jquery.validate.min.js",
                          "~/Scripts/jquery.validate.unobtrusive.min.js",
                          "~/Scripts/jquery.unobtrusive-ajax.min.js",
@@ -30,23 +30,27 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/bootstrap-datepicker.min.js",
                          "~/Content/locales/bootstrap-datepicker.ru.min.js",
                          "~/Scripts/bootstrap-multiselect.js",
-                         "~/Scripts/moment-with-locales.min.js"));
+                         "~/Scripts/moment-with-locales.min.js",
+                         "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8").NonOrdering()
                 .Include("~/Scripts/modernizr-custom.js",
                          "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js").NonOrdering()
-                .Include("~/Scripts/knockout-3.4.1.js",
+                .Include("~/Scripts/knockout-{version}.js",
+                         "~/Scripts/knockout.validation.min.js",
                          "~/Scripts/knockout.mapping-latest.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
+                .Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/RailwayJs/_Guild18.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
+                .Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
-                        "~/Scripts/NomenclatureJs/DataContext.js")
+                         "~/Scripts/NomenclatureJs/DataContext.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js")
                 .Include("~/Scripts/NomenclatureJs/MainVM.js")
