@@ -698,8 +698,6 @@
     <Content Include="Scripts\jquery-tmpl.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
-    <Content Include="Scripts\jquery.cookie-1.4.1.min.js" />
-    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />

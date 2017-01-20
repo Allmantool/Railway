@@ -127,7 +127,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             //modal date
             self.periodModal.period(self.currScr().DTBUHOTCHET());
             //period + list index select
-            self.wrkPeriods(data.RangePeriod);
+            self.wrkPeriods(data.RangePeriod.reverse());
+
             //pagging
             self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
         }, $merged);

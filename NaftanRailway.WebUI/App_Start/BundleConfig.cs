@@ -4,42 +4,49 @@ using System.Web.Optimization;
 namespace NaftanRailway.WebUI {
     public static class BundleConfig {
         // Дополнительные сведения о Bundling см. по адресу http://go.microsoft.com/fwlink/?LinkId=254725
+
+        //Tips:
+        //Microsoft.AspNet.Web.Optimization not include *.min.js in budle by default
+        //By default, MVC will search for a matching file with .min.js and include that  (not entirely sure if it trys to minify further).
+        //If not, it creates a minified version. You can test this by adding the following to BundleConfig.cs
+        //You can skip minification simply by creating bundles with no transform, i.e.don't create ScriptBundles, just normal Bundles.
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.IgnoreList.Clear();
 
             //*************************************************************** JS scripts *****************************************************************/
-            bundles.Add(new ScriptBundle("~/bundles/Modernizn", "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js")
-                .Include("~/Scripts/modernizr.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/Modernizn", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js")
+                .Include("~/Scripts/modernizr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery1", "//code.jquery.com/jquery-1.11.3.min.js")
-                .Include("~/Scripts/jquery-1.11.3.min.js"));
+                .Include("~/Scripts/jquery-1.11.3.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/JQuery2", "//code.jquery.com/jquery-2.2.4.min.js")
-                .Include("~/Scripts/jquery-2.2.4.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/JQuery2", "//code.jquery.com/jquery-{version}.min.js")
+                .Include("~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
-                .Include("~/Scripts/jquery.cookie-{version}.min.js",
-                         "~/Scripts/jquery-ui-{version}.min.js",
-                         "~/Scripts/jquery.validate.min.js",
-                         "~/Scripts/jquery.validate.unobtrusive.min.js",
-                         "~/Scripts/jquery.unobtrusive-ajax.min.js",
-                         "~/Scripts/bundle/html5/jquery.history.js"));
+                .Include("~/Scripts/jquery-ui-{version}.js",
+                         "~/Scripts/jquery.validate.js",
+                         "~/Scripts/jquery.validate.unobtrusive.js",
+                         "~/Scripts/jquery.unobtrusive-ajax.js"
+                         //"~/Scripts/bundle/html5/jquery.history.js"
+                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/BootsrapUI").NonOrdering()
-                .Include("~/Scripts/bootstrap.min.js",
-                         "~/Scripts/bootstrap-datepicker.min.js",
-                         "~/Content/locales/bootstrap-datepicker.ru.min.js",
+                .Include("~/Scripts/bootstrap.js",
+                         "~/Scripts/bootstrap-datepicker.js",
+                         "~/Content/locales/bootstrap-datepicker.ru.js",
                          "~/Scripts/bootstrap-multiselect.js",
-                         "~/Scripts/moment-with-locales.min.js",
-                         "~/Scripts/respond.min.js"));
+                         "~/Scripts/moment-with-locales.js",
+                         "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8").NonOrdering()
                 .Include("~/Scripts/modernizr-custom.js",
-                         "~/Scripts/respond.min.js"));
+                         "~/Scripts/respond.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-3.4.0.js").NonOrdering()
+            //cnd link means replace all bundle ( in this case it will not valid = > because link to one file <> 3 links in bundle
+            bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-{version}.js").NonOrdering()
                 .Include("~/Scripts/knockout-{version}.js",
-                         "~/Scripts/knockout.validation.min.js",
+                         //"~/Scripts/knockout.validation.min.js",
                          "~/Scripts/knockout.mapping-latest.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
@@ -60,12 +67,13 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/NomenclatureJs/_Scrolls.js"));
 
             //*************************************************************** CSS styles *****************************************************************/
+            #region CSS Bundles
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
-                .Include("~/Content/bootstrap.min.css",
+                .Include("~/Content/bootstrap.css",
                          "~/Content/bootstrap-multiselect.css",
-                         "~/Content/bootstrap-theme.min.css",
-                         "~/Content/bootstrap-datetimepicker.min.css",
-                         "~/Content/bootstrap-datepicker3.min.css",
+                         "~/Content/bootstrap-theme.css",
+                         "~/Content/bootstrap-datetimepicker.css",
+                         "~/Content/bootstrap-datepicker3.css",
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
                          //conflict with jquery ui icons (dialog close btn)
@@ -80,10 +88,10 @@ namespace NaftanRailway.WebUI {
             bundles.Add(new StyleBundle("~/Content/Rail").NonOrdering()
                 .Include("~/Content/GeneralCustomCSS/_General.css",
                          "~/Content/Guild18CSS/_Guild18.css"));
-
+            #endregion
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = false;
-            bundles.UseCdn = true;
+            BundleTable.EnableOptimizations = true;
+            bundles.UseCdn = false;
         }
     }
 
@@ -97,6 +105,7 @@ namespace NaftanRailway.WebUI {
             return bundle;
         }
     }
+
     /// <summary>
     /// Set up order in bundles
     /// </summary>
