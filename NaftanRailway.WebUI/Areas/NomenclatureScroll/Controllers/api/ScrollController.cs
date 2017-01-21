@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 
-namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
+namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
     public class APIScrollController : ApiController {
         public HttpResponseMessage GetScroll() {
             var result = true;

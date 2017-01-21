@@ -29,6 +29,7 @@
         <tr class="filter-menu">
             <th data-bind="with: $root.scrollDetails" colspan="19">
                 @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Post, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
+                    @Html.AntiForgeryToken();
                     { Html.RenderPartial("_FilterMenu"); }
                 }
             </th>
@@ -45,6 +46,8 @@
     </tfoot>*@
     <!-- /ko -->
 </table>
+
+@{ Html.RenderPartial("_GridButtomKO");}
 
 <!--Quick Menu -->
 @{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}

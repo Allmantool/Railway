@@ -13,9 +13,12 @@ namespace NaftanRailway.WebUI {
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.IgnoreList.Clear();
 
-            //*************************************************************** JS scripts *****************************************************************/
-            bundles.Add(new ScriptBundle("~/bundles/Modernizn", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js")
-                .Include("~/Scripts/modernizr.js"));
+//*************************************************************** JS scripts *****************************************************************/
+            bundles.Add(new ScriptBundle("~/bundles/CrossBr", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js").NonOrdering()
+                .Include(
+                    "~/Scripts/modernizr-{version}.js",
+                    "~/Scripts/respond.js"
+             ));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery1", "//code.jquery.com/jquery-1.11.3.min.js")
                 .Include("~/Scripts/jquery-1.11.3.js"));
@@ -37,10 +40,6 @@ namespace NaftanRailway.WebUI {
                          "~/Content/locales/bootstrap-datepicker.ru.js",
                          "~/Scripts/bootstrap-multiselect.js",
                          "~/Scripts/moment-with-locales.js",
-                         "~/Scripts/respond.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/BootstrapIE8").NonOrdering()
-                .Include("~/Scripts/modernizr-custom.js",
                          "~/Scripts/respond.js"));
 
             //cnd link means replace all bundle ( in this case it will not valid = > because link to one file <> 3 links in bundle
@@ -66,7 +65,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/NomenclatureJs/koComponentsAndCustomElement/koComponents.js")
                 .Include("~/Scripts/NomenclatureJs/_Scrolls.js"));
 
-            //*************************************************************** CSS styles *****************************************************************/
+//*************************************************************** CSS styles *****************************************************************/
             #region CSS Bundles
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
                 .Include("~/Content/bootstrap.css",
@@ -90,7 +89,7 @@ namespace NaftanRailway.WebUI {
                          "~/Content/Guild18CSS/_Guild18.css"));
             #endregion
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
             bundles.UseCdn = false;
         }
     }

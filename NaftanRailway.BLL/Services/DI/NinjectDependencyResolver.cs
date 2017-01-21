@@ -15,6 +15,10 @@ namespace NaftanRailway.BLL.Services.DI {
     public class NinjectDependencyResolver : IDependencyResolver {
         private readonly IKernel _kernel;
 
+        public NinjectDependencyResolver() : this(new StandardKernel()) {
+
+        }
+
         public NinjectDependencyResolver(IKernel kernel) {
             _kernel = kernel;
             AddBindings();

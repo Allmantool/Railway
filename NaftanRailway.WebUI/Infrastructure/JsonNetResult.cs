@@ -2,6 +2,8 @@
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Text;
 
 namespace NaftanRailway.WebUI.Infrastructure {
     /// <summary>
@@ -9,12 +11,13 @@ namespace NaftanRailway.WebUI.Infrastructure {
     /// What we basically need to do is to extend the JsonResult class and create new functionality for the ExecuteResult method. 
     /// We then get the opportunity to select ourselves how we want to serialize the Json data and can thus use the JsonSerializer from Json.NET instead.
     /// </summary>
-    public class JsonNetResult:JsonResult {
-        public JsonSerializerSettings Settings { get;private set; }
+    public class JsonNetResult : JsonResult {
+        public JsonSerializerSettings Settings { get; private set; }
 
         public JsonNetResult() {
             Settings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 //DateFormatString = "dd.MM.yyyy"
             };
         }
@@ -32,11 +35,12 @@ namespace NaftanRailway.WebUI.Infrastructure {
                 return;
 
             response.ContentType = string.IsNullOrEmpty(ContentType) ? "application/json" : ContentType;
+            response.ContentEncoding = Encoding.UTF8;
 
             var scriptSerializer = JsonSerializer.Create(Settings);
 
             //Serialize the data to the Output stream of the response
-            scriptSerializer.Serialize(response.Output,Data);
+            scriptSerializer.Serialize(response.Output, Data);
         }
     }
 }

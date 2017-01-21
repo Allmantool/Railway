@@ -34,7 +34,7 @@
     <td data-bind="text: moment(DATE_OBRABOT()).format('DD.MM.YYYY HH:MM:SS')"></td>
     <td><span data-bind="text: CounterVersion(), visible: CounterVersion() > 1"></span></td>
     <td style="white-space: nowrap">
-        <button data-bind="click: $root.viewScrDetails.bind($data,'@Url.Action("ScrollDetails", "Scroll")' + '/' + $data.srcKey()), clickBubble: false, popover:{content: 'Информация по перечню'}"
+        <button data-bind="click: $root.viewScrDetails.bind($data,'@Url.Action("ScrollDetails", "Scroll")' + '/' + $data.srcKey()), clickBubble: false, popover:{content: 'Просмотреть сборы по перечню'}"
                 type="button" aria-label="info"
                 class="btn btn-sm btn-info">
             <span class="glyphicon glyphicon-list-alt"></span>
@@ -44,7 +44,7 @@
                 class="btn btn-sm btn-success">
             <span class="glyphicon glyphicon-ok-sign"></span>
         </button>
-        <button data-bind="click: $root.removeSrc.bind($data, '@Url.Action("Delete", "Scroll")'), clickBubble: false, popover: {content: 'Удалить перечень'}"
+        <button data-bind="click: $root.removeSrc.bind($data, '@Url.Action("Delete", "Scroll")'), clickBubble: false, popover: {content: 'Удалить информацию о перечне и всёх сборах по нему'}"
                 type="button" aria-label="delete"
                 class="btn btn-sm btn-danger">
             <span class="glyphicon glyphicon-trash"></span>

@@ -194,7 +194,8 @@ appNomenclature.CustBundings = (function ($, ko) {
                 display: "none",
                 position: "fixed",
                 top: "50%",
-                width: "100%"
+                width: "100%",
+                zIndex: 9999,
             };
             //structure element
             $(element).css(style)

@@ -56,7 +56,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return PartialView("_AjaxTableKrtNaftan", result);
             }
-
+            
             //AD DS
             ViewBag.UserName = ADUserName;
 
@@ -145,7 +145,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, byte initialSizeItem = 180, bool asService = false) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, byte initialSizeItem = 15, bool asService = false) {
             if (Request.IsAjaxRequest()) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
@@ -174,7 +174,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         [HttpPost]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 180, bool asService = false) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 

@@ -225,6 +225,10 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net40-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net4\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
@@ -350,7 +354,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ManagmentController.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Controllers\APIScrollController.cs" />
+    <Compile Include="Areas\NomenclatureScroll\Controllers\api\ScrollController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\BaseController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\UserInterfaceController.cs" />
@@ -789,7 +793,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\modernizr-custom.js" />
+    <Content Include="Scripts\modernizr-3.3.1.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
