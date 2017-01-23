@@ -28,7 +28,7 @@
         <!--Grid filter-->
         <tr class="filter-menu">
             <th data-bind="with: $root.scrollDetails" colspan="19">
-                @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Post, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
+                @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Get, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
                     @Html.AntiForgeryToken();
                     { Html.RenderPartial("_FilterMenu"); }
                 }
@@ -39,15 +39,11 @@
     <tbody data-bind="foreach: charges(), visible: true, css:{overlayTable: $root.loadingState()}" style="display: none;" class="text-center" id="chargeOfList">
         @{ Html.RenderPartial("_KrtNaftan_ORC_SAPODRows");}
     </tbody>
-    @*<tfoot data-bind="if: charges().length > 0">
-        <tr>
-            <th colspan="19">&copy; 2016 ОАО "Нафтан" @{ Html.RenderPartial("_AjaxPagging");}</th>
-        </tr>
-    </tfoot>*@
     <!-- /ko -->
 </table>
-
-@{ Html.RenderPartial("_GridButtomKO");}
+<!-- ko with: $root.scrollDetails -->
+    @{ Html.RenderPartial("_GridButtomKO");}
+ <!-- /ko -->
 
 <!--Quick Menu -->
 @{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}

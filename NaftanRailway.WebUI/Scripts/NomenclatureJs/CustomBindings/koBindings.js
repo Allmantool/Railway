@@ -62,7 +62,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 content: "",
                 //selector: false,
                 template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
-                html: false,
+                html: true,
                 trigger: "hover",
                 viewport: { selector: "body", padding: 0 }
             };

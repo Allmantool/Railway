@@ -10,6 +10,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
     var self = {
         pagging: ko.observable(),
+        rowsPerPage: ko.observable(15),
         charges: ko.observableArray(undefined),
         filters: ko.observableArray(undefined),
         _filterState: ko.pureComputed(function () {
@@ -61,6 +62,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
         //work with options
         var defaults = {
+            data: { "initialSizeItem": self.rowsPerPage(), 'filters': self.filters() },
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
@@ -102,9 +104,17 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         });
     };
 
+    function changeCountPerPage(link, ev) {
+        init({
+            url: self.pagging().getPageUrl() + 1,
+        }, _parent);
+    };
+
     return {
         init: init,
         applyFilter: applyFilter,
+        changeCountPerPage: changeCountPerPage,
+        rowsPerPage: self.rowsPerPage,
         pagging: self.pagging,
         charges: self.charges,
         filters: self.filters

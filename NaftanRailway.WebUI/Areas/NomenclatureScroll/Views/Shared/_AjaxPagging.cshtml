@@ -1,5 +1,4 @@
-﻿
-<ul class="pagination nav navbar-nav">
+﻿<ul class="pagination nav navbar-nav">
     <li data-bind="css:{disabled: $parent.pagging().CurrentPage() <= 1 }">
         <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === 1 ? 1 : $parent.pagging().CurrentPage() - 1)},
                       click: $parent.pagging().previousPage"

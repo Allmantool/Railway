@@ -1,28 +1,29 @@
-﻿<div class="navbar navbar-default navbar-fixed-bottom" style="display: none;" data-bind="with: $root, visible: true, css:{'display': 'table-footer-group', backgroundCcolor: 'rgb(231, 255, 255)'}">
+﻿<div class="navbar navbar-default navbar-fixed-bottom" style="display: none;"
+     data-bind="with: $root, visible: true, css:{'display': 'table-footer-group', backgroundCcolor: 'rgb(231, 255, 255)'}">
     <div class="container-fluid">
         <label class="col-lg-3 control-label nav navbar-text">&copy; 2016 ОАО "Нафтан"</label>
 
-        <nav class="col-lg-6 text-center" aria-label="...">
+        <nav data-bind="with: $parent" class="col-lg-6 text-center" aria-label="...">
             <ul class="pager" style="margin-top: 0.6em;">
-                <li data-bind="popover: { content: 'Назад'}, css: {disabled : $parent.pagging().CurrentPage() === 1 }">
-                    <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === 1 ? 1 : $parent.pagging().CurrentPage() - 1)},
-                                  click: $parent.pagging().previousPage, clickBubble: false">
+                <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().CurrentPage() === 1 }">
+                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === 1 ? 1 : pagging().CurrentPage() - 1)},
+                                  click: pagging().previousPage, clickBubble: false">
                         <span aria-hidden="true">&larr;</span>
                     </a>
                 </li>
-                <li data-bind="text: $parent.pagging().CurrentPage() + ' из ' + $parent.pagging().allPages().length"></li>
+                <li data-bind="text: pagging().CurrentPage() + ' из ' + pagging().allPages().length"></li>
 
-                <li data-bind="popover: { content: 'Вперед'}, css: {disabled : $parent.pagging().CurrentPage() === $parent.pagging().allPages().length}">
-                    <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === $parent.pagging().allPages() ? $parent.pagging().allPages() : $parent.pagging().CurrentPage() + 1)},
-                                  click: $parent.pagging().nextPage, clickBubble: false">
+                <li data-bind="popover: { content: 'Вперед'}, css: {disabled : pagging().CurrentPage() === pagging().allPages().length}">
+                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === pagging().allPages() ? pagging().allPages() : pagging().CurrentPage() + 1)},
+                                  click: pagging().nextPage, clickBubble: false">
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                 </li>
             </ul>
         </nav>
 
-        <div data-bind="popover: { content: 'Количество записей на странице'}" class="col-lg-3 navbar-form pull-right">
-            <select data-bind="value: $root.rowsPerPage, event: {change: $root.changeCountPerPage}"
+        <div data-bind="with: $parent, popover: { content: 'Количество записей на странице'}" class="col-lg-3 navbar-form pull-right">
+            <select data-bind="value: rowsPerPage, event: {change: changeCountPerPage}"
                     class="form-control" name="perPage">
                 <option value="10">10</option>
                 <option value="15">15</option>

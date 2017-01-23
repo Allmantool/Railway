@@ -5,7 +5,7 @@ var appNomenclature = window.appNomenclature || {};
 
 //constuctor
 appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
-    var self = this, _parent = parent, _visibleLimit = 10;
+    var self = this, _parent = parent, _visibleLimit = 15;
 
     //динамически копируем свойства
     self = $.extend(true, self, ko.mapping.fromJS(parentObj));

@@ -24,7 +24,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Engage = engage;
         }
 
-        public IEnumerable<T> SkipTable<T>(int page, DateTime? period, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null) {
+        public IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null) {
             if (predicate != null) {
                 //convert type
                 var filterPredicate = PredicateExtensions.ConvertTypeExpression<ScrollLineDTO, krt_Naftan>(predicate.Body);
@@ -34,15 +34,28 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
         }
-        public IEnumerable<T> SkipTable<T>(long key, int page, int initialSizeItem) {
+        public IEnumerable<OutT> SkipTable<inT, OutT>(long key, int page, int initialSizeItem, Expression<Func<inT, bool>> filter = null, Expression<Func<inT, object>> order = null) {
 
-            //var @switch = new Dictionary<Type, IEnumerable<T>> {
-            //    { typeof(ScrollLineDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, null, x => x.KEYKRT == key))},
-            //    { typeof(ScrollDetailDTO), (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == key)) },
-            //};
-            //@switch[typeof(T)];
+            //var filter = PredicateExtensions.ConvertTypeExpression<krt_Naftan_orc_sapod, ScrollDetailDTO>(finalPredicate.Expand().Body);
 
-            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, x => x.keykrt == key));
+            return (IEnumerable<OutT>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(
+                Engage.GetSkipRows<inT, object>(page, initialSizeItem, order , filter));
+        }
+
+        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem) {
+            //upply filters(linqKit)
+            if (filters != null) {
+                var finalPredicate = filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
+                    .And(x => x.keykrt == key), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
+
+                Expression<Func<krt_Naftan_orc_sapod, object>> orderPredicate = x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt };
+
+                return SkipTable<krt_Naftan_orc_sapod, ScrollDetailDTO>(key, page, initialSizeItem, finalPredicate, orderPredicate);
+            }
+
+            var rows = SkipTable<ScrollDetailDTO>(key, page, initialSizeItem);
+
+            return rows;
         }
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
@@ -222,17 +235,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     NameDescription = "Период:"
                 },
             };
-        }
-
-        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem, out long recordCount) {
-            //upply filters(linqKit)
-            var finalPredicate = filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
-                .And(x => x.keykrt == key), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
-
-            var srcRows = Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, out recordCount,
-                   x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt }, finalPredicate.Expand()).ToList();
-
-            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(srcRows);
         }
 
         public byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = "rs:Format=Excel") {

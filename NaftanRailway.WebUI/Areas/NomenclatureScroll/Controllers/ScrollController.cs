@@ -39,7 +39,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 Expression<Func<ScrollLineDTO, bool>> predicate = x => x.DTBUHOTCHET == period || ((period == null) == true);
 
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, period, initialSizeItem, out recordCount, predicate),
+                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, initialSizeItem, out recordCount, predicate),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
@@ -145,22 +145,22 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, int page = 1, byte initialSizeItem = 15, bool asService = false) {
-            if (Request.IsAjaxRequest()) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
                 if (findKrt != null) {
                     var result = new DetailModelView() {
                         Scroll = findKrt,
-                        Filters = _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
+                        Filters = filters ?? _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
                         PagingInfo = new PagingInfo {
                             CurrentPage = page,
                             ItemsPerPage = initialSizeItem,
                             TotalItems = findKrt.RecordCount,
                             RoutingDictionary = Request.RequestContext.RouteData.Values
                         },
-                        ListDetails = _bussinesEngage.SkipTable<ScrollDetailDTO>(findKrt.KEYKRT, page, initialSizeItem)
-                    };
+                        ListDetails = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem)
+                };
 
                     if (result.ListDetails.Any() && asService) {
                         return Json(result, JsonRequestBehavior.AllowGet);
@@ -173,35 +173,35 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             return View();
         }
 
-        [HttpPost]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
+        //[HttpPost]
+        //public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
+        //    if (Request.IsAjaxRequest() && ModelState.IsValid) {
+        //        var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
-                long recordCount;
-                var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
+        //        long recordCount;
+        //        var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
 
-                var result = new DetailModelView() {
-                    Scroll = findKrt,
-                    Filters = filters,
-                    PagingInfo = new PagingInfo {
-                        CurrentPage = page,
-                        ItemsPerPage = initialSizeItem,
-                        TotalItems = recordCount,
-                        RoutingDictionary = Request.RequestContext.RouteData.Values
-                    },
-                    ListDetails = srcRows
-                };
+        //        var result = new DetailModelView() {
+        //            Scroll = findKrt,
+        //            Filters = filters,
+        //            PagingInfo = new PagingInfo {
+        //                CurrentPage = page,
+        //                ItemsPerPage = initialSizeItem,
+        //                TotalItems = recordCount,
+        //                RoutingDictionary = Request.RequestContext.RouteData.Values
+        //            },
+        //            ListDetails = srcRows
+        //        };
 
-                if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
-                }
+        //        if (asService) {
+        //            return Json(result, JsonRequestBehavior.DenyGet);
+        //        }
 
-                return PartialView("_AjaxTableKrtNaftan", result);
-            }
+        //        return PartialView("_AjaxTableKrtNaftan", result);
+        //    }
 
-            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
-        }
+        //    return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
+        //}
 
         /// <summary>
         /// General method for donwload files or display report throught SSRS

@@ -174,15 +174,13 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function changeCountPerPage(link, ev) {
         init({
-            url: self.pagging().getPageUrl() + 1,
-            data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
+            url: self.pagging().getPageUrl() + 1
         }, self);
     };
 
     function changePeriodMonth() {
         init({
-            url: self.pagging().getPageUrl() + 1,
-            data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
+            url: self.pagging().getPageUrl() + 1
         }, self);
     };
 

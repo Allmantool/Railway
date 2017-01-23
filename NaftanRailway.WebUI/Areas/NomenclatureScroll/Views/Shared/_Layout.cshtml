@@ -1,4 +1,18 @@
 ﻿@using NaftanRailway.WebUI.HtmlHelpers
+@{ 
+    var browser = @Request.Browser;
+    var browserInfo = String.Format("Browser: {0} {1},<br /> EcmaScript: {2},<br /> JavaScript: {3},<br /> Platform: {4},<br /> Cookies: {5},<br /> ActiveXControls: {6},<br /> JavaApplets {7},<br /> Frames: {8}", 
+        browser.Browser, 
+        browser.Version, 
+        browser.EcmaScriptVersion.ToString(),
+        browser["JavaScriptVersion"],
+        browser.Platform,
+        browser.Cookies,
+        browser.ActiveXControls,
+        browser.JavaApplets,
+        browser.Frames
+        );
+}
 <!DOCTYPE HTML>
 <html style="width: 100%;">
 <head>
@@ -81,7 +95,8 @@
                     <div class="col-md-2">
                         <ul class="nav navbar-nav navbar-right">
                             @*<li class="pull-right"><a href="#">Настройка <span class="glyphicon glyphicon-cog"></span></a></li>*@
-                            <li class="pull-right" data-bind="popover:{title: 'Текущий AD пользователь', content: 'Что-нибудь еще:', placement: 'left'}">
+                            <li class="pull-right" 
+                                data-bind="popover:{title: 'Поддержка web стандартов', content: '@browserInfo', placement: 'left'}">
                                 <a class="text-center" href="#">@ViewBag.UserName <span class="glyphicon glyphicon-user"></span></a>
                             </li>
                         </ul>
@@ -119,6 +134,6 @@
     @RenderSection("Scripts", required: false)
 
     <!--MVC by default not support section in partial views (this's alternative path => html helper-->
-    @Html.RenderScripts()
+    @*@Html.RenderScripts()*@
 </body>
 </html>
