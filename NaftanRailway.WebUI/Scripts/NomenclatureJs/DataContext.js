@@ -19,15 +19,19 @@ appNomenclature.DataContext = (function ($) {
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             accept: 'application/json',
-            data: { "asService": true },
-            beforeSend: function(){},
+            data: { 'asService': true },
+            beforeSend: function () { },
             complete: function () { },
             success: function (data) { callback(data); },
-            error: function (data) { 
-                console.log(data); }
+            error: function (data) {
+                console.log(data);
+            }
         };
 
-        var $merged = $.extend(true, defaults, opts);
+        var $merged = $.extend(true, {}, defaults, opts);
+
+        //json to string
+        //$merged.data = JSON.stringify($merged.data);
 
         if ($.isFunction(callback)) {
             $.ajax($merged);

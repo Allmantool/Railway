@@ -62,7 +62,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
         //work with options
         var defaults = {
-            data: { "initialSizeItem": self.rowsPerPage(), 'filters': self.filters() },
+            //type: "Post",
+            data: { "initialSizeItem": self.rowsPerPage() },
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
@@ -90,11 +91,12 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             _updateSrcByKey(opts);
         }, {
             url: link,
-            type: "Post",
-            data: ko.mapping.toJSON({
-                'filters': self.filters(),
-                'asService': true
-            }),
+            dataType: 'json',
+            //type: "Post", // type of request change needing struchure of send data
+            data: {
+                "initialSizeItem": self.rowsPerPage(),
+                "[0]": ko.mapping.toJS(self.filters()[0])
+            },
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);

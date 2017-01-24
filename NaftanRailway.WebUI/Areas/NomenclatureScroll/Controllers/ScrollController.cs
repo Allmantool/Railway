@@ -64,6 +64,40 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         /// <summary>
+        /// Return krt_Naftan_orc_sapod
+        /// Detail gathering of one scroll 
+        /// </summary>
+        /// <returns></returns>
+        //[HttpGet]
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 15, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+                var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
+
+                if (findKrt != null) {
+                    var result = new DetailModelView() {
+                        Scroll = findKrt,
+                        Filters = filters ?? _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
+                        PagingInfo = new PagingInfo {
+                            CurrentPage = page,
+                            ItemsPerPage = initialSizeItem,
+                            TotalItems = findKrt.RecordCount,
+                            RoutingDictionary = Request.RequestContext.RouteData.Values
+                        },
+                        ListDetails = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem)
+                    };
+
+                    if (result.ListDetails.Any() && asService) {
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    } else {
+                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
+        }
+
+        /// <summary>
         /// Change Buh Data
         /// </summary>
         /// <param name="model"></param>
@@ -138,70 +172,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
-
-        /// <summary>
-        /// Return krt_Naftan_orc_sapod
-        /// Detail gathering of one scroll 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
-
-                if (findKrt != null) {
-                    var result = new DetailModelView() {
-                        Scroll = findKrt,
-                        Filters = filters ?? _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
-                        PagingInfo = new PagingInfo {
-                            CurrentPage = page,
-                            ItemsPerPage = initialSizeItem,
-                            TotalItems = findKrt.RecordCount,
-                            RoutingDictionary = Request.RequestContext.RouteData.Values
-                        },
-                        ListDetails = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem)
-                };
-
-                    if (result.ListDetails.Any() && asService) {
-                        return Json(result, JsonRequestBehavior.AllowGet);
-                    } else {
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);
-                    }
-                }
-            }
-
-            return View();
-        }
-
-        //[HttpPost]
-        //public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, byte initialSizeItem = 15, bool asService = false) {
-        //    if (Request.IsAjaxRequest() && ModelState.IsValid) {
-        //        var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
-
-        //        long recordCount;
-        //        var srcRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
-
-        //        var result = new DetailModelView() {
-        //            Scroll = findKrt,
-        //            Filters = filters,
-        //            PagingInfo = new PagingInfo {
-        //                CurrentPage = page,
-        //                ItemsPerPage = initialSizeItem,
-        //                TotalItems = recordCount,
-        //                RoutingDictionary = Request.RequestContext.RouteData.Values
-        //            },
-        //            ListDetails = srcRows
-        //        };
-
-        //        if (asService) {
-        //            return Json(result, JsonRequestBehavior.DenyGet);
-        //        }
-
-        //        return PartialView("_AjaxTableKrtNaftan", result);
-        //    }
-
-        //    return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
-        //}
 
         /// <summary>
         /// General method for donwload files or display report throught SSRS

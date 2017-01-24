@@ -20,10 +20,9 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="recordCount"> return whole amount of rows</param>
         /// <returns></returns>
         IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
-        IEnumerable<OutT> SkipTable<inT, OutT>(long key, int page, int initialSizeItem, Expression<Func<inT, bool>> predicate = null, Expression<Func<inT, bool>> order = null);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
-        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem);
+        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem);
 
         /// <summary>
         /// Update linked filters base on src entity (table)

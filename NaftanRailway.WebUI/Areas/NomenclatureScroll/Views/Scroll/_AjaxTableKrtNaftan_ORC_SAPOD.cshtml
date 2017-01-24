@@ -28,7 +28,7 @@
         <!--Grid filter-->
         <tr class="filter-menu">
             <th data-bind="with: $root.scrollDetails" colspan="19">
-                @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Get, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
+                @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Post, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
                     @Html.AntiForgeryToken();
                     { Html.RenderPartial("_FilterMenu"); }
                 }

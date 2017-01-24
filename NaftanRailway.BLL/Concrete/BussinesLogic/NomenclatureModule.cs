@@ -34,28 +34,21 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
         }
-        public IEnumerable<OutT> SkipTable<inT, OutT>(long key, int page, int initialSizeItem, Expression<Func<inT, bool>> filter = null, Expression<Func<inT, object>> order = null) {
 
-            //var filter = PredicateExtensions.ConvertTypeExpression<krt_Naftan_orc_sapod, ScrollDetailDTO>(finalPredicate.Expand().Body);
+        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem) {
+            //order predicate
+            Expression<Func<krt_Naftan_orc_sapod, object>> order = x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt };
+            //filter predictate
+            Expression<Func<krt_Naftan_orc_sapod, bool>> where = x => x.keykrt == key;
 
-            return (IEnumerable<OutT>)Mapper.Map<IEnumerable<ScrollDetailDTO>>(
-                Engage.GetSkipRows<inT, object>(page, initialSizeItem, order , filter));
-        }
-
-        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, byte initialSizeItem) {
             //upply filters(linqKit)
             if (filters != null) {
-                var finalPredicate = filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>()
-                    .And(x => x.keykrt == key), (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()));
-
-                Expression<Func<krt_Naftan_orc_sapod, object>> orderPredicate = x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt };
-
-                return SkipTable<krt_Naftan_orc_sapod, ScrollDetailDTO>(key, page, initialSizeItem, finalPredicate, orderPredicate);
+                where = where.And(filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>(),
+                             (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())))
+                         .Expand();
             }
 
-            var rows = SkipTable<ScrollDetailDTO>(key, page, initialSizeItem);
-
-            return rows;
+            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, order, where));
         }
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
