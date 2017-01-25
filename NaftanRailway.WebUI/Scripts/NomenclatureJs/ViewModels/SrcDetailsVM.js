@@ -13,6 +13,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         rowsPerPage: ko.observable(15),
         charges: ko.observableArray(undefined),
         filters: ko.observableArray(undefined),
+        currChg: ko.observable(undefined),
         _filterState: ko.pureComputed(function () {
             var result = true;
             $.each(self.filters(), function (idx, item) {
@@ -25,6 +26,12 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
             //ok state (if all)
             return result;
+        }, self),
+        _exist: ko.pureComputed(function () {
+            //match by key
+            ko.utils.arrayFirst(self.charges(), function (item) {
+                return self.currChg() ? self.currChg().keysbor() === item.keysbor() : false;
+            });
         }, self)
     };
 
@@ -54,6 +61,9 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         };
 
         self.charges(ko.mapping.fromJS(rows, mappingOptions)());
+
+        ////default charge
+        if (!self._exist()) { self.currChg(self.charges()[0]); }
     };
 
     //behavior
@@ -62,8 +72,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
         //work with options
         var defaults = {
-            //type: "Post",
-            data: { "initialSizeItem": self.rowsPerPage() },
+            type: "Post",
+            data: ko.mapping.toJSON({ "initialSizeItem": self.rowsPerPage(), "asService": true, "filters": self.filters() }),
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
@@ -77,6 +87,13 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         }, $merged);
     }
 
+    function setActive(el, ev) {
+        //mark as selected
+        self.currChg(el);
+
+        return true;
+    }
+
     function applyFilter(formNode) {
         var link = $(formNode).attr('action');
 
@@ -87,23 +104,15 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             return;
         }
 
-        db.getScr(function (opts) {
-            _updateSrcByKey(opts);
-        }, {
-            url: link,
-            dataType: 'json',
-            //type: "Post", // type of request change needing struchure of send data
-            data: {
-                "initialSizeItem": self.rowsPerPage(),
-                "[0]": ko.mapping.toJS(self.filters()[0])
-            },
+        init({
+            url: self.pagging().getPageUrl() + 1,
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
                 _parent.alert().statusMsg('Результат фильтра: ' + self.charges().length + ' записей!').alertType('alert-success').mode(true);
             },
             error: function () { _parent.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
-        });
+        }, _parent);
     };
 
     function changeCountPerPage(link, ev) {
@@ -115,10 +124,12 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     return {
         init: init,
         applyFilter: applyFilter,
+        setActive: setActive,
         changeCountPerPage: changeCountPerPage,
         rowsPerPage: self.rowsPerPage,
         pagging: self.pagging,
         charges: self.charges,
-        filters: self.filters
+        filters: self.filters,
+        currChg: self.currChg
     };
 })(jQuery, ko, appNomenclature.DataContext);

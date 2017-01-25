@@ -372,4 +372,45 @@ appNomenclature.CustBundings = (function ($, ko) {
             });
         },
     };
+
+    //http://api.jqueryui.com/dialog/#option-show
+    ko.bindingHandlers.jqDialog = {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var self = this
+
+            var defaults = {
+                autoOpen: false,
+                closeOnEscape: true,
+                position: { my: "left top", at: "left bottom", of: element },
+                resizable: false,
+                width: 80,
+                title: "Find / Edit / Delete",
+                show: {
+                    effect: "blind",
+                    duration: 100
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 300
+                },
+            };
+
+            var $el = $(element), $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
+
+            $el.dialog($merged);
+
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(elemen).dialog("destroy");
+            });
+        },
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor();
+
+            if (ko.utils.unwrapObservable(value)) {
+                $(element).dialog('open');
+            } else {
+                $(element).dialog('close');
+            }
+        }
+    };
 }(jQuery, ko));

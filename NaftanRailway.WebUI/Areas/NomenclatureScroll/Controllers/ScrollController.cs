@@ -56,7 +56,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return PartialView("_AjaxTableKrtNaftan", result);
             }
-            
+
             //AD DS
             ViewBag.UserName = ADUserName;
 
@@ -68,25 +68,27 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Detail gathering of one scroll 
         /// </summary>
         /// <returns></returns>
-        //[HttpGet]
         public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 15, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
                 if (findKrt != null) {
+                    long recordCount;
+                    var chargeRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
+
                     var result = new DetailModelView() {
                         Scroll = findKrt,
                         Filters = filters ?? _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
                         PagingInfo = new PagingInfo {
                             CurrentPage = page,
                             ItemsPerPage = initialSizeItem,
-                            TotalItems = findKrt.RecordCount,
+                            TotalItems = recordCount,
                             RoutingDictionary = Request.RequestContext.RouteData.Values
                         },
-                        ListDetails = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem)
+                        ListDetails = chargeRows
                     };
 
-                    if (result.ListDetails.Any() && asService) {
+                    if (asService) {
                         return Json(result, JsonRequestBehavior.AllowGet);
                     } else {
                         return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);

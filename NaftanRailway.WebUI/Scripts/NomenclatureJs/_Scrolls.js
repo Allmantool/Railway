@@ -17,100 +17,100 @@ $(document).ready(function () {
 });
 
 /************************************MultiSelect Bootsrap plugin (_AjaxTableKrtNaftan_ORC_SAPOD.cshtml) ****************************************************/
-http://davidstutz.github.io/bootstrap-multiselect/*/
-    //function filterMenu(recieveData, status, e) {
-    //    var selRequest = "#filterForm div>select";
-    //    //if (recieveData.length > 0 && recieveData.length < 50) { selRequest = recieveData; } else { selRequest = "#filterForm div>select"; }
-    //    $(selRequest).each(function () {
-    //        var $this = $(this);
-    //        $this.multiselect({
-    //            includeSelectAllOption: true,
-    //            enableHTML: false,
-    //            disableIfEmpty: true,
-    //            disabledText: 'Нет значений ...',
-    //            nonSelectedText: 'Не выбрано ...',
-    //            buttonWidth: '230px',
-    //            maxHeight: '750px',
-    //            allSelectedText: "allSelectedText",
-    //            selectAllText: "Выбрать все",
-    //            inheritClass: true,
-    //            /*numberDisplayed: 3,*/
-    //            /*A function which is triggered on the change event of the options. 
-    //        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
-    //            //onChange: function (option) {
-    //            //    var $selMulti = $(option).parent('select');
+//http://davidstutz.github.io/bootstrap-multiselect/*/
+//function filterMenu(recieveData, status, e) {
+//    var selRequest = "#filterForm div>select";
+//    //if (recieveData.length > 0 && recieveData.length < 50) { selRequest = recieveData; } else { selRequest = "#filterForm div>select"; }
+//    $(selRequest).each(function () {
+//        var $this = $(this);
+//        $this.multiselect({
+//            includeSelectAllOption: true,
+//            enableHTML: false,
+//            disableIfEmpty: true,
+//            disabledText: 'Нет значений ...',
+//            nonSelectedText: 'Не выбрано ...',
+//            buttonWidth: '230px',
+//            maxHeight: '750px',
+//            allSelectedText: "allSelectedText",
+//            selectAllText: "Выбрать все",
+//            inheritClass: true,
+//            /*numberDisplayed: 3,*/
+//            /*A function which is triggered on the change event of the options. 
+//        Note that the event is not triggered when selecting or deselecting options using the select and deselect methods provided by the plugin.*/
+//            //onChange: function (option) {
+//            //    var $selMulti = $(option).parent('select');
 
-    //            //    if ($selMulti.next().find('li.active').size() === 0) { return; }
-    //            //    $.ajax({
-    //            //        url: "UserInterface/FilterMenu/",
-    //            //        type: "Post",
-    //            //        traditional: true,
-    //            //        contentType: 'application/json; charset=utf-8',
-    //            //        /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
-    //            //        data: JSON.stringify({
-    //            //            "typeFilter": 1,
-    //            //            "numberScroll": $("#numberScroll").val(),
-    //            //            "reportYear": $("#reportYear").val(),
-    //            //            "filters": (function () {
-    //            //                var filters = [];
+//            //    if ($selMulti.next().find('li.active').size() === 0) { return; }
+//            //    $.ajax({
+//            //        url: "UserInterface/FilterMenu/",
+//            //        type: "Post",
+//            //        traditional: true,
+//            //        contentType: 'application/json; charset=utf-8',
+//            //        /*Json pass throuhg out HttpPost, $.param (+change for httpGet)*/
+//            //        data: JSON.stringify({
+//            //            "typeFilter": 1,
+//            //            "numberScroll": $("#numberScroll").val(),
+//            //            "reportYear": $("#reportYear").val(),
+//            //            "filters": (function () {
+//            //                var filters = [];
 
-    //            //                filters.push.apply(filters, $('#filterForm>div').map(function (i, val) {
-    //            //                    var $filter = $(val).attr('id');
-    //            //                    var $filterName = $(val).find("input[name$='FieldName']").val();
+//            //                filters.push.apply(filters, $('#filterForm>div').map(function (i, val) {
+//            //                    var $filter = $(val).attr('id');
+//            //                    var $filterName = $(val).find("input[name$='FieldName']").val();
 
-    //            //                    var item = {
-    //            //                        FieldName: $filterName,
-    //            //                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
-    //            //                        ActiveFilter: ($filterName === $selMulti.attr('id')) ? true : false,
-    //            //                        CheckedValues: $('#' + $filter + ' option:selected').map(function (i, item) { return item.value; }).toArray(),
-    //            //                        AllAvailableValues: $('#' + $filter + ' option').map(function (i, item) { return item.value; }).toArray()
-    //            //                    }
+//            //                    var item = {
+//            //                        FieldName: $filterName,
+//            //                        NameDescription: $(val).find("input[name$='NameDescription']").val(),
+//            //                        ActiveFilter: ($filterName === $selMulti.attr('id')) ? true : false,
+//            //                        CheckedValues: $('#' + $filter + ' option:selected').map(function (i, item) { return item.value; }).toArray(),
+//            //                        AllAvailableValues: $('#' + $filter + ' option').map(function (i, item) { return item.value; }).toArray()
+//            //                    }
 
-    //            //                    return item;
-    //            //                }));
+//            //                    return item;
+//            //                }));
 
-    //            //                return filters;
-    //            //            }).call()
-    //            //        }),
-    //            //        success: function (result) {
-    //            //            var sel = $(result).find('input[value=True]').parent('div').attr('id');
-    //            //            //update filter element
-    //            //            $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
-    //            //                $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
-    //            //            });
+//            //                return filters;
+//            //            }).call()
+//            //        }),
+//            //        success: function (result) {
+//            //            var sel = $(result).find('input[value=True]').parent('div').attr('id');
+//            //            //update filter element
+//            //            $('#filterForm div>select').parent('div:not(#' + sel + ')').each(function (indx, element) {
+//            //                $(element).replaceWith($(result).filter('#' + $(element).attr('id') + ':not(#' + sel + ')'));
+//            //            });
 
-    //            //            filterMenu('#filterForm div>select:not(#' + sel + ')');
-    //            //        },
-    //            //        error: function (data) { console.log("multiselect custom error:" + data) }
-    //            //    });
-    //            //},
-    //            buttonText: function (options, select) {
-    //                var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
-    //                var $selSize = options.length;
+//            //            filterMenu('#filterForm div>select:not(#' + sel + ')');
+//            //        },
+//            //        error: function (data) { console.log("multiselect custom error:" + data) }
+//            //    });
+//            //},
+//            buttonText: function (options, select) {
+//                var nameFilter = $('#' + $(select).attr('id') + "block > input[name*='NameDescription']").val();
+//                var $selSize = options.length;
 
-    //                if ($selSize === 0) {
-    //                    return 'Не выбрано ...';
-    //                } else if ($selSize === $(select).children('option').size()) {
-    //                    return nameFilter + '(Все)' + ' (' + $(select).children('option').length + ')';
-    //                } else if ($selSize > 3) {
-    //                    return 'Выбрано ' + $selSize + ' ' + nameFilter;
-    //                } else {
-    //                    var labels = [];
-    //                    options.each(function () {
-    //                        if ($(this).attr('label') !== undefined) {
-    //                            labels.push($(this).attr('label'));
-    //                        } else {
-    //                            labels.push($(this).html());
-    //                        }
-    //                    });
-    //                    return labels.join(', ') + '';
-    //                }
-    //            }
-    //        });
-    //        $this.next(".btn-group").css("margin-left", "0.3em");
-    //    });
-    //    //PaggingSuccess();
-    ////};
+//                if ($selSize === 0) {
+//                    return 'Не выбрано ...';
+//                } else if ($selSize === $(select).children('option').size()) {
+//                    return nameFilter + '(Все)' + ' (' + $(select).children('option').length + ')';
+//                } else if ($selSize > 3) {
+//                    return 'Выбрано ' + $selSize + ' ' + nameFilter;
+//                } else {
+//                    var labels = [];
+//                    options.each(function () {
+//                        if ($(this).attr('label') !== undefined) {
+//                            labels.push($(this).attr('label'));
+//                        } else {
+//                            labels.push($(this).html());
+//                        }
+//                    });
+//                    return labels.join(', ') + '';
+//                }
+//            }
+//        });
+//        $this.next(".btn-group").css("margin-left", "0.3em");
+//    });
+//    //PaggingSuccess();
+////};
 
 /******************************************************* DatePicker UI **************************************************************************************/
 //$('.datepicker').datepicker({
@@ -136,42 +136,42 @@ http://davidstutz.github.io/bootstrap-multiselect/*/
 //    $('#ReportPeriod').attr('value', moment($('#ReportPeriod').val(), 'MMMM YYYY').format('MMMM YYYY'));
 //});
 /********************************************************* Dialog UI (quick Menu) *********************************************************************/
-$('body').on('click', '#chargeOfList>tr>td', function () {
-    var $selCell = $(this);
-    var $selRow = $selCell.parent('tr');
-    var $preveosSelRow = $('#chargeOfList>tr.info');
-    var $idPayment = $selRow.find('.idPayment');
-    var $menuIdsPayment = $('body .feeKey');
+//$('body').on('click', '#chargeOfList>tr>td', function () {
+//var $selCell = $(this);
+//var $selRow = $selCell.parent('tr');
+//var $preveosSelRow = $('#chargeOfList>tr.info');
+//var $idPayment = $selRow.find('.idPayment');
+//var $menuIdsPayment = $('body .feeKey');
 
-    //refresh hightlight area
-    $preveosSelRow.removeClass('info');
-    $selRow.addClass('info');
+////refresh hightlight area
+//$preveosSelRow.removeClass('info');
+//$selRow.addClass('info');
 
-    //set value in inputs elemnt for binding on the server side
-    $menuIdsPayment.val($idPayment.text());
+////set value in inputs elemnt for binding on the server side
+//$menuIdsPayment.val($idPayment.text());
 
-    $("#dialog").dialog({
-        autoOpen: false,
-        closeOnEscape: true,
-        position: { my: "left top", at: "left bottom", of: $selCell },
-        resizable: false,
-        width: 80,
-        title: "Find / Edit / Delete",
-        show: {
-            effect: "blind",
-            duration: 100
-        },
-        hide: {
-            effect: "explode",
-            duration: 300
-        },
-        close: function () {
-            $selRow.removeClass('info');
-        }
-    });
+//$("#dialog").dialog({
+//    autoOpen: false,
+//    closeOnEscape: true,
+//    position: { my: "left top", at: "left bottom", of: $selCell },
+//    resizable: false,
+//    width: 80,
+//    title: "Find / Edit / Delete",
+//    show: {
+//        effect: "blind",
+//        duration: 100
+//    },
+//    hide: {
+//        effect: "explode",
+//        duration: 300
+//    },
+//    close: function () {
+//        $selRow.removeClass('info');
+//    }
+//});
 
-    $("#dialog").dialog("open");
-});
+//$("#dialog").dialog("open");
+//});
 
 /**************************************** General alert msgBox **************************************************************************************/
 //function reDrawingDetail(recieveRequest, status) {
@@ -221,62 +221,62 @@ $('body').on('click', '#chargeOfList>tr>td', function () {
 //}
 
 /**********************************Update data in confirmed row + spinner (wait ssrs)****************************************************************************/
-function UpdateData(dataRow) {
-    var messageInfo = $('#loading').children('td');
-    var currentNkrt = $(dataRow).find('.numberScroll').text();
-    var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
+//function UpdateData(dataRow) {
+//    var messageInfo = $('#loading').children('td');
+//    var currentNkrt = $(dataRow).find('.numberScroll').text();
+//    var target = $('table').find(".numberScroll:contains('" + currentNkrt + "')").parents('tr');
 
-    target.empty().append($(dataRow).children('td'));
-    $(target).find('td input[class*=radio]').attr("checked", true);
-    messageInfo.empty().append('Успешно добавлен перечень №' + currentNkrt);
+//    target.empty().append($(dataRow).children('td'));
+//    $(target).find('td input[class*=radio]').attr("checked", true);
+//    messageInfo.empty().append('Успешно добавлен перечень №' + currentNkrt);
 
-    /*  request to ReportServer */
-    $('#waitModal').modal({
-        keyboard: false,
-        backdrop: 'static'
-    }, 'show');
-    //error report
+//    /*  request to ReportServer */
+//    $('#waitModal').modal({
+//        keyboard: false,
+//        backdrop: 'static'
+//    }, 'show');
+//    //error report
 
-    var reportStr = $('#reportShow').attr('href');
-    //    window.location.assign( $('base').attr('href') + reportStr);
-    if ($('#errFrame').length === 0) {
-        $('<iframe />', {
-            name: 'errFrame',
-            id: 'errFrame',
-            style: "display: none"
-        }).appendTo('body').attr("src", reportStr);
-    } else {
-        //refresh
-        $('#errFrame').attr('src', reportStr);
-    }
+//    var reportStr = $('#reportShow').attr('href');
+//    //    window.location.assign( $('base').attr('href') + reportStr);
+//    if ($('#errFrame').length === 0) {
+//        $('<iframe />', {
+//            name: 'errFrame',
+//            id: 'errFrame',
+//            style: "display: none"
+//        }).appendTo('body').attr("src", reportStr);
+//    } else {
+//        //refresh
+//        $('#errFrame').attr('src', reportStr);
+//    }
 
-    //buh report
-    /* var arrSplit = reportStr.split('/');
-    arrSplit[2] = 'krt_Naftan_BookkeeperReport';
-    if ($('#BuhFrame').length === 0) {
-        $('<iframe />', {
-            name: 'BuhFrame',
-            id: 'BuhFrame',
-            style: "display: none"
-        }).appendTo('body').attr("src", arrSplit.join('/'));
-    } else {
-        //refresh
-        $('#BuhFrame').attr('src', arrSplit.join('/'));
-    } */
+//buh report
+/* var arrSplit = reportStr.split('/');
+arrSplit[2] = 'krt_Naftan_BookkeeperReport';
+if ($('#BuhFrame').length === 0) {
+    $('<iframe />', {
+        name: 'BuhFrame',
+        id: 'BuhFrame',
+        style: "display: none"
+    }).appendTo('body').attr("src", arrSplit.join('/'));
+} else {
+    //refresh
+    $('#BuhFrame').attr('src', arrSplit.join('/'));
+} */
 
-    var refreshIntervalId = window.setInterval(function () { //monitor for existence of cookie 
-        var cookieValue = $.cookie("SSRSfileDownloadToken"); // **uses jquery.cookie plugin
-        if (cookieValue === "true") {
-            // 100 %
-            $('#waitModal .progress-bar').css('width', '100%');
-            $('#waitModal').modal('hide');
-            $.cookie('SSRSfileDownloadToken', null, { expires: -1 }); //clears cookie
-            clearInterval(refreshIntervalId);
-        } else {
-            $('#waitModal .progress-bar').css('width', '50%');
-        }
-    }, 500); //interval is time before re-running this function
-}
+//    var refreshIntervalId = window.setInterval(function () { //monitor for existence of cookie 
+//        var cookieValue = $.cookie("SSRSfileDownloadToken"); // **uses jquery.cookie plugin
+//        if (cookieValue === "true") {
+//            // 100 %
+//            $('#waitModal .progress-bar').css('width', '100%');
+//            $('#waitModal').modal('hide');
+//            $.cookie('SSRSfileDownloadToken', null, { expires: -1 }); //clears cookie
+//            clearInterval(refreshIntervalId);
+//        } else {
+//            $('#waitModal .progress-bar').css('width', '50%');
+//        }
+//    }, 500); //interval is time before re-running this function
+//}
 
 /*Scroll Details fix table update*/
 //function FixUpdate(dataRow) {
@@ -360,18 +360,18 @@ function UpdateData(dataRow) {
 //});
 
 /********************************ajax pagging (index.cshtml & etc)**************************************************************************/
-function PaggingSuccess(e) {
-    /*Dont support in Html4 
-    Solustion: https://github.com/browserstate/history.js*/
-    History.Adapter.bind(window, 'statechange', function () { // Note: We are using statechange instead of popstate
-        var state = History.getState(); // Note: We are using History.getState() instead of event.state
+//function PaggingSuccess(e) {
+//    /*Dont support in Html4 
+//    Solustion: https://github.com/browserstate/history.js*/
+//    History.Adapter.bind(window, 'statechange', function () { // Note: We are using statechange instead of popstate
+//        var state = History.getState(); // Note: We are using History.getState() instead of event.state
 
-        console.log(state);
-    });
-    //
-    History.pushState(null, null, $(e).find('.active a').attr('href'));
+//        console.log(state);
+//    });
+//    //
+//    History.pushState(null, null, $(e).find('.active a').attr('href'));
 
-    //    window.location = $(e).find('.active a').attr('href');
-    //    location.assign($(e).find('.active a').attr('href'));
-    $("html, body").animate({ scrollTop: 0 }, 0);
-}
+//    //    window.location = $(e).find('.active a').attr('href');
+//    //    location.assign($(e).find('.active a').attr('href'));
+//    $("html, body").animate({ scrollTop: 0 }, 0);
+//}

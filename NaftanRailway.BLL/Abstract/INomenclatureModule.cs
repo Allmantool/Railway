@@ -22,7 +22,7 @@ namespace NaftanRailway.BLL.Abstract {
         IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
-        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem);
+        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount);
 
         /// <summary>
         /// Update linked filters base on src entity (table)

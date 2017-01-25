@@ -134,10 +134,10 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         }, $merged);
     };
 
-    function selActiveScr(selectScr, ev) {
+    function selActiveScr(el, ev) {
         //mark as actived
-        self.currScr(selectScr);
-        self.periodModal.period(selectScr.DTBUHOTCHET());
+        self.currScr(el);
+        self.periodModal.period(el.DTBUHOTCHET());
 
         //jquery radio button check
         return true;
@@ -263,6 +263,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         if (self.currScr().Confirmed()) {
             sd.init({
                 url: reqLink,
+                data: ko.mapping.toJSON({ "initialSizeItem": self.rowsPerPage(), "asService": true, "filters": undefined }),
                 beforeSend: function () { self.loadingState(true); },
                 complete: function () {
                     //load partial view

@@ -1,4 +1,6 @@
-﻿<tr data-bind="css: {'danger': $data.compareMoney()}">
+﻿<tr data-bind="click: $parent.setActive, clickBubble: $root.loadingState(),
+               css: {'danger': $data.compareMoney() && $data.keysbor() !== $parent.currChg().keysbor(),
+                     'info': $data.keysbor() === $parent.currChg().keysbor()}">
     <td data-bind="text: $data.nkrt()" class="vert-align"></td>
     <td data-bind="text: $data.tdoc(), popover:{content: $data.getDocType() , placement: 'top'}" class="vert-align"></td>
     <td data-bind="text: $data.vidsbr(), popover:{title: 'Наименование сбора:', content: $data.namesbr(), placement: 'top'}" class="vert-align"></td>

@@ -5,4 +5,6 @@
     Html.EnableUnobtrusiveJavaScript(true);
 }
 <div id="ScrollTable">@{ Html.RenderPartial("_AjaxTableKrtNaftan_ORC_SAPOD");}</div>
-<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="operationScrollModal"></div>
+
+<!--Quick Menu -->
+@{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}

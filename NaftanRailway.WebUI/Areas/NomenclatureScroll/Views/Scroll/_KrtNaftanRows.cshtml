@@ -4,8 +4,9 @@
 </tr>
 <!-- /ko -->
 
-<tr class="parent" 
-    data-bind="click: $root.chooseScr, clickBubble: $root.loadingState(), css: {'success': Confirmed() === false,'info' : $root.currScr().KEYKRT() === $data.KEYKRT() }">
+<tr class="parent"
+    data-bind="click: $root.chooseScr, clickBubble: $root.loadingState(),
+               css: {'success': Confirmed() === false,'info' : $root.currScr().KEYKRT() === $data.KEYKRT() }">
     <td>
         <input data-bind="click: $root.chooseScr, checked: $root.currScr().KEYKRT(), checkedValue: KEYKRT()" type="radio" name="optionsRadios" />
     </td>

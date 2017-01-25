@@ -54,12 +54,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     HtmlAttrs = null,
                     Title = @"Найти соответствие",
                     Location = Url.Content("~/Content/Images/seo-chain-link-icon.png"),
-                    OptionsAjax = new AjaxOptions() {
-                        HttpMethod = "Post",
-                        InsertionMode = InsertionMode.Replace,
-                        UpdateTargetId = "operationScrollModal",
-                        OnSuccess = "showModalResult"
-                    },
                     RouteValues = new RouteValueDictionary() { { "actionName", "GeneralCorrection" }, { "controllerName", "Scroll" } },
                     TypeOperation = EnumMenuOperation.Join
                 },
@@ -67,12 +61,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     HtmlAttrs = null,
                     Title = "Редактировать",
                     Location = Url.Content("~/Content/Images/1474628461_pencil.png"),
-                    OptionsAjax = new AjaxOptions() {
-                        HttpMethod = "Post",
-                        InsertionMode = InsertionMode.Replace,
-                        UpdateTargetId = "operationScrollModal",
-                        OnSuccess = "showModalResult"
-                    },
                     RouteValues = new RouteValueDictionary() { { "actionName", "GeneralCorrection" }, { "controllerName", "Scroll" } },
                     TypeOperation = EnumMenuOperation.Edit
                 },
@@ -80,12 +68,6 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                     HtmlAttrs = null,
                     Title = "Удалить",
                     Location = Url.Content("~/Content/Images/1474894106_scissors.png"),
-                    OptionsAjax = new AjaxOptions() {
-                        HttpMethod = "Post",
-                        InsertionMode = InsertionMode.Replace,
-                        UpdateTargetId = "operationScrollModal",
-                        OnSuccess = "showModalResult"
-                    },
                     RouteValues = new RouteValueDictionary() { { "actionName", "GeneralCorrection" }, { "controllerName", "Scroll" } },
                     TypeOperation = EnumMenuOperation.Delete
                 },
