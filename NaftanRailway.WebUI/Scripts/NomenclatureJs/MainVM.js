@@ -263,7 +263,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         if (self.currScr().Confirmed()) {
             sd.init({
                 url: reqLink,
-                data: ko.mapping.toJSON({ "initialSizeItem": self.rowsPerPage(), "asService": true, "filters": undefined }),
+                data: ko.mapping.toJSON({ "initialSizeItem": sd.rowsPerPage(), "asService": true, "filters": undefined }),
                 beforeSend: function () { self.loadingState(true); },
                 complete: function () {
                     //load partial view

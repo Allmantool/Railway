@@ -10,10 +10,11 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
     var self = {
         pagging: ko.observable(),
-        rowsPerPage: ko.observable(15),
+        rowsPerPage: ko.observable(20),
         charges: ko.observableArray(undefined),
         filters: ko.observableArray(undefined),
         currChg: ko.observable(undefined),
+        operationDialog: ko.observable(false),
         _filterState: ko.pureComputed(function () {
             var result = true;
             $.each(self.filters(), function (idx, item) {
@@ -26,14 +27,15 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
             //ok state (if all)
             return result;
-        }, self),
-        _exist: ko.pureComputed(function () {
-            //match by key
-            ko.utils.arrayFirst(self.charges(), function (item) {
-                return self.currChg() ? self.currChg().keysbor() === item.keysbor() : false;
-            });
         }, self)
     };
+
+    function _exist() {
+        //match by key
+        return ko.utils.arrayFirst(self.charges(), function (item) {
+            return self.currChg() ? self.currChg().keysbor() === item.keysbor() : false;
+        });
+    }
 
     //private 
     function _updateSrcByKey(income, parent) {
@@ -62,8 +64,15 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
         self.charges(ko.mapping.fromJS(rows, mappingOptions)());
 
-        ////default charge
-        if (!self._exist()) { self.currChg(self.charges()[0]); }
+        //count of rows (lopping error???)
+        //http://knockoutjs.com/documentation/computed-dependency-tracking.html
+        // peek - avoid the circular dependency,
+        //self.rowsPerPage.peek(self.charges().length === 0 ? 20 : self.charges().length);
+
+        //default charge
+        if (self.charges.peek().length > 0 || !_exist) {
+            self.currChg(self.charges()[0]);
+        }
     };
 
     //behavior
@@ -90,6 +99,9 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     function setActive(el, ev) {
         //mark as selected
         self.currChg(el);
+
+        //show menu
+        self.operationDialog(true);
 
         return true;
     }
@@ -130,6 +142,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         pagging: self.pagging,
         charges: self.charges,
         filters: self.filters,
-        currChg: self.currChg
+        currChg: self.currChg,
+        dialog: self.operationDialog
     };
 })(jQuery, ko, appNomenclature.DataContext);

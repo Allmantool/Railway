@@ -4,12 +4,12 @@
     int widthGried = 12 / Model.Count();
 }
 
-<div data-bind="jqDialog" style="display: none" id="jqDialog" class="row btn-group" role="group" aria-label="...">
+<div data-bind="jqDialog:  dialog" id="jqDialog" class="row btn-group" role="group" aria-label="...">
     @foreach (var item in Model) {
         <div class="col-lg-@widthGried" style="padding: 1px;">
             @using (Html.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(), item.HtmlAttrs)) {
                 @*<input type="hidden" name="feeKey" class="feeKey" />
-                <input type="hidden" name="operation" value=@item.TypeOperation />*@
+                    <input type="hidden" name="operation" value=@item.TypeOperation />*@
                 <input type="image" title="@item.Title" class="btn btn-block" name="imageQuickMenu" src=@item.Location alt="@item.Title" />
             }
         </div>

@@ -377,11 +377,13 @@ appNomenclature.CustBundings = (function ($, ko) {
     ko.bindingHandlers.jqDialog = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var self = this
+            var valueUnwrapped = ko.unwrap(valueAccessor());
 
             var defaults = {
+                modal: true,
                 autoOpen: false,
                 closeOnEscape: true,
-                position: { my: "left top", at: "left bottom", of: element },
+                //position: { my: "left top", at: "left bottom", of: $(element) },
                 resizable: false,
                 width: 80,
                 title: "Find / Edit / Delete",
@@ -393,11 +395,24 @@ appNomenclature.CustBundings = (function ($, ko) {
                     effect: "explode",
                     duration: 300
                 },
+                close: function (event, ui) {
+                    valueAccessor(false);
+                }
             };
 
             var $el = $(element), $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
+            
             $el.dialog($merged);
+
+            //listen to close method
+            $el.on("close", function (ev) {
+                var observable = valueAccessor().observable;
+
+                if (ko.isObservable(observable)) {
+                    observable(false);
+                }
+            });;
 
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(elemen).dialog("destroy");
@@ -405,6 +420,10 @@ appNomenclature.CustBundings = (function ($, ko) {
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor();
+
+            var defauls = {
+                position: { my: "center", at: "center", of: $(element) },
+            };
 
             if (ko.utils.unwrapObservable(value)) {
                 $(element).dialog('open');

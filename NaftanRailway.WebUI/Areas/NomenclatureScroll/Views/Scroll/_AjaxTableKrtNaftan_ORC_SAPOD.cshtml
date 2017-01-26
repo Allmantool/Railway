@@ -43,4 +43,5 @@
 </table>
 <!-- ko with: $root.scrollDetails -->
     @{ Html.RenderPartial("_GridButtomKO");}
+    @{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}
  <!-- /ko -->
