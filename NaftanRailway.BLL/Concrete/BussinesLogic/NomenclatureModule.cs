@@ -282,7 +282,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //build lambda expression basic on active filter(linqKit)
             var finalPredicate = filters.Where(x => x.ActiveFilter).Aggregate(
-                    PredicateBuilder.True<krt_Naftan_orc_sapod>().And(x => x.keykrt == scroll.KEYKRT),
+                    PredicateBuilder.New<krt_Naftan_orc_sapod>().And(x => x.keykrt == scroll.KEYKRT),
                     (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())
                 );
 

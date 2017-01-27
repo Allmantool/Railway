@@ -52,7 +52,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             {
                 new QuickDialogMenuModel(){
                     HtmlAttrs = null,
-                    Title = @"Найти соответствие",
+                    Title = @"Найти соответствие в САПОД",
                     Location = Url.Content("~/Content/Images/seo-chain-link-icon.png"),
                     RouteValues = new RouteValueDictionary() { { "actionName", "GeneralCorrection" }, { "controllerName", "Scroll" } },
                     TypeOperation = EnumMenuOperation.Join

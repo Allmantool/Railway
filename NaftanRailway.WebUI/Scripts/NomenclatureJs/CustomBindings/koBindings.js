@@ -243,7 +243,6 @@ appNomenclature.CustBundings = (function ($, ko) {
                 buttonText: function (options, select) {
                     return 'buttonText';
                 },
-                maxHeight: 300,
                 //buttonTitle: function (options, select) {
                 //    return '';
                 //},
@@ -283,7 +282,6 @@ appNomenclature.CustBundings = (function ($, ko) {
                     evt.preventDefault();
             });
         },
-
         update: function (element, valueAccessor) {
             var value = ko.utils.unwrapObservable(valueAccessor());
             //ko.bindingHandlers.css.update(element, function () { return { disabled_anchor: value }; });
@@ -377,16 +375,18 @@ appNomenclature.CustBundings = (function ($, ko) {
     ko.bindingHandlers.jqDialog = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var self = this
-            var valueUnwrapped = ko.unwrap(valueAccessor());
+            var valueUnwrapped = ko.unwrap(valueAccessor().state);
 
             var defaults = {
+                draggable: false,
                 modal: true,
                 autoOpen: false,
                 closeOnEscape: true,
-                //position: { my: "left top", at: "left bottom", of: $(element) },
+                position: { my: "center", at: "center", of: window },
                 resizable: false,
-                width: 80,
-                title: "Find / Edit / Delete",
+                minWidth: 50, maxWidth: 600,
+                minHeight: 50, maxHeight: 500,
+                title: "Выберите необходимую операцию над сбором:",
                 show: {
                     effect: "blind",
                     duration: 100
@@ -396,33 +396,31 @@ appNomenclature.CustBundings = (function ($, ko) {
                     duration: 300
                 },
                 close: function (event, ui) {
-                    valueAccessor(false);
+                    valueAccessor().state(false);
                 }
             };
 
             var $el = $(element), $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
-            
-            $el.dialog($merged);
-
             //listen to close method
-            $el.on("close", function (ev) {
-                var observable = valueAccessor().observable;
+            $el.dialog($merged).on("close", function (ev) {
+                var observable = valueAccessor().state;
 
                 if (ko.isObservable(observable)) {
                     observable(false);
                 }
             });;
 
+            // This will be called when the element is removed by Knockout or
+            // if some other part of your code calls ko.removeNode(element)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(elemen).dialog("destroy");
+                element.dialog("destroy");
             });
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var value = valueAccessor();
+            var value = valueAccessor().state;
 
             var defauls = {
-                position: { my: "center", at: "center", of: $(element) },
             };
 
             if (ko.utils.unwrapObservable(value)) {

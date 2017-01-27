@@ -91,6 +91,9 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
         var $merged = $.extend({}, defaults, params);
 
+        //close( quick menu)
+        self.operationDialog(false);
+
         db.getScr(function (opts) {
             _updateSrcByKey(opts, _parent);
         }, $merged);
