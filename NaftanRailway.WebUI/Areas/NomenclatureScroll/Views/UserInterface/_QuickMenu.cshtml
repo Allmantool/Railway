@@ -4,7 +4,7 @@
     int widthGried = 12 / Model.Count();
 }
 
-<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="..." style="display: none;">
+<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="..." style="display: none; text-align: center;">
     @foreach (var item in Model) {
         <div class="col-lg-@widthGried" style="padding:1px;">
             @*@using (Html.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(), item.HtmlAttrs)) {

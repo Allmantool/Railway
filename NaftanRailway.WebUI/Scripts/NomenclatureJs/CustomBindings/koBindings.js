@@ -378,6 +378,7 @@ appNomenclature.CustBundings = (function ($, ko) {
             var valueUnwrapped = ko.unwrap(valueAccessor().state);
 
             var defaults = {
+                appendTo: "#koContainer",
                 draggable: false,
                 modal: true,
                 autoOpen: false,
@@ -414,7 +415,8 @@ appNomenclature.CustBundings = (function ($, ko) {
             // This will be called when the element is removed by Knockout or
             // if some other part of your code calls ko.removeNode(element)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                element.dialog("destroy");
+                var $el = $(element);
+                $el.dialog("destroy");
             });
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
