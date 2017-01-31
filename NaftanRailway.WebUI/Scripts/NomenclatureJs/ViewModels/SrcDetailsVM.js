@@ -9,6 +9,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     var _parent = undefined;
 
     var self = {
+        viewWrong: ko.observable(false),
         pagging: ko.observable(),
         rowsPerPage: ko.observable(20),
         charges: ko.observableArray(undefined),
@@ -109,7 +110,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         return true;
     }
 
-    function applyFilter(formNode) {
+    function applyFilter(formNode, ev) {
+        //$(ev.target).parents('form').attr('action') || 
         var link = $(formNode).attr('action');
 
         if (!self._filterState()) {
@@ -146,6 +148,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         charges: self.charges,
         filters: self.filters,
         currChg: self.currChg,
-        dialog: self.operationDialog
+        dialog: self.operationDialog,
+        viewWrong: self.viewWrong
     };
 })(jQuery, ko, appNomenclature.DataContext);

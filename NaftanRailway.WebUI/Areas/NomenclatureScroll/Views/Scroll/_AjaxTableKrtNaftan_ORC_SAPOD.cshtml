@@ -29,8 +29,17 @@
         <tr class="filter-menu">
             <th data-bind="with: $root.scrollDetails" colspan="19">
                 @using (Html.BeginForm("ScrollDetails", "Scroll", FormMethod.Post, new { @class = "form-inline", data_bind = "submit: applyFilter" })) {
+                    @*<input type="checkbox" class="form-control col-lg-1" value="false" />*@
+                    @*@Html.CheckBox("isNewlyEnrolled", true, new { @class = "form-control" })*@
                     @Html.AntiForgeryToken();
                     { Html.RenderPartial("_FilterMenu"); }
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button data-bind="popover:{content: 'Отобразить записи только с ошибками'},
+                                           click: function(){ viewWrong(!viewWrong()}),
+                                           css: { 'btn-danger' : viewWrong }" type="button" class="btn btn-info">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </button>
+                    </div>
                 }
             </th>
         </tr>
@@ -42,6 +51,6 @@
     <!-- /ko -->
 </table>
 <!-- ko with: $root.scrollDetails -->
-    @{ Html.RenderPartial("_GridButtomKO");}
-    @{Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}
- <!-- /ko -->
+@{ Html.RenderPartial("_GridButtomKO");}
+@{ Html.RenderAction("OperationQuickMenu", "UserInterface", new { area = "NomenclatureScroll" });}
+<!-- /ko -->

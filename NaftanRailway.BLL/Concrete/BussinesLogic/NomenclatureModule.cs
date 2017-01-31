@@ -35,18 +35,21 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
         }
 
-        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount) {
+        public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount, bool viewWrong = false) {
             //order predicate
             Expression<Func<krt_Naftan_orc_sapod, object>> order = x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt };
             //filter predictate
             Expression<Func<krt_Naftan_orc_sapod, bool>> where = x => x.keykrt == key;
 
-            //upply filters(linqKit)
+            //apply filters(linqKit)
             if (filters != null) {
                 where = where.And(filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>(),
                              (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())))
                          .Expand();
             }
+
+            //view rows which sum not equal (viewWrong = false)
+            where = viewWrong ? where.And(x => x.summa + x.nds != x.sm).Expand() : where;
 
             return Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, out recordCount, order, where));
         }

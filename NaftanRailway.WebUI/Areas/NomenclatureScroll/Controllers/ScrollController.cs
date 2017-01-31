@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using NaftanRailway.BLL.Abstract;
@@ -68,13 +67,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Detail gathering of one scroll 
         /// </summary>
         /// <returns></returns>
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool asService = false) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
                 if (findKrt != null) {
                     long recordCount;
-                    var chargeRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount);
+                    var chargeRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount, viewWrong);
 
                     var result = new DetailModelView() {
                         Scroll = findKrt,

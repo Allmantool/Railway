@@ -236,7 +236,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 disabledText: 'Нет значений ...',
                 nonSelectedText: 'Не выбрано ...',
                 buttonWidth: '200px',
-                maxHeight: '750px',
+                maxHeight: 350,
                 allSelectedText: "all",
                 selectAllText: "Выбрать все",
                 inheritClass: false,
@@ -416,6 +416,9 @@ appNomenclature.CustBundings = (function ($, ko) {
             // if some other part of your code calls ko.removeNode(element)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 var $el = $(element);
+
+                //errase unexpected rendering on destroy processing
+                //$el.remove();
                 $el.dialog("destroy");
             });
         },

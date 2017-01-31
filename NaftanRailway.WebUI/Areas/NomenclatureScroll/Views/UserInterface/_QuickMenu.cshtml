@@ -4,17 +4,15 @@
     int widthGried = 12 / Model.Count();
 }
 
-<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="..." style="display: none; text-align: center;">
+<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="..." style="display:none;">
     @foreach (var item in Model) {
-        <div class="col-lg-@widthGried" style="padding:1px;">
-            @*@using (Html.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(), item.HtmlAttrs)) {
-                    <input type="hidden" name="feeKey" class="feeKey" />
-                        <input type="hidden" name="operation" value=@item.TypeOperation />
-                    <input type="image" title="@item.Title"  name="imageQuickMenu" src=@item.Location alt="@item.Title" style="width: 5em; height: 5em;" />
-                }*@
-            <a class="thumbnail" data-bind="popover:{content: '@item.Title'}">
-                <img src=@item.Location alt="@item.Title" class="img-circle">
-            </a>
-        </div>
+        @*@using (Html.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(), item.HtmlAttrs)) {
+                <input type="hidden" name="feeKey" class="feeKey" />
+                    <input type="hidden" name="operation" value=@item.TypeOperation />
+                <input type="image" title="@item.Title"  name="imageQuickMenu" src=@item.Location alt="@item.Title" style="width: 5em; height: 5em;" />
+            }*@
+        <a class="thumbnail col-lg-@widthGried" data-bind="popover:{content: '@item.Title'}" style="padding: 1px; margin-bottom: 1px;">
+            <img src=@item.Location alt="@item.Title" class="img-circle">
+        </a>
     }
 </div>

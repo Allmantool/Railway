@@ -589,7 +589,7 @@
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_FilterMenu.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_AjaxPagging.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_JoinRowsModal.cshtml" />
-    <Content Include="Areas\NomenclatureScroll\Views\Shared\_EditRowsModal.cshtml" />
+    <Content Include="Areas\NomenclatureScroll\Views\Shared\_ChainRowsModal.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\UserInterface\_QuickMenu.cshtml" />
     <Content Include="Areas\Admin\Views\Web.config" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_GridButtomKO.cshtml" />
