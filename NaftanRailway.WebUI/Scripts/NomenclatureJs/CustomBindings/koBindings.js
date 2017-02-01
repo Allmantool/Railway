@@ -59,7 +59,9 @@ appNomenclature.CustBundings = (function ($, ko) {
                 delay: { show: 500, hide: 100 },
                 placement: "auto",
                 title: "",
-                content: "",
+                content: function () {
+                    return $(this).siblings('.popover').html();
+                },
                 //selector: false,
                 template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
                 html: true,
@@ -137,20 +139,20 @@ appNomenclature.CustBundings = (function ($, ko) {
 
             $(element).modal($merged);
 
-            //    //var value = valueAccessor();
-            //    //if (ko.isObservable(value)) {
-            //    //    $(element).on('hide.bs.modal', function () {
-            //    //        value(false);
-            //    //    });
-            //    //}
+            var value = valueAccessor();
+            if (ko.isObservable(value)) {
+                $(element).on('hide.bs.modal', function () {
+                    value(false);
+                });
+            }
 
             //    // Update 13/07/2016
             //    // based on @Richard's finding,
             //    // don't need to destroy modal explicitly in latest bootstrap.
             //    // modal('destroy') doesn't exist in latest bootstrap.
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).modal("destroy");
-            });
+            //ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+            //    $(element).modal("destroy");
+            //});
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var value = valueAccessor();

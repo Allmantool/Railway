@@ -303,6 +303,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         $(self.containerName).load(requestLink, function (partialHtml, statusTxt, xhr) {
             if (statusTxt === "success") {
                 //bind
+                //ko.options.useOnlyNativeEvents = true;
                 ko.applyBindings(appNomenclature.SrcVM, self.containerName);
                 self.loadingState(false);
 

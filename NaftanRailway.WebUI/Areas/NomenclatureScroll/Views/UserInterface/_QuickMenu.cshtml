@@ -4,14 +4,21 @@
     int widthGried = 12 / Model.Count();
 }
 
-<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="..." style="display:none;">
+<div data-bind="jqDialog: {state: dialog}, visible: dialog" id="jqDialog" class="row btn-group" role="group" aria-label="...">
     @foreach (var item in Model) {
         @*@using (Html.BeginForm(item.RouteValues["actionName"].ToString(), item.RouteValues["controllerName"].ToString(), item.HtmlAttrs)) {
                 <input type="hidden" name="feeKey" class="feeKey" />
                     <input type="hidden" name="operation" value=@item.TypeOperation />
                 <input type="image" title="@item.Title"  name="imageQuickMenu" src=@item.Location alt="@item.Title" style="width: 5em; height: 5em;" />
             }*@
-        <a class="thumbnail col-lg-@widthGried" data-bind="popover:{content: '@item.Title'}" style="padding: 1px; margin-bottom: 1px;">
+        <a class="thumbnail col-lg-@widthGried"
+           data-bind="click: function(){
+                        dialog(false);
+                        editModal(true);
+                      },
+                      clickBubble: false,
+                      popover:{content: '@item.Title'}"
+           style="padding: 1px; margin-bottom: 1px;">
             <img src=@item.Location alt="@item.Title" class="img-circle">
         </a>
     }

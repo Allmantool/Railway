@@ -28,7 +28,7 @@ thead.tableHeader > tr > th {
     font-size: 0.95em !important;
 }
 /*table header style*/
-tbody.tableBody > tr > td {
+tbody.tableBody > tr > td, tbody.tableBody > tr > th, tbody.tableBody > tr > td > input {
     vertical-align: middle;
     text-align: center;
 }

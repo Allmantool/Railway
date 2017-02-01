@@ -12,15 +12,19 @@ appNomenclature.Charge = function (data) {
     self = $.extend(true, self, ko.mapping.fromJS(data));
 
     //prop
-    self.sm_no_nds = ko.observable(self.sm_no_nds()).extend({ actualKeysbor: self.keysbor() });
-    self.sm_nds = ko.observable(self.sm_nds()).extend({ keysbor: self.keysbor() });
-    self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });
+    //self.sm_no_nds = ko.observable(self.sm_no_nds()).extend({ actualKeysbor: self.keysbor() });
+    //self.sm_nds = ko.observable(self.sm_nds()).extend({ keysbor: self.keysbor() });
+    //self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });
+
     self.date_raskr = ko.computed(function () {
         var result = self.vidsbr().toString().search(new RegExp('30[01]', 'i')) > -1 ?
             moment(self.date_raskr()).format('DD.MM.YYYY HH:MM') :
             moment(self.date_raskr()).format('DD.MM.YYYY');
 
         return result;
+    });
+    self.sapodTotalSum = ko.pureComputed(function () {
+        return parseFloat((Number(self.summa()) + Number(self.nds())).toFixed(2));
     });
 
     self.getDocType = ko.pureComputed(function () {
@@ -39,7 +43,7 @@ appNomenclature.Charge = function (data) {
         return result;
     });
     self.compareMoney = ko.pureComputed(function () {
-        var result = self.sm() !== parseFloat((self.summa() + self.nds()).toFixed(2));
+        var result = (self.sm() !== self.sapodTotalSum());
 
         return result;
     });

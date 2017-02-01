@@ -9,6 +9,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     var _parent = undefined;
 
     var self = {
+        editModal: ko.observable(false),
         viewWrong: ko.observable(false),
         pagging: ko.observable(),
         rowsPerPage: ko.observable(20),
@@ -83,7 +84,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         //work with options
         var defaults = {
             type: "Post",
-            data: ko.mapping.toJSON({ "initialSizeItem": self.rowsPerPage(), "asService": true, "filters": self.filters() }),
+            data: ko.mapping.toJSON({ "initialSizeItem": self.rowsPerPage(), "asService": true, "filters": self.filters(), "viewWrong": self.viewWrong() }),
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
@@ -110,9 +111,9 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         return true;
     }
 
-    function applyFilter(formNode, ev) {
+    function applyFilter(arg, ev) {
         //$(ev.target).parents('form').attr('action') || 
-        var link = $(formNode).attr('action');
+        var link = typeof arg === 'string' ? arg : $(arg).attr('action');
 
         if (!self._filterState()) {
             _parent.alert().statusMsg('Не все фильтры указаны!').alertType('alert-warning').mode(true);
@@ -149,6 +150,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         filters: self.filters,
         currChg: self.currChg,
         dialog: self.operationDialog,
-        viewWrong: self.viewWrong
+        viewWrong: self.viewWrong,
+        editModal: self.editModal
     };
 })(jQuery, ko, appNomenclature.DataContext);
