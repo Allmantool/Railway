@@ -9,6 +9,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     var _parent = undefined;
 
     var self = {
+        chainModal: ko.observable(false),
         editModal: ko.observable(false),
         viewWrong: ko.observable(false),
         pagging: ko.observable(),
@@ -139,6 +140,16 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         }, _parent);
     };
 
+    function syncWithDB() {
+        var defaults = {
+            type: "Post",
+            data: ko.mapping.toJSON(currChg),
+            beforeSend: function () { _parent.loadingState(true); },
+
+
+        }
+    }
+
     return {
         init: init,
         applyFilter: applyFilter,
@@ -151,6 +162,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         currChg: self.currChg,
         dialog: self.operationDialog,
         viewWrong: self.viewWrong,
-        editModal: self.editModal
+        editModal: self.editModal,
+        chainModal: self.chainModal,
+        syncWithDB: syncWithDB
     };
 })(jQuery, ko, appNomenclature.DataContext);

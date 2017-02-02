@@ -421,6 +421,7 @@ appNomenclature.CustBundings = (function ($, ko) {
 
                 //errase unexpected rendering on destroy processing
                 //$el.remove();
+                $el.dialog('close');
                 $el.dialog("destroy");
             });
         },
