@@ -108,6 +108,8 @@ appNomenclature.CustBundings = (function ($, ko) {
                 if (ko.isObservable(observable)) {
                     observable(ev.date);
                 }
+
+                ev.preventDefault();
             });;
 
             //Custom disposal logic

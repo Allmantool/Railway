@@ -20,7 +20,7 @@
     <td class="singCorrection"><span data-bind="css: {'glyphicon glyphicon-ok': $data.SignAdjustment_list()}"></span></td>
     <td data-bind="popover: { content: P_TYPE() === 's' ? 'Провозные' : 'Дополнительные'}, text:P_TYPE()"></td>
     <td data-bind="tooltip: { title: 'Изменить отчётный период?', selState:  $root.currScr().KEYKRT() === $data.KEYKRT() },
-                   @*click: $root.periodModal.active.bind(true),*@
+                   click: $root.periodModal.active.bind(true),
                    text: moment(DTBUHOTCHET()).format('MMMM YYYY'),
                    css: { hover: $root.currScr().KEYKRT() === $data.KEYKRT() }"
         style="word-break: break-word; width: 1em;"></td>

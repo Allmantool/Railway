@@ -15,12 +15,12 @@
     @{ Html.RenderPartial("_AjaxTableKrtNaftan");}
 </div>
 
-<!--Date Modal-->
-<div data-bind="modal: $root.periodModal.active, if:$root.periodModal.active()" class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="dateModal">
+<!--Date Modal (had some close effect when use link root $root.periodModal.active instead of ....active() )-->
+<div data-bind="modal: $root.periodModal.active(), if:$root.periodModal.active()" class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="dateModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button data-bind="click: $root.periodModal.active.bind('false')" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button data-bind="click: $root.periodModal.active.bind(false)" type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title" id="gridSystemModalLabel">Изменение отчётной даты</h4>
