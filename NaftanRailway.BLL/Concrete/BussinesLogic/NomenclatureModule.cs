@@ -158,28 +158,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         /// <summary>
-        /// Edit Row (sm, sm_nds (Sapod))
-        /// Check row as fix => check ErrorState in krt_Naftan_Sapod 
+        /// Edit finantial index in selected charge
         /// </summary>
-        /// <param name="keykrt">partial key (keykrt, keysbor)</param>
-        /// <param name="keysbor">partial key (keykrt, keysbor)</param>
-        /// <param name="nds"></param>
-        /// <param name="summa"></param>
+        /// <param name="charge"></param>
         /// <returns></returns>
-        public bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa) {
+        public bool EditKrtNaftanOrcSapod(ScrollDetailDTO charge) {
             using (Engage.Uow = new UnitOfWork()) {
                 try {
                     //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == keykrt && x.keysbor == keysbor);
+                    var itemRow = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
                     Engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
-                    itemRow.nds = nds;
-                    itemRow.summa = summa;
+
+                    //update only nessesary properties (alose exist method whole update method)
+                    itemRow.nds = charge.nds;
+                    itemRow.summa = charge.summa;
+                    itemRow.kol = charge.kol;
+
+                    //mark as edit
                     itemRow.ErrorState = 2;
 
                     //krt_Naftan (check as correction)
-                    var parentRow = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == keykrt);
+                    var parentRow = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
                     Engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
-
+                    //mark as edit
                     parentRow.ErrorState = 2;
 
                     Engage.Uow.Save();

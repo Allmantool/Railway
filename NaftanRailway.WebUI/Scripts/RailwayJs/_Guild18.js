@@ -1,8 +1,20 @@
-﻿
-/*
- *  Global namespace for js snippet for railway guild 18 part
- */
-var RailApp = RailApp || {};
+﻿//ready
+$(document).ready(function () {
+    'use strict';
+    //localisation
+    moment.locale('ru');
+
+    //upper case in Month's names
+    moment.updateLocale('ru', {
+        months: [
+            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
+            "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+        ]
+    });
+
+    //wait ajax populate module prop
+    appRail.MainVM.init();
+});
 
 /***********************AutoComplete shippingNumber some trouble with pass routing! 405 no allow '@Url.Action("SearchNumberShipping","Ceh18")',***************
 function need working state datepicker

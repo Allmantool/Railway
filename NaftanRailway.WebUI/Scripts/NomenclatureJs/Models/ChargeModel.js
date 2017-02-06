@@ -11,10 +11,12 @@ appNomenclature.Charge = function (data) {
 
     self = $.extend(true, self, ko.mapping.fromJS(data));
 
-    //prop
-    //self.sm_no_nds = ko.observable(self.sm_no_nds()).extend({ actualKeysbor: self.keysbor() });
-    //self.sm_nds = ko.observable(self.sm_nds()).extend({ keysbor: self.keysbor() });
-    //self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });
+    //add some bussiness logic (number format before and after dominination)
+    self.sm_no_nds = ko.observable(self.sm_no_nds()).extend({ actualKeysbor: self.keysbor() });
+    self.sm_nds = ko.observable(self.sm_nds()).extend({ keysbor: self.keysbor() });
+    self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });
+    self.summa = ko.observable(self.summa()).extend({ keysbor: self.keysbor() });
+    self.nds = ko.observable(self.nds()).extend({ keysbor: self.keysbor() });
 
     self.date_raskr = ko.computed(function () {
         var result = self.vidsbr().toString().search(new RegExp('30[01]', 'i')) > -1 ?

@@ -59,9 +59,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 delay: { show: 500, hide: 100 },
                 placement: "auto",
                 title: "",
-                content: function () {
-                    return $(this).siblings('.popover').html();
-                },
+                content: '',//must be string =>pass dublicate content bug (ex. if you recieved val parameter add '' (empty string) for explicit converting) 
                 //selector: false,
                 template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
                 html: true,
@@ -97,14 +95,14 @@ appNomenclature.CustBundings = (function ($, ko) {
                 todayBtn: "linked",
                 orientation: "bottom auto",
                 forceParse: true,
-                container: 'body',
+                container: 'body',//'#koContainer',
                 toggleActive: true,
-                //defaultViewDate: new Date( /*2016, 4, 1*/)
+                //defaultViewDate: new Date( 2016, 4, 1)
             };
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
-            $(element).datepicker($merged).on("changeMonth "/*changeDate changeYear changeDecade changeCentury*/, function (ev) {
+            $(element).datepicker(defaults).on("changeMonth"/*changeDate changeYear changeDecade changeCentury*/, function (ev) {
                 var observable = valueAccessor().observable;
 
                 if (ko.isObservable(observable)) {
@@ -146,10 +144,10 @@ appNomenclature.CustBundings = (function ($, ko) {
                 });
             }
 
-            //    // Update 13/07/2016
-            //    // based on @Richard's finding,
-            //    // don't need to destroy modal explicitly in latest bootstrap.
-            //    // modal('destroy') doesn't exist in latest bootstrap.
+            // Update 13/07/2016
+            // based on @Richard's finding,
+            // don't need to destroy modal explicitly in latest bootstrap.
+            // modal('destroy') doesn't exist in latest bootstrap.
             //ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
             //    $(element).modal("destroy");
             //});

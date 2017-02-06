@@ -78,6 +78,8 @@ If this happens, you may call .noConflict on the plugin you wish to revert the v
 var btn = $.fn.button.noConflict(); // reverts $.fn.button to jqueryui btn
 $.fn.btn = btn;// assigns bootstrap button functionality to $.fn.btn
 
+//var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+//$.fn.bootstrap = datepicker;
 
 /* jquery auto-ganarate code (throught $().button = > after .noConflict bootsrap UI will not see .button method
 <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close">

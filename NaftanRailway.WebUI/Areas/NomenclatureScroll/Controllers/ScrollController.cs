@@ -30,7 +30,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
         public ActionResult Index(DateTime? period = null, int page = 1, bool asService = false, ushort initialSizeItem = 15) {
-            if (Request.IsAjaxRequest()) {
+            if (Request.IsAjaxRequest() &&  ModelState.IsValid) {
                 long recordCount;
 
                 //period = period ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -155,6 +155,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
 
             TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
+
+            return RedirectToAction("Index", "Scroll", new { page = 1 });
+        }
+
+        [HttpPost]
+        public ActionResult EditCharge(ScrollDetailDTO charge, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+                var result = _bussinesEngage.EditKrtNaftanOrcSapod(charge);
+
+                if (asService) {
+                    return Json(result, JsonRequestBehavior.DenyGet);
+                }
+            }
 
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }

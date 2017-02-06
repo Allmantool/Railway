@@ -54,7 +54,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <returns></returns>
         IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true);
 
-        bool EditKrtNaftanOrcSapod(long keykrt, long keysbor, decimal nds, decimal summa);
+        bool EditKrtNaftanOrcSapod(ScrollDetailDTO charge);
 
         ScrollDetailDTO OperationOnScrollDetail(long key, EnumMenuOperation operation);
     }

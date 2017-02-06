@@ -140,14 +140,22 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         }, _parent);
     };
 
-    function syncWithDB() {
+    function syncWithDB(link, context) {
         var defaults = {
+            url: link,
             type: "Post",
-            data: ko.mapping.toJSON(currChg),
+            data: ko.mapping.toJSON({ "charge": context, "asService": true }),
             beforeSend: function () { _parent.loadingState(true); },
-
-
+            complete: function () {
+                _parent.loadingState(false);
+            }
         }
+
+        db.getScr(function (opts) {
+            _parent.alert().statusMsg('Информация по сбору успешно изменена! ' + opts).alertType('alert-success').mode(true);
+        }, defaults);
+
+        self.editModal(false);
     }
 
     return {

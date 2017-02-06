@@ -29,8 +29,8 @@
                 <div class="row">
                     @using (Html.BeginForm("ChangeDate", "Scroll", FormMethod.Post, new { @class = "form-inline navbar-form", role = "form", data_bind = "submit: $root.updatePeriod" })) {
                         <div class="form-group col-lg-6">
-                            <div data-bind="datepicker: { observable: $data.periodModal.period }" class="input-group date datepicker">
-                                @Html.TextBox("ReportPeriod", null, new { @class = "form-control", @readonly = "readonly", type = "text" })
+                            <div data-bind="datepicker: { observable: $data.periodModal.period }" class="input-group date">
+                                    @Html.TextBox("ReportPeriod", null, new { @class = "form-control", @readonly = "readonly", type = "text" })
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div>
                         </div>

@@ -89,6 +89,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return result;
         }
+        
         /// <summary>
         /// Get current avaible type of operation on dispatch
         /// </summary>

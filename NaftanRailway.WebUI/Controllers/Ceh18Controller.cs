@@ -28,22 +28,28 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="page">current page</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1) {
-            const short pageSize = 9;
-            short recordCount;
+        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+                const short pageSize = 9;
+                short recordCount;
+                //menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
-            menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
+                var model = new DispatchListViewModel() {
+                    Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
+                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount },
+                    OperationCategory = operationCategory,
+                    Menu = menuView
+                };
 
-            var model = new DispatchListViewModel() {
-                Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
-                PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount },
-                OperationCategory = operationCategory,
-                Menu = menuView
-            };
+                //tips: consider use web api mechanism instead
+                if (asService) {
+                    return Json(model, JsonRequestBehavior.AllowGet);
+                }
 
-            if (Request.IsAjaxRequest()) { return PartialView("ShippingSummary", model); }
+                return PartialView("ShippingSummary", model);
+            }
 
-            return View(model);
+            return View();
         }
 
         /// <summary>

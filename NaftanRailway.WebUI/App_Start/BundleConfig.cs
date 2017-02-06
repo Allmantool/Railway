@@ -14,6 +14,8 @@ namespace NaftanRailway.WebUI {
             bundles.IgnoreList.Clear();
 
 //*************************************************************** JS scripts *****************************************************************/
+            #region JavaScript Bundles
+
             bundles.Add(new ScriptBundle("~/bundles/CrossBr", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js").NonOrdering()
                 .Include(
                     "~/Scripts/modernizr-{version}.js",
@@ -24,13 +26,16 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/jquery-1.11.3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQuery2", "//code.jquery.com/jquery-{version}.min.js")
-                .Include("~/Scripts/jquery-{version}.js"));
+                .Include("~/Scripts/jquery-2.2.4.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
-                .Include("~/Scripts/jquery-ui-{version}.js",
+                .Include(
+					    //~/Scripts/jquery-migrate-{version}.js",
+						 "~/Scripts/jquery-ui-{version}.js",
                          "~/Scripts/jquery.validate.js",
                          "~/Scripts/jquery.validate.unobtrusive.js",
-                         "~/Scripts/jquery.unobtrusive-ajax.js"
+                         "~/Scripts/jquery.unobtrusive-ajax.js",
+                         "~/Scripts/moment-with-locales.js"
                          //"~/Scripts/bundle/html5/jquery.history.js"
                          ));
 
@@ -38,9 +43,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/bootstrap.js",
                          "~/Scripts/bootstrap-datepicker.js",
                          "~/Content/locales/bootstrap-datepicker.ru.js",
-                         "~/Scripts/bootstrap-multiselect.js",
-                         "~/Scripts/moment-with-locales.js",
-                         "~/Scripts/respond.js"));
+                         "~/Scripts/bootstrap-multiselect.js"));
 
             //cnd link means replace all bundle ( in this case it will not valid = > because link to one file <> 3 links in bundle
             bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-{version}.js").NonOrdering()
@@ -49,13 +52,19 @@ namespace NaftanRailway.WebUI {
                          "~/Scripts/knockout.mapping-latest.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserRail").NonOrdering()
-                .Include("~/Scripts/sammy-{version}.js")
+                //.Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
-                         "~/Scripts/RailwayJs/_Guild18.js"));
+                         "~/Scripts/RailwayJs/DataContext.js")
+                .IncludeDirectory("~/Scripts/RailwayJs/Models/", "*.js")
+                .IncludeDirectory("~/Scripts/RailwayJs/ViewModels", "*.js")
+                .Include("~/Scripts/RailwayJs/MainVM.js")
+                .Include("~/Scripts/RailwayJs/koExtenders/koExtenders.js")
+                .Include("~/Scripts/RailwayJs/_Guild18.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
-                .Include("~/Scripts/sammy-{version}.js")
-                .Include("~/Scripts/GeneralJs/_General.js",
+                //.Include("~/Scripts/sammy-{version}.js")
+                .Include(
+                         "~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/NomenclatureJs/DataContext.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js")
@@ -65,13 +74,15 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/NomenclatureJs/koComponentsAndCustomElement/koComponents.js")
                 .Include("~/Scripts/NomenclatureJs/_Scrolls.js"));
 
+            #endregion
 //*************************************************************** CSS styles *****************************************************************/
             #region CSS Bundles
+
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
                 .Include("~/Content/bootstrap.css",
                          "~/Content/bootstrap-multiselect.css",
                          "~/Content/bootstrap-theme.css",
-                         "~/Content/bootstrap-datetimepicker.css",
+                         //"~/Content/bootstrap-datetimepicker.css",
                          "~/Content/bootstrap-datepicker3.css",
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
@@ -84,10 +95,12 @@ namespace NaftanRailway.WebUI {
                          "~/Content/NomenclatureCSS/_Scrolls.css",
                          "~/Content/NomenclatureCSS/CustomJQueryUI.css"));
 
-            bundles.Add(new StyleBundle("~/Content/Rail").NonOrdering()
+            bundles.Add(new StyleBundle("~/Content/RailCSS").NonOrdering()
                 .Include("~/Content/GeneralCustomCSS/_General.css",
                          "~/Content/Guild18CSS/_Guild18.css"));
+
             #endregion
+
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = false;
             bundles.UseCdn = false;

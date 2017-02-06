@@ -28,6 +28,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
         T Find<TK>(TK key, bool enableDetectChanges = true);
+
         /// <summary>
         /// Add general entity
         /// </summary>
@@ -40,6 +41,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="entityColl"></param>
         /// <param name="enableDetectChanges"></param>
         void Add(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+
         /// <summary>
         /// Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
         /// </summary>
@@ -47,6 +49,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enableDetectChanges"></param>
         void Edit(T entity, bool enableDetectChanges = true);
         void Edit(IEnumerable<T> entityColl, Action<T> operations, bool enableDetectChanges = true);
+
         /// <summary>
         /// Update concrete entity  (Update all property, mark entity as modified)
         /// </summary>
@@ -60,6 +63,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="entity"></param>
         /// <param name="enableDetectChanges"></param>
         void Update(T entity, bool enableDetectChanges = true);
+
         /// <summary>
         /// Delete concrete entity
         /// </summary>
@@ -74,6 +78,7 @@ namespace NaftanRailway.Domain.Abstract {
         void Delete(Expression<Func<T, bool>> predicate, bool enableDetectChanges = true);
         void Delete(IEnumerable<T> entityColl, bool enableDetectChanges = true);
         void Delete<TK>(TK key, bool enableDetectChanges = true);
+
         /// <summary>
         /// Update if exist or add
         /// </summary>

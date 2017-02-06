@@ -38,7 +38,7 @@
                     <input type="text" aria-describedby="addon" class="form-control" data-bind="textinput: kol, attr: {'placeholder': kol(), 'value': kol()}" />
                 </div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button data-bind="syncWithDB" type="button" class="btn btn-primary">Сохранить</button>
+                <button data-bind="click: $parent.syncWithDB.bind($data,'@Url.Action("EditCharge","Scroll")')" type="button" class="btn btn-primary">Сохранить</button>
             </div>
         </div>
     </div>
