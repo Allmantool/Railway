@@ -1,2 +1,23 @@
-﻿body {
+﻿/*lodaing menu*/
+.overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 9999;
+    left: 0px;
+    top: 0px;
+    zoom: 1;
+    overflow: hidden;
+    display: block;
+    text-align: center;
+}
+
+    .overlay > .content {
+        top: 50%;
+        position: fixed;
+    }
+
+.overlayTable {
+    background-color: #d7d6d6;
+    opacity: 0.4;
 }

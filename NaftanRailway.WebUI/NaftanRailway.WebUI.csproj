@@ -750,8 +750,12 @@
     <Content Include="Scripts\NomenclatureJs\ViewModels\SrcDetailsVM.js" />
     <Content Include="Scripts\NomenclatureJs\MainVM.js" />
     <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\RailwayJs\CustomBindings\koBindings.js" />
     <Content Include="Scripts\RailwayJs\DataContext.js" />
     <Content Include="Scripts\RailwayJs\MainVM.js" />
+    <Content Include="Scripts\RailwayJs\Models\AlertMessageModel.js" />
+    <Content Include="Scripts\RailwayJs\Models\DispatchModel.js" />
+    <Content Include="Scripts\RailwayJs\Models\PaginationModel.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
@@ -899,7 +903,6 @@
     <Folder Include="Scripts\NomenclatureJs\koExtenstions\" />
     <Folder Include="Scripts\NomenclatureJs\Templates\" />
     <Folder Include="Scripts\RailwayJs\koExtenders\" />
-    <Folder Include="Scripts\RailwayJs\Models\" />
     <Folder Include="Scripts\RailwayJs\ViewModels\" />
     <Folder Include="Views\Navigation\EditorTemplates\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />

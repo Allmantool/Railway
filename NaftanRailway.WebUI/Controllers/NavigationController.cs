@@ -35,7 +35,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="storage"></param>
         /// <param name="menuView"></param>
         /// <returns></returns>
-        public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView) {
+        public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView, bool asService = false) {
             menuView.ReportPeriod = storage.ReportPeriod;
 
             return PartialView("ComplexNavbarMenu", menuView);

@@ -58,13 +58,13 @@ namespace NaftanRailway.WebUI {
                 .IncludeDirectory("~/Scripts/RailwayJs/Models/", "*.js")
                 .IncludeDirectory("~/Scripts/RailwayJs/ViewModels", "*.js")
                 .Include("~/Scripts/RailwayJs/MainVM.js")
+                .Include("~/Scripts/RailwayJs/CustomBindings/koBindings.js")
                 .Include("~/Scripts/RailwayJs/koExtenders/koExtenders.js")
                 .Include("~/Scripts/RailwayJs/_Guild18.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
                 //.Include("~/Scripts/sammy-{version}.js")
-                .Include(
-                         "~/Scripts/GeneralJs/_General.js",
+                .Include("~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/NomenclatureJs/DataContext.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
                 .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js")

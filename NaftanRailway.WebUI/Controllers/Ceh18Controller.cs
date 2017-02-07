@@ -28,11 +28,10 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="page">current page</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, bool asService = false) {
+        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, short pageSize = 9, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                const short pageSize = 9;
                 short recordCount;
-                //menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
+                menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
                 var model = new DispatchListViewModel() {
                     Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
@@ -41,7 +40,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     Menu = menuView
                 };
 
-                //tips: consider use web api mechanism instead
+                //tips: consider use web api mechanism instead of mvc implementation
                 if (asService) {
                     return Json(model, JsonRequestBehavior.AllowGet);
                 }

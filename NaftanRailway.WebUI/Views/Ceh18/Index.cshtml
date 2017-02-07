@@ -1,17 +1,17 @@
-﻿@model DispatchListViewModel
+﻿@*@model DispatchListViewModel*@
 @{
     Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = @"Номер отправки";
 }
 <div class="row" id="infoArea">
     @*@if (TempData["message"] != null) {<div id="MessageInfo" class="row alert alert-success">@TempData["message"]</div>}*@
-    @{Html.RenderPartial("ShippingSummary", Model);}
+    @*@{Html.RenderPartial("ShippingSummary", Model);}*@
 </div>
 <div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal"></div>
 
 @section Scripts {
     <!--[if lte IE 8]>
-        @Scripts.Render("~/bundles/UserRails")
+        @Scripts.Render("~/bundles/UserRail")
     <![endif]-->
     <!--[if !IE 8]><!-->
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/UserRail")
