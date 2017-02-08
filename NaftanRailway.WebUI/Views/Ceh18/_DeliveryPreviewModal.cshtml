@@ -4,91 +4,93 @@
     var reportPeriod = (DateTime)@ViewBag.datePeriod;
 }
 <!--Date Modal-->
-<div class="modal-dialog modal-lg" role="document">
-    @using (Ajax.BeginForm("AddDocumentsInfo", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
-                        new AjaxOptions() {
-                            HttpMethod = "Post", Url = Url.Action("AddDocumentsInfo", "Ceh18"), UpdateTargetId = "infoArea", InsertionMode = InsertionMode.Replace,
-                            OnSuccess = "RenderSync", OnFailure = "AddFailed", LoadingElementId = "AddLoading", LoadingElementDuration = 1000
-                        })) {
-        @Html.Hidden("reportPeriod", reportPeriod)
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title text-center" id="gridSystemModalLabel">
-                    Найдена @numberRow @((numberRow > 1) ? "записи" : "запись") по накладной: "@Model[0].Shipping.n_otpr"
-                </h4>
+<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
+    <div class="modal-dialog modal-lg" role="document">
+        @using (Ajax.BeginForm("AddDocumentsInfo", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
+            new AjaxOptions() {
+                HttpMethod = "Post", Url = Url.Action("AddDocumentsInfo", "Ceh18"), UpdateTargetId = "infoArea", InsertionMode = InsertionMode.Replace,
+                OnSuccess = "RenderSync", OnFailure = "AddFailed", LoadingElementId = "AddLoading", LoadingElementDuration = 1000
+            })) {
+            @Html.Hidden("reportPeriod", reportPeriod)
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title text-center" id="gridSystemModalLabel">
+                        Найдена @numberRow @((numberRow > 1) ? "записи" : "запись") по накладной: "@Model[0].Shipping.n_otpr"
+                    </h4>
 
-            </div>
-            <div class="modal-body text-center">
-                <table class="small table table-hover table-responsive table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Тип операции:</th>
-                            <th>Дата операции:</th>
-                            <th>Вагон(ы):</th>
-                            <th>Наименование груза:</th>
-                            <th>Контрагент:</th>
-                            <th>Склад:</th>
-                        </tr>
-                    </thead>
-                    <tbody id="previewBody">
-                        @for (var indx = 0; indx < Model.Count(); indx++) {
+                </div>
+                <div class="modal-body text-center">
+                    <table class="small table table-hover table-responsive table-striped table-condensed">
+                        <thead>
                             <tr>
-                                <td>
-                                    <!--How does it work:
-                                    If checkbox not checked, form submit only hidden (false)
-                                    If checked, then form submit two fields (false and true) and MVC set true for bool property
-                                    When you submit a form with a checkbox, the value is only posted if the checkbox is checked.
-                                    So, if you leave the checkbox unchecked then nothing will be sent to the server when in many situations you would want false to be sent instead.
-                                    As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
-                                     -->
-                                    @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
-                                    @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)
-                                </td>
-                                <td>
-                                    @Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
-                                    @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")
-                                </td>
-                                <td>
-                                    @if (Model[indx].Shipping.date_oper != null) {
-                                        @Html.HiddenFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value)
-                                        @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
-                                    }
-                                </td>
-                                <td>
-                                    @for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
-                                        @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
-                                    }
-                                    @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))
-                                </td>
-                                <td class="small">
-                                    @Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)
-                                </td>
-                                <td class="small">
-                                    @if (Model[indx].Shipping.type_doc == 1) {
-                                        @Html.LabelFor(x => x[indx].Shipping.nam_pol, Model[indx].Shipping.nam_pol)
-                                    } else {
-                                        @Html.LabelFor(x => x[indx].Shipping.nam_otpr, Model[indx].Shipping.nam_otpr)
-                                    }
-                                </td>
-                                <td class="small col-md-1">
-                                    @Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })
-                                </td>
+                                <th></th>
+                                <th>Тип операции:</th>
+                                <th>Дата операции:</th>
+                                <th>Вагон(ы):</th>
+                                <th>Наименование груза:</th>
+                                <th>Контрагент:</th>
+                                <th>Склад:</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="previewBody">
+                            @for (var indx = 0; indx < Model.Count(); indx++) {
+                                <tr>
+                                    <td>
+                                        <!--How does it work:
+                                        If checkbox not checked, form submit only hidden (false)
+                                        If checked, then form submit two fields (false and true) and MVC set true for bool property
+                                        When you submit a form with a checkbox, the value is only posted if the checkbox is checked.
+                                        So, if you leave the checkbox unchecked then nothing will be sent to the server when in many situations you would want false to be sent instead.
+                                        As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
+                                         -->
+                                        @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
+                                        @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
+                                        @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")
+                                    </td>
+                                    <td>
+                                        @if (Model[indx].Shipping.date_oper != null) {
+                                            @Html.HiddenFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value)
+                                            @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
+                                        }
+                                    </td>
+                                    <td>
+                                        @for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
+                                            @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
+                                        }
+                                        @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))
+                                    </td>
+                                    <td class="small">
+                                        @Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)
+                                    </td>
+                                    <td class="small">
+                                        @if (Model[indx].Shipping.type_doc == 1) {
+                                            @Html.LabelFor(x => x[indx].Shipping.nam_pol, Model[indx].Shipping.nam_pol)
+                                        } else {
+                                            @Html.LabelFor(x => x[indx].Shipping.nam_otpr, Model[indx].Shipping.nam_otpr)
+                                        }
+                                    </td>
+                                    <td class="small col-md-1">
+                                        @Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <img id="AddLoading" class="pull-left" alt="Loading" src="~/Content/Images/Gear.gif" style="width: 1.2em; height: 1.2em; display: none" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    <button id="BtAddSubmit" type="submit" class="btn btn-primary">Подтвердить</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <img id="AddLoading" class="pull-left" alt="Loading" src="~/Content/Images/Gear.gif" style="width: 1.2em; height: 1.2em; display: none" />
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button id="BtAddSubmit" type="submit" class="btn btn-primary">Подтвердить</button>
-            </div>
-        </div>
-    }
-    <!-- /.modal-content -->
+        }
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal-dialog -->     

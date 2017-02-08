@@ -18,7 +18,7 @@
 <body>
     @{Html.RenderAction("GeneralMenu", "Navigation");}
     <!--<div class="visible-xs">@{ Html.RenderAction("MenuTypeOperations", "Navigation", new { horizontalLayout = true }); }</div>-->
-    @*<div class="container-fluid" id="Guild18Body">@RenderBody()</div>*@
+    <div class="container-fluid" id="Guild18Body">@RenderBody()</div>
 
     @*Loading icon*@
     <div data-bind="visible: $root.loadingState()" class="overlay">

@@ -92,7 +92,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 minViewMode: 1,
                 language: "ru",
                 autoclose: true,
-                todayBtn: "linked",
+                todayBtn: true, //"linked",
                 orientation: "bottom auto",
                 forceParse: true,
                 container: 'body',//'#koContainer',

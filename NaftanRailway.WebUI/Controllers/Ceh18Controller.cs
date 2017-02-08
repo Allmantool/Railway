@@ -57,17 +57,21 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(InputMenuViewModel menuView) {
-            if (Request.IsAjaxRequest()) {
+        public ActionResult Index(InputMenuViewModel menuView, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 short recordCount;
                 var result = _bussinesEngage.ShippingPreview(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
 
-                if (recordCount == 0) {
-                    return PartialView("_NotFoundModal", menuView.ShippingChoise);
+                if (asService) {
+                    return Json(result, JsonRequestBehavior.AllowGet);
                 }
-                //report main date (month/year)
-                ViewBag.datePeriod = menuView.ReportPeriod;
-                return PartialView("_DeliveryPreviewModal", result.ToList());
+
+                //if (recordCount == 0) {
+                //    return PartialView("_NotFoundModal", menuView.ShippingChoise);
+                //}
+                ////report main date (month/year)
+                //ViewBag.datePeriod = menuView.ReportPeriod;
+                //return PartialView("_DeliveryPreviewModal", result.ToList());
             }
             return new EmptyResult();
         }

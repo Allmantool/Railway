@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 using NaftanRailway.BLL.Services;
+using System;
 
 namespace NaftanRailway.WebUI {
     public static class RouteConfig {
@@ -58,7 +59,7 @@ namespace NaftanRailway.WebUI {
             routes.MapRoute(
                 name: "Report",
                 url: "Report/{reportName}/{reportPeriod}",
-                defaults: new { controller = "Report", action = "GUild18" },
+                defaults: new { controller = "Report", action = "GUild18", reportPeriod = DateTime.Now.ToString("01-MM-yyyy") },
                 namespaces: new[] { "NaftanRailway.WebUI.Controllers" });
 
             routes.MapRoute(

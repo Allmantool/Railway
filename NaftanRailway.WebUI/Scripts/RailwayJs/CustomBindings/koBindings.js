@@ -94,11 +94,12 @@ appRail.CustBundings = (function ($, ko) {
                 minViewMode: 1,
                 language: "ru",
                 autoclose: true,
-                todayBtn: "linked",
+                todayBtn: true,//"linked",
                 orientation: "bottom auto",
                 forceParse: true,
                 container: 'body',//'#koContainer',
-                toggleActive: true,
+                //toggleActive: false,
+                //updateViewDate: true,
                 //defaultViewDate: new Date( 2016, 4, 1)
             };
 
@@ -226,37 +227,55 @@ appRail.CustBundings = (function ($, ko) {
         }
     };
 
-    ko.bindingHandlers.autoComplete = {
+    //http://api.jqueryui.com/autocomplete/
+    ko.bindingHandlers.jqAutoComplete = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var defaluts = {
+            //Custom disposal logic
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).jqAutoComplete("destroy");
+            });
+        },
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            $(element).autocomplete({
                 source: function (request, response) {
-                    $.ajax({
-                        //url: "/Ceh18/SearchNumberShipping/",  /*May be it's possible get url from request (from app controller method json request)*/
-                        type: "Post", dataType: "json",
-                        //data: { ShippingChoise: request.term, ReportPeriod: $("#ReportPeriod").val() },
-                        success: function (data) {
+                    var defaults = {
+                        type: "Post",
+                        dataType: "json",
+                        //data: { ShippingChoise: '', ReportPeriod: moment().format('01-DD-YYYY') },
+                        url: "",  /*May be it's possible get url from request (from app controller method json request)*/
+                        success: function (data, status) {
                             //Translate all items in an array or object to new array of items (jQuery.map( array, callback ))
                             response($.map(data, function (item) {
                                 return { label: item };
                             }));
                         }
-                    });
+                    };
+
+                    var $mergedAjax = $.extend({}, defaults, ko.unwrap(valueAccessor()));
+
+                    $.ajax($mergedAjax);
                 },
                 minLength: 1,
+                autoFocus: true,
+                classes: {
+                    "ui-autocomplete": "highlight"
+                },
+                delay: 300,
+                disabled: false,
+                //position: { my : "right top", at: "right bottom" },
                 messages: {
                     noResults: "",
                     results: function () { }
-                }
-            };
+                },
+                select: function (event, ui) { },
+                //search: function( event, ui ) {},
+                change: function (event, ui) { },
+            }).on('dblclick', function (ev) {
+                var $element = $(ev.target);
 
-            var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
-
-            $(element).autocomplete($merged).on('dblclick', function (el, ev) {
-                $(el).val('');
+                //clear and close
+                $element.val('').autocomplete("close");
             });
-        },
-        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-
         }
     };
 

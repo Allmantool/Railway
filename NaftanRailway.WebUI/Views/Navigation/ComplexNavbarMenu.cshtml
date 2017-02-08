@@ -13,9 +13,7 @@
                 </a>
             </div>
             <div class="col-md-5">
-                @using (@Ajax.BeginRouteForm("Path_Full", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "Index" } },
-            new AjaxOptions() { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "previewDeliveryModal", OnSuccess = "findResult" },
-            new { @class = "form-inline navbar-form navbar-left", role = "form" })) {
+                @using (@Html.BeginForm("Index","Ceh18",FormMethod.Post, new { @class = "form-inline navbar-form navbar-left", role = "form", data_bind = "submit: $root.searchInvoice" })) {
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary()
@@ -31,7 +29,12 @@
 
                     <div class="form-group col-md-7">
                         <div class="input-group col-md-9">
-                            @Html.TextBoxFor(m => m.ShippingChoise, new { @class = "form-control ui-autocomplete-input", placeholder = "Поиск", data_bind = "textInput: $root.searchInvoice" })
+                            @Html.TextBoxFor(m => m.ShippingChoise,
+                                new {
+                                    @class = "form-control ui-autocomplete-input",
+                                    placeholder = "Поиск",
+                                    data_bind = "textInput: $root.invoice, jqAutoComplete : { data: {ShippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }, url:'" + @Url.Action("SearchNumberShipping", "Ceh18") + "'}"
+                                })
                             <span class="input-group-btn">
                                 <button data-bind="popover:{ content: 'Поиск накладной по номеру'}" type="submit" class="btn btn-default" id="searchBtn">
                                     <!--data-toggle="modal" data-target="#previewDeliveryModal"-->
@@ -39,6 +42,7 @@
                                 </button>
                             </span>
                         </div>
+
                         <button data-bind="popover:{ content: 'Обновить данные'}" class="btn btn-success" type="button" id="updateBtn">
                             <span id="updRefresh" class="glyphicon glyphicon-refresh">
                                 <img id="updLoading" alt="Loading..." src="~/Content/Images/loadingArrow.gif" style="width: 1em; height: 1.3em; display: none;" />
@@ -55,13 +59,11 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-save-file"></span>Excel<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li>
-                                @*@Html.ActionLink(@"Отчёт", "Guild18", "Report",
-                new { data_bind = "attr: {'href':'" + @Url.Action("Guild18", "Report", new { reportName = "krt_Naftan_Guild18Report", reportPeriod= Model.ReportPeriod.Date.ToString("01-MM-yyyy") }) + "/' + $root.reportPeriod()}" })*@
-
+                            <li data-bind="popover:{ content: 'Отчёт по цеху 18', placement: 'left'}">
+                                <a class="excelExport" data-bind="attr: {'href': '@Url.Action("Guild18", "Report", new { reportName = "krt_Naftan_Guild18Report"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Отчёт</a>
                             </li>
-                            <li>
-                                @*<a class="excelExport" href="@Url.Action("Guild18", "Report",new {reportName="krt_Naftan_RegisterGuild18",reportPeriod=Model.ReportPeriod.Date.ToString("01-MM-yyyy") })">Реестр</a>*@
+                            <li data-bind="popover:{ content: 'Реестр первичных документов по цеху 18', placement: 'left'}">
+                                <a class="excelExport" data-bind="attr: {'href': '@Url.Action("Guild18", "Report", new { reportName = "krt_Naftan_RegisterGuild18"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Реестр</a>
                             </li>
                         </ul>
                     </li>
@@ -70,7 +72,7 @@
                                 Итог:<span style="margin-left: 0.1em;">@storage.Lines.Count()</span>
                                 <span class="glyphicon glyphicon-floppy-open"></span>
                             </a>
-                           </li>
+                        </li>
                         <li><a href="@Url.Action("Logout", "Account")">Выйти<span class="glyphicon glyphicon-log-out" style="margin-left: 0.3em;"></span></a></li>*@
                 </ul>
             </div>

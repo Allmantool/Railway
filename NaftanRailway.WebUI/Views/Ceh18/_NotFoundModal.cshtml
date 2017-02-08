@@ -1,21 +1,25 @@
-﻿@model string
+﻿@*@model string*@
 <!--Date Modal-->
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <h3 class="modal-title text-center" id="gridSystemModalLabel">Не найдено информации!</h3>
+<div data-bind="modal: $root.notFoundModal(), if: $root.notFoundModal(), visible: $root.notFoundModal()" 
+     class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title text-center" id="gridSystemModalLabel">Не найдено информации!</h3>
+            </div>
+            <div class="modal-body text-center">
+                <img src="/Content/Images/NotFound.png" alt="Не найдено совпадений" style="width: 15em; height: 15em" />
+                <div data-bind="text: $root.invoice()===''? 'Введите верный номер накладной!'  : 'Нет информации по накладной №' + $root.invoice()" 
+                     class="row text-center"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+            </div>
         </div>
-        <div class="modal-body text-center">
-            <img src="/Content/Images/NotFound.png" alt="Не найдено совпадений" style="width: 15em; height: 15em" />
-            <div class="row text-center">@((@Model != String.Empty) ? "Нет информации по накладной № " + @Model : "Введите верный номер накладной!")</div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
-        </div>
+        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-content -->
+    <!-- /.modal-dialog -->
 </div>
-<!-- /.modal-dialog -->

@@ -12,8 +12,10 @@ appRail.DispatchsVM = (function ($, ko, db) {
         pagging: ko.observable(),
         dispatchs: ko.observableArray([]),
         loadingState: ko.observable(false),
-        reportPeriod: ko.observable(moment().format()),
-        searchInvoice: ko.observable()
+        reportPeriod: ko.observable(moment()._d),
+        invoice: ko.observable(),
+        notFoundModal: ko.observable(false),
+        previewModal: ko.observable(false)
     };
 
     //behavior
@@ -46,6 +48,26 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
             //pagging
             self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
+        }, $merged);
+    };
+
+    function searchInvoice(node, ev) {
+        //work with options
+        var defaults = {
+            url: $(node).attr('action'),
+            data: { ShippingChoise: self.invoice(), ReportPeriod: self.reportPeriod() },
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend({}, defaults);
+
+        db.getScr(function (data) {
+
         }, $merged);
     };
 
@@ -101,12 +123,16 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
     return {
         init: init,
+        searchInvoice: searchInvoice,
+
         loadingState: self.loadingState,
         dispatchs: self.dispatchs,
         itemsPerPage: self.itemsPerPage,
         alert: self.alert,
         pagging: self.pagging,
         reportPeriod: self.reportPeriod,
-        searchInvoice: self.searchInvoice
+        invoice: self.invoice,
+        notFoundModal: self.notFoundModal,
+        previewModal: self.previewModal,
     };
 }(jQuery, ko, appRail.DataContext));

@@ -3,11 +3,13 @@
     Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = @"Номер отправки";
 }
-<div class="row" id="infoArea">
+<div class="row" id="koContainer">
     @*@if (TempData["message"] != null) {<div id="MessageInfo" class="row alert alert-success">@TempData["message"]</div>}*@
     @*@{Html.RenderPartial("ShippingSummary", Model);}*@
+
+    @*@{Html.RenderPartial("_DeliveryPreviewModal");}*@
+    @{Html.RenderPartial("_NotFoundModal");}
 </div>
-<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal"></div>
 
 @section Scripts {
     <!--[if lte IE 8]>
