@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="col-md-5">
-                @using (@Html.BeginForm("Index","Ceh18",FormMethod.Post, new { @class = "form-inline navbar-form navbar-left", role = "form", data_bind = "submit: $root.searchInvoice" })) {
+                @using (@Html.BeginForm("Index", "Ceh18", FormMethod.Post, new { @class = "form-inline navbar-form navbar-left", role = "form", data_bind = "submit: $root.searchInvoice" })) {
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary()
@@ -33,7 +33,12 @@
                                 new {
                                     @class = "form-control ui-autocomplete-input",
                                     placeholder = "Поиск",
-                                    data_bind = "textInput: $root.invoice, jqAutoComplete : { data: {ShippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }, url:'" + @Url.Action("SearchNumberShipping", "Ceh18") + "'}"
+                                    data_bind = "textinput: $root.invoice," +
+                                                "jqAutoComplete : {" +
+                                                    "data: { ShippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }," +
+                                                    "url:'" + @Url.Action("SearchNumberShipping", "Ceh18") +
+                                                "'}," +
+                                                "event : {dblclick: function (data, event) { $root.invoice (undefined); return; }}"
                                 })
                             <span class="input-group-btn">
                                 <button data-bind="popover:{ content: 'Поиск накладной по номеру'}" type="submit" class="btn btn-default" id="searchBtn">

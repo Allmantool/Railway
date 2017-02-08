@@ -18,14 +18,14 @@
                                 <td data-bind="text: sm_no_nds()"></td>
                                 <td data-bind="text: sm_nds()"></td>
                                 <td data-bind="text: sm()"></td>
-                                <td data-bind="text: txt()"></td>
+                                <td data-bind="text: txt()" class="small"></td>
                             </tr>
                             <tr>
-                                <th>САПОД</th>
-                                <td><input class="form-control" data-bind="textinput: summa, attr: {'value': summa()}" /></td>
-                                <td><input class="form-control" data-bind="textinput: nds, attr: {'value': nds()}" /></td>
-                                <td><input readonly class="form-control" data-bind="text: sapodTotalSum, attr: {'value': sapodTotalSum}" /></td>
-                                <td><input class="form-control" data-bind="textinput: textm, attr: {'placeholder': textm(), 'value': textm()}" /></td>
+                                <th class="col-lg-2">САПОД</th>
+                                <td class="col-lg-2"><input class="form-control input-sm" data-bind="textinput: summa, attr: {'value': summa()}" /></td>
+                                <td class="col-lg-2"><input class="form-control input-sm" data-bind="textinput: nds, attr: {'value': nds()}" /></td>
+                                <td class="col-lg-2"><input readonly class="form-control input-sm" data-bind="text: sapodTotalSum, attr: {'value': sapodTotalSum}" /></td>
+                                <td class="col-lg-4"><input class="form-control input-sm" data-bind="textinput: textm, attr: {'placeholder': textm(), 'value': textm()}" /></td>
                             </tr>
                         </tbody>
                     </table>

@@ -67,7 +67,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         var $merged = $.extend({}, defaults);
 
         db.getScr(function (data) {
-
+            data.Dispatchs.length === 0 ? self.notFoundModal(true) : self.previewModal(true);
         }, $merged);
     };
 

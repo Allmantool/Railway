@@ -273,8 +273,7 @@ appRail.CustBundings = (function ($, ko) {
             }).on('dblclick', function (ev) {
                 var $element = $(ev.target);
 
-                //clear and close
-                $element.val('').autocomplete("close");
+                $element.autocomplete("close");
             });
         }
     };

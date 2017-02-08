@@ -1,6 +1,6 @@
 ﻿@*@model string*@
 <!--Date Modal-->
-<div data-bind="modal: $root.notFoundModal(), if: $root.notFoundModal(), visible: $root.notFoundModal()" 
+<div data-bind="modal: $root.notFoundModal, if: $root.notFoundModal(), visible: $root.notFoundModal()" 
      class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body text-center">
                 <img src="/Content/Images/NotFound.png" alt="Не найдено совпадений" style="width: 15em; height: 15em" />
-                <div data-bind="text: $root.invoice()===''? 'Введите верный номер накладной!'  : 'Нет информации по накладной №' + $root.invoice()" 
+                <div data-bind="text: $root.invoice()=== undefined ? 'Введите верный номер накладной!'  : 'Нет информации по накладной №' + $root.invoice()" 
                      class="row text-center"></div>
             </div>
             <div class="modal-footer">
