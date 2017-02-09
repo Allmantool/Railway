@@ -267,7 +267,16 @@ appRail.CustBundings = (function ($, ko) {
                     noResults: "",
                     results: function () { }
                 },
-                select: function (event, ui) { },
+                select: function (event, ui) {
+                    var data = ko.unwrap(valueAccessor()).data;
+
+                    //select single search observeble
+                    for (var prop in data) {
+                        if (ko.isObservable(data[prop])) {
+                            data[prop](ui.item.value)
+                        }
+                    }
+                },
                 //search: function( event, ui ) {},
                 change: function (event, ui) { },
             }).on('dblclick', function (ev) {
@@ -291,6 +300,29 @@ appRail.CustBundings = (function ($, ko) {
 
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        }
+    };
+
+    ko.bindingHandlers.btnRefresh = {
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor();
+
+            //selectors (tips: netxt step => ko.bindgins)
+            var $btn = $(element);
+            var $trg = $btn.children('span');
+            var $img = $btn.find('img');
+
+            if (ko.utils.unwrapObservable(value)) {
+                //animation
+                $trg.toggleClass("glyphicon glyphicon-refresh");
+                $btn.toggleClass(" btn-warning");
+                $img.css("display", "inline");
+            } else {
+                //animation
+                $trg.toggleClass("glyphicon glyphicon-refresh");
+                $btn.toggleClass(" btn-warning");
+                $img.css("display", "none");
+            }
         }
     };
 

@@ -45,8 +45,9 @@ namespace NaftanRailway.WebUI {
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //registration custom binding providers with links to vm
             ModelBinders.Binders.Add(typeof(SessionStorage), new StorageTableModelBinder());
-            ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
+            //ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
 
             //MVC4 Quick Tip #3–Removing the XML Formatter from ASP.Net Web API
             //GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();

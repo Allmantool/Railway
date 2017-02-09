@@ -3,11 +3,18 @@
     Layout = "../Shared/_Layout.cshtml";
     ViewBag.Title = @"Номер отправки";
 }
-<div class="row" id="koContainer">
-    @*@if (TempData["message"] != null) {<div id="MessageInfo" class="row alert alert-success">@TempData["message"]</div>}*@
-    @*@{Html.RenderPartial("ShippingSummary", Model);}*@
 
-    @*@{Html.RenderPartial("_DeliveryPreviewModal");}*@
+<!-- ko with: $root.alert -->
+<div data-bind="alert: {statusMsg: statusMsg, alertType: alertType, mode: mode},
+                css: 'alert fade in ' + alertType()"
+     style="display: none">
+</div>
+<!-- /ko -->
+
+<div class="container-fluid" id="koContainer">
+    @{Html.RenderPartial("ShippingSummary");}
+
+    @{Html.RenderPartial("_DeliveryPreviewModal");}
     @{Html.RenderPartial("_NotFoundModal");}
 </div>
 

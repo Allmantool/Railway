@@ -10,7 +10,10 @@ appRail.DispatchsVM = (function ($, ko, db) {
         itemsPerPage: ko.observable(7),
         alert: ko.observable(new appRail.AlertMessage({ statusMsg: 'Инициализация' })),
         pagging: ko.observable(),
+
+        shReview: ko.observableArray([]),
         dispatchs: ko.observableArray([]),
+
         loadingState: ko.observable(false),
         reportPeriod: ko.observable(moment()._d),
         invoice: ko.observable(),
@@ -28,7 +31,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
             data: { "pageSize": self.itemsPerPage() },
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
-                //firts initialization
+                //firts initialization avoid multibinding
                 if (params === undefined) {
                     ko.applyBindings(appRail.DispatchsVM);
                 }
@@ -39,6 +42,10 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
         //work with options
         var $merged = $.extend({}, defaults, params);
+
+        //close modals
+        self.previewModal(false);
+        self.notFoundModal(false);
 
         db.getScr(function (data) {
             //dispatch (Collapse Wells)
@@ -55,7 +62,15 @@ appRail.DispatchsVM = (function ($, ko, db) {
         //work with options
         var defaults = {
             url: $(node).attr('action'),
-            data: { ShippingChoise: self.invoice(), ReportPeriod: self.reportPeriod() },
+            type: "Post",
+            data: ko.mapping.toJSON({
+                'menuView':
+                    {
+                        'ShippingChoise': self.invoice(),
+                        'ReportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                    },
+                'asService': true
+            }),
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 //firts initialization
@@ -67,11 +82,126 @@ appRail.DispatchsVM = (function ($, ko, db) {
         var $merged = $.extend({}, defaults);
 
         db.getScr(function (data) {
-            data.Dispatchs.length === 0 ? self.notFoundModal(true) : self.previewModal(true);
+            if (data.length === 0) {
+                self.notFoundModal(true)
+            } else {
+                self.shReview($.map(data, function (val, i) {
+                    return new appRail.ShReview(val)
+                }));
+
+                self.previewModal(true);
+            }
+
         }, $merged);
     };
 
-    /*Sestem extensation for Jquery unbinding*/
+    function addInvoice(node, ev) {
+        //work with options
+        var defaults = {
+            url: $(node).attr('action'),
+            type: "Post",
+            data: ko.mapping.toJSON({
+                'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                'docInfo': self.shReview,
+                'asService': true
+            }),
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend({}, defaults);
+
+        db.getScr(function (data) {
+            //update (avoid set undefined as param => multy binding)
+            init({
+                complete: function () {
+                    if (data) {
+                        self.alert().statusMsg('Накладная добавлена!').alertType('alert-success').mode(true);
+                    } else {
+                        self.alert().statusMsg('Операция добавления завершилась ошибкой!').alertType('alert-danger').mode(true);
+                    }
+
+                    self.loadingState(false);
+                }
+            });
+        });
+    }
+
+    function updateExists(params, context, ev) {
+        //work with options
+        var defaults = {
+            type: "Post",
+            data: ko.mapping.toJSON({
+                'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                'asService': true
+            }),
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend({}, defaults, params);
+
+        db.getScr(function (data) {
+            //update (avoid set undefined as param => multy binding)
+            init({
+                complete: function () {
+                    if (data) {
+                        self.alert().statusMsg('Данные по накладным обновлены!').alertType('alert-success').mode(true);
+                    } else {
+                        self.alert().statusMsg('Операция обновления информации по накладным завершилась ошибкой!').alertType('alert-danger').mode(true);
+                    }
+
+                    self.loadingState(false);
+                }
+            });
+        });
+    };
+
+    function deleteInvoice(node, ev) {
+        //work with options
+        var defaults = {
+            url: $(node).attr('action'),
+            type: "Post",
+            data: ko.mapping.toJSON({
+                'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                'idInvoice': '',
+                'asService': true
+            }),
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend({}, defaults);
+
+        db.getScr(function (data) {
+            //update (avoid set undefined as param => multy binding)
+            init({
+                complete: function () {
+                    if (data) {
+                        self.alert().statusMsg('Информация по накладной была успешно удалена!').alertType('alert-success').mode(true);
+                    } else {
+                        self.alert().statusMsg('Операция удаления завершилась ошибкой!').alertType('alert-danger').mode(true);
+                    }
+
+                    self.loadingState(false);
+                }
+            });
+        });
+    };
+
+    /*System extensation for Jquery unbinding*/
     ko.unapplyBindings = function ($node, remove) {
         // unbind events
         $node.find("*").each(function () {
@@ -86,7 +216,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         }
     };
 
-    //work with ajax replace (reaplace dom is leaded to lose binding)
+    //work with ajax replace (replace dom is leaded to lose binding)
     function containerRebind(opts, ev) {
         self.loadingState(true);
 
@@ -124,6 +254,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
     return {
         init: init,
         searchInvoice: searchInvoice,
+        addInvoice: addInvoice,
+        updateExists: updateExists,
 
         loadingState: self.loadingState,
         dispatchs: self.dispatchs,
@@ -134,5 +266,6 @@ appRail.DispatchsVM = (function ($, ko, db) {
         invoice: self.invoice,
         notFoundModal: self.notFoundModal,
         previewModal: self.previewModal,
+        shReview: self.shReview
     };
 }(jQuery, ko, appRail.DataContext));

@@ -756,6 +756,7 @@
     <Content Include="Scripts\RailwayJs\Models\AlertMessageModel.js" />
     <Content Include="Scripts\RailwayJs\Models\DispatchModel.js" />
     <Content Include="Scripts\RailwayJs\Models\PaginationModel.js" />
+    <Content Include="Scripts\RailwayJs\Models\ShReview.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />

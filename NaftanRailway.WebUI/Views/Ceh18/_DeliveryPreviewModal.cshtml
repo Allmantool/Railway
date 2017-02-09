@@ -1,24 +1,23 @@
-﻿@model IList<NaftanRailway.BLL.DTO.Guild18.ShippingInfoLineDTO>
+﻿@*@model IList<NaftanRailway.BLL.DTO.Guild18.ShippingInfoLineDTO>*@
 @{
-    var numberRow = @Model.Count();
-    var reportPeriod = (DateTime)@ViewBag.datePeriod;
+//var numberRow = @Model.Count();
+//var reportPeriod = (DateTime)@ViewBag.datePeriod;
 }
 <!--Date Modal-->
-<div class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
+<div data-bind="modal: $root.previewModal, if: $root.previewModal(), visible: $root.previewModal()" 
+     class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="previewDeliveryModal">
     <div class="modal-dialog modal-lg" role="document">
-        @using (Ajax.BeginForm("AddDocumentsInfo", new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
-            new AjaxOptions() {
-                HttpMethod = "Post", Url = Url.Action("AddDocumentsInfo", "Ceh18"), UpdateTargetId = "infoArea", InsertionMode = InsertionMode.Replace,
-                OnSuccess = "RenderSync", OnFailure = "AddFailed", LoadingElementId = "AddLoading", LoadingElementDuration = 1000
-            })) {
-            @Html.Hidden("reportPeriod", reportPeriod)
+        @using (Html.BeginForm("AddDocumentsInfo", "Ceh18",
+                        new RouteValueDictionary() { { "controller", "Ceh18" }, { "action", "AddDocumentsInfo" } },
+                        FormMethod.Post,
+                        new { data_bind = "submit: $root.addInvoice" })) {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title text-center" id="gridSystemModalLabel">
-                        Найдена @numberRow @((numberRow > 1) ? "записи" : "запись") по накладной: "@Model[0].Shipping.n_otpr"
+                    <h4 class="modal-title text-center" id="gridSystemModalLabel" 
+                        data-bind="text: 'Найдена ' + ($root.shReview().length > 1 ? 'записи' : 'запись') + ' по накладной №' + $root.invoice()">
                     </h4>
 
                 </div>
@@ -35,8 +34,7 @@
                                 <th>Склад:</th>
                             </tr>
                         </thead>
-                        <tbody id="previewBody">
-                            @for (var indx = 0; indx < Model.Count(); indx++) {
+                        <tbody id="previewBody" data-bind="foreach: $root.shReview">
                                 <tr>
                                     <td>
                                         <!--How does it work:
@@ -46,45 +44,50 @@
                                         So, if you leave the checkbox unchecked then nothing will be sent to the server when in many situations you would want false to be sent instead.
                                         As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
                                          -->
-                                        @Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
-                                        @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)
+                                        @*@Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
+                                        @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)*@
+                                        <input type="checkbox" data-bind="checked: $data.IsSelected" />
                                     </td>
                                     <td>
-                                        @Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
-                                        @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")
+                                        @*@Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
+                                        @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")*@
+                                        <label data-bind="text: $data.Shipping.type_doc() === 1 ? 'Отправка' : 'Прибытие' "></label>
                                     </td>
                                     <td>
-                                        @if (Model[indx].Shipping.date_oper != null) {
+                                        @*@if (Model[indx].Shipping.date_oper != null) {
                                             @Html.HiddenFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value)
                                             @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
-                                        }
+                                        }*@
+                                        <label data-bind="text: moment($data.Shipping.date_oper()).format('DD.MM.YYYY')"></label>
                                     </td>
                                     <td>
-                                        @for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
+                                        @*@for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
                                             @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
                                         }
-                                        @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))
+                                        @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))*@
+                                        <label data-bind="text: $data.carriagesList()"></label>
                                     </td>
                                     <td class="small">
-                                        @Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)
+                                        @*@Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)*@
+                                        <label data-bind="text: $data.CargoEtsngName.name()"></label>
                                     </td>
                                     <td class="small">
-                                        @if (Model[indx].Shipping.type_doc == 1) {
+                                        @*@if (Model[indx].Shipping.type_doc == 1) {
                                             @Html.LabelFor(x => x[indx].Shipping.nam_pol, Model[indx].Shipping.nam_pol)
                                         } else {
                                             @Html.LabelFor(x => x[indx].Shipping.nam_otpr, Model[indx].Shipping.nam_otpr)
-                                        }
+                                        }*@
+                                        <label data-bind="text: $data.Shipping.type_doc() === 1 ? $data.Shipping.nam_pol(): $data.Shipping.nam_otpr()"></label>
                                     </td>
                                     <td class="small col-md-1">
-                                        @Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })
+                                        @*@Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })*@
+                                        <input  type="number" class="text-center form-control input-sm" data-bind="textinput: $data.Warehouse"/>
                                     </td>
                                 </tr>
-                            }
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <img id="AddLoading" class="pull-left" alt="Loading" src="~/Content/Images/Gear.gif" style="width: 1.2em; height: 1.2em; display: none" />
                     <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                     <button id="BtAddSubmit" type="submit" class="btn btn-primary">Подтвердить</button>
                 </div>

@@ -33,12 +33,14 @@
                                 new {
                                     @class = "form-control ui-autocomplete-input",
                                     placeholder = "Поиск",
-                                    data_bind = "textinput: $root.invoice," +
+                                    data_bind = "textinput: $root.invoice, " +
                                                 "jqAutoComplete : {" +
                                                     "data: { ShippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }," +
                                                     "url:'" + @Url.Action("SearchNumberShipping", "Ceh18") +
-                                                "'}," +
-                                                "event : {dblclick: function (data, event) { $root.invoice (undefined); return; }}"
+                                                "'}, " +
+                                                "event : {" +
+                                                    "dblclick: function (data, event) { $root.invoice (undefined); return; }, " +
+                                                "}"
                                 })
                             <span class="input-group-btn">
                                 <button data-bind="popover:{ content: 'Поиск накладной по номеру'}" type="submit" class="btn btn-default" id="searchBtn">
@@ -48,7 +50,7 @@
                             </span>
                         </div>
 
-                        <button data-bind="popover:{ content: 'Обновить данные'}" class="btn btn-success" type="button" id="updateBtn">
+                        <button data-bind="btnRefresh: $root.loadingState(), popover:{ content: 'Обновить данные'}, click: $root.updateExists.bind($context, {url: '@Url.Action("UpdateExists", "Ceh18")'})" class="btn btn-success" type="button" id="updateBtn">
                             <span id="updRefresh" class="glyphicon glyphicon-refresh">
                                 <img id="updLoading" alt="Loading..." src="~/Content/Images/loadingArrow.gif" style="width: 1em; height: 1.3em; display: none;" />
                             </span>

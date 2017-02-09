@@ -6,7 +6,10 @@ using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.DTO.Guild18;
-
+/// <summary>
+/// Tips;)
+/// If some part of code seems srange => this's because he's was shipped as legacy and then was migrated (MVC => single page (knockout)
+/// </summary>
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
@@ -63,16 +66,10 @@ namespace NaftanRailway.WebUI.Controllers {
                 var result = _bussinesEngage.ShippingPreview(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                    return Json(result, JsonRequestBehavior.DenyGet);
                 }
-
-                //if (recordCount == 0) {
-                //    return PartialView("_NotFoundModal", menuView.ShippingChoise);
-                //}
-                ////report main date (month/year)
-                //ViewBag.datePeriod = menuView.ReportPeriod;
-                //return PartialView("_DeliveryPreviewModal", result.ToList());
             }
+
             return new EmptyResult();
         }
 
@@ -109,13 +106,14 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLineDTO> docInfo) {
-            if (Request.IsAjaxRequest()) {
-                _bussinesEngage.PackDocSql(reportPeriod, docInfo);
+        public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLineDTO> docInfo, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
+                var result = _bussinesEngage.PackDocSql(reportPeriod, docInfo);
 
-                return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
+                return Json(result, JsonRequestBehavior.DenyGet);
             }
-            return new EmptyResult();
+
+            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
 
         /// <summary>
@@ -127,22 +125,26 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="idInvoice"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice) {
-            if (Request.IsAjaxRequest()) {
-                TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
+        public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
+                //TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
+                var result = _bussinesEngage.DeleteInvoice(reportPeriod, idInvoice);
 
-                return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
+                return Json(result, JsonRequestBehavior.DenyGet);
             }
-            return new EmptyResult();
+
+            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
 
         [HttpPost]
-        public ActionResult UpdateExists(SessionStorage storage, DateTime reportPeriod) {
-            if (Request.IsAjaxRequest()) {
-                _bussinesEngage.UpdateExists(reportPeriod);
-                return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod });
+        public ActionResult UpdateExists(SessionStorage storage, DateTime reportPeriod, bool asService = false) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
+                var result = _bussinesEngage.UpdateExists(reportPeriod);
+
+                return Json(result, JsonRequestBehavior.DenyGet);
             }
-            return new EmptyResult();
+
+            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
     }
 }

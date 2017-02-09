@@ -381,13 +381,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             return true;
         }
         public IEnumerable<ShippingInfoLineDTO> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
-            DateTime startDate = dateOper.AddDays(-3);
-            DateTime endDate = dateOper.AddMonths(1).AddDays(3);
+            DateTime startDate = dateOper.AddDays(-5);
+            DateTime endDate = dateOper.AddMonths(1).AddDays(5);
             IEnumerable<ShippingInfoLineDTO> result = new List<ShippingInfoLineDTO>();
-
+             
             var delivery = _engage.GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
                (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))).ToList();
-
+            
             if (!delivery.Any()) {
                 recordCount = 0;
             } else {

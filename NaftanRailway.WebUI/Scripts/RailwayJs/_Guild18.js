@@ -114,29 +114,30 @@ More information: https://learn.javascript.ru/xhr-crossdomain*/
 ////dataType: The type of data that you're expecting back from the server.
 ////contentType: When sending data to the server, use this content-type.
 //$("#updateBtn").on('click', function (e) {
-//    //jQuery.support.cors = true;
-//    //$(this).css('cursor', 'progress');
-//    var elem = $("#updateBtn");
-//    var updIcon = $("#updRefresh");
-//    var updLoadingPng = $("#updLoading");
-//    //animation
-//    elem.toggleClass(" btn-warning");
-//    updIcon.toggleClass("glyphicon glyphicon-refresh");
-//    updLoadingPng.css("display", "inline");
-//    $.ajax({
-//        url: "/UpdateExists",
-//        //crossDomain: true,
-//        type: "Post",
-//        contenType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
-//        data: { reportPeriod: moment($('.datepicker').datepicker('getUTCDate')).format('01.MM.YYYY') },
-//        success: function (result) {
-//            //RenderSync();
-//            $("#infoArea").empty().append(result);
-//            elem.toggleClass(" btn-warning");
-//            updIcon.toggleClass("glyphicon glyphicon-refresh");
-//            updLoadingPng.css("display", "none");
-//        },
-//        error: function (data) { console.log("datepicker ajax request error:" + data) }
-//    });
-//    //$(this).css('cursor', 'auto');
+    //jQuery.support.cors = true;
+    //$(this).css('cursor', 'progress');
+    //var elem = $("#updateBtn");
+    //var updIcon = $("#updRefresh");
+    //var updLoadingPng = $("#updLoading");
+    ////animation
+    //elem.toggleClass(" btn-warning");
+    //updIcon.toggleClass("glyphicon glyphicon-refresh");
+    //updLoadingPng.css("display", "inline");
+
+    //$.ajax({
+    //    url: "/UpdateExists",
+    //    //crossDomain: true,
+    //    type: "Post",
+    //    contenType: "application/x-www-form-urlencoded; charset=UTF-8", dataType: "html",
+    //    data: { reportPeriod: moment($('.datepicker').datepicker('getUTCDate')).format('01.MM.YYYY') },
+    //    success: function (result) {
+            //RenderSync();
+            //$("#infoArea").empty().append(result);
+            //elem.toggleClass(" btn-warning");
+            //updIcon.toggleClass("glyphicon glyphicon-refresh");
+            //updLoadingPng.css("display", "none");
+    //    },
+    //    error: function (data) { console.log("datepicker ajax request error:" + data) }
+    //});
+    //$(this).css('cursor', 'auto');
 //});

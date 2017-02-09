@@ -1,10 +1,10 @@
 ﻿@*@model DispatchListViewModel*@
 @{
     Layout = null;
-    var i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
+    //var i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
 }
 <div id="categories" class="col-lg-2 hidden-xs">
-    @*@{Html.RenderAction("MenuTypeOperations", "Navigation");}*@
+    @{Html.RenderAction("MenuTypeOperations", "Navigation");}
 </div>
 
 <div class="col-xs-12 col-lg-10">
