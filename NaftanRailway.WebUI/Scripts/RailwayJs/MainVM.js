@@ -16,6 +16,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
         loadingState: ko.observable(false),
         reportPeriod: ko.observable(moment()._d),
+        operationCategory: ko.observable(0),
         invoice: ko.observable(),
         notFoundModal: ko.observable(false),
         previewModal: ko.observable(false)
@@ -28,7 +29,13 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
         //work with options
         var defaults = {
-            data: { "pageSize": self.itemsPerPage() },
+            data: {
+                "pageSize": self.itemsPerPage(),
+                'ShippingChoise': '',
+                'SelectedOperCategory': 0,
+                'TypesOfOperation': [1,2],
+                'ReportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+            },
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 //firts initialization avoid multibinding
@@ -52,6 +59,9 @@ appRail.DispatchsVM = (function ($, ko, db) {
             self.dispatchs($.map(data.Dispatchs, function (val, i) {
                 return new appRail.Dispach(val);
             }));
+
+            //list of operations
+            self.operationCategory(data.OperationCategory);
 
             //pagging
             self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
@@ -201,6 +211,12 @@ appRail.DispatchsVM = (function ($, ko, db) {
         });
     };
 
+    function changeCountPerPage(link, ev) {
+        init({
+            url: self.pagging().getPageUrl() + 1
+        }, self);
+    };
+
     /*System extensation for Jquery unbinding*/
     ko.unapplyBindings = function ($node, remove) {
         // unbind events
@@ -256,6 +272,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
         searchInvoice: searchInvoice,
         addInvoice: addInvoice,
         updateExists: updateExists,
+        changeCountPerPage: changeCountPerPage,
+        deleteInvoice: deleteInvoice,
 
         loadingState: self.loadingState,
         dispatchs: self.dispatchs,
@@ -263,6 +281,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         alert: self.alert,
         pagging: self.pagging,
         reportPeriod: self.reportPeriod,
+        operationCategory: self.operationCategory,
         invoice: self.invoice,
         notFoundModal: self.notFoundModal,
         previewModal: self.previewModal,

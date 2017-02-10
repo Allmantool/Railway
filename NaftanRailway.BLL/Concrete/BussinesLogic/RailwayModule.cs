@@ -97,7 +97,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
             var wrkDispatch = _engage.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).ToList();
-            var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) && wrkDispatch.Contains(x.id)).ToList();
+
+            var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32 
+                                && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) 
+                                && wrkDispatch.Contains(x.id)).ToList();
 
             return result;
         }

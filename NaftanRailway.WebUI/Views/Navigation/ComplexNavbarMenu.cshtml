@@ -20,7 +20,7 @@
 
                     <div class="form-group col-md-5">
                         <div data-bind="datepicker: { observable: $root.reportPeriod }" class="input-group date">
-                            @Html.TextBoxFor(m => m.ReportPeriod, new { @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
+                            @Html.TextBoxFor(m => m.ReportPeriod, new { data_bind = "event: {change: $root.init.bind($data, null)}" , @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
                             <span data-bind="popover:{ content: 'Выбрать отчётный период (месяц)', placement: 'bottom'}" class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </span>
