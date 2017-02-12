@@ -27,9 +27,15 @@ appRail.Pagination = function (parentObj, urlTemplate, parent) {
 
     self.allPages = ko.pureComputed(function () {
         var pages = [];
+
         for (var i = 0; i <= Math.floor((self.TotalItems() - 1) / self.ItemsPerPage()) ; i++) {
             pages.push({ pageNumber: (i + 1) });
         }
+
+        //default value
+        if (pages.length === 0) {
+            pages.push({ pageNumber: 1 });
+        };
 
         return pages;
     });//.extend({ deferred: true });

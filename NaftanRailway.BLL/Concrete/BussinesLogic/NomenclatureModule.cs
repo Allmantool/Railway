@@ -173,6 +173,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     itemRow.nds = charge.nds;
                     itemRow.summa = charge.summa;
                     itemRow.kol = charge.kol;
+                    itemRow.textm = charge.textm;
 
                     //mark as edit
                     itemRow.ErrorState = 2;

@@ -12,7 +12,7 @@
     <td data-bind="text: $data.sm_nds(), popover:{title: 'Сумма НДС САПОД:', content: $data.nds().toString(), placement: 'top'}" class="text-right vert-align"></td>
     <td data-bind="text: $data.sm()" class="text-right vert-align"></td>
     <td data-bind="text: $data.stnds() + '%'" class="text-right vert-align"></td>
-    <td data-bind="text: $data.txt(), popover:{title: 'Комментарий САПОД:', content: $data.textm(), placement: 'top'}" class="vert-align" style="white-space: nowrap"></td>
+    <td data-bind="text: $data.txt(), popover:{title: 'Комментарий САПОД:', content: $data.textm, placement: 'top'}" class="vert-align" style="white-space: nowrap"></td>
     <td data-bind="text: $data.ORC_ID_ED(), popover:{title: 'Индификатор САПОД:', content: $data.ID_ED(), placement: 'top'}, style:{color: $data.ORC_ID_ED() !==  $data.ID_ED() ? 'red' : 'black'}" class="vert-align"></td>
     <td data-bind="text: $data.kol()" class="text-center success vert-align"></td>
 </tr>

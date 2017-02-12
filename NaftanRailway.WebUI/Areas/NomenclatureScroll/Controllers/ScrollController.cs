@@ -23,8 +23,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
         /// <summary>
         /// View table krt_Naftan (with infinite scrolling)
-        /// For increase jquery perfomance in IE8 method apply paging instead of ajax infinite scrolling
-        /// (IsAjaxRequest leave for compability with older version (ajax)
+        /// For increase jquery performance in IE8 method apply paging instead of ajax infinite scrolling
+        /// (IsAjaxRequest leave for compatibility with older version (ajax)
         /// </summary>
         /// <returns></returns>
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
@@ -64,7 +64,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
         /// <summary>
         /// Return krt_Naftan_orc_sapod
-        /// Detail gathering of one scroll 
+        /// Detail gathering of one scroll
         /// </summary>
         /// <returns></returns>
         public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
@@ -135,7 +135,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         }
 
         /// <summary>
-        /// Request from ajax-link and then response json to JqueryFunction(UpdateData)
+        /// Request from Ajax-link and then response json to JqueryFunction(UpdateData)
         /// </summary>
         /// <param name="numberScroll"></param>
         /// <param name="reportYear"></param>

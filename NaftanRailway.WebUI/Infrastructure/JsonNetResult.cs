@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Text;
 
 namespace NaftanRailway.WebUI.Infrastructure {

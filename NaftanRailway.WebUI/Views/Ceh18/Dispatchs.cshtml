@@ -4,94 +4,84 @@
     //int i = (int)(ViewData["index"] ?? 0);
 }
 
-<!-- ko foreach: $root.dispatchs -->
-<div class="panel panel-default col-lg-12" data-bind="attr: {id: 'myPanel' + $index}">
-    <div class="panel-heading small row small">
-        <div class="col-lg-2 row">
-            <ul class="list-inline text-capitalize">
-                <li class="panel-title">
-                    <span data-bind="css: directionGlyphicon"></span>
-                    <a data-bind="attr: {'href': '#' + $index}, text: $data.shInfoExists ? $data.VOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
-                </li>
-            </ul>
+<div data-bind="foreach: $root.dispatchs(), visible: true" style="display:none;">
+    <div class="panel panel-default col-lg-12" data-bind="attr: {id: 'myPanel' + $index()}">
+        <div class="panel-heading small row small">
+            <div class="col-lg-2 row">
+                <ul class="list-inline text-capitalize">
+                    <li class="panel-title">
+                        <span data-bind="css: directionGlyphicon"></span>
+                        <a data-bind="attr: {'href': '#' + $index()}, text: $data.shInfoExists ? $data.VOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-9 row">
+                <!-- ko if: $data.shInfoExists -->
+                <ul class="list-inline text-center">
+                    <li><strong>От: </strong><span data-bind="text: $data.fullNameSender()"></span></li>
+                    <li><span class="glyphicon glyphicon-arrow-right"></span></li>
+                    <li><strong>Кому: </strong><span data-bind="text: $data.fullNameReceiver()"></span></li>
+                    <li><strong>Груз: </strong><span data-bind="text: $data.Etsng.name() + '(ЕТСНГ: ' + $data.Etsng.etsng1() + ')'"></span><span class="small"></span></li>
+                    <li><strong>Склад: </strong><span data-bind="text: $data.Guild18.warehouse()"></span></li>
+                </ul>
+                <!-- /ko -->
+                <!-- ko ifnot: $data.shInfoExists -->
+                <p data-bind="text:$data.KNaftan()[0].U_KOD() === 2 ? 'Багаж ст. Витебск' : 'Прохождение проверки знаний'"
+                   style="font-size: 1.5em; vertical-align: middle; text-align: center;">
+                </p>
+                <!-- /ko -->
+            </div>
+            <div class="col-lg-0 text-right pull-right">
+                <button data-bind="click: $root.deleteInvoice.bind($data, { url : '@Url.Action("DeleteDocInfo", "Ceh18")'}),
+                               attr: {'id' : 'btn' + $index()}" class="btn btn-sm btn-link btn-warning">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
         </div>
-        <div class="col-lg-9 row">
-            <!-- ko if: $data.shInfoExists -->
-            <ul class="list-inline text-center">
-                <li><strong>От:</strong><span data-bind="text: $data.fullNameSender()"></span></li>
-                <li><span class="glyphicon glyphicon-arrow-right"></span></li>
-                <li><strong>Кому:</strong><span data-bind="text: $data.fullNameReceiver()"></span></li>
-                @*<li><strong>Груз:</strong> @String.Join(", ", sh.Etsng)<span class="small">(ЕТСНГ: @sh.VOtpr.cod_tvk_etsng)</span></li>*@
-                <li><strong>Склад:</strong><span data-bind="text: $data.Guild18.warehouse()"></span></li>
-            </ul>
-            <!-- /ko -->
-            <!-- ko ifnot: $data.shInfoExists -->
-            <p data-bind="text:$data.KNaftan()[0].U_KOD() === 2 ? 'Багаж ст. Витебск' : 'Прохождение проверки знаний'"
-               style="font-size: 1.5em; vertical-align: middle; text-align: center;">
-            </p>
-            <!-- /ko -->
-        </div>
-        <div class="col-lg-0 text-right pull-right">
-            <button data-bind="click: $root.deleteInvoice.bind($data, { url : '@Url.Action("DeleteDocInfo", "Ceh18")'}), attr: {'id' : 'btn' + $index.toString()}" class="btn btn-sm btn-link btn-warning">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
-        </div>
-    </div>
-    <div data-bind="attr: {'id' : $index.toString()}" class="collapse row">
-        <div class="panel-body">
-            @*@if (sh.VOtpr != null) {
-                    <ul class="list-inline text-center small">
-                        @if (sh.Vovs.Any()) {
-                            <li><strong>Вагон(ы) №:</strong> @String.Join(", ", sh.Vovs)</li>
-                        }
-                        @if (sh.VPams.Any()) {
-                            <li><strong>Ведомости:</strong> @String.Join(", ", sh.VPams.Select(x => x.nved))</li>
-                        }
-                        @if (sh.VAkts.Any()) {
-                            <li><strong>Акты:</strong> @String.Join(", ", sh.VAkts.Select(x => x.nakt))</li>
-                        }
-                        @if (sh.VKarts.Any()) {
-                            <li><strong>Накопительные карточки:</strong> @String.Join(", ", sh.VKarts.Select(x => x.num_kart))</li>
-                        }
-                        @if (sh.KNaftan.Any()) {
-                            <li><strong>Перечни:</strong> @String.Join(", ", sh.KNaftan.Select(x => x.NKRT))</li>
-                        }
-                        @if (sh.VOtpr.g6.Length > 0) {
-                            <li><strong>Договор:</strong> @sh.VOtpr.g6</li>
-                        }
-                        @if (sh.VOtpr.g11.Length > 0) {
-                            <li><strong>Описание:</strong> @sh.VOtpr.g11</li>
-                        }
-                    </ul>
-                } else {
-                    <div>
-                        <ul class="list-inline text-center small">
-                            @if (sh.VKarts.Any()) {
-                                <li><strong>Накопительные карточки:</strong> @String.Join(", ", sh.VKarts.Select(x => x.num_kart))</li>
-                            }
-                            @if (sh.KNaftan.Any()) {
-                                <li><strong>Перечни:</strong> @String.Join(", ", sh.KNaftan.Select(x => x.NKRT))</li>
-                            }
-                        </ul>
-                    </div>
-                }*@
-        </div>
-        <div class="panel-footer small">
-            <ul class="list-inline">
-                @*@if (sh.VOtpr != null) {
-                        <li class="pull-left">
-                            @(sh.VOtpr.oper == 1 ? "Отправка" : "Прибытие")
-                            @(sh.VOtpr.date_oper != null ? sh.VOtpr.date_oper.Value.ToString("d MMM yyyy") : "Не указана")
-                        </li>
-                        <li class="pull-right">@sh.VOtpr.fio_tk</li>
-                    } else {
-                        <li class="pull-left">
-                            <span>Дополн. сбор</span>
-                            @(sh.KNaftan != null ? @String.Join(", ", sh.KNaftan.Select(x => x.EndDate_PER.ToString("d MMM yyyy"))) : "Не указана")
-                        </li>
-                    }*@
-            </ul>
+        <div data-bind="attr: {id : $index()}" class="collapse row">
+            <div class="panel-body">
+                <ul class="list-inline text-center small">
+                    <li data-bind="if: $data.VKarts().length > 0">
+                        <strong>Накопительные карточки:</strong><span data-bind="text: $data.cardList()"></span>
+                    </li>
+                    <li data-bind="if: $data.KNaftan().length > 0">
+                        <strong>Перечни:</strong><span data-bind="text: $data.scrollList()"></span>
+                    </li>
+                    <!-- ko if: $data.shInfoExists() -->
+                    <!-- ko if: $data.Vovs().length > 0 -->
+                    <li><strong>Вагон(ы) №:</strong><span data-bind="text: $data.carriageList()"></span></li>
+                    <!-- /ko -->
+                    <li data-bind="if: $data.VPams().length > 0">
+                        <strong>Ведомости:</strong><span data-bind="text: $data.statementList()"></span>
+                    </li>
+                    <li data-bind="if: $data.VAkts().length > 0">
+                        <strong>Акты:</strong><span data-bind="text: $data.actList()"></span>
+                    </li>
+                    <!-- ko if: $data.VOtpr !== undefined -->
+                    <li><strong>Договор:</strong><span data-bind="text: $data.VOtpr.g6()"></span></li>
+                    <li><strong>Описание:</strong><span data-bind="text: $data.VOtpr.g11()"></span></li>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </ul>
+            </div>
+            <div class="panel-footer small">
+                <ul class="list-inline">
+                    <!-- ko if: $data.shInfoExists() -->
+                    <li class="pull-left">
+                        <span data-bind="text: $data.VOtpr.oper() === 1 ? 'Отправка' : 'Прибытие'"></span>
+                        <span data-bind="text: $data.VOtpr.date_oper() !== undefined ? moment($data.VOtpr.date_oper()).format('DD.MM.YYYY') : 'Не указана' "></span>
+                    </li>
+                    <li data-bind="text: $data.VOtpr.fio_tk()" class="pull-right"></li>
+                    <!-- /ko -->
+                    <!-- ko if: $data.shInfoExists() === false -->
+                    <li class="pull-left">
+                        <span>Дополн. сбор</span>
+                        <span data-bind="$data.scrollList().length > 0 ? '' : 'Не указана'"></span>
+                        @*@(sh.KNaftan != null ? @String.Join(", ", sh.KNaftan.Select(x => x.EndDate_PER.ToString("d MMM yyyy"))) : "Не указана")*@
+                    </li>
+                    <!-- /ko -->
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-<!-- /ko -->

@@ -20,7 +20,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             _engage = engage;
         }
 
-        /// <summary>   
+        /// <summary>
         /// Формирования объекта отображения информации об отправках (по накладной за отчётный месяц)
         /// </summary>
         /// <param name="operationCategory">filter on category</param>
@@ -89,17 +89,17 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return result;
         }
-        
+
         /// <summary>
-        /// Get current avaible type of operation on dispatch
+        /// Get current available type of operation on dispatch
         /// </summary>
         /// <param name="chooseDate"></param>
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
             var wrkDispatch = _engage.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).ToList();
 
-            var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32 
-                                && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)) 
+            var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32
+                                && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
                                 && wrkDispatch.Contains(x.id)).ToList();
 
             return result;
@@ -246,7 +246,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// Альтернатива PAckDocuments на стороне БД ОРЦ (т.е контрольные данные=> приходят поздже).
         /// Т.к EF6  не поддерживает работу Join с двумя котестами (таблицы находяться на разных серверах)=>
         /// Возможные варианты (выбран 3)
-        /// 1)Создание view для таблиц из другого сервера 
+        /// 1)Создание view для таблиц из другого сервера
         /// 2)ковыряние в edmx (необходимо также работа c synonem в  SQL)
         /// 3)Написание SQL прямых заросов и разметка сущностей (теряем обстракцию, т.к необходимо указывать явные имена linkid servers)
         /// </summary>
@@ -279,9 +279,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                             CONVERT(int,left(vn.[cod_sbor],3)) AS [code], vn.[summa] + vn.[nds] as [sum],
                             NULL AS [parseTextm],
                             CONVERT(decimal(18,2),vn.[nds]/vn.[summa]) as [rateVAT], vn.[id_kart] AS [idCard]
-                        FROM " + sapodConn + @".[dbo].[v_nach] AS vn 
+                        FROM " + sapodConn + @".[dbo].[v_nach] AS vn
                         WHERE (vn.[id_otpr] = (@id_otpr) OR vn.[cod_sbor] IN ('125')) AND vn.[type_doc] IN (1,4) AND (vn.[date_raskr] BETWEEN @stDate AND @endDate) AND vn.[cod_kl] IN ('3494','349402')
-                        
+
                         UNION ALL
 
                         /*Doc from Scrolls*/
@@ -297,7 +297,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                 ON ((vn.[id_kart] = vp.[id_kart] AND vn.[type_doc] = 2) AND vp.[kodkl] IN ('3494','349402')) OR
                            (vn.[date_raskr] IN (convert(date,vpv.[d_pod]),convert(date,vpv.[d_ub])) AND vn.[cod_sbor] = '065' AND vn.[type_doc] = 4)
                         WHERE vpv.[nomvag] IN (" + carriages + @") AND vn.[cod_kl] IN ('3494','349402') AND [state] = 32 AND (vp.[dved] BETWEEN @stDate AND @endDate)
-                        
+
                         UNION ALL
 
                         /*Doc from Act*/
@@ -311,19 +311,19 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                 ON vn.id_kart = va.id_kart AND vn.type_doc = 3 AND va.kodkl IN ('3494','349402') AND vn.cod_kl IN ('3494','349402') AND [state] = 32
                         WHERE Exists (SELECT * from " + sapodConn + @".[dbo].v_akt_vag as vav where vav.nomvag IN (" + carriages + @") and va.id = vav.id_akt) AND (va.dakt BETWEEN @stDate AND @endDate)
                     )
-                        
+
                         SELECT 0 as [id], sr.reportPeriod,sr.idSapod, knos.keykrt AS [idScroll],knos.keysbor AS [scrollColl], sr.warehouse, sr.idDeliviryNote,sr.type_doc, sr.idSrcDocument,
                         CONVERT(BIT,CASE WHEN CONVERT(int,sr.codeType) IN (166,173,300,301,344) THEN 0 ELSE 1 END) AS [codeType],
-                        sr.code, CASE sr.code 
-							WHEN 65 THEN  
+                        sr.code, CASE sr.code
+							WHEN 65 THEN
 								ROUND(ISNULL(ISNULL(knos.sm,sr.[sum]) / cast('' as xml).value('sql:column(" + @"""" + "parseTextm" + @"""" + @") cast as xs:integer ?', 'int') * @countCarriages,0),4)
                             ELSE ISNULL(knos.sm, sr.[sum])
                         END AS[sum], sr.[rateVat],sr.idCard
                         FROM SubResutl AS sr LEFT JOIN " + orcConn + @".[dbo].[krt_Naftan_orc_sapod] AS knos
 	                        ON knos.id = sr.idSapod AND knos.tdoc = sr.type_doc
-                        
-                        UNION ALL 
-                        
+
+                        UNION ALL
+
                         SELECT 0 as [id], @reportPeriod AS [reportPeriod], knos.id AS [idSapod],
                             kn.keykrt AS [idScroll],knos.keysbor AS [scrollColl],@warehouse AS [warehouse], NULL AS [idDeliviryNote], tdoc as [type_doc],
                             CASE tdoc when 4 THEN knos.id_kart else NULL END AS [idSrcDocument],
@@ -387,10 +387,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             DateTime startDate = dateOper.AddDays(-5);
             DateTime endDate = dateOper.AddMonths(1).AddDays(5);
             IEnumerable<ShippingInfoLineDTO> result = new List<ShippingInfoLineDTO>();
-             
+
             var delivery = _engage.GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
                (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))).ToList();
-            
+
             if (!delivery.Any()) {
                 recordCount = 0;
             } else {

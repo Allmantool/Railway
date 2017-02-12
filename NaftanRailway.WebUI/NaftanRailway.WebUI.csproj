@@ -610,8 +610,6 @@
     <Content Include="Content\images\good_or_tick.png" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -633,8 +631,6 @@
     <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\IEJs\IE9-.js" />
-    <Content Include="Content\_bootstrap-datetimepicker.less" />
-    <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css.map" />
