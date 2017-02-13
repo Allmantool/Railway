@@ -14,7 +14,7 @@ appNomenclature.CustExtend = (function ($, ko) {
             read: target,  //always return the original observables value
             write: function (newValue) {
                 var _donominationConst = 15072000209229;
-                var current = target().toLocaleString('Ru-ru');
+                var current = (target() === null ? '' : target().toLocaleString('Ru-ru'));
 
                 //only write if it changed
                 if (key >= _donominationConst) {
@@ -31,6 +31,26 @@ appNomenclature.CustExtend = (function ($, ko) {
 
         //return the new computed observable
         return result;
+    };
+
+    //change observeable only if submit
+    ko.extenders.undoRedo = function (target, submit) {
+        var _startVal = target;
+        var result;
+
+        //target.subscribe(function (oldValue) {
+        //    //Only legecy value (start value)
+        //    if (oldValue === target()) {
+        //        result = target();
+        //    }
+        //}, this, "beforeChange");
+
+        target.subscribe(function (newValue) {
+            if (submit) { result = newValue; }
+        }, this);
+
+        //return the new computed observable
+        return _startVal;
     };
 
 }(jQuery, ko));

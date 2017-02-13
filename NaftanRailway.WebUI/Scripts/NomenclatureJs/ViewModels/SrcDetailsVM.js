@@ -65,7 +65,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             }
         };
 
-        self.charges(ko.mapping.fromJS(rows, mappingOptions)());
+        self.charges(ko.mapping.fromJS(rows, mappingOptions)(),_parent);
 
         //count of rows (lopping error???)
         //http://knockoutjs.com/documentation/computed-dependency-tracking.html

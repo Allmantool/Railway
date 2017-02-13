@@ -4,8 +4,9 @@
 var appNomenclature = window.appNomenclature || {};
 
 //constuctor
-appNomenclature.Charge = function (data) {
+appNomenclature.Charge = function (data, parent) {
     //private cost
+    var _parent = parent;
 
     var self = this;
 
@@ -17,6 +18,8 @@ appNomenclature.Charge = function (data) {
     self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });
     self.summa = ko.observable(self.summa()).extend({ keysbor: self.keysbor() });
     self.nds = ko.observable(self.nds()).extend({ keysbor: self.keysbor() });
+
+    self.textm = ko.observable(self.textm()).extend({ undoRedo: false });
 
     self.date_raskr = ko.computed(function () {
         var result = self.vidsbr().toString().search(new RegExp('30[01]', 'i')) > -1 ?
