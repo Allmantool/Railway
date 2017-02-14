@@ -61,11 +61,11 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
                 return ko.utils.unwrapObservable(data.keysbor);
             },
             create: function (options) {
-                return new appNomenclature.Charge(options.data);
+                return new appNomenclature.Charge(options.data, self);
             }
         };
 
-        self.charges(ko.mapping.fromJS(rows, mappingOptions)(),_parent);
+        self.charges(ko.mapping.fromJS(rows, mappingOptions)());
 
         //count of rows (lopping error???)
         //http://knockoutjs.com/documentation/computed-dependency-tracking.html
@@ -141,21 +141,25 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     };
 
     function syncWithDB(link, context) {
+        //save changes in extended observebles in edit mode (then automatically check to default state for edit mode => false)
+        context.persist(true);
+
         var defaults = {
             url: link,
             type: "Post",
             data: ko.mapping.toJSON({ "charge": context, "asService": true }),
-            beforeSend: function () { _parent.loadingState(true); },
+            beforeSend: function () {
+                _parent.loadingState(true);
+            },
             complete: function () {
                 _parent.loadingState(false);
+                self.editModal(false);
             }
         }
 
         db.getScr(function (opts) {
             _parent.alert().statusMsg('Информация по сбору успешно изменена! ' + opts).alertType('alert-success').mode(true);
         }, defaults);
-
-        self.editModal(false);
     }
 
     return {

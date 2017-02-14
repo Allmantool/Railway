@@ -19,7 +19,9 @@ appNomenclature.Charge = function (data, parent) {
     self.summa = ko.observable(self.summa()).extend({ keysbor: self.keysbor() });
     self.nds = ko.observable(self.nds()).extend({ keysbor: self.keysbor() });
 
-    self.textm = ko.observable(self.textm()).extend({ undoRedo: false });
+    //revert or submit editable property (with same named ko extend)
+    self.persist = ko.observable(false);
+    self.textm = ko.observable(self.textm()).extend({ editable: self.persist });
 
     self.date_raskr = ko.computed(function () {
         var result = self.vidsbr().toString().search(new RegExp('30[01]', 'i')) > -1 ?

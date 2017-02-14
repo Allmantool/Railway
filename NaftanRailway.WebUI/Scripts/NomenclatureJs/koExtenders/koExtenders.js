@@ -33,24 +33,33 @@ appNomenclature.CustExtend = (function ($, ko) {
         return result;
     };
 
-    //change observeable only if submit
-    ko.extenders.undoRedo = function (target, submit) {
-        var _startVal = target;
-        var result;
+    //change observeable only if submit (simple edit behavior)
+    //By default edit modal not persiste change if they were done without pushing on submit button
+    //target => current observable
+    //persiste => save mode
+    ko.extenders.editable = function (target, persiste) {
+        var originalState = ko.toJS(target), lastValue = ko.observable();
 
-        //target.subscribe(function (oldValue) {
-        //    //Only legecy value (start value)
-        //    if (oldValue === target()) {
-        //        result = target();
-        //    }
-        //}, this, "beforeChange");
+        persiste.subscribe(function (mode) {
+            if (persiste()) {
+                return result(lastValue());
+            }
+        }/*, this, "beforeChange"*/);
 
-        target.subscribe(function (newValue) {
-            if (submit) { result = newValue; }
-        }, this);
+        var result = ko.computed({
+            read: target,
+            write: function (newValue) {
+                lastValue(newValue);
 
-        //return the new computed observable
-        return _startVal;
+                persiste() ? target(newValue) : target();
+
+                //to default
+                return persiste(false);
+            }
+        }).extend({ notify: 'always' });
+
+        //return the new computed observable (initialize)
+        return result;
     };
 
 }(jQuery, ko));

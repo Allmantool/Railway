@@ -31,6 +31,11 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
             pages.push({ pageNumber: (i + 1) });
         }
 
+        //default value
+        if (pages.length === 0) {
+            pages.push({ pageNumber: 1 });
+        };
+
         return pages;
     });//.extend({ deferred: true });
 
