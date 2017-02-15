@@ -4,14 +4,18 @@
     //int i = (int)(ViewData["index"] ?? 0);
 }
 
-<div data-bind="foreach: $root.dispatchs(), visible: true" style="display:none;">
-    <div class="panel panel-default col-lg-12" data-bind="attr: {id: 'myPanel' + $index()}">
+<div data-bind="foreach: $root.dispatchs(), visible: true, css: { overlayTable: $root.loadingState(), display: 'inline-block'}," style="display:none;">
+    <div class="panel panel-default col-lg-12"
+         data-bind="attr: {id: 'myPanel' + $index()},
+                    event: {mouseover: $data.selected.bind($data,true), mouseout: $data.selected.bind($data,false) },
+                    css: {'panel-primary' :  $data.selected(), 'panel-default':  !$data.selected()}">
         <div class="panel-heading small row small">
             <div class="col-lg-2 row">
                 <ul class="list-inline text-capitalize">
                     <li class="panel-title">
-                        <span data-bind="css: directionGlyphicon"></span>
-                        <a data-bind="attr: {'href': '#' + $index()}, text: $data.shInfoExists ? $data.VOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
+                        <span data-bind="css: $data.directionGlyphicon()"></span>
+                        <a data-bind="popover: {content: 'Нажмите, чтобы отобразить доп. информацию'},
+                           attr: {'href': '#' + $index()}, text: $data.shInfoExists() ? $data.VOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
                     </li>
                 </ul>
             </div>
@@ -31,14 +35,14 @@
                 </p>
                 <!-- /ko -->
             </div>
-            <div class="col-lg-0 text-right pull-right">
+            <div data-bind="popover: {content: 'Удалить информацию по накладной?'}" class="col-lg-0 text-right pull-right">
                 <button data-bind="click: $root.deleteInvoice.bind($data, { url : '@Url.Action("DeleteDocInfo", "Ceh18")'}),
                                attr: {'id' : 'btn' + $index()}" class="btn btn-sm btn-link btn-warning">
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </div>
         </div>
-        <div data-bind="attr: {id : $index()}" class="collapse row">
+        <div data-bind="collapse: {},attr: {id : $index()}" class="collapse row">
             <div class="panel-body">
                 <ul class="list-inline text-center small">
                     <li data-bind="if: $data.VKarts().length > 0">
@@ -57,9 +61,9 @@
                     <li data-bind="if: $data.VAkts().length > 0">
                         <strong>Акты:</strong><span data-bind="text: $data.actList()"></span>
                     </li>
-                    <!-- ko if: $data.VOtpr !== undefined -->
-                    <li><strong>Договор:</strong><span data-bind="text: $data.VOtpr.g6()"></span></li>
-                    <li><strong>Описание:</strong><span data-bind="text: $data.VOtpr.g11()"></span></li>
+                    <!-- ko if: $data.shInfoExists() -->
+                    <li data-bind="visible: $data.VOtpr.g6().length > 0"><strong>Договор:</strong><span data-bind="text: $data.VOtpr.g6()"></span></li>
+                    <li data-bind="visible: $data.VOtpr.g11().length > 0"><strong>Описание:</strong><span data-bind="text: $data.VOtpr.g11()"></span></li>
                     <!-- /ko -->
                     <!-- /ko -->
                 </ul>
@@ -76,8 +80,8 @@
                     <!-- ko if: $data.shInfoExists() === false -->
                     <li class="pull-left">
                         <span>Дополн. сбор</span>
-                        <span data-bind="$data.scrollList().length > 0 ? '' : 'Не указана'"></span>
-                        @*@(sh.KNaftan != null ? @String.Join(", ", sh.KNaftan.Select(x => x.EndDate_PER.ToString("d MMM yyyy"))) : "Не указана")*@
+                        <span data-bind="text: $data.scrollList().length > 0 ? '' : 'Не указана'"></span>
+                        <span data-bind="text: $data.scrollListDate().length > 0 ? $data.scrollListDate() : 'Не указана'"></span>
                     </li>
                     <!-- /ko -->
                 </ul>

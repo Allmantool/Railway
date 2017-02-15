@@ -287,6 +287,7 @@ appRail.CustBundings = (function ($, ko) {
         }
     };
 
+    //https://www.tutorialspoint.com/bootstrap/bootstrap_collapse_plugin.htm
     ko.bindingHandlers.collapse = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var defaults = {
@@ -296,7 +297,11 @@ appRail.CustBundings = (function ($, ko) {
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
-            $(element).collapse($merged);
+            //$(element).collapse($merged).on("hide.bs.collapse", function () {
+            //    $(".btn").html('<span class="glyphicon glyphicon-collapse-down"></span> Open');
+            //}).on("show.bs.collapse", function () {
+            //    $(".btn").html('<span class="glyphicon glyphicon-collapse-up"></span> Close');
+            //});
 
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -312,17 +317,9 @@ appRail.CustBundings = (function ($, ko) {
             var $trg = $btn.children('span');
             var $img = $btn.find('img');
 
-            if (ko.utils.unwrapObservable(value)) {
-                //animation
-                $trg.toggleClass("glyphicon glyphicon-refresh");
-                $btn.toggleClass(" btn-warning");
-                $img.css("display", "inline");
-            } else {
-                //animation
-                $trg.toggleClass("glyphicon glyphicon-refresh");
-                $btn.toggleClass(" btn-warning");
-                $img.css("display", "none");
-            }
+            $trg.toggleClass("glyphicon glyphicon-refresh");
+            $btn.toggleClass(" btn-warning");
+            $img.css("display", ko.utils.unwrapObservable(value) ? "inline" : "none");
         }
     };
 

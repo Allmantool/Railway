@@ -29,7 +29,7 @@
 
         <nav data-bind="with: $parent" class="col-lg-6 text-center" aria-label="...">
             <ul class="pager" style="margin-top: 0.6em;">
-                <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().CurrentPage() === 1 }">
+                <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().CurrentPage() <= 1 }">
                     <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === 1 ? 1 : pagging().CurrentPage() - 1)},
                                   click: pagging().previousPage, clickBubble: false">
                         <span aria-hidden="true">&larr;</span>

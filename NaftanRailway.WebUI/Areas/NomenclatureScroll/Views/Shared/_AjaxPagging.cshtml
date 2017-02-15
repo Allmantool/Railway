@@ -6,7 +6,7 @@
     </li>
     <!-- ko foreach: pagging().allPages() -->
     <li data-bind="visible: $data.pageNumber <= 10, css: {active : $data.pageNumber === $parent.pagging().CurrentPage() }">
-        <a data-bind="text: $data.pageNumber, attr: {'href': $parent.pagging().getPageUrl() + $data.pageNumber}, click: $parent.pagging().moveToPage.bind($parent)"></a>
+        <a data-bind="text: $data.pageNumber, attr: {'href': $parent.pagging().getPageUrl() + $data.pageNumber}, click: $parent.pagging().moveToPage.bind($data, $parent)"></a>
     </li>
     <!-- /ko -->
     <li class="disabled"><span>...</span></li>

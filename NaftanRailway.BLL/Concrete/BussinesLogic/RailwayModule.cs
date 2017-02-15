@@ -63,7 +63,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                           from item2 in g2.DefaultIfEmpty()
                           select new ShippingDTO() {
                               VOtpr = item,
-                              Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == item.id),
+                              Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == (item == null ? 0 : item.id)),
                               VPams = _engage.GetTable<v_pam, int>(PredicateBuilder.True<v_pam>().And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
