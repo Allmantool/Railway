@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 namespace NaftanRailway.BLL.Services {
     /// <summary>
     /// Operation type on cargo (Sending or Arrivals)
     /// </summary>
     [Serializable]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum EnumOperationType : short {
         All = 0,
         Sending = 1,
@@ -21,14 +24,14 @@ namespace NaftanRailway.BLL.Services {
         Delete = 2,
     }
 
-    /// <summary>
-    /// Detect in how mode we are working (for generalization purpose)
-    /// </summary>
-    [Serializable]
-    public enum EnumNomeclatureMode : short {
-        General = 0,
-        Detail = 1
-    }
+    ///// <summary>
+    ///// Detect in how mode we are working (for generalization purpose)
+    ///// </summary>
+    //[Serializable]
+    //public enum EnumNomeclatureMode : short {
+    //    General = 0,
+    //    Detail = 1
+    //}
 
     [Serializable]
     public enum EnumTypeFilterMenu : short {

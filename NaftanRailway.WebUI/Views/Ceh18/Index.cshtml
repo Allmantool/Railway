@@ -11,7 +11,7 @@
 </div>
 <!-- /ko -->
 
-<div class="container-fluid" id="koContainer">
+<div data-bind="visible: true" class="container-fluid" id="koContainer" style="display: none;">
     @{Html.RenderPartial("ShippingSummary");}
 
     @{Html.RenderPartial("_DeliveryPreviewModal");}

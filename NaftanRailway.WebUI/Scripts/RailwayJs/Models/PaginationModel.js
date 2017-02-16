@@ -16,13 +16,23 @@ appRail.Pagination = function (parentObj, urlTemplate, parent) {
     self.getPageUrl = ko.pureComputed(function () {
         var result = '';
 
+        var defaults = {
+            prefix: '',
+            node: [""]
+        };
+
+        var $merged = $.extend(true, defaults, urlTemplate);
+
         $.each(ko.mapping.toJS(self.RoutingDictionary), function (index, value) {
-            if ($.inArray(index, urlTemplate) > -1) {
+            if ($.inArray(index, $merged.node) > -1) {
                 result = result + value + '/';
             };
         });
 
-        return result;
+        //prefix
+        result = $merged.prefix + result;
+
+        return result
     });
 
     self.allPages = ko.pureComputed(function () {

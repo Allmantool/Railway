@@ -25,6 +25,10 @@ namespace NaftanRailway.WebUI {
             JsonMediaTypeFormatter jsonFormatter = config.Formatters.JsonFormatter;
 
             jsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+
+            //enum json convertion
+            jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
         }
     }
 }

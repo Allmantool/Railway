@@ -38,9 +38,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
                 var model = new DispatchListViewModel() {
                     Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
-                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount },
-                    OperationCategory = operationCategory,
-                    Menu = menuView
+                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount, RoutingDictionary = Request.RequestContext.RouteData.Values },
                 };
 
                 //tips: consider use web api mechanism instead of mvc implementation
@@ -83,22 +81,6 @@ namespace NaftanRailway.WebUI.Controllers {
             var result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, menuView.ReportPeriod);
 
             return Json(result, JsonRequestBehavior.DenyGet);
-        }
-
-        /// <summary>
-        /// Return grouping by oper result
-        /// </summary>
-        /// <param name="menuView"></param>
-        /// <param name="operationCategory"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult BadgesCount(InputMenuViewModel menuView, EnumOperationType operationCategory) {
-
-            //DateTime chooseDate = new DateTime(menuView.ReportPeriod.Year, menuView.ReportPeriod.Month, 1);
-
-            //var resultGroup = _bussinesEngage.Badges(menuView.ShippingChoise, chooseDate, operationCategory);
-
-            return Json("", JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>

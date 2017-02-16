@@ -4,7 +4,7 @@
     //int i = (int)(ViewData["index"] ?? 0);
 }
 
-<div data-bind="foreach: $root.dispatchs(), visible: true, css: { overlayTable: $root.loadingState(), display: 'inline-block'}," style="display:none;">
+<div data-bind="foreach: $root.dispatchs(), css: { overlayTable: $root.loadingState(), display: 'inline-block'}">
     <div class="panel panel-default col-lg-12"
          data-bind="attr: {id: 'myPanel' + $index()},
                     event: {mouseover: $data.selected.bind($data,true), mouseout: $data.selected.bind($data,false) },

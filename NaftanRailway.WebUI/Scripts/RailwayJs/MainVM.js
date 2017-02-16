@@ -17,6 +17,20 @@ appRail.DispatchsVM = (function ($, ko, db) {
         loadingState: ko.observable(false),
         reportPeriod: ko.observable(moment()._d),
         operationCategory: ko.observable(0),
+        typesOfOperation: ko.pureComputed(function () {
+            var result = [0];
+
+            $.each(self.dispatchs(), function (indx, item) {
+                //return defalut (0-'all')
+                var temp = (ko.unwrap(item.VOtpr) === null ? 0 : item.VOtpr.oper());
+
+                if ($.inArray(temp, result) === -1) {
+                    result.push(temp);
+                }
+            });
+
+            return result.sort();
+        }),
         invoice: ko.observable(),
         notFoundModal: ko.observable(false),
         previewModal: ko.observable(false)
@@ -32,8 +46,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
             data: {
                 "pageSize": self.itemsPerPage(),
                 'ShippingChoise': '',
-                'SelectedOperCategory': 0,
-                'TypesOfOperation': [1,2],
+                "operationCategory": 0,
                 'ReportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
             },
             beforeSend: function () { self.loadingState(true); },
@@ -48,7 +61,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         };
 
         //work with options
-        var $merged = $.extend({}, defaults, params);
+        var $merged = $.extend(true, defaults, params);
 
         //close modals
         self.previewModal(false);
@@ -60,11 +73,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
                 return new appRail.Dispach(val);
             }));
 
-            //list of operations
-            self.operationCategory(data.OperationCategory);
-
             //pagging
-            self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
+            self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
         }, $merged);
     };
 
@@ -217,6 +227,16 @@ appRail.DispatchsVM = (function ($, ko, db) {
         }, self);
     };
 
+    function filterByTypeOperation(val) {
+        //set up observable
+        self.operationCategory(val);
+
+        //refresh (pass empty object for avoid multi bynidng)
+        init({
+            data: { "operationCategory": val }
+        });
+    };
+
     /*System extensation for Jquery unbinding*/
     ko.unapplyBindings = function ($node, remove) {
         // unbind events
@@ -274,6 +294,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         updateExists: updateExists,
         changeCountPerPage: changeCountPerPage,
         deleteInvoice: deleteInvoice,
+        filterByTypeOperation: filterByTypeOperation,
 
         loadingState: self.loadingState,
         dispatchs: self.dispatchs,
@@ -282,6 +303,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         pagging: self.pagging,
         reportPeriod: self.reportPeriod,
         operationCategory: self.operationCategory,
+        typesOfOperation: self.typesOfOperation,
         invoice: self.invoice,
         notFoundModal: self.notFoundModal,
         previewModal: self.previewModal,
