@@ -27,7 +27,7 @@
     <div class="container-fluid">
         <label class="col-lg-3 control-label nav navbar-text">&copy; @DateTime.Now.Year ОАО "Нафтан"</label>
 
-        <nav data-bind="with: $parent" class="col-lg-6 text-center" aria-label="...">
+        <div data-bind="with: $parent" class="col-lg-6 text-center" aria-label="...">
             <ul class="pager" style="margin-top: 0.6em;">
                 <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().CurrentPage() <= 1 }">
                     <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === 1 ? 1 : pagging().CurrentPage() - 1)},
@@ -44,9 +44,9 @@
                     </a>
                 </li>
             </ul>
-        </nav>
+        </div>
 
-        <div data-bind="with: $parent, popover: { content: 'Количество записей на странице'}" class="col-lg-3 navbar-form pull-right">
+        <div data-bind="with: $parent, popover: { content: 'Количество записей на странице'}" class="navbar-form pull-right">
             <select data-bind="value: itemsPerPage, event: {change: changeCountPerPage}"
                     class="form-control" name="perPage">
                 <option value="5">5</option>

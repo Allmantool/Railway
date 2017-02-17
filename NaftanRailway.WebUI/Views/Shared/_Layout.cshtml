@@ -9,12 +9,12 @@
     <meta name="Description" content="Railway project" />
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content="1500" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     @Styles.Render("~/Content/CSSbundle")
+    <!--[if lte IE 9]>@Scripts.Render("~/bundles/CrossBr")<![endif]-->
     @Styles.Render("~/Content/RailCSS")
     <link rel="shortcut icon" href="~/Content/Images/AWT-Train.ico" type="image/x-icon" />
 </head>
-
 <body>
     @{Html.RenderAction("GeneralMenu", "Navigation");}
     <!--<div class="visible-xs">@{ Html.RenderAction("MenuTypeOperations", "Navigation", new { horizontalLayout = true }); }</div>-->
@@ -28,8 +28,7 @@
         </div>
     </div>
 
-    <!--[if lte IE 8]>
-        @Scripts.Render("~/bundles/CrossBr")
+    <!--[if lte IE 9]>
         @Scripts.Render("~/bundles/JQuery1")
         @Scripts.Render("~/bundles/JQueryUI")
         @Scripts.Render("~/bundles/BootsrapUI")

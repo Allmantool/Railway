@@ -36,8 +36,11 @@ namespace NaftanRailway.WebUI.Controllers {
                 short recordCount;
                 menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
+                //temp resolve (In some reason default binding not parse json to enum from queryString colllection)
+                var typeOfOperation = Request.QueryString["operationCategory"] == String.Empty ? (int)EnumOperationType.All : Int32.Parse(Request.QueryString["operationCategory"]);
+
                 var model = new DispatchListViewModel() {
-                    Dispatchs = _bussinesEngage.ShippingsViews(operationCategory, menuView.ReportPeriod, page, pageSize, out recordCount),
+                    Dispatchs = _bussinesEngage.ShippingsViews((EnumOperationType)typeOfOperation, menuView.ReportPeriod, page, pageSize, out recordCount),
                     PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount, RoutingDictionary = Request.RequestContext.RouteData.Values },
                 };
 

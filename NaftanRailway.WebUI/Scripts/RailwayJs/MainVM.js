@@ -18,16 +18,16 @@ appRail.DispatchsVM = (function ($, ko, db) {
         reportPeriod: ko.observable(moment()._d),
         operationCategory: ko.observable(0),
         typesOfOperation: ko.pureComputed(function () {
-            var result = [0];
+            var result = [0, 1, 2];
 
-            $.each(self.dispatchs(), function (indx, item) {
-                //return defalut (0-'all')
-                var temp = (ko.unwrap(item.VOtpr) === null ? 0 : item.VOtpr.oper());
+            //$.each(self.dispatchs(), function (indx, item) {
+            //    //return defalut (0-'all')
+            //    var temp = (ko.unwrap(item.VOtpr) === null ? 0 : item.VOtpr.oper());
 
-                if ($.inArray(temp, result) === -1) {
-                    result.push(temp);
-                }
-            });
+            //    if ($.inArray(temp, result) === -1) {
+            //        result.push(temp);
+            //    }
+            //});
 
             return result.sort();
         }),
@@ -148,7 +148,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
                     self.loadingState(false);
                 }
             });
-        });
+        }, $merged);
     }
 
     function updateExists(params, context, ev) {
@@ -182,28 +182,26 @@ appRail.DispatchsVM = (function ($, ko, db) {
                     self.loadingState(false);
                 }
             });
-        });
+        }, $merged);
     };
 
-    function deleteInvoice(node, ev) {
+    function deleteInvoice(params, ev) {
+        var $data = $.extend(true, params.data, {
+            'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+            'asService': true
+        });
+
         //work with options
-        var defaults = {
-            url: $(node).attr('action'),
+        var $merged = {
+            url: params.url,
             type: "Post",
-            data: ko.mapping.toJSON({
-                'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
-                'idInvoice': '',
-                'asService': true
-            }),
+            data: ko.mapping.toJSON($data),
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 //firts initialization
                 self.loadingState(false);
             }
         };
-
-        //work with options
-        var $merged = $.extend({}, defaults);
 
         db.getScr(function (data) {
             //update (avoid set undefined as param => multy binding)
@@ -218,7 +216,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
                     self.loadingState(false);
                 }
             });
-        });
+        }, $merged);
     };
 
     function changeCountPerPage(link, ev) {

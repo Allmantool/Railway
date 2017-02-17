@@ -7,20 +7,12 @@
 <div class="@wrapperClasses">
     <ul data-bind="foreach: $root.typesOfOperation" class="list-group">
         <li data-bind="css : {'active': $root.operationCategory() === $index()}" class="list-group-item">
-            @*<span class="badge" id="@(link == 1 ? "bangeSending" : "bangeArrivals")"></span>*@
-            @Html.RouteLink("Тип операции",
-                new {
-                    //operationCategory = ((EnumOperationType)link).ToString(),
-                    //page = 1,
-                    //reportPeriod = Model.ReportPeriod.ToString("MMyyyy"),
-                    //templateNumber = Model.ShippingChoise ?? ""
-                }, new {
-                    @class = (horizontal ? "btn btn-default btn-sm" : "list-group-item-text"),
-                    data_bind = "click: $root.filterByTypeOperation.bind($data, $index())," +
-                                "text: $root.typesOfOperation()[$index()] === 0 ? 'Все' : $root.typesOfOperation()[$index()] === 1 ? 'Отправка' : 'Прибытие'," +
-                                "attr: {'href': '' }"
-                })
+            <a class="@(horizontal ? "btn btn-default btn-sm" : "list-group-item-text")"
+               data-bind="click: $root.filterByTypeOperation.bind($data, $index()),
+                          text: $root.typesOfOperation()[$index()] === 0 ? 'Все' : $root.typesOfOperation()[$index()] === 1 ? 'Отправка' : 'Прибытие',
+                          attr: {'href': '' }" />
+            </a>
+            @*<span data-bind="text:" class="badge">4</span>*@
         </li>
     </ul>
-
 </div>

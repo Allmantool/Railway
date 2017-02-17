@@ -18,7 +18,9 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/CrossBr", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js").NonOrdering()
                 .Include(
+                    "~/Scripts/selectivizr.js",
                     "~/Scripts/modernizr-{version}.js",
+                    //"~/Scripts/html5shiv.js",
                     "~/Scripts/respond.js"
              ));
 
@@ -55,8 +57,9 @@ namespace NaftanRailway.WebUI {
                 //.Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/RailwayJs/DataContext.js")
-                .IncludeDirectory("~/Scripts/RailwayJs/Models/", "*.js")
-                .IncludeDirectory("~/Scripts/RailwayJs/ViewModels", "*.js")
+                .IncludeDirectory("~/Scripts/RailwayJs/Models", "*.js")
+                //if folder empty => on the server side IIS we have error (doesn't find search folder)
+                //.IncludeDirectory("~/Scripts/RailwayJs/ViewModels", "*.js")
                 .Include("~/Scripts/RailwayJs/MainVM.js")
                 .Include("~/Scripts/RailwayJs/CustomBindings/koBindings.js")
                 .Include("~/Scripts/RailwayJs/koExtenders/koExtenders.js")
@@ -66,8 +69,8 @@ namespace NaftanRailway.WebUI {
                 //.Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
                          "~/Scripts/NomenclatureJs/DataContext.js")
-                .IncludeDirectory("~/Scripts/NomenclatureJs/Models/", "*.js")
-                .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels/", "*.js")
+                .IncludeDirectory("~/Scripts/NomenclatureJs/Models", "*.js")
+                .IncludeDirectory("~/Scripts/NomenclatureJs/ViewModels", "*.js")
                 .Include("~/Scripts/NomenclatureJs/MainVM.js")
                 .Include("~/Scripts/NomenclatureJs/CustomBindings/koBindings.js")
                 .Include("~/Scripts/NomenclatureJs/koExtenders/koExtenders.js")
@@ -102,7 +105,7 @@ namespace NaftanRailway.WebUI {
             #endregion
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
             bundles.UseCdn = false;
         }
     }

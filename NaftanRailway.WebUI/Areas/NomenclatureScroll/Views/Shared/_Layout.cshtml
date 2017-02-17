@@ -24,6 +24,7 @@
     <meta http-equiv="refresh" content="1800" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     @Styles.Render("~/Content/CSSbundle")
+    <!--[if lte IE 9]>@Scripts.Render("~/bundles/CrossBr")<![endif]-->
     @Styles.Render("~/Content/ScrollCSS")
     <link rel="shortcut icon" href="~/Content/Images/Aha-Soft-Transport-Train.ico" type="image/x-icon" />
 </head>
@@ -117,7 +118,6 @@
     </div>
 
     <!--[if lte IE 8]>
-        @Scripts.Render("~/bundles/CrossBr")
         @Scripts.Render("~/bundles/JQuery1")
         @Scripts.Render("~/bundles/JQueryUI")
         @Scripts.Render("~/bundles/BootsrapUI")
