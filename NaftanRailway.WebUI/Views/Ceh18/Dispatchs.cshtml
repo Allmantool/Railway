@@ -36,11 +36,11 @@
                 <!-- /ko -->
             </div>
             <div data-bind="popover: {content: 'Удалить информацию по накладной?'}" class="col-lg-0 text-right pull-right">
-                <button data-bind="click: $root.deleteInvoice.bind($data, { 
-                                    url : '@Url.Action("DeleteDocInfo", "Ceh18")', 
+                <button data-bind="click: $root.deleteInvoice.bind($data, {
+                                    url : '@Url.Action("DeleteDocInfo", "Ceh18")',
                                     data : { idInvoice : ko.unwrap($data.VOtpr) === null ? null : $data.VOtpr.id()}}),
-                               attr: {'id' : 'btn' + $index()}" class="btn btn-sm btn-link btn-warning">
-                    <span class="glyphicon glyphicon-trash"></span>
+                               attr: {'id' : 'btn' + $index()}" class="btn btn-sm btn-warning">
+                    <span class="fa fa-trash-o fa-lg"></span>
                 </button>
             </div>
         </div>

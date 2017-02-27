@@ -3,7 +3,7 @@
 //namespace
 var appNomenclature = window.appNomenclature || {};
 
-//constuctor
+//constructor
 appNomenclature.Charge = function (data, parent) {
     //private cost
     var _parent = parent;
@@ -12,7 +12,7 @@ appNomenclature.Charge = function (data, parent) {
 
     self = $.extend(true, self, ko.mapping.fromJS(data));
 
-    //add some bussiness logic (number format before and after dominination)
+    //add some business logic (number format before and after dominination)
     self.sm_no_nds = ko.observable(self.sm_no_nds()).extend({ actualKeysbor: self.keysbor() });
     self.sm_nds = ko.observable(self.sm_nds()).extend({ keysbor: self.keysbor() });
     self.sm = ko.observable(self.sm()).extend({ keysbor: self.keysbor() });

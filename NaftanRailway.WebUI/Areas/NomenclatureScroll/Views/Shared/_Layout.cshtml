@@ -1,6 +1,7 @@
 ﻿@{
     var browser = @Request.Browser;
-    var browserInfo = String.Format("Browser: {0} {1},<br /> EcmaScript: {2},<br /> JavaScript: {3},<br /> Platform: {4},<br /> Cookies: {5},<br /> ActiveXControls: {6},<br /> JavaApplets {7},<br /> Frames: {8}",
+    var userName = @User.Identity.Name;
+    var browserInfo = String.Format("Browser: {0} {1},<br /> EcmaScript: {2},<br /> JavaScript: {3},<br /> Platform: {4},<br /> Cookies: {5},<br /> ActiveXControls: {6},<br /> JavaApplets {7},<br /> Frames: {8}, <br /> User Name: {9}",
         browser.Browser,
         browser.Version,
         browser.EcmaScriptVersion.ToString(),
@@ -9,7 +10,8 @@
         browser.Cookies,
         browser.ActiveXControls,
         browser.JavaApplets,
-        browser.Frames
+        browser.Frames,
+        userName
         );
 }
 <!DOCTYPE HTML>

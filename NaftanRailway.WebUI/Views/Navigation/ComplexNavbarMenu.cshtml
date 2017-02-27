@@ -3,12 +3,27 @@
     Layout = null;
     //SessionStorage storage = new SessionStorage();
     Html.EnableClientValidation(false);
+    var browser = @Request.Browser;
+    var userName = @User.Identity.Name;
+    var browserInfo = String.Format("Browser: {0} {1},<br /> EcmaScript: {2},<br /> JavaScript: {3},<br /> Platform: {4},<br /> Cookies: {5},<br /> ActiveXControls: {6},<br /> JavaApplets {7},<br /> Frames: {8}, <br /> User Name: {9}",
+        browser.Browser,
+        browser.Version,
+        browser.EcmaScriptVersion.ToString(),
+        browser["JavaScriptVersion"],
+        browser.Platform,
+        browser.Cookies,
+        browser.ActiveXControls,
+        browser.JavaApplets,
+        browser.Frames,
+        userName
+        );
 }
 <div class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 navbar-header">
-                <a tabindex="0" class="navbar-brand" href="#" style="outline: 0;" data-bind="popover:{ content: 'Цех 18: Получение первичных документов по номеру накладной', placement: 'bottom'}">
+                <a tabindex="0" class="navbar-brand" href="#" style="outline: 0;"
+                   data-bind="popover:{ content: 'Цех 18: Получение первичных документов по номеру накладной. <br/> Технические особенности: @browserInfo', placement: 'bottom'}">
                     <img alt="Brand" id="Brand" src="@Url.Content("~/Content/Images/vagon.gif")" class="img-responsive" />
                 </a>
             </div>

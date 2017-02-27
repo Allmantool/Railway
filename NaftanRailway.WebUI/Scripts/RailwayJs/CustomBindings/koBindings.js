@@ -60,7 +60,7 @@ appRail.CustBundings = (function ($, ko) {
                 delay: { show: 500, hide: 100 },
                 placement: "auto",
                 title: "",
-                content: '',//must be string =>pass dublicate content bug (ex. if you recieved val parameter add '' (empty string) for explicit converting) 
+                content: '',//must be string =>pass duplicate content bug (ex. if you received val parameter add '' (empty string) for explicit converting)
                 //selector: false,
                 template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
                 html: true,
@@ -79,7 +79,7 @@ appRail.CustBundings = (function ($, ko) {
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             // This will be called once when the binding is first applied to an element,
-            // and again whenever any observables/computeds that are accessed change
+            // and again whenever any observables/computed that are accessed change
             // Update the DOM element based on the supplied values here.
         }
     };
@@ -292,7 +292,7 @@ appRail.CustBundings = (function ($, ko) {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var defaults = {
                 toggle: false
-                //parent: 
+                //parent:
             };
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));

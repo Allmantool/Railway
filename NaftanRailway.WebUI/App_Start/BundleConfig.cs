@@ -89,6 +89,7 @@ namespace NaftanRailway.WebUI {
                          "~/Content/bootstrap-datepicker3.css",
                          "~/Content/Bootstrap_AutoComplete.css",
                          "~/Content/jquery.ui.theme.css",
+                         "~/Content/font-awesome.css",
                          //conflict with jquery ui icons (dialog close btn)
                          //"~/Content/jquery.ui.theme.font-awesome.css",
                          "~/Content/GeneralCustomCSS/ErrorStyles.css"));
