@@ -59,7 +59,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         $.each(rows, function (outIndex, outMember) {
             var isNew = true;
 
-            self.scrolls().forEach(function (inMember, inIndex) {
+            //foreach not support ie8
+            $.each(self.scrolls(), function (inIndex, inMember) {
                 if (inMember.KEYKRT() === outMember.KEYKRT) {
 
                     isNew = false;
