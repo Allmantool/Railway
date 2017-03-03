@@ -104,6 +104,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return result;
         }
+
         public DateTime SyncActualDate(ISessionStorage storage, DateTime menuTime) {
             //reload page (save select report date)
             if (storage.ReportPeriod == DateTime.MinValue && menuTime == DateTime.MinValue) {
@@ -118,6 +119,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return menuTime;
         }
+
         /// <summary>
         /// Autocomplete function
         /// </summary>
@@ -134,6 +136,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                  && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
+
         /// <summary>
         /// Получение данных со стороны  БД САПОД (используется для предварительного просмотра текущей документации по накладным)
         /// </summary>
@@ -242,6 +245,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             }
             return true;
         }
+
         /// <summary>
         /// Альтернатива PAckDocuments на стороне БД ОРЦ (т.е контрольные данные=> приходят поздже).
         /// Т.к EF6  не поддерживает работу Join с двумя котестами (таблицы находяться на разных серверах)=>
@@ -353,6 +357,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return true;
         }
+
         public bool DeleteInvoice(DateTime reportPeriod, int? idInvoice) {
             using (_engage.Uow = new UnitOfWork()) {
                 try {
@@ -366,6 +371,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             }
             return true;
         }
+
         /// <summary>
         /// Update existing information in definite period time
         /// </summary>
@@ -383,6 +389,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             return true;
         }
+
         public IEnumerable<ShippingInfoLineDTO> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount) {
             DateTime startDate = dateOper.AddDays(-5);
             DateTime endDate = dateOper.AddMonths(1).AddDays(5);
@@ -405,6 +412,27 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 }
                 recordCount = (short)result.Count();
             }
+            return result;
+        }
+
+        public IEnumerable<OverviewCarriageDTO> EstimatedCarrieages() {
+            DateTime supremePeriod = DateTime.Today.AddDays(-10);
+            IEnumerable<OverviewCarriageDTO> result = new List<OverviewCarriageDTO>();
+
+            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x => x.time_oper >= supremePeriod && x.cod_oper == "01" && x.cod_grpl == "3494" && x.ves_gruz > 0).ToList();
+
+            //return cargo name
+            Func<string, string> cargoName = (cod) => {
+                var request = _engage.GetTable<etsng, int>(x => x.etsng1.Substring(0, 5) == cod).FirstOrDefault();
+
+                return request == null ? String.Empty : request.name;
+            };
+
+            result = estimatedCarriages.Select(cr => new OverviewCarriageDTO() {
+                Carriage = cr,
+                Cargo = cargoName(cr.cod_gruz)
+            });
+
             return result;
         }
 

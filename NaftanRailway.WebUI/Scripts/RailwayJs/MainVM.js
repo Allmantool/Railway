@@ -12,6 +12,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         pagging: ko.observable(),
 
         shReview: ko.observableArray([]),
+        estCarriages: ko.observableArray([]),
         dispatchs: ko.observableArray([]),
 
         loadingState: ko.observable(false),
@@ -33,7 +34,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
         }),
         invoice: ko.observable(),
         notFoundModal: ko.observable(false),
-        previewModal: ko.observable(false)
+        previewModal: ko.observable(false),
+        estimatedModal: ko.observable(false)
     };
 
     //behavior
@@ -66,6 +68,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         //close modals
         self.previewModal(false);
         self.notFoundModal(false);
+        self.estimatedModal(false);
 
         db.getScr(function (data) {
             //dispatch (Collapse Wells)
@@ -111,7 +114,6 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
                 self.previewModal(true);
             }
-
         }, $merged);
     };
 
@@ -235,6 +237,28 @@ appRail.DispatchsVM = (function ($, ko, db) {
         });
     };
 
+    function getEstimatedCarriages(params, context, ev) {
+        var defaults = {
+            type: "Post",
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend({}, defaults, params);
+
+        db.getScr(function (data) {
+            self.estCarriages($.map(data, function (val, i) {
+                return new appRail.EstCarriage(val)
+            }));
+
+            self.estimatedModal(true);
+        }, $merged);
+    };
+
     /*System extensation for Jquery unbinding*/
     ko.unapplyBindings = function ($node, remove) {
         // unbind events
@@ -293,6 +317,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
         changeCountPerPage: changeCountPerPage,
         deleteInvoice: deleteInvoice,
         filterByTypeOperation: filterByTypeOperation,
+        getEstimatedCarriages: getEstimatedCarriages,
 
         loadingState: self.loadingState,
         dispatchs: self.dispatchs,
@@ -305,6 +330,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
         invoice: self.invoice,
         notFoundModal: self.notFoundModal,
         previewModal: self.previewModal,
-        shReview: self.shReview
+        estimatedModal: self.estimatedModal,
+        shReview: self.shReview,
+        estCarriages: self.estCarriages
     };
 }(jQuery, ko, appRail.DataContext));

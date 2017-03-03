@@ -190,6 +190,9 @@
     <Compile Include="Concrete\DbContexts\OBD\v_nach.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\OBD\v_OPER_ASUS.cs">
+      <DependentUpon>OBDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\DbContexts\OBD\v_otpr.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>

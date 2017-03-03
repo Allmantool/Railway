@@ -44,5 +44,11 @@ namespace NaftanRailway.BLL.Abstract {
         /// Get general shipping info (v_otpr + v_o_v + etsng (mesplan)
         /// </summary>
         IEnumerable<ShippingInfoLineDTO> ShippingPreview(string deliveryNote, DateTime dateOper, out short recordCount);
+
+        /// <summary>
+        /// Information from this function is actual only in n-days period since current time (day)
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<OverviewCarriageDTO> EstimatedCarrieages();
     }
 }

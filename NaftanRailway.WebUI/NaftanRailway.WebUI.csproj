@@ -737,8 +737,9 @@
     <Content Include="Scripts\RailwayJs\MainVM.js" />
     <Content Include="Scripts\RailwayJs\Models\AlertMessageModel.js" />
     <Content Include="Scripts\RailwayJs\Models\DispatchModel.js" />
+    <Content Include="Scripts\RailwayJs\Models\EstCarriageModel.js" />
     <Content Include="Scripts\RailwayJs\Models\PaginationModel.js" />
-    <Content Include="Scripts\RailwayJs\Models\ShReview.js" />
+    <Content Include="Scripts\RailwayJs\Models\ShReviewModel.js" />
     <Content Include="Scripts\RailwayJs\_Guild18.js" />
     <Content Include="Scripts\html5shiv.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
@@ -873,6 +874,7 @@
     <Content Include="Views\Account\SingUp.cshtml" />
     <Content Include="Views\HttpError\NotAuthorized.cshtml" />
     <Content Include="Scripts\knockout.validation.min.js.map" />
+    <Content Include="Views\Ceh18\_EstimatedModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

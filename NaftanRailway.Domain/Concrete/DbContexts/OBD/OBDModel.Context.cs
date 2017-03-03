@@ -25,13 +25,14 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<v_akt> v_akts { get; set; }
-        public virtual DbSet<v_akt_vag> v_akt_vags { get; set; }
         public virtual DbSet<v_kart> v_karts { get; set; }
         public virtual DbSet<v_nach> v_nachs { get; set; }
         public virtual DbSet<v_o_v> v_o_vs { get; set; }
+        public virtual DbSet<v_OPER_ASUS> v_OPER_ASUSs { get; set; }
         public virtual DbSet<v_otpr> v_otprs { get; set; }
         public virtual DbSet<v_pam> v_pams { get; set; }
         public virtual DbSet<v_pam_vag> v_pam_vags { get; set; }
+        public virtual DbSet<v_akt> v_akts { get; set; }
+        public virtual DbSet<v_akt_vag> v_akt_vags { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
     {
         public int id { get; set; }
         public int id_kart { get; set; }
+        public Nullable<int> id_otpr { get; set; }
         public string cod_kl { get; set; }
         public Nullable<int> type_doc { get; set; }
         public Nullable<short> oper { get; set; }
@@ -28,7 +29,6 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
         public Nullable<decimal> nds { get; set; }
         public string textm { get; set; }
         public Nullable<int> id_ed { get; set; }
-        public int id_otpr { get; set; }
     
         public virtual v_kart v_kart { get; set; }
     }

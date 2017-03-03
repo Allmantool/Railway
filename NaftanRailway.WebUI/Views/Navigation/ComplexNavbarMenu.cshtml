@@ -27,23 +27,23 @@
                     <img alt="Brand" id="Brand" src="@Url.Content("~/Content/Images/vagon.gif")" class="img-responsive" />
                 </a>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 @using (@Html.BeginForm("Index", "Ceh18", FormMethod.Post, new { @class = "form-inline navbar-form navbar-left", role = "form", data_bind = "submit: $root.searchInvoice" })) {
 
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary()
 
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-4">
                         <div data-bind="datepicker: { observable: $root.reportPeriod }" class="input-group date">
-                            @Html.TextBoxFor(m => m.ReportPeriod, new { data_bind = "event: {change: $root.init.bind($data, null)}" , @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
+                            @Html.TextBoxFor(m => m.ReportPeriod, new { data_bind = "event: {change: $root.init.bind($root, null)}", @class = "form-control", type = "text", @readonly = "readonly", @Value = Model.ReportPeriod.ToString("MMMM yyyy") })
                             <span data-bind="popover:{ content: 'Выбрать отчётный период (месяц)', placement: 'bottom'}" class="input-group-addon">
                                 <i class="glyphicon glyphicon-calendar"></i>
                             </span>
                         </div>
                     </div>
 
-                    <div class="form-group col-md-7">
-                        <div class="input-group col-md-9">
+                    <div class="form-group col-md-7" style="float:left;">
+                        <div class="input-group col-md-6">
                             @Html.TextBoxFor(m => m.ShippingChoise,
                                 new {
                                     @class = "form-control ui-autocomplete-input",
@@ -64,16 +64,24 @@
                                 </button>
                             </span>
                         </div>
-
+                        <!--Upadete existed info-->
                         <button data-bind="btnRefresh: $root.loadingState(), popover:{ content: 'Обновить данные'}, click: $root.updateExists.bind($context, {url: '@Url.Action("UpdateExists", "Ceh18")'})" class="btn btn-success" type="button" id="updateBtn">
                             <span id="updRefresh" class="glyphicon glyphicon-refresh">
                                 <img id="updLoading" alt="Loading..." src="~/Content/Images/loadingArrow.gif" style="width: 1em; height: 1.3em; display: none;" />
                             </span>
                         </button>
+                        <!--Estimated Carriage-->
+                        <button data-bind="popover:{ content: 'Ожидамые к прибытию вагоны'},
+                                    click: $root.getEstimatedCarriages.bind($context, {url: '@Url.Action("Overview", "Ceh18")'})" class="btn btn-info" type="button" id="estBtn">
+                            <span id="estRefresh" class="fa fa-train fa-fw">
+                                <img id="estLoading" alt="Loading..." src="~/Content/Images/loadingArrow.gif" style="width: 1em; height: 1.3em; display: none;" />
+                            </span>
+                        </button>
                     </div>
                 }
-            </div>
-            <div class="col-md-4">
+                </div>
+
+            <div class="col-md-3">
                 <ul class="nav navbar-nav navbar-right">
                     @if (@User.Identity.Name != string.Empty) {
                         <li><a href="#">@User.Identity.Name <span class="glyphicon glyphicon-user"></span></a></li>

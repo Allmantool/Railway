@@ -21,12 +21,13 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
         }
     
         public int id { get; set; }
-        public string nakt { get; set; }
+        public string kodls { get; set; }
         public Nullable<System.DateTime> dakt { get; set; }
         public string kodkl { get; set; }
         public string nkrt { get; set; }
         public Nullable<int> id_kart { get; set; }
         public Nullable<int> state { get; set; }
+        public string nakt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<v_akt_vag> v_akt_vag { get; set; }

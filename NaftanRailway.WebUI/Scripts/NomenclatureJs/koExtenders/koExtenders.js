@@ -30,31 +30,46 @@ appNomenclature.CustExtend = (function ($, ko) {
         result(target());
 
         //return the new computed observable
-        return result;
+        return target;//result;
     };
 
     //change observeable only if submit (simple edit behavior)
     //By default edit modal not persiste change if they were done without pushing on submit button
     //target => current observable
     //persiste => save mode
-    ko.extenders.editable = function (target, persiste) {
+    ko.extenders.editable = function (target, params) {
         var originalState = ko.toJS(target), lastValue = ko.observable();
+        var defaults = {
+            editMode: ko.observable(true),
+            persiste: ko.observable(false)
+        };
 
-        persiste.subscribe(function (mode) {
-            if (persiste()) {
+        var $merged = $.extend(true, defaults, params);
+
+        //click save button
+        $merged.persiste.subscribe(function (mode) {
+            if ($merged.persiste()) {
                 return result(lastValue());
             }
         }/*, this, "beforeChange"*/);
 
+        //close edit form
+        $merged.editMode.subscribe(function (mode) {
+            if (!$merged.editMode() && !$merged.persiste()) {
+                return result(originalState);
+            }
+        }/*, this, "beforeChange"*/);
+
+        //dynamic control
         var result = ko.computed({
             read: target,
             write: function (newValue) {
                 lastValue(newValue);
-
-                persiste() ? target(newValue) : target();
+                target(newValue);
+                //$merged.persiste() ? target(newValue) : target();
 
                 //to default
-                return persiste(false);
+                //return $merged.persiste(false);
             }
         }).extend({ notify: 'always' });
 

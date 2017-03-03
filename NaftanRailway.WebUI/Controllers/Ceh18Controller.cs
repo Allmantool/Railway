@@ -6,6 +6,7 @@ using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.DTO.Guild18;
+
 /// <summary>
 /// Tips;)
 /// If some part of code seems srange => this's because he's was shipped as legacy and then was migrated (MVC => single page (knockout)
@@ -130,6 +131,17 @@ namespace NaftanRailway.WebUI.Controllers {
             }
 
             return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
+        }
+
+        /// <summary>
+        /// OVerview estimated carriages
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult Overview() {
+            var result = _bussinesEngage.EstimatedCarrieages();
+
+            return Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }
