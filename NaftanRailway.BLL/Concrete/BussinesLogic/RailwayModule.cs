@@ -416,7 +416,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public IEnumerable<OverviewCarriageDTO> EstimatedCarrieages() {
-            DateTime supremePeriod = DateTime.Today.AddDays(-10);
+            DateTime supremePeriod = DateTime.Today.AddDays(-5);
             IEnumerable<OverviewCarriageDTO> result = new List<OverviewCarriageDTO>();
 
             var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x => x.time_oper >= supremePeriod && x.cod_oper == "01" && x.cod_grpl == "3494" && x.ves_gruz > 0).ToList();

@@ -49,7 +49,7 @@ appRail.Dispach = function (data) {
             return val.n_vag();
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
     self.statementList = ko.pureComputed(function () {
@@ -57,7 +57,7 @@ appRail.Dispach = function (data) {
             return val.nved();
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
     self.actList = ko.pureComputed(function () {
@@ -65,7 +65,7 @@ appRail.Dispach = function (data) {
             return val.nakt();
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
     self.cardList = ko.pureComputed(function () {
@@ -73,7 +73,7 @@ appRail.Dispach = function (data) {
             return val.num_kart();
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
     self.scrollList = ko.pureComputed(function () {
@@ -81,7 +81,7 @@ appRail.Dispach = function (data) {
             return val.NKRT();
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
     self.scrollListDate = ko.pureComputed(function () {
@@ -89,7 +89,7 @@ appRail.Dispach = function (data) {
             return moment(val.EndDate_PER()).format('DD.MM.YYYY');
         });
 
-        return result.join();
+        return result.join(', ');
     });
 
 };
