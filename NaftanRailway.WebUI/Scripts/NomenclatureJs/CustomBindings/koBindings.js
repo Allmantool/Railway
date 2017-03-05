@@ -59,9 +59,9 @@ appNomenclature.CustBundings = (function ($, ko) {
                 delay: { show: 500, hide: 100 },
                 placement: "auto",
                 title: "",
-                content: '',//must be string =>pass dublicate content bug (ex. if you recieved val parameter add '' (empty string) for explicit converting) 
+                content: '',//must be string =>pass duplicate content bug (ex. if you received val parameter add '' (empty string) for explicit converting)
                 //selector: false,
-                template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
+                template: '<div style="white-space: pre-wrap;" class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder;text-align: center;"></h3><div class="small popover-content text-center"></div></div>',
                 html: true,
                 trigger: "hover",
                 viewport: { selector: "body", padding: 0 }

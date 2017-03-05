@@ -62,7 +62,7 @@ appRail.CustBundings = (function ($, ko) {
                 title: "",
                 content: '',//must be string =>pass duplicate content bug (ex. if you received val parameter add '' (empty string) for explicit converting)
                 //selector: false,
-                template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder"></h3><div class="small popover-content text-center"></div></div>',
+                template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title" style="font-weight: bolder;text-align: center;"></h3><div class="small popover-content text-center"></div></div>',
                 html: true,
                 trigger: "hover",
                 viewport: { selector: "body", padding: 0 }

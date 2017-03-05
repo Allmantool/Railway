@@ -5,11 +5,11 @@ using System.Web.Mvc;
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     /// <summary>
     /// Use BaseController
-    //  It is recommended to use Base Controller with our Controller and this Base Controller will inherit Controller class directly. 
+    //  It is recommended to use Base Controller with our Controller and this Base Controller will inherit Controller class directly.
     /// It provides isolation space between our Controller[InterviewController] and Controller.
     /// Using Base Controller, we can write common logic which could be shared by all Controllers.
     /// (Auth, exception logic)
-    /// Altougth in basic controller we have propeties for access to httpContextObjec
+    /// Although in basic controller we have properties for access to httpContextObjec
     /// </summary>
     public abstract class BaseController : Controller {
         /// <summary>
@@ -19,9 +19,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             get { return GetUserDisplayName(); }
         }
 
+        public string BrowserInfo {
+            get { return GetBrowserInfo(); }
+        }
+
         private string GetUserDisplayName() {
             if (HttpContext.Request.IsLocal) {
-                return "this's local work (Admin;)";
+                return "Local work (Admin;)";
             }
             string identity = HttpContext.User.Identity.Name;
 
@@ -39,6 +43,31 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
 
             return displayName;
+        }
+
+        private string GetBrowserInfo() {
+            var browser = Request.Browser;
+            var userName = @User.Identity.Name;
+            var totalOnlineUsers = (int)@HttpContext.Application["TotalOnlineUsers"];
+
+            var result = String.Format(
+                 "Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
+                 "<br />Cookies: {5},<br />ActiveXControls: {6},<br />JavaApplets {7},<br />Frames: {8}," +
+                 "<br />User Name: {9}{10},<br />Online: {11}.",
+             browser.Browser,
+             browser.Version,
+             browser.EcmaScriptVersion.ToString(),
+             browser["JavaScriptVersion"],
+             browser.Platform,
+             browser.Cookies,
+             browser.ActiveXControls,
+             browser.JavaApplets,
+             browser.Frames,
+             ADUserName,
+             userName.Length == 0 ? "" : String.Format("({0})", userName),
+             totalOnlineUsers);
+
+            return result;
         }
 
         /// <summary>
@@ -93,7 +122,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         //                    break;
         //                }
         //            }
-        //            tabN = tabN.Substring(n, tabN.Length - n); //предполагаемый табельный номер 
+        //            tabN = tabN.Substring(n, tabN.Length - n); //предполагаемый табельный номер
         //            var empl1 = _db.Employees.Where(e => e.EmployeeNumber == tabN).SingleOrDefault();
         //            if (empl1 != null)
         //                employeeId = empl1.EmployeeId;

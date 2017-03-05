@@ -365,6 +365,7 @@
     <Compile Include="Areas\NomenclatureScroll\ViewModels\PeriodModalMV.cs" />
     <Compile Include="Areas\NomenclatureScroll\ViewModels\QuickDialogMenuMV.cs" />
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
+    <Compile Include="Controllers\BaseContoller.cs" />
     <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />

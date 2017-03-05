@@ -12,7 +12,7 @@ using NaftanRailway.BLL.Services.Mapping;
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
         /// <summary>
-        /// Also we hava ability set diffrent type of configuration throughtout diffrent bootstraper class (convention => name may be diffrent)
+        /// Also we have ability set different type of configuration throughout different bootstraper class (convention => name may be different)
         /// </summary>
         protected void Application_Start() {
             //Attribute Routing in MVC5
@@ -23,7 +23,7 @@ namespace NaftanRailway.WebUI {
             //GlobalConfiguration.Configure(WebApiConfig.Register);
             WebApiConfig.Register(GlobalConfiguration.Configuration);
 
-            // This method call registers all filters 
+            // This method call registers all filters
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
@@ -33,7 +33,7 @@ namespace NaftanRailway.WebUI {
              * {2} represents the name of the area.
              */
             ViewEngines.Engines.Clear();
-            /*Avoid seached each view instead in .cshtml files*/
+            /*Avoid searched each view instead in .cshtml files*/
             ViewEngines.Engines.Add(new RazorViewEngine() {
                 ViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml", "~/Views/Shared/{0}.cshtml" },
                 PartialViewLocationFormats = new[] { "~/Views/{1}/{0}.cshtml", "~/Views/Shared/{0}.cshtml" },
@@ -55,10 +55,10 @@ namespace NaftanRailway.WebUI {
             //Configure AutoMapper
             AutoMapperBLLConfiguration.Configure();
 
-            /* Inizialize simpleMembership
+            /* Initialize simpleMembership
             * Install-Package Microsoft.AspNet.WebHelpers
             * Install-Package Microsoft.AspNet.WebPages.Data
-            * (stop: requered dependesies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
+            * (stop: required dependencies to Microsoft.AspNet.Razor > 3.0 => .Net 4.5
             * WebSecurity.InitializeDatabaseConnection("SecurityConnection", "UserProfile", "UserId", "UserName", true);
             */
 
@@ -73,8 +73,9 @@ namespace NaftanRailway.WebUI {
              * ControllerBuilder.Current.DefaultNamespaces.Add("DefaultNamespace");
              */
 
-            //connected modules
-            //var info = Modules;
+            //users online
+            Application.Lock();
+            Application["TotalOnlineUsers"] = 0;
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace NaftanRailway.WebUI {
                 exception = exception.InnerException;
             }
 
-            // log exception message using   
+            // log exception message using
             var thisRequest = HttpContext.Current.Request;
 
             if (exception != null && thisRequest.IsLocal) {
@@ -102,11 +103,17 @@ namespace NaftanRailway.WebUI {
         }
 
         protected void Session_Start(object sender, EventArgs e) {
-            // event is raised each time a new session is created     
+            // event is raised each time a new session is created
+            Application.Lock();
+            Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] + 1;
+            Application.UnLock();
         }
 
         protected void Session_End(object sender, EventArgs e) {
             // event is raised when a session is abandoned or expires
+            Application.Lock();
+            Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] - 1;
+            Application.UnLock();
         }
     }
 }

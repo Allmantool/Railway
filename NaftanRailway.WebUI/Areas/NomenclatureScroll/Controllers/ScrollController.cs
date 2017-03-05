@@ -30,7 +30,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
         public ActionResult Index(DateTime? period = null, int page = 1, bool asService = false, ushort initialSizeItem = 15) {
-            if (Request.IsAjaxRequest() &&  ModelState.IsValid) {
+            if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 long recordCount;
 
                 //period = period ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -56,8 +56,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 return PartialView("_AjaxTableKrtNaftan", result);
             }
 
-            //AD DS
+            //Base controller info
             ViewBag.UserName = ADUserName;
+            ViewBag.BrowserInfo = BrowserInfo;
 
             return View();
         }

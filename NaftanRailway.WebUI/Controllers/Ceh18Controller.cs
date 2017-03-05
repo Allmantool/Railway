@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
@@ -9,14 +8,14 @@ using NaftanRailway.BLL.DTO.Guild18;
 
 /// <summary>
 /// Tips;)
-/// If some part of code seems srange => this's because he's was shipped as legacy and then was migrated (MVC => single page (knockout)
+/// If some part of code seems strange => this's because he's was shipped as legacy and then was migrated (MVC => single page (knockout)
 /// </summary>
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
     //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
     //[ExceptionFilter]
-    public class Ceh18Controller : Controller {
+    public class Ceh18Controller : BaseController {
         private readonly IRailwayModule _bussinesEngage;
 
         public Ceh18Controller(IRailwayModule bussinesEngage) {
@@ -37,7 +36,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 short recordCount;
                 menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
-                //temp resolve (In some reason default binding not parse json to enum from queryString colllection)
+                //temp resolve (In some reason default binding not parse json to enum from queryString collection)
                 var typeOfOperation = Request.QueryString["operationCategory"] == String.Empty ? (int)EnumOperationType.All : Int32.Parse(Request.QueryString["operationCategory"]);
 
                 var model = new DispatchListViewModel() {
@@ -57,7 +56,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         /// <summary>
-        /// Action to responde to post request (for routing system actualy display selecting month)
+        /// Action to response to post request (for routing system actually display selecting month)
         /// </summary>
         /// <param name="menuView"></param>
         /// <returns></returns>
@@ -104,7 +103,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
         /// <summary>
         /// Delete information about invoice from database
-        /// Action need some work about delete addional payment 
+        /// Action need some work about delete additional payment
         /// </summary>
         /// <param name="storage"></param>
         /// <param name="reportPeriod"></param>

@@ -4,7 +4,7 @@ using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
 
 namespace NaftanRailway.WebUI.Controllers {
-    public class NavigationController : Controller {
+    public class NavigationController : BaseController {
         private readonly IRailwayModule _bussinesEngage;
 
         public NavigationController(IRailwayModule bussinesEngage) {
@@ -12,7 +12,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         /// <summary>
-        /// Menu type operasion
+        /// Menu type operation
         /// </summary>
         /// <param name="storage"></param>
         /// <param name="menuView"></param>
@@ -28,15 +28,19 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return PartialView("FlexMenu");
         }
-        
+
         /// <summary>
-        /// Filtering by Date and temlate shipping number
+        /// Filtering by Date and template shipping number
         /// </summary>
         /// <param name="storage"></param>
         /// <param name="menuView"></param>
         /// <returns></returns>
         public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView, bool asService = false) {
             menuView.ReportPeriod = storage.ReportPeriod;
+
+            //Base controller info
+            ViewBag.UserName = ADUserName;
+            ViewBag.BrowserInfo = BrowserInfo;
 
             return PartialView("ComplexNavbarMenu", menuView);
         }
