@@ -46,6 +46,10 @@
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
+                                        @Html.ActionLink(@"Отчёт Анализ ЭСЧФ по перечню", "Reports", "Scroll",
+                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "KRT_Analys_ORC" }) + "/' + $root.currScr().srcKey()}" })
+                                    </li>
+                                    <li>
                                         @Html.ActionLink(@"Отчёт для бухгалтерии", "Reports", "Scroll",
                                             new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_BookkeeperReport" }) + "/' + $root.currScr().srcKey()}" })
                                     </li>

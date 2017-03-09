@@ -236,14 +236,31 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = "rs:Format=Excel") {
-
+            string nameFile, filterParameters;
             var selScroll = GetNomenclatureByNumber(numberScroll, reportYear);
 
-            string filterParameters = (reportName == @"krt_Naftan_act_of_Reconciliation") ? @"month=" + selScroll.DTBUHOTCHET.Month + @"&year=" + selScroll.DTBUHOTCHET.Year
-                : @"nkrt=" + numberScroll + @"&year=" + reportYear;
+            //dictionary name/title file (!Tips: required complex solution in case of scalability)
+            switch (reportName) {
+                case @"krt_Naftan_BookkeeperReport":
+                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
+                case @"krt_Naftan_act_of_Reconciliation":
+                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                break;
+                case @"KRT_Analys_ORC":
+                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                break;
+                default:
+                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
+            }
 
-            string urlReportString = String.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName,
-                folderName, reportName, defaultParameters, filterParameters);
+            //generate url for ssrs
+            string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
             //WebClient client = new WebClient { UseDefaultCredentials = true };
             /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
@@ -253,11 +270,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                             {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
                     }
             };
-
-            string nameFile = (reportName == @"krt_Naftan_BookkeeperReport"
-                ? String.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll) : (reportName == @"krt_Naftan_act_of_Reconciliation")
-                ? String.Format(@"Реестр электронного  представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year)
-                    : String.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll));
 
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
             //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
@@ -276,7 +288,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //For js spinner and complete donwload callback
             contr.Response.Cookies.Clear();
             contr.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
-
 
             return client.DownloadData(urlReportString);
         }

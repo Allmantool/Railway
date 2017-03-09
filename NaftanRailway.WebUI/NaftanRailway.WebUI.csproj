@@ -846,6 +846,7 @@
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
+    <Folder Include="Controllers\api\" />
     <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Infrastructure\ViewEngines\" />
     <Folder Include="Scripts\NomenclatureJs\koExtenstions\" />
