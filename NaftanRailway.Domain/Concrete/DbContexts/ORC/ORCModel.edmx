@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ORCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="krt_Guild18">
           <Key>
             <PropertyRef Name="id" />
@@ -155,7 +159,8 @@
         <EntityContainer Name="ORCModelStoreContainer">
           <EntitySet Name="krt_Guild18" EntityType="Self.krt_Guild18" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="krt_Naftan" EntityType="Self.krt_Naftan" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="krt_Naftan_orc_sapod" EntityType="Self.krt_Naftan_orc_sapod" Schema="dbo"
+                     store:Type="Tables" />
           <EntitySet Name="orc_krt" EntityType="Self.orc_krt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orc_sbor" EntityType="Self.orc_sbor" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_krt__Naftan" Association="Self.FK_krt__Naftan">
@@ -167,10 +172,14 @@
             <End Role="orc_sbor" EntitySet="orc_sbor" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ORCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ORCModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="krt_Guild18">
           <Key>
             <PropertyRef Name="id" />
@@ -211,12 +220,14 @@
           <Property Name="StartDate_PER" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EndDate_PER" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SignAdjustment_list" Type="Boolean" Nullable="false" />
-          <Property Name="Scroll_Sbor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Scroll_Sbor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true"
+                    Nullable="false" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
           <Property Name="ErrorState" Type="Byte" />
           <Property Name="ErrorMsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CounterVersion" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="Self.FK_krt__Naftan" FromRole="krt_Naftan" ToRole="krt_Naftan_orc_sapod" />
+          <NavigationProperty Name="krt_Naftan_orc_sapod" Relationship="Self.FK_krt__Naftan" FromRole="krt_Naftan"
+                              ToRole="krt_Naftan_orc_sapod" />
         </EntityType>
         <EntityType Name="krt_Naftan_orc_sapod">
           <Key>
@@ -251,7 +262,8 @@
           <Property Name="textm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ID_ED" Type="Int32" />
           <Property Name="ErrorState" Type="Byte" />
-          <NavigationProperty Name="krt_Naftan" Relationship="Self.FK_krt__Naftan" FromRole="krt_Naftan_orc_sapod" ToRole="krt_Naftan" />
+          <NavigationProperty Name="krt_Naftan" Relationship="Self.FK_krt__Naftan" FromRole="krt_Naftan_orc_sapod"
+                              ToRole="krt_Naftan" />
         </EntityType>
         <EntityType Name="orc_krt">
           <Key>
@@ -269,7 +281,8 @@
           <Property Name="P_TYPE" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="DATE_OBRABOT" Type="DateTime" Precision="3" />
           <Property Name="IN_REAL" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="orc_sbor" Relationship="Self.FK_orc_sbor_orc_krt" FromRole="orc_krt" ToRole="orc_sbor" />
+          <NavigationProperty Name="orc_sbor" Relationship="Self.FK_orc_sbor_orc_krt" FromRole="orc_krt"
+                              ToRole="orc_sbor" />
         </EntityType>
         <EntityType Name="orc_sbor">
           <Key>
@@ -294,7 +307,8 @@
           <Property Name="DATE_OBRABOT" Type="DateTime" Precision="3" />
           <Property Name="TDOC" Type="Int32" />
           <Property Name="ID_ED" Type="Int32" />
-          <NavigationProperty Name="orc_krt" Relationship="Self.FK_orc_sbor_orc_krt" FromRole="orc_sbor" ToRole="orc_krt" />
+          <NavigationProperty Name="orc_krt" Relationship="Self.FK_orc_sbor_orc_krt" FromRole="orc_sbor"
+                              ToRole="orc_krt" />
         </EntityType>
         <Association Name="FK_krt__Naftan">
           <End Role="krt_Naftan" Type="Self.krt_Naftan" Multiplicity="1">

@@ -230,7 +230,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 var result = _bussinesEngage.OperationOnScrollDetail(feeKey, operation);
 
                 switch (operation) {
-                    case EnumMenuOperation.Join: return PartialView("_JoinRowsModal", result);
+                    //case EnumMenuOperation.Join: return PartialView("_JoinRowsModal", result);
                     case EnumMenuOperation.Edit: return PartialView("_EditRowsModal");
                     case EnumMenuOperation.Delete: break;
                     default: return new EmptyResult();

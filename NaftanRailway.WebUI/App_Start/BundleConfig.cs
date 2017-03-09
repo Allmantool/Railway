@@ -6,7 +6,7 @@ namespace NaftanRailway.WebUI {
         // Дополнительные сведения о Bundling см. по адресу http://go.microsoft.com/fwlink/?LinkId=254725
 
         //Tips:
-        //Microsoft.AspNet.Web.Optimization not include *.min.js in budle by default
+        //Microsoft.AspNet.Web.Optimization not include *.min.js in bundle by default
         //By default, MVC will search for a matching file with .min.js and include that  (not entirely sure if it trys to minify further).
         //If not, it creates a minified version. You can test this by adding the following to BundleConfig.cs
         //You can skip minification simply by creating bundles with no transform, i.e.don't create ScriptBundles, just normal Bundles.

@@ -16,7 +16,7 @@
             <summary>Basic exception information</summary>
             <table class="table table-bordered table-responsive table-striped table-hover small">
                 <thead>
-                    <tr><th colspan="2" class="warning">Some infomation about invoke error</th></tr>
+                    <tr><th colspan="2" class="warning">Some information about invoke error</th></tr>
                 </thead>
                 <tbody>
                     <tr><th colspan="2" class="text-center info">Model.CurrentContext</th></tr>
@@ -33,7 +33,7 @@
                         <td>@modelExcept.RequestContext.HttpContext.User.Identity.AuthenticationType</td>
                     </tr>
                     <tr>
-                        <th><span>Mashine name:</span></th>
+                        <th><span>Machine name:</span></th>
                         <td>@modelExcept.RequestContext.HttpContext.Server.MachineName</td>
                     </tr>
                     <tr>
@@ -58,7 +58,7 @@
                         <td>@modelExcept.Controller.ControllerContext.RouteData.Values["action"]</td>
                     </tr>
                     <tr>
-                        <th><span>Contorller:</span></th>
+                        <th><span>Controller:</span></th>
                         <td>@modelExcept.Controller.ControllerContext.RouteData.Values["controller"]</td>
                     </tr>
                     <tr><th colspan="2" class="text-center info">Model.Exception object</th></tr>
@@ -71,7 +71,7 @@
                         <td>@modelExcept.Exception.TargetSite</td>
                     </tr>
                     <tr>
-                        <th><span>Represent of the emmidiate frames  on the call stack:</span></th>
+                        <th><span>Represent of the immediate frames  on the call stack:</span></th>
                         <td class="small">@modelExcept.Exception.StackTrace</td>
                     </tr>
                     <tr>
@@ -79,7 +79,7 @@
                         <td>@modelExcept.Exception.Source</td>
                     </tr>
                     <tr>
-                        <th><span>Help link assoseated with exception:</span></th>
+                        <th><span>Help link associated with exception:</span></th>
                         <td>@modelExcept.Exception.HelpLink</td>
                     </tr>
                 </tbody>

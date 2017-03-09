@@ -1,5 +1,5 @@
 ﻿/// <reference path="~/Scripts/jquery-1.11.3.js" />
-/// <reference path="~/Scripts/knockout-3.4.0.debug.js" />
+/// <reference path="~/Scripts/knockout-3.4.2.debug.js" />
 /// <reference path="~/Scripts/moment.js" />
 'use strict';
 
@@ -7,7 +7,7 @@
 var appNomenclature = window.appNomenclature || {};
 
 appNomenclature.CustExtend = (function ($, ko) {
-    //number format before and after dominination
+    //number format before and after denominational
     ko.extenders.keysbor = function (target, key) {
         //create a writable computed observable to intercept writes to our observable
         var result = ko.pureComputed({
@@ -33,10 +33,10 @@ appNomenclature.CustExtend = (function ($, ko) {
         return target;//result;
     };
 
-    //change observeable only if submit (simple edit behavior)
-    //By default edit modal not persiste change if they were done without pushing on submit button
+    //change observable only if submit (simple edit behavior)
+    //By default edit modal not persist change if they were done without pushing on submit button
     //target => current observable
-    //persiste => save mode
+    //persist => save mode
     ko.extenders.editable = function (target, params) {
         var originalState = ko.toJS(target), lastValue = ko.observable();
         var defaults = {

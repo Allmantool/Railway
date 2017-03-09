@@ -10,7 +10,7 @@
             <a class="@(horizontal ? "btn btn-default btn-sm" : "list-group-item-text")"
                data-bind="click: $root.filterByTypeOperation.bind($data, $index()),
                           text: $root.typesOfOperation()[$index()] === 0 ? 'Все' : $root.typesOfOperation()[$index()] === 1 ? 'Отправка' : 'Прибытие',
-                          attr: {'href': '' }" />
+                          attr: {'href': '' }">
             </a>
             @*<span data-bind="text:" class="badge">4</span>*@
         </li>

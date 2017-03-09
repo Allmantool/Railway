@@ -63,18 +63,18 @@
                     <th class="text-center">@item.UserName</th>
                     <th class="text-center">@item.RoleName</th>
                     <th class="text-center text">@item.Email</th>
-                    <th class="text-center">@WebSecurity.IsAuthenticated</th>
+                    @*<th class="text-center">@WebSecurity.IsAuthenticated</th>*@
                     <th class="text-center">
                         @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post)) {
                             @Html.AntiForgeryToken()
                             @Html.Hidden("UserId", item.UserId)
                             @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
 
-                            if ((int)WebSecurity.CurrentUserId == item.UserId) {
+                            @*if ((int)WebSecurity.CurrentUserId == item.UserId) {
                             <input type="submit" class="btn btn-info btn-xs" value="Удалить" />
                             } else {
                             <input type="submit" class="btn btn-success btn-xs" value="Удалить" />
-                            }
+                            }*@
                         }
                     </th>
                 </tr>

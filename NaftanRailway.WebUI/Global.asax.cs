@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using NaftanRailway.WebUI.Infrastructure.Binders;
-using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.Services.Mapping;
 
@@ -20,8 +19,8 @@ namespace NaftanRailway.WebUI {
 
             AreaRegistration.RegisterAllAreas();
 
-            //GlobalConfiguration.Configure(WebApiConfig.Register);
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            //WebApiConfig.Register(GlobalConfiguration.Configuration);
 
             // This method call registers all filters
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

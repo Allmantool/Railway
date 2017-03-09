@@ -14,7 +14,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// Get part of table
         /// </summary>
         /// <typeparam name="T">Type of table</typeparam>
-        /// <param name="mode">Type of table throughtout enum</param>
+        /// <param name="mode">Type of table throughout enum</param>
         /// <param name="page"></param>
         /// <param name="initialSizeItem">item per page</param>
         /// <param name="recordCount"> return whole amount of rows</param>

@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MesplanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="MesplanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Mesplan.dbo.etsng' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="etsng">
@@ -17,17 +21,22 @@ warning 6002: The table/view 'Mesplan.dbo.etsng' does not have a primary key def
         </EntityType>
         <EntityContainer Name="MesplanModelStoreContainer">
           <EntitySet Name="etsng" EntityType="Self.etsng" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [etsng].[etsng] AS [etsng], 
-    [etsng].[name] AS [name]
-    FROM [dbo].[etsng] AS [etsng]</DefiningQuery>
+            <DefiningQuery>
+              SELECT
+              [etsng].[etsng] AS [etsng],
+              [etsng].[name] AS [name]
+              FROM [dbo].[etsng] AS [etsng]
+            </DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="MesplanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="MesplanModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="etsng">
           <Key>
             <PropertyRef Name="etsng1" />
@@ -44,7 +53,8 @@ warning 6002: The table/view 'Mesplan.dbo.etsng' does not have a primary key def
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MesplanModelStoreContainer" CdmEntityContainer="MesplanEntities">
+        <EntityContainerMapping StorageEntityContainer="MesplanModelStoreContainer"
+                                CdmEntityContainer="MesplanEntities">
           <EntitySetMapping Name="etsngs">
             <EntityTypeMapping TypeName="MesplanModel.etsng">
               <MappingFragment StoreEntitySet="etsng">

@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NaftanRailway.Domain.Concrete.DbContexts.ORC {
+namespace NaftanRailway.Domain.Concrete.DbContexts.ORC
+{
     [MetadataType(typeof(ObjMetaData))]
-    public partial class krt_Naftan {
+    public partial class krt_Naftan
+    {
     }
-    internal class ObjMetaData {
+
+    internal class ObjMetaData
+    {
         //[ScriptIgnore]
         //public virtual ICollection<krt_Naftan_orc_sapod> krt_Naftan_orc_sapod { get; set; }
 

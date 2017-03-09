@@ -13,19 +13,19 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// To overcome limitations ASP.MVC provide functionality to define custom exception filter by extending HandleErrorAttribute
     /// Custom filter for handing exceptions
     /// *Another kind of filter (authorization, action, or result filter)
-    /// *the aciton method itself
+    /// *the action method itself
     /// *when the action result is executed
     /// </summary>
     public class ExceptionFilterAttribute : HandleErrorAttribute {// FilterAttribute, IExceptionFilter
         /// <summary>
         /// Called when an unhandled exception arises
         /// </summary>
-        /// <param name="filterContext">Direved from ControllerContext
+        /// <param name="filterContext">Derived from ControllerContext
         /// Useful ControllerContext prop:
         ///     Controller => Return the controller object for this request
-        ///     HttpContext => Provides accesse to datails of a request and access to the response
-        ///     IsChildAction 
-        ///     RequestContext => Provides access to the HttpContext and the routing data, both of which are avaible through other properties
+        ///     HttpContext => Provides access to details of a request and access to the response
+        ///     IsChildAction
+        ///     RequestContext => Provides access to the HttpContext and the routing data, both of which are available through other properties
         ///     RouteData => Returns the routing data for this request
         /// Useful ExceptionContext prop:
         ///     ActionDescriptor => Provides details of the action method
@@ -83,15 +83,15 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 filterContext.Result = (new ViewResult() {
                     ViewName = "Errors",
                     MasterName = "_Layout.HttpErrors",
-                    //ViewData = new ViewDataDictionary(errormodel),
+                    //ViewData = new ViewDataDictionary(error model),
                     ViewData = new ViewDataDictionary<ExceptionViewModel>(exceptContext),
                     TempData = filterContext.Controller.TempData
                 });
             }
 
-            //mark exception as handled (other filters not doing attepting work)
+            //mark exception as handled (other filters not doing attempting work)
             Debug.WriteLine(filterContext.Exception.Message);
-            // Prepare the response code.  
+            // Prepare the response code.
             filterContext.ExceptionHandled = true;
             //filterContext.HttpContext.Response.Clear();
 
