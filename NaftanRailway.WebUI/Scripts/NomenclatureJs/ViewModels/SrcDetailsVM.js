@@ -15,7 +15,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         pagging: ko.observable(),
         rowsPerPage: ko.observable(20),
         charges: ko.observableArray(undefined),
-        filters: ko.observableArray(undefined),
+        filters: ko.observableArray(undefined).extend({ deferred: true }),
         currChg: ko.observable(undefined),
         operationDialog: ko.observable(false),
         _filterState: ko.pureComputed(function () {

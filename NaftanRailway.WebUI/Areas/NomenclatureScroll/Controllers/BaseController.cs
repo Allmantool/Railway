@@ -64,7 +64,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
              browser.JavaApplets,
              browser.Frames,
              ADUserName,
-             userName.Length == 0 ? "" : String.Format("({0})", userName),
+             //&#92; => html5 escape charaster '/'
+             userName.Length == 0 ? "" : String.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers);
 
             return result;

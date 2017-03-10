@@ -245,6 +245,9 @@ appNomenclature.CustBundings = (function ($, ko) {
                 buttonText: function (options, select) {
                     return 'buttonText';
                 },
+                //onInitialized: function (select, container) {
+                //    alert('Initialized.');
+                //}
                 //buttonTitle: function (options, select) {
                 //    return '';
                 //},
@@ -259,7 +262,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 //}
             };
 
-            var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
+            var $merged = $.extend(true, defaults, ko.unwrap(valueAccessor()));
 
             $(element).multiselect($merged);
 

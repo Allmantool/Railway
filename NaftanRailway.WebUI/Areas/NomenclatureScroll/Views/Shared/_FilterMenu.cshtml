@@ -1,5 +1,5 @@
 ﻿<div style="display: inline-block;" data-bind="foreach: filters">
-    <select multiple="multiple" size="10" class="form-group form-control filters" type="search"
+    <select style="display:none;" multiple="multiple" size="10" class="form-group form-control filters" type="search"
             data-bind="attr: {'id': 'filter' + $index()},
                        options: $data.AllAvailableValues, selectedOptions: $data.CheckedValues,
                        multiselect:{

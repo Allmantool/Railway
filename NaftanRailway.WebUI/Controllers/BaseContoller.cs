@@ -61,7 +61,7 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.JavaApplets,
              browser.Frames,
              ADUserName,
-             userName.Length == 0 ? "" : String.Format("({0})", userName),
+             userName.Length == 0 ? "" : String.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers);
 
             return result;
