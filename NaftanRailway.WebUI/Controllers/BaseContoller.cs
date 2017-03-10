@@ -50,7 +50,7 @@ namespace NaftanRailway.WebUI.Controllers {
             var result = String.Format(
                  "Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
                  "<br />Cookies: {5},<br />ActiveXControls: {6},<br />JavaApplets {7},<br />Frames: {8}," +
-                 "<br />User Name: {9}{10},<br />Online: {11}.",
+                 "<br />User Name: {9}{10},<br />Online: {11},",
              browser.Browser,
              browser.Version,
              browser.EcmaScriptVersion.ToString(),
@@ -62,7 +62,36 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.Frames,
              ADUserName,
              userName.Length == 0 ? "" : String.Format("({0})", userName.Replace(@"\", "&#92;")),
-             totalOnlineUsers);
+             totalOnlineUsers
+            );
+
+
+            return result;
+        }
+
+        private string GetADInfo() {
+            var result ="";
+            // create your domain context
+            PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
+
+            // define a "query-by-example" principal - here, we search for a GroupPrincipal 
+            GroupPrincipal qbeGroup = new GroupPrincipal(ctx);
+
+            // create your principal searcher passing in the QBE principal    
+            PrincipalSearcher srch = new PrincipalSearcher(qbeGroup);
+
+            // find all matches
+            foreach (var found in srch.FindAll()) {
+                // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....   
+                result = result + ", " + found.SamAccountName;
+            }
+
+            PrincipalContext ctx1 = new PrincipalContext(ContextType.Domain);
+            // get the AD Group you are wanting to Query
+            //GroupPrincipal group = GroupPrincipal.FindByIdentity(ctx,"cn=Финансы_Программисты");
+            //foreach (Principal p in group.Members) {
+            //    result = result + ", " + p.Name;
+            //}
 
             return result;
         }
