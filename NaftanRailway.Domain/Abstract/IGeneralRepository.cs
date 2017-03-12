@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-namespace NaftanRailway.Domain.Abstract
-{
-    public interface IGeneralRepository<T> : IDisposable
-    {
+namespace NaftanRailway.Domain.Abstract {
+    public interface IGeneralRepository<T> : IDisposable {
         /// <summary>
         ///     Actual working dbContext
         /// </summary>
-        DbContext ActiveContext { get; set; }
+        DbContext ActiveDbContext { get; set; }
 
         /// <summary>
         ///     Get all or filter result
@@ -20,8 +19,7 @@ namespace NaftanRailway.Domain.Abstract
         /// <param name="enableDetectChanges"></param>
         /// <param name="enableTracking"></param>
         /// <returns></returns>
-        IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true,
-            bool enableTracking = true);
+        IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
 
         /// <summary>
         ///     Get single entity
@@ -32,7 +30,11 @@ namespace NaftanRailway.Domain.Abstract
         /// <returns></returns>
         T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
 
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
+
         T Find<TK>(TK key, bool enableDetectChanges = true);
+
+        Task<T> FindAsync<TK>(TK key, bool enableDetectChanges = true);
 
         /// <summary>
         ///     Add general entity
@@ -55,7 +57,7 @@ namespace NaftanRailway.Domain.Abstract
         void Add(IEnumerable<T> entityColl, bool enableDetectChanges = true);
 
         /// <summary>
-        ///     Edit concrete entity (first attach method and then update needed property / apossite update => update all property)
+        ///     Edit concrete entity (first attach method and then update needed property / apposite update => update all property)
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="enableDetectChanges"></param>
@@ -99,6 +101,7 @@ namespace NaftanRailway.Domain.Abstract
         void Delete(Expression<Func<T, bool>> predicate, bool enableDetectChanges = true);
 
         void Delete(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+
         void Delete<TK>(TK key, bool enableDetectChanges = true);
 
         /// <summary>
@@ -117,7 +120,7 @@ namespace NaftanRailway.Domain.Abstract
         /// <param name="predicate"></param>
         /// <param name="excludeFieds"></param>
         /// <param name="enableDetectChanges"></param>
-        void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds,
-            bool enableDetectChanges = true);
+        void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true);
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -31,11 +32,13 @@ namespace NaftanRailway.WebUI.Controllers {
             else
                 context = new PrincipalContext(ContextType.Domain, "lan.naftan.by");
 
-            using (context) {
+            using (context)
+            {
                 //Инкапсулирует участников, которые являются учетными записями пользователей.
                 var principal = UserPrincipal.FindByIdentity(context, identity);
 
-                displayName = principal.DisplayName;
+                if (principal != null)
+                    displayName = string.Format("{0} ({1}) (Groups:{2})", principal.DisplayName, principal.EmailAddress, string.Join(", ",principal.GetGroups().Select(x=>x.Name)));
             }
 
             return displayName;
@@ -53,7 +56,7 @@ namespace NaftanRailway.WebUI.Controllers {
                  "<br />User Name: {9}{10},<br />Online: {11},",
              browser.Browser,
              browser.Version,
-             browser.EcmaScriptVersion.ToString(),
+             browser.EcmaScriptVersion,
              browser["JavaScriptVersion"],
              browser.Platform,
              browser.Cookies,
@@ -70,28 +73,26 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         private string GetADInfo() {
-            var result ="";
+            //SAM(англ.Security Account Manager) Диспетчер учётных записей безопасности — RPC - сервер Windows, оперирующий базой данных учетных записей.
+
+            var result = "";
             // create your domain context
             PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
 
-            // define a "query-by-example" principal - here, we search for a GroupPrincipal 
-            GroupPrincipal qbeGroup = new GroupPrincipal(ctx);
+            // define a "query-by-example" principal - here, we search for a GroupPrincipal
+            GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
+            UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*cpn*" };
 
-            // create your principal searcher passing in the QBE principal    
-            PrincipalSearcher srch = new PrincipalSearcher(qbeGroup);
+            // create your principal searcher passing in the QBE principal
+            PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
+            PrincipalSearcher srchUsers = new PrincipalSearcher(qbeUser);
 
             // find all matches
-            foreach (var found in srch.FindAll()) {
-                // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....   
-                result = result + ", " + found.SamAccountName;
-            }
+            foreach (var found in srchGroups.FindAll()) {
 
-            PrincipalContext ctx1 = new PrincipalContext(ContextType.Domain);
-            // get the AD Group you are wanting to Query
-            //GroupPrincipal group = GroupPrincipal.FindByIdentity(ctx,"cn=Финансы_Программисты");
-            //foreach (Principal p in group.Members) {
-            //    result = result + ", " + p.Name;
-            //}
+                // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....
+                result = result + ", " + found.Name;
+            }
 
             return result;
         }

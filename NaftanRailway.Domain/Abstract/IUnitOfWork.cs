@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
-namespace NaftanRailway.Domain.Abstract
-{
-    public interface IUnitOfWork : IDisposable
-    {
+namespace NaftanRailway.Domain.Abstract {
+    public interface IUnitOfWork : IDisposable {
         /// <summary>
         ///     Active DbContext (current)
         /// </summary>
@@ -21,5 +20,7 @@ namespace NaftanRailway.Domain.Abstract
         ///     Save method
         /// </summary>
         void Save();
+
+        Task SaveAsync();
     }
 }

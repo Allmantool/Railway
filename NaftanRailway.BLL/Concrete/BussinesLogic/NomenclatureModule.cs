@@ -38,7 +38,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount, bool viewWrong = false) {
             //order predicate
             Expression<Func<krt_Naftan_orc_sapod, object>> order = x => new { x.nkrt, x.tdoc, x.vidsbr, x.dt };
-            //filter predictate
+            //filter predicate
             Expression<Func<krt_Naftan_orc_sapod, bool>> where = x => x.keykrt == key;
 
             //apply filters(linqKit)
@@ -59,7 +59,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         /// <summary>
-        /// Get range of avaible month period
+        /// Get range of available month period
         /// </summary>
         /// <returns></returns>
         public IEnumerable<DateTime> GetListPeriod() {
@@ -84,7 +84,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveContext.Database;
+                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
@@ -129,7 +129,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         public void SyncWithOrc() {
             using (Engage.Uow = new UnitOfWork()) {
-                var db = Engage.Uow.Repository<krt_Naftan>().ActiveContext.Database;
+                var db = Engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
                 db.CommandTimeout = 120;
                 db.ExecuteSqlCommand(@"EXEC dbo.sp_UpdateKrt_Naftan");
             }

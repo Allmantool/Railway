@@ -30,7 +30,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="recordCount"></param>
         /// <returns></returns>
         public IEnumerable<ShippingDTO> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
-            //exit when empty result (discrease count server query)
+            //exit when empty result (decrease count server query)
             if (_engage.GetCountRows<krt_Guild18>(x => x.reportPeriod == chooseDate) == 0) {
                 recordCount = 0;
                 return new List<ShippingDTO>();
@@ -149,7 +149,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var endDate = reportPeriod.AddMonths(1).AddDays(shiftPage);
 
             try {
-                //type_doc 1 => one trunsaction (one request per one dbcontext)
+                //type_doc 1 => one transaction (one request per one dbcontext)
                 List<krt_Guild18> result = (from item in preview join vn in _engage.GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
                                       .And(PredicateExtensions.InnerContainsPredicate<v_nach, int?>("id_otpr", preview.Select(x => (int?)x.Shipping.id))).Expand())
                               on item.Shipping.id equals vn.id_otpr
@@ -168,7 +168,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 foreach (var dispatch in preview) {
                     var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
-                    //type_doc 2 =>one trunsaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
+                    //type_doc 2 =>one transaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
                     //in memory because not all method support entity to sql => more easy do it in memory
                     using (_engage.Uow = new UnitOfWork()) {
                         result.AddRange((from vpv in _engage.Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
@@ -207,7 +207,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                     idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
                                 }));
                     }
-                    ////type_doc 3 =>one trunsaction (one request per one dbcontext)
+                    ////type_doc 3 =>one transaction (one request per one dbcontext)
                     using (_engage.Uow = new UnitOfWork()) {
                         result.AddRange((from vav in _engage.Uow.Repository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
                                          join va in _engage.Uow.Repository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
@@ -267,13 +267,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 using (_engage.Uow = new UnitOfWork()) {
                     //для динамического соединения
-                    var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveContext.Database.Connection.Database + @"]";
-                    var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.Connection.Database + @"]";
+                    var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
+                    var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
                     var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag))) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
-                    var result = _engage.Uow.Repository<krt_Guild18>().ActiveContext.Database.SqlQuery<krt_Guild18>(@"
+                    var result = _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.SqlQuery<krt_Guild18>(@"
                     WITH SubResutl AS (
                         /*Doc from Invoices*/
                         SELECT @reportPeriod AS [reportPeriod],     vn.[id] AS [idSapod],     null AS [idScroll], null AS [scrollColl],

@@ -32,14 +32,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             string displayName = String.Empty;
             PrincipalContext context;
 
-            if (identity.Substring(0, 7).ToLower() == "polymir")
-                context = new PrincipalContext(ContextType.Domain, "POLYMIR.NET");
-            else
-                context = new PrincipalContext(ContextType.Domain, "lan.naftan.by");
+            switch (identity.Substring(0, 7).ToLower()) {
+                case "polymir":
+                    context = new PrincipalContext(ContextType.Domain, "POLYMIR.NET");
+                    break;
+                default:
+                    context = new PrincipalContext(ContextType.Domain, "lan.naftan.by");
+                    break;
+            }
 
             using (context) {
                 var principal = UserPrincipal.FindByIdentity(context, identity);
-                displayName = principal.DisplayName;
+                if (principal != null) displayName = principal.DisplayName;
             }
 
             return displayName;
@@ -64,8 +68,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
              browser.JavaApplets,
              browser.Frames,
              ADUserName,
-             //&#92; => html5 escape charaster '/'
-             userName.Length == 0 ? "" : String.Format("({0})", userName.Replace(@"\", "&#92;")),
+             //&#92; => html5 escape character '/'
+             userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers);
 
             return result;
