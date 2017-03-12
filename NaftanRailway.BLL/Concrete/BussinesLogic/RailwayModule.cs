@@ -401,7 +401,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             if (!delivery.Any()) {
                 recordCount = 0;
             } else {
-                //one trunsaction (one request per one dbcontext)
+                //one transaction (one request per one dbcontext)
                 using (_engage.Uow = new UnitOfWork()) {
                     result = (from sh in delivery join e in _engage.Uow.Repository<etsng>().Get_all(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
                               select new ShippingInfoLineDTO() {
