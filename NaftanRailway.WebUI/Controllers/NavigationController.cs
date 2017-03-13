@@ -39,7 +39,7 @@ namespace NaftanRailway.WebUI.Controllers {
             menuView.ReportPeriod = storage.ReportPeriod;
 
             //Base controller info
-            ViewBag.UserName = ADUserName;
+            ViewBag.UserName = CurrentADUser.Name;
             ViewBag.BrowserInfo = BrowserInfo;
 
             return PartialView("ComplexNavbarMenu", menuView);
