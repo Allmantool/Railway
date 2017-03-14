@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
-    public class ReportController : Controller {
+    public class ReportController : BaseController {
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing culture prop don't help)
         /// problem on iis culture and  SSRS
@@ -40,7 +40,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 //WebClient client = new WebClient { UseDefaultCredentials = true };
                 /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
                 WebClient client = new WebClient {
-                    Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
+                    Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"Krt_Reports", @"Krt_Reports", @"LAN") } }
                 };
 
                 string nameFile = string.Format(@"Отчёт {0} за {1} {2}г.xls", reportName, period.ToString("MMMM"), period.Year);

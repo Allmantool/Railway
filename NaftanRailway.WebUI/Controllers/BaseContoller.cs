@@ -1,6 +1,5 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -20,9 +19,9 @@ namespace NaftanRailway.WebUI.Controllers {
         public ADUserDTO CurrentADUser {
             get {
                 PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
-                //if (Request.IsLocal) {
-                //    return new UserPrincipal(ctx) { Name = "Local work (Admin;)" };
-                //}
+                if (Request.IsLocal) {
+                    return new ADUserDTO { Name = "Local work (Admin;)", DomainName = @"LAN\CPN", EmailAddress = "@mail" };
+                }
 
                 string identity = User.Identity.Name;
 
