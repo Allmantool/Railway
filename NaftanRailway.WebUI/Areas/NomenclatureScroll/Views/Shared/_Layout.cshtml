@@ -30,7 +30,7 @@
                                     <b>Журнал Перечней ОРЦ</b><span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li data-bind>
+                                    <li>
                                         @Html.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll", new { data_bind = "click: $root.registrationScr.bind($root, null), attr: {'href':'" + Url.Action("Confirmed", "Scroll") + "/' + $root.currScr().srcKey()}" })
                                     </li>
                                     <li>
@@ -78,11 +78,22 @@
                                 </a>
                                 <ul class="dropdown-menu"></ul>
                             </li>
-                            <li class="dropdown col-lg-5">
+                            <li class="dropdown col-lg-2">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <b>Журнал<br />Карточек<br />ФДУ-92</b><span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu"></ul>
+                            </li>
+                            <li class="dropdown col-lg-2">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <b>Журнал<br />Заявок<br />ГУ-12</b><span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.ActionLink(@"Детализация ГУ-12", "Reports", "Scroll",
+                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_Mesplan" }) + "/' + $root.currScr().srcKey()}" })
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
