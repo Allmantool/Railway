@@ -153,6 +153,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\OBD\v_02_podhod.cs">
+      <DependentUpon>OBDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Concrete\DbContexts\OBD\v_akt.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>

@@ -18,6 +18,7 @@
         <AssociationConnector Association="OBDModelEntities.v_otprv_o_v" />
         <AssociationConnector Association="OBDModelEntities.v_aktv_akt_vag" />
         <AssociationConnector Association="OBDModelEntities.v_pamv_pam_vag" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_02_podhod" Width="1.5" PointX="6.375" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

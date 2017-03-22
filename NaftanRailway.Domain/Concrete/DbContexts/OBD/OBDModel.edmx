@@ -5,10 +5,43 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="OBDEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self"
-              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
-              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
-              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OBDEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OBD.dbo.v_02_podhod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="v_02_podhod">
+          <Key>
+            <PropertyRef Name="n_vag" />
+          </Key>
+          <Property Name="n_vag" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="pr_kach" Type="smallint" />
+          <Property Name="ks" Type="int" />
+          <Property Name="roliki" Type="smallint" />
+          <Property Name="massa_t" Type="int" />
+          <Property Name="st_nazn" Type="char" MaxLength="5" />
+          <Property Name="kod_etsng" Type="char" MaxLength="5" />
+          <Property Name="kod_pol" Type="char" MaxLength="4" />
+          <Property Name="os_ot1" Type="smallint" />
+          <Property Name="os_ot2" Type="smallint" />
+          <Property Name="os_ot3" Type="smallint" />
+          <Property Name="kol_plomb" Type="smallint" />
+          <Property Name="kont_gr" Type="smallint" />
+          <Property Name="kont_por" Type="smallint" />
+          <Property Name="kod_stik" Type="char" MaxLength="5" />
+          <Property Name="prim" Type="char" MaxLength="6" />
+          <Property Name="date_oper_v" Type="datetime" />
+          <Property Name="it_stfor" Type="char" MaxLength="4" />
+          <Property Name="it_npp" Type="char" MaxLength="3" />
+          <Property Name="it_stnaz" Type="char" MaxLength="4" />
+          <Property Name="oper" Type="smallint" />
+          <Property Name="kod_stan_oper" Type="char" MaxLength="6" />
+          <Property Name="date_oper_t" Type="datetime" />
+          <Property Name="sroch_voz" Type="varchar" MaxLength="30" />
+          <Property Name="pr_v" Type="smallint" />
+          <Property Name="pr_sobst" Type="smallint" />
+          <Property Name="cod_algng" Type="char" MaxLength="8" />
+          <Property Name="n_otpr" Type="char" MaxLength="8" />
+          <Property Name="n_kont" Type="char" MaxLength="11" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'OBD.dbo.v_akt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="v_akt">
@@ -385,371 +418,385 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
           <Property Name="no_plat_podach" Type="int" />
         </EntityType>
         <EntityContainer Name="OBDEntitiesStoreContainer">
+          <EntitySet Name="v_02_podhod" EntityType="Self.v_02_podhod" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [v_02_podhod].[n_vag] AS [n_vag], 
+    [v_02_podhod].[pr_kach] AS [pr_kach], 
+    [v_02_podhod].[ks] AS [ks], 
+    [v_02_podhod].[roliki] AS [roliki], 
+    [v_02_podhod].[massa_t] AS [massa_t], 
+    [v_02_podhod].[st_nazn] AS [st_nazn], 
+    [v_02_podhod].[kod_etsng] AS [kod_etsng], 
+    [v_02_podhod].[kod_pol] AS [kod_pol], 
+    [v_02_podhod].[os_ot1] AS [os_ot1], 
+    [v_02_podhod].[os_ot2] AS [os_ot2], 
+    [v_02_podhod].[os_ot3] AS [os_ot3], 
+    [v_02_podhod].[kol_plomb] AS [kol_plomb], 
+    [v_02_podhod].[kont_gr] AS [kont_gr], 
+    [v_02_podhod].[kont_por] AS [kont_por], 
+    [v_02_podhod].[kod_stik] AS [kod_stik], 
+    [v_02_podhod].[prim] AS [prim], 
+    [v_02_podhod].[date_oper_v] AS [date_oper_v], 
+    [v_02_podhod].[it_stfor] AS [it_stfor], 
+    [v_02_podhod].[it_npp] AS [it_npp], 
+    [v_02_podhod].[it_stnaz] AS [it_stnaz], 
+    [v_02_podhod].[oper] AS [oper], 
+    [v_02_podhod].[kod_stan_oper] AS [kod_stan_oper], 
+    [v_02_podhod].[date_oper_t] AS [date_oper_t], 
+    [v_02_podhod].[sroch_voz] AS [sroch_voz], 
+    [v_02_podhod].[pr_v] AS [pr_v], 
+    [v_02_podhod].[pr_sobst] AS [pr_sobst], 
+    [v_02_podhod].[cod_algng] AS [cod_algng], 
+    [v_02_podhod].[n_otpr] AS [n_otpr], 
+    [v_02_podhod].[n_kont] AS [n_kont]
+    FROM [dbo].[v_02_podhod] AS [v_02_podhod]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="v_akt" EntityType="Self.v_akt" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_akt].[id] AS [id],
-              [v_akt].[kodls] AS [kodls],
-              [v_akt].[nakt] AS [nakt],
-              [v_akt].[dakt] AS [dakt],
-              [v_akt].[kodkl] AS [kodkl],
-              [v_akt].[nkrt] AS [nkrt],
-              [v_akt].[id_kart] AS [id_kart],
-              [v_akt].[state] AS [state],
-              [v_akt].[pr_external_work] AS [pr_external_work]
-              FROM [dbo].[v_akt] AS [v_akt]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_akt].[id] AS [id], 
+    [v_akt].[kodls] AS [kodls], 
+    [v_akt].[nakt] AS [nakt], 
+    [v_akt].[dakt] AS [dakt], 
+    [v_akt].[kodkl] AS [kodkl], 
+    [v_akt].[nkrt] AS [nkrt], 
+    [v_akt].[id_kart] AS [id_kart], 
+    [v_akt].[state] AS [state], 
+    [v_akt].[pr_external_work] AS [pr_external_work]
+    FROM [dbo].[v_akt] AS [v_akt]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_akt_vag" EntityType="Self.v_akt_vag" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_akt_vag].[id] AS [id],
-              [v_akt_vag].[id_akt] AS [id_akt],
-              [v_akt_vag].[nomvag] AS [nomvag]
-              FROM [dbo].[v_akt_vag] AS [v_akt_vag]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_akt_vag].[id] AS [id], 
+    [v_akt_vag].[id_akt] AS [id_akt], 
+    [v_akt_vag].[nomvag] AS [nomvag]
+    FROM [dbo].[v_akt_vag] AS [v_akt_vag]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_kart" EntityType="Self.v_kart" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_kart].[id] AS [id],
-              [v_kart].[uni_kart] AS [uni_kart],
-              [v_kart].[num_kart] AS [num_kart],
-              [v_kart].[cod_stan] AS [cod_stan],
-              [v_kart].[date_okrt] AS [date_okrt],
-              [v_kart].[cod_pl] AS [cod_pl],
-              [v_kart].[nod_pl] AS [nod_pl],
-              [v_kart].[mfo] AS [mfo],
-              [v_kart].[rash] AS [rash],
-              [v_kart].[num_plat_por] AS [num_plat_por],
-              [v_kart].[date_plat_por] AS [date_plat_por],
-              [v_kart].[type_kart] AS [type_kart],
-              [v_kart].[cod_ls] AS [cod_ls],
-              [v_kart].[num_dogovor] AS [num_dogovor],
-              [v_kart].[cod_currency] AS [cod_currency],
-              [v_kart].[summa] AS [summa],
-              [v_kart].[state] AS [state],
-              [v_kart].[num_fdu93] AS [num_fdu93],
-              [v_kart].[date_fdu93] AS [date_fdu93],
-              [v_kart].[pr_external_work] AS [pr_external_work],
-              [v_kart].[state_dbf] AS [state_dbf],
-              [v_kart].[date_zkrt] AS [date_zkrt]
-              FROM [dbo].[v_kart] AS [v_kart]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_kart].[id] AS [id], 
+    [v_kart].[uni_kart] AS [uni_kart], 
+    [v_kart].[num_kart] AS [num_kart], 
+    [v_kart].[cod_stan] AS [cod_stan], 
+    [v_kart].[date_okrt] AS [date_okrt], 
+    [v_kart].[cod_pl] AS [cod_pl], 
+    [v_kart].[nod_pl] AS [nod_pl], 
+    [v_kart].[mfo] AS [mfo], 
+    [v_kart].[rash] AS [rash], 
+    [v_kart].[num_plat_por] AS [num_plat_por], 
+    [v_kart].[date_plat_por] AS [date_plat_por], 
+    [v_kart].[type_kart] AS [type_kart], 
+    [v_kart].[cod_ls] AS [cod_ls], 
+    [v_kart].[num_dogovor] AS [num_dogovor], 
+    [v_kart].[cod_currency] AS [cod_currency], 
+    [v_kart].[summa] AS [summa], 
+    [v_kart].[state] AS [state], 
+    [v_kart].[num_fdu93] AS [num_fdu93], 
+    [v_kart].[date_fdu93] AS [date_fdu93], 
+    [v_kart].[pr_external_work] AS [pr_external_work], 
+    [v_kart].[state_dbf] AS [state_dbf], 
+    [v_kart].[date_zkrt] AS [date_zkrt]
+    FROM [dbo].[v_kart] AS [v_kart]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_nach" EntityType="Self.v_nach" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_nach].[id] AS [id],
-              [v_nach].[id_kart] AS [id_kart],
-              [v_nach].[id_otpr] AS [id_otpr],
-              [v_nach].[uni_otpr] AS [uni_otpr],
-              [v_nach].[cod_kl] AS [cod_kl],
-              [v_nach].[nod_kl] AS [nod_kl],
-              [v_nach].[type_doc] AS [type_doc],
-              [v_nach].[oper] AS [oper],
-              [v_nach].[cod_sbor] AS [cod_sbor],
-              [v_nach].[date_raskr] AS [date_raskr],
-              [v_nach].[num_doc] AS [num_doc],
-              [v_nach].[cena] AS [cena],
-              [v_nach].[kol] AS [kol],
-              [v_nach].[summa] AS [summa],
-              [v_nach].[nds] AS [nds],
-              [v_nach].[cod_currency] AS [cod_currency],
-              [v_nach].[num_kart_sd] AS [num_kart_sd],
-              [v_nach].[textm] AS [textm],
-              [v_nach].[id_ed] AS [id_ed]
-              FROM [dbo].[v_nach] AS [v_nach]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_nach].[id] AS [id], 
+    [v_nach].[id_kart] AS [id_kart], 
+    [v_nach].[id_otpr] AS [id_otpr], 
+    [v_nach].[uni_otpr] AS [uni_otpr], 
+    [v_nach].[cod_kl] AS [cod_kl], 
+    [v_nach].[nod_kl] AS [nod_kl], 
+    [v_nach].[type_doc] AS [type_doc], 
+    [v_nach].[oper] AS [oper], 
+    [v_nach].[cod_sbor] AS [cod_sbor], 
+    [v_nach].[date_raskr] AS [date_raskr], 
+    [v_nach].[num_doc] AS [num_doc], 
+    [v_nach].[cena] AS [cena], 
+    [v_nach].[kol] AS [kol], 
+    [v_nach].[summa] AS [summa], 
+    [v_nach].[nds] AS [nds], 
+    [v_nach].[cod_currency] AS [cod_currency], 
+    [v_nach].[num_kart_sd] AS [num_kart_sd], 
+    [v_nach].[textm] AS [textm], 
+    [v_nach].[id_ed] AS [id_ed]
+    FROM [dbo].[v_nach] AS [v_nach]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_o_v" EntityType="Self.v_o_v" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_o_v].[id] AS [id],
-              [v_o_v].[id_otpr] AS [id_otpr],
-              [v_o_v].[n_vag] AS [n_vag],
-              [v_o_v].[prov] AS [prov],
-              [v_o_v].[texn] AS [texn],
-              [v_o_v].[massa] AS [massa],
-              [v_o_v].[prim] AS [prim],
-              [v_o_v].[pr_zam] AS [pr_zam],
-              [v_o_v].[cod_vidot] AS [cod_vidot],
-              [v_o_v].[ves_n_ob] AS [ves_n_ob],
-              [v_o_v].[n_sx] AS [n_sx],
-              [v_o_v].[npp] AS [npp],
-              [v_o_v].[n_vag_p] AS [n_vag_p],
-              [v_o_v].[pr_v_k] AS [pr_v_k],
-              [v_o_v].[cod_gruz_old] AS [cod_gruz_old],
-              [v_o_v].[sobs] AS [sobs],
-              [v_o_v].[cod_negab] AS [cod_negab],
-              [v_o_v].[poluchatel] AS [poluchatel],
-              [v_o_v].[nom_scheme1] AS [nom_scheme1],
-              [v_o_v].[nom_scheme2] AS [nom_scheme2],
-              [v_o_v].[n_ob_in_tara] AS [n_ob_in_tara],
-              [v_o_v].[cod_stan_nazn] AS [cod_stan_nazn],
-              [v_o_v].[proveren_tara] AS [proveren_tara],
-              [v_o_v].[pl_v] AS [pl_v],
-              [v_o_v].[pl_prov] AS [pl_prov],
-              [v_o_v].[nds_pl_v] AS [nds_pl_v],
-              [v_o_v].[nds_pl_prov] AS [nds_pl_prov],
-              [v_o_v].[pl_pereadr_prib] AS [pl_pereadr_prib],
-              [v_o_v].[pl_pereadr_prov_prib] AS [pl_pereadr_prov_prib],
-              [v_o_v].[ndspl_pereadr_prib] AS [ndspl_pereadr_prib],
-              [v_o_v].[ndspl_pereadr_prov_prib] AS [ndspl_pereadr_prov_prib],
-              [v_o_v].[pl_otpr] AS [pl_otpr],
-              [v_o_v].[pl_prov_otpr] AS [pl_prov_otpr],
-              [v_o_v].[pl_pereadr] AS [pl_pereadr],
-              [v_o_v].[pl_pereadr_prov] AS [pl_pereadr_prov],
-              [v_o_v].[ndspl_pereadr] AS [ndspl_pereadr],
-              [v_o_v].[ndspl_pereadr_prov] AS [ndspl_pereadr_prov],
-              [v_o_v].[poniz_kof_tp] AS [poniz_kof_tp],
-              [v_o_v].[pr_skid] AS [pr_skid],
-              [v_o_v].[num_tel_is_tar] AS [num_tel_is_tar],
-              [v_o_v].[kol_vag_metan] AS [kol_vag_metan],
-              [v_o_v].[is_print] AS [is_print],
-              [v_o_v].[kof_skid] AS [kof_skid],
-              [v_o_v].[is_skid] AS [is_skid]
-              FROM [dbo].[v_o_v] AS [v_o_v]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_o_v].[id] AS [id], 
+    [v_o_v].[id_otpr] AS [id_otpr], 
+    [v_o_v].[n_vag] AS [n_vag], 
+    [v_o_v].[prov] AS [prov], 
+    [v_o_v].[texn] AS [texn], 
+    [v_o_v].[massa] AS [massa], 
+    [v_o_v].[prim] AS [prim], 
+    [v_o_v].[pr_zam] AS [pr_zam], 
+    [v_o_v].[cod_vidot] AS [cod_vidot], 
+    [v_o_v].[ves_n_ob] AS [ves_n_ob], 
+    [v_o_v].[n_sx] AS [n_sx], 
+    [v_o_v].[npp] AS [npp], 
+    [v_o_v].[n_vag_p] AS [n_vag_p], 
+    [v_o_v].[pr_v_k] AS [pr_v_k], 
+    [v_o_v].[cod_gruz_old] AS [cod_gruz_old], 
+    [v_o_v].[sobs] AS [sobs], 
+    [v_o_v].[cod_negab] AS [cod_negab], 
+    [v_o_v].[poluchatel] AS [poluchatel], 
+    [v_o_v].[nom_scheme1] AS [nom_scheme1], 
+    [v_o_v].[nom_scheme2] AS [nom_scheme2], 
+    [v_o_v].[n_ob_in_tara] AS [n_ob_in_tara], 
+    [v_o_v].[cod_stan_nazn] AS [cod_stan_nazn], 
+    [v_o_v].[proveren_tara] AS [proveren_tara], 
+    [v_o_v].[pl_v] AS [pl_v], 
+    [v_o_v].[pl_prov] AS [pl_prov], 
+    [v_o_v].[nds_pl_v] AS [nds_pl_v], 
+    [v_o_v].[nds_pl_prov] AS [nds_pl_prov], 
+    [v_o_v].[pl_pereadr_prib] AS [pl_pereadr_prib], 
+    [v_o_v].[pl_pereadr_prov_prib] AS [pl_pereadr_prov_prib], 
+    [v_o_v].[ndspl_pereadr_prib] AS [ndspl_pereadr_prib], 
+    [v_o_v].[ndspl_pereadr_prov_prib] AS [ndspl_pereadr_prov_prib], 
+    [v_o_v].[pl_otpr] AS [pl_otpr], 
+    [v_o_v].[pl_prov_otpr] AS [pl_prov_otpr], 
+    [v_o_v].[pl_pereadr] AS [pl_pereadr], 
+    [v_o_v].[pl_pereadr_prov] AS [pl_pereadr_prov], 
+    [v_o_v].[ndspl_pereadr] AS [ndspl_pereadr], 
+    [v_o_v].[ndspl_pereadr_prov] AS [ndspl_pereadr_prov], 
+    [v_o_v].[poniz_kof_tp] AS [poniz_kof_tp], 
+    [v_o_v].[pr_skid] AS [pr_skid], 
+    [v_o_v].[num_tel_is_tar] AS [num_tel_is_tar], 
+    [v_o_v].[kol_vag_metan] AS [kol_vag_metan], 
+    [v_o_v].[is_print] AS [is_print], 
+    [v_o_v].[kof_skid] AS [kof_skid], 
+    [v_o_v].[is_skid] AS [is_skid]
+    FROM [dbo].[v_o_v] AS [v_o_v]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_OPER_ASUS" EntityType="Self.v_OPER_ASUS" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_OPER_ASUS].[id] AS [id],
-              [v_OPER_ASUS].[obj_id] AS [obj_id],
-              [v_OPER_ASUS].[id_vag] AS [id_vag],
-              [v_OPER_ASUS].[cod_oper] AS [cod_oper],
-              [v_OPER_ASUS].[time_oper] AS [time_oper],
-              [v_OPER_ASUS].[plase_oper] AS [plase_oper],
-              [v_OPER_ASUS].[ord_num] AS [ord_num],
-              [v_OPER_ASUS].[in_vgn] AS [in_vgn],
-              [v_OPER_ASUS].[cod_sbs] AS [cod_sbs],
-              [v_OPER_ASUS].[ves_gruz] AS [ves_gruz],
-              [v_OPER_ASUS].[st_destn] AS [st_destn],
-              [v_OPER_ASUS].[pnt_targt] AS [pnt_targt],
-              [v_OPER_ASUS].[pnt_destn] AS [pnt_destn],
-              [v_OPER_ASUS].[cod_gruz] AS [cod_gruz],
-              [v_OPER_ASUS].[cod_grpl] AS [cod_grpl],
-              [v_OPER_ASUS].[grpd_v] AS [grpd_v],
-              [v_OPER_ASUS].[plomb] AS [plomb],
-              [v_OPER_ASUS].[primech] AS [primech],
-              [v_OPER_ASUS].[state] AS [state],
-              [v_OPER_ASUS].[proc_state] AS [proc_state]
-              FROM [dbo].[v_OPER_ASUS] AS [v_OPER_ASUS]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_OPER_ASUS].[id] AS [id], 
+    [v_OPER_ASUS].[obj_id] AS [obj_id], 
+    [v_OPER_ASUS].[id_vag] AS [id_vag], 
+    [v_OPER_ASUS].[cod_oper] AS [cod_oper], 
+    [v_OPER_ASUS].[time_oper] AS [time_oper], 
+    [v_OPER_ASUS].[plase_oper] AS [plase_oper], 
+    [v_OPER_ASUS].[ord_num] AS [ord_num], 
+    [v_OPER_ASUS].[in_vgn] AS [in_vgn], 
+    [v_OPER_ASUS].[cod_sbs] AS [cod_sbs], 
+    [v_OPER_ASUS].[ves_gruz] AS [ves_gruz], 
+    [v_OPER_ASUS].[st_destn] AS [st_destn], 
+    [v_OPER_ASUS].[pnt_targt] AS [pnt_targt], 
+    [v_OPER_ASUS].[pnt_destn] AS [pnt_destn], 
+    [v_OPER_ASUS].[cod_gruz] AS [cod_gruz], 
+    [v_OPER_ASUS].[cod_grpl] AS [cod_grpl], 
+    [v_OPER_ASUS].[grpd_v] AS [grpd_v], 
+    [v_OPER_ASUS].[plomb] AS [plomb], 
+    [v_OPER_ASUS].[primech] AS [primech], 
+    [v_OPER_ASUS].[state] AS [state], 
+    [v_OPER_ASUS].[proc_state] AS [proc_state]
+    FROM [dbo].[v_OPER_ASUS] AS [v_OPER_ASUS]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_otpr" EntityType="Self.v_otpr" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_otpr].[id] AS [id],
-              [v_otpr].[state] AS [state],
-              [v_otpr].[n_visas] AS [n_visas],
-              [v_otpr].[num_zag] AS [num_zag],
-              [v_otpr].[uni_otpr] AS [uni_otpr],
-              [v_otpr].[stan_oper] AS [stan_oper],
-              [v_otpr].[oper] AS [oper],
-              [v_otpr].[date_oper] AS [date_oper],
-              [v_otpr].[n_otpr] AS [n_otpr],
-              [v_otpr].[vid_doc] AS [vid_doc],
-              [v_otpr].[cod_vidot] AS [cod_vidot],
-              [v_otpr].[cod_v_soob] AS [cod_v_soob],
-              [v_otpr].[skor] AS [skor],
-              [v_otpr].[date_p] AS [date_p],
-              [v_otpr].[date_o] AS [date_o],
-              [v_otpr].[cod_st_otpr] AS [cod_st_otpr],
-              [v_otpr].[cod_coun_otpr] AS [cod_coun_otpr],
-              [v_otpr].[cod_kl_otpr] AS [cod_kl_otpr],
-              [v_otpr].[nod_kl_otpr] AS [nod_kl_otpr],
-              [v_otpr].[cod_st_nazn] AS [cod_st_nazn],
-              [v_otpr].[cod_coun_nazn] AS [cod_coun_nazn],
-              [v_otpr].[cod_klient_pol] AS [cod_klient_pol],
-              [v_otpr].[nod_kl_pol] AS [nod_kl_pol],
-              [v_otpr].[rast_bel] AS [rast_bel],
-              [v_otpr].[cod_currency] AS [cod_currency],
-              [v_otpr].[cod_o_mas] AS [cod_o_mas],
-              [v_otpr].[pogr] AS [pogr],
-              [v_otpr].[paragr] AS [paragr],
-              [v_otpr].[glava] AS [glava],
-              [v_otpr].[g6] AS [g6],
-              [v_otpr].[cena] AS [cena],
-              [v_otpr].[shema] AS [shema],
-              [v_otpr].[plata] AS [plata],
-              [v_otpr].[rod_ps] AS [rod_ps],
-              [v_otpr].[cod_vidras] AS [cod_vidras],
-              [v_otpr].[cod_vidrab] AS [cod_vidrab],
-              [v_otpr].[g4] AS [g4],
-              [v_otpr].[g16] AS [g16],
-              [v_otpr].[codrsd] AS [codrsd],
-              [v_otpr].[g8] AS [g8],
-              [v_otpr].[g91] AS [g91],
-              [v_otpr].[cod_adm_o] AS [cod_adm_o],
-              [v_otpr].[cod_adm_n] AS [cod_adm_n],
-              [v_otpr].[date_dostav] AS [date_dostav],
-              [v_otpr].[massa_rasch] AS [massa_rasch],
-              [v_otpr].[g5] AS [g5],
-              [v_otpr].[g11] AS [g11],
-              [v_otpr].[g18] AS [g18],
-              [v_otpr].[g19] AS [g19],
-              [v_otpr].[g20] AS [g20],
-              [v_otpr].[g26] AS [g26],
-              [v_otpr].[g1] AS [g1],
-              [v_otpr].[cod_tvk_etsng] AS [cod_tvk_etsng],
-              [v_otpr].[cod_tvk_algng] AS [cod_tvk_algng],
-              [v_otpr].[massa_otpr] AS [massa_otpr],
-              [v_otpr].[cod_upak] AS [cod_upak],
-              [v_otpr].[tvg_k_mest] AS [tvg_k_mest],
-              [v_otpr].[tvg_tara] AS [tvg_tara],
-              [v_otpr].[tvk_zn_otpr] AS [tvk_zn_otpr],
-              [v_otpr].[rem_isk_tarif] AS [rem_isk_tarif],
-              [v_otpr].[tiptarif] AS [tiptarif],
-              [v_otpr].[dogovor_kl_kl] AS [dogovor_kl_kl],
-              [v_otpr].[cod_st_sort_kont] AS [cod_st_sort_kont],
-              [v_otpr].[cod_plat] AS [cod_plat],
-              [v_otpr].[name_plat] AS [name_plat],
-              [v_otpr].[nod_plat] AS [nod_plat],
-              [v_otpr].[type_doc] AS [type_doc],
-              [v_otpr].[vid_vag_pf] AS [vid_vag_pf],
-              [v_otpr].[container_train] AS [container_train],
-              [v_otpr].[cod_tip_tar] AS [cod_tip_tar],
-              [v_otpr].[pl_provoz] AS [pl_provoz],
-              [v_otpr].[nds_pl_provoz] AS [nds_pl_provoz],
-              [v_otpr].[pl_prov] AS [pl_prov],
-              [v_otpr].[nds_pl_prov] AS [nds_pl_prov],
-              [v_otpr].[pl_dsb] AS [pl_dsb],
-              [v_otpr].[nds_pl_dsb] AS [nds_pl_dsb],
-              [v_otpr].[pl_all] AS [pl_all],
-              [v_otpr].[pl_pr_ot] AS [pl_pr_ot],
-              [v_otpr].[pl_prov_ot] AS [pl_prov_ot],
-              [v_otpr].[pl_prib_tranzit] AS [pl_prib_tranzit],
-              [v_otpr].[pl_ot_tran] AS [pl_ot_tran],
-              [v_otpr].[pr_nds_pl_provoz] AS [pr_nds_pl_provoz],
-              [v_otpr].[pr_nds_dsb] AS [pr_nds_dsb],
-              [v_otpr].[k_usr_br] AS [k_usr_br],
-              [v_otpr].[k_rur_br] AS [k_rur_br],
-              [v_otpr].[tp_stavka] AS [tp_stavka],
-              [v_otpr].[g8_1] AS [g8_1],
-              [v_otpr].[adr_kl_1000] AS [adr_kl_1000],
-              [v_otpr].[fio_kl_1000] AS [fio_kl_1000],
-              [v_otpr].[ves_one_places] AS [ves_one_places],
-              [v_otpr].[vidkoforrr] AS [vidkoforrr],
-              [v_otpr].[extract_passport] AS [extract_passport],
-              [v_otpr].[stan_izlom0] AS [stan_izlom0],
-              [v_otpr].[stan_izlom1] AS [stan_izlom1],
-              [v_otpr].[stan_izlom2] AS [stan_izlom2],
-              [v_otpr].[kof_tp] AS [kof_tp],
-              [v_otpr].[nds_tp] AS [nds_tp],
-              [v_otpr].[g8_stik] AS [g8_stik],
-              [v_otpr].[pogr_ves] AS [pogr_ves],
-              [v_otpr].[save_dispatcher_g20] AS [save_dispatcher_g20],
-              [v_otpr].[num_doc_reforwarding] AS [num_doc_reforwarding],
-              [v_otpr].[stan_transfer] AS [stan_transfer],
-              [v_otpr].[rate_divide_scales] AS [rate_divide_scales],
-              [v_otpr].[rem_vid_ras] AS [rem_vid_ras],
-              [v_otpr].[rem_skidki] AS [rem_skidki],
-              [v_otpr].[skidka] AS [skidka],
-              [v_otpr].[kof_skid] AS [kof_skid],
-              [v_otpr].[pr_external_work] AS [pr_external_work],
-              [v_otpr].[adr_otpr] AS [adr_otpr],
-              [v_otpr].[adr_pol] AS [adr_pol],
-              [v_otpr].[nam_otpr] AS [nam_otpr],
-              [v_otpr].[nam_pol] AS [nam_pol],
-              [v_otpr].[fio_tk] AS [fio_tk],
-              [v_otpr].[id_plant] AS [id_plant],
-              [v_otpr].[class_dan] AS [class_dan],
-              [v_otpr].[num_oon] AS [num_oon],
-              [v_otpr].[num_dan_kart] AS [num_dan_kart],
-              [v_otpr].[id_mes_plan] AS [id_mes_plan],
-              [v_otpr].[return_empty_vag] AS [return_empty_vag],
-              [v_otpr].[nds_return_empty] AS [nds_return_empty],
-              [v_otpr].[prib_return_empty] AS [prib_return_empty],
-              [v_otpr].[eid] AS [eid],
-              [v_otpr].[eid_zag] AS [eid_zag],
-              [v_otpr].[cim_nam_otpr] AS [cim_nam_otpr],
-              [v_otpr].[cim_adr_otpr] AS [cim_adr_otpr],
-              [v_otpr].[cim_nam_pol] AS [cim_nam_pol],
-              [v_otpr].[cim_adr_pol] AS [cim_adr_pol],
-              [v_otpr].[cim_num_dog_exporter] AS [cim_num_dog_exporter],
-              [v_otpr].[cim_app_doc] AS [cim_app_doc],
-              [v_otpr].[cim_inter_code_station] AS [cim_inter_code_station],
-              [v_otpr].[cim_code_country] AS [cim_code_country],
-              [v_otpr].[cim_place_reception] AS [cim_place_reception],
-              [v_otpr].[cim_is_app_smgs] AS [cim_is_app_smgs],
-              [v_otpr].[cim_transhipment] AS [cim_transhipment],
-              [v_otpr].[cim_carrierStatement] AS [cim_carrierStatement],
-              [v_otpr].[cim_place_delivery] AS [cim_place_delivery],
-              [v_otpr].[cim_other_carriers] AS [cim_other_carriers],
-              [v_otpr].[cim_contract_carrier] AS [cim_contract_carrier],
-              [v_otpr].[cim_routes] AS [cim_routes],
-              [v_otpr].[cim_g6] AS [cim_g6],
-              [v_otpr].[cim_g14_1] AS [cim_g14_1],
-              [v_otpr].[cim_g14_2] AS [cim_g14_2],
-              [v_otpr].[cim_g18Line] AS [cim_g18Line],
-              [v_otpr].[cim_g18Per] AS [cim_g18Per]
-              FROM [dbo].[v_otpr] AS [v_otpr]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_otpr].[id] AS [id], 
+    [v_otpr].[state] AS [state], 
+    [v_otpr].[n_visas] AS [n_visas], 
+    [v_otpr].[num_zag] AS [num_zag], 
+    [v_otpr].[uni_otpr] AS [uni_otpr], 
+    [v_otpr].[stan_oper] AS [stan_oper], 
+    [v_otpr].[oper] AS [oper], 
+    [v_otpr].[date_oper] AS [date_oper], 
+    [v_otpr].[n_otpr] AS [n_otpr], 
+    [v_otpr].[vid_doc] AS [vid_doc], 
+    [v_otpr].[cod_vidot] AS [cod_vidot], 
+    [v_otpr].[cod_v_soob] AS [cod_v_soob], 
+    [v_otpr].[skor] AS [skor], 
+    [v_otpr].[date_p] AS [date_p], 
+    [v_otpr].[date_o] AS [date_o], 
+    [v_otpr].[cod_st_otpr] AS [cod_st_otpr], 
+    [v_otpr].[cod_coun_otpr] AS [cod_coun_otpr], 
+    [v_otpr].[cod_kl_otpr] AS [cod_kl_otpr], 
+    [v_otpr].[nod_kl_otpr] AS [nod_kl_otpr], 
+    [v_otpr].[cod_st_nazn] AS [cod_st_nazn], 
+    [v_otpr].[cod_coun_nazn] AS [cod_coun_nazn], 
+    [v_otpr].[cod_klient_pol] AS [cod_klient_pol], 
+    [v_otpr].[nod_kl_pol] AS [nod_kl_pol], 
+    [v_otpr].[rast_bel] AS [rast_bel], 
+    [v_otpr].[cod_currency] AS [cod_currency], 
+    [v_otpr].[cod_o_mas] AS [cod_o_mas], 
+    [v_otpr].[pogr] AS [pogr], 
+    [v_otpr].[paragr] AS [paragr], 
+    [v_otpr].[glava] AS [glava], 
+    [v_otpr].[g6] AS [g6], 
+    [v_otpr].[cena] AS [cena], 
+    [v_otpr].[shema] AS [shema], 
+    [v_otpr].[plata] AS [plata], 
+    [v_otpr].[rod_ps] AS [rod_ps], 
+    [v_otpr].[cod_vidras] AS [cod_vidras], 
+    [v_otpr].[cod_vidrab] AS [cod_vidrab], 
+    [v_otpr].[g4] AS [g4], 
+    [v_otpr].[g16] AS [g16], 
+    [v_otpr].[codrsd] AS [codrsd], 
+    [v_otpr].[g8] AS [g8], 
+    [v_otpr].[g91] AS [g91], 
+    [v_otpr].[cod_adm_o] AS [cod_adm_o], 
+    [v_otpr].[cod_adm_n] AS [cod_adm_n], 
+    [v_otpr].[date_dostav] AS [date_dostav], 
+    [v_otpr].[massa_rasch] AS [massa_rasch], 
+    [v_otpr].[g5] AS [g5], 
+    [v_otpr].[g11] AS [g11], 
+    [v_otpr].[g18] AS [g18], 
+    [v_otpr].[g19] AS [g19], 
+    [v_otpr].[g20] AS [g20], 
+    [v_otpr].[g26] AS [g26], 
+    [v_otpr].[g1] AS [g1], 
+    [v_otpr].[cod_tvk_etsng] AS [cod_tvk_etsng], 
+    [v_otpr].[cod_tvk_algng] AS [cod_tvk_algng], 
+    [v_otpr].[massa_otpr] AS [massa_otpr], 
+    [v_otpr].[cod_upak] AS [cod_upak], 
+    [v_otpr].[tvg_k_mest] AS [tvg_k_mest], 
+    [v_otpr].[tvg_tara] AS [tvg_tara], 
+    [v_otpr].[tvk_zn_otpr] AS [tvk_zn_otpr], 
+    [v_otpr].[rem_isk_tarif] AS [rem_isk_tarif], 
+    [v_otpr].[tiptarif] AS [tiptarif], 
+    [v_otpr].[dogovor_kl_kl] AS [dogovor_kl_kl], 
+    [v_otpr].[cod_st_sort_kont] AS [cod_st_sort_kont], 
+    [v_otpr].[cod_plat] AS [cod_plat], 
+    [v_otpr].[name_plat] AS [name_plat], 
+    [v_otpr].[nod_plat] AS [nod_plat], 
+    [v_otpr].[type_doc] AS [type_doc], 
+    [v_otpr].[vid_vag_pf] AS [vid_vag_pf], 
+    [v_otpr].[container_train] AS [container_train], 
+    [v_otpr].[cod_tip_tar] AS [cod_tip_tar], 
+    [v_otpr].[pl_provoz] AS [pl_provoz], 
+    [v_otpr].[nds_pl_provoz] AS [nds_pl_provoz], 
+    [v_otpr].[pl_prov] AS [pl_prov], 
+    [v_otpr].[nds_pl_prov] AS [nds_pl_prov], 
+    [v_otpr].[pl_dsb] AS [pl_dsb], 
+    [v_otpr].[nds_pl_dsb] AS [nds_pl_dsb], 
+    [v_otpr].[pl_all] AS [pl_all], 
+    [v_otpr].[pl_pr_ot] AS [pl_pr_ot], 
+    [v_otpr].[pl_prov_ot] AS [pl_prov_ot], 
+    [v_otpr].[pl_prib_tranzit] AS [pl_prib_tranzit], 
+    [v_otpr].[pl_ot_tran] AS [pl_ot_tran], 
+    [v_otpr].[pr_nds_pl_provoz] AS [pr_nds_pl_provoz], 
+    [v_otpr].[pr_nds_dsb] AS [pr_nds_dsb], 
+    [v_otpr].[k_usr_br] AS [k_usr_br], 
+    [v_otpr].[k_rur_br] AS [k_rur_br], 
+    [v_otpr].[tp_stavka] AS [tp_stavka], 
+    [v_otpr].[g8_1] AS [g8_1], 
+    [v_otpr].[adr_kl_1000] AS [adr_kl_1000], 
+    [v_otpr].[fio_kl_1000] AS [fio_kl_1000], 
+    [v_otpr].[ves_one_places] AS [ves_one_places], 
+    [v_otpr].[vidkoforrr] AS [vidkoforrr], 
+    [v_otpr].[extract_passport] AS [extract_passport], 
+    [v_otpr].[stan_izlom0] AS [stan_izlom0], 
+    [v_otpr].[stan_izlom1] AS [stan_izlom1], 
+    [v_otpr].[stan_izlom2] AS [stan_izlom2], 
+    [v_otpr].[kof_tp] AS [kof_tp], 
+    [v_otpr].[nds_tp] AS [nds_tp], 
+    [v_otpr].[g8_stik] AS [g8_stik], 
+    [v_otpr].[pogr_ves] AS [pogr_ves], 
+    [v_otpr].[save_dispatcher_g20] AS [save_dispatcher_g20], 
+    [v_otpr].[num_doc_reforwarding] AS [num_doc_reforwarding], 
+    [v_otpr].[stan_transfer] AS [stan_transfer], 
+    [v_otpr].[rate_divide_scales] AS [rate_divide_scales], 
+    [v_otpr].[rem_vid_ras] AS [rem_vid_ras], 
+    [v_otpr].[rem_skidki] AS [rem_skidki], 
+    [v_otpr].[skidka] AS [skidka], 
+    [v_otpr].[kof_skid] AS [kof_skid], 
+    [v_otpr].[pr_external_work] AS [pr_external_work], 
+    [v_otpr].[adr_otpr] AS [adr_otpr], 
+    [v_otpr].[adr_pol] AS [adr_pol], 
+    [v_otpr].[nam_otpr] AS [nam_otpr], 
+    [v_otpr].[nam_pol] AS [nam_pol], 
+    [v_otpr].[fio_tk] AS [fio_tk], 
+    [v_otpr].[id_plant] AS [id_plant], 
+    [v_otpr].[class_dan] AS [class_dan], 
+    [v_otpr].[num_oon] AS [num_oon], 
+    [v_otpr].[num_dan_kart] AS [num_dan_kart], 
+    [v_otpr].[id_mes_plan] AS [id_mes_plan], 
+    [v_otpr].[return_empty_vag] AS [return_empty_vag], 
+    [v_otpr].[nds_return_empty] AS [nds_return_empty], 
+    [v_otpr].[prib_return_empty] AS [prib_return_empty], 
+    [v_otpr].[eid] AS [eid], 
+    [v_otpr].[eid_zag] AS [eid_zag], 
+    [v_otpr].[cim_nam_otpr] AS [cim_nam_otpr], 
+    [v_otpr].[cim_adr_otpr] AS [cim_adr_otpr], 
+    [v_otpr].[cim_nam_pol] AS [cim_nam_pol], 
+    [v_otpr].[cim_adr_pol] AS [cim_adr_pol], 
+    [v_otpr].[cim_num_dog_exporter] AS [cim_num_dog_exporter], 
+    [v_otpr].[cim_app_doc] AS [cim_app_doc], 
+    [v_otpr].[cim_inter_code_station] AS [cim_inter_code_station], 
+    [v_otpr].[cim_code_country] AS [cim_code_country], 
+    [v_otpr].[cim_place_reception] AS [cim_place_reception], 
+    [v_otpr].[cim_is_app_smgs] AS [cim_is_app_smgs], 
+    [v_otpr].[cim_transhipment] AS [cim_transhipment], 
+    [v_otpr].[cim_carrierStatement] AS [cim_carrierStatement], 
+    [v_otpr].[cim_place_delivery] AS [cim_place_delivery], 
+    [v_otpr].[cim_other_carriers] AS [cim_other_carriers], 
+    [v_otpr].[cim_contract_carrier] AS [cim_contract_carrier], 
+    [v_otpr].[cim_routes] AS [cim_routes], 
+    [v_otpr].[cim_g6] AS [cim_g6], 
+    [v_otpr].[cim_g14_1] AS [cim_g14_1], 
+    [v_otpr].[cim_g14_2] AS [cim_g14_2], 
+    [v_otpr].[cim_g18Line] AS [cim_g18Line], 
+    [v_otpr].[cim_g18Per] AS [cim_g18Per]
+    FROM [dbo].[v_otpr] AS [v_otpr]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_pam" EntityType="Self.v_pam" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_pam].[id_ved] AS [id_ved],
-              [v_pam].[id_ved_dbf] AS [id_ved_dbf],
-              [v_pam].[kodls] AS [kodls],
-              [v_pam].[nved] AS [nved],
-              [v_pam].[dved] AS [dved],
-              [v_pam].[dzakr] AS [dzakr],
-              [v_pam].[kodkl] AS [kodkl],
-              [v_pam].[ndog] AS [ndog],
-              [v_pam].[r_oba] AS [r_oba],
-              [v_pam].[pr_put] AS [pr_put],
-              [v_pam].[put] AS [put],
-              [v_pam].[pr_lok] AS [pr_lok],
-              [v_pam].[pr_lokf] AS [pr_lokf],
-              [v_pam].[prlokub] AS [prlokub],
-              [v_pam].[pr_razg] AS [pr_razg],
-              [v_pam].[nkrt] AS [nkrt],
-              [v_pam].[id_kart] AS [id_kart],
-              [v_pam].[n_tab] AS [n_tab],
-              [v_pam].[v_ob] AS [v_ob],
-              [v_pam].[nper] AS [nper],
-              [v_pam].[state] AS [state],
-              [v_pam].[pr_external_work] AS [pr_external_work]
-              FROM [dbo].[v_pam] AS [v_pam]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_pam].[id_ved] AS [id_ved], 
+    [v_pam].[id_ved_dbf] AS [id_ved_dbf], 
+    [v_pam].[kodls] AS [kodls], 
+    [v_pam].[nved] AS [nved], 
+    [v_pam].[dved] AS [dved], 
+    [v_pam].[dzakr] AS [dzakr], 
+    [v_pam].[kodkl] AS [kodkl], 
+    [v_pam].[ndog] AS [ndog], 
+    [v_pam].[r_oba] AS [r_oba], 
+    [v_pam].[pr_put] AS [pr_put], 
+    [v_pam].[put] AS [put], 
+    [v_pam].[pr_lok] AS [pr_lok], 
+    [v_pam].[pr_lokf] AS [pr_lokf], 
+    [v_pam].[prlokub] AS [prlokub], 
+    [v_pam].[pr_razg] AS [pr_razg], 
+    [v_pam].[nkrt] AS [nkrt], 
+    [v_pam].[id_kart] AS [id_kart], 
+    [v_pam].[n_tab] AS [n_tab], 
+    [v_pam].[v_ob] AS [v_ob], 
+    [v_pam].[nper] AS [nper], 
+    [v_pam].[state] AS [state], 
+    [v_pam].[pr_external_work] AS [pr_external_work]
+    FROM [dbo].[v_pam] AS [v_pam]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="v_pam_vag" EntityType="Self.v_pam_vag" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>
-              SELECT
-              [v_pam_vag].[id_vag] AS [id_vag],
-              [v_pam_vag].[id_ved] AS [id_ved],
-              [v_pam_vag].[npam] AS [npam],
-              [v_pam_vag].[npp] AS [npp],
-              [v_pam_vag].[nomvag] AS [nomvag],
-              [v_pam_vag].[sob_s] AS [sob_s],
-              [v_pam_vag].[sob_v] AS [sob_v],
-              [v_pam_vag].[sogl] AS [sogl],
-              [v_pam_vag].[tipvag] AS [tipvag],
-              [v_pam_vag].[kodgr] AS [kodgr],
-              [v_pam_vag].[kodop] AS [kodop],
-              [v_pam_vag].[d_pod] AS [d_pod],
-              [v_pam_vag].[d_vig] AS [d_vig],
-              [v_pam_vag].[d_ok] AS [d_ok],
-              [v_pam_vag].[d_ub] AS [d_ub],
-              [v_pam_vag].[t_man] AS [t_man],
-              [v_pam_vag].[t_nor] AS [t_nor],
-              [v_pam_vag].[t_dop] AS [t_dop],
-              [v_pam_vag].[krat] AS [krat],
-              [v_pam_vag].[prim] AS [prim],
-              [v_pam_vag].[prob] AS [prob],
-              [v_pam_vag].[prsvnor] AS [prsvnor],
-              [v_pam_vag].[id_otpr1] AS [id_otpr1],
-              [v_pam_vag].[id_otpr2] AS [id_otpr2],
-              [v_pam_vag].[no_plat_podach] AS [no_plat_podach]
-              FROM [dbo].[v_pam_vag] AS [v_pam_vag]
-            </DefiningQuery>
+            <DefiningQuery>SELECT 
+    [v_pam_vag].[id_vag] AS [id_vag], 
+    [v_pam_vag].[id_ved] AS [id_ved], 
+    [v_pam_vag].[npam] AS [npam], 
+    [v_pam_vag].[npp] AS [npp], 
+    [v_pam_vag].[nomvag] AS [nomvag], 
+    [v_pam_vag].[sob_s] AS [sob_s], 
+    [v_pam_vag].[sob_v] AS [sob_v], 
+    [v_pam_vag].[sogl] AS [sogl], 
+    [v_pam_vag].[tipvag] AS [tipvag], 
+    [v_pam_vag].[kodgr] AS [kodgr], 
+    [v_pam_vag].[kodop] AS [kodop], 
+    [v_pam_vag].[d_pod] AS [d_pod], 
+    [v_pam_vag].[d_vig] AS [d_vig], 
+    [v_pam_vag].[d_ok] AS [d_ok], 
+    [v_pam_vag].[d_ub] AS [d_ub], 
+    [v_pam_vag].[t_man] AS [t_man], 
+    [v_pam_vag].[t_nor] AS [t_nor], 
+    [v_pam_vag].[t_dop] AS [t_dop], 
+    [v_pam_vag].[krat] AS [krat], 
+    [v_pam_vag].[prim] AS [prim], 
+    [v_pam_vag].[prob] AS [prob], 
+    [v_pam_vag].[prsvnor] AS [prsvnor], 
+    [v_pam_vag].[id_otpr1] AS [id_otpr1], 
+    [v_pam_vag].[id_otpr2] AS [id_otpr2], 
+    [v_pam_vag].[no_plat_podach] AS [no_plat_podach]
+    FROM [dbo].[v_pam_vag] AS [v_pam_vag]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OBDModelEntities" Alias="Self" annotation:UseStrongSpatialTypes="false"
@@ -782,6 +829,7 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
             <End Role="v_pam" EntitySet="v_pams" />
             <End Role="v_pam_vag" EntitySet="v_pam_vags" />
           </AssociationSet>
+          <EntitySet Name="v_02_podhods" EntityType="OBDModelEntities.v_02_podhod" />
         </EntityContainer>
         <EntityType Name="v_kart">
           <Key>
@@ -848,8 +896,8 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
           <Property Name="ves_gruz" Type="Decimal" Precision="12" Scale="3" />
           <Property Name="plomb" Type="Int16" />
           <Property Name="primech" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="cod_grpl" Type="String" MaxLength="4" Nullable="true" />
-          <Property Name="cod_gruz" Type="String" Nullable="true" MaxLength="6" />
+          <Property Name="cod_grpl" Type="String" MaxLength="4" Nullable="true" Unicode="false" FixedLength="true" />
+          <Property Name="cod_gruz" Type="String" Nullable="true" MaxLength="6" Unicode="false" FixedLength="true" />
         </EntityType>
         <EntityType Name="v_otpr">
           <Key>
@@ -924,7 +972,7 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
           <Property Name="state" Type="Int32" />
           <NavigationProperty Name="v_akt_vag" Relationship="OBDModelEntities.v_aktv_akt_vag" FromRole="v_akt"
                               ToRole="v_akt_vag" />
-          <Property Name="nakt" Type="String" Nullable="false" />
+          <Property Name="nakt" Type="String" Unicode="false" FixedLength="true" MaxLength="6" />
         </EntityType>
         <EntityType Name="v_akt_vag">
           <Key>
@@ -985,6 +1033,20 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="v_02_podhod">
+          <Key>
+            <PropertyRef Name="n_vag" />
+          </Key>
+          <Property Name="n_vag" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="massa_t" Type="Int32" />
+          <Property Name="st_nazn" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="kod_etsng" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="kod_pol" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="prim" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="date_oper_v" Type="DateTime" Precision="3" />
+          <Property Name="oper" Type="Int16" />
+          <Property Name="n_otpr" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1132,6 +1194,21 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
                 <ScalarProperty Name="nomvag" ColumnName="nomvag" />
                 <ScalarProperty Name="id_akt" ColumnName="id_akt" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="v_02_podhods">
+            <EntityTypeMapping TypeName="OBDModelEntities.v_02_podhod">
+              <MappingFragment StoreEntitySet="v_02_podhod">
+                <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+                <ScalarProperty Name="oper" ColumnName="oper" />
+                <ScalarProperty Name="date_oper_v" ColumnName="date_oper_v" />
+                <ScalarProperty Name="prim" ColumnName="prim" />
+                <ScalarProperty Name="kod_pol" ColumnName="kod_pol" />
+                <ScalarProperty Name="kod_etsng" ColumnName="kod_etsng" />
+                <ScalarProperty Name="st_nazn" ColumnName="st_nazn" />
+                <ScalarProperty Name="massa_t" ColumnName="massa_t" />
+                <ScalarProperty Name="n_vag" ColumnName="n_vag" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

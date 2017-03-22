@@ -34,5 +34,6 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
         public virtual DbSet<v_pam_vag> v_pam_vags { get; set; }
         public virtual DbSet<v_akt> v_akts { get; set; }
         public virtual DbSet<v_akt_vag> v_akt_vags { get; set; }
+        public virtual DbSet<v_02_podhod> v_02_podhods { get; set; }
     }
 }
