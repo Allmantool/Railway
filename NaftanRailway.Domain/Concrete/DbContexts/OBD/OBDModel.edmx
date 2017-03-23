@@ -1046,6 +1046,9 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
           <Property Name="date_oper_v" Type="DateTime" Precision="3" />
           <Property Name="oper" Type="Int16" />
           <Property Name="n_otpr" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="pr_v" Type="Int16" Nullable="false" />
+          <Property Name="kod_stan_oper" Type="String" Nullable="false" />
+          <Property Name="date_oper_t" Type="DateTime" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1200,6 +1203,9 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
           <EntitySetMapping Name="v_02_podhods">
             <EntityTypeMapping TypeName="OBDModelEntities.v_02_podhod">
               <MappingFragment StoreEntitySet="v_02_podhod">
+                <ScalarProperty Name="date_oper_t" ColumnName="date_oper_t" />
+                <ScalarProperty Name="kod_stan_oper" ColumnName="kod_stan_oper" />
+                <ScalarProperty Name="pr_v" ColumnName="pr_v" />
                 <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
                 <ScalarProperty Name="oper" ColumnName="oper" />
                 <ScalarProperty Name="date_oper_v" ColumnName="date_oper_v" />

@@ -23,5 +23,8 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
         public Nullable<System.DateTime> date_oper_v { get; set; }
         public Nullable<short> oper { get; set; }
         public string n_otpr { get; set; }
+        public short pr_v { get; set; }
+        public string kod_stan_oper { get; set; }
+        public System.DateTime date_oper_t { get; set; }
     }
 }

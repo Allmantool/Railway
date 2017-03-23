@@ -417,11 +417,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         public IEnumerable<OverviewCarriageDTO> EstimatedCarrieages() {
             DateTime supremePeriod = DateTime.Today.AddDays(-5);
-            DateTime currentMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            DateTime currentMonth = DateTime.Today.AddDays(-15);
             IEnumerable<OverviewCarriageDTO> result = new List<OverviewCarriageDTO>();
 
-            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x => x.time_oper >= supremePeriod && x.cod_oper == "01" && x.cod_grpl == "3494" && x.ves_gruz > 0).ToList();
-            var estimatedAltCarriages = _engage.GetTable<v_02_podhod, int>(x => x.date_oper_v >= currentMonth).ToList();
+            //code of goods that not nessary to finded
+            var outSearch = new[] { "72550" };
+
+            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x => x.time_oper >= supremePeriod && x.cod_oper == "01" && x.cod_grpl == "3494" && x.ves_gruz > 0 && !outSearch.Contains(x.cod_gruz)).ToList();
+            var estimatedAltCarriages = _engage.GetTable<v_02_podhod, DateTime?>(x => x.date_oper_v >= currentMonth && x.massa_t > 0 && !outSearch.Contains(x.kod_etsng)).OrderByDescending(x => x.date_oper_v).ToList();
 
             //return cargo name
             Func<string, string> cargoName = (cod) => {
