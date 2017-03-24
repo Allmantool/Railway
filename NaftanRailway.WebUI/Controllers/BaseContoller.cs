@@ -3,6 +3,7 @@ using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
+    //[AllowAnonymous]
     public abstract class BaseController : Controller {
         /// <summary>
         /// Data transfer object for AD user principal
@@ -27,11 +28,13 @@ namespace NaftanRailway.WebUI.Controllers {
 
                 using (ctx) {
                     var user = UserPrincipal.FindByIdentity(ctx, identity);
-                    
+
                     return new ADUserDTO { Name = user.DisplayName, DomainName = user.Name, EmailAddress = user.EmailAddress };
                 }
             }
         }
+
+        public string GetGroupsName { get { return GetADInfo(); } }
 
         public string BrowserInfo {
             get { return GetBrowserInfo(); }
@@ -75,7 +78,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             // define a "query-by-example" principal - here, we search for a GroupPrincipal
             GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
-            UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*чиж*" };
+            UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков П.Н*" };
 
             // create your principal searcher passing in the QBE principal
             PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
@@ -84,7 +87,10 @@ namespace NaftanRailway.WebUI.Controllers {
             // find all matches
             foreach (var found in srchUsers.FindAll()) {
                 // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....
-                result = result + ", " + found.Name;
+                foreach (var item in found.GetGroups()) {
+                    result = result + ", " + ((GroupPrincipal) item).DisplayName;
+                }
+                //result = result + ", " + found.;
             }
 
             return result;

@@ -5,6 +5,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 namespace NaftanRailway.WebUI {
     public static class FilterConfig {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters) {
+            //filters.Add(new AuthorizeADAttribute());
             /*Register inbuilt exception filter provided ASP.NET MVC (filter will be invoke on each controller)*/
             filters.Add(new HandleErrorAttribute());
             filters.Add(new ExceptionFilterAttribute());

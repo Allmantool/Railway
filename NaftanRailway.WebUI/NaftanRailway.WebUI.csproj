@@ -308,6 +308,14 @@
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.3\lib\net45\WebMatrix.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.2.3\lib\net45\WebMatrix.WebData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -327,6 +335,7 @@
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Compile Include="Controllers\BaseContoller.cs" />
     <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
+    <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />
     <Content Include="Content\bootstrap-datepicker.css" />
@@ -672,8 +681,8 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <None Include="Properties\PublishProfiles\debug.pubxml" />
-    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\GeneralJs\_General.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -847,7 +856,6 @@
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />
     <Folder Include="Controllers\api\" />
-    <Folder Include="Infrastructure\CustomControllers\" />
     <Folder Include="Infrastructure\ViewEngines\" />
     <Folder Include="Scripts\NomenclatureJs\koExtenstions\" />
     <Folder Include="Scripts\NomenclatureJs\Templates\" />

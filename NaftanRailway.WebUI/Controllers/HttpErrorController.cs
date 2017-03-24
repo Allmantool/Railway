@@ -1,9 +1,8 @@
 ﻿using System.Web.Mvc;
-using System.DirectoryServices.AccountManagement;
 
 namespace NaftanRailway.WebUI.Controllers {
     [AllowAnonymous]
-    public class HttpErrorController : Controller {
+    public class HttpErrorController : BaseController {
         public ActionResult NotFound() {
             //return HttpNotFound();
             //throw new HttpException(404, "Not found");
@@ -31,17 +30,9 @@ namespace NaftanRailway.WebUI.Controllers {
             //Response.ClearHeaders();
             //Response.AddHeader("WWW-Authenticate", "Basic");
             //Response.Headers.Remove("WWW-Authenticate");
-            if (!Request.IsLocal && Request.IsAuthenticated) {
-                var domainName = (HttpContext.User.Identity.Name.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by");
-
-                using (PrincipalContext context = new PrincipalContext(ContextType.Domain, domainName)) {
-                    using (UserPrincipal adUser = UserPrincipal.FindByIdentity(context, User.Identity.Name)) {
-                        if (adUser != null) {
-                            return View(adUser);
-                        }
-                    }
-                }
-            }
+            //if (!Request.IsLocal && Request.IsAuthenticated) {
+            //    return View(model: CurrentADUser.Name);
+            //}
             return View();
         }
     }
