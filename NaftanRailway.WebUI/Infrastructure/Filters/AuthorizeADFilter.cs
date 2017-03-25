@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                     return true;
 
                 // Get the AD groups
-                var groups = Groups.Split(',').ToList<string>();
+                var groups = Groups.Split(',').ToList();
 
                 var identity = httpContext.User.Identity.Name;
                 // Verify that the user is in the given AD group (if any)
@@ -24,9 +24,9 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
-                //foreach (var group in groups)
-                //    if (userPrincipal.IsMemberOf(ctx, IdentityType.Name, group))
-                //        return true;
+                foreach (var group in groups)
+                    if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, @group))
+                        return true;
             }
 
             return false;

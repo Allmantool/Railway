@@ -1,21 +1,26 @@
-﻿@*@using System.DirectoryServices.AccountManagement
-@model UserPrincipal*@
+﻿@model EmailFormViewModel
 @{
     Layout = "~/Views/Shared/_Layout.HttpErrors.cshtml";
-
 }
-<div class="row ">
+
+<div class="row">
     <div class="page-header">
         <h2 class="text-center modal-title">
-            You're (etc. <span class="small">@(User != null ? User.Identity.Name:"unknown user")</span>) unauthorized on this site!
+            You're (etc. <span class="small">@(User != null ? User.Identity.Name : "unknown user")</span>) unauthorized on this site!
         </h2>
     </div>
     <div class="container-fluid">
-        <form class="form-horizontal">
+        @using (@Html.BeginForm("SendMail", "HttpError", FormMethod.Post, new { @class = "form-horizontal" })) {
+            @Html.AntiForgeryToken()
+            <h4>Send your comments.</h4>
+            <hr />
             <div class="form-group">
-                <label for="userName" class="col-sm-2 control-label">User Name:</label>
+                @*<label for="FromName" class="col-sm-2 control-label">User Name:</label>*@
+                @Html.LabelFor(m => m.FromName, new { @class = "control-label" })
                 <div class="col-sm-5">
-                    <input id="userName" class="form-control" name="userName" type="text" placeholder="User Name" />
+                    @*<input id="userName" class="form-control" name="userName" type="text" placeholder="User Name" />*@
+                    @Html.TextBoxFor(m => m.FromName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FromName)
                 </div>
             </div>
             <div class="form-group">
@@ -27,7 +32,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <label class="checkbox-inline">
-                        <input type="checkbox" id="inlineCheckbox1" value="option1"> Цех 18
+                        <input type="checkbox" id="inlineCheckbox1" value="option1">Цех 18
                     </label>
                     <label class="checkbox-inline">
                         <input type="checkbox" id="inlineCheckbox2" value="option2"> Первичные док-ты
@@ -39,6 +44,6 @@
                     <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-send"></span> Send email</button>
                 </div>
             </div>
-        </form>
+        }
     </div>
 </div>
