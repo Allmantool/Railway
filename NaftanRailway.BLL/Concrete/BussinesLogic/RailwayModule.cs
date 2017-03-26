@@ -44,17 +44,17 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             /*linqkit*/
             //v_otpr
-            var votprPredicate = PredicateBuilder.False<v_otpr>().And(x => ((x.oper == (short)operationCategory) || operationCategory == EnumOperationType.All) && x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
+            var votprPredicate = PredicateBuilder.New<v_otpr>(false).DefaultExpression.And(x => ((x.oper == (short)operationCategory) || operationCategory == EnumOperationType.All) && x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
             votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value && ((e.oper == (short)operationCategory) || operationCategory == EnumOperationType.All))).Expand();
             var voSrc = _engage.GetTable<v_otpr, int>(votprPredicate).ToList();
             recordCount = (short)voSrc.Count();
             //v_o_v
-            var vovPredicate = PredicateBuilder.False<v_o_v>();
-            vovPredicate = voSrc.Select(x => x.id).Aggregate(vovPredicate, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
+            //var vovPredicate = PredicateBuilder.New<v_o_v>(false).DefaultExpression;
+            var vovPredicate = voSrc.Select(x => x.id).Aggregate(PredicateBuilder.New<v_o_v>(false).DefaultExpression, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
             var vovSrc = _engage.GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
-            var etsngPredicate = PredicateBuilder.False<etsng>();
-            etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(etsngPredicate, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
+            //var etsngPredicate = PredicateBuilder.New<etsng>(false);
+            var etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(PredicateBuilder.New<etsng>(false).DefaultExpression, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
             var etsngSrc = _engage.GetTable<etsng, int>(etsngPredicate).ToList();
 
             var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1
@@ -64,15 +64,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                           select new ShippingDTO() {
                               VOtpr = item,
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == (item == null ? 0 : item.id)),
-                              VPams = _engage.GetTable<v_pam, int>(PredicateBuilder.True<v_pam>().And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
+                              VPams = _engage.GetTable<v_pam, int>(PredicateBuilder.New<v_pam>().DefaultExpression.And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
-                              VAkts = _engage.GetTable<v_akt, int>(PredicateBuilder.True<v_akt>().And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
+                              VAkts = _engage.GetTable<v_akt, int>(PredicateBuilder.New<v_akt>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
                                 .And(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
-                              VKarts = _engage.GetTable<v_kart, int>(PredicateBuilder.True<v_kart>().And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
+                              VKarts = _engage.GetTable<v_kart, int>(PredicateBuilder.New<v_kart>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard != null ? (int)y.idCard : 0))).Expand())
                                 .ToList(),
@@ -150,7 +150,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             try {
                 //type_doc 1 => one transaction (one request per one dbcontext)
-                List<krt_Guild18> result = (from item in preview join vn in _engage.GetTable<v_nach, int>(PredicateBuilder.True<v_nach>().And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
+                List<krt_Guild18> result = (from item in preview join vn in _engage.GetTable<v_nach, int>(PredicateBuilder.New<v_nach>().DefaultExpression
+                                            .And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
                                       .And(PredicateExtensions.InnerContainsPredicate<v_nach, int?>("id_otpr", preview.Select(x => (int?)x.Shipping.id))).Expand())
                               on item.Shipping.id equals vn.id_otpr
                                             select new krt_Guild18() {

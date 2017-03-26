@@ -22,7 +22,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //reload page (save select report date)
             //menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
-            //Передаем динамически типы операций
+            //Передаем динамические типы операций
             //menuView.SelectedOperCategory = operationCategory;
             //menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);
 
@@ -34,6 +34,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <param name="storage"></param>
         /// <param name="menuView"></param>
+        /// <param name="asService"></param>
         /// <returns></returns>
         public PartialViewResult GeneralMenu(SessionStorage storage, InputMenuViewModel menuView, bool asService = false) {
             menuView.ReportPeriod = storage.ReportPeriod;

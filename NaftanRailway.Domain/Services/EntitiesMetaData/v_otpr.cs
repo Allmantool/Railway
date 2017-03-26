@@ -1,16 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
-{
+namespace NaftanRailway.Domain.Concrete.DbContexts.OBD {
     [MetadataType(typeof(ShippingMetaData))]
-    public partial class v_otpr
-    {
+    public partial class v_otpr {
     }
 
-    internal class ShippingMetaData
-    {
+    internal class ShippingMetaData {
         //[HiddenInput(DisplayValue = false)]
         public int id { get; set; }
 
@@ -33,6 +31,29 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
         [DisplayName("Исполнитель")]
         public string fio_tk { get; set; }
 
-        public short? oper { get; set; }
+        [NotMapped]
+        public string cim_adr_otpr { get; set; }
+        [NotMapped]
+        public string cim_nam_otpr { get; set; }
+        [NotMapped]
+        public string cim_adr_pol { get; set; }
+        [NotMapped]
+        public string cim_num_dog_exporter { get; set; }
+        [NotMapped]
+        public string cim_app_doc { get; set; }
+        [NotMapped]
+        public string cim_inter_code_station { get; set; }
+        [NotMapped]
+        public string cim_code_country { get; set; }
+        [NotMapped]
+        public string cim_place_reception { get; set; }
+        [NotMapped]
+        public string cim_is_app_smgs { get; set; }
+        [NotMapped]
+        public string cim_carrierStatement { get; set; }
+        [NotMapped]
+        public string cim_place_delivery { get; set; }
+        [NotMapped]
+        public string cim_other_carriers { get; set; }
     }
 }

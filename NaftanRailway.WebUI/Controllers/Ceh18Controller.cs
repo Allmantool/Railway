@@ -7,12 +7,8 @@ using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.DTO.Guild18;
 using NaftanRailway.WebUI.Infrastructure.Filters;
 
-/// <summary>
-/// Tips;)
-/// If some part of code seems strange => this's because he's was shipped as legacy and then was migrated (MVC => single page (knockout)
-/// </summary>
 namespace NaftanRailway.WebUI.Controllers {
-    [Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
+    //[Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
     //[AuthorizeAD(Groups = "groupname")]
     //[Authorize(Roles = "Domain\\Group")]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object

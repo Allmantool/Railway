@@ -43,7 +43,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //apply filters(linqKit)
             if (filters != null) {
-                where = where.And(filters.Aggregate(PredicateBuilder.True<krt_Naftan_orc_sapod>(),
+                where = where.And(filters.Aggregate(PredicateBuilder.New<krt_Naftan_orc_sapod>().DefaultExpression,
                              (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())))
                          .Expand();
             }
@@ -69,7 +69,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         /// <summary>
-        /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as perfomed in krt_Naftan
+        /// Operation adding information about scroll in table Krt_Naftan_Orc_Sapod and check operation as performed in krt_Naftan
         /// </summary>
         /// <param name="reportYear"></param>
         /// <param name="msgError"></param>
@@ -147,7 +147,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             using (Engage.Uow = new UnitOfWork()) {
                 try {
-                    //add to tracking (for apdate only change property)
+                    //add to tracking (for update only change property)
                     Engage.Uow.Repository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
                     Engage.Uow.Save();
                     return Mapper.Map<IEnumerable<ScrollLineDTO>>(listRecords);
@@ -158,7 +158,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         /// <summary>
-        /// Edit finantial index in selected charge
+        /// Edit financial index in selected charge
         /// </summary>
         /// <param name="charge"></param>
         /// <returns></returns>
@@ -169,7 +169,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     var itemRow = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
                     Engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
 
-                    //update only nessesary properties (alose exist method whole update method)
+                    //update only necessary properties (exist method whole update method)
                     itemRow.nds = charge.nds;
                     itemRow.summa = charge.summa;
                     itemRow.kol = charge.kol;
@@ -272,7 +272,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
 
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
-            //encode the filename parameter of Content-Disposition header in HTTP (for support diffrent browser)
+            //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
             string contentDisposition;
 
             if (contr.Request.Browser.Browser == "IE" && (contr.Request.Browser.Version == "7.0" || contr.Request.Browser.Version == "8.0"))
@@ -285,7 +285,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //name file (with encoding)
             contr.Response.AddHeader("Content-Disposition", contentDisposition);
 
-            //For js spinner and complete donwload callback
+            //For js spinner and complete download callback
             contr.Response.Cookies.Clear();
             contr.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 

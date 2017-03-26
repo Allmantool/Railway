@@ -19,18 +19,18 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         public ADUserDTO CurrentADUser {
             get {
-                PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
-                if (Request.IsLocal) {
-                    return new ADUserDTO { Name = "Local work (Admin;)", DomainName = @"LAN\CPN", EmailAddress = "@mail" };
-                }
+                if (Request.IsLocal) return new ADUserDTO { Name = "Local work (Admin;)", DomainName = @"LAN\CPN", EmailAddress = "@mail" };
 
+                PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
                 string identity = User.Identity.Name;
 
                 using (ctx) {
                     var user = UserPrincipal.FindByIdentity(ctx, identity);
 
-                    return new ADUserDTO { Name = user.DisplayName, DomainName = user.Name, EmailAddress = user.EmailAddress };
+                    if (user != null)
+                        return new ADUserDTO { Name = user.DisplayName, DomainName = user.Name, EmailAddress = user.EmailAddress };
                 }
+                return null;
             }
         }
 
@@ -62,7 +62,7 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.JavaApplets,
              browser.Frames,
              string.Format("{0} ({1})", CurrentADUser.Name, CurrentADUser.EmailAddress),
-             userName.Length == 0 ? "" : String.Format("({0})", userName.Replace(@"\", "&#92;")),
+             userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers
             );
 
@@ -88,7 +88,7 @@ namespace NaftanRailway.WebUI.Controllers {
             foreach (var found in srchUsers.FindAll()) {
                 // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....
                 foreach (var item in found.GetGroups()) {
-                    result = result + ", " + ((GroupPrincipal) item).DisplayName;
+                    result = result + ", " + ((GroupPrincipal)item).DisplayName;
                 }
                 //result = result + ", " + found.;
             }

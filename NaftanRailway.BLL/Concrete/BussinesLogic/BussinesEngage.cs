@@ -34,7 +34,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <summary>
         /// Return pagging part of table and general count of rows
         /// </summary>
-        /// <typeparam name="T">Current enity</typeparam>
+        /// <typeparam name="T">Current entity</typeparam>
         /// <typeparam name="TKey">Type for ordering</typeparam>
         /// <param name="page">Number page</param>
         /// <param name="size">Count row per one page</param>
