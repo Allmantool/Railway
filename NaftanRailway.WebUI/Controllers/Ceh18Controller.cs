@@ -9,7 +9,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
-    [AuthorizeAD(Groups = "Rail_Developers, Domain Users, Internet_Users", DenyUsers = "Lan\\kpg, lan\\cpn")]
+    [AuthorizeAD(Groups = "Rail_Developers, Domain Users, Internet_Users", DenyUsers = @"Lan\kpg, Lan\cpn", Roles = "")]
     //[Authorize(Roles = "Domain\\Group")]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
     //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
@@ -28,6 +28,8 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="menuView">input menu</param>
         /// <param name="operationCategory">filter category</param>
         /// <param name="page">current page</param>
+        /// <param name="pageSize"></param>
+        /// <param name="asService"></param>
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, short pageSize = 9, bool asService = false) {
@@ -58,6 +60,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// Action to response to post request (for routing system actually display selecting month)
         /// </summary>
         /// <param name="menuView"></param>
+        /// <param name="asService"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult Index(InputMenuViewModel menuView, bool asService = false) {
@@ -107,6 +110,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="storage"></param>
         /// <param name="reportPeriod"></param>
         /// <param name="idInvoice"></param>
+        /// <param name="asService"></param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice, bool asService = false) {

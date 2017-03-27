@@ -7,29 +7,32 @@ namespace NaftanRailway.UnitTests.General {
     public class ADTests {
         [TestMethod]
         public void UserPrincipalTest() {
-            var result = "";
             // create your domain context
-            PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
-
-            using (ctx) {
+            using (var ctx = new PrincipalContext(ContextType.Domain)) {
                 // define a "query-by-example" principal - here, we search for a GroupPrincipal
                 GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
-                UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков П.Н*" };
+                UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*" };
 
                 // create your principal searcher passing in the QBE principal
                 PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
                 PrincipalSearcher srchUsers = new PrincipalSearcher(qbeUser);
 
-                // find all matches
-                foreach (var found in srchUsers.FindAll()) {
-                    // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....
-                    var info = (UserPrincipal)found;
-                    var groups = found.GetGroups();
-                    foreach (var item in found.GetGroups()) {
-                        result = result + ", " + ((GroupPrincipal)item).DisplayName;
-                    }
-                    //result = result + ", " + found.;
-                }
+                var users = srchUsers.FindAll().Select(x => new {
+                    Name = x.Name,
+                    Sam = x.SamAccountName,
+                    Guid = x.Guid,
+                    Sid = x.Sid,
+                    PrincipalName = x.UserPrincipalName,
+                    groups = x.GetGroups().Select(gr => new { Name = gr.Name })
+                });
+
+                var groups = srchUsers.FindAll().SelectMany(x => x.GetGroups().Select(gr => new {
+                    Name = gr.Name,
+                    Sam = gr.SamAccountName,
+                    Guid = gr.Guid,
+                    Sid = gr.Sid,
+                    PrincipalName = gr.UserPrincipalName
+                }));
             }
         }
 
@@ -41,10 +44,9 @@ namespace NaftanRailway.UnitTests.General {
 
             var identity = "Lan/cpn";//httpContext.User.Identity.Name;
             // Verify that the user is in the given AD group (if any)
-            var ctx = new PrincipalContext(ContextType.Domain/*, "server"*/);
 
             //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
-            using (ctx) {
+            using (var ctx = new PrincipalContext(ContextType.Domain)) {
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
                 foreach (var group in groups)
@@ -53,7 +55,6 @@ namespace NaftanRailway.UnitTests.General {
             }
 
             Assert.AreEqual(true, result);
-
         }
     }
 }

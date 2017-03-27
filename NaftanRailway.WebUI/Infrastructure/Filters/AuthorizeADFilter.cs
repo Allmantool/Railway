@@ -6,8 +6,8 @@ using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Infrastructure.Filters {
     public class AuthorizeADAttribute : AuthorizeAttribute {
-        public string Groups { get { return this.Groups.ToLower(); } set { this.Groups = value; } }
-        public string DenyUsers { get { return this.DenyUsers.ToLower(); } set { this.DenyUsers = value; } }
+        public string Groups { get; set; }
+        public string DenyUsers { get; set; }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext) {
             if (base.AuthorizeCore(httpContext)) {
@@ -21,7 +21,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 var identity = httpContext.User.Identity.Name;
 
                 //deny user
-                if (DenyUsers.Split(',').Contains(identity)) return false;
+                if (DenyUsers.ToLower().Split(',').Contains(identity.ToLower())) return false;
 
                 // Verify that the user is in the given AD group (if any)
                 var ctx = new PrincipalContext(ContextType.Domain/*, "server"*/);
