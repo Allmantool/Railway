@@ -252,7 +252,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
         db.getScr(function (data) {
             self.estCarriages($.map(data, function (val, i) {
-                return new appRail.EstCarriage(val)
+                return new appRail.EstCarriage(val, self);
             }));
 
             self.estimatedModal(true);

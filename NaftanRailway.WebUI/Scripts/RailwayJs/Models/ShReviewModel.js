@@ -17,6 +17,6 @@ appRail.ShReview = function (data) {
             return val.n_vag();
         });
 
-        return result.join();
+        return result.join(', ');
     });//.extend({ deferred: true });
 };

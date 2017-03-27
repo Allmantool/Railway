@@ -9,7 +9,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
-    //[AuthorizeAD(Groups = "groupname")]
+    [AuthorizeAD(Groups = "Rail_Developers, Domain Users, Internet_Users", DenyUsers = "Lan\\kpg, lan\\cpn")]
     //[Authorize(Roles = "Domain\\Group")]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
     //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
@@ -86,7 +86,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         /// <summary>
-        /// Add information about distach in db
+        /// Add information about distach to db
         /// </summary>
         /// <returns></returns>
         [HttpPost]

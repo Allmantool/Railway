@@ -1,7 +1,7 @@
 ﻿<!--Date Modal-->
 <div data-bind="modal: $root.estimatedModal, if: $root.estimatedModal(), visible: $root.estimatedModal()"
      class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="estimatedModal">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -35,7 +35,7 @@
                 </table>
 
                 <!--Alternative source-->
-                <label class="text-center">Отправка грузов в адресс ОАО "Нафтан" (02_Podhod)</label>
+                <label class="text-center">Отправка грузов в адрес ОАО "Нафтан" (02_Podhod)</label>
                 <table class="small table table-hover table-responsive table-striped table-condensed">
                     <thead>
                         <tr>
@@ -45,20 +45,20 @@
                             <th>Код станции операции:</th>
                             <th>Время операции с поездом:</th>
                             <th>Признак собственности:</th>
-                            <th>Код груза:</th>
+                            <th>Груз:</th>
                             <th>Вес:</th>
                         </tr>
                     </thead>
                     <tbody id="estimatedBody" data-bind="foreach: $root.estCarriages">
                         <!-- ko if: $data.IsInfoPodhodExist -->
-                        <tr data-bind="css: { 'text-muted' : $data.IsAlreadyExists.bind($data, $data, $root.estCarriages)">
+                        <tr data-bind="css:  $data.IsAlreadyExists($data.AltCarriage.n_vag()) === true ? 'text-muted' : 'success'">
                             <td><label data-bind="text: $data.AltCarriage.n_otpr()"></label></td>
                             <td><label data-bind="text: $data.AltCarriage.n_vag()"></label></td>
                             <td><label data-bind="text: moment($data.AltCarriage.date_oper_v()).format('DD.MM.YYYY HH:mm')"></label></td>
                             <td><label data-bind="text: $data.AltCarriage.kod_stan_oper()"></label></td>
                             <td><label data-bind="text: moment($data.AltCarriage.date_oper_t()).format('DD.MM.YYYY HH:mm')"></label></td>
                             <td><label data-bind="text: $data.AltCarriage.pr_v()"></label></td>
-                            <td><label data-bind="text: $data.AltCarriage.kod_etsng()"></label></td>
+                            <td class="small"><label data-bind="text: $data.AltCargo()"></label></td>
                             <td><label data-bind="text: $data.AltCarriage.massa_t()"></label></td>
                         </tr>
                         <!-- /ko -->

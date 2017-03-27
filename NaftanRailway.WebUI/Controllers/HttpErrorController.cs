@@ -62,7 +62,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     //    Password = "password"  // replace with valid value
                     //};
                     //smtp.Credentials = credential;
-                    smtp.Host = "naftan.by";
+                    smtp.Host = "lan.naftan.by";
                     smtp.Port = 25;
                     smtp.EnableSsl = true;
 

@@ -6,7 +6,8 @@ using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Infrastructure.Filters {
     public class AuthorizeADAttribute : AuthorizeAttribute {
-        public string Groups { get; set; }
+        public string Groups { get { return this.Groups.ToLower(); } set { this.Groups = value; } }
+        public string DenyUsers { get { return this.DenyUsers.ToLower(); } set { this.DenyUsers = value; } }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext) {
             if (base.AuthorizeCore(httpContext)) {
@@ -18,15 +19,21 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                 var groups = Groups.Split(',').ToList();
 
                 var identity = httpContext.User.Identity.Name;
+
+                //deny user
+                if (DenyUsers.Split(',').Contains(identity)) return false;
+
                 // Verify that the user is in the given AD group (if any)
                 var ctx = new PrincipalContext(ContextType.Domain/*, "server"*/);
 
-                //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
-                var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
+                using (ctx) {
+                    //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
+                    var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
-                foreach (var group in groups)
-                    if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, @group))
-                        return true;
+                    foreach (var group in groups)
+                        if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, @group))
+                            return true;
+                }
             }
 
             return false;
