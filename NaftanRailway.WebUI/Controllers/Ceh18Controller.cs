@@ -9,8 +9,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
-    [AuthorizeAD(Groups = "Rail_Developers, Domain Users, Internet_Users", DenyUsers = @"Lan\kpg, Lan\cpn", Roles = "")]
-    //[Authorize(Roles = "Domain\\Group")]
+    [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
     //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
     //[ExceptionFilter]

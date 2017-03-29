@@ -1,14 +1,14 @@
-﻿using System.Web.Http;
+﻿using NaftanRailway.WebUI.Controllers;
+using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers {
-    public class ManagmentController : ApiController {
-        //public ActionResult Modules() {
-        //    var modules = HttpContext.ApplicationInstance.Modules;
+    //[AuthorizeAD(Groups = "Rail_Developers")]
+    [SessionState(SessionStateBehavior.Disabled)]
+    public class ManagmentController : BaseController {
+        public ActionResult ADStructure() {
 
-        //    Tuple<string, string>[] data = modules.AllKeys.Select(x => new Tuple<string, string>(x.StartsWith("__Dynamic") ? x.Split('_', ',')[3] : x, modules[x].GetType().Name))
-        //    .OrderBy(x => x.Item1).ToArray();
-
-        //    return View(data);
-        //}
+            return View(model: CurrentADUser);
+        }
     }
 }

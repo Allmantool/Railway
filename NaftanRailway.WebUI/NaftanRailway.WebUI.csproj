@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -317,9 +317,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\api\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManagmentController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\api\ScrollController.cs" />
-    <Compile Include="Areas\NomenclatureScroll\Controllers\BaseController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ConfigurationController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\UserInterfaceController.cs" />
     <Compile Include="Areas\NomenclatureScroll\Controllers\ScrollController.cs" />
@@ -676,6 +676,8 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Areas\Admin\Views\Managment\ADStructure.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\debug.pubxml" />
     <Content Include="Scripts\GeneralJs\_General.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -847,7 +849,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\DisplayTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Scroll\EditorTemplates\" />
     <Folder Include="Areas\NomenclatureScroll\Views\Shared\DisplayTemplates\" />

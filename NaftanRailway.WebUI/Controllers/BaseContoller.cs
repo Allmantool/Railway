@@ -1,40 +1,49 @@
-﻿using System;
+﻿using NaftanRailway.BLL.DTO.Admin;
+using System;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
+    /// <summary>
+    /// Use BaseController
+    //  It is recommended to use Base Controller with our Controller and this Base Controller will inherit Controller class directly.
+    /// It provides isolation space between our Controller[InterviewController] and Controller.
+    /// Using Base Controller, we can write common logic which could be shared by all Controllers.
+    /// (Auth, exception logic)
+    /// Although in basic controller we have properties for access to httpContextObjec
+    /// </summary>
     //[AllowAnonymous]
     public abstract class BaseController : Controller {
-        /// <summary>
-        /// Data transfer object for AD user principal
-        /// </summary>
-        public class ADUserDTO {
-            public string Name { get; set; }
-            public string DomainName { get; set; }
-            public string EmailAddress { get; set; }
-        }
-
         /// <summary>
         /// current AD user
         /// </summary>
         public ADUserDTO CurrentADUser {
             get {
-                if (Request.IsLocal) return new ADUserDTO { Name = "Local work (Admin;)", DomainName = @"LAN\CPN", EmailAddress = "@mail" };
+                if (Request.IsLocal) return new ADUserDTO();
 
-                PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
                 string identity = User.Identity.Name;
 
-                using (ctx) {
+                var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";
+
+                using (var ctx = new PrincipalContext(ContextType.Domain, domainHost)) {
                     var user = UserPrincipal.FindByIdentity(ctx, identity);
 
                     if (user != null)
-                        return new ADUserDTO { Name = user.DisplayName, DomainName = user.Name, EmailAddress = user.EmailAddress };
+                        return new ADUserDTO {
+                            FullName = user.Name,
+                            Domain = ctx.Name,
+                            Name = user.DisplayName,
+                            EmailAddress = user.EmailAddress,
+                            Phone = user.VoiceTelephoneNumber,
+                            Sam = user.SamAccountName,
+                            PrincipalName = user.UserPrincipalName,
+                            Groups = user.GetGroups().Select(gr => gr.Name).ToList()
+                        };
                 }
                 return null;
             }
         }
-
-        public string GetGroupsName { get { return GetADInfo(); } }
 
         public string BrowserInfo {
             get { return GetBrowserInfo(); }
@@ -65,33 +74,6 @@ namespace NaftanRailway.WebUI.Controllers {
              userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers
             );
-
-            return result;
-        }
-
-        private string GetADInfo() {
-            //SAM(англ.Security Account Manager) Диспетчер учётных записей безопасности — RPC - сервер Windows, оперирующий базой данных учетных записей.
-
-            var result = "";
-            // create your domain context
-            PrincipalContext ctx = new PrincipalContext(ContextType.Domain);
-
-            // define a "query-by-example" principal - here, we search for a GroupPrincipal
-            GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
-            UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков П.Н*" };
-
-            // create your principal searcher passing in the QBE principal
-            PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
-            PrincipalSearcher srchUsers = new PrincipalSearcher(qbeUser);
-
-            // find all matches
-            foreach (var found in srchUsers.FindAll()) {
-                // do whatever here - "found" is of type "Principal" - it could be user, group, computer.....
-                foreach (var item in found.GetGroups()) {
-                    result = result + ", " + ((GroupPrincipal)item).DisplayName;
-                }
-                //result = result + ", " + found.;
-            }
 
             return result;
         }

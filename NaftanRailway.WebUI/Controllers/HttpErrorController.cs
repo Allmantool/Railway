@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
+using System;
+using System.Diagnostics;
 
 namespace NaftanRailway.WebUI.Controllers {
     [AllowAnonymous]
     public class HttpErrorController : BaseController {
         public ActionResult NotFound() {
-            //return HttpNotFound();
             //throw new HttpException(404, "Not found");
             //var modules = HttpContext.ApplicationInstance.Modules;
 
@@ -28,17 +29,19 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         public ActionResult NotAuthorized() {
-            Response.StatusCode = 401;
+            //show or not windows auth pop up
+            //Response.StatusCode = 401;
 
             //Response.ClearHeaders();
             //Response.AddHeader("WWW-Authenticate", "Basic");
             //Response.Headers.Remove("WWW-Authenticate");
+
             //if (!Request.IsLocal && Request.IsAuthenticated) {
             //    return View(model: CurrentADUser.Name);
             //}
             var sender = new EmailFormViewModel() {
                 FromEmail = CurrentADUser.EmailAddress,
-                FromName = CurrentADUser.Name,
+                FromName = CurrentADUser.FullName,
             };
 
             return View(model: sender);
@@ -57,16 +60,15 @@ namespace NaftanRailway.WebUI.Controllers {
                 message.IsBodyHtml = true;
 
                 using (var smtp = new SmtpClient() { UseDefaultCredentials = true }) {
-                    //var credential = new NetworkCredential {
-                    //    UserName = "user@outlook.com",  // replace with valid value
-                    //    Password = "password"  // replace with valid value
-                    //};
-                    //smtp.Credentials = credential;
-                    smtp.Host = "lan.naftan.by";
+                    smtp.Host = "naftan.by";
                     smtp.Port = 25;
-                    smtp.EnableSsl = true;
+                    smtp.EnableSsl = false;
 
-                    await smtp.SendMailAsync(message);
+                    try {
+                        await smtp.SendMailAsync(message);
+                    } catch (Exception ex) {
+                        Debug.Write(ex.Message);
+                    }
 
                     return Json(model, JsonRequestBehavior.AllowGet);
                 }

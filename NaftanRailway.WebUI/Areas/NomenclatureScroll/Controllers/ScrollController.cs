@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NaftanRailway.WebUI.Controllers;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewsModels;
@@ -11,9 +12,10 @@ using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels;
 using System.Linq.Expressions;
+using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    //[ExceptionFilter]
+    [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
     [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
@@ -57,7 +59,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             }
 
             //Base controller info
-            ViewBag.UserName = ADUserName;
+            ViewBag.UserName = CurrentADUser.FullName;
             ViewBag.BrowserInfo = BrowserInfo;
 
             return View();

@@ -12,7 +12,7 @@ namespace NaftanRailway.WebUI.Areas.Admin {
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { Controller = "Managment", action = "ADStructure", id = UrlParameter.Optional }
             );
         }
     }

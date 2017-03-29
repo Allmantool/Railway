@@ -117,11 +117,12 @@
     <Compile Include="Abstract\IRailwayModule.cs" />
     <Compile Include="Abstract\ISessionStorage.cs" />
     <Compile Include="Concrete\AuthorizationLogic\AuthorizationEngage.cs" />
+    <Compile Include="DTO\Admin\ADUserDTO.cs" />
     <Compile Include="DTO\Guild18\OverviewCarriageDTO.cs" />
-    <Compile Include="DTO\Security\RegistrationDTO.cs" />
+    <Compile Include="DTO\Admin\RegistrationDTO.cs" />
     <Compile Include="DTO\Nomenclature\ScrollDetailDTO.cs" />
     <Compile Include="DTO\Nomenclature\ScrollLineDTO.cs" />
-    <Compile Include="DTO\Security\SecurityInfoLineDTO.cs" />
+    <Compile Include="DTO\Admin\SecurityInfoLineDTO.cs" />
     <Compile Include="POCO\CheckListFilter.cs" />
     <Compile Include="Services\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Services\Mapping\AutoMapperBLLConfiguration.cs" />
