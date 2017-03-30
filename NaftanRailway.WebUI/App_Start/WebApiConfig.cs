@@ -1,5 +1,6 @@
 ﻿
-using NaftanRailway.BLL.Services.DI;
+using Ninject;
+using Ninject.Web.WebApi;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
@@ -29,6 +30,9 @@ namespace NaftanRailway.WebUI {
             //enum json convertion
             jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+            var kernel = new StandardKernel();
+            config.DependencyResolver = new  NinjectDependencyResolver(kernel);
         }
     }
 }

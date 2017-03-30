@@ -10,16 +10,17 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using Ninject;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Concrete.BussinesLogic;
+using NaftanRailway.BLL.Concrete.AuthorizationLogic;
 
 namespace NaftanRailway.BLL.Services.DI {
-    public class NinjectDependencyResolver : IDependencyResolver {
+    public class CustomNinjectDependencyResolver : IDependencyResolver {
         private readonly IKernel _kernel;
 
-        public NinjectDependencyResolver() : this(new StandardKernel()) {
+        public CustomNinjectDependencyResolver() : this(new StandardKernel()) {
 
         }
 
-        public NinjectDependencyResolver(IKernel kernel) {
+        public CustomNinjectDependencyResolver(IKernel kernel) {
             _kernel = kernel;
             AddBindings();
         }
@@ -31,12 +32,11 @@ namespace NaftanRailway.BLL.Services.DI {
             _kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
             _kernel.Bind<IRailwayModule>().To<RailwayModule>();
             _kernel.Bind<INomenclatureModule>().To<NomenclatureModule>();
+            _kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
             //_kernel.Bind<ISessionStorage>().To<SessionStorage>();
 
             _kernel.Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",
                 new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
-
-            //_kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
         }
 
         public object GetService(Type serviceType) {

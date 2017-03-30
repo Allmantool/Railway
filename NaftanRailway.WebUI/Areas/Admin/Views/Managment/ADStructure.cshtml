@@ -1,62 +1,60 @@
 ﻿@model NaftanRailway.BLL.DTO.Admin.ADUserDTO
 @{
     Layout = "../Shared/_Layout.cshtml";
-    List<string> gridGroup = Model.Groups.ToList();
+    List<string> gridGroup = Model.Groups.Select(x => x.Name).ToList();
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ADStructure</title>
-</head>
-<body>
-    <div class="row">
-        <div class="container-fluid">
-            <h2 class="page-header text-center">Текущий пользователь: @Model.FullName</h2>
-            <div class="col-lg-3">
-                <h3 style="margin-top: 0em;">Группы:</h3>
-                <div class="list-group small">
-                    @foreach (var item in Model.Groups) {
-                        <a href="#" class="list-group-item">@item</a>
-                    }
-                </div>
+<div class="row">
+    <div class="container-fluid">
+        <table class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Полное имя:</th>
+                    <th>Ф.И.О:</th>
+                    <th>Имя в домене:</th>
+                    <th>Имя машины:</th>
+                    <th>Почта:</th>
+                    <th>Телефон:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.FullName</td>
+                    <td>@Model.Name</td>
+                    <td>@Model.PrincipalName</td>
+                    <td>@Model.Sam</td>
+                    <td>@Model.EmailAddress</td>
+                    <td>@Model.Phone</td>
+                </tr>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+        <h2 class="page-header text-center">Текущий пользователь: @Model.FullName</h2>
+        <div class="col-lg-3">
+            <h3>Группы:</h3>
+            <div class="list-group small">
+                @foreach (var item in Model.Groups) {
+                    <a href="#" class="list-group-item">@item.Name</a>
+                }
             </div>
-            <div class="col-lg-9">
-                <table class="table table-condensed table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>Полное имя:</th>
-                            <th>Ф.И.О:</th>
-                            <th>Имя в домене:</th>
-                            <th>Имя машины:</th>
-                            <th>Почта:</th>
-                            <th>Телефон:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.FullName</td>
-                            <td>@Model.Name</td>
-                            <td>@Model.PrincipalName</td>
-                            <td>@Model.Sam</td>
-                            <td>@Model.EmailAddress</td>
-                            <td>@Model.Phone</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-                <h3>Другие участники выбранной группы:</h3>
-                <div class="col-lg-12" style="float:left;">
-                    <div class="well well-sm">Иванов В.В</div>
-                    <div class="well well-sm">Петров П.П</div>
-                    <div class="well well-sm">Сидоров Н.К</div>
-                    <div class="well well-sm">Павлов Г.П</div>
-                </div>
+        </div>
+        <div class="col-lg-9">
+
+            <h3>Другие участники выбранной группы:</h3>
+            <div class="col-lg-12" style="float:left;">
+                <div class="well well-sm">Иванов В.В</div>
+                <div class="well well-sm">Петров П.П</div>
+                <div class="well well-sm">Сидоров Н.К</div>
+                <div class="well well-sm">Павлов Г.П</div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@section Scripts {
+    <!--[if lte IE 8]>
+        @Scripts.Render("~/bundles/Admin")
+    <![endif]-->
+    <!--[if !IE 8]><!-->
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Admin")
+    <!--<![endif]-->
+}

@@ -13,7 +13,7 @@ namespace NaftanRailway.WebUI {
         public static void RegisterBundles(BundleCollection bundles) {
             bundles.IgnoreList.Clear();
 
-//*************************************************************** JS scripts *****************************************************************/
+            //*************************************************************** JS scripts *****************************************************************/
             #region JavaScript Bundles
 
             bundles.Add(new ScriptBundle("~/bundles/CrossBr", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js").NonOrdering()
@@ -32,8 +32,8 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/JQueryUI").NonOrdering()
                 .Include(
-					    //~/Scripts/jquery-migrate-{version}.js",
-						 "~/Scripts/jquery-ui-{version}.js",
+                         //~/Scripts/jquery-migrate-{version}.js",
+                         "~/Scripts/jquery-ui-{version}.js",
                          "~/Scripts/jquery.validate.js",
                          "~/Scripts/jquery.validate.unobtrusive.js",
                          "~/Scripts/jquery.unobtrusive-ajax.js",
@@ -65,6 +65,13 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/RailwayJs/koExtenders/koExtenders.js")
                 .Include("~/Scripts/RailwayJs/_Guild18.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Admin").NonOrdering()
+                .Include("~/Scripts/GeneralJs/_General.js",
+                         "~/Scripts/AdminJs/DataContext.js")
+                .IncludeDirectory("~/Scripts/AdminJs/Models", "*.js")
+                .Include("~/Scripts/AdminJs/MainVM.js")
+                .Include("~/Scripts/AdminJs/CustomBindings/koBindings.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/UserNomenclature").NonOrdering()
                 //.Include("~/Scripts/sammy-{version}.js")
                 .Include("~/Scripts/GeneralJs/_General.js",
@@ -78,7 +85,7 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/NomenclatureJs/_Scrolls.js"));
 
             #endregion
-//*************************************************************** CSS styles *****************************************************************/
+            //*************************************************************** CSS styles *****************************************************************/
             #region CSS Bundles
 
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
@@ -103,10 +110,14 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Content/GeneralCustomCSS/_General.css",
                          "~/Content/Guild18CSS/_Guild18.css"));
 
+            bundles.Add(new StyleBundle("~/Content/AdminCSS").NonOrdering()
+               .Include("~/Content/GeneralCustomCSS/_General.css",
+                        "~/Content/AdminCSS/_General.css"));
+
             #endregion
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
             bundles.UseCdn = false;
         }
     }

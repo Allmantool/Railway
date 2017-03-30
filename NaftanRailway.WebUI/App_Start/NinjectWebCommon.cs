@@ -9,6 +9,9 @@ namespace NaftanRailway.WebUI.App_Start {
     using BLL.Services.DI;
     using Ninject;
     using Ninject.Web.Common;
+    using System.Web.Http;
+    using Ninject.Web.WebApi;
+    using System.Web.Mvc;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -19,7 +22,7 @@ namespace NaftanRailway.WebUI.App_Start {
         public static void Start() {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            //bootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>
@@ -40,6 +43,8 @@ namespace NaftanRailway.WebUI.App_Start {
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+                // the next line is the important one
+                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
                 return kernel;
             } catch {
                 kernel.Dispose();
@@ -52,7 +57,7 @@ namespace NaftanRailway.WebUI.App_Start {
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel) {
-            System.Web.Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            DependencyResolver.SetResolver(new CustomNinjectDependencyResolver(kernel));
         }
     }
 }

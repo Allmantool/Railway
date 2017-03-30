@@ -38,7 +38,7 @@ namespace NaftanRailway.WebUI.Controllers {
                             Phone = user.VoiceTelephoneNumber,
                             Sam = user.SamAccountName,
                             PrincipalName = user.UserPrincipalName,
-                            Groups = user.GetGroups().Select(gr => gr.Name).ToList()
+                            Groups = user.GetGroups().Select(gr => new ADGroupDTO { Name = gr.Name }).ToList()
                         };
                 }
                 return null;
@@ -60,7 +60,8 @@ namespace NaftanRailway.WebUI.Controllers {
             var result = String.Format(
                  "Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
                  "<br />Cookies: {5},<br />ActiveXControls: {6},<br />JavaApplets {7},<br />Frames: {8}," +
-                 "<br />User Name: {9}{10},<br />Online: {11}",
+                 "<br />IsMobile: {9},<br />Manufacture: {10},<br />Model: {11}," +
+                 "<br />User Name: {12}{13},<br />Online: {14}",
              browser.Browser,
              browser.Version,
              browser.EcmaScriptVersion,
@@ -70,6 +71,9 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.ActiveXControls,
              browser.JavaApplets,
              browser.Frames,
+             browser.IsMobileDevice,
+             browser.MobileDeviceManufacturer,
+             browser.MobileDeviceModel,
              string.Format("{0} ({1})", CurrentADUser.Name, CurrentADUser.EmailAddress),
              userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers

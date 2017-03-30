@@ -12,12 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     @Styles.Render("~/Content/CSSbundle")
     <!--[if lte IE 9]>@Scripts.Render("~/bundles/CrossBr")<![endif]-->
-    @Styles.Render("~/Content/RailCSS")
+    @Styles.Render("~/Content/AdminCSS")
     <link rel="shortcut icon" href="~/Content/Images/Gear.gif" type="image/x-icon" />
 </head>
 <body>
 
-    <div>@RenderBody()</div>
+    <div id ="koContainer">@RenderBody()</div>
 
     <!--[if lte IE 9]>
         @Scripts.Render("~/bundles/JQuery1")

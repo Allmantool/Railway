@@ -201,6 +201,14 @@
       <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.WebHost, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.WebHost.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
@@ -335,6 +343,7 @@
     <Compile Include="ViewModels\EmailFormViewModel.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />
+    <Content Include="Content\AdminCSS\_General.css" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -554,31 +563,23 @@
     <Content Include="Content\images\dialog_error.png" />
     <Content Include="Content\images\error.png" />
     <Content Include="Content\images\good_or_tick.png" />
+    <Content Include="Scripts\AdminJs\CustomBindings\koBindings.js" />
+    <Content Include="Scripts\AdminJs\DataContext.js" />
+    <Content Include="Scripts\AdminJs\MainVM.js" />
+    <Content Include="Scripts\AdminJs\Models\AlertMessageModel.js" />
+    <Content Include="Scripts\AdminJs\Models\GroupPrincipalModel.js" />
+    <Content Include="Scripts\AdminJs\Models\UserPrincipalModel.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-multiselect.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\bundled\html4+html5\dojo.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\extjs.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\jquery.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\mootools.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\native.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\right.history.js" />
-    <Content Include="Scripts\bundled\html4+html5\zepto.history.js" />
-    <Content Include="Scripts\bundled\html5\dojo.history.js" />
-    <Content Include="Scripts\bundled\html5\extjs.history.js" />
-    <Content Include="Scripts\bundled\html5\jquery.history.js" />
-    <Content Include="Scripts\bundled\html5\mootools.history.js" />
-    <Content Include="Scripts\bundled\html5\native.history.js" />
-    <Content Include="Scripts\bundled\html5\right.history.js" />
-    <Content Include="Scripts\bundled\html5\zepto.history.js" />
-    <Content Include="Scripts\bundle\html4\jquery.history.js" />
-    <Content Include="Scripts\bundle\html5\jquery.history.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\IEJs\IE9-.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
+    <Content Include="Areas\Admin\Views\Managment\ADStructure.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="packages.config" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css.map" />
     <Content Include="Content\bootstrap-datepicker3.standalone.css.map" />
@@ -676,8 +677,6 @@
     <Content Include="Content\bootstrap\bootstrap.less" />
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
-    <Content Include="Areas\Admin\Views\Managment\ADStructure.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <None Include="Properties\PublishProfiles\debug.pubxml" />
     <Content Include="Scripts\GeneralJs\_General.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -893,9 +892,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NaftanRailway.BLL\NaftanRailway.BLL.csproj">
