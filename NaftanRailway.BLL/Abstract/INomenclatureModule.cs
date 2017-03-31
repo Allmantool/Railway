@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
-using System.Web.Mvc;
 using System.Linq.Expressions;
+using NaftanRailway.BLL.DTO.General;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface INomenclatureModule : IDisposable {
@@ -33,7 +33,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <returns></returns>
         bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter);
 
-        byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = @"rs:Format=Excel");
+        byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, string reportName,out string headersInfo, string defaultParameters = @"rs:Format=Excel");
 
         ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear);
 

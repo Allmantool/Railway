@@ -6,12 +6,12 @@ namespace NaftanRailway.WebUI.App_Start {
     using System.Web;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-    using BLL.Services.DI;
     using Ninject;
     using Ninject.Web.Common;
     using System.Web.Http;
-    using Ninject.Web.WebApi;
     using System.Web.Mvc;
+    using Ninject.Modules;
+    using Infrastructure.DI;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -22,7 +22,7 @@ namespace NaftanRailway.WebUI.App_Start {
         public static void Start() {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            //bootstrapper.Initialize(CreateKernel);
+            bootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>
@@ -37,14 +37,19 @@ namespace NaftanRailway.WebUI.App_Start {
         /// </summary>
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel() {
-            var kernel = new StandardKernel();
+            //var kernel = new StandardKernel();
+            NinjectModule registrations = new NinjectRegistrations();
+            var kernel = new StandardKernel(registrations);
+
             try {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
-                // the next line is the important one
-                GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+                //RegisterServices(kernel);
+                var ninjectResolver = new NinjectDependencyResolver(kernel);
+
+                DependencyResolver.SetResolver(ninjectResolver); // MVC
+                //GlobalConfiguration.Configuration.DependencyResolver = ninjectResolver; //Web api
                 return kernel;
             } catch {
                 kernel.Dispose();
@@ -57,7 +62,15 @@ namespace NaftanRailway.WebUI.App_Start {
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel) {
-            DependencyResolver.SetResolver(new CustomNinjectDependencyResolver(kernel));
+            //DependencyResolver.SetResolver(new CustomNinjectDependencyResolver(kernel));
+            //kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
+            //kernel.Bind<IRailwayModule>().To<RailwayModule>();
+            //kernel.Bind<INomenclatureModule>().To<NomenclatureModule>();
+            //kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
+            //_kernel.Bind<ISessionStorage>().To<SessionStorage>();
+
+            //kernel.Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",
+            //    new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
         }
     }
 }

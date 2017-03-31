@@ -21,7 +21,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public ADUserDTO CurrentADUser {
             get {
                 if (Request.IsLocal) return new ADUserDTO();
-
+                
                 string identity = User.Identity.Name;
 
                 var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";

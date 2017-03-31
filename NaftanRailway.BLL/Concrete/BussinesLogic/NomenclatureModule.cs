@@ -12,10 +12,9 @@ using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using LinqKit;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 using System.Linq.Expressions;
+using NaftanRailway.BLL.DTO.General;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -235,7 +234,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
         }
 
-        public byte[] GetNomenclatureReports(Controller contr, int numberScroll, int reportYear, string serverName, string folderName, string reportName, string defaultParameters = "rs:Format=Excel") {
+        public byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, string reportName, out string headersInfo, string defaultParameters = "rs:Format=Excel") {
             string nameFile, filterParameters;
             var selScroll = GetNomenclatureByNumber(numberScroll, reportYear);
 
@@ -262,6 +261,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //generate url for ssrs
             string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
+            //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
+            //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
+            if (brInfo.Name == "IE" && (brInfo.Version == "7.0" || brInfo.Version == "8.0"))
+                headersInfo = "attachment; filename=" + Uri.EscapeDataString(nameFile);
+            else if (brInfo.Name == "Safari")
+                headersInfo = "attachment; filename=" + nameFile;
+            else
+                headersInfo = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
+
             //WebClient client = new WebClient { UseDefaultCredentials = true };
             /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
             WebClient client = new WebClient {
@@ -270,24 +278,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                             {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
                     }
             };
-
-            //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
-            //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
-            string contentDisposition;
-
-            if (contr.Request.Browser.Browser == "IE" && (contr.Request.Browser.Version == "7.0" || contr.Request.Browser.Version == "8.0"))
-                contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
-            else if (contr.Request.Browser.Browser == "Safari")
-                contentDisposition = "attachment; filename=" + nameFile;
-            else
-                contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
-
-            //name file (with encoding)
-            contr.Response.AddHeader("Content-Disposition", contentDisposition);
-
-            //For js spinner and complete download callback
-            contr.Response.Cookies.Clear();
-            contr.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
             return client.DownloadData(urlReportString);
         }

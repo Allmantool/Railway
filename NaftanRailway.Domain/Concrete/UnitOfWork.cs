@@ -38,7 +38,7 @@ namespace NaftanRailway.Domain.Concrete {
         /// </summary>
         /// <param name="contexts"></param>
         public UnitOfWork(params DbContext[] contexts) {
-            Contexts = contexts;
+            Contexts = contexts;// new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
             SetUpContext();
         }
 

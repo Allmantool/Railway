@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,45 +28,54 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Guild18(string reportName, string reportPeriod) {
-                const string serverName = @"db2";
-                const string folderName = @"Orders";
+            const string serverName = @"db2";
+            const string folderName = @"Orders";
 
-                var period = DateTime.ParseExact(reportPeriod,"dd-MM-yyyy", new CultureInfo("ru", true));
-                const string defaultParameters = @"rs:Format=Excel";
-                string filterParameters = @"reportPeriod=" + period.ToString("MM.dd.yyyy");
+            var period = DateTime.ParseExact(reportPeriod, "dd-MM-yyyy", new CultureInfo("ru", true));
+            const string defaultParameters = @"rs:Format=Excel";
+            string filterParameters = @"reportPeriod=" + period.ToString("MM.01.yyyy");
 
-                //http://desktop-lho63th/ReportServer?/Orders/krt_Naftan_Guild18Report&rs:Format=Excel&reportPeriod=01-01-2016
-                string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
+            //http://desktop-lho63th/ReportServer?/Orders/krt_Naftan_Guild18Report&rs:Format=Excel&reportPeriod=01-01-2016
+            string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
-                //WebClient client = new WebClient { UseDefaultCredentials = true };
-                /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
-                WebClient client = new WebClient {
-                    Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"Krt_Reports", @"Krt_Reports", @"LAN") } }
-                };
+            string nameFile = string.Format(@"Отчёт {0} за {1} {2}г.xls", reportName, period.ToString("MMMM"), period.Year);
 
-                string nameFile = string.Format(@"Отчёт {0} за {1} {2}г.xls", reportName, period.ToString("MMMM"), period.Year);
+            //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
+            //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
+            string contentDisposition;
+            if (Request.Browser.Browser == "IE" &&
+                (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
+                contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
+            else if (Request.Browser.Browser == "Safari")
+                contentDisposition = "attachment; filename=" + nameFile;
+            else
+                contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
 
-                //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
-                //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
-                string contentDisposition;
-                if (Request.Browser.Browser == "IE" &&
-                    (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
-                    contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
-                else if (Request.Browser.Browser == "Safari")
-                    contentDisposition = "attachment; filename=" + nameFile;
-                else
-                    contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
+            Response.AddHeader("Content-Disposition", contentDisposition);
 
-                //name file (with encoding)
-                Response.AddHeader("Content-Disposition", contentDisposition);
+            //WebClient client = new WebClient { UseDefaultCredentials = true };
+            /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
+            WebClient client = new WebClient {
+                Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
+            };
 
-                var returnFile = File(client.DownloadData(urlReportString), @"application/vnd.ms-excel");
+            byte[] data = { };
 
+            try {
+                data = client.DownloadData(urlReportString);
+            } catch (Exception exc) {
+                data = Encoding.ASCII.GetBytes(exc.Message);
+            }
+
+            if (data.Length > 0) {
                 //For js spinner and complete download callback
                 Response.Cookies.Clear();
                 Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
-                return returnFile;
+                return File(data, @"application/vnd.ms-excel");
+            }
+
+            return new EmptyResult();
         }
     }
 }

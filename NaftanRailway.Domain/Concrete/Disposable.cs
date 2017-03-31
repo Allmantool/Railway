@@ -1,8 +1,7 @@
 ﻿using System;
 
 //General disposing
-namespace NaftanRailway.Domain.Concrete
-{
+namespace NaftanRailway.Domain.Concrete {
     public class Disposable : IDisposable {
         /// <summary>
         ///     (Маркер блокировки)

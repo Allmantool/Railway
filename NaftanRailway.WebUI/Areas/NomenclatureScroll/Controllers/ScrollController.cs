@@ -13,10 +13,14 @@ using NaftanRailway.BLL.POCO;
 using NaftanRailway.WebUI.Areas.NomenclatureScroll.ViewModels;
 using System.Linq.Expressions;
 using NaftanRailway.WebUI.Infrastructure.Filters;
+using System.Web;
+using NaftanRailway.BLL.DTO.General;
+using System.Linq;
+using System.Text;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
-    [SessionState(SessionStateBehavior.Disabled)]
+    [SessionState(SessionStateBehavior.Default)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {
@@ -201,21 +205,30 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Reports(string reportName, int numberScroll, int reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
+            var browsInfo = new BrowserInfoDTO() { Name = Request.Browser.Browser, Version = Request.Browser.Version };
+            var contentDisposition = String.Empty;
 
             //link to SSRS buil-in repors (default for integer)
             if (numberScroll == 0 || reportYear == 0) {
-
                 return View("Reports", (object)string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}", serverName, folderName, reportName, @"rs:Command=Render"));
             }
 
             //get report with parameters
             try {
-                return File(_bussinesEngage.GetNomenclatureReports(this, numberScroll, reportYear, serverName, folderName, reportName), @"application/vnd.ms-excel");
+                var binaryData = _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, folderName, reportName, out contentDisposition);
+                //name file (with encoding)
+                Response.AddHeader("Content-Disposition", contentDisposition);
+                //For js spinner and complete download callback
+                Response.Cookies.Clear();
+                Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
-            } catch (Exception) {
-                TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень");
+                return File(binaryData, @"application/vnd.ms-excel");
+            } catch (Exception exc) {
+                TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
 
-                return RedirectToAction("Index", "Scroll");
+                byte[] binaryData = Encoding.ASCII.GetBytes(exc.Message);
+                //Empbty file
+                return File(binaryData, @"application/vnd.ms-excel");
             }
         }
 
