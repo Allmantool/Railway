@@ -20,28 +20,37 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         public ADUserDTO CurrentADUser {
             get {
-                if (Request.IsLocal) return new ADUserDTO();
-                
                 string identity = User.Identity.Name;
 
-                var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";
-
-                using (var ctx = new PrincipalContext(ContextType.Domain, domainHost)) {
-                    var user = UserPrincipal.FindByIdentity(ctx, identity);
-
-                    if (user != null)
+                Func<PrincipalContext, ADUserDTO> func = delegate (PrincipalContext ctx) {
+                    var userPrinc = UserPrincipal.FindByIdentity(ctx, identity);
+                    if (userPrinc != null) {
                         return new ADUserDTO {
-                            FullName = user.Name,
-                            Domain = ctx.Name,
-                            Name = user.DisplayName,
-                            EmailAddress = user.EmailAddress,
-                            Phone = user.VoiceTelephoneNumber,
-                            Sam = user.SamAccountName,
-                            PrincipalName = user.UserPrincipalName,
-                            Groups = user.GetGroups().Select(gr => new ADGroupDTO { Name = gr.Name }).ToList()
+                            FullName = userPrinc.Name,
+                            Domain = userPrinc.Name,
+                            Name = userPrinc.DisplayName,
+                            EmailAddress = userPrinc.EmailAddress,
+                            Phone = userPrinc.VoiceTelephoneNumber,
+                            Sam = userPrinc.SamAccountName,
+                            PrincipalName = userPrinc.UserPrincipalName,
+                            Groups = userPrinc.GetGroups().Select(gr => new ADGroupDTO { Name = gr.Name }).ToList()
                         };
+                    }
+                    return new ADUserDTO { Name = "Anonymous", Description = "Information not found" };
+                };
+
+                //Home station without AD
+                if (Request.IsLocal) {
+                    using (var ctx = new PrincipalContext(ContextType.Machine) { }) {
+                        return func(ctx);
+                    }
                 }
-                return null;
+
+                //On work
+                var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";
+                using (var ctx = new PrincipalContext(ContextType.Domain, domainHost)) {
+                    return func(ctx);
+                }
             }
         }
 

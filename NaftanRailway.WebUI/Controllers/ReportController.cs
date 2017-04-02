@@ -13,9 +13,9 @@ namespace NaftanRailway.WebUI.Controllers {
         /// problem on iis culture and  SSRS
         /// Why argument type not date?
         /// When looking for the value to parse, the framework looks in a specific order namely:
-        ///     RouteData (not shown above)
-        ///     URI query string
-        ///      Request form
+        /// RouteData (not shown above)
+        /// URI query string
+        /// Request form
         /// Only the last of these will be culture aware however. There is a very good reason for this, from a localization perspective.
         /// Imagine that I have written a web application showing airline flight information that I publish online.
         /// I look up flights on a certain date by clicking on a link for that day (perhaps something like http://www.melsflighttimes.com/Flights/2008-11-21),
@@ -38,7 +38,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //http://desktop-lho63th/ReportServer?/Orders/krt_Naftan_Guild18Report&rs:Format=Excel&reportPeriod=01-01-2016
             string urlReportString = string.Format(@"http://{0}/ReportServer?/{1}/{2}&{3}&{4}", serverName, folderName, reportName, defaultParameters, filterParameters);
 
-            string nameFile = string.Format(@"Отчёт {0} за {1} {2}г.xls", reportName, period.ToString("MMMM"), period.Year);
+            string nameFile = string.Format(@"Отчёт {0} за {1:MMMM} {2}г.xls", reportName, period, period.Year);
 
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
             //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
@@ -59,7 +59,7 @@ namespace NaftanRailway.WebUI.Controllers {
                 Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
             };
 
-            byte[] data = { };
+            byte[] data;
 
             try {
                 data = client.DownloadData(urlReportString);

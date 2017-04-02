@@ -1,5 +1,6 @@
 ﻿using NaftanRailway.BLL.Abstract;
 using System.Web.Http;
+using NaftanRailway.BLL.DTO.Admin;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
     public class AdminController : ApiController {
@@ -9,10 +10,10 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
             _authLogic = authLogic;
         }
 
-        public IHttpActionResult GetAdminPrincipal() {
+        public ADUserDTO GetAdminPrincipal() {
             var result = _authLogic.AdminPrincipal(User.Identity.Name);
 
-            return Ok();
+            return result;
         }
     }
 }

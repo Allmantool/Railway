@@ -8,7 +8,6 @@ namespace NaftanRailway.WebUI.App_Start {
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
-    using System.Web.Http;
     using System.Web.Mvc;
     using Ninject.Modules;
     using Infrastructure.DI;
@@ -48,6 +47,7 @@ namespace NaftanRailway.WebUI.App_Start {
                 //RegisterServices(kernel);
                 var ninjectResolver = new NinjectDependencyResolver(kernel);
 
+                //In some strange reasons i didn't need set resolver for web api, in other case i got circle reference. Maybe this is because i install some web api nuget package
                 DependencyResolver.SetResolver(ninjectResolver); // MVC
                 //GlobalConfiguration.Configuration.DependencyResolver = ninjectResolver; //Web api
                 return kernel;

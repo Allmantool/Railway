@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -332,7 +332,6 @@
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />
     <Compile Include="Infrastructure\DI\NinjectRegistrations.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
-    <Compile Include="Infrastructure\IoC\NinjectRegistrations.cs" />
     <Compile Include="ViewModels\EmailFormViewModel.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />

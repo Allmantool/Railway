@@ -10,51 +10,58 @@ namespace NaftanRailway.UnitTests.General {
     public class ADTests {
         [TestMethod]
         public void UserPrincipalTest() {
-            // create your domain context
-            using (var ctx = new PrincipalContext(ContextType.Domain)) {
-                // define a "query-by-example" principal - here, we search for a GroupPrincipal
-                GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Users*" };
-                UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*чижиков П.Н*" };
+            try {
+                // create your domain context
+                using (var ctx = new PrincipalContext(ContextType.Machine)) {
+                    // define a "query-by-example" principal - here, we search for a GroupPrincipal
+                    GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
+                    UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "AllmanGroup" };
 
-                // create your principal searcher passing in the QBE principal
-                PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
-                PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
+                    // create your principal searcher passing in the QBE principal
+                    PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
+                    PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
 
-                var users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(x => new {
-                    FullName = x.Name,
-                    Email = x.EmailAddress,
-                    EmployeId = x.EmployeeId,
-                    Comment = x.Description,
-                    Enable = x.Enabled,
-                    Phone = x.VoiceTelephoneNumber,
-                    Server = x.Context.ConnectedServer,
-                    GivenName = x.GivenName,
-                    MiddleName = x.MiddleName,
-                    Surname = x.Surname,
-                    DistinguishedName = x.DistinguishedName,
-                    HomeDirector = x.HomeDirectory,
-                    HomeDrive = x.HomeDrive,
-                    DisplayName = x.DisplayName,
-                    Description = x.Description,
-                    Sam = x.SamAccountName,
-                    Guid = x.Guid,
-                    Sid = x.Sid,
-                    PrincipalName = x.UserPrincipalName,
-                    groups = x.GetGroups().Select(gr => new { Name = gr.Name })
-                });
+                    var users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(x => new {
+                        FullName = x.Name,
+                        Email = x.EmailAddress,
+                        EmployeId = x.EmployeeId,
+                        Comment = x.Description,
+                        Enable = x.Enabled,
+                        Phone = x.VoiceTelephoneNumber,
+                        Server = x.Context.ConnectedServer,
+                        GivenName = x.GivenName,
+                        MiddleName = x.MiddleName,
+                        Surname = x.Surname,
+                        DistinguishedName = x.DistinguishedName,
+                        HomeDirector = x.HomeDirectory,
+                        HomeDrive = x.HomeDrive,
+                        DisplayName = x.DisplayName,
+                        Description = x.Description,
+                        Sam = x.SamAccountName,
+                        Guid = x.Guid,
+                        Sid = x.Sid,
+                        PrincipalName = x.UserPrincipalName,
+                        groups = x.GetGroups().Select(gr => new { Name = gr.Name })
+                    });
 
-                var groups = srchGroups.FindAll().Select(x => new {
-                    FullName = x.Name,
-                    DisplayName = x.DisplayName,
-                    Description = x.Description,
-                    Sam = x.SamAccountName,
-                    Guid = x.Guid,
-                    Sid = x.Sid,
-                    PrincipalName = x.UserPrincipalName,
-                    Users = ((GroupPrincipal)x).Members.Select(us => new { Name = us.Name, PrincipalName = x.UserPrincipalName })
-                });
+                    var groups = srchGroups.FindAll().Select(x => new {
+                        FullName = x.Name,
+                        DisplayName = x.DisplayName,
+                        Description = x.Description,
+                        Sam = x.SamAccountName,
+                        Guid = x.Guid,
+                        Sid = x.Sid,
+                        PrincipalName = x.UserPrincipalName,
+                        Users =
+                        ((GroupPrincipal)x).Members.Select(
+                            us => new { Name = us.Name, PrincipalName = x.UserPrincipalName })
+                    });
 
-                Assert.AreEqual(1, users.Count());
+                    Assert.AreEqual(1, users.Count());
+                }
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                Assert.AreEqual(true, false);
             }
         }
 

@@ -32,14 +32,22 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                     return false;
                 }
 
-                // Verify that the user is in the given AD group (if any)
-                using (var ctx = new PrincipalContext(ContextType.Domain/*, "server"*/)) {
-                    //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
-                    var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
+                var contextType = httpContext.Request.IsLocal ? ContextType.Machine : ContextType.Domain;
 
-                    foreach (var group in groups)
-                        if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, group))
-                            return true;
+                using (var ctx = new PrincipalContext(contextType)) {
+                    var userPrinc = UserPrincipal.FindByIdentity(ctx, identity);
+
+                    // Verify that the user is in the given AD group (if any)
+                    try {
+                        foreach (var group in groups)
+                            if (userPrinc != null && userPrinc.IsMemberOf(ctx, IdentityType.Name, group))
+                                return true;
+                    } catch (Exception e) {
+                        Console.WriteLine(e);
+                        return false;
+                    }
+
+                    return false;
                 }
             }
 

@@ -73,7 +73,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     return Json(model, JsonRequestBehavior.AllowGet);
                 }
             }
-            return View(model);
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }
