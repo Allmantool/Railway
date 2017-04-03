@@ -1,14 +1,12 @@
 ﻿@model NaftanRailway.BLL.DTO.Admin.ADUserDTO
 @{
     Layout = "../Shared/_Layout.cshtml";
-    List<string> gridGroup = Model.Groups.Select(x => x.Name).ToList();
 }
 <div class="row">
     <div class="container-fluid">
         <table class="table table-condensed table-hover table-striped">
             <thead>
                 <tr>
-                    <th>Полное имя:</th>
                     <th>Ф.И.О:</th>
                     <th>Имя в домене:</th>
                     <th>Имя машины:</th>
@@ -17,39 +15,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>@Model.FullName</td>
-                    <td>@Model.Name</td>
-                    <td>@Model.PrincipalName</td>
-                    <td>@Model.Sam</td>
-                    <td>@Model.EmailAddress</td>
-                    <td>@Model.Phone</td>
+                <tr data-bind="with: $root.adminPrincipal">
+                    <td data-bind="text: displayName">@Model.Name</td>
+                    <td data-bind="text: principalName">@Model.PrincipalName</td>
+                    <td data-bind="text: sam">@Model.Sam</td>
+                    <td data-bind="text: emailAddress">@Model.EmailAddress</td>
+                    <td data-bind="text: phone">@Model.Phone</td>
                 </tr>
             </tbody>
-            <tfoot>
-            </tfoot>
         </table>
-        <h2 class="page-header text-center">Текущий пользователь: @Model.FullName</h2>
+        <h2 data-bind="text: 'Текущий пользователь: ' + $root.adminPrincipal().displayName()" class="page-header text-center"></h2>
         <div class="col-lg-3">
             <h3>Группы:</h3>
-            <div class="list-group small">
-                @foreach (var item in Model.Groups) {
-                    <a href="#" class="list-group-item">@item.Name</a>
-                }
+            <div data-bind="foreach: $root.adminPrincipal().groups" class="list-group small">
+                <a data-bind="text: name, attr: {'href': $index()}, css: {'active': isSelected()}, click: $root.usersInGroup.bind($data)" class="list-group-item"></a>
             </div>
         </div>
         <div class="col-lg-9">
-
             <h3>Другие участники выбранной группы:</h3>
-            <div class="col-lg-12" style="float:left;">
-                <div class="well well-sm">Иванов В.В</div>
-                <div class="well well-sm">Петров П.П</div>
-                <div class="well well-sm">Сидоров Н.К</div>
-                <div class="well well-sm">Павлов Г.П</div>
+            <div data-bind="foreach: $root.userPrincipals" class="col-lg-12" style="float: left;">
+                <div data-bind="text: name" class="well well-sm"></div>
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <!--[if lte IE 8]>
         @Scripts.Render("~/bundles/Admin")

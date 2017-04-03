@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Principal;
 
 namespace NaftanRailway.BLL.DTO.Admin {
@@ -8,5 +9,6 @@ namespace NaftanRailway.BLL.DTO.Admin {
         public string Name { get; set; }
         public string Description { get; set; }
         public string Sam { get; set; }
+        public IEnumerable<ADUserDTO> Users { get; set; }
     }
 }

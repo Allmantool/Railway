@@ -11,6 +11,7 @@ namespace NaftanRailway.WebUI.App_Start {
     using System.Web.Mvc;
     using Ninject.Modules;
     using Infrastructure.DI;
+    using BLL.Services.IoC;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();

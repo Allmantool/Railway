@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Formatting;
+﻿using Newtonsoft.Json;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace NaftanRailway.WebUI {
@@ -22,10 +23,19 @@ namespace NaftanRailway.WebUI {
             // configure json formatter
             JsonMediaTypeFormatter jsonFormatter = config.Formatters.JsonFormatter;
 
-            jsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            var settings = new JsonSerializerSettings {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
 
-            //enum json convertion
-            jsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            jsonFormatter.SerializerSettings = settings;
+            ////looping resolve
+            //jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //jsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+
+            ////enum json convertion
+            //jsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
         }
     }

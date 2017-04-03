@@ -29,12 +29,5 @@ namespace NaftanRailway.BLL.DTO.Admin {
         public string Sam { get; set; }
         public string PrincipalName { get; set; }
         public IEnumerable<ADGroupDTO> Groups { get; set; }
-
-        public ADUserDTO() {
-            FullName = "Full Name";
-            Name = "Local work (Admin;)";
-            DomainName = @"LAN\CPN";
-            EmailAddress = "@mail";
-        }
     }
 }

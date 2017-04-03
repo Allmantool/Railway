@@ -15,12 +15,11 @@ using System.Linq.Expressions;
 using NaftanRailway.WebUI.Infrastructure.Filters;
 using System.Web;
 using NaftanRailway.BLL.DTO.General;
-using System.Linq;
 using System.Text;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
-    [SessionState(SessionStateBehavior.Default)]
+    [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage) {

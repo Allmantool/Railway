@@ -10,4 +10,8 @@ appAdmin.UserPrincipal = function (data) {
     var self = this;
 
     self = $.extend(true, self, ko.mapping.fromJS(data));
+
+    self.groups($.map(data.groups, function (val, i) {
+        return new appAdmin.GroupPrincipal(val);
+    }));
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NaftanRailway.BLL.DTO.Admin;
 using System;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
@@ -11,37 +12,48 @@ namespace NaftanRailway.UnitTests.General {
         [TestMethod]
         public void UserPrincipalTest() {
             try {
+                var isLocal = false;
+                var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+                //const string identity = @"Lan\cpn";
+
                 // create your domain context
-                using (var ctx = new PrincipalContext(ContextType.Machine)) {
+                using (var ctx = new PrincipalContext(ctxType)) {
                     // define a "query-by-example" principal - here, we search for a GroupPrincipal
-                    GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*" };
-                    UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "AllmanGroup" };
+                    GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
+                    UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков*", SamAccountName = "cpn" };
+
+                    //var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
                     // create your principal searcher passing in the QBE principal
                     PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
                     PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
 
-                    var users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(x => new {
-                        FullName = x.Name,
-                        Email = x.EmailAddress,
-                        EmployeId = x.EmployeeId,
-                        Comment = x.Description,
-                        Enable = x.Enabled,
-                        Phone = x.VoiceTelephoneNumber,
-                        Server = x.Context.ConnectedServer,
-                        GivenName = x.GivenName,
-                        MiddleName = x.MiddleName,
-                        Surname = x.Surname,
-                        DistinguishedName = x.DistinguishedName,
-                        HomeDirector = x.HomeDirectory,
-                        HomeDrive = x.HomeDrive,
-                        DisplayName = x.DisplayName,
-                        Description = x.Description,
-                        Sam = x.SamAccountName,
-                        Guid = x.Guid,
-                        Sid = x.Sid,
-                        PrincipalName = x.UserPrincipalName,
-                        groups = x.GetGroups().Select(gr => new { Name = gr.Name })
+                    var users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(userPrincipal => new ADUserDTO {
+                        FullName = userPrincipal.Name,
+                        EmailAddress = userPrincipal.EmailAddress,
+                        IdEmp = Int32.Parse(userPrincipal.EmployeeId),
+                        Description = userPrincipal.Description,
+                        IsEnable = userPrincipal.Enabled ?? false,
+                        Phone = userPrincipal.VoiceTelephoneNumber,
+                        Server = userPrincipal.Context.ConnectedServer,
+                        GivenName = userPrincipal.GivenName,
+                        MiddleName = userPrincipal.MiddleName,
+                        Surname = userPrincipal.Surname,
+                        DistinguishedName = userPrincipal.DistinguishedName,
+                        HomeDirector = userPrincipal.HomeDirectory,
+                        HomeDrive = userPrincipal.HomeDrive,
+                        DisplayName = userPrincipal.DisplayName,
+                        Sam = userPrincipal.SamAccountName,
+                        Guid = userPrincipal.Guid ?? new Guid(),
+                        Sid = userPrincipal.Sid,
+                        PrincipalName = userPrincipal.UserPrincipalName,
+                        Groups = userPrincipal.GetGroups().Select(gr => new ADGroupDTO {
+                            Name = gr.Name,
+                            Description = gr.Description,
+                            Sam = gr.SamAccountName,
+                            Sid = gr.Sid,
+                            Guid = gr.Guid ?? new Guid()
+                        })
                     });
 
                     var groups = srchGroups.FindAll().Select(x => new {
@@ -52,9 +64,33 @@ namespace NaftanRailway.UnitTests.General {
                         Guid = x.Guid,
                         Sid = x.Sid,
                         PrincipalName = x.UserPrincipalName,
-                        Users =
-                        ((GroupPrincipal)x).Members.Select(
-                            us => new { Name = us.Name, PrincipalName = x.UserPrincipalName })
+                        Users = ((GroupPrincipal)x).Members.Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                            FullName = up.Name,
+                            EmailAddress = up.EmailAddress,
+                            IdEmp = Int32.Parse(up.EmployeeId),
+                            Description = up.Description,
+                            IsEnable = up.Enabled ?? false,
+                            Phone = up.VoiceTelephoneNumber,
+                            Server = up.Context.ConnectedServer,
+                            GivenName = up.GivenName,
+                            MiddleName = up.MiddleName,
+                            Surname = up.Surname,
+                            DistinguishedName = up.DistinguishedName,
+                            HomeDirector = up.HomeDirectory,
+                            HomeDrive = up.HomeDrive,
+                            DisplayName = up.DisplayName,
+                            Sam = up.SamAccountName,
+                            Guid = up.Guid ?? new Guid(),
+                            Sid = up.Sid,
+                            PrincipalName = up.UserPrincipalName,
+                            Groups = up.GetGroups().Select(gr => new ADGroupDTO {
+                                Name = gr.Name,
+                                Description = gr.Description,
+                                Sam = gr.SamAccountName,
+                                Sid = gr.Sid,
+                                Guid = gr.Guid ?? new Guid()
+                            })
+                        })
                     });
 
                     Assert.AreEqual(1, users.Count());
@@ -62,6 +98,53 @@ namespace NaftanRailway.UnitTests.General {
             } catch (Exception e) {
                 Console.WriteLine(e);
                 Assert.AreEqual(true, false);
+            }
+        }
+
+        [TestMethod]
+        public void WrkwithGrops() {
+            var ctxType = false ? ContextType.Machine : ContextType.Domain;
+
+            using (var ctx = new PrincipalContext(ctxType)) {
+                GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "Internet_Users" };
+
+                // create your principal searcher passing in the QBE principal
+                PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
+
+                var group = srchGroups.FindAll().Select(x => new ADGroupDTO {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Sam = x.SamAccountName,
+                    Guid = x.Guid ?? new Guid(),
+                    Sid = x.Sid,
+                    Users = ((GroupPrincipal)x).Members.Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                        FullName = up.Name,
+                        EmailAddress = up.EmailAddress,
+                        IdEmp = Int32.Parse(up.EmployeeId),
+                        Description = up.Description,
+                        IsEnable = up.Enabled ?? false,
+                        Phone = up.VoiceTelephoneNumber,
+                        Server = up.Context.ConnectedServer,
+                        GivenName = up.GivenName,
+                        MiddleName = up.MiddleName,
+                        Surname = up.Surname,
+                        DistinguishedName = up.DistinguishedName,
+                        HomeDirector = up.HomeDirectory,
+                        HomeDrive = up.HomeDrive,
+                        DisplayName = up.DisplayName,
+                        Sam = up.SamAccountName,
+                        Guid = up.Guid ?? new Guid(),
+                        Sid = up.Sid,
+                        PrincipalName = up.UserPrincipalName,
+                        Groups = up.GetGroups().Select(gr => new ADGroupDTO {
+                            Name = gr.Name,
+                            Description = gr.Description,
+                            Sam = gr.SamAccountName,
+                            Sid = gr.Sid,
+                            Guid = gr.Guid ?? new Guid()
+                        }).ToList()
+                    })
+                }).ToList();
             }
         }
 

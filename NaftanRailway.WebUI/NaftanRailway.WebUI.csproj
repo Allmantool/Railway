@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -174,7 +174,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
@@ -327,10 +327,8 @@
     <Compile Include="Areas\NomenclatureScroll\NomenclatureScrollAreaRegistration.cs" />
     <Compile Include="Controllers\BaseContoller.cs" />
     <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
-    <Compile Include="Infrastructure\DI\CustomNinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />
-    <Compile Include="Infrastructure\DI\NinjectRegistrations.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
     <Compile Include="ViewModels\EmailFormViewModel.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
@@ -890,10 +888,6 @@
       <Project>{96800e14-17b0-4478-9666-863335cde44b}</Project>
       <Name>NaftanRailway.BLL</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-    <ProjectReference Include="..\NaftanRailway.Domain\NaftanRailway.Domain.csproj">
-      <Project>{09A80099-87FE-485F-BBD4-5CD5C6770BF8}</Project>
-      <Name>NaftanRailway.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

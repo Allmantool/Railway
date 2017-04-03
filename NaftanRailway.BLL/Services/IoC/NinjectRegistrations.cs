@@ -1,15 +1,15 @@
-﻿using NaftanRailway.BLL.Abstract;
-using NaftanRailway.BLL.Concrete.AuthorizationLogic;
+﻿using Ninject.Modules;
 using NaftanRailway.BLL.Concrete.BussinesLogic;
+using NaftanRailway.BLL.Concrete.AuthorizationLogic;
+using NaftanRailway.BLL.Abstract;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-using Ninject.Modules;
 using System.Data.Entity;
+using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
-namespace NaftanRailway.WebUI.Infrastructure.DI {
+namespace NaftanRailway.BLL.Services.IoC {
     public class NinjectRegistrations : NinjectModule {
         /// <summary>
         /// used for registering types into container
