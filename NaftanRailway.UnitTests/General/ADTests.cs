@@ -104,8 +104,9 @@ namespace NaftanRailway.UnitTests.General {
 
         [TestMethod]
         public void WrkwithGrops() {
-            var ctxType = false ? ContextType.Machine : ContextType.Domain;
-            var hostDomain = false ? "Destkop" : "lan.naftan.by";
+            var isLocal = false;
+            var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+            var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
 
             using (var ctx = new PrincipalContext(ctxType, hostDomain, null, ContextOptions.Negotiate)) {
                 // create your principal searcher passing in the QBE principal
@@ -118,7 +119,7 @@ namespace NaftanRailway.UnitTests.General {
                     Guid = gr.Guid ?? new Guid(),
                     Sid = gr.Sid,
                     Users = gr.Members.
-                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null && 
+                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
                                 us.Context.Name == hostDomain &&
                                 us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
                                 us.Context.ConnectedServer.Contains(hostDomain))
@@ -151,8 +152,10 @@ namespace NaftanRailway.UnitTests.General {
                     }).Take(100)
                 });
 
-                //var groupInfo = group.FirstOrDefault();
-                var users = group.FirstOrDefault().Users.ToList();
+                var dto = group.FirstOrDefault();
+                if (dto != null) {
+                    var users = dto.Users.ToList();
+                }
             }
         }
 

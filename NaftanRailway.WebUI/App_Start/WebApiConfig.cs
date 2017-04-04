@@ -24,18 +24,14 @@ namespace NaftanRailway.WebUI {
             JsonMediaTypeFormatter jsonFormatter = config.Formatters.JsonFormatter;
 
             var settings = new JsonSerializerSettings {
+                //looping resolve
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver(),
+                //enum json conversion
                 Formatting = Formatting.Indented
             };
 
             jsonFormatter.SerializerSettings = settings;
-            ////looping resolve
-            //jsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            //jsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-
-            ////enum json convertion
-            //jsonFormatter.SerializerSettings.Formatting = Formatting.Indented;
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
         }
     }

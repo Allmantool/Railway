@@ -1,9 +1,8 @@
 ﻿using NaftanRailway.BLL.Abstract;
 using System.Web.Http;
-using NaftanRailway.BLL.DTO.Admin;
-using System.Collections.Generic;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
+    [AllowAnonymous]
     public class AdminController : ApiController {
         private readonly IAuthorizationEngage _authLogic;
 
@@ -11,16 +10,18 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
             _authLogic = authLogic;
         }
 
-        public ADUserDTO GetAdminPrincipal() {
+        public IHttpActionResult GetAdminPrincipal() {
             var result = _authLogic.AdminPrincipal(User.Identity.Name);
 
-            return result;
+            return Ok(result);
         }
 
-        public IEnumerable<ADUserDTO> GetGroupMembers(string Id) {
-            var result = _authLogic.GetMembers(Id);
+        public IHttpActionResult GetGroupMembers(string id) {
+            var result = _authLogic.GetMembers(id);
 
-            return result;
+            if (result == null) return NotFound();
+
+            return Ok(result);
         }
     }
 }
