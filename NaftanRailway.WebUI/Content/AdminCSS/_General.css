@@ -1,3 +1,7 @@
 ﻿html > /**/ body h2, h3 {
     margin-top: 0em !important;
 }
+
+th, tr, td {
+    text-align: center !important;
+}

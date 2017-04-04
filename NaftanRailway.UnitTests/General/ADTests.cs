@@ -14,10 +14,11 @@ namespace NaftanRailway.UnitTests.General {
             try {
                 var isLocal = false;
                 var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+                var hostDomain = isLocal ? "Destkop" : "lan.naftan.by";
                 //const string identity = @"Lan\cpn";
 
                 // create your domain context
-                using (var ctx = new PrincipalContext(ctxType)) {
+                using (var ctx = new PrincipalContext(ctxType, hostDomain)) {
                     // define a "query-by-example" principal - here, we search for a GroupPrincipal
                     GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
                     UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков*", SamAccountName = "cpn" };
@@ -104,23 +105,27 @@ namespace NaftanRailway.UnitTests.General {
         [TestMethod]
         public void WrkwithGrops() {
             var ctxType = false ? ContextType.Machine : ContextType.Domain;
+            var hostDomain = false ? "Destkop" : "lan.naftan.by";
 
-            using (var ctx = new PrincipalContext(ctxType)) {
-                GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "Internet_Users" };
-
+            using (var ctx = new PrincipalContext(ctxType, hostDomain, null, ContextOptions.Negotiate)) {
                 // create your principal searcher passing in the QBE principal
-                PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
+                PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = "Domain Users" } };
 
-                var group = srchGroups.FindAll().Select(x => new ADGroupDTO {
-                    Name = x.Name,
-                    Description = x.Description,
-                    Sam = x.SamAccountName,
-                    Guid = x.Guid ?? new Guid(),
-                    Sid = x.Sid,
-                    Users = ((GroupPrincipal)x).Members.Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                var group = srchGroups.FindAll().Select(pr => (GroupPrincipal)pr).Select(gr => new ADGroupDTO {
+                    Name = gr.Name,
+                    Description = gr.Description,
+                    Sam = gr.SamAccountName,
+                    Guid = gr.Guid ?? new Guid(),
+                    Sid = gr.Sid,
+                    Users = gr.Members.
+                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null && 
+                                us.Context.Name == hostDomain &&
+                                us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
+                                us.Context.ConnectedServer.Contains(hostDomain))
+                    .Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
                         FullName = up.Name,
                         EmailAddress = up.EmailAddress,
-                        IdEmp = Int32.Parse(up.EmployeeId),
+                        IdEmp = up.EmployeeId == null ? 0 : int.Parse(up.EmployeeId),
                         Description = up.Description,
                         IsEnable = up.Enabled ?? false,
                         Phone = up.VoiceTelephoneNumber,
@@ -136,15 +141,18 @@ namespace NaftanRailway.UnitTests.General {
                         Guid = up.Guid ?? new Guid(),
                         Sid = up.Sid,
                         PrincipalName = up.UserPrincipalName,
-                        Groups = up.GetGroups().Select(gr => new ADGroupDTO {
-                            Name = gr.Name,
-                            Description = gr.Description,
-                            Sam = gr.SamAccountName,
-                            Sid = gr.Sid,
-                            Guid = gr.Guid ?? new Guid()
-                        }).ToList()
-                    })
-                }).ToList();
+                        Groups = up.GetGroups().Select(usGr => new ADGroupDTO {
+                            Name = usGr.Name,
+                            Description = usGr.Description,
+                            Sam = usGr.SamAccountName,
+                            Sid = usGr.Sid,
+                            Guid = usGr.Guid ?? new Guid()
+                        })
+                    }).Take(100)
+                });
+
+                //var groupInfo = group.FirstOrDefault();
+                var users = group.FirstOrDefault().Users.ToList();
             }
         }
 

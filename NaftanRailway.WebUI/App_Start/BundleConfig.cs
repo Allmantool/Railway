@@ -110,14 +110,14 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Content/GeneralCustomCSS/_General.css",
                          "~/Content/Guild18CSS/_Guild18.css"));
 
-            bundles.Add(new StyleBundle("~/Content/AdminCSS").NonOrdering()
-               .Include("~/Content/GeneralCustomCSS/_General.css",
-                        "~/Content/AdminCSS/_General.css"));
+            bundles.Add(new StyleBundle("~/Content/AdmCSS").NonOrdering()
+                .Include("~/Content/GeneralCustomCSS/_General.css")
+                .Include("~/Content/AdminCSS/_General.css"));
 
             #endregion
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
             bundles.UseCdn = false;
         }
     }

@@ -13,6 +13,8 @@ appAdmin.Engage = (function ($, ko, db) {
         pagging: ko.observable(),
 
         userPrincipals: ko.observableArray([]),
+
+        activeGroup: ko.observable(),
         groupPrincipals: ko.observableArray([]),
 
         loadingState: ko.observable(false),
@@ -46,6 +48,7 @@ appAdmin.Engage = (function ($, ko, db) {
 
         db.request(function (data) {
             self.adminPrincipal(new appAdmin.UserPrincipal(data));
+            self.activeGroup(self.adminPrincipal().groups[0])
 
             //pagging
             //self.pagging(new appAdmin.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
@@ -53,12 +56,13 @@ appAdmin.Engage = (function ($, ko, db) {
     };
 
     function usersInGroup(ctx, ev, opts) {
-        ctx.isSelected(true);
+        self.activeGroup(ctx);
 
         //work with options
         var defaults = {
+            url: "api" + location.pathname + "/" + ctx.name(),
             data: {
-                "IdGroup": ctx.name()
+                //    "Id": ctx.name()
             },
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
@@ -81,7 +85,9 @@ appAdmin.Engage = (function ($, ko, db) {
         usersInGroup: usersInGroup,
 
         adminPrincipal: self.adminPrincipal,
-        userPrincipals: self.userPrincipals
+        userPrincipals: self.userPrincipals,
+        activeGroup: self.activeGroup,
+        loadingState: self.loadingState
     };
 })(jQuery, ko, appAdmin.DataContext);
 

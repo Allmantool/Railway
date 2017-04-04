@@ -10,5 +10,5 @@ appAdmin.GroupPrincipal = function (data) {
 
     self = $.extend(true, self, ko.mapping.fromJS(data));
 
-    self.isSelected = ko.observable(false);
+    //self.isSelected = ko.observable(false);
 }

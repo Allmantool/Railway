@@ -12,12 +12,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     @Styles.Render("~/Content/CSSbundle")
     <!--[if lte IE 9]>@Scripts.Render("~/bundles/CrossBr")<![endif]-->
-    @Styles.Render("~/Content/AdminCSS")
+    @Styles.Render("~/Content/AdmCSS")
     <link rel="shortcut icon" href="~/Content/Images/Gear.gif" type="image/x-icon" />
 </head>
 <body>
 
     <div id ="koContainer">@RenderBody()</div>
+
+    @*Loading icon*@
+    <div data-bind="visible: $root.loadingState()" class="overlay">
+        <div class="overlay content">
+            <img alt="Загрузка..." src='@Url.Content("~/Content/Images/Gear.gif")'>
+            <h4><strong>Пожалуйста подождите...</strong></h4>
+        </div>
+    </div>
 
     <!--[if lte IE 9]>
         @Scripts.Render("~/bundles/JQuery1")
