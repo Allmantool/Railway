@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -30,7 +32,7 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult Guild18(string reportName, string reportPeriod) {
             const string serverName = @"db2";
             const string folderName = @"Orders";
-
+            byte[] data;
             var period = DateTime.ParseExact(reportPeriod, "dd-MM-yyyy", new CultureInfo("ru", true));
             const string defaultParameters = @"rs:Format=Excel";
             string filterParameters = @"reportPeriod=" + period.ToString("MM.01.yyyy");
@@ -44,7 +46,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
             string contentDisposition;
             if (Request.Browser.Browser == "IE" &&
-                (Request.Browser.Version == "7.0" || Request.Browser.Version == "8.0"))
+                ((new[] { "7.0", "8.0" }).Contains(Request.Browser.Version)))
                 contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
             else if (Request.Browser.Browser == "Safari")
                 contentDisposition = "attachment; filename=" + nameFile;
@@ -53,18 +55,17 @@ namespace NaftanRailway.WebUI.Controllers {
 
             Response.AddHeader("Content-Disposition", contentDisposition);
 
-            //WebClient client = new WebClient { UseDefaultCredentials = true };
-            /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder)*/
-            WebClient client = new WebClient {
-                Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } }
-            };
+            /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder) UseDefaultCredentials = true */
+            using (var handler = new HttpClientHandler { Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } } })
+            using (var httpClient = new HttpClient(handler) { BaseAddress = new Uri("http://db2") }) {
+                try {
+                    var responseTask = httpClient.GetByteArrayAsync(urlReportString);
+                    responseTask.Wait();
 
-            byte[] data;
-
-            try {
-                data = client.DownloadData(urlReportString);
-            } catch (Exception exc) {
-                data = Encoding.ASCII.GetBytes(exc.Message);
+                    data = responseTask.Result;
+                } catch (Exception exc) {
+                    data = Encoding.ASCII.GetBytes(exc.Message);
+                }
             }
 
             if (data.Length > 0) {

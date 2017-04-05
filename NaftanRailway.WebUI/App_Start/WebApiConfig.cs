@@ -5,11 +5,12 @@ using System.Web.Http;
 namespace NaftanRailway.WebUI {
     public static class WebApiConfig {
         public static void Register(HttpConfiguration config) {
-
+            //IoC container
             //config.DependencyResolver = new NinjectDependencyResolver();
+
+            //attribute routing
             //config.MapHttpAttributeRoutes();
 
-            //config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

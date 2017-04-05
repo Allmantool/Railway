@@ -52,14 +52,15 @@ namespace NaftanRailway.WebUI.Controllers {
         public async Task<ActionResult> SendMail(EmailFormViewModel model) {
             if (ModelState.IsValid) {
                 var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                var message = new MailMessage();
-                message.To.Add(new MailAddress("P.Chizhikov@naftan.by"));  // replace with valid value
-                message.From = new MailAddress(CurrentADUser.EmailAddress);  // replace with valid value
-                message.Subject = "Proposal to add right";
-                message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
-                message.IsBodyHtml = true;
 
+                using (var message = new MailMessage())
                 using (var smtp = new SmtpClient() { UseDefaultCredentials = true }) {
+                    message.To.Add(new MailAddress("P.Chizhikov@naftan.by"));  // replace with valid value
+                    message.From = new MailAddress(CurrentADUser.EmailAddress);  // replace with valid value
+                    message.Subject = "Proposal to add right";
+                    message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
+                    message.IsBodyHtml = true;
+
                     smtp.Host = "naftan.by";
                     smtp.Port = 25;
                     smtp.EnableSsl = false;
