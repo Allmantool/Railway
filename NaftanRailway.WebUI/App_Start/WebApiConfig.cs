@@ -8,6 +8,10 @@ namespace NaftanRailway.WebUI {
             //IoC container
             //config.DependencyResolver = new NinjectDependencyResolver();
 
+            //CORS
+            //var cors = new EnableCorsAttribute("*","*", "GET");
+            //config.EnableCors();
+
             //attribute routing
             //config.MapHttpAttributeRoutes();
 

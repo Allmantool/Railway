@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿//using Newtonsoft.Json;
+//using Newtonsoft.Json.Converters;
 using System;
 
 namespace NaftanRailway.BLL.Services {
@@ -7,7 +7,7 @@ namespace NaftanRailway.BLL.Services {
     /// Operation type on cargo (Sending or Arrivals)
     /// </summary>
     [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
+    //[JsonConverter(typeof(StringEnumConverter))]
     public enum EnumOperationType : short {
         All = 0,
         Sending = 1,
