@@ -5,7 +5,8 @@
 //namespace
 var appAdmin = window.appAdmin || {};
 
-appAdmin.Engage = (function ($, ko, db) {
+appAdmin.Engage = (function ($, ko, db, hub) {
+    //private
     var self = {
         _containerName: undefined,
         itemsPerPage: ko.observable(12),
@@ -20,12 +21,18 @@ appAdmin.Engage = (function ($, ko, db) {
         loadingState: ko.observable(false),
 
         adminPrincipal: ko.observable(),
+        ///chat
+        message: ko.observable(""),
+        messages: ko.observableArray([])
     };
 
     //behavior
     function init(params) {
-        //get container element
+        //container element
         self._containerName = $("#koContainer")[0];
+
+        //SignalR initialition
+        hub.init(this);
 
         //work with options
         var defaults = {
@@ -80,19 +87,31 @@ appAdmin.Engage = (function ($, ko, db) {
         }, $merged);
     }
 
+    //signalR
+    function addMessage(message) {
+        self.messages.push(message);
+    };
+
+    function sendMessage(message) {
+        hub.server.send(message);
+        self.message("");
+    };
+
     return {
         init: init,
         usersInGroup: usersInGroup,
+        addMessage: addMessage,
+        sendMessage: sendMessage,
 
         adminPrincipal: self.adminPrincipal,
         userPrincipals: self.userPrincipals,
         activeGroup: self.activeGroup,
-        loadingState: self.loadingState
+        loadingState: self.loadingState,
+        messages: self.messages
     };
-})(jQuery, ko, appAdmin.DataContext);
+})(jQuery, ko, appAdmin.DataContext, appAdmin.Hub);
 
-
-//ready
+//ready ( initialization)
 $(document).ready(function () {
     //localisation
     moment.locale('ru');

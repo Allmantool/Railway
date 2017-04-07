@@ -24,6 +24,11 @@ namespace NaftanRailway.WebUI {
                     "~/Scripts/respond.js"
              ));
 
+            bundles.Add(new ScriptBundle("~/bundles/SignalR").NonOrdering()
+                .Include(
+                    "~/Scripts/jquery.signalR-{version}.js",
+                    "~/Scripts/hubs.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/JQuery1", "//code.jquery.com/jquery-1.11.3.min.js")
                 .Include("~/Scripts/jquery-1.11.3.js"));
 
@@ -67,7 +72,8 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/Admin").NonOrdering()
                 .Include("~/Scripts/GeneralJs/_General.js",
-                         "~/Scripts/AdminJs/DataContext.js")
+                         "~/Scripts/AdminJs/DataContext.js",
+                         "~/Scripts/AdminJs/Hub.js")
                 .IncludeDirectory("~/Scripts/AdminJs/Models", "*.js")
                 .Include("~/Scripts/AdminJs/MainVM.js")
                 .Include("~/Scripts/AdminJs/CustomBindings/koBindings.js"));
@@ -117,7 +123,7 @@ namespace NaftanRailway.WebUI {
             #endregion
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = false;
             bundles.UseCdn = false;
         }
     }

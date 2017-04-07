@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NaftanRailway.BLL.DTO.Admin;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Net;
@@ -12,93 +14,97 @@ namespace NaftanRailway.UnitTests.General {
         [TestMethod]
         public void UserPrincipalTest() {
             try {
+                IEnumerable<ADUserDTO> users = null;
                 var isLocal = false;
                 var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
                 var hostDomain = isLocal ? "Destkop" : "lan.naftan.by";
                 //const string identity = @"Lan\cpn";
 
-                // create your domain context
-                using (var ctx = new PrincipalContext(ctxType, hostDomain)) {
-                    // define a "query-by-example" principal - here, we search for a GroupPrincipal
-                    GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
-                    UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков*", SamAccountName = "cpn" };
+                for (int i = 0; i < 15; i++) {
+                    // create your domain context
+                    PrincipalContext ctx = null;
+                    using (ctx = new PrincipalContext(ctxType, hostDomain)) {
+                        // define a "query-by-example" principal - here, we search for a GroupPrincipal
+                        //GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
+                        UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков*", SamAccountName = "cpn" };
 
-                    //var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
+                        //var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
-                    // create your principal searcher passing in the QBE principal
-                    PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
-                    PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
+                        // create your principal searcher passing in the QBE principal
+                        //PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
+                        PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
 
-                    var users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(userPrincipal => new ADUserDTO {
-                        FullName = userPrincipal.Name,
-                        EmailAddress = userPrincipal.EmailAddress,
-                        IdEmp = Int32.Parse(userPrincipal.EmployeeId),
-                        Description = userPrincipal.Description,
-                        IsEnable = userPrincipal.Enabled ?? false,
-                        Phone = userPrincipal.VoiceTelephoneNumber,
-                        Server = userPrincipal.Context.ConnectedServer,
-                        GivenName = userPrincipal.GivenName,
-                        MiddleName = userPrincipal.MiddleName,
-                        Surname = userPrincipal.Surname,
-                        DistinguishedName = userPrincipal.DistinguishedName,
-                        HomeDirector = userPrincipal.HomeDirectory,
-                        HomeDrive = userPrincipal.HomeDrive,
-                        DisplayName = userPrincipal.DisplayName,
-                        Sam = userPrincipal.SamAccountName,
-                        Guid = userPrincipal.Guid ?? new Guid(),
-                        Sid = userPrincipal.Sid,
-                        PrincipalName = userPrincipal.UserPrincipalName,
-                        Groups = userPrincipal.GetGroups().Select(gr => new ADGroupDTO {
-                            Name = gr.Name,
-                            Description = gr.Description,
-                            Sam = gr.SamAccountName,
-                            Sid = gr.Sid,
-                            Guid = gr.Guid ?? new Guid()
-                        })
-                    });
-
-                    var groups = srchGroups.FindAll().Select(x => new {
-                        FullName = x.Name,
-                        DisplayName = x.DisplayName,
-                        Description = x.Description,
-                        Sam = x.SamAccountName,
-                        Guid = x.Guid,
-                        Sid = x.Sid,
-                        PrincipalName = x.UserPrincipalName,
-                        Users = ((GroupPrincipal)x).Members.Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
-                            FullName = up.Name,
-                            EmailAddress = up.EmailAddress,
-                            IdEmp = Int32.Parse(up.EmployeeId),
-                            Description = up.Description,
-                            IsEnable = up.Enabled ?? false,
-                            Phone = up.VoiceTelephoneNumber,
-                            Server = up.Context.ConnectedServer,
-                            GivenName = up.GivenName,
-                            MiddleName = up.MiddleName,
-                            Surname = up.Surname,
-                            DistinguishedName = up.DistinguishedName,
-                            HomeDirector = up.HomeDirectory,
-                            HomeDrive = up.HomeDrive,
-                            DisplayName = up.DisplayName,
-                            Sam = up.SamAccountName,
-                            Guid = up.Guid ?? new Guid(),
-                            Sid = up.Sid,
-                            PrincipalName = up.UserPrincipalName,
-                            Groups = up.GetGroups().Select(gr => new ADGroupDTO {
+                        users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(userPrincipal => new ADUserDTO {
+                            FullName = userPrincipal.Name,
+                            EmailAddress = userPrincipal.EmailAddress,
+                            IdEmp = int.Parse(userPrincipal.EmployeeId),
+                            Description = userPrincipal.Description,
+                            IsEnable = userPrincipal.Enabled ?? false,
+                            Phone = userPrincipal.VoiceTelephoneNumber,
+                            Server = userPrincipal.Context.ConnectedServer,
+                            GivenName = userPrincipal.GivenName,
+                            MiddleName = userPrincipal.MiddleName,
+                            Surname = userPrincipal.Surname,
+                            DistinguishedName = userPrincipal.DistinguishedName,
+                            HomeDirector = userPrincipal.HomeDirectory,
+                            HomeDrive = userPrincipal.HomeDrive,
+                            DisplayName = userPrincipal.DisplayName,
+                            Sam = userPrincipal.SamAccountName,
+                            Guid = userPrincipal.Guid ?? new Guid(),
+                            Sid = userPrincipal.Sid,
+                            PrincipalName = userPrincipal.UserPrincipalName,
+                            Groups = userPrincipal.GetGroups().Select(gr => new ADGroupDTO {
                                 Name = gr.Name,
                                 Description = gr.Description,
                                 Sam = gr.SamAccountName,
                                 Sid = gr.Sid,
                                 Guid = gr.Guid ?? new Guid()
-                            })
-                        })
-                    });
+                            }).ToList()
+                        }).ToList();
 
-                    Assert.AreEqual(1, users.Count());
+                        //var groups = srchGroups.FindAll().Select(x => new {
+                        //    FullName = x.Name,
+                        //    DisplayName = x.DisplayName,
+                        //    Description = x.Description,
+                        //    Sam = x.SamAccountName,
+                        //    Guid = x.Guid,
+                        //    Sid = x.Sid,
+                        //    PrincipalName = x.UserPrincipalName,
+                        //    Users = ((GroupPrincipal)x).Members.Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                        //        FullName = up.Name,
+                        //        EmailAddress = up.EmailAddress,
+                        //        IdEmp = Int32.Parse(up.EmployeeId),
+                        //        Description = up.Description,
+                        //        IsEnable = up.Enabled ?? false,
+                        //        Phone = up.VoiceTelephoneNumber,
+                        //        Server = up.Context.ConnectedServer,
+                        //        GivenName = up.GivenName,
+                        //        MiddleName = up.MiddleName,
+                        //        Surname = up.Surname,
+                        //        DistinguishedName = up.DistinguishedName,
+                        //        HomeDirector = up.HomeDirectory,
+                        //        HomeDrive = up.HomeDrive,
+                        //        DisplayName = up.DisplayName,
+                        //        Sam = up.SamAccountName,
+                        //        Guid = up.Guid ?? new Guid(),
+                        //        Sid = up.Sid,
+                        //        PrincipalName = up.UserPrincipalName,
+                        //        Groups = up.GetGroups().Select(gr => new ADGroupDTO {
+                        //            Name = gr.Name,
+                        //            Description = gr.Description,
+                        //            Sam = gr.SamAccountName,
+                        //            Sid = gr.Sid,
+                        //            Guid = gr.Guid ?? new Guid()
+                        //        })
+                        //    })
+                        //});
+                    }
+                    //Assert.AreEqual(1, users.Count());
+                    Debug.WriteLine(string.Format("iteration: {0}, Count: {1}", i, users.Count()));
                 }
             } catch (Exception e) {
                 Console.WriteLine(e);
-                Assert.AreEqual(true, false);
+                //Assert.AreEqual(true, false);
             }
         }
 
