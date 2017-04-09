@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Principal;
 
 namespace NaftanRailway.BLL.DTO.Admin {
@@ -7,6 +8,7 @@ namespace NaftanRailway.BLL.DTO.Admin {
     /// Data transfer object for AD user principal
     /// </summary>
     public class ADUserDTO {
+        [Key]
         public int IdEmp { get; set; }
         public Guid Guid { get; set; }
         public SecurityIdentifier Sid { get; set; }

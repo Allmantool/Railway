@@ -49,7 +49,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
 
         public IEnumerable<ADUserDTO> GetMembers(string identity, bool isLocal = false) {
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
-            var hostDomain = isLocal ? "Destkop" : "lan.naftan.by";
+            var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
 
             using (var ctx = new PrincipalContext(ctxType, hostDomain, null, ContextOptions.Negotiate)) {
                 // create your principal searcher passing in the QBE principal
@@ -62,7 +62,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                     Guid = x.Guid ?? new Guid(),
                     Sid = x.Sid,
                     Users = ((GroupPrincipal)x).Members.
-                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null && 
+                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
                                 us.Context.Name == hostDomain &&
                                 us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
                                 us.Context.ConnectedServer.Contains(hostDomain)).

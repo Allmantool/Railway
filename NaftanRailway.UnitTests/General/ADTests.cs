@@ -14,19 +14,20 @@ namespace NaftanRailway.UnitTests.General {
         [TestMethod]
         public void UserPrincipalTest() {
             try {
-                IEnumerable<ADUserDTO> users = null;
-                var isLocal = false;
+                var isLocal = true;
                 var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
-                var hostDomain = isLocal ? "Destkop" : "lan.naftan.by";
+                var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+                var searchName = isLocal ? "AllmanGroup" : "Чижиков*";
                 //const string identity = @"Lan\cpn";
 
                 for (int i = 0; i < 15; i++) {
                     // create your domain context
-                    PrincipalContext ctx = null;
-                    using (ctx = new PrincipalContext(ctxType, hostDomain)) {
+                    IEnumerable<ADUserDTO> users;
+
+                    using (var ctx = new PrincipalContext(ctxType, hostDomain)) {
                         // define a "query-by-example" principal - here, we search for a GroupPrincipal
                         //GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
-                        UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = "*Чижиков*", SamAccountName = "cpn" };
+                        UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = searchName/*, SamAccountName = "cpn"*/ };
 
                         //var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
@@ -37,7 +38,7 @@ namespace NaftanRailway.UnitTests.General {
                         users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(userPrincipal => new ADUserDTO {
                             FullName = userPrincipal.Name,
                             EmailAddress = userPrincipal.EmailAddress,
-                            IdEmp = int.Parse(userPrincipal.EmployeeId),
+                            IdEmp = userPrincipal.EmployeeId == null ? 0 : int.Parse(userPrincipal.EmployeeId),
                             Description = userPrincipal.Description,
                             IsEnable = userPrincipal.Enabled ?? false,
                             Phone = userPrincipal.VoiceTelephoneNumber,
@@ -100,12 +101,14 @@ namespace NaftanRailway.UnitTests.General {
                         //});
                     }
                     //Assert.AreEqual(1, users.Count());
-                    Debug.WriteLine(string.Format("iteration: {0}, Count: {1}", i, users.Count()));
+                    Debug.WriteLine("iteration: {0}, Count: {1}", i, users.Count());
                 }
             } catch (Exception e) {
                 Console.WriteLine(e);
-                //Assert.AreEqual(true, false);
+                Assert.AreEqual(true, false);
             }
+
+            Assert.AreEqual(true, true);
         }
 
         [TestMethod]

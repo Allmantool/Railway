@@ -1,5 +1,7 @@
 ﻿using NaftanRailway.BLL.Abstract;
 using System.Web.Http;
+using System.Web.Http.Description;
+using NaftanRailway.BLL.DTO.Admin;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
     [AllowAnonymous]
@@ -10,12 +12,15 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
             _authLogic = authLogic;
         }
 
+        [ResponseType(typeof(ADUserDTO))]
         public IHttpActionResult GetAdminPrincipal() {
             var result = _authLogic.AdminPrincipal(User.Identity.Name);
 
             return Ok(result);
         }
 
+        //responseType for documentation page
+        [ResponseType(typeof(ADUserDTO))]
         public IHttpActionResult GetGroupMembers(string id) {
             var result = _authLogic.GetMembers(id);
 

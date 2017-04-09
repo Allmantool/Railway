@@ -1,5 +1,4 @@
-﻿@using System.Web.Optimization
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -42,7 +41,8 @@
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/BootsrapUI")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/SignalR")
     @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Knockout")
-    <!--<![endif]-->
+   <!--<![endif]-->
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

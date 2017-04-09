@@ -3,17 +3,14 @@ using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Diagnostics;
 
-namespace NaftanRailway.Domain.DbConfigurations
-{
+namespace NaftanRailway.Domain.Services.DbConfigurations {
     /// <summary>
     ///     More flexible logging for EF6 then Database.Log
     ///     http://www.mortenanderson.net/logging-sql-statements-in-entity-framework-with-interception
     ///     https://msdn.microsoft.com/en-us/data/jj680699.aspx
     /// </summary>
-    public class EfInterceptor : IDbCommandInterceptor
-    {
-        public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
-        {
+    public class EfInterceptor : IDbCommandInterceptor {
+        public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) {
             Log(string.Format("NonQueryExecuted with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
@@ -23,28 +20,23 @@ namespace NaftanRailway.Domain.DbConfigurations
         /// </summary>
         /// <param name="command"></param>
         /// <param name="interceptionContext"></param>
-        public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
-        {
+        public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) {
             Log(string.Format("NonQueryExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
-        public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
-        {
+        public void ReaderExecuted(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) {
             Log(string.Format("ReaderExecuted with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
-        public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext)
-        {
+        public void ReaderExecuting(DbCommand command, DbCommandInterceptionContext<DbDataReader> interceptionContext) {
             Log(string.Format("ReaderExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
-        public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
-        {
+        public void ScalarExecuted(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) {
             Log(string.Format("ScalarExecuted with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
-        public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext)
-        {
+        public void ScalarExecuting(DbCommand command, DbCommandInterceptionContext<object> interceptionContext) {
             Log(string.Format("ScalarExecuting with the command:{0}{1}", Environment.NewLine, command.CommandText));
         }
 
@@ -65,7 +57,7 @@ namespace NaftanRailway.Domain.DbConfigurations
         ///     symbol is set(default on for debug,
         ///     off for release) when the symbol is not set the methods are never called in your code.Trace looks for the TRACE
         ///     symbol (default on for both debug and release).
-        ///     Other that that, the two classes are identical.In fact if you modify Debug.Listeners to add a new listener it will
+        ///     Other that, the two classes are identical.In fact if you modify Debug.Listeners to add a new listener it will
         ///     also modify Trace.Listeners as both just point to
         ///     the internal static property TraceInternal.Listeners
         ///     As for picking which one to use, Do you want diagnostic information to show up in release and debug mode? use
@@ -74,8 +66,7 @@ namespace NaftanRailway.Domain.DbConfigurations
         ///     listener.
         /// </summary>
         /// <param name="message"></param>
-        private void Log(string message)
-        {
+        private void Log(string message) {
             /*log for EF6 dbcontext in output window (debug mode)*/
             Debug.WriteLine(message);
             //    Trace.Write(message);

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using NaftanRailway.WebUI.Infrastructure.ExceptionHandling;
 
 namespace NaftanRailway.WebUI {
     public static class WebApiConfig {
@@ -13,7 +15,7 @@ namespace NaftanRailway.WebUI {
             //config.EnableCors();
 
             //attribute routing
-            //config.MapHttpAttributeRoutes();
+            config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -38,6 +40,14 @@ namespace NaftanRailway.WebUI {
 
             jsonFormatter.SerializerSettings = settings;
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+
+            //add global filters
+            //config.Filters.Add(new filter);
+
+            //plural maybe
+            //config.Services.Add(typeof(IExceptionLogger), new TextLogger());
+            //only one maybe
+            //config.Services.Replace(typeof(IExceptionHandler), new TextHandler());
         }
     }
 }
