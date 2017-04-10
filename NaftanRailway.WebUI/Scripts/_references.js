@@ -7,6 +7,7 @@
 /// <reference path="AdminJs/MainVM.js" />
 /// <reference path="AdminJs/Models/AlertMessageModel.js" />
 /// <reference path="AdminJs/Models/GroupPrincipalModel.js" />
+/// <reference path="adminjs/models/messagemodel.js" />
 /// <reference path="AdminJs/Models/UserPrincipalModel.js" />
 /// <reference path="bootstrap.js" />
 /// <reference path="bootstrap-datepicker.js" />

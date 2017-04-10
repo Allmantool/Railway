@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
+using NaftanRailway.BLL.DTO.Admin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,13 +8,19 @@ using System.Threading.Tasks;
 namespace NaftanRailway.WebUI.Hubs {
     //[HubName("adminHub")]
     public class AdminHub : Hub {
-        private static List<User> Users = new List<User>();
+        private static List<UserDTO> Users = new List<UserDTO>();
 
         public AdminHub() {
         }
 
         public void Send(string message) {
-            Clients.All.newMessage(string.Format("{0} says: {1}", Context.User.Identity.Name, message));
+            var msg = new MessageDTO() {
+                MsgText = message,
+                SendTime = DateTime.Now,
+                User = new UserDTO() { Name = Context.User.Identity.Name, ConnectionId = Context.User.Identity.Name }
+            };
+
+            Clients.All.newMessage(msg);
         }
 
         // Подключение нового пользователя
@@ -20,7 +28,7 @@ namespace NaftanRailway.WebUI.Hubs {
             var id = Context.ConnectionId;
 
             if (!Users.Any(x => x.ConnectionId == id)) {
-                Users.Add(new User { ConnectionId = id, Name = userName });
+                Users.Add(new UserDTO { ConnectionId = id, Name = userName });
 
                 // Посылаем сообщение текущему пользователю
                 Clients.Caller.onConnected(id, userName, Users);
@@ -41,10 +49,5 @@ namespace NaftanRailway.WebUI.Hubs {
 
             return base.OnDisconnected(stopCalled);
         }
-    }
-
-    public class User {
-        public string ConnectionId { get; set; }
-        public string Name { get; set; }
     }
 }

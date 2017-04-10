@@ -88,12 +88,13 @@ appAdmin.Engage = (function ($, ko, db, hub) {
     }
 
     //signalR
-    function addMessage(message) {
-        self.messages.push(message);
+    function addMessage(data) {
+        self.messages.push(new appAdmin.Message(data));
     };
 
     function sendMessage(message) {
         hub.server.send(message);
+
         self.message("");
     };
 

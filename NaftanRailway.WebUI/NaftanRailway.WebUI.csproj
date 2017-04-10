@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -635,6 +635,7 @@
     <Content Include="Scripts\AdminJs\MainVM.js" />
     <Content Include="Scripts\AdminJs\Models\AlertMessageModel.js" />
     <Content Include="Scripts\AdminJs\Models\GroupPrincipalModel.js" />
+    <Content Include="Scripts\AdminJs\Models\MessageModel.js" />
     <Content Include="Scripts\AdminJs\Models\UserPrincipalModel.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />

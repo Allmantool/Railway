@@ -76,6 +76,8 @@
     <Compile Include="Concrete\AdminLogic\AuthorizationEngage.cs" />
     <Compile Include="DTO\Admin\ADGroupDTO.cs" />
     <Compile Include="DTO\Admin\ADUserDTO.cs" />
+    <Compile Include="DTO\Admin\MessageDTO.cs" />
+    <Compile Include="DTO\Admin\UserDTO.cs" />
     <Compile Include="DTO\General\BrowserInfoDTO.cs" />
     <Compile Include="DTO\Guild18\OverviewCarriageDTO.cs" />
     <Compile Include="DTO\Admin\RegistrationDTO.cs" />
