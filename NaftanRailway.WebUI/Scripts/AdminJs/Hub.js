@@ -1,29 +1,53 @@
-﻿/// <reference path="../jquery-1.11.3.js" />
-/// <reference path="../jquery-2.2.4.js" />
-/// <reference path="../jquery-3.4.2.debug.js" />
-'use strict';
+﻿'use strict';
 var appAdmin = window.appAdmin || {};
 
-appAdmin.Hub = (function ($) {
-    var _vm = undefined;
-    var self = $.connection.adminHub;
+//wait init signalR
+//$(document).ready(function () {
+    appAdmin.Hub = (function ($) {
+        var _vm = undefined, _principalName ='';
+        //var connnection = $.hubConnection();
+        //var hub = connection.createHubProxy("adminHub")
+        var $self = $.connection.adminHub;
+        var $client = $self.client;
+        var $server = $self.server;
 
-    $.connection.hub.logging = true;
-    $.connection.hub.start()
-        .done(function () { console.log('Now connected, connection ID=' + $.connection.hub.id); })
-        .fail(function () { console.log('Could not Connect!'); });
+        $.connection.hub.logging = true;
+        //instantion connection
+        $.connection.hub.start()
+            .done(function () {
+                //$server.connect("I'm");
+                console.log('Now connected, connection ID=' + $.connection.hub.id);
+            })
+            .fail(function () { console.log('Could not Connect!'); });
 
-    self.client.newMessage = function (message) {
-        _vm.addMessage(message);
-    };
+        //self.client.on("newMessage", function (msg) {
+        //});
 
-    //set realted view model
-    function init(vm) {
-        _vm = vm;
-    };
+        $client.newMessage = function (message) {
+            _vm.addMessage(message);
+        };
 
-    return {
-        server: self.server,
-        init: init
-    };
-})(jQuery);
+        $client.onConnected = function (id, userName, Users) {
+            console.log('user connected (id:' + id + ' name: ' + _principalName + ')');
+        };
+
+        $client.onNewUserConnected = function (id, userName) {
+            console.log('new user connected (id:' + id + ' name: ' + _principalName + ')');
+        };
+
+        $client.onUserDisconnected = function (id, name) {
+            console.log('user disconnected (id:' + id + ' name: ' + _principalName + ')');
+        };
+
+        //set realted view model
+        function init(vm) {
+            _vm = vm;
+            _principalName = vm.adminPrincipal().displayName();
+        };
+
+        return {
+            server: $server,
+            init: init
+        };
+    })(jQuery);
+//});

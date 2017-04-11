@@ -19,47 +19,12 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         groupPrincipals: ko.observableArray([]),
 
         loadingState: ko.observable(false),
+        chatState: ko.observable(false),
 
         adminPrincipal: ko.observable(),
         ///chat
         message: ko.observable(""),
         messages: ko.observableArray([])
-    };
-
-    //behavior
-    function init(params) {
-        //container element
-        self._containerName = $("#koContainer")[0];
-
-        //SignalR initialition
-        hub.init(this);
-
-        //work with options
-        var defaults = {
-            data: {
-                //"pageSize": self.itemsPerPage(),
-            },
-            beforeSend: function () { self.loadingState(true); },
-            complete: function () {
-                //firts initialization avoid multibinding
-                if (params === undefined) {
-                    ko.applyBindings(appAdmin.Engage);
-                }
-
-                self.loadingState(false);
-            }
-        };
-
-        //work with options
-        var $merged = $.extend(true, defaults, params);
-
-        db.request(function (data) {
-            self.adminPrincipal(new appAdmin.UserPrincipal(data));
-            self.activeGroup(self.adminPrincipal().groups[0])
-
-            //pagging
-            //self.pagging(new appAdmin.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
-        }, $merged);
     };
 
     function usersInGroup(ctx, ev, opts) {
@@ -98,6 +63,42 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         self.message("");
     };
 
+    //behavior
+    function init(params) {
+        //container element
+        self._containerName = $("#koContainer")[0];
+
+        //work with options
+        var defaults = {
+            data: {
+                //"pageSize": self.itemsPerPage(),
+            },
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                //firts initialization avoid multibinding
+                if (params === undefined) {
+                    ko.applyBindings(appAdmin.Engage);
+                }
+
+                self.loadingState(false);
+            }
+        };
+
+        //work with options
+        var $merged = $.extend(true, defaults, params);
+
+        db.request(function (data) {
+            self.adminPrincipal(new appAdmin.UserPrincipal(data));
+            self.activeGroup(self.adminPrincipal().groups[0])
+
+            //SignalR initialition
+            hub.init(appAdmin.Engage);
+
+            //pagging
+            //self.pagging(new appAdmin.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
+        }, $merged);
+    };
+
     return {
         init: init,
         usersInGroup: usersInGroup,
@@ -108,6 +109,7 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         userPrincipals: self.userPrincipals,
         activeGroup: self.activeGroup,
         loadingState: self.loadingState,
+        chatState: self.chatState,
         messages: self.messages
     };
 })(jQuery, ko, appAdmin.DataContext, appAdmin.Hub);

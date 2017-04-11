@@ -14,7 +14,7 @@ namespace NaftanRailway.UnitTests.General {
         [TestMethod]
         public void UserPrincipalTest() {
             try {
-                var isLocal = true;
+                var isLocal = false;
                 var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
                 var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
                 var searchName = isLocal ? "AllmanGroup" : "Чижиков*";
@@ -23,8 +23,8 @@ namespace NaftanRailway.UnitTests.General {
                 for (int i = 0; i < 15; i++) {
                     // create your domain context
                     IEnumerable<ADUserDTO> users;
-
-                    using (var ctx = new PrincipalContext(ctxType, hostDomain)) {
+                    PrincipalContext ctx = null;
+                    using (ctx = new PrincipalContext(ctxType, hostDomain)) {
                         // define a "query-by-example" principal - here, we search for a GroupPrincipal
                         //GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Rail_Developers*" };
                         UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = searchName/*, SamAccountName = "cpn"*/ };
@@ -62,6 +62,8 @@ namespace NaftanRailway.UnitTests.General {
                                 Guid = gr.Guid ?? new Guid()
                             }).ToList()
                         }).ToList();
+
+                        ctx.Dispose();
 
                         //var groups = srchGroups.FindAll().Select(x => new {
                         //    FullName = x.Name,
@@ -102,7 +104,10 @@ namespace NaftanRailway.UnitTests.General {
                     }
                     //Assert.AreEqual(1, users.Count());
                     Debug.WriteLine("iteration: {0}, Count: {1}", i, users.Count());
+                    
                 }
+            } catch (AppDomainUnloadedException appExc) {
+                Console.WriteLine(appExc);
             } catch (Exception e) {
                 Console.WriteLine(e);
                 Assert.AreEqual(true, false);

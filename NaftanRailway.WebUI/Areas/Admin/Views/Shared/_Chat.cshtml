@@ -1,5 +1,5 @@
 ﻿<link rel="stylesheet" href="@Url.Content("~/Content/AdminCss/Chat.css")" />
-<div class="container">
+<div id="chat" data-bind="visible: $root.chatState()" class="container" style="display:none;">
     <div class="row">
         <div class="col-md-5">
             <div class="panel panel-primary">
@@ -65,7 +65,7 @@
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
+                                    <small class="text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
                                     <strong class="pull-right primary-font">Bhaumik Patel</strong>
                                 </div>
                                 <p>

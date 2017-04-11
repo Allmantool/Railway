@@ -18,6 +18,7 @@ namespace NaftanRailway.WebUI {
 
             bundles.Add(new ScriptBundle("~/bundles/CrossBr", "//cdnjs.cloudflare.com/ajax/libs/modernizr/{version}/modernizr.min.js").NonOrdering()
                 .Include(
+                    "~/Scripts/IEJs/IE9-.js",
                     //"~/Scripts/selectivizr-{version}.js",
                     "~/Scripts/modernizr-{version}.js",
                     //"~/Scripts/html5shiv.js",
