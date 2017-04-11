@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using NaftanRailway.BLL.Services;
 
-namespace NaftanRailway.WebUI.Infrastructure.Binders {
+namespace NaftanRailway.WebUI.Infrastructure.ModelBinders {
     public class StorageTableModelBinder : IModelBinder {
         private const string SessionKey = "SessionStorage";
 

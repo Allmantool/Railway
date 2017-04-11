@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
 
-namespace NaftanRailway.WebUI.Infrastructure.Binders {
+namespace NaftanRailway.WebUI.Infrastructure.ModelBinders {
     /// <summary>
     /// Return InputMenuViewModel from form and routing value providers
     /// </summary>

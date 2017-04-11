@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
 
-namespace NaftanRailway.WebUI.Infrastructure.Binders {
+namespace NaftanRailway.WebUI.Infrastructure.ModelBinders {
     public class InfoLineModelBinder :IModelBinder {
         public object BindModel(ControllerContext controllerContext,ModelBindingContext bindingContext) {
 

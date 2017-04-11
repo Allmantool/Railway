@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -403,6 +403,7 @@
     <Compile Include="Infrastructure\ExceptionHandling\TextHandler.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextLogger.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
+    <Compile Include="Infrastructure\TypeConversion\Demo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EmailFormViewModel.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
@@ -489,10 +490,9 @@
     </Compile>
     <Compile Include="HtmlHelpers\HtmlExtensions.cs" />
     <Compile Include="HtmlHelpers\PagingHelpers.cs" />
-    <Compile Include="Infrastructure\Binders\InfoLineModelBinder.cs" />
-    <Compile Include="Infrastructure\Binders\InputMenuModelBinder.cs" />
-    <Compile Include="Infrastructure\Binders\StorageTableModelBinder.cs" />
-    <Compile Include="Infrastructure\Binders\WagonBinding.cs" />
+    <Compile Include="Infrastructure\ModelBinders\InfoLineModelBinder.cs" />
+    <Compile Include="Infrastructure\ModelBinders\InputMenuModelBinder.cs" />
+    <Compile Include="Infrastructure\ModelBinders\StorageTableModelBinder.cs" />
     <Compile Include="Infrastructure\Filters\ExceptionFilter.cs" />
     <Compile Include="Infrastructure\Filters\FileDownloadCompleteFilter.cs" />
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
