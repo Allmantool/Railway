@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
@@ -397,6 +397,7 @@
     <Compile Include="Controllers\BaseContoller.cs" />
     <Compile Include="HtmlHelpers\NomenclatureHelpers.cs" />
     <Compile Include="Hubs\AdminHub.cs" />
+    <Compile Include="Hubs\HubActivator.cs" />
     <Compile Include="Hubs\SignalRBase.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />

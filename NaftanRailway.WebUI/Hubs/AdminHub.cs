@@ -13,6 +13,10 @@ namespace NaftanRailway.WebUI.Hubs {
         private static List<UserDTO> Users = new List<UserDTO>();
         private readonly IAuthorizationEngage _authLogic;
 
+        //public AdminHub() {
+
+        //}
+
         public AdminHub(IAuthorizationEngage authLogic) {
             _authLogic = authLogic;
         }
@@ -28,6 +32,9 @@ namespace NaftanRailway.WebUI.Hubs {
             };
 
             Clients.All.newMessage(msg);
+            //Clients.Caller.doWork();
+            //Clients.Others.doWork();
+            //Clients.Users("Rob").doWork();
         }
 
         // Подключение нового пользователя
@@ -37,7 +44,7 @@ namespace NaftanRailway.WebUI.Hubs {
             if (!Users.Any(x => x.ConnectionId == id)) {
                 Users.Add(new UserDTO {
                     ConnectionId = id,
-                    Name = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName
+                    Name = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName,
                 });
 
                 // Посылаем сообщение текущему пользователю

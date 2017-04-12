@@ -12,6 +12,9 @@ namespace NaftanRailway.WebUI.App_Start {
     using Ninject.Modules;
     using Infrastructure.DI;
     using BLL.Services.IoC;
+    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNet.SignalR.Hubs;
+    using Hubs;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -50,6 +53,7 @@ namespace NaftanRailway.WebUI.App_Start {
 
                 //In some strange reasons i didn't need set resolver for web api, in other case i got circle reference. Maybe this is because i install some web api nuget package
                 DependencyResolver.SetResolver(ninjectResolver); // MVC
+                GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel)); //SignalR
                 //GlobalConfiguration.Configuration.DependencyResolver = ninjectResolver; //Web api
                 return kernel;
             } catch {
@@ -63,15 +67,9 @@ namespace NaftanRailway.WebUI.App_Start {
         /// </summary>
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel) {
-            //DependencyResolver.SetResolver(new CustomNinjectDependencyResolver(kernel));
-            //kernel.Bind<IBussinesEngage>().To<BussinesEngage>();
-            //kernel.Bind<IRailwayModule>().To<RailwayModule>();
-            //kernel.Bind<INomenclatureModule>().To<NomenclatureModule>();
-            //kernel.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
-            //_kernel.Bind<ISessionStorage>().To<SessionStorage>();
+            GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel));
 
-            //kernel.Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",
-            //    new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
+            //kernel.Bind<IUserService>().To<UserService>().InSingletonScope();
         }
     }
 }

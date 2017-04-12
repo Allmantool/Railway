@@ -55,13 +55,15 @@ appAdmin.Engage = (function ($, ko, db, hub) {
     //signalR
     function addMessage(data) {
         self.messages.push(new appAdmin.Message(data));
-    };
+    }
 
-    function sendMessage(message) {
-        hub.server.send(message);
-
-        self.message("");
-    };
+    //press enter or button send
+    function sendMessage(ctx, ev) {
+        if (ev.type === 'click' || ev.which === 13) {
+            hub.server.send(self.message());
+            self.message("");
+        }
+    }
 
     //behavior
     function init(params) {
@@ -89,7 +91,7 @@ appAdmin.Engage = (function ($, ko, db, hub) {
 
         db.request(function (data) {
             self.adminPrincipal(new appAdmin.UserPrincipal(data));
-            self.activeGroup(self.adminPrincipal().groups[0])
+            self.activeGroup(self.adminPrincipal().groups[0]);
 
             //SignalR initialition
             hub.init(appAdmin.Engage);
@@ -97,7 +99,7 @@ appAdmin.Engage = (function ($, ko, db, hub) {
             //pagging
             //self.pagging(new appAdmin.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
         }, $merged);
-    };
+    }
 
     return {
         init: init,
@@ -110,7 +112,9 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         activeGroup: self.activeGroup,
         loadingState: self.loadingState,
         chatState: self.chatState,
-        messages: self.messages
+        messages: self.messages,
+        message: self.message,
+        idSignalRUser: hub.currConnId
     };
 })(jQuery, ko, appAdmin.DataContext, appAdmin.Hub);
 

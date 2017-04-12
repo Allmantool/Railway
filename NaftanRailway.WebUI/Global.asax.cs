@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using NaftanRailway.WebUI.Infrastructure.Binders;
+using NaftanRailway.WebUI.Infrastructure.ModelBinders;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.Services.Mapping;
 

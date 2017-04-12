@@ -10,4 +10,10 @@ appAdmin.Message = function (data) {
     var self = this;
 
     self = $.extend(true, self, ko.mapping.fromJS(data));
+
+    self.isOwn = function (id) {
+        var result = (self.User.ConnectionId() !== id);
+
+        return result;
+    };
 }
