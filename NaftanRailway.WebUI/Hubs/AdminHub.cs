@@ -10,12 +10,8 @@ using System.Threading.Tasks;
 namespace NaftanRailway.WebUI.Hubs {
     [HubName("adminHub")]
     public class AdminHub : Hub {
-        private static List<UserDTO> Users = new List<UserDTO>();
+        private static readonly List<UserDTO> Users = new List<UserDTO>();
         private readonly IAuthorizationEngage _authLogic;
-
-        //public AdminHub() {
-
-        //}
 
         public AdminHub(IAuthorizationEngage authLogic) {
             _authLogic = authLogic;
@@ -40,18 +36,19 @@ namespace NaftanRailway.WebUI.Hubs {
         // Подключение нового пользователя
         public override Task OnConnected() {
             var id = Context.ConnectionId;
+            var principalName = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName;
 
-            if (!Users.Any(x => x.ConnectionId == id)) {
+            if (Users.All(x => x.ConnectionId != id)) {
                 Users.Add(new UserDTO {
                     ConnectionId = id,
-                    Name = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName,
+                    Name = principalName
                 });
 
                 // Посылаем сообщение текущему пользователю
-                Clients.Caller.onConnected(id, Context.User.Identity.Name, Users);
+                Clients.Caller.onConnected(id, principalName, Users);
 
                 // Посылаем сообщение всем пользователям, кроме текущего
-                Clients.AllExcept(id).onNewUserConnected(id, Context.User.Identity.Name);
+                Clients.AllExcept(id).onNewUserConnected(id, principalName);
             }
 
             return base.OnConnected();

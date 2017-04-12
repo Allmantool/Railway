@@ -2,55 +2,54 @@
 var appAdmin = window.appAdmin || {};
 
 //wait init signalR
-//$(document).ready(function () {
 appAdmin.Hub = (function ($, ko) {
     var _vm = undefined, _principalName = '';
-    //var connnection = $.hubConnection();
+    //var connection = $.hubConnection();
     //var hub = connection.createHubProxy("adminHub")
-    var $self = $.connection.adminHub;
-    var $client = $self.client;
-    var $server = $self.server;
+    var $hub = $.connection.adminHub;
+    var $client = $hub.client;
+    var $server = $hub.server;
+
     var currConnId = ko.observable("");
-
-    $.connection.hub.logging = true;
-    //instantion connection
-    $.connection.hub.start()
-        .done(function () {
-            //$server.connect("I'm");
-            console.log('You have been connected, connection ID=' + $.connection.hub.id);
-        })
-        .fail(function () { console.log('Could not Connect!'); });
-
-    //self.client.on("newMessage", function (msg) {
-    //});
+    var countOnline = ko.observable(0);
 
     $client.newMessage = function (message) {
         _vm.addMessage(message);
     };
 
-    $client.onConnected = function (id, userName, Users) {
+    $client.onConnected = function (id, userName, users) {
+        countOnline(users.length);
         currConnId(id);
-        console.log('user connected (id:' + id + ' name: ' + _principalName + ')');
+        console.log(userName + ' connected (id: ' + id + '). Total count online users: ' + countOnline());
     };
 
     $client.onNewUserConnected = function (id, userName) {
-        console.log('new user connected (id:' + id + ' name: ' + _principalName + ')');
+        countOnline(countOnline() + 1);
+        console.log('new user connected (id:' + id + ' name: ' + userName + ')');
     };
 
-    $client.onUserDisconnected = function (id, name) {
-        console.log('user disconnected (id:' + id + ' name: ' + _principalName + ')');
+    $client.onUserDisconnected = function (id, userName) {
+        countOnline(countOnline() - 1);
+        console.log('new user disconnected (id:' + id + ' name: ' + userName + ')');
     };
 
-    //set realted view model
+    //set related view model
     function init(vm) {
         _vm = vm;
         _principalName = vm.adminPrincipal().displayName();
+
+        $.connection.hub.logging = true;
+
+        //instantiation connection
+        $.connection.hub.start()
+            .done(function () { console.log('You have been connected, connection ID=' + $.connection.hub.id); })
+            .fail(function () { console.log('Could not Connect!'); });
     }
 
     return {
         currConnId: currConnId,
+        countOnline: countOnline,
         server: $server,
         init: init
     };
 })(jQuery, ko);
-//});

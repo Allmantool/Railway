@@ -3,15 +3,14 @@ using Ninject;
 
 namespace NaftanRailway.WebUI.Hubs {
     public class HubActivator : IHubActivator {
-        private readonly IKernel container;
+        private readonly IKernel _container;
 
         public HubActivator(IKernel container) {
-            this.container = container;
+            _container = container;
         }
 
         public IHub Create(HubDescriptor descriptor) {
-            //var service = (IHub)DependencyResolver.Current.GetService(descriptor.HubType); 
-            return (IHub)container.GetService(descriptor.HubType);
+            return (IHub)_container.GetService(descriptor.HubType);
         }
     }
 }
