@@ -13,6 +13,7 @@
         font-size: 1.2em; /* Increase font size */
         color: white; /* White text color */
         border-radius: 5em 0 0 5em; /* Rounded corners on the top right and bottom right side */
+        z-index: 1000;
     }
 
         html > /**/ body #mySidenav a:hover {
@@ -56,20 +57,27 @@
             <a href="#" id="blog">Read Me</a>
         </div>
         <h2 data-bind="text: 'Текущий пользователь: ' + $root.adminPrincipal().displayName()" class="page-header text-center"></h2>
-        <div data-bind="if: !$root.loadingState()" class="col-lg-3">
+        <div class="col-lg-3">
             <h3>Группы:</h3>
-            <div data-bind="foreach: $root.adminPrincipal().groups" class="list-group small">
-                <a data-bind="text: name, attr: {'href': name()}, css: {'active': $data.name() === $root.activeGroup().name()}, click: $root.usersInGroup.bind($data)" class="list-group-item"></a>
-            </div>
+            <ul data-bind="visible: ($root.adminPrincipal() !== null && $root.adminPrincipal().groups.length > 0), foreach: $root.adminPrincipal().groups" class="list-group small" style="display:none;">
+                <li data-bind="css: {'active': $data.name() === $root.activeGroup().name()}" class="list-group-item">
+                    <span data-bind="text: $data.users.length" class="badge"></span>
+                    <span data-bind="text: name, attr: {'href': name()}, click: $root.usersInGroup.bind($data)"></span>
+                </li>
+            </ul>
         </div>
-        <div data-bind="if: !$root.loadingState()" class="col-lg-9">
-            <h3 data-bind="if: !$root.loadingState()" class="text-center">Другие участники выбранной группы: (20)</h3>
-            <div data-bind="css: {'overlayTable': $root.loadingState()}, foreach: $root.userPrincipals" class="col-lg-12" style="float: left; display: none;">
+        <div class="col-lg-9">
+            <h3 class="text-center">Другие участники выбранной группы: (20)</h3>
+            <!-- ko: if: !$root.loadingState() -->
+            <div data-bind="visible: !$root.loadingState(), css: {'overlayTable': $root.loadingState()}, foreach: $root.userPrincipals" class="col-lg-12" style="float: left; display: none;">
                 <div data-bind="text: 'Ф.И.О: '+ $data.fullName() + '; Имя в домене: ' + $data.principalName() + '; Почта: ' + $data.emailAddress() + '; Телефон: ' + $data.phone()" class="well well-sm"></div>
             </div>
+            <!-- /ko -->
         </div>
     </div>
 </div>
+
+
 
 @section Scripts {
     <!--[if lte IE 8]>

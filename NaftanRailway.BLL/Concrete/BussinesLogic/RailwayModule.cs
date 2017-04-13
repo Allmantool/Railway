@@ -422,10 +422,22 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             IEnumerable<OverviewCarriageDTO> result = new List<OverviewCarriageDTO>();
 
             //code of goods that not nessary to finded
-            var outSearch = new[] { /*"72550"*/ "" };
+            var outSearch = new[] { "" };
 
-            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x => x.time_oper >= supremePeriod && x.cod_oper == "01" && x.cod_grpl == "3494" && x.ves_gruz > 0 && !outSearch.Contains(x.cod_gruz)).OrderByDescending(x=>x.time_oper).ToList();
-            var estimatedAltCarriages = _engage.GetTable<v_02_podhod, DateTime?>(x => x.date_oper_v >= currentMonth && x.massa_t > 0 && !outSearch.Contains(x.kod_etsng)).OrderByDescending(x => x.date_oper_v).ToList();
+            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x =>
+                    x.time_oper >= supremePeriod &&
+                    x.cod_oper == "01" &&
+                    x.cod_grpl == "3494" &&
+                    x.ves_gruz > 0 &&
+                    !outSearch.Contains(x.cod_gruz) &&
+                    !x.cod_gruz.StartsWith("421")
+               ).OrderByDescending(x => x.time_oper).ToList();
+
+            var estimatedAltCarriages = _engage.GetTable<v_02_podhod, DateTime?>(x =>
+                    x.date_oper_v >= currentMonth &&
+                    !outSearch.Contains(x.kod_etsng) &&
+                    !x.kod_etsng.StartsWith("421")
+                ).OrderByDescending(x => x.date_oper_v).ToList();
 
             //return cargo name
             Func<string, string> cargoName = (cod) => {

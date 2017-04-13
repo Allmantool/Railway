@@ -39,7 +39,8 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                             Description = gr.Description,
                             Sam = gr.SamAccountName,
                             Sid = gr.Sid,
-                            Guid = gr.Guid ?? new Guid()
+                            Guid = gr.Guid ?? new Guid(),
+                            Users = GetMembers(gr.Name).ToList()
                         }).ToList()
                     };
             }
@@ -47,7 +48,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
             return user;
         }
 
-        public IEnumerable<ADUserDTO> GetMembers(string identity, bool isLocal = false) {
+        public IEnumerable<ADUserDTO> GetMembers(string identity, int limit = 0, bool isLocal = false) {
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
             var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
 
@@ -69,7 +70,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                     Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
                         FullName = up.Name,
                         EmailAddress = up.EmailAddress,
-                        IdEmp = up.EmployeeId != null ? int.Parse(up.EmployeeId) : 0,
+                        //IdEmp = up.EmployeeId != null ? int.Parse(up.EmployeeId) : 0,
                         Description = up.Description,
                         IsEnable = up.Enabled ?? false,
                         Phone = up.VoiceTelephoneNumber,
@@ -82,20 +83,20 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                         HomeDrive = up.HomeDrive,
                         DisplayName = up.DisplayName,
                         Sam = up.SamAccountName,
-                        Guid = up.Guid ?? new Guid(),
+                        //Guid = up.Guid ?? new Guid(),
                         Sid = up.Sid,
                         PrincipalName = up.UserPrincipalName,
-                        Groups = up.GetGroups().Select(gr => new ADGroupDTO {
-                            Name = gr.Name,
-                            Description = gr.Description,
-                            Sam = gr.SamAccountName,
-                            Sid = gr.Sid,
-                            Guid = gr.Guid ?? new Guid()
-                        }).ToList()
-                    }).Take(20)
-                }).ToList();
+                        //Groups = up.GetGroups().Select(gr => new ADGroupDTO {
+                        //    Name = gr.Name,
+                        //    Description = gr.Description,
+                        //    Sam = gr.SamAccountName,
+                        //    Sid = gr.Sid,
+                        //    Guid = gr.Guid ?? new Guid()
+                        //}).ToList()
+                    })
+                });
 
-                return group.FirstOrDefault().Users.ToList();
+                return limit == 0 ? group.FirstOrDefault().Users.ToList() : group.FirstOrDefault().Users.ToList().Take(limit);
             }
         }
 
