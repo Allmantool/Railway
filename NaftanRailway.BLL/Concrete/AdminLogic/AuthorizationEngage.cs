@@ -9,9 +9,12 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
     public class AuthorizationEngage : IAuthorizationEngage {
         public ADUserDTO AdminPrincipal(string identity, bool isLocal = false) {
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+            var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+            var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
+
             ADUserDTO user = new ADUserDTO() { Name = "Anonymous", Description = "Not defy" };
 
-            using (var ctx = new PrincipalContext(ctxType)) {
+            using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate)) {
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
                 if (userPrincipal != null)
@@ -40,7 +43,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                             Sam = gr.SamAccountName,
                             Sid = gr.Sid,
                             Guid = gr.Guid ?? new Guid(),
-                            Users = GetMembers(gr.Name).ToList()
+                            //Users = GetMembers(gr.Name, 50).ToList()
                         }).ToList()
                     };
             }
@@ -51,8 +54,9 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
         public IEnumerable<ADUserDTO> GetMembers(string identity, int limit = 0, bool isLocal = false) {
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
             var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+            var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
 
-            using (var ctx = new PrincipalContext(ctxType, hostDomain, null, ContextOptions.Negotiate)) {
+            using (var ctx = new PrincipalContext(ctxType/*, hostDomain, container, ContextOptions.Negotiate*/)) {
                 // create your principal searcher passing in the QBE principal
                 PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = identity } };
 
@@ -62,12 +66,12 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                     Sam = x.SamAccountName,
                     Guid = x.Guid ?? new Guid(),
                     Sid = x.Sid,
-                    Users = ((GroupPrincipal)x).Members.
-                    Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
-                                us.Context.Name == hostDomain &&
-                                us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
-                                us.Context.ConnectedServer.Contains(hostDomain)).
-                    Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                    Users = ((GroupPrincipal)x).Members.OfType<UserPrincipal>().
+                    //Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
+                                //us.Context.Name == hostDomain &&
+                                //us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
+                                //us.Context.ConnectedServer.Contains(hostDomain)).
+                    Select(up => new ADUserDTO {
                         FullName = up.Name,
                         EmailAddress = up.EmailAddress,
                         //IdEmp = up.EmployeeId != null ? int.Parse(up.EmployeeId) : 0,

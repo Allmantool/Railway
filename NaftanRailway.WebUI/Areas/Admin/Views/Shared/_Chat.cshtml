@@ -23,7 +23,7 @@
                                 </a>
                             <li class="divider"></li>
                             <li>
-                                <a href="http://www.jquery2dotnet.com">
+                                <a href="#">
                                     <span class="glyphicon glyphicon-off"></span>
                                     <span data-bind="click: $root.chatState.bind(null,false)">Отключить</span>
                                 </a>
@@ -35,12 +35,12 @@
                     <ul data-bind="foreach: $root.messages" class="chat">
                         <li data-bind="css: 'clearfix ' + $data.isOwn($root.idSignalRUser()) ? 'left' : 'right'">
                             <span data-bind="css: 'chat-img ' + $data.isOwn($root.idSignalRUser()) ? 'pull-left' : 'pull-right'">
-                                <img data-bind="attr: {src: $data.isOwn($root.idSignalRUser()) ? 'http://placehold.it/50/55C1E7/fff&amp;text=U' : 'http://placehold.it/50/FA6F57/fff&amp;text=ME'}" alt="User Avatar" class="img-circle">
+                                <img data-bind="attr: {src: $data.isOwn($root.idSignalRUser()) ? '@Url.Content("~/Content/Images/U.png")' : '@Url.Content("~/Content/Images/Me.png")'}" alt="User Avatar" class="img-circle">
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
                                     <small data-bind="css:  'text-muted ' + $data.isOwn($root.idSignalRUser()) ? 'pull-right' : 'pull-left'">
-                                        <span class="glyphicon glyphicon-time"></span><span data-bind="text: '12 mins ago'"></span>
+                                        <span class="glyphicon glyphicon-time"></span><span data-bind="text: $data.timeAgo()"></span>
                                     </small>
                                     <strong data-bind="text: $data.User.Name()" class="primary-font"></strong>
                                 </div>

@@ -450,9 +450,11 @@
     <Content Include="Content\images\256x256.png" />
     <Content Include="Content\images\500-Internal-Server-Error-Design-Inspiration.gif" />
     <Content Include="Content\images\loadingArrow.gif" />
+    <Content Include="Content\images\Me.png" />
     <Content Include="Content\images\notComplete.png" />
     <Content Include="Content\images\seo-chain-link-icon.png" />
     <Content Include="Content\images\toTop.png" />
+    <Content Include="Content\images\U.png" />
     <Content Include="Content\images\ui-bg_glass_45_0078ae_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_55_f8da4e_1x400.png" />
     <Content Include="Content\images\ui-bg_glass_75_79c9ec_1x400.png" />

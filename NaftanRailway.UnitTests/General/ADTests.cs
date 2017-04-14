@@ -9,6 +9,10 @@ using System.Net;
 using System.Net.Mail;
 
 namespace NaftanRailway.UnitTests.General {
+    /// <summary>
+    /// Troubleshoot 1355 doesn't get access to domain.
+    /// Can't visit doamins not trusting to you domain
+    /// </summary>
     [TestClass]
     public class ADTests {
         [TestMethod]
@@ -22,7 +26,7 @@ namespace NaftanRailway.UnitTests.General {
 
                 for (int i = 0; i < 15; i++) {
                     // create your domain context
-                    IEnumerable<ADUserDTO> users;
+                    //IEnumerable<ADUserDTO> users;
                     PrincipalContext ctx = null;
                     using (ctx = new PrincipalContext(ctxType, hostDomain)) {
                         // define a "query-by-example" principal - here, we search for a GroupPrincipal
@@ -117,12 +121,16 @@ namespace NaftanRailway.UnitTests.General {
         }
 
         [TestMethod]
-        public void AdminPrincipal(string identity = @"lan/cpn", bool isLocal = false) {
+        public void AdminPrincipal() {
+            var isLocal = false;
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+            var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
+            var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+
             ADUserDTO user = new ADUserDTO() { Name = "Anonymous", Description = "Not defy" };
 
-            using (var ctx = new PrincipalContext(ctxType)) {
-                var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
+            using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate)) {
+                var userPrincipal = UserPrincipal.FindByIdentity(ctx, @"lan/cpn");
 
                 if (userPrincipal != null)
                     user = new ADUserDTO {
@@ -162,27 +170,28 @@ namespace NaftanRailway.UnitTests.General {
         public IEnumerable<ADUserDTO> GetMembers(string identity, bool isLocal = false) {
             var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
             var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+            var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
 
-            using (var ctx = new PrincipalContext(ctxType, hostDomain, null, ContextOptions.Negotiate)) {
+            using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate)) {
                 // create your principal searcher passing in the QBE principal
                 PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = identity } };
 
-                var group = srchGroups.FindAll().Select(gr => (GroupPrincipal)gr).Select(x => new ADGroupDTO {
+                var group = srchGroups.FindAll().OfType<GroupPrincipal>().Select(x => new ADGroupDTO {
                     Name = x.Name,
                     Description = x.Description,
                     Sam = x.SamAccountName,
                     Guid = x.Guid ?? new Guid(),
                     Sid = x.Sid,
-                    Users = ((GroupPrincipal)x).Members.
-                      Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
-                                  us.Context.Name == hostDomain &&
-                                  us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
-                                  us.Context.ConnectedServer.Contains(hostDomain)).
-                      Select(user => (UserPrincipal)user)
-                      .Select(up => new ADUserDTO {
+                    Users = x.Members.OfType<UserPrincipal>().
+                      //Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
+                      //us.Context.Name == hostDomain &&
+                      //us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") //&&
+                      //us.Context.ConnectedServer.Contains(hostDomain)
+                      //).
+                      Select(up => new ADUserDTO {
                           FullName = up.Name,
                           EmailAddress = up.EmailAddress,
-                          IdEmp = up.EmployeeId != null ? int.Parse(up.EmployeeId) : 0,
+                          //IdEmp = up.EmployeeId != null ? int.Parse(up.EmployeeId) : 0,
                           Description = up.Description,
                           IsEnable = up.Enabled ?? false,
                           Phone = up.VoiceTelephoneNumber,
@@ -195,7 +204,7 @@ namespace NaftanRailway.UnitTests.General {
                           HomeDrive = up.HomeDrive,
                           DisplayName = up.DisplayName,
                           Sam = up.SamAccountName,
-                          Guid = up.Guid ?? new Guid(),
+                          //Guid = up.Guid ?? new Guid(),
                           Sid = up.Sid,
                           PrincipalName = up.UserPrincipalName,
                           //Groups = up.GetGroups().Select(gr => new ADGroupDTO {
@@ -205,7 +214,7 @@ namespace NaftanRailway.UnitTests.General {
                           //    Sid = gr.Sid,
                           //    Guid = gr.Guid ?? new Guid()
                           //}).ToList()
-                      }).Take(20)
+                      })
                 }).ToList();
 
                 return group.FirstOrDefault().Users.ToList();
@@ -220,45 +229,56 @@ namespace NaftanRailway.UnitTests.General {
             var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
             IList<ADGroupDTO> general = new List<ADGroupDTO>();
             IList<string> listOfGroups = new[] {
-                "*Sharepoint*"
-                //"Domain Users",
-                //"Сбыт_разработчики",
-                //"Internet_Power_Users", 
-                //"Internet_Users",
-                //"Программисты ИВЦ",
-                //"REAL_Users",
-                //"Сбыт_операторы",
-                //"TS Clients Polymir",
-                //"naftania_users",
-                //"Internet_Stats_IVC",
-                //"экономист (Д 855)",
-                //"CZL_Client_Users",
-                //"ARME_Polz",
-                //"ORC_Admins",
-                //"ARM_EnergoRes_RWAccess",
-                //"Print_IVC-28-M712",
-                //"Directum_Users",
-                //"Rail_Developers",
-                //"OU_Pro-Department_Info_ROaccess"
+                //"*Sharepoint*"
+                "Domain Users",
+                "Сбыт_разработчики",
+                "Internet_Power_Users",
+                "Internet_Users",
+                "Программисты ИВЦ",
+                "REAL_Users",
+                "Сбыт_операторы",
+                "TS Clients Polymir",
+                "naftania_users",
+                "Internet_Stats_IVC",
+                "экономист (Д 855)",
+                "CZL_Client_Users",
+                "ARME_Polz",
+                "ORC_Admins",
+                "ARM_EnergoRes_RWAccess",
+                "Print_IVC-28-M712",
+                "Directum_Users",
+                "Rail_Developers",
+                "OU_Pro-Department_Info_ROaccess"
             };
 
-            using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate)) {
+            using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate/**/)) {
                 // create your principal searcher passing in the QBE principal
                 foreach (var item in listOfGroups) {
+                    //var fGroup = GroupPrincipal.FindByIdentity(ctx, item);
+                    //var srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = item } };
+
+                    //try {
+                    //    var usCount = fGroup.Members.OfType<UserPrincipal>().Where(x=>x.UserPrincipalName.Contains("Polymir")).Count();
+                    //    Debug.WriteLine(string.Format("Group {0}, Count user in group: {1}", fGroup.Name, usCount));
+                    //} catch (Exception ex) {
+                    //    Debug.WriteLine(string.Format("Group {0}, Exception: {1}", fGroup.Name, ex.Message));
+                    //}
+
                     PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = item } };
 
-                    var group = srchGroups.FindAll().Select(pr => (GroupPrincipal)pr).Select(gr => new ADGroupDTO {
+                    var group = srchGroups.FindAll().OfType<GroupPrincipal>().Select(gr => new ADGroupDTO {
                         Name = gr.Name,
                         Description = gr.Description,
                         Sam = gr.SamAccountName,
                         Guid = gr.Guid ?? new Guid(),
                         Sid = gr.Sid,
-                        Users = gr.Members.
-                        Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
-                                    us.Context.Name == hostDomain &&
-                                    us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") &&
-                                    us.Context.ConnectedServer.Contains(hostDomain))
-                        .Select(user => (UserPrincipal)user).Select(up => new ADUserDTO {
+                        Users = gr.GetMembers(false).OfType<UserPrincipal>().
+                        Where(us => us.UserPrincipalName == null ? false : us.UserPrincipalName.Contains("polymir") &&
+                                    us.Context.Name == hostDomain && us.Context.ConnectedServer.Contains("naftan") &&
+                                    us.DistinguishedName.Contains("DC=lan,DC=naftan,DC=by") &&
+                                    us.Context.ConnectedServer.Contains(hostDomain)
+                                    )
+                        .Select(up => new ADUserDTO {
                             FullName = up.Name,
                             EmailAddress = up.EmailAddress,
                             //IdEmp = up.EmployeeId == null ? 0 : int.Parse(up.EmployeeId),
@@ -287,10 +307,10 @@ namespace NaftanRailway.UnitTests.General {
                         })
                     });
 
-                    var filter = group.Where(x => x.Name.Contains("Readers"));
-                    var dto = filter.FirstOrDefault();
+                    //var filter = group.Where(x => x.Name.Contains("Readers"));
                     try {
-                        Debug.WriteLine(string.Format("Group {0}, Total count user in current group: {1}", dto.Name, dto.Users.Count()));
+                        var dto = group.FirstOrDefault();
+                        Debug.WriteLine(string.Format("Group {0}, Total count user in current group: {1}", dto.Name, dto.Users == null ? 0 : dto.Users.Count()));
                     } catch (Exception ex) {
                         Debug.WriteLine(string.Format("Group {0}, Exception: {1}", dto.Name, ex.Message));
                     }
@@ -382,6 +402,26 @@ namespace NaftanRailway.UnitTests.General {
             }
 
             Assert.AreEqual(true, true);
+        }
+
+        [TestMethod]
+        public void CheckValidationOnRemoteADDomain() {
+            var isLocal = false;
+            var ctxType = isLocal ? ContextType.Machine : ContextType.Domain;
+            var container = isLocal ? null : "DC=lan,DC=naftan,DC=by";
+            var hostDomain = isLocal ? "DESKTOP-LHO63TH" : "lan.naftan.by";
+
+            ADUserDTO user = new ADUserDTO() { Name = "Anonymous", Description = "Not defy" };
+            bool IsAuth = false;
+            try {
+                using (var ctx = new PrincipalContext(ContextType.Domain, hostDomain, null, ContextOptions.Negotiate)) {
+                    IsAuth = ctx.ValidateCredentials(@"cpn", "1111");
+                }
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+
+            Assert.AreEqual(true, IsAuth);
         }
     }
 }

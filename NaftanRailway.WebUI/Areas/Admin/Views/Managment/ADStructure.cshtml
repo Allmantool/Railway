@@ -67,10 +67,10 @@
             </ul>
         </div>
         <div class="col-lg-9">
-            <h3 class="text-center">Другие участники выбранной группы: (20)</h3>
+            <h3 class="text-center">Другие участники выбранной группы в домене:</h3>
             <!-- ko: if: !$root.loadingState() -->
             <div data-bind="visible: !$root.loadingState(), css: {'overlayTable': $root.loadingState()}, foreach: $root.userPrincipals" class="col-lg-12" style="float: left; display: none;">
-                <div data-bind="text: 'Ф.И.О: '+ $data.fullName() + '; Имя в домене: ' + $data.principalName() + '; Почта: ' + $data.emailAddress() + '; Телефон: ' + $data.phone()" class="well well-sm"></div>
+                <div data-bind="text: 'Ф.И.О: '+ $data.fullName() + '; Имя в домене: ' + $data.principalName() + '; Почта: ' + $data.emailAddress() + '; Телефон: ' + $data.phone()" class="well well-sm small"></div>
             </div>
             <!-- /ko -->
         </div>
