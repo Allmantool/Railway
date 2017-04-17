@@ -1,10 +1,10 @@
 ﻿<link rel="stylesheet" href="@Url.Content("~/Content/AdminCss/Chat.css")" />
-<div id="chat" data-bind="visible: $root.chatState()" class="container" style="display:none;">
+<div id="chat" data-bind="visible: $root.chatState()" class="container" style="display: none;">
     <div class="row">
         <div class="col-md-5">
             <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <span class="glyphicon glyphicon-comment"></span> Чат
+                <div data-bind="popover: {content: 'Пользователей онлайн: ' + $root.countOnline()}" class="panel-heading">
+                    <span class="glyphicon glyphicon-comment"></span><span> Чат</span>
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-chevron-down"></span>
@@ -31,20 +31,21 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div data-bind="chat: {data: $root.messages}" class="panel-body">
                     <ul data-bind="foreach: $root.messages" class="chat">
-                        <li data-bind="css: 'clearfix ' + $data.isOwn($root.idSignalRUser()) ? 'left' : 'right'">
-                            <span data-bind="css: 'chat-img ' + $data.isOwn($root.idSignalRUser()) ? 'pull-left' : 'pull-right'">
-                                <img data-bind="attr: {src: $data.isOwn($root.idSignalRUser()) ? '@Url.Content("~/Content/Images/U.png")' : '@Url.Content("~/Content/Images/Me.png")'}" alt="User Avatar" class="img-circle">
+                        <li data-bind="css: 'clearfix ' + ($data.isOwn($root.idSignalRUser()) ? 'left' : 'right')">
+                            <span data-bind="css: 'chat-img ' + ($data.isOwn($root.idSignalRUser()) ? 'pull-left' : 'pull-right')">
+                                <img data-bind="attr: {src: $data.isOwn($root.idSignalRUser()) ? '@Url.Content("~/Content/Images/Me.png")' : '@Url.Content("~/Content/Images/U.png")'}" alt="User Avatar" class="img-circle">
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <small data-bind="css:  'text-muted ' + $data.isOwn($root.idSignalRUser()) ? 'pull-right' : 'pull-left'">
+                                    <small data-bind="css:  'text-muted ' + ($data.isOwn($root.idSignalRUser()) ? 'pull-right' : 'pull-left')">
                                         <span class="glyphicon glyphicon-time"></span><span data-bind="text: $data.timeAgo()"></span>
                                     </small>
-                                    <strong data-bind="text: $data.User.Name()" class="primary-font"></strong>
+                                    <strong style="display:block;" data-bind="css: ($data.isOwn($root.idSignalRUser()) ? 'text-left' : 'text-right'), text: $data.User.Name()" class="primary-font"></strong>
                                 </div>
-                                <p data-bind="text: $data.MsgText()"></p>
+                                <p style="white-space: pre-wrap; word-wrap: break-word;"
+                                   data-bind="text: $data.MsgText(), css: ($data.isOwn($root.idSignalRUser()) ? 'text-left' : 'text-right')"></p>
                             </div>
                         </li>
                     </ul>

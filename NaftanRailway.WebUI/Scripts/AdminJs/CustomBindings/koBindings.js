@@ -13,6 +13,12 @@ appAdmin.CustBundings = (function ($, ko) {
 
     ko.bindingHandlers.popover = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            //Custom disposal logic
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                $(element).popover('destroy');
+            });
+        },
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var defaults = {
                 animation: true,
                 container: "body",
@@ -29,17 +35,8 @@ appAdmin.CustBundings = (function ($, ko) {
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
-            $(element).popover($merged);
-
-            //Custom disposal logic
-            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                $(element).popover('destroy');
-            });
-        },
-        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            // This will be called once when the binding is first applied to an element,
-            // and again whenever any observables/computed that are accessed change
-            // Update the DOM element based on the supplied values here.
+            var popover = $(element).popover($merged).data('bs.popover');
+            popover.options.content = $merged.content;
         }
     };
 
@@ -158,6 +155,25 @@ appAdmin.CustBundings = (function ($, ko) {
 
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+        }
+    };
+
+    ko.bindingHandlers.chat = {
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var $chat = $(element);
+
+            var defaults = {};
+            var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor().data));
+
+            if ($chat.children().length > 0) {
+
+                //last message
+                //var horisontalPoint = $chat.children().last().offset().top;
+
+                $chat.animate({
+                    scrollTop: $chat[0].scrollHeight
+                }, "slow");
+            }
         }
     };
 

@@ -306,10 +306,10 @@ namespace NaftanRailway.UnitTests.General {
                             //})
                         })
                     });
-
+                    var dto = group.FirstOrDefault();
                     //var filter = group.Where(x => x.Name.Contains("Readers"));
                     try {
-                        var dto = group.FirstOrDefault();
+                        
                         Debug.WriteLine(string.Format("Group {0}, Total count user in current group: {1}", dto.Name, dto.Users == null ? 0 : dto.Users.Count()));
                     } catch (Exception ex) {
                         Debug.WriteLine(string.Format("Group {0}, Exception: {1}", dto.Name, ex.Message));

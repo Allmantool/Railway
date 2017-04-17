@@ -59,7 +59,7 @@ appAdmin.Engage = (function ($, ko, db, hub) {
 
     //press enter or button send
     function sendMessage(ctx, ev) {
-        if (ev.type === 'click' || ev.which === 13) {
+        if ((ev.type === 'click' || ev.which === 13) && $.trim(self.message()).length > 0) {
             hub.server.send(self.message());
             self.message("");
         }
@@ -114,7 +114,8 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         chatState: self.chatState,
         messages: self.messages,
         message: self.message,
-        idSignalRUser: hub.currConnId
+        idSignalRUser: hub.currConnId,
+        countOnline: hub.countOnline
     };
 })(jQuery, ko, appAdmin.DataContext, appAdmin.Hub);
 

@@ -14,7 +14,7 @@ appAdmin.Message = function (data) {
 
 
     self.isOwn = function (id) {
-        var result = (self.User.ConnectionId() !== id);
+        var result = (self.User.ConnectionId() === id);
 
         return result;
     };
@@ -29,7 +29,7 @@ appAdmin.Message = function (data) {
     var _time = 0;
     //time ago update
     self._interval = setInterval(function () {
-        if (_time <= 100) {
+        if (_time <= 200) {
             self.currentTime(moment());
             console.log(self.timeAgo());
             _time++;
@@ -37,5 +37,5 @@ appAdmin.Message = function (data) {
         else {
             clearInterval(self._interval);
         }
-    }, 25000);
+    }, 20000);
 }
