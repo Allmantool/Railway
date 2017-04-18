@@ -12,13 +12,17 @@ appAdmin.Hub = (function ($, ko) {
 
     var currConnId = ko.observable("");
     var countOnline = ko.observable(0);
+    var isOnline = ko.observable(false);
 
     $client.newMessage = function (message) {
-        _vm.addMessage(message);
+        if (isOnline) {
+            _vm.addMessage(message);
+        }
     };
 
     $client.onConnected = function (id, userName, users) {
         countOnline(users.length);
+        isOnline(true);
         currConnId(id);
         console.log(userName + ' connected (id: ' + id + '). Total count online users: ' + countOnline());
     };
@@ -29,6 +33,7 @@ appAdmin.Hub = (function ($, ko) {
     };
 
     $client.onUserDisconnected = function (id, userName) {
+        isOnline(false);
         countOnline(countOnline() - 1);
         console.log('new user disconnected (id:' + id + ' name: ' + userName + ')');
     };
@@ -50,6 +55,7 @@ appAdmin.Hub = (function ($, ko) {
         currConnId: currConnId,
         countOnline: countOnline,
         server: $server,
-        init: init
+        init: init,
+        isOnline: isOnline,
     };
 })(jQuery, ko);

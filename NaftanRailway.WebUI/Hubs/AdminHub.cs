@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace NaftanRailway.WebUI.Hubs {
     [HubName("adminHub")]
+    [Authorize(RequireOutgoing = false)]
     public class AdminHub : Hub {
         private static readonly HashSet<UserDTO> Users = new HashSet<UserDTO>();
         private readonly IAuthorizationEngage _authLogic;
@@ -46,7 +47,7 @@ namespace NaftanRailway.WebUI.Hubs {
 
                 // Посылаем сообщение текущему пользователю
                 Clients.Caller.onConnected(id, principalName, Users);
-
+                 
                 // Посылаем сообщение всем пользователям, кроме текущего
                 Clients.AllExcept(id).onNewUserConnected(id, principalName);
             }

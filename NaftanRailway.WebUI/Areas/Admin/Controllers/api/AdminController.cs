@@ -2,6 +2,8 @@
 using System.Web.Http;
 using System.Web.Http.Description;
 using NaftanRailway.BLL.DTO.Admin;
+using Microsoft.AspNet.SignalR;
+using NaftanRailway.WebUI.Hubs;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
     [AllowAnonymous]

@@ -31,38 +31,60 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @Html.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll", new { data_bind = "click: $root.registrationScr.bind($root, null), attr: {'href':'" + Url.Action("Confirmed", "Scroll") + "/' + $root.currScr().srcKey()}" })
+                                        @Html.ActionLink(@"Регистрация перечня ОРЦ", "Confirmed", "Scroll",
+                                       new {
+                                           data_bind = "click: $root.registrationScr.bind($root, null), " +
+                                                       "attr: {'href':'" + Url.Action("Confirmed", "Scroll") + "/' + $root.currScr().srcKey()}"
+                                       })
                                     </li>
                                     <li>
-                                        @Html.ActionLink(@"Получить перечни", "AdmitScroll", "Scroll", new { data_bind = " click: $root.admitScr, attr: {'href':'" + Url.Action("AdmitScroll", "Scroll") + "'}" })
+                                        @Html.ActionLink(@"Получить перечни", "AdmitScroll", "Scroll",
+                                       new { data_bind = " click: $root.admitScr, attr: {'href':'" + Url.Action("AdmitScroll", "Scroll") + "'}" })
                                     </li>
                                     <li>
                                         @Html.ActionLink(@"Отчёт проверки перечня", "Reports", "Scroll",
-                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_Scroll_Compare_Normal" }) + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "click: $root.progressBar().simulationDownload, " +
+                                                            "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_Scroll_Compare_Normal" }) + "/' + $root.currScr().srcKey()}"
+                                            })
                                     </li>
                                     <li>
                                         @Html.ActionLink(@"Просмотр информации по перечню", "ScrollDetails", new { controller = "Scroll" },
-                                            new { data_bind = "click: $root.viewScrDetails.bind($root, null), attr: {'data-ajax': $root.currScr().Confirmed(),'href':'" + Url.Action("ScrollDetails", "Scroll") + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "click: $root.viewScrDetails.bind($root, null), " +
+                                                            "attr: {'data-ajax': $root.currScr().Confirmed(),'href':'" + Url.Action("ScrollDetails", "Scroll") + "/' + $root.currScr().srcKey()}"
+                                            })
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         @Html.ActionLink(@"Отчёт Анализ ЭСЧФ по перечню", "Reports", "Scroll",
-                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "KRT_Analys_ORC" }) + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "style: {'pointer-events': $root.currScr().P_TYPE() === 's' ? 'auto' : 'none', " +
+                                                                    "'opacity': $root.currScr().P_TYPE() === 's' ? '1' : '0.3'}, " +
+                                                             "click: $root.progressBar().simulationDownload, " +
+                                                             "attr: {'href':'" + Url.Action("Reports", "Scroll",
+                                                new { reportName = "KRT_Analys_ORC" }) + "/' + $root.currScr().srcKey()}"
+                                            })
                                     </li>
                                     <li>
                                         @Html.ActionLink(@"Отчёт для бухгалтерии", "Reports", "Scroll",
-                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_BookkeeperReport" }) + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "click: $root.progressBar().simulationDownload, " +
+                                            "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_BookkeeperReport" }) + "/' + $root.currScr().srcKey()}"
+                                            })
                                     </li>
                                     <li>
                                         @Html.ActionLink(@"Реестр электронного представления перечней", "Reports", "Scroll",
-                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_act_of_Reconciliation" }) + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "click: $root.progressBar().simulationDownload, " +
+                                            "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_act_of_Reconciliation" }) + "/' + $root.currScr().srcKey()}"
+                                            })
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         @Html.ActionLink(@"Таблица перечней", "Index", new { controller = "Scroll", page = 1 }, new { data_bind = "click: $root.containerRebind" })
                                     </li>
                                 </ul>
-
                             </li>
                             <li class="dropdown col-lg-2">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

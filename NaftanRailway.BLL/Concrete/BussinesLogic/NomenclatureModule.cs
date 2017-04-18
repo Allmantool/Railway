@@ -42,7 +42,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //apply filters(linqKit)
             if (filters != null) {
-                where = where.And(filters.Aggregate(PredicateBuilder.New<krt_Naftan_orc_sapod>().DefaultExpression,
+                where = where.And(filters.Aggregate(PredicateBuilder.New<krt_Naftan_orc_sapod>(true).DefaultExpression,
                              (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())))
                          .Expand();
             }

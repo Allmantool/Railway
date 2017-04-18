@@ -59,10 +59,13 @@ appAdmin.Engage = (function ($, ko, db, hub) {
 
     //press enter or button send
     function sendMessage(ctx, ev) {
-        if ((ev.type === 'click' || ev.which === 13) && $.trim(self.message()).length > 0) {
-            hub.server.send(self.message());
-            self.message("");
+        if (hub.isOnline) {
+            if ((ev.type === 'click' || ev.which === 13) && $.trim(self.message()).length > 0) {
+                hub.server.send(self.message());
+                self.message("");
+            }
         }
+        console.log('user Offline');
     }
 
     //behavior
@@ -115,7 +118,8 @@ appAdmin.Engage = (function ($, ko, db, hub) {
         messages: self.messages,
         message: self.message,
         idSignalRUser: hub.currConnId,
-        countOnline: hub.countOnline
+        countOnline: hub.countOnline,
+        isOnline: hub.isOnline
     };
 })(jQuery, ko, appAdmin.DataContext, appAdmin.Hub);
 
