@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
 using System;
 using System.Diagnostics;
+using System.Net;
 
 namespace NaftanRailway.WebUI.Controllers {
     [AllowAnonymous]
@@ -55,6 +56,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
                 using (var message = new MailMessage())
                 using (var smtp = new SmtpClient() { UseDefaultCredentials = true }) {
+                    //smtp.Credentials = new NetworkCredential("P.Chizhikov", "yourpassword");
                     message.To.Add(new MailAddress("P.Chizhikov@naftan.by"));  // replace with valid value
                     message.From = new MailAddress(CurrentADUser.EmailAddress);  // replace with valid value
                     message.Subject = "Proposal to add right";
