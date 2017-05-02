@@ -436,7 +436,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var estimatedAltCarriages = _engage.GetTable<v_02_podhod, DateTime?>(x =>
                     x.date_oper_v >= currentMonth &&
                     !outSearch.Contains(x.kod_etsng) &&
-                    !x.kod_etsng.StartsWith("421")
+                    !x.kod_etsng.StartsWith("421") &&
+                    x.kod_pol == "3494"
                 ).OrderByDescending(x => x.date_oper_v).ToList();
 
             //return cargo name
