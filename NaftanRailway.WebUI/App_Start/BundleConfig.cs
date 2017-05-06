@@ -124,7 +124,7 @@ namespace NaftanRailway.WebUI {
             #endregion
 
             //Set EnableOptimizations to false for debugging. For more information visit: http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = false;
+            BundleTable.EnableOptimizations = true;
             bundles.UseCdn = false;
         }
     }
