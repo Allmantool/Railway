@@ -50,11 +50,12 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendMail(EmailFormViewModel model) {
+
             if (ModelState.IsValid) {
                 var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
 
                 using (var message = new MailMessage())
-                using (var smtp = new SmtpClient() { UseDefaultCredentials = true }) {
+                using (var smtp = new SmtpClient() { UseDefaultCredentials = true  }) {
                     message.To.Add(new MailAddress("P.Chizhikov@naftan.by"));  // replace with valid value
                     message.From = new MailAddress(CurrentADUser.EmailAddress);  // replace with valid value
                     message.Subject = "Proposal to add right";
