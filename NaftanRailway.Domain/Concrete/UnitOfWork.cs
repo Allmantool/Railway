@@ -83,7 +83,7 @@ namespace NaftanRailway.Domain.Concrete {
                     ActiveContext.SaveChanges();
                     transaction.Commit();
                 } catch (DbUpdateConcurrencyException ex) {
-                    Console.WriteLine("Optimistic Concurrency exception occurred" + ex.Message);
+                    Console.WriteLine("Optimistic Concurrency exception occurred. Transaction will be rollbacked. Message: " + ex.Message);
                     transaction.Rollback();
 
                     throw new Exception("Error occurred in save method (Uow)");
