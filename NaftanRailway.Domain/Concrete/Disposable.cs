@@ -25,6 +25,8 @@ namespace NaftanRailway.Domain.Concrete {
         ///     necessity.
         /// </summary>
         ~Disposable() {
+            // Значение false указывает на то, что
+            // очистка была инициирована сборщиком мусора.
             Dispose(false);
         }
 
@@ -33,6 +35,9 @@ namespace NaftanRailway.Domain.Concrete {
                 if (!IsDisposed && disposing) DisposeCore();
 
                 IsDisposed = true;
+
+                // Подавление финализации.
+                GC.SuppressFinalize(this);
             }
         }
 
