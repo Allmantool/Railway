@@ -1,0 +1,85 @@
+﻿@using NaftanRailway.BLL.DTO.Security
+@using NaftanRailway.Domain.BusinessModels.AuthorizationLogic
+@model RegistrationViewModel
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    List<SelectListItem> roles = new List<SelectListItem>() {
+        new SelectListItem() {
+            Text = @"Администратор",Value = @"Admin",Selected = true
+        },
+        new SelectListItem() {
+            Text = @"Учётчик",Value = @"Registrar"
+        },
+        new SelectListItem() {
+            Text = @"Бухгалтер",Value = @"Accountant"
+        },
+    };
+}
+<div class="row">@Html.ValidationSummary(true)</div>
+<div class="panel-body col-md-3">
+    <p class="lead"><strong>Регистрация нового пользователя:</strong> </p>
+    @using (Html.BeginForm("Register","Account",FormMethod.Post,new {role = "form"})) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Role)
+            @Html.DropDownListFor(m => m.Role, roles, "Выберите роль пользователя:", new { @class = "form-control" })
+        </div>
+        <div class="col-md-offset-3">
+            <input type="submit" value="Зарегистрироваться" class="btn btn-primary" />
+        </div>
+    }
+</div>
+<div class="panel-body col-md-9">
+    <p class="lead text-center"><strong>Актуальные пользователи:</strong></p>
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed table-hover table-bordered">
+            <tr class="active">
+                <th class="text-center">Индификатор</th>
+                <th class="text-center">Имя пользователя</th>
+                <th class="text-center">Роль пользователя</th>
+                <th class="text-center">Почта</th>
+                <th class="text-center">Текущее состояния</th>
+                <th class="text-center">Действие</th>
+            </tr>
+            @if (Model != null && Model.UsersList != null) {
+                foreach (SecurityInfoLineDTO item in Model.UsersList) {
+                <tr>
+                    <th class="text-center">@item.UserId</th>
+                    <th class="text-center">@item.UserName</th>
+                    <th class="text-center">@item.RoleName</th>
+                    <th class="text-center text">@item.Email</th>
+                    @*<th class="text-center">@WebSecurity.IsAuthenticated</th>*@
+                    <th class="text-center">
+                        @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post)) {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("UserId", item.UserId)
+                            @Html.Hidden("returnUrl", Request.Url == null ? "" : Request.Url.PathAndQuery)
+
+                            @*if ((int)WebSecurity.CurrentUserId == item.UserId) {
+                            <input type="submit" class="btn btn-info btn-xs" value="Удалить" />
+                            } else {
+                            <input type="submit" class="btn btn-success btn-xs" value="Удалить" />
+                            }*@
+                        }
+                    </th>
+                </tr>
+                }
+            }
+        </table>
+    </div>
+</div>

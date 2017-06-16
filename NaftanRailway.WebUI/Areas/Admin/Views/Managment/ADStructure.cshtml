@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    /* Style the links inside the sidenav */
+    html > /**/ body #mySidenav a {
+        position: absolute; /* Position them relative to the browser window */
+        right: -3em; /* Position them outside of the screen */
+        transition: 0.3s; /* Add transition on hover */
+        padding: 1.5em; /* 15px padding */
+        width: 7em; /* Set a specific width */
+        text-decoration: none; /* Remove underline */
+        font-size: 1.2em; /* Increase font size */
+        color: white; /* White text color */
+        border-radius: 5em 0 0 5em; /* Rounded corners on the top right and bottom right side */
+        z-index: 1000;
+    }
+
+        html > /**/ body #mySidenav a:hover {
+            right: 0; /* On mouse-over, make the elements appear as they should */
+        }
+
+    html > /**/ body #about {
+        top: 15em;
+        background-color: #4CAF50;
+    }
+
+    html > /**/ body #blog {
+        top: 20em;
+        background-color: #2196F3; /* Blue */
+    }
+</style>
+<div class="container">
+    <div data-bind="if: $root.adminPrincipal !== null" class="row">
+        <table class="table table-condensed table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Ф.И.О:</th>
+                    <th>Имя в домене:</th>
+                    <th>Имя машины:</th>
+                    <th>Почта:</th>
+                    <th>Телефон:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-bind="with: $root.adminPrincipal">
+                    <td data-bind="text: displayName"></td>
+                    <td data-bind="text: principalName"></td>
+                    <td data-bind="text: sam"></td>
+                    <td data-bind="text: emailAddress"></td>
+                    <td data-bind="text: phone"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="mySidenav" class="sidenav">
+            <a data-bind="click: $root.chatState.bind(null,!$root.chatState())" href="#" id="about">Чат</a>
+            <a href="#" id="blog">Read Me</a>
+        </div>
+        <h2 data-bind="text: 'Текущий пользователь: ' + $root.adminPrincipal().displayName()" class="page-header text-center"></h2>
+        <div class="col-lg-3">
+            <h3>Группы:</h3>
+            <ul data-bind="visible: ($root.adminPrincipal() !== null && $root.adminPrincipal().groups.length > 0), foreach: $root.adminPrincipal().groups" class="list-group small" style="display:none;">
+                <li data-bind="css: {'active': $data.name() === $root.activeGroup().name()}" class="list-group-item">
+                    <span data-bind="text: $data.users.length" class="badge"></span>
+                    <span data-bind="text: name, attr: {'href': name()}, click: $root.usersInGroup.bind($data)"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-9">
+            <h3 class="text-center">Другие участники выбранной группы в домене:</h3>
+            <!-- ko: if: !$root.loadingState() -->
+            <div data-bind="visible: !$root.loadingState(), css: {'overlayTable': $root.loadingState()}, foreach: $root.userPrincipals" class="col-lg-12" style="float: left; display: none;">
+                <div data-bind="text: 'Ф.И.О: '+ $data.fullName() + '; Имя в домене: ' + $data.principalName() + '; Почта: ' + $data.emailAddress() + '; Телефон: ' + $data.phone()" class="well well-sm small"></div>
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!--[if lte IE 8]>
+        @Scripts.Render("~/bundles/Admin")
+    <![endif]-->
+    <!--[if !IE 8]><!-->
+    @Scripts.RenderFormat("<script src='{0}' defer></script>", "~/bundles/Admin")
+    <!--<![endif]-->
+}

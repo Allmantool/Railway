@@ -1,0 +1,18 @@
+﻿@*@model DispatchListViewModel*@
+@{
+    Layout = null;
+    //var i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
+}
+<div id="categories" class="col-lg-2 hidden-xs">
+    @{Html.RenderAction("MenuTypeOperations", "Navigation");}
+</div>
+
+<div class="col-xs-12 col-lg-10">
+    <!--body summary.cshtml -->
+    <div class="panel-group col-lg-12" id="AreaDispatchs">
+        @{Html.RenderPartial("Dispatchs");}
+    </div>
+
+    <!--pagging -->
+    @{Html.RenderPartial("ShPagging");}
+</div>

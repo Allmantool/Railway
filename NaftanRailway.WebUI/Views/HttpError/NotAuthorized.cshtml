@@ -1,0 +1,73 @@
+﻿@model EmailFormViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.HttpErrors.cshtml";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h2 class="text-center modal-title">
+            <span>Уважаемый @Model.FromName, Вы не зарегистрированы!</span>
+        </h2>
+    </div>
+    <div class="container-fluid">
+        @using (@Html.BeginForm("SendMail", "HttpError", FormMethod.Post, new { @class = "form-horizontal" })) {
+            @Html.AntiForgeryToken()
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="FromName" class="col-sm-4 control-label">Имя пользователя:</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.FromName, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(m => m.FromName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="col-sm-4 control-label">Описание:</label>
+                    <div class="col-sm-8">
+                        <textarea id="description" class="form-control" maxlength="150" rows="5" style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                <span>Цех 18 &mdash; учёт первичных документов по накладным</span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox">
+                                <span>Первичные документы ОРЦ г.Витебск</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 text-center" style="padding-top: 5em;">
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-send"></span> Отправить</button>
+            </div>
+        }
+        <div class="col-lg-12">
+            <hr />
+            <blockquote>
+                <h4>Для получения доступа к ресурсу(ам) необходимо отправить заявку, указав необходимые данные.</h4>
+                <footer>Отдел АСУ <cite title="Source Title">ОАО "НАФТАН" @DateTime.Today.Year &copy;</cite></footer>
+            </blockquote>
+            <hr />
+        </div>
+        <div class="navbar-fixed-bottom" style="padding-left: 1em;">
+            <address>
+                <strong>Контактная информация</strong><br>
+                ОАО "Нафтан" отд. АСУ &reg;<br>
+                <abbr title="Phone">Тел:</abbr> (59) 46-59
+            </address>
+
+            <address>
+                <strong>Почта</strong><br>
+                <a href="mailto:#">P.Chizhikov@naftan.by</a>
+            </address>
+        </div>
+    </div>
+</div>

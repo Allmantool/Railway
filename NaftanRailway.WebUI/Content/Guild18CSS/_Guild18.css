@@ -1,0 +1,29 @@
+﻿/********************Branding***********************************************/
+#Brand {
+    width: auto;
+    height: 3em;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    position: inherit;
+}
+/********************head align***********************************************/
+table > thead > tr > th,table > tbody > tr > td {
+    text-align: center;
+}
+table > tbody > tr > td {
+    vertical-align: middle !important;
+}
+#previewBody>tr>td>label {
+    margin-top:0.4em !important;
+}
+table > thead {
+    border-color: #337ab7;
+    color: #fff;
+    background-color: #337ab7 !important;
+    
+    border-top-color: #337ab7;
+    background-color: #fff;
+    border-bottom-color: #337ab7;
+}

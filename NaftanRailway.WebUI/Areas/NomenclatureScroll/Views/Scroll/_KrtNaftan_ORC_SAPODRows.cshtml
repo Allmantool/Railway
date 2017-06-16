@@ -1,0 +1,18 @@
+﻿<tr data-bind="click: $parent.setActive, clickBubble: $root.loadingState(),
+               css: {'danger': $data.compareMoney() && $data.keysbor() !== $parent.currChg().keysbor(),
+                     'info': $data.keysbor() === $parent.currChg().keysbor()}">
+    <td data-bind="text: $data.nkrt()" class="vert-align"></td>
+    <td data-bind="text: $data.tdoc(), popover:{content: $data.getDocType() , placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.vidsbr(), popover:{title: 'Наименование сбора:', content: $data.namesbr(), placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.gruname()" class="small"></td>
+    <td data-bind="text: moment($data.dt()).format('DD.MM.YYYY')" class="vert-align"></td>
+    <td data-bind="text: $data.date_raskr()" class="success vert-align"></td>
+    <td data-bind="text: $data.nomot(), popover:{title: 'Наименование документа САПОД:', content: $data.getDocType() + ': ' + $data.num_doc(), placement: 'top'}" class="vert-align"></td>
+    <td data-bind="text: $data.sm_no_nds(), popover:{title: 'Сумма без НДС САПОД:', content: $data.summa() === null ? null : $data.summa().toString(), placement: 'top'}" class="text-right vert-align"></td>
+    <td data-bind="text: $data.sm_nds(), popover:{title: 'Сумма НДС САПОД:', content: $data.nds() === null ? null : $data.nds().toString(), placement: 'top'}" class="text-right vert-align"></td>
+    <td data-bind="text: $data.sm()" class="text-right vert-align"></td>
+    <td data-bind="text: $data.stnds() + '%'" class="text-right vert-align"></td>
+    <td data-bind="text: $data.txt(), popover:{title: 'Комментарий САПОД:', content: $data.textm, placement: 'top'}" class="vert-align" style="white-space: nowrap"></td>
+    <td data-bind="text: $data.ORC_ID_ED(), popover:{title: 'Индификатор САПОД:', content: $data.ID_ED(), placement: 'top'}, style:{color: $data.ORC_ID_ED() !==  $data.ID_ED() ? 'red' : 'black'}" class="vert-align"></td>
+    <td data-bind="text: $data.kol()" class="text-center success vert-align"></td>
+</tr>

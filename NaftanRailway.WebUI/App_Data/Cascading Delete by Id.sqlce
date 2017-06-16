@@ -1,0 +1,29 @@
+--Overview all row
+SELECT *
+FROM UserProfile AS A LEFT JOIN Webpages_UsersInRoles as B
+	ON B.USerId = A.UserId LEFT JOIN webpages_Roles as C
+		ON C.RoleId = B.RoleId LEFT JOIN webpages_Membership as D
+			ON D.UserId = A.USerId LEFT JOIN webpages_OAuthMembership as E
+				ON E.UserId = A.UserId
+
+--Cascading deleting--
+--Delete row from webpages_OAuthMembership
+DELETE FROM webpages_OAuthMembership
+WHERE UserId = 17
+
+--Delete row from webpages_Membership
+DELETE FROM webpages_Membership
+WHERE UserId = 17
+
+--Delete row from Webpages_UsersInRoles
+DELETE FROM Webpages_UsersInRoles
+WHERE UserId = 17
+
+--Delete row from webpages_Roles
+DELETE FROM Webpages_Roles
+WHERE RoleId IN (SELECT RoleId FROM Webpages_UsersInRoles WHERE UserId = 17)
+
+--Delete row from Webpages_UserProfile
+DELETE FROM UserProfile
+WHERE UserId = 17
+		

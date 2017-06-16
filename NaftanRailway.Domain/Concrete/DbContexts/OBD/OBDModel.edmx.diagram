@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2fe02a5e47fa47cda8790f4f03c3813f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="OBDModelEntities.v_kart" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_nach" Width="1.5" PointX="3.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_o_v" Width="1.5" PointX="9.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_OPER_ASUS" Width="1.5" PointX="8.25" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_otpr" Width="1.5" PointX="7.375" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_pam" Width="1.5" PointX="13.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_pam_vag" Width="1.5" PointX="11.375" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_akt" Width="1.5" PointX="12.875" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_akt_vag" Width="1.5" PointX="11" PointY="6.75" IsExpanded="true" />
+        <AssociationConnector Association="OBDModelEntities.v_kartv_nach" />
+        <AssociationConnector Association="OBDModelEntities.v_otprv_o_v" />
+        <AssociationConnector Association="OBDModelEntities.v_aktv_akt_vag" />
+        <AssociationConnector Association="OBDModelEntities.v_pamv_pam_vag" />
+        <EntityTypeShape EntityType="OBDModelEntities.v_02_podhod" Width="1.5" PointX="6.375" PointY="0.625" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

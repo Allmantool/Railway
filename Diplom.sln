@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.Domain", "NaftanRailway.Domain\NaftanRailway.Domain.csproj", "{09A80099-87FE-485F-BBD4-5CD5C6770BF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.WebUI", "NaftanRailway.WebUI\NaftanRailway.WebUI.csproj", "{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.BLL", "NaftanRailway.BLL\NaftanRailway.BLL.csproj", "{96800E14-17B0-4478-9666-863335CDE44B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.UnitTests", "NaftanRailway.UnitTests\NaftanRailway.UnitTests.csproj", "{0E03420A-E69E-4158-974C-52A8EE85AC86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09A80099-87FE-485F-BBD4-5CD5C6770BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09A80099-87FE-485F-BBD4-5CD5C6770BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09A80099-87FE-485F-BBD4-5CD5C6770BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09A80099-87FE-485F-BBD4-5CD5C6770BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96800E14-17B0-4478-9666-863335CDE44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96800E14-17B0-4478-9666-863335CDE44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96800E14-17B0-4478-9666-863335CDE44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96800E14-17B0-4478-9666-863335CDE44B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
