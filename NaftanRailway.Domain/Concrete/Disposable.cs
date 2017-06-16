@@ -9,7 +9,7 @@ namespace NaftanRailway.Domain.Concrete {
         ///     Но она пригодна только в том случае, если this является ссылкой на закрытый объект.
         ///     В связи с возможными программными и концептуальными ошибками, к которым может привести конструкция lock (this),
         ///     применять ее больше не рекомендуется.
-        ///     Вместо нее лучше создать закрытый объект, чтобы затем заблокировать его.
+        ///     Вместо нее лучше создать закрытый объект (объект-заглушка), чтобы затем заблокировать его.
         /// </summary>
         private readonly object _disposeLock = new object();
 
@@ -42,7 +42,6 @@ namespace NaftanRailway.Domain.Concrete {
         }
 
         // Override this to dispose custom objects
-        protected virtual void DisposeCore() {
-        }
+        protected virtual void DisposeCore() { }
     }
 }
