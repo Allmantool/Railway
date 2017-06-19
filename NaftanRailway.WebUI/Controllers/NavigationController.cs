@@ -2,12 +2,13 @@
 using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
+using log4net;
 
 namespace NaftanRailway.WebUI.Controllers {
     public class NavigationController : BaseController {
         private readonly IRailwayModule _bussinesEngage;
 
-        public NavigationController(IRailwayModule bussinesEngage) {
+        public NavigationController(IRailwayModule bussinesEngage, ILog logger) : base(logger) {
             _bussinesEngage = bussinesEngage;
         }
 

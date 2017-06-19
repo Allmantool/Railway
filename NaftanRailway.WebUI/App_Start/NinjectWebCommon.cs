@@ -15,6 +15,7 @@ namespace NaftanRailway.WebUI.App_Start {
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Hubs;
     using Hubs;
+    using log4net;
 
     public static class NinjectWebCommon {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -70,6 +71,7 @@ namespace NaftanRailway.WebUI.App_Start {
             GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel));
 
             //kernel.Bind<IUserService>().To<UserService>().InSingletonScope();
+            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType.FullName));
         }
     }
 }

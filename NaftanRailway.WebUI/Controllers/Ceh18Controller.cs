@@ -6,6 +6,7 @@ using NaftanRailway.BLL.Services;
 using NaftanRailway.WebUI.ViewModels;
 using NaftanRailway.BLL.DTO.Guild18;
 using NaftanRailway.WebUI.Infrastructure.Filters;
+using log4net;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize(Roles = "LAN\\cpn, cpn", Users = "LAN\\cpn, cpn,Чижиков П.Н.")]
@@ -16,7 +17,7 @@ namespace NaftanRailway.WebUI.Controllers {
     public class Ceh18Controller : BaseController {
         private readonly IRailwayModule _bussinesEngage;
 
-        public Ceh18Controller(IRailwayModule bussinesEngage) {
+        public Ceh18Controller(IRailwayModule bussinesEngage, ILog logger) : base(logger) {
             _bussinesEngage = bussinesEngage;
         }
 

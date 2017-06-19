@@ -1,4 +1,5 @@
-﻿using NaftanRailway.BLL.DTO.Admin;
+﻿using log4net;
+using NaftanRailway.BLL.DTO.Admin;
 using System;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace NaftanRailway.WebUI.Controllers {
     /// </summary>
     //[AllowAnonymous]
     public abstract class BaseController : Controller {
+        public static ILog Log { get; set; }
+        //ILog log = LogManager.GetLogger(typeof(BaseController));
         /// <summary>
         /// current AD user
         /// </summary>
@@ -58,7 +61,12 @@ namespace NaftanRailway.WebUI.Controllers {
             get { return GetBrowserInfo(); }
         }
 
-        public BaseController() { }
+        public BaseController(ILog logger) {
+            Log = logger;
+        }
+        //public BaseController() {
+
+        //}
 
         //Summarize information about user and environment
         private string GetBrowserInfo() {

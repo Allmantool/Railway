@@ -4,10 +4,14 @@ using System.Web.Mvc;
 using NaftanRailway.WebUI.ViewModels;
 using System;
 using System.Diagnostics;
+using log4net;
 
 namespace NaftanRailway.WebUI.Controllers {
     [AllowAnonymous]
     public class HttpErrorController : BaseController {
+        public HttpErrorController(ILog logger) : base(logger) {
+        }
+
         public ActionResult NotFound() {
             //throw new HttpException(404, "Not found");
             //var modules = HttpContext.ApplicationInstance.Modules;

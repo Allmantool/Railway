@@ -16,13 +16,14 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 using System.Web;
 using NaftanRailway.BLL.DTO.General;
 using System.Text;
+using log4net;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
     [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
-        public ScrollController(INomenclatureModule bussinesEngage) {
+        public ScrollController(INomenclatureModule bussinesEngage, ILog logger) : base(logger) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -223,6 +224,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return File(binaryData, @"application/vnd.ms-excel");
             } catch (Exception exc) {
+                Log.Debug(string.Format(@"Ошибка при получении очтёта в отчёте {0}", reportName));
                 TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
 
                 byte[] binaryData = Encoding.ASCII.GetBytes(exc.Message);

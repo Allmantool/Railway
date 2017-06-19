@@ -113,7 +113,17 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         @Html.ActionLink(@"Детализация ГУ-12", "Reports", "Scroll",
-                                            new { data_bind = "click: $root.progressBar().simulationDownload, attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = "krt_Naftan_Mesplan" }) + "/' + $root.currScr().srcKey()}" })
+                                            new {
+                                                data_bind = "click: $root.progressBar().simulationDownload, " +
+                                                            "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = @"krt_Naftan_Mesplan" }) + "/' + $root.currScr().srcKey()}"
+                                            })
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink(@"Расшифровка сбора по коду 099", "Reports", "Scroll",
+                                           new {
+                                               data_bind = "click: $root.progressBar().simulationDownload, " +
+                                                           "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = @"krt_Naftan_Gu12" }) + "/' + $root.currScr().srcKey()}"
+                                           })
                                     </li>
                                 </ul>
                             </li>

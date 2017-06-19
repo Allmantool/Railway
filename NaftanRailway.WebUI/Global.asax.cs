@@ -7,6 +7,7 @@ using System.Web.Routing;
 using NaftanRailway.WebUI.Infrastructure.ModelBinders;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.Services.Mapping;
+using System.IO;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
@@ -53,6 +54,9 @@ namespace NaftanRailway.WebUI {
 
             //Configure AutoMapper
             AutoMapperBLLConfiguration.Configure();
+
+            //https://github.com/doceandyou/Log4Net
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
 
             /* Initialize simpleMembership
             * Install-Package Microsoft.AspNet.WebHelpers

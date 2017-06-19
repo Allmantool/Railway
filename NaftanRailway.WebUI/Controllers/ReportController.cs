@@ -6,10 +6,14 @@ using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class ReportController : BaseController {
+        public ReportController(ILog logger) : base(logger) {
+        }
+
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing culture prop don't help)
         /// problem on iis culture and  SSRS
