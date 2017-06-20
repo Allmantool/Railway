@@ -2,7 +2,11 @@
 using NaftanRailway.BLL.DTO.Admin;
 using System;
 using System.DirectoryServices.AccountManagement;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
+using System.Text;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace NaftanRailway.WebUI.Controllers {
@@ -16,8 +20,9 @@ namespace NaftanRailway.WebUI.Controllers {
     /// </summary>
     //[AllowAnonymous]
     public abstract class BaseController : Controller {
-        public static ILog Log { get; set; }
-        //ILog log = LogManager.GetLogger(typeof(BaseController));
+        private readonly object _threadLock = new object();
+        public static ILog Log { get; private set; }
+
         /// <summary>
         /// current AD user
         /// </summary>
@@ -64,9 +69,6 @@ namespace NaftanRailway.WebUI.Controllers {
         public BaseController(ILog logger) {
             Log = logger;
         }
-        //public BaseController() {
-
-        //}
 
         //Summarize information about user and environment
         private string GetBrowserInfo() {
@@ -97,6 +99,49 @@ namespace NaftanRailway.WebUI.Controllers {
             );
 
             return result;
+        }
+
+        //return log file
+        public virtual FileContentResult GetLog() {
+            var txt = String.Empty;
+
+            var serverPath = Server.MapPath("~/") ?? HostingEnvironment.ApplicationPhysicalPath;
+            var logpath = Path.Combine(serverPath, @"logs\log.txt");
+
+            try {
+                lock (_threadLock) {
+                    //CreateDirectory create all needed subfolders
+                    if (!System.IO.File.Exists(logpath)) {
+                        Directory.CreateDirectory(Path.Combine(serverPath, @"logs\"));
+                        using (var stream = System.IO.File.Create(logpath)) {
+                            stream.Close();
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(logpath, FileMode.Open, FileAccess.Read))
+                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8)) {
+                        txt = streamReader.ReadToEnd();
+                    }
+                }
+            } catch (Exception ex) {
+                txt = String.Format("Возникло исключение: {3}{0}{3}Server.MapPath(~/): \"{1}\"{3}HostingEnvironment.ApplicationPhysicalPath: \"{2}\"{3}",
+                    ex.Message, Server.MapPath("~/"),
+                    HostingEnvironment.ApplicationPhysicalPath,
+                    Environment.NewLine
+                );
+
+                Log.Debug(ex.Message);
+            }
+
+            var cd = new ContentDisposition {
+                FileName = String.Format("Лог_{0}.txt", DateTime.Now),
+                // always prompt the user for downloading, set to true if you want the browser to try to show the file inline
+                Inline = false,
+            };
+
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            return File(Encoding.UTF8.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
         }
     }
 }

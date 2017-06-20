@@ -15,11 +15,11 @@ using System.Linq.Expressions;
 using NaftanRailway.WebUI.Infrastructure.Filters;
 using System.Web;
 using NaftanRailway.BLL.DTO.General;
-using System.Text;
 using log4net;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
-    [AuthorizeAD(Groups = "Rail_Developers, Rail_Users")]
+    //[AllowAnonymous]
+    [AuthorizeAD(Groups = "Rail_Developers, Rail_Users"/*, Users = @"lan\cpn"*/)]
     [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
@@ -210,7 +210,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             //link to SSRS buil-in repors (default for integer)
             if (numberScroll == 0 || reportYear == 0) {
-                return View("Reports", (object)string.Format(@"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}", serverName, folderName, reportName, @"rs:Command=Render"));
+                return View("Reports", (object)string.Format(
+                    @"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
+                    serverName, folderName, reportName,
+                    @"rs:Command=Render")
+                );
             }
 
             //get report with parameters
@@ -224,12 +228,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return File(binaryData, @"application/vnd.ms-excel");
             } catch (Exception exc) {
-                Log.Debug(string.Format(@"Ошибка при получении очтёта в отчёте {0}", reportName));
-                TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
-
-                byte[] binaryData = Encoding.ASCII.GetBytes(exc.Message);
-                //Empbty file
-                return File(binaryData, @"application/vnd.ms-excel");
+                Log.DebugFormat(@"Ошибка при получении отчёта {0}. Oшибка: {1}", reportName, exc.Message);
+                //TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
+                
+                //it returns log txt file with error description
+                return GetLog();
             }
         }
 

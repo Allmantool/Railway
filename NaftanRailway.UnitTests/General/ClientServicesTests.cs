@@ -6,6 +6,8 @@ using System.Net.Mail;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Linq;
+using System.IO;
+using System.Text;
 
 namespace NaftanRailway.UnitTests.General {
     [TestClass]
@@ -145,6 +147,30 @@ namespace NaftanRailway.UnitTests.General {
             }
 
             Assert.IsTrue(1 == 1);
+        }
+
+        [TestMethod]
+        public void CheckLogPath() {
+            var txt = string.Empty;
+            var logpath = Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\log.txt");
+
+            if (!File.Exists(logpath)) {
+                Directory.CreateDirectory(Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\"));
+                File.Create(logpath).Close();
+            }
+
+            try {
+                using (var fileStream = new FileStream(logpath, FileMode.Open, FileAccess.Read))
+                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8)) {
+                    txt = streamReader.ReadToEnd();
+                }
+            } catch (Exception) {
+
+                Assert.IsTrue(true);
+            }
+
+
+            Assert.IsTrue(true);
         }
     }
 }

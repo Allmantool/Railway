@@ -289,14 +289,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
 
             //byte output
-            var result = new byte[] { };
-
-            //try {
-                result = client.DownloadData(urlReportString);
-            //} catch (Exception ex) {
-
-
-            //}
+            var result = client.DownloadData(urlReportString);
 
             return result;
         }

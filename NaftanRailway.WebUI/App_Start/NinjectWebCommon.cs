@@ -49,7 +49,7 @@ namespace NaftanRailway.WebUI.App_Start {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                //RegisterServices(kernel);
+                RegisterServices(kernel);
                 var ninjectResolver = new NinjectDependencyResolver(kernel);
 
                 //In some strange reasons i didn't need set resolver for web api, in other case i got circle reference. Maybe this is because i install some web api nuget package
@@ -70,8 +70,8 @@ namespace NaftanRailway.WebUI.App_Start {
         private static void RegisterServices(IKernel kernel) {
             GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(kernel));
 
-            //kernel.Bind<IUserService>().To<UserService>().InSingletonScope();
-            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType.FullName));
+            //log4Net
+            kernel.Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
         }
     }
 }
