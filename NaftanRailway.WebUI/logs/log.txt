@@ -1,0 +1,7 @@
+DEBUG 2017-06-21 10:14:34,251 144391ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.
+DEBUG 2017-06-21 10:32:26,670 62093ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.
+DEBUG 2017-06-21 10:33:09,964 105386ms ScrollController       GetLog             - Процесс не может получить доступ к файлу "C:\Git\Railway\NaftanRailway.WebUI\logs\log.txt", так как этот файл используется другим процессом.
+DEBUG 2017-06-21 10:33:27,870 123293ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.
+DEBUG 2017-06-21 10:35:25,113 34686ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.
+DEBUG 2017-06-21 10:39:09,858 106582ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.
+DEBUG 2017-06-21 10:45:07,399 110166ms ScrollController       Reports            - Ошибка при получении отчёта krt_Naftan_Gu12. Oшибка: Входная строка имела неверный формат.

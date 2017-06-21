@@ -103,8 +103,10 @@ namespace NaftanRailway.WebUI.Controllers {
 
         //return log file
         public virtual FileContentResult GetLog() {
-            var txt = String.Empty;
+            Encoding utf8 = Encoding.GetEncoding("UTF-8");
+            Encoding win1251 = Encoding.GetEncoding("windows-1251");
 
+            var txt = String.Empty;
             var serverPath = Server.MapPath("~/") ?? HostingEnvironment.ApplicationPhysicalPath;
             var logpath = Path.Combine(serverPath, @"logs\log.txt");
 
@@ -119,7 +121,7 @@ namespace NaftanRailway.WebUI.Controllers {
                     }
 
                     using (var fileStream = new FileStream(logpath, FileMode.Open, FileAccess.Read))
-                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8)) {
+                    using (var streamReader = new StreamReader(fileStream, win1251)) {
                         txt = streamReader.ReadToEnd();
                     }
                 }
@@ -141,7 +143,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             Response.AppendHeader("Content-Disposition", cd.ToString());
 
-            return File(Encoding.UTF8.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
+            return File(win1251.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
         }
     }
 }

@@ -228,8 +228,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
                 return File(binaryData, @"application/vnd.ms-excel");
             } catch (Exception exc) {
-                Log.DebugFormat(@"Ошибка при получении отчёта {0}. Oшибка: {1}", reportName, exc.Message);
                 //TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
+                Log.DebugFormat(@"Ошибка при получении отчёта {0}. Oшибка: {1}", reportName, exc.Message);
                 
                 //it returns log txt file with error description
                 return GetLog();

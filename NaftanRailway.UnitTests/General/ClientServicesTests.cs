@@ -153,22 +153,35 @@ namespace NaftanRailway.UnitTests.General {
         public void CheckLogPath() {
             var txt = string.Empty;
             var logpath = Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\log.txt");
-
+           
             if (!File.Exists(logpath)) {
                 Directory.CreateDirectory(Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\"));
                 File.Create(logpath).Close();
             }
 
             try {
+                Encoding utf8 = Encoding.GetEncoding("UTF-8");
+                Encoding win1251 = Encoding.GetEncoding("windows-1251");
+
                 using (var fileStream = new FileStream(logpath, FileMode.Open, FileAccess.Read))
-                using (var streamReader = new StreamReader(fileStream, Encoding.UTF8)) {
+                using (var streamReader = new StreamReader(fileStream, win1251)) {
                     txt = streamReader.ReadToEnd();
                 }
-            } catch (Exception) {
 
+                //find out encoding
+                foreach (var item in Encoding.GetEncodings()) {
+                    var bytes = item.GetEncoding().GetBytes(txt);
+
+                    foreach (var targetEncoding in Encoding.GetEncodings()) {
+                        Debug.WriteLine("Encoding {0}: {1}", targetEncoding.CodePage, targetEncoding.GetEncoding().GetString(bytes));
+                    }
+                }
+
+            } catch (Exception) {
                 Assert.IsTrue(true);
             }
 
+            Debug.WriteLine(txt);
 
             Assert.IsTrue(true);
         }
