@@ -19,6 +19,8 @@ namespace NaftanRailway.BLL.Services.IoC {
             Bind<IRailwayModule>().To<RailwayModule>();
             Bind<INomenclatureModule>().To<NomenclatureModule>();
             Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
+            //log4Net
+            //Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
             //_kernel.Bind<ISessionStorage>().To<SessionStorage>();
 
             Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",

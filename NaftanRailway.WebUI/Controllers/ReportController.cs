@@ -11,8 +11,7 @@ using log4net;
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class ReportController : BaseController {
-        public ReportController(ILog logger) : base(logger) {
-        }
+        public ReportController(ILog logger) : base(logger) {}
 
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing culture prop don't help)

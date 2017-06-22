@@ -16,12 +16,16 @@ using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
 using System.Globalization;
+using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
         public IBussinesEngage Engage { get; }
-        public NomenclatureModule(IBussinesEngage engage) {
+        public ILog Log { get; }
+
+        public NomenclatureModule(IBussinesEngage engage, ILog log) {
             Engage = engage;
+            Log = log;
         }
 
         public IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null) {
@@ -210,39 +214,42 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key) {
+            //main predicate
+            Expression<Func<krt_Naftan_orc_sapod, bool>> predicate = x => x.keykrt == key;
 
             return new[] {
-                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nkrt,x => x.keykrt ==  key)){
+                new CheckListFilter(Engage.GetGroup(x => x.nkrt, predicate)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nkrt),
                     NameDescription = "Накоп. Карточки:"
                 },
-                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.tdoc.ToString(),x => x.keykrt ==  key)){
+                new CheckListFilter(Engage.GetGroup(x => x.tdoc.ToString(),predicate)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.tdoc),
                     NameDescription = "Тип документа:"
                 },
-                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.vidsbr.ToString(),x => x.keykrt ==  key)){
+                new CheckListFilter(Engage.GetGroup(x => x.vidsbr.ToString(),predicate)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
                     NameDescription = "Вид сбора:"
                 },
-                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod, string>(x => x.nomot.ToString(),x => x.keykrt == key)){
+                new CheckListFilter(Engage.GetGroup(x => x.nomot.ToString(),predicate)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
                     NameDescription = "Документ:"
                 },
-                new CheckListFilter(Engage.GetGroup<krt_Naftan_orc_sapod,string>(x=>x.dt.ToString(),x=>x.keykrt == key)){
+                new CheckListFilter(Engage.GetGroup(x=>x.dt.ToString(),predicate)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
                     NameDescription = "Период:"
                 },
             };
         }
 
-        public byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, string reportName, out string headersInfo, string defaultParameters = "rs:Format=Excel") {
+        public byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, 
+                                             string reportName, out string headersInfo, string defaultParameters = "rs:Format=Excel") {
             string nameFile, filterParameters;
             var selScroll = GetNomenclatureByNumber(numberScroll, reportYear);
 
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                nameFile = string.Format(@"Расшифровка сбора 099 за {0] месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
                 filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
                 break;
 
@@ -287,6 +294,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                             {new Uri("http://db2"),@"ntlm",new NetworkCredential(@"CPN", @"1111", @"LAN")}
                     }
             };
+
+            //log url
+            Log.DebugFormat("Attemp to recieve report with url: {0}", urlReportString);
 
             //byte output
             var result = client.DownloadData(urlReportString);

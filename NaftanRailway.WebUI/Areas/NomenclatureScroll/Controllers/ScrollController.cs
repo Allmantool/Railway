@@ -19,11 +19,11 @@ using log4net;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[AllowAnonymous]
-    [AuthorizeAD(Groups = "Rail_Developers, Rail_Users"/*, Users = @"lan\cpn"*/)]
+    //[AuthorizeAD(Groups = "Rail_Developers, Rail_Users"/*, Users = @"lan\cpn"*/)]
     [SessionState(SessionStateBehavior.Disabled)]
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
-        public ScrollController(INomenclatureModule bussinesEngage, ILog logger) : base(logger) {
+        public ScrollController(INomenclatureModule bussinesEngage, ILog log) : base(log) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -74,7 +74,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Detail gathering of one scroll
         /// </summary>
         /// <returns></returns>
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, 
+                                          int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
@@ -219,7 +220,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             //get report with parameters
             try {
-                var binaryData = _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, folderName, reportName, out contentDisposition);
+                var binaryData = _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, 
+                                                                        folderName, reportName, out contentDisposition);
                 //name file (with encoding)
                 Response.AddHeader("Content-Disposition", contentDisposition);
                 //For js spinner and complete download callback

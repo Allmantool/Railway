@@ -5,10 +5,12 @@ using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
+using log4net;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface INomenclatureModule : IDisposable {
         IBussinesEngage Engage { get; }
+        ILog Log { get; }
 
         /// <summary>
         /// Get part of table
@@ -22,7 +24,8 @@ namespace NaftanRailway.BLL.Abstract {
         IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
-        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount, bool viewWrong = false);
+        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, 
+                                                                   int initialSizeItem, out long recordCount, bool viewWrong = false);
 
         /// <summary>
         /// Update linked filters base on src entity (table)
@@ -33,7 +36,9 @@ namespace NaftanRailway.BLL.Abstract {
         /// <returns></returns>
         bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter);
 
-        byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, string reportName,out string headersInfo, string defaultParameters = @"rs:Format=Excel");
+        byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, 
+                                      string folderName, string reportName,out string headersInfo,
+                                      string defaultParameters = @"rs:Format=Excel");
 
         ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear);
 
