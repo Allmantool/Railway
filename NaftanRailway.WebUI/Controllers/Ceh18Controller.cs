@@ -14,6 +14,7 @@ namespace NaftanRailway.WebUI.Controllers {
     //[HandleError(ExceptionType = typeof(ArgumentOutOfRangeException),View = "NomenclatureError",Master = "")] //Return HandleErrorInfo as model object
     //[HandleError(ExceptionType = typeof(ArgumentNullException), View = "NomenclatureErrorNull", Master = "")] //Return HandleErrorInfo as model object
     //[ExceptionFilter]
+    //[NonController]
     public class Ceh18Controller : BaseController {
         private readonly IRailwayModule _bussinesEngage;
 
@@ -140,6 +141,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        //[NonAction]
         public JsonResult Overview() {
             var result = _bussinesEngage.EstimatedCarrieages();
 

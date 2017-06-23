@@ -25,6 +25,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         periodModal: pm,
         scrollDetails: sd,
         loadingState: ko.observable(false),
+        SSRSMode: ko.observable(false),
         progressBar: ko.observable(new appNomenclature.ProgressBar())
     };
 
@@ -285,6 +286,9 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
     function containerRebind(opts, ev) {
         self.loadingState(true);
 
+        //Hide SSRS iframe container by default
+        self.SSRSMode(false);
+
         var defaults = {
             container: self.containerName,
             link: ev ? $(ev.target).attr('href') : '',
@@ -330,6 +334,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         rowsPerPage: self.rowsPerPage,
         wrkPeriods: self.wrkPeriods,
         wrkSelPeriod: self.wrkSelPeriod,
+        SSRSMode: self.SSRSMode,
         //behavior
         init: init,
         updatePeriod: updatePeriod,

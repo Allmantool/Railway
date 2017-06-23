@@ -112,18 +112,18 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @Html.ActionLink(@"Детализация ГУ-12", "Reports", "Scroll",
-                                            new {
-                                                data_bind = "click: $root.progressBar().simulationDownload, " +
-                                                            "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = @"krt_Naftan_Mesplan" }) + "/' + $root.currScr().srcKey()}"
-                                            })
+                                        <a href="http://db2/ReportServer/Pages/View.aspx?%2fOrders%2fkrt_Naftan_Mesplan&rs:Command=Render&rc:FallbackPage=true&rc:Zoom=Page Width&rc:SizeToReportContent=true"
+                                           target="SSRSContainer"
+                                           data-bind="click: function() { $root.SSRSMode(true); return true; }">
+                                            Детализация ГУ-12
+                                        </a>
                                     </li>
                                     <li>
-                                        @Html.ActionLink(@"Расшифровка сбора по коду 099", "Reports", "Scroll",
-                                           new {
-                                               data_bind = "click: $root.progressBar().simulationDownload, " +
-                                                           "attr: {'href':'" + Url.Action("Reports", "Scroll", new { reportName = @"krt_Naftan_Gu12" }) + "/' + $root.currScr().srcKey()}"
-                                           })
+                                        <a href="http://db2/ReportServer/Pages/View.aspx?%2fOrders%2fkrt_Naftan_Gu12&rs:Command=Render&rc:FallbackPage=true&rc:Zoom=Page Width&rc:SizeToReportContent=true"
+                                           target="SSRSContainer"
+                                           data-bind="click: function() { $root.SSRSMode(true); return true; }">
+                                            Расшифровка сбора по коду 099
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -153,6 +153,8 @@
             <h4><strong>Пожалуйста подождите...</strong></h4>
         </div>
     </div>
+
+
 
     <!--[if lte IE 8]>
         @Scripts.Render("~/bundles/JQuery1")

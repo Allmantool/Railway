@@ -10,8 +10,11 @@
      style="display: none">
 </div>
 <!-- /ko -->
-
-<div id="koContainer" class="container-fluid">
+<!--It's container for SSRS reports-->
+<iframe data-bind="visible: SSRSMode()" id="SSRSContainer" name="SSRSContainer" 
+        style="display: none; width: 100%; height: 100%; border: none; margin-top: 0%; margin: auto; position: absolute;">
+</iframe>
+<div data-bind="visible: !SSRSMode()" id="koContainer" class="container-fluid">
     @{ Html.RenderPartial("_AjaxTableKrtNaftan");}
 </div>
 
