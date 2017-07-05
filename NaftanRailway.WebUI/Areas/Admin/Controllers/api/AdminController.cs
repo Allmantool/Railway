@@ -4,6 +4,9 @@ using System.Web.Http.Description;
 using NaftanRailway.BLL.DTO.Admin;
 using Microsoft.AspNet.SignalR;
 using NaftanRailway.WebUI.Hubs;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Web.Configuration;
 
 namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
     [AllowAnonymous]
@@ -29,6 +32,16 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
             if (result == null) return NotFound();
 
             return Ok(result);
+        }
+
+        public IHttpActionResult GetConnStrings() {
+            Dictionary<string, string> configData = new Dictionary<string, string>();
+
+            foreach (ConnectionStringSettings cs in WebConfigurationManager.ConnectionStrings) {
+                configData.Add(cs.Name, string.Format(@"{0} {1}", cs.ProviderName, cs.ConnectionString));
+            }
+
+            return Ok(configData);
         }
     }
 }
