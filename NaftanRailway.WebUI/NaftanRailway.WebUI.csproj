@@ -403,6 +403,7 @@
     <Compile Include="Hubs\AdminHub.cs" />
     <Compile Include="Hubs\HubActivator.cs" />
     <Compile Include="Hubs\SignalRBase.cs" />
+    <Compile Include="Infrastructure\AppStateHelper.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextHandler.cs" />

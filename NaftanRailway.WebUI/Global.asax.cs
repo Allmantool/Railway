@@ -8,6 +8,7 @@ using NaftanRailway.WebUI.Infrastructure.ModelBinders;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.Services.Mapping;
 using System.IO;
+using NaftanRailway.WebUI.Infrastructure;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
@@ -78,7 +79,9 @@ namespace NaftanRailway.WebUI {
 
             //users online
             Application.Lock();
-            Application["TotalOnlineUsers"] = 0;
+            //AppStateHelper.Set(AppStateKeys.ONLINE, 0);
+            Application.Add("TotalOnlineUsers", 0);
+            Application.UnLock();
         }
 
         /// <summary>
@@ -107,16 +110,20 @@ namespace NaftanRailway.WebUI {
 
         protected void Session_Start(object sender, EventArgs e) {
             // event is raised each time a new session is created
-            Application.Lock();
-            Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] + 1;
-            Application.UnLock();
+            if (Application["TotalOnlineUsers"] != null) {
+                Application.Lock();
+                Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] + 1;
+                Application.UnLock();
+            }
         }
 
         protected void Session_End(object sender, EventArgs e) {
             // event is raised when a session is abandoned or expires
-            Application.Lock();
-            Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] - 1;
-            Application.UnLock();
+            if (Application["TotalOnlineUsers"] != null) {
+                Application.Lock();
+                Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] - 1;
+                Application.UnLock();
+            }
         }
     }
 }
