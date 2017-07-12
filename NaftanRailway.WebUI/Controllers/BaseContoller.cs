@@ -1,5 +1,6 @@
 ﻿using log4net;
 using NaftanRailway.BLL.DTO.Admin;
+using NaftanRailway.WebUI.Infrastructure;
 using System;
 using System.DirectoryServices.AccountManagement;
 using System.IO;
@@ -74,13 +75,13 @@ namespace NaftanRailway.WebUI.Controllers {
         private string GetBrowserInfo() {
             var browser = Request.Browser;
             var userName = User.Identity.Name;
-            var totalOnlineUsers = (int)@HttpContext.Application["TotalOnlineUsers"];
+            var totalOnlineUsers = (int)AppStateHelper.Get(AppStateKeys.ONLINE, 0);
 
             var result = String.Format(
                  "Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
                  "<br />Cookies: {5},<br />ActiveXControls: {6},<br />JavaApplets {7},<br />Frames: {8}," +
                  "<br />IsMobile: {9},<br />Manufacture: {10},<br />Model: {11}," +
-                 "<br />User Name: {12}{13},<br />Online: {14}",
+                 "<br />User Name: {12}{13},<br />Online: {14},<br />Framework: {15}",
              browser.Browser,
              browser.Version,
              browser.EcmaScriptVersion,
@@ -95,7 +96,8 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.MobileDeviceModel,
              string.Format("{0} ({1})", CurrentADUser.Name, CurrentADUser.EmailAddress),
              userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
-             totalOnlineUsers
+             totalOnlineUsers,
+             Environment.Version.ToString()
             );
 
             return result;

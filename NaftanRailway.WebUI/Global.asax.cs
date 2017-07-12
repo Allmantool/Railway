@@ -9,6 +9,7 @@ using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.Services.Mapping;
 using System.IO;
 using NaftanRailway.WebUI.Infrastructure;
+using System.Collections.Generic;
 
 namespace NaftanRailway.WebUI {
     public class MvcApplication : HttpApplication {
@@ -78,10 +79,7 @@ namespace NaftanRailway.WebUI {
              */
 
             //users online
-            Application.Lock();
-            //AppStateHelper.Set(AppStateKeys.ONLINE, 0);
-            Application.Add("TotalOnlineUsers", 0);
-            Application.UnLock();
+            AppStateHelper.Set(AppStateKeys.ONLINE, 0);
         }
 
         /// <summary>
@@ -110,20 +108,22 @@ namespace NaftanRailway.WebUI {
 
         protected void Session_Start(object sender, EventArgs e) {
             // event is raised each time a new session is created
-            if (Application["TotalOnlineUsers"] != null) {
-                Application.Lock();
-                Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] + 1;
-                Application.UnLock();
-            }
+            int currentValue = (int)AppStateHelper.Get(AppStateKeys.ONLINE, 0);
+            AppStateHelper.Set(AppStateKeys.ONLINE, currentValue + 1);
+            AppStateHelper.SetMultiple(new Dictionary<AppStateKeys, object> {
+                { AppStateKeys.LAST_REQUEST_TIME, HttpContext.Current.Timestamp },
+                { AppStateKeys.LAST_REQUEST_URL, Request.RawUrl }
+            });
         }
 
         protected void Session_End(object sender, EventArgs e) {
             // event is raised when a session is abandoned or expires
-            if (Application["TotalOnlineUsers"] != null) {
-                Application.Lock();
-                Application["TotalOnlineUsers"] = (int)Application["TotalOnlineUsers"] - 1;
-                Application.UnLock();
-            }
+            int currentValue = (int)AppStateHelper.Get(AppStateKeys.ONLINE, 0);
+            AppStateHelper.Set(AppStateKeys.ONLINE, currentValue - 1);
+            AppStateHelper.SetMultiple(new Dictionary<AppStateKeys, object> {
+                { AppStateKeys.LAST_REQUEST_TIME, HttpContext.Current.Timestamp },
+                { AppStateKeys.LAST_REQUEST_URL, Request.RawUrl }
+            });
         }
     }
 }
