@@ -11,9 +11,12 @@ namespace NaftanRailway.UnitTests.Nomenclature {
     [TestClass]
     public class UnitTestNomenclature {
         [TestMethod]
-        public void ParallelSQLMethod() {
-            Task results = null;
+        public async Task ParallelSQLMethod() {
+            Task scropeTasks = null;
+            var batchSize = 30;
+
             long[] keys = new long[] {
+                #region inputArray
                 15072000159909,15072000159969,15072000160035,15072000160100,15072000160131,15072000160172,15072000160221,15072000160269,15072000160340,15072000160410,15072000160448,
                 15072000160492,15072000160495,15072000160543,15072000160628,15072000160676,15072000160776,15072000160780,15072000160865,15072000160952,15072000161002,15072000161040,
                 15072000161041,15072000161103,15072000161150,15072000161226,15072000161296,15072000161353,15072000161401,15072000161478,15072000161547,15072000161616,15072000161680,
@@ -143,70 +146,95 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 15072000248217,15072000248273,15072000248422,15072000248510,15072000248609,15072000248660,15072000248753,15072000248830,15072000248929,15072000248995,15072000248997,
                 15072000249084,15072000249132,15072000249260,15072000249336,15072000249337,15072000249358,15072000249625,15072000249801,15072000249809,15072000249905,15072000249975,
                 15072000250115,15072000250195,15072000250281,15072000250282,15072000250587,15072000250664,15072000250665
+                #endregion 
             };
-            try {
-                var tasks = keys.Select(i => RunStoredProc(i)).ToList();
-                results = Task.WhenAll(tasks);
 
-                results.Wait();
+            try {
+                using (SqlConnection conn = new SqlConnection(@"data source=CPN8\HOMESERVER;initial catalog=Railway;integrated security=True;Trusted_Connection=Yes;;Max Pool Size=500; Connection Timeout=0")) {
+                    await conn.OpenAsync();
+                    Debug.WriteLine("============================================ Connection is open: ==============================================");
+
+                    var tasks = keys.Select(i => RunStoredProc(i, conn));
+                    var sequence = tasks;
+
+                    while (sequence.Any()) {
+                        var batch = sequence.Take(batchSize);
+                        sequence = sequence.Skip(batchSize);
+
+                        scropeTasks = Task.WhenAll(batch);
+
+                        await scropeTasks;
+                    }
+
+                    await Task.WhenAll(tasks);
+
+                    Debug.WriteLine("============================================ Connection is closed: ==============================================");
+                }
+
+
+                ////run tasks in batches
+                //var sequence = tasks;
+
+                //while (sequence.Any()) {
+                //    var batch = sequence.Take(batchSize);
+                //    sequence = sequence.Skip(batchSize);
+
+                //    scropeTasks = Task.WhenAll(batch);
+
+                //    await scropeTasks;
+                //}
             } catch (Exception ex) {
                 Debug.WriteLine("Исключение: " + ex.Message);
 
-                Debug.WriteLine("IsFaulted: " + results.IsFaulted);
-                foreach (var inx in results.Exception.InnerExceptions) {
+                Debug.WriteLine("IsFaulted: " + scropeTasks.IsFaulted);
+                foreach (var inx in scropeTasks.Exception.InnerExceptions) {
                     Debug.WriteLine("Внутренне исключение: " + inx.Message);
                 }
             }
 
-            //current count of scrolls in table
-            Assert.AreEqual(1415, 1415);
+            Assert.AreEqual(1, 1);
         }
 
-        public async Task RunStoredProc(long scollNumbParam) {
+        public async Task RunStoredProc(long scollNumbParam, SqlConnection conn) {
             //object result = null;
             //string connectionString = ConfigurationManager.ConnectionStrings["TestLocalConnection"].ConnectionString;
             const string strStoredProcName = @"[dbo].[sp_syncExchDbs]";
-            using (SqlConnection conn = new SqlConnection(@"data source=CPN8\HOMESERVER;initial catalog=Railway;integrated security=True;Trusted_Connection=Yes;")) {
-                await conn.OpenAsync();
+            //using (SqlConnection conn = new SqlConnection(@"data source=CPN8\HOMESERVER;initial catalog=Railway;integrated security=True;Trusted_Connection=Yes;;Max Pool Size=500; Connection Timeout=30")) {
+            //await conn.OpenAsync();
+            //    Debug.WriteLine("============================================ Connection is open: ==============================================");
 
-                // Вывод информации о подключении
-                //Console.WriteLine("Свойства подключения:");
-                //Console.WriteLine("\tСтрока подключения: {0}", conn.ConnectionString);
-                //Console.WriteLine("\tБаза данных: {0}", conn.Database);
-                //Console.WriteLine("\tСервер: {0}", conn.DataSource);
-                //Console.WriteLine("\tВерсия сервера: {0}", conn.ServerVersion);
-                //Console.WriteLine("\tСостояние: {0}", conn.State);
-                //Console.WriteLine("\tWorkstationld: {0}", conn.WorkstationId);
+            // Вывод информации о подключении
+            Debug.WriteLine(String.Format("Connection: {0}", conn.ClientConnectionId));
+            Debug.WriteLine(String.Format("State: {0}", conn.State.ToString()));
 
-                using (SqlCommand cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 0, CommandType = CommandType.StoredProcedure }) {
-                    // add one or more parameters
-                    //cmd.Parameters.AddWithValue("@KEYKRT", scoll);
+            using (SqlCommand cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 0, CommandType = CommandType.StoredProcedure }) {
+                // add one or more parameters
+                //cmd.Parameters.AddWithValue("@KEYKRT", scoll);
 
-                    SqlParameter scrParam = new SqlParameter() {
-                        ParameterName = "@KEYKRT",
-                        Value = scollNumbParam,
-                        SqlDbType = SqlDbType.BigInt
-                    };
-                    cmd.Parameters.Add(scrParam);
+                SqlParameter scrParam = new SqlParameter() {
+                    ParameterName = "@KEYKRT",
+                    Value = scollNumbParam,
+                    SqlDbType = SqlDbType.BigInt
+                };
+                cmd.Parameters.Add(scrParam);
 
-                    //SqlParameter parm = new SqlParameter() {
-                    //    ParameterName = "@ErrId",
-                    //    SqlDbType = SqlDbType.TinyInt,
-                    //    Direction = ParameterDirection.Output
-                    //};
+                //SqlParameter parm = new SqlParameter() {
+                //    ParameterName = "@ErrId",
+                //    SqlDbType = SqlDbType.TinyInt,
+                //    Direction = ParameterDirection.Output
+                //};
 
-                    //cmd.Parameters.Add(parm);
-                    // the usual
-                    //result = await cmd.ExecuteScalarAsync();
-                    Debug.WriteLine("I start with: " + scollNumbParam);
-                    await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
-                    //result =  cmd.ExecuteScalar();
-                    //cmd.ExecuteNonQuery();
-                }
+                //cmd.Parameters.Add(parm);
+
+                //result = await cmd.ExecuteScalarAsync();
+                Debug.WriteLine("Start of Proccesing: " + scollNumbParam);
+                await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+                Debug.WriteLine("End of Proccesing: " + scollNumbParam);
+
             }
+            //}
 
-            //succuse or fail
-            //Assert.AreEqual(result, 1);
+            //Debug.WriteLine("============================================ Connection is closed: ==============================================");
         }
     }
 }
