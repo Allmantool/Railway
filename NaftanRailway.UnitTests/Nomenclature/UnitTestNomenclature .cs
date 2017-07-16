@@ -11,11 +11,11 @@ namespace NaftanRailway.UnitTests.Nomenclature {
     [TestClass]
     public class UnitTestNomenclature {
         [TestMethod]
-        public async Task ParallelSQLMethod() {
+        public async Task ParallelSqlMethod() {
             Task scropeTasks = null;
-            var batchSize = 30;
+            //const int batchSize = 30;
 
-            long[] keys = new long[] {
+            long[] keys = {
                 #region inputArray
                 15072000159909,15072000159969,15072000160035,15072000160100,15072000160131,15072000160172,15072000160221,15072000160269,15072000160340,15072000160410,15072000160448,
                 15072000160492,15072000160495,15072000160543,15072000160628,15072000160676,15072000160776,15072000160780,15072000160865,15072000160952,15072000161002,15072000161040,
@@ -146,95 +146,109 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 15072000248217,15072000248273,15072000248422,15072000248510,15072000248609,15072000248660,15072000248753,15072000248830,15072000248929,15072000248995,15072000248997,
                 15072000249084,15072000249132,15072000249260,15072000249336,15072000249337,15072000249358,15072000249625,15072000249801,15072000249809,15072000249905,15072000249975,
                 15072000250115,15072000250195,15072000250281,15072000250282,15072000250587,15072000250664,15072000250665
-                #endregion 
+                #endregion
             };
 
             try {
-                using (SqlConnection conn = new SqlConnection(@"data source=CPN8\HOMESERVER;initial catalog=Railway;integrated security=True;Trusted_Connection=Yes;;Max Pool Size=500; Connection Timeout=0")) {
-                    await conn.OpenAsync();
-                    Debug.WriteLine("============================================ Connection is open: ==============================================");
+                var watch = Stopwatch.StartNew();
+                //CPN8\HOMESERVER
+                //using (var conn = new SqlConnection(string.Format(
+                //    @"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Max Pool Size={4};Connection Timeout={5};MultipleActiveResultSets={6}",
+                //    @".", @"Railway", @"True", @"Yes", @"500", @"0", @"True"))) {
 
-                    var tasks = keys.Select(i => RunStoredProc(i, conn));
-                    var sequence = tasks;
+                //    await conn.OpenAsync();
+                Debug.WriteLine("============================================ Global Task starts: ==============================================");
 
-                    while (sequence.Any()) {
-                        var batch = sequence.Take(batchSize);
-                        sequence = sequence.Skip(batchSize);
-
-                        scropeTasks = Task.WhenAll(batch);
-
-                        await scropeTasks;
-                    }
-
-                    await Task.WhenAll(tasks);
-
-                    Debug.WriteLine("============================================ Connection is closed: ==============================================");
-                }
-
-
-                ////run tasks in batches
+                var tasks = keys.Select(async i => await RunStoredProc(i)).ToList();
                 //var sequence = tasks;
 
                 //while (sequence.Any()) {
                 //    var batch = sequence.Take(batchSize);
-                //    sequence = sequence.Skip(batchSize);
+                //    sequence = sequence.Skip(batchSize).ToList();
 
                 //    scropeTasks = Task.WhenAll(batch);
 
                 //    await scropeTasks;
                 //}
-            } catch (Exception ex) {
-                Debug.WriteLine("Исключение: " + ex.Message);
 
-                Debug.WriteLine("IsFaulted: " + scropeTasks.IsFaulted);
-                foreach (var inx in scropeTasks.Exception.InnerExceptions) {
-                    Debug.WriteLine("Внутренне исключение: " + inx.Message);
-                }
+                scropeTasks = Task.WhenAll(tasks.Take(10));
+                await scropeTasks;
+
+                watch.Stop();
+                TimeSpan ts = watch.Elapsed;
+                Debug.WriteLine($"================================ Whole task consumes: {ts:mm\\:ss\\.ff}  ===================");
+
+                //}
+            } catch (Exception ex) {
+                Debug.WriteLine("Exception: " + ex.Message);
+
+                Debug.WriteLine("IsFaulted: " + (scropeTasks != null && scropeTasks.IsFaulted));
+                if (scropeTasks?.Exception != null)
+                    foreach (var inx in scropeTasks.Exception.InnerExceptions) {
+                        Debug.WriteLine("Ex. description: " + inx.Message);
+                    }
             }
 
             Assert.AreEqual(1, 1);
         }
 
-        public async Task RunStoredProc(long scollNumbParam, SqlConnection conn) {
-            //object result = null;
+        private async Task RunStoredProc(long scrollNumbParam) {
             //string connectionString = ConfigurationManager.ConnectionStrings["TestLocalConnection"].ConnectionString;
             const string strStoredProcName = @"[dbo].[sp_syncExchDbs]";
-            //using (SqlConnection conn = new SqlConnection(@"data source=CPN8\HOMESERVER;initial catalog=Railway;integrated security=True;Trusted_Connection=Yes;;Max Pool Size=500; Connection Timeout=30")) {
-            //await conn.OpenAsync();
-            //    Debug.WriteLine("============================================ Connection is open: ==============================================");
+            //string.Format(
+            //@"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Min Pool={4};Max Pool Size={5};Pooling={6};
+            //Connection Lifetime={7};Connection Timeout={8};MultipleActiveResultSets={9}",
+            //@".", @"Railway", @"True", @"Yes", @"50", @"150", @"True", @"6000", @"600", @"True")
+            var connBuilder = new SqlConnectionStringBuilder() {
+                DataSource = @".",
+                InitialCatalog = @"Railway",
+                IntegratedSecurity = true,
+                TrustServerCertificate = true,
+                Pooling = true, MinPoolSize = 50, MaxPoolSize = 250,
+                ConnectTimeout = 6000,
+                LoadBalanceTimeout = 600,
+                MultipleActiveResultSets = false
+            };
 
-            // Вывод информации о подключении
-            Debug.WriteLine(String.Format("Connection: {0}", conn.ClientConnectionId));
-            Debug.WriteLine(String.Format("State: {0}", conn.State.ToString()));
 
-            using (SqlCommand cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 0, CommandType = CommandType.StoredProcedure }) {
-                // add one or more parameters
-                //cmd.Parameters.AddWithValue("@KEYKRT", scoll);
+            using (var conn = new SqlConnection(connBuilder.ConnectionString)) {
 
-                SqlParameter scrParam = new SqlParameter() {
-                    ParameterName = "@KEYKRT",
-                    Value = scollNumbParam,
-                    SqlDbType = SqlDbType.BigInt
-                };
-                cmd.Parameters.Add(scrParam);
+                await conn.OpenAsync();
+                Debug.WriteLine("============================================ Connection is opened: ==============================================");
 
-                //SqlParameter parm = new SqlParameter() {
-                //    ParameterName = "@ErrId",
-                //    SqlDbType = SqlDbType.TinyInt,
-                //    Direction = ParameterDirection.Output
-                //};
+                // information about connection
+                Debug.WriteLine($"Connection: {conn.ClientConnectionId}");
+                Debug.WriteLine($"State: {conn.State}");
 
-                //cmd.Parameters.Add(parm);
+                using (var cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 0, CommandType = CommandType.StoredProcedure }) {
+                    // add one or more parameters
+                    //cmd.Parameters.AddWithValue("@KEYKRT", scroll);
 
-                //result = await cmd.ExecuteScalarAsync();
-                Debug.WriteLine("Start of Proccesing: " + scollNumbParam);
-                await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
-                Debug.WriteLine("End of Proccesing: " + scollNumbParam);
+                    SqlParameter scrParam = new SqlParameter() {
+                        ParameterName = "@scrollNumber",
+                        Value = scrollNumbParam,
+                        SqlDbType = SqlDbType.BigInt
+                    };
+                    cmd.Parameters.Add(scrParam);
 
+                    SqlParameter param = new SqlParameter() {
+                        ParameterName = "@statusMsg",
+                        SqlDbType = SqlDbType.NVarChar,
+                        Size = 300,
+                        Direction = ParameterDirection.Output
+                    };
+
+                    cmd.Parameters.Add(param);
+
+                    Debug.WriteLine(@"Start of Processing: " + scrollNumbParam);
+                    //var result = await cmd.ExecuteScalarAsync();
+
+                    await cmd.ExecuteNonQueryAsync();//.ConfigureAwait(false);
+                    Debug.WriteLine($@"End of Processing: {scrollNumbParam} with result: {cmd.Parameters["@statusMsg"].Value}");
+                }
             }
-            //}
 
-            //Debug.WriteLine("============================================ Connection is closed: ==============================================");
+            Debug.WriteLine("============================================ Connection is closed: ==============================================");
         }
     }
 }
