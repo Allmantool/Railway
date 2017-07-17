@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System;
 using System.Configuration;
 using System.Linq;
+using System.Collections.Concurrent;
 
 namespace NaftanRailway.UnitTests.Nomenclature {
     [TestClass]
@@ -13,7 +14,8 @@ namespace NaftanRailway.UnitTests.Nomenclature {
         [TestMethod]
         public async Task ParallelSqlMethod() {
             Task scropeTasks = null;
-            //const int batchSize = 30;
+            const int batchSize = 40;
+            const int maxCountConn = 30;
 
             long[] keys = {
                 #region inputArray
@@ -151,34 +153,39 @@ namespace NaftanRailway.UnitTests.Nomenclature {
 
             try {
                 var watch = Stopwatch.StartNew();
-                //CPN8\HOMESERVER
-                //using (var conn = new SqlConnection(string.Format(
-                //    @"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Max Pool Size={4};Connection Timeout={5};MultipleActiveResultSets={6}",
-                //    @".", @"Railway", @"True", @"Yes", @"500", @"0", @"True"))) {
-
-                //    await conn.OpenAsync();
+                var connections = Math.Max(1, Environment.ProcessorCount / 2);
                 Debug.WriteLine("============================================ Global Task starts: ==============================================");
+                Debug.WriteLine($"Recomended count of connection: {connections}");
 
-                var tasks = keys.Select(async i => await RunStoredProc(i)).ToList();
-                //var sequence = tasks;
+                var queue = new ConcurrentQueue<long>(keys);
 
-                //while (sequence.Any()) {
-                //    var batch = sequence.Take(batchSize);
-                //    sequence = sequence.Skip(batchSize).ToList();
+                //Task[] dividedByConn =
+                //Enumerable
+                //.Range(0, maxCountConn)
+                //.Select(i => Task.Run<Task>(() => RunConnection(i, queue)).Unwrap())
+                //.ToArray();
 
-                //    scropeTasks = Task.WhenAll(batch);
+                //ConcurrentQueue doesn't support build-in indexer
+                var index = 0;
+                var tasks = queue.Take(110).Select(async (i) => await RunStoredProc(i, index++));
+                var sequence = tasks;
 
-                //    await scropeTasks;
-                //}
+                while (sequence.Any()) {
+                    var batch = sequence.Take(batchSize);
+                    sequence = sequence.Skip(batchSize).ToList();
 
-                scropeTasks = Task.WhenAll(tasks.Take(10));
-                await scropeTasks;
+                    scropeTasks = Task.WhenAll(batch);
+
+                    await scropeTasks;
+                }
+
+                //scropeTasks = Task.WhenAll(tasks);
+                //await scropeTasks;
 
                 watch.Stop();
                 TimeSpan ts = watch.Elapsed;
                 Debug.WriteLine($"================================ Whole task consumes: {ts:mm\\:ss\\.ff}  ===================");
 
-                //}
             } catch (Exception ex) {
                 Debug.WriteLine("Exception: " + ex.Message);
 
@@ -192,29 +199,29 @@ namespace NaftanRailway.UnitTests.Nomenclature {
             Assert.AreEqual(1, 1);
         }
 
-        private async Task RunStoredProc(long scrollNumbParam) {
+        private async Task RunStoredProc(long scrollNumbParam, int index) {
             //string connectionString = ConfigurationManager.ConnectionStrings["TestLocalConnection"].ConnectionString;
             const string strStoredProcName = @"[dbo].[sp_syncExchDbs]";
-            //string.Format(
-            //@"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Min Pool={4};Max Pool Size={5};Pooling={6};
-            //Connection Lifetime={7};Connection Timeout={8};MultipleActiveResultSets={9}",
-            //@".", @"Railway", @"True", @"Yes", @"50", @"150", @"True", @"6000", @"600", @"True")
-            var connBuilder = new SqlConnectionStringBuilder() {
-                DataSource = @".",
-                InitialCatalog = @"Railway",
-                IntegratedSecurity = true,
-                TrustServerCertificate = true,
-                Pooling = true, MinPoolSize = 50, MaxPoolSize = 250,
-                ConnectTimeout = 6000,
-                LoadBalanceTimeout = 600,
-                MultipleActiveResultSets = false
-            };
+            string connString = string.Format(
+                @"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Max Pool Size={4};Pooling={5};
+                Connection Lifetime={6};Connection Timeout={7};MultipleActiveResultSets={8}",
+                @"CPN8\HOMESERVER", @"Railway", @"True", @"Yes", @"150", @"True", @"0", @"0", @"True");
 
+            //var connBuilder = new SqlConnectionStringBuilder() {
+            //    DataSource = @"CPN8\HOMESERVER",
+            //    InitialCatalog = @"Railway",
+            //    IntegratedSecurity = true,
+            //    TrustServerCertificate = true,
+            //    Pooling = true, MinPoolSize = 30, MaxPoolSize = 150,
+            //    ConnectTimeout = 0,
+            //    LoadBalanceTimeout = 0,
+            //    MultipleActiveResultSets = false
+            //};
 
-            using (var conn = new SqlConnection(connBuilder.ConnectionString)) {
+            using (var conn = new SqlConnection(/*connBuilder.ConnectionString*/connString)) {
 
                 await conn.OpenAsync();
-                Debug.WriteLine("============================================ Connection is opened: ==============================================");
+                Debug.WriteLine($@"============================ Connection is opened: {index} ==============================================");
 
                 // information about connection
                 Debug.WriteLine($"Connection: {conn.ClientConnectionId}");
@@ -225,7 +232,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                     //cmd.Parameters.AddWithValue("@KEYKRT", scroll);
 
                     SqlParameter scrParam = new SqlParameter() {
-                        ParameterName = "@scrollNumber",
+                        ParameterName = "@KEYKRT",
                         Value = scrollNumbParam,
                         SqlDbType = SqlDbType.BigInt
                     };
@@ -248,7 +255,44 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 }
             }
 
-            Debug.WriteLine("============================================ Connection is closed: ==============================================");
+            Debug.WriteLine($@"================================ Connection is closed: {index} ==============================================");
+        }
+
+        public async Task RunConnection(int connection, ConcurrentQueue<long> queue) {
+            using (SqlConnection conn = new SqlConnection(@"data source=SERVER;initial catalog=Db;integrated security=True;Trusted_Connection=Yes;")) {
+                await conn.OpenAsync();
+                Debug.WriteLine($"====== Connection[{connection}] is open: ======");
+
+                Debug.WriteLine($"Connection[{connection}]: {conn.ClientConnectionId}");
+                Debug.WriteLine($"Connection[{connection}].State: {conn.State}");
+
+                long scollNumbParam;
+
+                while (queue.TryDequeue(out scollNumbParam)) {
+                    await RunStoredProc(conn, connection, scollNumbParam);
+                    Debug.WriteLine($"Connection[{connection}]: {conn.ClientConnectionId}");
+                    Debug.WriteLine($"Connection[{connection}].State: {conn.State}");
+                }
+            }
+
+            Debug.WriteLine($"====== Connection[{connection}] is closed  ======");
+        }
+
+        public async Task RunStoredProc(SqlConnection conn, int connection, long scollNumbParam) {
+            const string strStoredProcName = @"[dbo].[sp]";
+
+            using (SqlCommand cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 120, CommandType = CommandType.StoredProcedure }) {
+                SqlParameter scrParam = new SqlParameter() {
+                    ParameterName = "@KEYKRT",
+                    Value = scollNumbParam,
+                    SqlDbType = SqlDbType.BigInt
+                };
+                cmd.Parameters.Add(scrParam);
+
+                Debug.WriteLine($"Connection[{connection}] Start of Proccesing: " + scollNumbParam);
+                await cmd.ExecuteNonQueryAsync();
+                Debug.WriteLine($"Connection[{connection}] End of Proccesing: " + scollNumbParam);
+            }
         }
     }
 }
