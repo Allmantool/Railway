@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.DTO.Admin;
 using System;
 using System.Collections.Generic;
@@ -309,7 +311,7 @@ namespace NaftanRailway.UnitTests.General {
                     var dto = group.FirstOrDefault();
                     //var filter = group.Where(x => x.Name.Contains("Readers"));
                     try {
-                        
+
                         Debug.WriteLine(string.Format("Group {0}, Total count user in current group: {1}", dto.Name, dto.Users == null ? 0 : dto.Users.Count()));
                     } catch (Exception ex) {
                         Debug.WriteLine(string.Format("Group {0}, Exception: {1}", dto.Name, ex.Message));
@@ -422,6 +424,29 @@ namespace NaftanRailway.UnitTests.General {
             }
 
             Assert.AreEqual(true, IsAuth);
+        }
+
+        [TestMethod]
+        public void MockAdminInfo() {
+            var dtoColl = new[] {
+                new ADUserDTO() {
+                    Name = @"lan\cpn",
+                    Guid = new Guid()
+                },
+                new ADUserDTO() {
+                    Name = @"lan\cpn",
+                     Guid = new Guid()
+                },
+            };
+
+            //arrange
+            var engMock = new Mock<IAuthorizationEngage>();
+            engMock.Setup(m => m.AdminPrincipal(It.IsAny<string>(), false)).Returns<ADUserDTO>(dto => dtoColl.FirstOrDefault());
+
+            //act
+
+            //assert
+
         }
     }
 }

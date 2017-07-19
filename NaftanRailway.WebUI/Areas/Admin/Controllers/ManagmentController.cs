@@ -7,8 +7,7 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers {
     //[AuthorizeAD(Groups = "Rail_Developers")]
     [SessionState(SessionStateBehavior.Disabled)]
     public class ManagmentController : BaseController {
-        public ManagmentController(ILog logger) : base(logger) {
-        }
+        public ManagmentController(ILog logger) : base(logger) {}
 
         public ActionResult ADStructure() {
 

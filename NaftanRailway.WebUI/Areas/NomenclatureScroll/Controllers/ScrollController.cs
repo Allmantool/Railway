@@ -44,7 +44,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 Expression<Func<ScrollLineDTO, bool>> predicate = x => x.DTBUHOTCHET == period || ((period == null) == true);
 
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable<ScrollLineDTO>(page, initialSizeItem, out recordCount, predicate),
+                    ListKrtNaftan = _bussinesEngage.SkipTable(page, initialSizeItem, out recordCount, predicate),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,

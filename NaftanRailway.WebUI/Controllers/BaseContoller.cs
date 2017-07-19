@@ -30,7 +30,9 @@ namespace NaftanRailway.WebUI.Controllers {
         public ADUserDTO CurrentADUser {
             get {
                 string identity = User.Identity.Name;
+                var defObj = new ADUserDTO { Name = "Anonymous", Description = "Information not found" };
 
+                //delegate
                 Func<PrincipalContext, ADUserDTO> func = delegate (PrincipalContext ctx) {
                     var userPrinc = UserPrincipal.FindByIdentity(ctx, identity);
                     if (userPrinc != null) {
@@ -45,20 +47,26 @@ namespace NaftanRailway.WebUI.Controllers {
                             Groups = userPrinc.GetGroups().Select(gr => new ADGroupDTO { Name = gr.Name }).ToList()
                         };
                     }
-                    return new ADUserDTO { Name = "Anonymous", Description = "Information not found" };
+                    return defObj;
                 };
 
-                //Home station without AD
-                if (Request.IsLocal) {
-                    using (var ctx = new PrincipalContext(ContextType.Machine) { }) {
+                try {
+                    //Home station without AD
+                    if (Request.IsLocal) {
+                        using (var ctx = new PrincipalContext(ContextType.Machine) { }) {
+                            return func(ctx);
+                        }
+                    }
+
+                    //On work
+                    var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";
+                    using (var ctx = new PrincipalContext(ContextType.Domain, domainHost)) {
                         return func(ctx);
                     }
-                }
 
-                //On work
-                var domainHost = identity.Substring(0, 7).ToLower() == "polymir" ? "POLYMIR.NET" : "lan.naftan.by";
-                using (var ctx = new PrincipalContext(ContextType.Domain, domainHost)) {
-                    return func(ctx);
+                } catch (Exception ex) {
+                    Log.DebugFormat(@"Возникла ошибка при работке с идентификацией в Active Directory: {0}", ex.Message);
+                    return defObj;
                 }
             }
         }
@@ -78,10 +86,10 @@ namespace NaftanRailway.WebUI.Controllers {
             var totalOnlineUsers = (int)AppStateHelper.Get(AppStateKeys.ONLINE, 0);
 
             var result = String.Format(
-                 "Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
+                 @"Browser: {0} {1},<br />EcmaScript: {2},<br />JavaScript: {3},<br />Platform: {4}," +
                  "<br />Cookies: {5},<br />ActiveXControls: {6},<br />JavaApplets {7},<br />Frames: {8}," +
                  "<br />IsMobile: {9},<br />Manufacture: {10},<br />Model: {11}," +
-                 "<br />User Name: {12}{13},<br />Online: {14},<br />Framework: {15}",
+                 "<br />User Name: {12}{13},<br />Online: {14},<br />Framework: {15}, <br /> OS: {16}",
              browser.Browser,
              browser.Version,
              browser.EcmaScriptVersion,
@@ -97,7 +105,8 @@ namespace NaftanRailway.WebUI.Controllers {
              string.Format("{0} ({1})", CurrentADUser.Name, CurrentADUser.EmailAddress),
              userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers,
-             Environment.Version.ToString()
+             Environment.Version.ToString(),
+             Environment.OSVersion.ToString()
             );
 
             return result;
