@@ -32,7 +32,7 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
             return Ok(result);
         }
 
-        public IHttpActionResult GetConnStrings() {
+        private IHttpActionResult GetConnStrings() {
             Dictionary<string, string> configData = new Dictionary<string, string>();
 
             foreach (ConnectionStringSettings cs in WebConfigurationManager.ConnectionStrings) {
