@@ -16,6 +16,7 @@ using NaftanRailway.WebUI.Infrastructure.Filters;
 using System.Web;
 using NaftanRailway.BLL.DTO.General;
 using log4net;
+using System.Threading.Tasks;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     //[AllowAnonymous]
@@ -38,6 +39,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Index(DateTime? period = null, int page = 1, bool asService = false, ushort initialSizeItem = 15) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 long recordCount;
+
+                //await _bussinesEngage.SyncWithOrc();
 
                 //period = period ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                 //if period == null => all records
@@ -74,7 +77,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Detail gathering of one scroll
         /// </summary>
         /// <returns></returns>
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, 
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1,
                                           int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
@@ -133,9 +136,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult AdmitScroll(bool asService = false) {
+        public async Task<ActionResult> AdmitScroll(bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                _bussinesEngage.SyncWithOrc();
+                await _bussinesEngage.SyncWithOrc();
 
                 return Index(asService: asService);
             }
@@ -203,11 +206,10 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <param name="reportYear"></param>
         /// <returns></returns>
         //[FileDownloadCompleteFilter]
-        public ActionResult Reports(string reportName, int numberScroll, int reportYear) {
+        public async Task<ActionResult> Reports(string reportName, int numberScroll, int reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
             var browsInfo = new BrowserInfoDTO() { Name = Request.Browser.Browser, Version = Request.Browser.Version };
-            var contentDisposition = String.Empty;
 
             //link to SSRS buil-in repors (default for integer)
             if (numberScroll == 0 || reportYear == 0) {
@@ -220,19 +222,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             //get report with parameters
             try {
-                var binaryData = _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, 
-                                                                        folderName, reportName, out contentDisposition);
+                var typle = await _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, folderName, reportName);
                 //name file (with encoding)
-                Response.AddHeader("Content-Disposition", contentDisposition);
+                Response.AddHeader("Content-Disposition", typle.Item2);
                 //For js spinner and complete download callback
                 Response.Cookies.Clear();
                 Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
-                return File(binaryData, @"application/vnd.ms-excel");
+                return File(typle.Item1, @"application/vnd.ms-excel");
             } catch (Exception exc) {
                 //TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
                 Log.DebugFormat(@"Ошибка при получении отчёта {0}. Oшибка: {1}", reportName, exc.Message);
-                
+
                 //it returns log txt file with error description
                 return GetLog();
             }

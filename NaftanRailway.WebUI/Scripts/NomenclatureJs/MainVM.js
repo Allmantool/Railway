@@ -26,6 +26,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         scrollDetails: sd,
         loadingState: ko.observable(false),
         SSRSMode: ko.observable(false),
+        searchModal: ko.observable(false),
         progressBar: ko.observable(new appNomenclature.ProgressBar())
     };
 
@@ -83,7 +84,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         containerRebind();
 
         //self.scrolls(ko.mapping.fromJS(incomeArray.ListKrtNaftan, mappingOptions)());
-    };
+    }
 
     //public
     function init(opts) {
@@ -134,7 +135,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             //pagging
             self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
         }, $merged);
-    };
+    }
 
     function selActiveScr(el, ev) {
         //mark as actived
@@ -172,19 +173,19 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
         // avoid form submission
         return false;
-    };
+    }
 
     function changeCountPerPage(link, ev) {
         init({
             url: self.pagging().getPageUrl() + 1
         }, self);
-    };
+    }
 
     function changePeriodMonth() {
         init({
             url: self.pagging().getPageUrl() + 1
         }, self);
-    };
+    }
 
     function admitScr(link, ev) {
         db.getScr(function (data) {
@@ -196,7 +197,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             self.alert().statusMsg('Синхронизация с БД прошла успешно!').alertType('alert-success').mode(true);
         }, {
-            url: typeof (link) === 'string' ? link : $(ev.target).attr('href'),
+            url: typeof link === 'string' ? link : $(ev.target).attr('href'),
             type: "Post",
             data: ko.mapping.toJSON({ 'asService': true }),
             beforeSend: function () { self.loadingState(true); },
@@ -205,7 +206,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             },
             error: function () { self.alert().statusMsg('Синхронизация с БД завершилась ошибкой!').alertType('alert-danger').mode(true); }
         });
-    };
+    }
 
     function removeSrc(link, src, ev) {
         db.getScr(function (data) {
@@ -218,7 +219,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             self.alert().statusMsg('Перечень №' + src.NKRT() + ' успешно удален!').alertType('alert-success').mode(true);
         }, {
-            url: typeof (link) === 'string' ? link : $(ev.target).attr('href'),
+            url: typeof link === 'string' ? link : $(ev.target).attr('href'),
             type: "Post",
             data: ko.mapping.toJSON({ 'asService': true, 'numberScroll': src.NKRT(), 'reportYear': moment(src.DTBUHOTCHET()).format('YYYY') }),
             beforeSend: function () { self.loadingState(true); },
@@ -229,11 +230,11 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
                 self.alert().statusMsg('Операция удаление перечня  №' + src.NKRT() + ' завершилось ошибкой!').alertType('alert-danger').mode(true);
             }
         });
-    };
+    }
 
     function registrationScr(link, src, ev) {
         //because two menu (base on link and button elements)
-        var curWrkSrc = typeof (link) === 'string' ? src : self.currScr();
+        var curWrkSrc = typeof link === 'string' ? src : self.currScr();
 
         curWrkSrc.proccessingState(true);
 
@@ -244,22 +245,22 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             self.alert().statusMsg('Перечень №' + curWrkSrc.NKRT() + ' успешно подтвержден!').alertType('alert-success').mode(true);
         }, {
             //exist two mode of exec (by button click and url click)
-            url: typeof (link) === 'string' ? link : $(ev.target).attr('href'),
+            url: typeof link === 'string' ? link : $(ev.target).attr('href'),
             type: "Post",
             data: ko.mapping.toJSON({ 'asService': true }),
             beforeSend: function () { self.loadingState(true); },
             complete: function () { self.loadingState(false); curWrkSrc.proccessingState(false); },
-            error: function () { curWrkSrc.statusMsg('Прошизошла ошибка при подтверждение перечня! №' + curWrkSrc.NKRT()).alertType('alert-danger').mode(true) }
+            error: function () { curWrkSrc.statusMsg('Прошизошла ошибка при подтверждение перечня! №' + curWrkSrc.NKRT()).alertType('alert-danger').mode(true); }
         });
-    };
+    }
 
     function viewScrDetails(link, src, ev) { //link, src, ev (set default src)
         //because two menu (base on link and button elements)
-        if (typeof (link) === 'string') {
-            selActiveScr(src)
+        if (typeof link === 'string') {
+            selActiveScr(src);
         }
 
-        var reqLink = typeof (link) === 'string' ? link : $(ev.target).attr('href');
+        var reqLink = typeof link === 'string' ? link : $(ev.target).attr('href');
 
         //if confirmed
         if (self.currScr().Confirmed()) {
@@ -280,7 +281,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         } else {
             self.alert().statusMsg('Для просмотра сборов перечня необходимо сначала подтвердить перечень!').alertType('alert-warning').mode(true);
         }
-    };
+    }
 
     //work with ajax replace (reaplace dom is leaded to lose binding)
     function containerRebind(opts, ev) {
@@ -313,12 +314,12 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
                 self.loadingState(false);
 
                 $merged.callback();
-            };
+            }
 
             if (statusTxt === "error")
                 alert("Error: containerRebind " + xhr.status + ": " + xhr.statusText);
         });
-    };
+    }
 
     /**** public API ***/
     return {
@@ -328,6 +329,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         pagging: self.pagging,
         loadingState: self.loadingState,
         periodModal: self.periodModal,
+        searchModal: self.searchModal,
         alert: self.alert,
         progressBar: self.progressBar,
         scrollDetails: self.scrollDetails,

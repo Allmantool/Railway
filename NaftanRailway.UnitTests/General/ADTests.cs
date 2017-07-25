@@ -32,7 +32,7 @@ namespace NaftanRailway.UnitTests.General {
                     PrincipalContext ctx = null;
                     using (ctx = new PrincipalContext(ctxType, hostDomain)) {
                         // define a "query-by-example" principal - here, we search for a GroupPrincipal
-                        GroupPrincipal qbeGroup = new GroupPrincipal(ctx) { Name = "*Sharepoint*" };
+                        var qbeGroup = new GroupPrincipal(ctx) { Name = "*Sharepoint*" };
                         //UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = searchName/*, SamAccountName = "cpn"*/ };
                         //ADUserDTO user = null;
                         var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);

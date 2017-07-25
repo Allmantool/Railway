@@ -15,7 +15,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
         public async Task ParallelSqlMethod() {
             Task scropeTasks = null;
             const int batchSize = 40;
-            const int maxCountConn = 30;
+            //const int maxCountConn = 30;
 
             long[] keys = {
                 #region inputArray

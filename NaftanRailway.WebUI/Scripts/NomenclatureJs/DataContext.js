@@ -13,6 +13,7 @@ appNomenclature.DataContext = (function ($) {
     function getScr(callback, opts) {
         //work with options
         var defaults = {
+            //async: true,
             url: location.pathname,
             type: "Get",
             traditional: true,

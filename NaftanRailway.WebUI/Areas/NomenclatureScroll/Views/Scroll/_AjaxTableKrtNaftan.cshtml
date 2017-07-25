@@ -14,6 +14,9 @@
                                    event: {change: $root.changePeriodMonth}"
                         class="form-control"></select>
             </div>
+            <button data-bind="click: $root.searchModal.bind($data, !$root.searchModal())" type="button" class="btn btn-info" aria-label="Left Align">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
         </form>
     </caption>
     <colgroup id="selectCols" span="2">
@@ -52,6 +55,7 @@
 </table>
 
 @{ Html.RenderPartial("_GridButtomKO");}
+@{ Html.RenderPartial("_SearchModal");}
 
 <!--Don't support in partial view (this html helper alternative-->
 @*@Html.Script(@<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>)*@

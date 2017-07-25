@@ -11,13 +11,16 @@ using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
+using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
         private readonly IBussinesEngage _engage;
+        public ILog Log { get; }
 
-        public RailwayModule(IBussinesEngage engage) {
+        public RailwayModule(IBussinesEngage engage, ILog log) {
             _engage = engage;
+            Log = log;
         }
 
         /// <summary>
@@ -131,9 +134,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
-            return _engage.GetGroup<v_otpr, string>(x => x.n_otpr, x => x.n_otpr.StartsWith(templShNumber)
-                 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
-                 && x.state == 32 && (x.date_oper >= startDate && x.date_oper <= endDate))
+            return _engage.GetGroup<v_nach, string>(x => x.num_doc, x => x.num_doc.StartsWith(templShNumber)
+                 && (new[] { "3494", "349402" }.Contains(x.cod_kl))
+                 && x.type_doc == 1 && (x.date_raskr >= startDate && x.date_raskr <= endDate))
                 .OrderByDescending(x => x).Take(10);
         }
 
@@ -344,15 +347,22 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         new SqlParameter("@endDate", endDate),
                         new SqlParameter("@countCarriages", temp.WagonsNumbers.Count)).ToList();
 
-                    //Add or Delete
-                    foreach (var entity in result) {
-                        var e = entity;
-                        var item = _engage.Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
+                    try {
+                        //Add or Delete
+                        foreach (var entity in result) {
+                            var e = entity;
+                            var item = _engage.Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
-                        entity.id = (item == null) ? 0 : item.id;
-                        _engage.Uow.Repository<krt_Guild18>().Merge(entity);
+                            entity.id = (item == null) ? 0 : item.id;
+                            _engage.Uow.Repository<krt_Guild18>().Merge(entity);
+                        }
+
+                        _engage.Uow.Save();
+
+                    } catch (Exception ex) {
+                        Log.DebugFormat("Exception: {0}", ex.Message);
+                        return false;
                     }
-                    _engage.Uow.Save();
                 }
             }
 
@@ -437,7 +447,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     x.date_oper_v >= currentMonth &&
                     x.kod_pol == "3494" &&
                     !outSearch.Contains(x.kod_etsng) &&
-                    !x.kod_etsng.StartsWith("421") 
+                    !x.kod_etsng.StartsWith("421")
                 ).OrderByDescending(x => x.date_oper_v).ToList();
 
             //return cargo name

@@ -6,6 +6,7 @@ using NaftanRailway.BLL.POCO;
 using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
 using log4net;
+using System.Threading.Tasks;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface INomenclatureModule : IDisposable {
@@ -36,8 +37,8 @@ namespace NaftanRailway.BLL.Abstract {
         /// <returns></returns>
         bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter);
 
-        byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, 
-                                      string folderName, string reportName,out string headersInfo,
+        Task<Tuple<byte[], string>> GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, 
+                                      string folderName, string reportName,
                                       string defaultParameters = @"rs:Format=Excel");
 
         ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear);
@@ -48,7 +49,7 @@ namespace NaftanRailway.BLL.Abstract {
 
         ScrollLineDTO DeleteNomenclature(int numberScroll, int reportYear);
 
-        void SyncWithOrc();
+        Task<int> SyncWithOrc();
 
         /// <summary>
         /// Change Reporting date

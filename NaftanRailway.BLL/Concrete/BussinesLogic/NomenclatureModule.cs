@@ -17,6 +17,9 @@ using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
 using System.Globalization;
 using log4net;
+using System.Threading.Tasks;
+using System.Text;
+using System.Data.Entity;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -131,11 +134,20 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         }
 
-        public void SyncWithOrc() {
+        public async Task<int> SyncWithOrc() {
             using (Engage.Uow = new UnitOfWork()) {
-                var db = Engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
-                db.CommandTimeout = 120;
-                db.ExecuteSqlCommand(@"EXEC dbo.sp_UpdateKrt_Naftan");
+                var result = 0;
+
+                try {
+                    var db = Engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
+                    db.CommandTimeout = 120;
+
+                    result = await db.ExecuteSqlCommandAsync(TransactionalBehavior.EnsureTransaction, @"EXEC dbo.sp_UpdateKrt_Naftan");
+                } catch (Exception ex) {
+                    await LogExceptionAsync(ex);
+                }
+
+                return result;
             }
         }
 
@@ -241,8 +253,20 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
         }
 
-        public byte[] GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName, 
-                                             string reportName, out string headersInfo, string defaultParameters = "rs:Format=Excel") {
+        /// <summary>
+        /// Get report from SSRS (it's I/O operation from remote server, thus i use async method)
+        /// The main reason to use 'Tuple' type is async. (it doesn't work with ref and out => i use 'tuple' as workaround)
+        /// </summary>
+        /// <param name="brInfo"></param>
+        /// <param name="numberScroll"></param>
+        /// <param name="reportYear"></param>
+        /// <param name="serverName"></param>
+        /// <param name="folderName"></param>
+        /// <param name="reportName"></param>
+        /// <param name="defaultParameters"></param>
+        /// <returns></returns>
+        public async Task<Tuple<byte[], string>> GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, string folderName,
+                                             string reportName, string defaultParameters = "rs:Format=Excel") {
             string nameFile, filterParameters;
             var selScroll = GetNomenclatureByNumber(numberScroll, reportYear);
 
@@ -279,6 +303,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
             //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
+            var headersInfo = string.Empty;
             if (brInfo.Name == "IE" && (brInfo.Version == "7.0" || brInfo.Version == "8.0"))
                 headersInfo = "attachment; filename=" + Uri.EscapeDataString(nameFile);
             else if (brInfo.Name == "Safari")
@@ -295,13 +320,17 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
             };
 
-            //log url
-            Log.DebugFormat("Attemp to recieve report with url: {0}", urlReportString);
+            var result = new byte[] { };
+            try {
+                //byte output
+                result = await client.DownloadDataTaskAsync(urlReportString);
+            } catch (Exception ex) {
+                //log url
+                Log.DebugFormat($"Attempt to recieve report with url: {urlReportString}, but it throws exception: {ex.Message}");
+                result = Encoding.ASCII.GetBytes(ex.Message);
+            }
 
-            //byte output
-            var result = client.DownloadData(urlReportString);
-
-            return result;
+            return new Tuple<byte[], string>(result, headersInfo);
         }
 
         public bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter) {
@@ -319,6 +348,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             }
 
             return true;
+        }
+
+        public async Task LogExceptionAsync(Exception ex) {
+            // Note: this is going to run syncronously
+            // because I didn't use async in the body.
+            await Task.Run(() => { Log.Debug($"Exception during execution 'SyncWithOrc': {ex?.Message}"); });
+            // Do something async here ...
         }
 
         protected override void DisposeCore() {

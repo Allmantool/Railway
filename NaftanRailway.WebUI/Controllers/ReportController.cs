@@ -7,11 +7,12 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using log4net;
+using System.Threading.Tasks;
 
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class ReportController : BaseController {
-        public ReportController(ILog logger) : base(logger) {}
+        public ReportController(ILog logger) : base(logger) { }
 
         /// <summary>
         /// Custom binding reverse month and year for datetime type (changing culture prop don't help)
@@ -32,7 +33,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Guild18(string reportName, string reportPeriod) {
+        public  async Task<ActionResult> Guild18(string reportName, string reportPeriod) {
             const string serverName = @"db2";
             const string folderName = @"Orders";
             byte[] data;
@@ -62,12 +63,13 @@ namespace NaftanRailway.WebUI.Controllers {
             using (var handler = new HttpClientHandler { Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } } })
             using (var httpClient = new HttpClient(handler) { BaseAddress = new Uri("http://db2") }) {
                 try {
-                    var responseTask = httpClient.GetByteArrayAsync(urlReportString);
-                    responseTask.Wait();
+                    var responseTask = httpClient.GetByteArrayAsync(urlReportString);//.ConfigureAwait(false);
+                    data = await responseTask;
 
-                    data = responseTask.Result;
                 } catch (Exception exc) {
+                    Log.DebugFormat($"Processing of report {reportName} (reportPeriod: {reportPeriod}, url: { urlReportString}) throws exception: {exc.Message}.");
                     data = Encoding.ASCII.GetBytes(exc.Message);
+                    //return;
                 }
             }
 

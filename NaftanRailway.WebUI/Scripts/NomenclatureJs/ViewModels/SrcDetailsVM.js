@@ -45,11 +45,11 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         var rows = income.ListDetails;
         var filters = income.Filters;
 
-        var mappingOptions = {
-            create: function (options) {
-                return ko.mapping.fromJS(options.data);
-            }
-        };
+        //var mappingOptions = {
+        //    create: function (options) {
+        //        return ko.mapping.fromJS(options.data);
+        //    }
+        ////};
         //filters
         ko.mapping.fromJS(filters, mappingOptions, self.filters);
 
@@ -76,7 +76,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         if (self.charges.peek().length > 0 || !_exist) {
             self.currChg(self.charges()[0]);
         }
-    };
+    }
 
     //behavior
     function init(params, parent) {
@@ -132,13 +132,13 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             },
             error: function () { _parent.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
         }, _parent);
-    };
+    }
 
     function changeCountPerPage(link, ev) {
         init({
-            url: self.pagging().getPageUrl() + 1,
+            url: self.pagging().getPageUrl() + 1
         }, _parent);
-    };
+    }
 
     function syncWithDB(link, context) {
         //save changes in extended observebles in edit mode (then automatically check to default state for edit mode => false)
@@ -155,7 +155,13 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
                 _parent.loadingState(false);
                 self.editModal(false);
             }
-        }
+            //fail: function (jqXHR, textStatus, errorThrow) {
+            //    _parent.alert().statusMsg('Произошла ошибка! ' + textStatus).alertType('alert-danger').mode(true);
+            //},
+            //always: function (jqXHR, textStatus, errorThrown) {
+            //    _parent.loadingState(false);
+            //}
+        };
 
         db.getScr(function (opts) {
             _parent.alert().statusMsg('Информация по сбору успешно изменена! ' + opts).alertType('alert-success').mode(true);
