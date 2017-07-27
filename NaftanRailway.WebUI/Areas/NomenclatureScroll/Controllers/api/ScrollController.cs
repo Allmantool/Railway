@@ -1,8 +1,11 @@
 ﻿using log4net;
 using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.POCO;
+using System.Collections;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
     public class APIScrollController : ApiController {
@@ -13,22 +16,26 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
             _bussinesEngage = bussinesEngage;
         }
 
-        public HttpResponseMessage GetScroll() {
-            var result = true;
+        //public HttpResponseMessage GetScroll() {
+        //    var result = true;
 
-            var msgResponse = result ? new HttpResponseMessage(HttpStatusCode.NotFound) : new HttpResponseMessage(HttpStatusCode.OK);
+        //    var msgResponse = result ? new HttpResponseMessage(HttpStatusCode.NotFound) : new HttpResponseMessage(HttpStatusCode.OK);
 
-            return msgResponse;
-        }
+        //    return msgResponse;
+        //}
 
         /// <summary>
         /// Get filters DTO for advance searching
         /// </summary>
         /// <returns></returns>
-        public IHttpActionResult AddvanceFilter() {
-            var result = true;
+        //[Route("customers/{customerId}/orders")]
+        [HttpGet]
+        [ResponseType(typeof(CheckListFilter))]
+        public IHttpActionResult GetAddvanceFilter() {
 
-            return result ? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
+            var result = _bussinesEngage.initGlobalSearchFilters();
+
+            return ((IList)result).Count > 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
         }
     }
 }

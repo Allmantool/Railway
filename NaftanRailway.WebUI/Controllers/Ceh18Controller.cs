@@ -84,6 +84,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
+
             var result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, menuView.ReportPeriod);
 
             return Json(result, JsonRequestBehavior.DenyGet);

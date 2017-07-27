@@ -50,9 +50,9 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return View(model: sender);
         }
-        
+
         //[HttpPost]
-        public override FileContentResult GetLog() {
+        public FileContentResult DiagnosticLog() {
             return GetLog();
         }
 

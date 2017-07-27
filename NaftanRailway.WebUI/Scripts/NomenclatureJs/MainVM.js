@@ -19,6 +19,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkPeriods: ko.observableArray([]),
         wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
+        filters: ko.observableArray(undefined).extend({ deferred: true }),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
         scrolls: ko.observableArray(),
@@ -283,6 +284,28 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         }
     }
 
+    function addvanceFilters(dataContext) {
+        db.getScr(function (data) {
+            init({
+                url: self.pagging().getPageUrl() + self.pagging().CurrentPage()
+            }, self);
+
+            self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
+        }, {
+            url: typeof link === 'string' ? link : $(ev.target).attr('href'),
+            type: "Post",
+            data: ko.mapping.toJSON({ 'asService': true }),
+            beforeSend: function () { self.loadingState(true); },
+            complete: function () {
+                self.loadingState(false);
+            },
+            error: function () { self.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
+        });
+
+        //Show modal
+        self.searchModal(true);
+    }
+
     //work with ajax replace (reaplace dom is leaded to lose binding)
     function containerRebind(opts, ev) {
         self.loadingState(true);
@@ -337,6 +360,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkPeriods: self.wrkPeriods,
         wrkSelPeriod: self.wrkSelPeriod,
         SSRSMode: self.SSRSMode,
+        filters: self.filters,
+
         //behavior
         init: init,
         updatePeriod: updatePeriod,
@@ -347,6 +372,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         containerRebind: containerRebind,
         removeSrc: removeSrc,
         changeCountPerPage: changeCountPerPage,
-        changePeriodMonth: changePeriodMonth
+        changePeriodMonth: changePeriodMonth,
+        addvanceFilters: addvanceFilters
     };
 }(jQuery, ko, appNomenclature.DataContext, appNomenclature.PeriodModalVM, appNomenclature.SrcDetailsVM));

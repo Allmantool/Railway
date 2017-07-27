@@ -122,6 +122,7 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
 
         /// <summary>
         /// Get property name from some type instance by Linq (Someting wrong). Although use reflection with expression tree
+        /// It's filtering field
         /// </summary>
         /// <typeparam name="T">generating type work's entity</typeparam>
         /// <param name="lambda">get property through lambda</param>
@@ -163,7 +164,7 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
 
             var param = Expression.Parameter(typeof(OutT), "x");
 
-            var result = new CustomExpVisitor<OutT>(param).Visit(expression); 
+            var result = new CustomExpVisitor<OutT>(param).Visit(expression);
 
             Expression<Func<OutT, bool>> lambda = Expression.Lambda<Func<OutT, bool>>(result, new[] { param });
 

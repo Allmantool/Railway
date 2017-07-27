@@ -50,6 +50,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         //        return ko.mapping.fromJS(options.data);
         //    }
         ////};
+
         //filters
         ko.mapping.fromJS(filters, mappingOptions, self.filters);
 

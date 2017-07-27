@@ -5,15 +5,18 @@ using System.Linq.Expressions;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete;
 using NaftanRailway.BLL.Abstract;
+using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     /// <summary>
     /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
     /// </summary>
     public sealed class BussinesEngage : Disposable, IBussinesEngage {
+        public ILog Log { get; }
         public IUnitOfWork Uow { get; set; }
-        public BussinesEngage(IUnitOfWork unitOfWork) {
+        public BussinesEngage(IUnitOfWork unitOfWork, ILog log) {
             Uow = unitOfWork;
+            Log = log;
         }
 
         /// <summary>
@@ -55,15 +58,33 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             }
         }
 
-        public IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
+        /// <summary>
+        /// Custom group function
+        /// </summary>
+        /// <typeparam name="T">A element type (entity, table, object)</typeparam>
+        /// <typeparam name="TKey">It's key by which grouping sequence of type T</typeparam>
+        /// <param name="groupPredicate">It's predicate for grouping</param>
+        /// <param name="predicate">It's predicate for filtering</param>
+        /// <param name="caсhe"></param>
+        /// <returns>It returns IEnumerable'IGrouping' </returns>
+        public IEnumerable<IGrouping<TKey, T>> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
+
+            IList<IGrouping<TKey, T>> result;
+
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).OrderBy(x => x.Key).Select(x => x.Key).ToList();
+                try {
+                    result = Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).ToList();
+                } catch (Exception ex) {
+                    Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
+                    throw ex.InnerException;
+                }
+
+                return result;
             }
         }
 
         protected override void DisposeCore() {
-            if (Uow != null)
-                Uow.Dispose();
+            Uow?.Dispose();
         }
     }
 }

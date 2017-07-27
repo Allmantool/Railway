@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface INomenclatureModule : IDisposable {
-        IBussinesEngage Engage { get; }
-        ILog Log { get; }
-
         /// <summary>
         /// Get part of table
         /// </summary>
@@ -25,6 +22,8 @@ namespace NaftanRailway.BLL.Abstract {
         IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
+        IEnumerable<CheckListFilter> initGlobalSearchFilters();
+
         IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, 
                                                                    int initialSizeItem, out long recordCount, bool viewWrong = false);
 

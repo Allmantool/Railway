@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using System.Web.Mvc.Ajax;
 using System.Web.Routing;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.POCO;

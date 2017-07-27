@@ -8,10 +8,12 @@ using System.Net.Http;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace NaftanRailway.UnitTests.General {
     [TestClass]
     public class ClientServicesTests {
+        private readonly object _threadLock = new object();
         [TestMethod]
         public void ReportWebClient() {
             const string serverName = @"db2";
@@ -150,16 +152,19 @@ namespace NaftanRailway.UnitTests.General {
         }
 
         [TestMethod]
-        public void CheckLogPath() {
+        public async Task CheckLogPath() {
             var txt = string.Empty;
             var logpath = Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\log.txt");
-           
-            if (!File.Exists(logpath)) {
-                Directory.CreateDirectory(Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\"));
-                File.Create(logpath).Close();
-            }
 
             try {
+                await Task.Run(() => {
+                    if (!File.Exists(logpath)) {
+                        Directory.CreateDirectory(Path.Combine(@"c:\Users\cpn.LAN\Desktop", @"logs\"));
+                        File.Create(logpath).Close();
+                    }
+                });
+
+                //lock (_threadLock) {
                 Encoding utf8 = Encoding.GetEncoding("UTF-8");
                 Encoding win1251 = Encoding.GetEncoding("windows-1251");
 
@@ -176,11 +181,11 @@ namespace NaftanRailway.UnitTests.General {
                         Debug.WriteLine("Encoding {0}: {1}", targetEncoding.CodePage, targetEncoding.GetEncoding().GetString(bytes));
                     }
                 }
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+                Assert.IsTrue(false);
 
-            } catch (Exception) {
-                Assert.IsTrue(true);
             }
-
             Debug.WriteLine(txt);
 
             Assert.IsTrue(true);

@@ -7,7 +7,11 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div id="cutomsFilter"></div>
+                    <div data-bind="if: filters().length > 1" id="cutomsFilter">
+                        <!-- ko if: filters().length > 0 -->
+                        @{ Html.RenderPartial("_FilterMenu"); }
+                        <!-- /ko -->
+                    </div>
                     <hr />
                     <div id="treeFilter"></div>
                 </div>

@@ -16,11 +16,9 @@ using log4net;
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
         private readonly IBussinesEngage _engage;
-        public ILog Log { get; }
 
-        public RailwayModule(IBussinesEngage engage, ILog log) {
+        public RailwayModule(IBussinesEngage engage) {
             _engage = engage;
-            Log = log;
         }
 
         /// <summary>
@@ -99,11 +97,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="chooseDate"></param>
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
-            var wrkDispatch = _engage.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).ToList();
+            var wrkDispatch = _engage.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).Select(y => y.First().idDeliviryNote);
 
             var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32
                                 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
-                                && wrkDispatch.Contains(x.id)).ToList();
+                                && wrkDispatch.Contains(x.id) && x.oper != null).Select(x => x.First().oper.Value).ToList();
 
             return result;
         }
@@ -134,10 +132,20 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var startDate = chooseDate.AddDays(-shiftPage);
             var endDate = chooseDate.AddMonths(1).AddDays(shiftPage);
 
-            return _engage.GetGroup<v_nach, string>(x => x.num_doc, x => x.num_doc.StartsWith(templShNumber)
-                 && (new[] { "3494", "349402" }.Contains(x.cod_kl))
-                 && x.type_doc == 1 && (x.date_raskr >= startDate && x.date_raskr <= endDate))
-                .OrderByDescending(x => x).Take(10);
+            IEnumerable<string> result;
+
+            try {
+                result = _engage.GetGroup<v_nach, string>(x => x.num_doc,
+                                    x => x.num_doc.StartsWith(templShNumber)
+                                        && (new[] { "3494", "349402" }.Contains(x.cod_kl))
+                                        && x.type_doc == 1 && (x.date_raskr >= startDate && x.date_raskr <= endDate))
+                                .Select(x => x.First().num_doc).OrderByDescending(x => x).Take(10);
+            } catch (Exception ex) {
+                _engage.Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
+                throw ex.InnerException;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -167,7 +175,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                                 rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
                                                 codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0])),
                                                 idCard = vn.id_kart,
-                                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).FirstOrDefault()
+                                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                             }).ToList();
 
                 foreach (var dispatch in preview) {
@@ -189,7 +197,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                 sum = (decimal)(x.summa + x.nds),
                                 idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                 codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                             }));
                     }
                     //065
@@ -208,7 +216,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                     sum = (decimal)(x.summa + x.nds),
                                     idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                 }));
                     }
                     ////type_doc 3 =>one transaction (one request per one dbcontext)
@@ -229,7 +237,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                     idCard = x.id_kart,
                                     rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).FirstOrDefault()
+                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                 }));
 
                     }
@@ -360,7 +368,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         _engage.Uow.Save();
 
                     } catch (Exception ex) {
-                        Log.DebugFormat("Exception: {0}", ex.Message);
+                        _engage.Log.DebugFormat("Exception: {0}", ex.Message);
                         return false;
                     }
                 }
@@ -470,8 +478,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         protected override void DisposeCore() {
-            if (_engage != null)
-                _engage.Dispose();
+            _engage?.Dispose();
         }
     }
 }

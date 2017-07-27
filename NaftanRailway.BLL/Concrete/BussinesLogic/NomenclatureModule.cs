@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -23,12 +24,10 @@ using System.Data.Entity;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
-        public IBussinesEngage Engage { get; }
-        public ILog Log { get; }
+        private readonly IBussinesEngage _engage;
 
-        public NomenclatureModule(IBussinesEngage engage, ILog log) {
-            Engage = engage;
-            Log = log;
+        public NomenclatureModule(IBussinesEngage engage) {
+            _engage = engage;
         }
 
         public IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate = null) {
@@ -36,10 +35,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 //convert type
                 var filterPredicate = PredicateExtensions.ConvertTypeExpression<ScrollLineDTO, krt_Naftan>(predicate.Body);
 
-                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
+                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
             }
 
-            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(Engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
+            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
         }
 
         public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount, bool viewWrong = false) {
@@ -58,11 +57,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //view rows which sum not equal (viewWrong = false)
             where = viewWrong ? where.And(x => x.summa + x.nds != x.sm).Expand() : where;
 
-            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(Engage.GetSkipRows<krt_Naftan_orc_sapod, object>(page, initialSizeItem, out recordCount, order, where));
+            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(_engage.GetSkipRows(page, initialSizeItem, out recordCount, order, where));
         }
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
-            return Mapper.Map<ScrollLineDTO>(Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault());
+            return Mapper.Map<ScrollLineDTO>(_engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).SingleOrDefault());
         }
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// </summary>
         /// <returns></returns>
         public IEnumerable<DateTime> GetListPeriod() {
-            var result = Engage.GetGroup<krt_Naftan, DateTime>(x => x.DTBUHOTCHET);
+            var result = _engage.GetGroup<krt_Naftan, DateTime>(x => x.DTBUHOTCHET).Select(x => x.First().DTBUHOTCHET);
 
             return result;
         }
@@ -82,8 +81,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="msgError"></param>
         /// <param name="numberScroll"></param>
         public IEnumerable<ScrollLineDTO> AddKrtNaftan(int numberScroll, int reportYear, out string msgError) {
-            var key = Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
-            using (Engage.Uow = new UnitOfWork()) {
+            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+            using (_engage.Uow = new UnitOfWork()) {
                 try {
                     SqlParameter parm = new SqlParameter() {
                         ParameterName = "@ErrId",
@@ -91,13 +90,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         Direction = ParameterDirection.Output
                     };
                     //set active context => depend on type of entity
-                    var db = Engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
+                    var db = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                     //Confirmed
-                    krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
-                    //Engage.Uow.Repository<krt_Naftan>().Edit(chRecord);
+                    krt_Naftan chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    //_engage.Uow.Repository<krt_Naftan>().Edit(chRecord);
 
                     //Uow.Repository<krt_Naftan>().Edit(chRecord);
                     if (!chRecord.Confirmed) {
@@ -109,7 +108,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     //write state
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
 
-                    Engage.Uow.Save();
+                    _engage.Uow.Save();
 
                     return Mapper.Map<IEnumerable<ScrollLineDTO>>(new[] { chRecord });
                 } catch (Exception e) {
@@ -119,15 +118,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public ScrollLineDTO DeleteNomenclature(int numberScroll, int reportYear) {
-            var key = Engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
 
-            using (Engage.Uow = new UnitOfWork()) {
-                krt_Naftan chRecord = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+            using (_engage.Uow = new UnitOfWork()) {
+                krt_Naftan chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
 
                 //Cascading delete rows in  krt_Naftan_orc_sapod (set up on .odmx model)
-                Engage.Uow.Repository<krt_Naftan>().Delete(chRecord);
+                _engage.Uow.Repository<krt_Naftan>().Delete(chRecord);
 
-                Engage.Uow.Save();
+                _engage.Uow.Save();
 
                 return Mapper.Map<ScrollLineDTO>(chRecord); ;
             }
@@ -135,11 +134,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public async Task<int> SyncWithOrc() {
-            using (Engage.Uow = new UnitOfWork()) {
+            using (_engage.Uow = new UnitOfWork()) {
                 var result = 0;
 
                 try {
-                    var db = Engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
+                    var db = _engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
                     db.CommandTimeout = 120;
 
                     result = await db.ExecuteSqlCommandAsync(TransactionalBehavior.EnsureTransaction, @"EXEC dbo.sp_UpdateKrt_Naftan");
@@ -158,14 +157,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="numberScroll"></param>
         /// <param name="multiChange">Change single or multi date</param>
         public IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true) {
-            var listRecords = multiChange ? Engage.GetTable<krt_Naftan, int>(x => x.KEYKRT >= keyScroll).ToList() :
-                                            Engage.GetTable<krt_Naftan, int>(x => x.KEYKRT == keyScroll).ToList();
+            var listRecords = multiChange ? _engage.GetTable<krt_Naftan, int>(x => x.KEYKRT >= keyScroll).ToList() :
+                                            _engage.GetTable<krt_Naftan, int>(x => x.KEYKRT == keyScroll).ToList();
 
-            using (Engage.Uow = new UnitOfWork()) {
+            using (_engage.Uow = new UnitOfWork()) {
                 try {
                     //add to tracking (for update only change property)
-                    Engage.Uow.Repository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
-                    Engage.Uow.Save();
+                    _engage.Uow.Repository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
+                    _engage.Uow.Save();
                     return Mapper.Map<IEnumerable<ScrollLineDTO>>(listRecords);
                 } catch (Exception) {
                     throw new Exception("Error on change date method");
@@ -179,11 +178,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="charge"></param>
         /// <returns></returns>
         public bool EditKrtNaftanOrcSapod(ScrollDetailDTO charge) {
-            using (Engage.Uow = new UnitOfWork()) {
+            using (_engage.Uow = new UnitOfWork()) {
                 try {
                     //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = Engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
-                    Engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
+                    var itemRow = _engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
+                    _engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
 
                     //update only necessary properties (exist method whole update method)
                     itemRow.nds = charge.nds;
@@ -195,12 +194,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     itemRow.ErrorState = 2;
 
                     //krt_Naftan (check as correction)
-                    var parentRow = Engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
-                    Engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
+                    var parentRow = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
+                    _engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
                     //mark as edit
                     parentRow.ErrorState = 2;
 
-                    Engage.Uow.Save();
+                    _engage.Uow.Save();
 
                 } catch (Exception) {
                     return false;
@@ -211,7 +210,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public ScrollDetailDTO OperationOnScrollDetail(long key, EnumMenuOperation operation) {
-            var row = Mapper.Map<ScrollDetailDTO>(Engage.GetTable<krt_Naftan_orc_sapod, long>(x => x.keysbor == key, caсhe: true, tracking: true).SingleOrDefault());
+            var row = Mapper.Map<ScrollDetailDTO>(_engage.GetTable<krt_Naftan_orc_sapod, long>(x => x.keysbor == key, caсhe: true, tracking: true).SingleOrDefault());
 
             switch (operation) {
                 case EnumMenuOperation.Join:
@@ -230,27 +229,58 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Expression<Func<krt_Naftan_orc_sapod, bool>> predicate = x => x.keykrt == key;
 
             return new[] {
-                new CheckListFilter(Engage.GetGroup(x => x.nkrt, predicate)){
+                new CheckListFilter(_engage.GetGroup(x => x.nkrt, predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nkrt),
                     NameDescription = "Накоп. Карточки:"
                 },
-                new CheckListFilter(Engage.GetGroup(x => x.tdoc.ToString(),predicate)){
+                new CheckListFilter(_engage.GetGroup(x => x.tdoc.ToString(),predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.tdoc),
                     NameDescription = "Тип документа:"
                 },
-                new CheckListFilter(Engage.GetGroup(x => x.vidsbr.ToString(),predicate)){
+                new CheckListFilter(_engage.GetGroup(x => x.vidsbr.ToString(),predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
                     NameDescription = "Вид сбора:"
                 },
-                new CheckListFilter(Engage.GetGroup(x => x.nomot.ToString(),predicate)){
+                new CheckListFilter(_engage.GetGroup(x => x.nomot.ToString(),predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
                     NameDescription = "Документ:"
                 },
-                new CheckListFilter(Engage.GetGroup(x=>x.dt.ToString(),predicate)){
+                new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(), predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
                     NameDescription = "Период:"
                 },
             };
+        }
+
+        public IEnumerable<CheckListFilter> initGlobalSearchFilters() {
+            //mock predicate
+            //Expression<Func<krt_Naftan_orc_sapod, object>> groupPredicate = x => new { x.id_kart, x.nkrt };
+
+            var result = new CheckListFilter[] { };
+
+            try {
+                result = new[] {
+                    //new CheckListFilter(
+                    //    _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null ).ToDictionary(x=>x.First().id_kart.Value, x=>x.First().nkrt)) {
+                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x =>  x.id_kart ),
+                    //    NameDescription = @"Накоп. Карточки"
+                    //},
+                    //new CheckListFilter(
+                    //    _engage.GetGroup<krt_Naftan, object>(  x => new { x.KEYKRT, x.NKRT } ).ToDictionary(x=>x.First().KEYKRT, x=>x.First().NKRT )) {
+                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
+                    //    NameDescription = @"Перечни"
+                    //},
+                     new CheckListFilter(
+                        _engage.GetGroup<krt_Naftan_orc_sapod, string>(  x =>  x.num_doc, x =>x.num_doc != null).Select(x=>x.ToString())) {
+                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.num_doc),
+                        NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
+                    },
+            };
+            } catch (Exception ex) {
+                _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}.");
+                throw ex.InnerException;
+            }
+            return result;
         }
 
         /// <summary>
@@ -326,7 +356,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 result = await client.DownloadDataTaskAsync(urlReportString);
             } catch (Exception ex) {
                 //log url
-                Log.DebugFormat($"Attempt to recieve report with url: {urlReportString}, but it throws exception: {ex.Message}");
+                _engage.Log.DebugFormat($"Attempt to recieve report with url: {urlReportString}, but it throws exception: {ex.Message}");
                 result = Encoding.ASCII.GetBytes(ex.Message);
             }
 
@@ -344,7 +374,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 );
 
             foreach (var item in filters) {
-                item.CheckedValues = Engage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.FieldName).Expand(), finalPredicate.Expand());
+                item.CheckedValues = _engage.GetGroup(PredicateExtensions.GroupPredicate<krt_Naftan_orc_sapod>(item.FieldName).Expand(), finalPredicate.Expand()).Select(x => x.ToString());
             }
 
             return true;
@@ -353,13 +383,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         public async Task LogExceptionAsync(Exception ex) {
             // Note: this is going to run syncronously
             // because I didn't use async in the body.
-            await Task.Run(() => { Log.Debug($"Exception during execution 'SyncWithOrc': {ex?.Message}"); });
+            await Task.Run(() => { _engage.Log.Debug($"Exception during execution 'SyncWithOrc': {ex?.Message}"); });
             // Do something async here ...
         }
 
         protected override void DisposeCore() {
-            if (Engage != null)
-                Engage.Dispose();
+            _engage?.Dispose();
         }
     }
 }

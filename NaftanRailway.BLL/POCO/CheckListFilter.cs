@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,6 +13,9 @@ namespace NaftanRailway.BLL.POCO {
     public class CheckListFilter {
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }
+        /// <summary>
+        /// It requeres a real name of entity/ table for work with reflaction mechanisms principals
+        /// </summary>
         public string FieldName { get; set; }
         //another variant add <T> general type for filter and with reflection return metadata propeprty from entity model
         public string NameDescription { get; set; }
@@ -27,10 +31,16 @@ namespace NaftanRailway.BLL.POCO {
             CheckedValues = availableValues;
         }
 
+
         /// <summary>
         /// Для данного объекта не определено беспараметрических конструкторов. (from .js)
         /// </summary>
-        public CheckListFilter(){}
+        public CheckListFilter(IDictionary keyVal) {
+            var availableValues = keyVal.Values.ToString().Select(x => x.ToString());
+
+            AllAvailableValues = availableValues;
+            CheckedValues = availableValues;
+        }
 
         /// <summary>
         /// Filter by concrete(current) fields

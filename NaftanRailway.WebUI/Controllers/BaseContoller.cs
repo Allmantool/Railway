@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
@@ -121,6 +122,7 @@ namespace NaftanRailway.WebUI.Controllers {
             var serverPath = Server.MapPath("~/") ?? HostingEnvironment.ApplicationPhysicalPath;
             var logpath = Path.Combine(serverPath, @"logs\log.txt");
 
+            //await Task.Run(() => {
             try {
                 lock (_threadLock) {
                     //CreateDirectory create all needed subfolders
@@ -135,6 +137,14 @@ namespace NaftanRailway.WebUI.Controllers {
                     using (var streamReader = new StreamReader(fileStream, win1251)) {
                         txt = streamReader.ReadToEnd();
                     }
+
+                    var cd = new ContentDisposition {
+                        FileName = String.Format("Лог_{0}.txt", DateTime.Now),
+                        // always prompt the user for downloading, set to true if you want the browser to try to show the file inline
+                        Inline = false,
+                    };
+
+                    Response.AppendHeader("Content-Disposition", cd.ToString());
                 }
             } catch (Exception ex) {
                 txt = String.Format("Возникло исключение: {3}{0}{3}Server.MapPath(~/): \"{1}\"{3}HostingEnvironment.ApplicationPhysicalPath: \"{2}\"{3}",
@@ -145,14 +155,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
                 Log.Debug(ex.Message);
             }
-
-            var cd = new ContentDisposition {
-                FileName = String.Format("Лог_{0}.txt", DateTime.Now),
-                // always prompt the user for downloading, set to true if you want the browser to try to show the file inline
-                Inline = false,
-            };
-
-            Response.AppendHeader("Content-Disposition", cd.ToString());
+            //});
 
             return File(win1251.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
         }

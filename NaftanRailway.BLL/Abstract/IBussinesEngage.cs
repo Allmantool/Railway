@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NaftanRailway.Domain.Abstract;
+using System.Linq;
+using log4net;
 
 namespace NaftanRailway.BLL.Abstract {
     /// <summary>
@@ -9,6 +11,7 @@ namespace NaftanRailway.BLL.Abstract {
     /// </summary>
     public interface IBussinesEngage : IDisposable {
         IUnitOfWork Uow { get; set; }
+        ILog Log { get; }
 
         /// <summary>
         /// Get rows from table (filter & order)
@@ -57,6 +60,6 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="predicate"></param>
         /// <param name="caсhe"></param>
         /// <returns></returns>
-        IEnumerable<TKey> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
+        IEnumerable<IGrouping<TKey, T>> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
     }
 }
