@@ -11,7 +11,6 @@ using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
-using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
@@ -142,7 +141,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                 .Select(x => x.First().num_doc).OrderByDescending(x => x).Take(10);
             } catch (Exception ex) {
                 _engage.Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
-                throw ex.InnerException;
+                throw;
             }
 
             return result;
@@ -437,7 +436,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         public IEnumerable<OverviewCarriageDTO> EstimatedCarrieages() {
             DateTime supremePeriod = DateTime.Today.AddDays(-10);
             DateTime currentMonth = DateTime.Today.AddDays(-15);
-            IEnumerable<OverviewCarriageDTO> result = new List<OverviewCarriageDTO>();
 
             //code of goods that not nessary to finded
             var outSearch = new[] { "" };
@@ -466,7 +464,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
 
             //merge two object of the same type to one (we have 2 diffrent source)
-            result = estimatedCarriages.Select(cr => new OverviewCarriageDTO() {
+            var result = estimatedCarriages.Select(cr => new OverviewCarriageDTO() {
                 Carriage = cr,
                 Cargo = cargoName(cr.cod_gruz),
             }).Concat(estimatedAltCarriages.Select(cr => new OverviewCarriageDTO() {

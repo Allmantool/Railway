@@ -68,15 +68,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="caсhe"></param>
         /// <returns>It returns IEnumerable'IGrouping' </returns>
         public IEnumerable<IGrouping<TKey, T>> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class {
-
-            IList<IGrouping<TKey, T>> result;
-
             using (Uow = new UnitOfWork()) {
+                IList<IGrouping<TKey, T>> result;
                 try {
                     result = Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).ToList();
                 } catch (Exception ex) {
                     Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
-                    throw ex.InnerException;
+                    throw;
                 }
 
                 return result;

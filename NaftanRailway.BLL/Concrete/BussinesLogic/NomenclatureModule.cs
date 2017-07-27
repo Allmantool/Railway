@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoMapper;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -17,7 +16,6 @@ using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
 using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
 using System.Globalization;
-using log4net;
 using System.Threading.Tasks;
 using System.Text;
 using System.Data.Entity;
@@ -35,7 +33,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 //convert type
                 var filterPredicate = PredicateExtensions.ConvertTypeExpression<ScrollLineDTO, krt_Naftan>(predicate.Body);
 
-                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
+                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
             }
 
             return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
@@ -128,7 +126,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 _engage.Uow.Save();
 
-                return Mapper.Map<ScrollLineDTO>(chRecord); ;
+                return Mapper.Map<ScrollLineDTO>(chRecord);
             }
 
         }
@@ -154,7 +152,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// Change date all later records
         /// </summary>
         /// <param name="period"></param>
-        /// <param name="numberScroll"></param>
+        /// <param name="keyScroll"></param>
         /// <param name="multiChange">Change single or multi date</param>
         public IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true) {
             var listRecords = multiChange ? _engage.GetTable<krt_Naftan, int>(x => x.KEYKRT >= keyScroll).ToList() :
@@ -214,13 +212,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 
@@ -245,7 +243,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
                     NameDescription = "Документ:"
                 },
-                new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(), predicate).Select(x=>x.ToString())){
+                new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(CultureInfo.InvariantCulture), predicate).Select(x=>x.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
                     NameDescription = "Период:"
                 },
@@ -256,7 +254,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //mock predicate
             //Expression<Func<krt_Naftan_orc_sapod, object>> groupPredicate = x => new { x.id_kart, x.nkrt };
 
-            var result = new CheckListFilter[] { };
+            CheckListFilter[] result;
 
             try {
                 result = new[] {
@@ -278,7 +276,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
             } catch (Exception ex) {
                 _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}.");
-                throw ex.InnerException;
+                throw;
             }
             return result;
         }
@@ -303,29 +301,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                    filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                break;
+                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                    break;
 
                 case @"KRT_Analys_ORC":
-                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 default:
-                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
             }
 
             //generate url for ssrs
@@ -333,7 +331,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
             //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
-            var headersInfo = string.Empty;
+            string headersInfo;
             if (brInfo.Name == "IE" && (brInfo.Version == "7.0" || brInfo.Version == "8.0"))
                 headersInfo = "attachment; filename=" + Uri.EscapeDataString(nameFile);
             else if (brInfo.Name == "Safari")
@@ -350,13 +348,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
             };
 
-            var result = new byte[] { };
+            byte[] result;
             try {
                 //byte output
                 result = await client.DownloadDataTaskAsync(urlReportString);
             } catch (Exception ex) {
                 //log url
-                _engage.Log.DebugFormat($"Attempt to recieve report with url: {urlReportString}, but it throws exception: {ex.Message}");
+                _engage.Log.DebugFormat($"Attempt to receive report with url: {urlReportString}, but it throws exception: {ex.Message}");
                 result = Encoding.ASCII.GetBytes(ex.Message);
             }
 
