@@ -73,7 +73,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 try {
                     result = Uow.Repository<T>().Get_all(predicate, caсhe).GroupBy(groupPredicate).ToList();
                 } catch (Exception ex) {
-                    Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
+                    Log.DebugFormat($"GetGroup LINQ custom method throws exception: {ex.Message}.");
                     throw;
                 }
 

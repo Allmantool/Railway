@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Text;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -47,9 +48,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //apply filters(linqKit)
             if (filters != null) {
-                where = where.And(filters.Aggregate(PredicateBuilder.New<krt_Naftan_orc_sapod>(true).DefaultExpression,
-                             (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>())))
-                         .Expand();
+                where = where.And(filters.Aggregate(
+                                PredicateBuilder.New<krt_Naftan_orc_sapod>(true).DefaultExpression,
+                                (current, innerItemMode) => current.And(innerItemMode.FilterByField<krt_Naftan_orc_sapod>()))
+                        ).Expand();
             }
 
             //view rows which sum not equal (viewWrong = false)
@@ -212,13 +214,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
@@ -258,21 +260,23 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             try {
                 result = new[] {
-                    //new CheckListFilter(
-                    //    _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null ).ToDictionary(x=>x.First().id_kart.Value, x=>x.First().nkrt)) {
-                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x =>  x.id_kart ),
-                    //    NameDescription = @"Накоп. Карточки"
-                    //},
+                    new CheckListFilter(
+                        _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null ).ToList()
+                               .ToDictionary(x=>SqlFunctions.StringConvert((decimal)x.First().id_kart.Value), x=>x.First().nkrt)) {
+
+                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.id_kart ),
+                        NameDescription = @"Накоп. Карточки"
+                    },
                     //new CheckListFilter(
                     //    _engage.GetGroup<krt_Naftan, object>(  x => new { x.KEYKRT, x.NKRT } ).ToDictionary(x=>x.First().KEYKRT, x=>x.First().NKRT )) {
                     //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
                     //    NameDescription = @"Перечни"
                     //},
-                     new CheckListFilter(
-                        _engage.GetGroup<krt_Naftan_orc_sapod, string>(  x =>  x.num_doc, x =>x.num_doc != null).Select(x=>x.ToString())) {
-                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.num_doc),
-                        NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
-                    },
+                    // new CheckListFilter(
+                    //    _engage.GetGroup<krt_Naftan_orc_sapod, string>(  x =>  x.num_doc, x =>x.num_doc != null).Select(x=>x.ToString())) {
+                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.num_doc),
+                    //    NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
+                    //},
             };
             } catch (Exception ex) {
                 _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}.");
@@ -301,29 +305,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                    filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
+                break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                    nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                    break;
+                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                break;
 
                 case @"KRT_Analys_ORC":
-                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                break;
 
                 default:
-                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
             }
 
             //generate url for ssrs

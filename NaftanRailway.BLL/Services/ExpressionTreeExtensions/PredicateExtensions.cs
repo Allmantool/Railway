@@ -120,6 +120,19 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
             return Expression.Lambda<Func<TInput, int>>(containsMethodExp, param);
         }
 
+        public static Expression<Func<TSource, TInput, string>> ConvertToString<TSource, TInput>(string fieldName, TInput propertyValue) {
+            ParameterExpression param = Expression.Parameter(typeof(TSource), "type");
+            MemberExpression expr = Expression.Property(param, fieldName);
+
+            MethodInfo toStrMethod = typeof(object).GetMethod("ToString");
+
+            ConstantExpression someValue = Expression.Constant(propertyValue, typeof(TInput));
+
+            var toStrdExp = Expression.Call(expr, toStrMethod, someValue);
+
+            return Expression.Lambda<Func<TSource, TInput, string>>(toStrdExp, param);
+        }
+
         /// <summary>
         /// Get property name from some type instance by Linq (Someting wrong). Although use reflection with expression tree
         /// It's filtering field
@@ -150,7 +163,6 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
             var member = (MemberExpression)e.Body;
             return member.Member.Name;
         }
-
 
         /// <summary>
         ///Implement visitor pattern.

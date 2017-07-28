@@ -1,12 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using NaftanRailway.BLL.POCO;
+using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
+using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace NaftanRailway.UnitTests.Rail {
     [TestClass]
@@ -25,19 +24,58 @@ namespace NaftanRailway.UnitTests.Rail {
         };
 
         [TestMethod]
-        public void AutoCompleteDispatch() {
+        public void FiltersDTOTest() {
             // Arrange
             var seq = new[] { "First", "Second", "Third" };
 
-            var stuff = new List<Person> {
-                new Person(1, "A", "City A"),
-                new Person(2, "A", "City B"),
-                new Person(3, "A", "City A"),
-                new Person(4, "B", "City B"),
-                new Person(5, "B", "City B"),
-                new Person(6, "C", "City C"),
-                new Person(7, "D", "City D"),
+            var cards = new List<krt_Naftan_orc_sapod> {
+                new krt_Naftan_orc_sapod() { id_kart = 11, nkrt = @"K_1" },
+                new krt_Naftan_orc_sapod() { id_kart = 12, nkrt = @"K_2" },
+                new krt_Naftan_orc_sapod() { id_kart = 13, nkrt = @"K_3" },
+                new krt_Naftan_orc_sapod() { id_kart = 14, nkrt = @"K_4" },
+                new krt_Naftan_orc_sapod() { id_kart = 15, nkrt = @"K_5" },
+                new krt_Naftan_orc_sapod() { id_kart = 11, nkrt = @"K_1" },
+
+                //dublicate 
+                new krt_Naftan_orc_sapod() { id_kart = 12, nkrt = @"K_2" },
+                new krt_Naftan_orc_sapod() { id_kart = 13, nkrt = @"K_3" },
+                new krt_Naftan_orc_sapod() { id_kart = 14, nkrt = @"K_4" },
+
+                //wrong cases (filter predicate)
+                new krt_Naftan_orc_sapod() { id_kart = null, nkrt = @"K_null" },
             }.AsQueryable();
+
+            Expression<Func<krt_Naftan_orc_sapod, object>> groupPredicate = x => new { x.id_kart, x.nkrt };
+            Expression<Func<krt_Naftan_orc_sapod, bool>> filterPredicate = x => x.id_kart != null;
+
+            // Act
+            var result = cards.Where(filterPredicate).GroupBy(groupPredicate).ToDictionary(x => x.First().id_kart.Value.ToString(), x => x.First().nkrt);
+            var availableValues = result.Values.Select(x => x);
+            var availableKeys = result.Keys.Select(x => x);
+
+            //constructor with dictionary
+            var filterDict = new CheckListFilter(result) {
+                FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x => x.id_kart),
+                NameDescription = @"Накоп. Карточки"
+            };
+
+            // There're four unique values
+            var inputSeq = new[] { "1", "2", "3", "1" };
+            //It moves them in dictinary with unique Key/Value 
+            var inputDicionary = inputSeq.GroupBy(x => x).ToDictionary(x => x.First(), x => x.First());
+            var dictValues = inputDicionary.Values.Select(x => x);
+
+            //constructor with enum
+            var filterEnum = new CheckListFilter(inputSeq);
+
+            var expTree1 = filterDict.FilterByField<krt_Naftan_orc_sapod>();
+
+
+            //Expression<Func<krt_Naftan_orc_sapod, bool>> get
+            var convertToString = PredicateExtensions.ConvertToString<krt_Naftan_orc_sapod, int>(
+                PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x => x.id_kart),
+                5
+                ).Compile().Invoke(new krt_Naftan_orc_sapod(), 5);
 
             //var mockSet = new Mock<DbSet<Person>>();
             //mockSet.As<IDbAsyncEnumerable<Person>>()
@@ -71,6 +109,14 @@ namespace NaftanRailway.UnitTests.Rail {
             //        && (new[] { "3494", "349402" }.Contains(x.cod_kl))
             //        && x.type_doc == 1 && (x.date_raskr >= startDate && x.date_raskr <= endDate))
             //    .OrderByDescending(x => x).Select(x => x.num_doc).Take(10);
+
+            Assert.AreEqual(5, result.Count());
+            Assert.AreEqual(5, availableValues.ToList().Count());
+            Assert.AreEqual(@"Накоп. Карточки", filterDict.NameDescription);
+            Assert.AreEqual(@"id_kart", filterDict.FieldName);
+            Assert.AreEqual(5, filterDict.AllAvailableValues.Count());
+            Assert.AreEqual(3, dictValues.Count());
+            Assert.AreEqual(3, filterEnum.AllAvailableValues.Count());
         }
 
         //internal class TestDbAsyncQueryProvider<TEntity> : IDbAsyncQueryProvider {

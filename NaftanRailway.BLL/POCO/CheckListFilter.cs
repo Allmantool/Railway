@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,8 +10,11 @@ namespace NaftanRailway.BLL.POCO {
     /// General model for drop down checkbox list (per one field)
     /// </summary>
     public class CheckListFilter {
+        private IDictionary<string, string> valuesDictionary { get; set; }
+
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }
+
         /// <summary>
         /// It requeres a real name of entity/ table for work with reflaction mechanisms principals
         /// </summary>
@@ -24,22 +26,17 @@ namespace NaftanRailway.BLL.POCO {
         /// <summary>
         /// By default check all values on list box
         /// </summary>
-        public CheckListFilter(IEnumerable<string> allAvailableValues) {
-            var availableValues = allAvailableValues as string[] ?? allAvailableValues.ToArray();
-
-            AllAvailableValues = availableValues;
-            CheckedValues = availableValues;
-        }
-
+        public CheckListFilter(IEnumerable<string> allAvailableValues) :
+            this(allAvailableValues.GroupBy(x => x).ToDictionary(x => x.First(), x => x.First())) { }
 
         /// <summary>
         /// Для данного объекта не определено беспараметрических конструкторов. (from .js)
         /// </summary>
-        public CheckListFilter(IDictionary keyVal) {
-            var availableValues = keyVal.Values.ToString().Select(x => x.ToString());
+        public CheckListFilter(IDictionary<string, string> keyVal) {
+            valuesDictionary = keyVal;
 
-            AllAvailableValues = availableValues;
-            CheckedValues = availableValues;
+            AllAvailableValues = valuesDictionary.Values.Select(x => x);
+            CheckedValues = valuesDictionary.Keys.Select(x => x);
         }
 
         /// <summary>
