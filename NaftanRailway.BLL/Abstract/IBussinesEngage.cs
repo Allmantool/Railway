@@ -52,7 +52,7 @@ namespace NaftanRailway.BLL.Abstract {
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
 
         /// <summary>
-        /// Get group result (Group by + order by)
+        /// Get group result (Group by + where + order by ... asc)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TKey"></typeparam>
@@ -60,6 +60,6 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="predicate"></param>
         /// <param name="caсhe"></param>
         /// <returns></returns>
-        IEnumerable<IGrouping<TKey, T>> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> predicate = null, bool caсhe = false) where T : class;
+        IEnumerable<IGrouping<TKey, T>> GetGroup<T, TKey>(Expression<Func<T, TKey>> groupPredicate, Expression<Func<T, bool>> filterPredicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false) where T : class;
     }
 }

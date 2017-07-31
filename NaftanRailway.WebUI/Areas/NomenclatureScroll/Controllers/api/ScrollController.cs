@@ -29,13 +29,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         /// </summary>
         /// <returns></returns>
         //[Route("customers/{customerId}/orders")]
-        [HttpGet]
+        [HttpPost]
         [ResponseType(typeof(CheckListFilter))]
         public IHttpActionResult GetAddvanceFilter() {
 
-            var result = _bussinesEngage.initGlobalSearchFilters();
+            var result = (IList)_bussinesEngage.initGlobalSearchFilters();
 
-            return ((IList)result).Count > 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
+            //var response = new HttpResponseMessage();
+            //response.Headers.Add("ContentType", "application/json");
+
+            return result.Count < 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
         }
     }
 }

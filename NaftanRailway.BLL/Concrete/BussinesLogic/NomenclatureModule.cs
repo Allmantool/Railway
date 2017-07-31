@@ -19,7 +19,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Text;
 using System.Data.Entity;
-using System.Data.Entity.SqlServer;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -229,59 +228,60 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Expression<Func<krt_Naftan_orc_sapod, bool>> predicate = x => x.keykrt == key;
 
             return new[] {
-                new CheckListFilter(_engage.GetGroup(x => x.nkrt, predicate).Select(x=>x.ToString())){
-                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nkrt),
+                new CheckListFilter(_engage.GetGroup<krt_Naftan_orc_sapod, object>(x => new { x.id_kart, x.nkrt }, predicate)
+                        .ToDictionary(x=>x.First().id_kart?.ToString(), x=>x.First().nkrt)){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.id_kart),
                     NameDescription = "Накоп. Карточки:"
                 },
-                new CheckListFilter(_engage.GetGroup(x => x.tdoc.ToString(),predicate).Select(x=>x.ToString())){
+                new CheckListFilter(_engage.GetGroup(x => x.tdoc.ToString(), predicate)
+                        .ToDictionary( x=>x.First().tdoc.ToString(), x=>x.First().tdoc.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.tdoc),
                     NameDescription = "Тип документа:"
                 },
-                new CheckListFilter(_engage.GetGroup(x => x.vidsbr.ToString(),predicate).Select(x=>x.ToString())){
-                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
-                    NameDescription = "Вид сбора:"
-                },
-                new CheckListFilter(_engage.GetGroup(x => x.nomot.ToString(),predicate).Select(x=>x.ToString())){
-                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
-                    NameDescription = "Документ:"
-                },
-                new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(CultureInfo.InvariantCulture), predicate).Select(x=>x.ToString())){
-                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
-                    NameDescription = "Период:"
-                },
+                //new CheckListFilter(_engage.GetGroup(x => x.vidsbr.ToString(),predicate).Select(x=>x.ToString())){
+                //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
+                //    NameDescription = "Вид сбора:"
+                //},
+                //new CheckListFilter(_engage.GetGroup(x => x.nomot.ToString(),predicate).Select(x=>x.ToString())){
+                //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
+                //    NameDescription = "Документ:"
+                //},
+                //new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(CultureInfo.InvariantCulture), predicate).Select(x=>x.ToString())){
+                //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
+                //    NameDescription = "Период:"
+                //},
             };
         }
 
         public IEnumerable<CheckListFilter> initGlobalSearchFilters() {
-            //mock predicate
-            //Expression<Func<krt_Naftan_orc_sapod, object>> groupPredicate = x => new { x.id_kart, x.nkrt };
-
             CheckListFilter[] result;
 
             try {
                 result = new[] {
                     new CheckListFilter(
-                        _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null ).ToList()
-                               .ToDictionary(x=>SqlFunctions.StringConvert((decimal)x.First().id_kart.Value), x=>x.First().nkrt)) {
-
+                        _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null, x=> new { x.nkrt } )
+                               .ToDictionary(x=>x.First().id_kart?.ToString(), x=>x.First().nkrt)) {
                         FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.id_kart ),
                         NameDescription = @"Накоп. Карточки"
                     },
-                    //new CheckListFilter(
-                    //    _engage.GetGroup<krt_Naftan, object>(  x => new { x.KEYKRT, x.NKRT } ).ToDictionary(x=>x.First().KEYKRT, x=>x.First().NKRT )) {
-                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
-                    //    NameDescription = @"Перечни"
-                    //},
-                    // new CheckListFilter(
-                    //    _engage.GetGroup<krt_Naftan_orc_sapod, string>(  x =>  x.num_doc, x =>x.num_doc != null).Select(x=>x.ToString())) {
-                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.num_doc),
-                    //    NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
-                    //},
+                    new CheckListFilter(
+                        _engage.GetGroup<krt_Naftan, object>( x => new { x.KEYKRT, x.NKRT }, x => true, x => new { x.NKRT } )
+                            .ToDictionary( x => x.First().KEYKRT.ToString(), x => x.First().NKRT.ToString() )) {
+                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
+                        NameDescription = @"Перечни"
+                    },
+                     new CheckListFilter(
+                       /* _engage.GetGroup<krt_Naftan_orc_sapod, string>( x => x.num_doc, x => x.num_doc != null && x.num_doc.Length > 0, x => x.num_doc)
+                            .ToDictionary(x => x.First().num_doc, x => x.First().num_doc)*/) {
+                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.num_doc),
+                        NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
+                    },
             };
             } catch (Exception ex) {
                 _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}.");
                 throw;
             }
+
             return result;
         }
 

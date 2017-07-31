@@ -1,12 +1,28 @@
 ﻿<div style="display: inline-block;" data-bind="foreach: filters">
-    <select style="display:none;" multiple="multiple" size="10" class="form-group form-control filters" type="search"
+    <select style="display: none;" multiple="multiple" size="10" class="form-group form-control filters" type="search"
             data-bind="attr: {'id': 'filter' + $index()},
-                       options: $data.AllAvailableValues, selectedOptions: $data.CheckedValues,
+                       options: $.map($data.ValuesDictionary, function( key, val ) {
+                            return { label: key(), value: val };
+                       }),
+                       optionsText: 'label',
+                       optionsValue: 'value',
+                       selectedOptions: $data.CheckedValues,
                        multiselect:{
+                           @* dataprovider: [
+                                {label: 'Option 1', title: 'Option 1', value: '1', selected: true},
+                                {label: 'Option 2', title: 'Option 2', value: '2'},
+                                {label: 'Option 3', title: 'Option 3', value: '3', selected: true},
+                                {label: 'Option 4', title: 'Option 4', value: '4'},
+                                {label: 'Option 5', title: 'Option 5', value: '5'},
+                                {label: 'Option 6', title: 'Option 6', value: '6', disabled: true}
+                            ],*@
                             allSelectedText: $data.NameDescription(),
                             buttonText: function (options, select) {
                                 return $data.NameDescription() + ' (' + $data.CheckedValues().length + ' / ' +  $data.AllAvailableValues().length +')';
-                            }
+                            },
+                            @*optionLabel: function (element){
+                                return $(element).html() + '(' + $(element).val() + ')';
+                            }*@
                        }">
     </select>
 </div>

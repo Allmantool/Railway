@@ -286,13 +286,13 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function addvanceFilters(dataContext) {
         db.getScr(function (data) {
-            init({
-                url: self.pagging().getPageUrl() + self.pagging().CurrentPage()
-            }, self);
+            
+            //filters 
+            ko.mapping.fromJS(data, mappingOptions, self.filters);
 
             self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
         }, {
-            url: typeof link === 'string' ? link : $(ev.target).attr('href'),
+            url: "/api/APIScroll/",
             type: "Post",
             data: ko.mapping.toJSON({ 'asService': true }),
             beforeSend: function () { self.loadingState(true); },

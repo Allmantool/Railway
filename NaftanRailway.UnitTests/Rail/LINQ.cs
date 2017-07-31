@@ -49,7 +49,11 @@ namespace NaftanRailway.UnitTests.Rail {
             Expression<Func<krt_Naftan_orc_sapod, bool>> filterPredicate = x => x.id_kart != null;
 
             // Act
-            var result = cards.Where(filterPredicate).GroupBy(groupPredicate).ToDictionary(x => x.First().id_kart.Value.ToString(), x => x.First().nkrt);
+            var result = cards.Where(filterPredicate)
+                .OrderBy(x => x.nkrt)
+                .GroupBy(groupPredicate)
+                .ToDictionary(x => x.First().id_kart.Value.ToString(), x => x.First().nkrt);
+
             var availableValues = result.Values.Select(x => x);
             var availableKeys = result.Keys.Select(x => x);
 
@@ -72,10 +76,10 @@ namespace NaftanRailway.UnitTests.Rail {
 
 
             //Expression<Func<krt_Naftan_orc_sapod, bool>> get
-            var convertToString = PredicateExtensions.ConvertToString<krt_Naftan_orc_sapod, int>(
-                PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x => x.id_kart),
-                5
-                ).Compile().Invoke(new krt_Naftan_orc_sapod(), 5);
+            //var convertToString = PredicateExtensions.ConvertToString<krt_Naftan_orc_sapod, int>(
+            //    PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x => x.id_kart),
+            //    5
+            //    ).Compile().Invoke(new krt_Naftan_orc_sapod(), 5);
 
             //var mockSet = new Mock<DbSet<Person>>();
             //mockSet.As<IDbAsyncEnumerable<Person>>()

@@ -10,7 +10,7 @@ namespace NaftanRailway.BLL.POCO {
     /// General model for drop down checkbox list (per one field)
     /// </summary>
     public class CheckListFilter {
-        private IDictionary<string, string> valuesDictionary { get; set; }
+        public IDictionary<string, string> ValuesDictionary { get; }
 
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }
@@ -23,6 +23,10 @@ namespace NaftanRailway.BLL.POCO {
         public string NameDescription { get; set; }
         public bool ActiveFilter { get; set; }
 
+        public CheckListFilter() {
+
+        }
+
         /// <summary>
         /// By default check all values on list box
         /// </summary>
@@ -33,10 +37,10 @@ namespace NaftanRailway.BLL.POCO {
         /// Для данного объекта не определено беспараметрических конструкторов. (from .js)
         /// </summary>
         public CheckListFilter(IDictionary<string, string> keyVal) {
-            valuesDictionary = keyVal;
+            ValuesDictionary = keyVal;
 
-            AllAvailableValues = valuesDictionary.Values.Select(x => x);
-            CheckedValues = valuesDictionary.Keys.Select(x => x);
+            AllAvailableValues = ValuesDictionary.Values.Select(x => x);
+            CheckedValues = ValuesDictionary.Keys.Select(x => x);
         }
 
         /// <summary>

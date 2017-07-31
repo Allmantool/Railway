@@ -234,7 +234,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 filterPlaceholder: 'Поиск...',
                 enableCaseInsensitiveFiltering: true,
                 enableHTML: false,
-                disableIfEmpty: true,
+                //disableIfEmpty: true,
                 disabledText: 'Нет значений ...',
                 nonSelectedText: 'Не выбрано ...',
                 buttonWidth: '200px',
