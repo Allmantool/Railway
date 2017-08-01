@@ -48,7 +48,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <param name="size">page Model[indx] size</param>
         /// <param name="caсhe"></param>
         /// <returns></returns>
-        IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, out long recordCount, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
+        //IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, out long recordCount, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
         IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class;
 
         /// <summary>

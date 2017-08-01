@@ -10,7 +10,7 @@ namespace NaftanRailway.BLL.POCO {
     /// General model for drop down checkbox list (per one field)
     /// </summary>
     public class CheckListFilter {
-        public IDictionary<string, string> ValuesDictionary { get; }
+        public IDictionary<string, string> ValuesDictionary { get; set; }
 
         public IEnumerable<string> AllAvailableValues { get; set; }
         public IEnumerable<string> CheckedValues { get; set; }

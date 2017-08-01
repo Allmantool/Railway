@@ -1,16 +1,14 @@
-﻿<div data-bind="modal: searchModal, if: searchModal(), visible: searchModal()" class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal">
+﻿<div data-bind="modal: searchModal, visible: searchModal()" class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal">
     <div class="modal-dialog" role="document">
-        <div data-bind="" class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="label text-center"><span data-bind="text: 'Расширенный поиск:'"></span></h4>
+                <h4 data-bind="text: 'Расширенный поиск:'" class="label text-center"></h4>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div data-bind="if: filters().length > 1" id="cutomsFilter">
-                        <!-- ko if: filters().length > 0 -->
+                    <div id="cutomsFilter">
                         @{ Html.RenderPartial("_FilterMenu"); }
-                        <!-- /ko -->
                     </div>
                     <hr />
                     <div id="treeFilter"></div>

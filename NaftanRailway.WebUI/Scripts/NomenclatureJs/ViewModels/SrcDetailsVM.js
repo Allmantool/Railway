@@ -54,7 +54,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         //filters
         ko.mapping.fromJS(filters, mappingOptions, self.filters);
 
-        //paging
+        //pagging
         self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(income.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller", "action", "numberScroll", "reportYear"], _parent));
 
         var mappingOptions = {
@@ -114,6 +114,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     }
 
     function applyFilter(arg, ev) {
+        // it gets appropriate action url
         //$(ev.target).parents('form').attr('action') || 
         var link = typeof arg === 'string' ? arg : $(arg).attr('action');
 
@@ -129,7 +130,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
-                _parent.alert().statusMsg('Результат фильтра: ' + self.charges().length + ' записей!').alertType('alert-success').mode(true);
+                _parent.alert().statusMsg('Результат фильтра: ' + self.pagging().TotalItems() + ' записей!').alertType('alert-success').mode(true);
             },
             error: function () { _parent.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
         }, _parent);

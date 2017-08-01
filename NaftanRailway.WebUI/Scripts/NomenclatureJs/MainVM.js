@@ -286,10 +286,12 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function addvanceFilters(dataContext) {
         db.getScr(function (data) {
-            
+            var mappingOptions;
             //filters 
             ko.mapping.fromJS(data, mappingOptions, self.filters);
 
+            //Show modal
+            self.searchModal(true);
             self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
         }, {
             url: "/api/APIScroll/",
@@ -302,8 +304,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             error: function () { self.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
         });
 
-        //Show modal
-        self.searchModal(true);
+
     }
 
     //work with ajax replace (reaplace dom is leaded to lose binding)

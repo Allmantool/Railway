@@ -32,11 +32,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             if (predicate != null) {
                 //convert type
                 var filterPredicate = PredicateExtensions.ConvertTypeExpression<ScrollLineDTO, krt_Naftan>(predicate.Body);
+                recordCount = _engage.GetCountRows(filterPredicate);
 
-                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows(page, initialSizeItem, out recordCount, x => x.KEYKRT, filterPredicate));
+                return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows(page, initialSizeItem, x => x.KEYKRT, filterPredicate));
             }
 
-            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, out recordCount, x => x.KEYKRT));
+            recordCount = _engage.GetCountRows<krt_Naftan>(x => true);
+            return (IEnumerable<T>)Mapper.Map<IEnumerable<ScrollLineDTO>>(_engage.GetSkipRows<krt_Naftan, long>(page, initialSizeItem, x => x.KEYKRT));
         }
 
         public IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, int initialSizeItem, out long recordCount, bool viewWrong = false) {
@@ -56,7 +58,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //view rows which sum not equal (viewWrong = false)
             where = viewWrong ? where.And(x => x.summa + x.nds != x.sm).Expand() : where;
 
-            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(_engage.GetSkipRows(page, initialSizeItem, out recordCount, order, where));
+            recordCount = _engage.GetCountRows(where);
+
+            return Mapper.Map<IEnumerable<ScrollDetailDTO>>(_engage.GetSkipRows(page, initialSizeItem, order, where));
         }
 
         public ScrollLineDTO GetNomenclatureByNumber(int numberScroll, int reportYear) {
@@ -231,21 +235,23 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 new CheckListFilter(_engage.GetGroup<krt_Naftan_orc_sapod, object>(x => new { x.id_kart, x.nkrt }, predicate)
                         .ToDictionary(x=>x.First().id_kart?.ToString(), x=>x.First().nkrt)){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.id_kart),
-                    NameDescription = "Накоп. Карточки:"
+                    NameDescription = "Карточки:"
                 },
                 new CheckListFilter(_engage.GetGroup(x => x.tdoc.ToString(), predicate)
                         .ToDictionary( x=>x.First().tdoc.ToString(), x=>x.First().tdoc.ToString())){
                     FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.tdoc),
                     NameDescription = "Тип документа:"
                 },
-                //new CheckListFilter(_engage.GetGroup(x => x.vidsbr.ToString(),predicate).Select(x=>x.ToString())){
-                //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
-                //    NameDescription = "Вид сбора:"
-                //},
-                //new CheckListFilter(_engage.GetGroup(x => x.nomot.ToString(),predicate).Select(x=>x.ToString())){
-                //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
-                //    NameDescription = "Документ:"
-                //},
+                new CheckListFilter(_engage.GetGroup(x => x.vidsbr.ToString(),predicate)
+                        .ToDictionary( x=>x.First().vidsbr.ToString(),x=>x.First().vidsbr.ToString() )){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.vidsbr),
+                    NameDescription = "Вид сбора:"
+                },
+                new CheckListFilter(_engage.GetGroup(x => x.nomot.ToString(),predicate)
+                        .ToDictionary( x=> x.First().nomot.ToString(), x=> x.First().nomot.ToString())){
+                    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.nomot),
+                    NameDescription = "Документ:"
+                },
                 //new CheckListFilter(_engage.GetGroup(x=>x.dt.ToString(CultureInfo.InvariantCulture), predicate).Select(x=>x.ToString())){
                 //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod>(x=>x.dt),
                 //    NameDescription = "Период:"
@@ -278,8 +284,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     },
             };
             } catch (Exception ex) {
-                _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}.");
-                throw;
+                _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}."); throw;
             }
 
             return result;

@@ -77,8 +77,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// Detail gathering of one scroll
         /// </summary>
         /// <returns></returns>
-        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1,
-                                          int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
+        public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
