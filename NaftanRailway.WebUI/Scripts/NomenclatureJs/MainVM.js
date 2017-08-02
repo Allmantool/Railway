@@ -19,7 +19,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkPeriods: ko.observableArray([]),
         wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
-        filters: ko.observableArray(undefined).extend({ deferred: true }),
+        filters: ko.observableArray([]),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
         scrolls: ko.observableArray(),
@@ -286,12 +286,16 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function addvanceFilters(dataContext) {
         db.getScr(function (data) {
-            var mappingOptions;
             //filters 
-            ko.mapping.fromJS(data, mappingOptions, self.filters);
+            ko.mapping.fromJS(data,{} ,self.filters);
+            
+            containerRebind();
 
+            //ko.applyBindings(appNomenclature.SrcVM.filters, $('#cutomsFilter').get(0));
             //Show modal
             self.searchModal(true);
+            
+
             self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
         }, {
             url: "/api/APIScroll/",
@@ -303,8 +307,6 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             },
             error: function () { self.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
         });
-
-
     }
 
     //work with ajax replace (reaplace dom is leaded to lose binding)

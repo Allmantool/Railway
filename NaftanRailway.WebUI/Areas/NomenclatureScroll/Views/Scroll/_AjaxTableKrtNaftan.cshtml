@@ -1,6 +1,4 @@
-﻿<!-- ko with: $root -->@{ Html.RenderPartial("_SearchModal");}<!-- /ko -->
-
-<table data-bind="visible: true" style="display:none" id="nomenclatureTable" class="small table table-hover table-responsive table-striped table-condensed table-bordered">
+﻿<table data-bind="visible: true" style="display:none" id="nomenclatureTable" class="small table table-hover table-responsive table-striped table-condensed table-bordered">
     <caption class="text-center">
         <form class="form-inline">
             <div class="form-group form-group-lg">
@@ -57,6 +55,6 @@
 </table>
 
 @{ Html.RenderPartial("_GridButtomKO");}
-
+@{ Html.RenderPartial("_SearchModal");}
 <!--Don't support in partial view (this html helper alternative-->
 @*@Html.Script(@<script type="text/javascript" src="~/Scripts/NomenclatureJs/_Scrolls.js" defer></script>)*@

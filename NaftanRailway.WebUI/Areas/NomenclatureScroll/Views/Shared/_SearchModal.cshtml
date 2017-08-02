@@ -3,11 +3,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 data-bind="text: 'Расширенный поиск:'" class="label text-center"></h4>
+                <h4 data-bind="text: 'Расширенный поиск:'" class="text-center"></h4>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div id="cutomsFilter">
+                    <div data-bind="if: filters().length > 0" stlyle="display: inline-block;" id="cutomsFilter">
                         @{ Html.RenderPartial("_FilterMenu"); }
                     </div>
                     <hr />
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="display: inline-block; text-align: right;">
-                <div class="input-group col-lg-4" style="float:left;">
+                <div class="input-group col-lg-4" style="float: left;">
                     <span data-bind="text: 'Общее кол-во: '" class="input-group-addon" id="addon"></span>
                 </div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>

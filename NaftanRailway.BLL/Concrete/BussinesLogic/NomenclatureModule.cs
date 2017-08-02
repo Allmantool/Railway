@@ -276,12 +276,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
                         NameDescription = @"Перечни"
                     },
-                     new CheckListFilter(
-                       /* _engage.GetGroup<krt_Naftan_orc_sapod, string>( x => x.num_doc, x => x.num_doc != null && x.num_doc.Length > 0, x => x.num_doc)
-                            .ToDictionary(x => x.First().num_doc, x => x.First().num_doc)*/) {
-                        FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.num_doc),
-                        NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
-                    },
+                    // new CheckListFilter(
+                    //   /* _engage.GetGroup<krt_Naftan_orc_sapod, string>( x => x.num_doc, x => x.num_doc != null && x.num_doc.Length > 0, x => x.num_doc)
+                    //        .ToDictionary(x => x.First().num_doc, x => x.First().num_doc)*/) {
+                    //    FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.num_doc),
+                    //    NameDescription = @"Первичный док. (накладные, ведомости, акты, карточки)"
+                    //},
             };
             } catch (Exception ex) {
                 _engage.Log.Debug($"Method initGlobalSearchFilters throws exception: {ex.Message}."); throw;
