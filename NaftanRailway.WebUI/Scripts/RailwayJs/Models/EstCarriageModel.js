@@ -11,15 +11,15 @@ appRail.EstCarriage = function (data, parent) {
     self = $.extend(true, self, ko.mapping.fromJS(data));
 
     //v_oper_Asus
-    self.IsInfoAsusExist = ko.pureComputed(function () {
-        var result = ko.isObservable(self.Carriage) ? self.Carriage() !== null : self.Carriage !== null;
+    self.isInfoAsusExist = ko.pureComputed(function () {
+        var result = ko.isObservable(self.carriage) ? self.carriage() !== null : self.carriage !== null;
 
         return result;
     });
 
     //v_02_podhod
-    self.IsInfoPodhodExist = ko.pureComputed(function () {
-        var result = ko.isObservable(self.AltCarriage) ? self.AltCarriage() !== null : self.AltCarriage !== null;
+    self.isInfoPodhodExist = ko.pureComputed(function () {
+        var result = ko.isObservable(self.altCarriage) ? self.altCarriage() !== null : self.altCarriage !== null;
 
         return result;
     });
@@ -27,8 +27,8 @@ appRail.EstCarriage = function (data, parent) {
     //mark fade row in podhod table if same ixists in asus table
     self.IsAlreadyExists = function (carriageNumber) {
         var asusInvoices = jQuery.map(_parent.estCarriages(), function (item) {
-            if (!ko.isObservable(item.Carriage)) {
-                return item.Carriage.in_vgn();
+            if (!ko.isObservable(item.carriage)) {
+                return item.carriage.in_vgn();
             }
             return;
         });

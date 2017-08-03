@@ -53,7 +53,7 @@
                 <!--Unobstrusive requered-->
                 <div class="col-lg-6">
                     @*@Html.ValidationMessageFor(m => m.ReportPeriod, "Неверная дата")*@
-                    @Html.ValidationMessage("ReportPeriod", "Неверная дата", new { data_bind = "text: $root.currScr().DTBUHOTCHET()" })
+                    @Html.ValidationMessage("ReportPeriod", "Неверная дата", new { data_bind = "text: $root.currScr().dtbuhotchet()" })
                 </div>
             </div>
         </div>

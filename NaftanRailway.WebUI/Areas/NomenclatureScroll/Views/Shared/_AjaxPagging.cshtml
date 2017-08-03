@@ -1,17 +1,17 @@
 ﻿<ul class="pagination nav navbar-nav">
-    <li data-bind="css:{disabled: $parent.pagging().CurrentPage() <= 1 }">
-        <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === 1 ? 1 : $parent.pagging().CurrentPage() - 1)},
+    <li data-bind="css:{disabled: $parent.pagging().currentPage() <= 1 }">
+        <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().currentPage() === 1 ? 1 : $parent.pagging().currentPage() - 1)},
                       click: $parent.pagging().previousPage"
            aria-label="Previous">&laquo;</a>
     </li>
     <!-- ko foreach: pagging().allPages() -->
-    <li data-bind="visible: $data.pageNumber <= 10, css: {active : $data.pageNumber === $parent.pagging().CurrentPage() }">
+    <li data-bind="visible: $data.pageNumber <= 10, css: {active : $data.pageNumber === $parent.pagging().currentPage() }">
         <a data-bind="text: $data.pageNumber, attr: {'href': $parent.pagging().getPageUrl() + $data.pageNumber}, click: $parent.pagging().moveToPage.bind($data, $parent)"></a>
     </li>
     <!-- /ko -->
     <li class="disabled"><span>...</span></li>
-    <li data-bind="disabled: $parent.pagging().CurrentPage() <= $parent.pagging().allPages().length - 1">
-        <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().CurrentPage() === $parent.pagging().TotalItems() ? $parent.pagging().TotalItems() : $parent.pagging().CurrentPage() + 1)},
+    <li data-bind="disabled: $parent.pagging().currentPage() <= $parent.pagging().allPages().length - 1">
+        <a data-bind="attr: {'href': $parent.pagging().getPageUrl() + ($parent.pagging().currentPage() === $parent.pagging().totalItems() ? $parent.pagging().totalItems() : $parent.pagging().currentPage() + 1)},
                       click: $parent.pagging().nextPage, clickBubble: false" aria-label="Next">&raquo;</a>
     </li>
 </ul>
@@ -19,7 +19,7 @@
 
 @*@Ajax.RouteLink(
         q.ToString(),
-        Model.RoutingDictionary != null ? new Func<int, RouteValueDictionary>(x => { Model.RoutingDictionary["page"] = x; return Model.RoutingDictionary; }).Invoke(q) : new RouteValueDictionary() { { "page", q } },
+        Model.routingDictionary != null ? new Func<int, RouteValueDictionary>(x => { Model.routingDictionary["page"] = x; return Model.routingDictionary; }).Invoke(q) : new RouteValueDictionary() { { "page", q } },
         Model.AjaxOptions,
         new Dictionary<string, object>() { { "enctype", "application/x-www-form-urlencoded" } }
     )*@

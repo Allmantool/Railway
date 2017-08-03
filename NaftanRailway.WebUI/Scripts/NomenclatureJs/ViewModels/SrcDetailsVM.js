@@ -18,10 +18,10 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         filters: ko.observableArray(undefined).extend({ deferred: true }),
         currChg: ko.observable(undefined),
         operationDialog: ko.observable(false),
-        _filterState: ko.pureComputed(function () {
+        _filterstate: ko.pureComputed(function () {
             var result = true;
             $.each(self.filters(), function (idx, item) {
-                if (item.CheckedValues().length === 0) {
+                if (item.checkedValues().length === 0) {
                     result = false;
                     console.log('counter');
                     return;
@@ -42,8 +42,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
 
     //private 
     function _updateSrcByKey(income, parent) {
-        var rows = income.ListDetails;
-        var filters = income.Filters;
+        var rows = income.listDetails;
+        var filters = income.filters;
 
         //var mappingOptions = {
         //    create: function (options) {
@@ -52,10 +52,10 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         ////};
 
         //filters
-        ko.mapping.fromJS(filters, mappingOptions, self.filters);
+        ko.mapping.fromJS(filters, {}, self.filters);
 
         //pagging
-        self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(income.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller", "action", "numberScroll", "reportYear"], _parent));
+        self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(income.pagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller", "action", "numberScroll", "reportYear"], _parent));
 
         var mappingOptions = {
             key: function (data) {
@@ -118,7 +118,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         //$(ev.target).parents('form').attr('action') || 
         var link = typeof arg === 'string' ? arg : $(arg).attr('action');
 
-        if (!self._filterState()) {
+        if (!self._filterstate()) {
             _parent.alert().statusMsg('Не все фильтры указаны!').alertType('alert-warning').mode(true);
 
             //exit
@@ -130,7 +130,7 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
-                _parent.alert().statusMsg('Результат фильтра: ' + self.pagging().TotalItems() + ' записей!').alertType('alert-success').mode(true);
+                _parent.alert().statusMsg('Результат фильтра: ' + self.pagging().totalItems() + ' записей!').alertType('alert-success').mode(true);
             },
             error: function () { _parent.alert().statusMsg('Операция фильтрации завершилась ошибкой!').alertType('alert-danger').mode(true); }
         }, _parent);

@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<ShippingDTO>*@
+﻿@*@model IEnumerable<shippingDTO>*@
 @{
     Layout = null;
     //int i = (int)(ViewData["index"] ?? 0);
@@ -15,7 +15,7 @@
                     <li class="panel-title">
                         <span data-bind="css: $data.directionGlyphicon()"></span>
                         <a data-bind="popover: {content: 'Нажмите, чтобы отобразить доп. информацию'},
-                           attr: {'href': '#' + $index()}, text: $data.shInfoExists() ? $data.VOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
+                           attr: {'href': '#' + $index()}, text: $data.shInfoExists() ? $data.vOtpr.n_otpr() : 'Доп. сбор'" data-toggle="collapse"></a>
                     </li>
                 </ul>
             </div>
@@ -25,12 +25,12 @@
                     <li><strong>От: </strong><span data-bind="text: $data.fullNameSender()"></span></li>
                     <li><span class="glyphicon glyphicon-arrow-right"></span></li>
                     <li><strong>Кому: </strong><span data-bind="text: $data.fullNameReceiver()"></span></li>
-                    <li><strong>Груз: </strong><span data-bind="text: $data.Etsng.name() + '(ЕТСНГ: ' + $data.Etsng.etsng1() + ')'"></span><span class="small"></span></li>
-                    <li><strong>Склад: </strong><span data-bind="text: $data.Guild18.warehouse()"></span></li>
+                    <li><strong>Груз: </strong><span data-bind="text: $data.etsng.name() + '(ЕТСНГ: ' + $data.etsng.etsng1() + ')'"></span><span class="small"></span></li>
+                    <li><strong>Склад: </strong><span data-bind="text: $data.guild18.warehouse()"></span></li>
                 </ul>
                 <!-- /ko -->
                 <!-- ko ifnot: $data.shInfoExists -->
-                <p data-bind="text:$data.KNaftan()[0].U_KOD() === 2 ? 'Багаж ст. Витебск' : 'Прохождение проверки знаний'"
+                <p data-bind="text:$data.kNaftan()[0].u_KOD() === 2 ? 'Багаж ст. Витебск' : 'Прохождение проверки знаний'"
                    style="font-size: 1.5em; vertical-align: middle; text-align: center;">
                 </p>
                 <!-- /ko -->
@@ -38,7 +38,7 @@
             <div data-bind="popover: {content: 'Удалить информацию по накладной?'}" class="col-lg-0 text-right pull-right">
                 <button data-bind="click: $root.deleteInvoice.bind($data, {
                                     url : '@Url.Action("DeleteDocInfo", "Ceh18")',
-                                    data : { idInvoice : ko.unwrap($data.VOtpr) === null ? null : $data.VOtpr.id()}}),
+                                    data : { idInvoice : ko.unwrap($data.vOtpr) === null ? null : $data.vOtpr.id()}}),
                                attr: {'id' : 'btn' + $index()}" class="btn btn-sm btn-warning">
                     <span class="fa fa-trash-o fa-lg"></span>
                 </button>
@@ -47,25 +47,25 @@
         <div data-bind="collapse: {},attr: {id : $index()}" class="collapse row">
             <div class="panel-body">
                 <ul class="list-inline text-center small">
-                    <li data-bind="if: $data.VKarts().length > 0">
+                    <li data-bind="if: $data.vKarts().length > 0">
                         <strong>Накопительные карточки:</strong><span data-bind="text: $data.cardList()"></span>
                     </li>
-                    <li data-bind="if: $data.KNaftan().length > 0">
+                    <li data-bind="if: $data.kNaftan().length > 0">
                         <strong>Перечни:</strong><span data-bind="text: $data.scrollList()"></span>
                     </li>
                     <!-- ko if: $data.shInfoExists() -->
-                    <!-- ko if: $data.Vovs().length > 0 -->
+                    <!-- ko if: $data.vovs().length > 0 -->
                     <li><strong>Вагон(ы) №:</strong><span data-bind="text: $data.carriageList()"></span></li>
                     <!-- /ko -->
-                    <li data-bind="if: $data.VPams().length > 0">
+                    <li data-bind="if: $data.vPams().length > 0">
                         <strong>Ведомости:</strong><span data-bind="text: $data.statementList()"></span>
                     </li>
-                    <li data-bind="if: $data.VAkts().length > 0">
+                    <li data-bind="if: $data.vAkts().length > 0">
                         <strong>Акты:</strong><span data-bind="text: $data.actList()"></span>
                     </li>
                     <!-- ko if: $data.shInfoExists() -->
-                    <li data-bind="visible: $data.VOtpr.g6().length > 0"><strong>Договор:</strong><span data-bind="text: $data.VOtpr.g6()"></span></li>
-                    <li data-bind="visible: $data.VOtpr.g11().length > 0"><strong>Описание:</strong><span data-bind="text: $data.VOtpr.g11()"></span></li>
+                    <li data-bind="visible: $data.vOtpr.g6().length > 0"><strong>Договор:</strong><span data-bind="text: $data.vOtpr.g6()"></span></li>
+                    <li data-bind="visible: $data.vOtpr.g11().length > 0"><strong>Описание:</strong><span data-bind="text: $data.vOtpr.g11()"></span></li>
                     <!-- /ko -->
                     <!-- /ko -->
                 </ul>
@@ -74,10 +74,10 @@
                 <ul class="list-inline">
                     <!-- ko if: $data.shInfoExists() -->
                     <li class="pull-left">
-                        <span data-bind="text: $data.VOtpr.oper() === 1 ? 'Отправка' : 'Прибытие'"></span>
-                        <span data-bind="text: $data.VOtpr.date_oper() !== undefined ? moment($data.VOtpr.date_oper()).format('DD.MM.YYYY') : 'Не указана' "></span>
+                        <span data-bind="text: $data.vOtpr.oper() === 1 ? 'Отправка' : 'Прибытие'"></span>
+                        <span data-bind="text: $data.vOtpr.date_oper() !== undefined ? moment($data.vOtpr.date_oper()).format('DD.MM.YYYY') : 'Не указана' "></span>
                     </li>
-                    <li data-bind="text: $data.VOtpr.fio_tk()" class="pull-right"></li>
+                    <li data-bind="text: $data.vOtpr.fio_tk()" class="pull-right"></li>
                     <!-- /ko -->
                     <!-- ko if: $data.shInfoExists() === false -->
                     <li class="pull-left">

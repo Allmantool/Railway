@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using Newtonsoft.Json.Serialization;
 
 namespace NaftanRailway.WebUI.Infrastructure {
     /// <summary>
@@ -16,7 +17,7 @@ namespace NaftanRailway.WebUI.Infrastructure {
         public JsonNetResult() {
             Settings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                //ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 //DateFormatString = "dd.MM.yyyy"
             };
         }

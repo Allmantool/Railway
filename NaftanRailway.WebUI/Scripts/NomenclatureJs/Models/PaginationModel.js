@@ -10,13 +10,13 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
     //динамически копируем свойства
     self = $.extend(true, self, ko.mapping.fromJS(parentObj));
 
-    //self.TotalItems = totalItems;
-    //self.ItemsPerPage = itemsPerPage;
-    //self.CurrentPage = currentPage;
+    //self.totalItems = totalItems;
+    //self.itemsPerPage = itemsPerPage;
+    //self.currentPage = currentPage;
     self.getPageUrl = ko.pureComputed(function () {
         var result = '';
 
-        $.each(ko.mapping.toJS(self.RoutingDictionary), function (index, value) {
+        $.each(ko.mapping.toJS(self.routingDictionary), function (index, value) {
             if ($.inArray(index, urlTemplate) > -1) {
                 result = result + value + '/';
             };
@@ -27,7 +27,7 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
 
     self.allPages = ko.pureComputed(function () {
         var pages = [];
-        for (var i = 0; i <= Math.floor((self.TotalItems() - 1) / self.ItemsPerPage()) ; i++) {
+        for (var i = 0; i <= Math.floor((self.totalItems() - 1) / self.itemsPerPage()) ; i++) {
             pages.push({ pageNumber: (i + 1) });
         }
 
@@ -50,13 +50,13 @@ appNomenclature.Pagination = function (parentObj, urlTemplate, parent) {
     };
 
     self.previousPage = function (parent, ev, link) {
-        if (self.CurrentPage() > 1) {
+        if (self.currentPage() > 1) {
             self.moveToPage(null, ev, parent);
         }
     };
 
     self.nextPage = function (parent, ev, link) {
-        if (self.CurrentPage() < self.allPages().length) {
+        if (self.currentPage() < self.allPages().length) {
             self.moveToPage(null, ev, parent);
         }
     };

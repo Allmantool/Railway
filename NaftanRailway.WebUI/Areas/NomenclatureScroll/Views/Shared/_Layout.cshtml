@@ -52,15 +52,15 @@
                                         @Html.ActionLink(@"Просмотр информации по перечню", "ScrollDetails", new { controller = "Scroll" },
                                             new {
                                                 data_bind = "click: $root.viewScrDetails.bind($root, null), " +
-                                                            "attr: {'data-ajax': $root.currScr().Confirmed(),'href':'" + Url.Action("ScrollDetails", "Scroll") + "/' + $root.currScr().srcKey()}"
+                                                            "attr: {'data-ajax': $root.currScr().confirmed(),'href':'" + Url.Action("ScrollDetails", "Scroll") + "/' + $root.currScr().srcKey()}"
                                             })
                                     </li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         @Html.ActionLink(@"Отчёт Анализ ЭСЧФ по перечню", "Reports", "Scroll",
                                             new {
-                                                data_bind = "style: {'pointer-events': $root.currScr().P_TYPE() === 's' ? 'auto' : 'none', " +
-                                                                    "'opacity': $root.currScr().P_TYPE() === 's' ? '1' : '0.3'}, " +
+                                                data_bind = "style: {'pointer-events': $root.currScr().p_TYPE() === 's' ? 'auto' : 'none', " +
+                                                                    "'opacity': $root.currScr().p_TYPE() === 's' ? '1' : '0.3'}, " +
                                                              "click: $root.progressBar().simulationDownload, " +
                                                              "attr: {'href':'" + Url.Action("Reports", "Scroll",
                                                 new { reportName = "KRT_Analys_ORC" }) + "/' + $root.currScr().srcKey()}"

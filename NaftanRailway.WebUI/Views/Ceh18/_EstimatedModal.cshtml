@@ -10,7 +10,7 @@
                 <h4 class="modal-title text-center" id="estimatedModalLabel"
                     data-bind="text: 'Ожидается прибытие ' + jQuery.grep($root.estCarriages(),
                                function(item){
-                                    return ko.isObservable(item.Carriage) ? item.Carriage() !== null : item.Carriage !== null
+                                    return ko.isObservable(item.carriage) ? item.carriage() !== null : item.carriage !== null
                                }).length + ' вагонов.'"></h4>
             </div>
             <div class="modal-body text-center">
@@ -25,11 +25,11 @@
                         </tr>
                     </thead>
                     <tbody id="estimatedBody" data-bind="foreach: $root.estCarriages">
-                        <tr data-bind="if: $data.IsInfoAsusExist">
-                            <td><label data-bind="text: $data.Carriage.in_vgn()"></label></td>
-                            <td><label data-bind="text: moment($data.Carriage.time_oper()).format('DD.MM.YYYY HH:mm')"></label></td>
-                            <td class="small"><label data-bind="text: $data.Cargo()"></label></td>
-                            <td><label data-bind="text: $data.Carriage.ves_gruz()"></label></td>
+                        <tr data-bind="if: $data.isInfoAsusExist">
+                            <td><label data-bind="text: $data.carriage.in_vgn()"></label></td>
+                            <td><label data-bind="text: moment($data.carriage.time_oper()).format('DD.MM.YYYY HH:mm')"></label></td>
+                            <td class="small"><label data-bind="text: $data.cargo()"></label></td>
+                            <td><label data-bind="text: $data.carriage.ves_gruz()"></label></td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,16 +50,16 @@
                         </tr>
                     </thead>
                     <tbody id="estimatedBody" data-bind="foreach: $root.estCarriages">
-                        <!-- ko if: $data.IsInfoPodhodExist -->
-                        <tr data-bind="css:  $data.IsAlreadyExists($data.AltCarriage.n_vag()) === true ? 'text-muted' : 'success'">
-                            <td><label data-bind="text: $data.AltCarriage.n_otpr()"></label></td>
-                            <td><label data-bind="text: $data.AltCarriage.n_vag()"></label></td>
-                            <td><label data-bind="text: moment($data.AltCarriage.date_oper_v()).format('DD.MM.YYYY HH:mm')"></label></td>
-                            <td><label data-bind="text: $data.AltCarriage.kod_stan_oper()"></label></td>
-                            <td><label data-bind="text: moment($data.AltCarriage.date_oper_t()).format('DD.MM.YYYY HH:mm')"></label></td>
-                            <td><label data-bind="text: $data.AltCarriage.pr_v()"></label></td>
-                            <td class="small"><label data-bind="text: $data.AltCargo()"></label></td>
-                            <td><label data-bind="text: $data.AltCarriage.massa_t()"></label></td>
+                        <!-- ko if: $data.isInfoPodhodExist -->
+                        <tr data-bind="css:  $data.IsAlreadyExists($data.altCarriage.n_vag()) === true ? 'text-muted' : 'success'">
+                            <td><label data-bind="text: $data.altCarriage.n_otpr()"></label></td>
+                            <td><label data-bind="text: $data.altCarriage.n_vag()"></label></td>
+                            <td><label data-bind="text: moment($data.altCarriage.date_oper_v()).format('DD.MM.YYYY HH:mm')"></label></td>
+                            <td><label data-bind="text: $data.altCarriage.kod_stan_oper()"></label></td>
+                            <td><label data-bind="text: moment($data.altCarriage.date_oper_t()).format('DD.MM.YYYY HH:mm')"></label></td>
+                            <td><label data-bind="text: $data.altCarriage.pr_v()"></label></td>
+                            <td class="small"><label data-bind="text: $data.altCargo()"></label></td>
+                            <td><label data-bind="text: $data.altCarriage.massa_t()"></label></td>
                         </tr>
                         <!-- /ko -->
                     </tbody>

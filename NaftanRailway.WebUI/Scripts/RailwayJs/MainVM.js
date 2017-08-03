@@ -23,7 +23,7 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
             //$.each(self.dispatchs(), function (indx, item) {
             //    //return defalut (0-'all')
-            //    var temp = (ko.unwrap(item.VOtpr) === null ? 0 : item.VOtpr.oper());
+            //    var temp = (ko.unwrap(item.vOtpr) === null ? 0 : item.vOtpr.oper());
 
             //    if ($.inArray(temp, result) === -1) {
             //        result.push(temp);
@@ -47,9 +47,9 @@ appRail.DispatchsVM = (function ($, ko, db) {
         var defaults = {
             data: {
                 "pageSize": self.itemsPerPage(),
-                'ShippingChoise': '',
+                'shippingChoise': '',
                 "operationCategory": 0,
-                'ReportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
             },
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
@@ -72,12 +72,12 @@ appRail.DispatchsVM = (function ($, ko, db) {
 
         db.getScr(function (data) {
             //dispatch (Collapse Wells)
-            self.dispatchs($.map(data.Dispatchs, function (val, i) {
+            self.dispatchs($.map(data.dispatchs, function (val, i) {
                 return new appRail.Dispach(val);
             }));
 
             //pagging
-            self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
+            self.pagging(new appRail.Pagination(ko.mapping.fromJS(data.pagingInfo, { 'ignore': ["AjaxOptions"] }), { prefix: "Page" }, self));
         }, $merged);
     };
 
@@ -89,8 +89,8 @@ appRail.DispatchsVM = (function ($, ko, db) {
             data: ko.mapping.toJSON({
                 'menuView':
                     {
-                        'ShippingChoise': self.invoice(),
-                        'ReportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
+                        'shippingChoise': self.invoice(),
+                        'reportPeriod': moment(self.reportPeriod()).format('YYYY-MM-01'),
                     },
                 'asService': true
             }),

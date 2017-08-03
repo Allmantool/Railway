@@ -1,4 +1,4 @@
-﻿@*@model NaftanRailway.Domain.BusinessModels.BussinesLogic.ShippingInfoLine*@
+﻿@*@model NaftanRailway.Domain.BusinessModels.BussinesLogic.shippingInfoLine*@
 @*@{
     Layout = null;
     int i = 0;
@@ -11,11 +11,11 @@
     }
 </style>*@
 
-@*@if (Model.WagonsNumbers !=null && Model.WagonsNumbers.Count > 0) {
-    <label>@Html.DisplayNameFor(m => m.WagonsNumbers)</label>
+@*@if (Model.wagonsNumbers !=null && Model.wagonsNumbers.Count > 0) {
+    <label>@Html.DisplayNameFor(m => m.wagonsNumbers)</label>
 
     <div class="checkBoxList" style="overflow-y: scroll; width: auto; height: auto">
-            @foreach (var w in Model.WagonsNumbers) {
+            @foreach (var w in Model.wagonsNumbers) {
                 @Html.Partial("WagonsSummary",w,
                     new ViewDataDictionary{
                         {"index", i++}

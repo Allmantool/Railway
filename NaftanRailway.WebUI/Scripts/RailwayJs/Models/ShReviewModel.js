@@ -13,7 +13,7 @@ appRail.ShReview = function (data) {
 
     //return string list carriage numbers
     self.carriagesList = ko.pureComputed(function () {
-        var result = $.map(self.WagonsNumbers(), function (val, i) {
+        var result = $.map(self.wagonsNumbers(), function (val, i) {
             return val.n_vag();
         });
 

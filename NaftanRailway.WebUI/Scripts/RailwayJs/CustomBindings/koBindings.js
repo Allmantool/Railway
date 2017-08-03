@@ -241,7 +241,7 @@ appRail.CustBundings = (function ($, ko) {
                     var defaults = {
                         type: "Post",
                         dataType: "json",
-                        //data: { ShippingChoise: '', ReportPeriod: moment().format('01-DD-YYYY') },
+                        //data: { shippingChoise: '', ReportPeriod: moment().format('01-DD-YYYY') },
                         url: "",  /*May be it's possible get url from request (from app controller method json request)*/
                         success: function (data, status) {
                             //Translate all items in an array or object to new array of items (jQuery.map( array, callback ))

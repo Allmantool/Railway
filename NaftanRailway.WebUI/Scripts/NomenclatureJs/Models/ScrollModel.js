@@ -19,7 +19,7 @@ appNomenclature.Scroll = function (data, asObservables) {
 
         /**** behaviors ***/
         self.srcKey = ko.pureComputed(function () {
-            return self.NKRT() + '/' + moment(self.DTBUHOTCHET()).format('YYYY');
+            return self.nkrt() + '/' + moment(self.dtbuhotchet()).format('YYYY');
         }, self);
     }
     else {

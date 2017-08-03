@@ -19,7 +19,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkPeriods: ko.observableArray([]),
         wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
-        filters: ko.observableArray([]),
+        filters: ko.observableArray(),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
         scrolls: ko.observableArray(),
@@ -51,7 +51,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
     function _updateSrcByKey(rows) {
         var mappingOptions = {
             key: function (data) {
-                return ko.utils.unwrapObservable(data.KEYKRT);
+                return ko.utils.unwrapObservable(data.keykrt);
             },
             create: function (optioins) {
                 return new appNomenclature.Scroll(optioins.data, true);
@@ -64,7 +64,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
             //foreach not support ie8
             $.each(self.scrolls(), function (inIndex, inMember) {
-                if (inMember.KEYKRT() === outMember.KEYKRT) {
+                if (inMember.keykrt() === outMember.keykrt) {
 
                     isNew = false;
 
@@ -82,7 +82,12 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             }
         });
 
-        containerRebind();
+        //containerRebind({
+        //    link: reqLink,
+        //    callback: function () {
+        //        self.alert().statusMsg('Информация получена!').alertType('alert-success').mode(true);
+        //    }
+        //});
 
         //self.scrolls(ko.mapping.fromJS(incomeArray.ListKrtNaftan, mappingOptions)());
     }
@@ -90,7 +95,10 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
     //public
     function init(opts) {
         //Deferred updates
-        //ko.options.deferUpdates = true;
+        ko.options.deferUpdates = true;
+
+        //var item = ko.mapping.fromJS({ valuesDictionary: { "74447": "Ж9903" }, allAvailableValues: ["Ж9903"], checkedValues: ["74447"], FieldName: 'id_kart', nameDescription: 'Накоп. Карточки', ActiveFilter: false });
+        //self.filters.push(item);
 
         //get container element
         self.containerName = $("#koContainer")[0];
@@ -114,13 +122,13 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
         //ajax
         db.getScr(function (data) {
-            self.scrolls($.map(data.ListKrtNaftan, function (val, i) {
+            self.scrolls($.map(data.listKrtNaftan, function (val, i) {
                 return new appNomenclature.Scroll(val, true);
             }));
 
             //match by key
             var exist = ko.utils.arrayFirst(self.scrolls(), function (item) {
-                return self.currScr() ? self.currScr().KEYKRT() === item.KEYKRT() : false;
+                return self.currScr() ? self.currScr().keykrt() === item.keykrt() : false;
             });
 
             //default
@@ -129,19 +137,19 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             }
 
             //modal date
-            self.periodModal.period(self.currScr().DTBUHOTCHET());
+            self.periodModal.period(self.currScr().dtbuhotchet());
             //period + list index select
-            self.wrkPeriods(data.RangePeriod.reverse());
+            self.wrkPeriods(data.rangePeriod.reverse());
 
             //pagging
-            self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(data.PagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
+            self.pagging(new appNomenclature.Pagination(ko.mapping.fromJS(data.pagingInfo, { 'ignore': ["AjaxOptions"] }), ["controller"], self));
         }, $merged);
     }
 
     function selActiveScr(el, ev) {
         //mark as actived
         self.currScr(el);
-        self.periodModal.period(el.DTBUHOTCHET());
+        self.periodModal.period(el.dtbuhotchet());
 
         //jquery radio button check
         return true;
@@ -156,7 +164,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             self.periodModal.active(false).multiMode(false);
 
             var msg = 'Отчётный период был успешно изменен для перечня(ей): №' + $(data).map(function (indx, src) {
-                return src.NKRT;
+                return src.nkrt;
             }).get().join(', ');
 
             //show alert
@@ -193,7 +201,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             //update
             //_updateSrcByKey(data.ListKrtNaftan);
             init({
-                url: self.pagging().getPageUrl() + self.pagging().CurrentPage()
+                url: self.pagging().getPageUrl() + self.pagging().currentPage()
             }, self);
 
             self.alert().statusMsg('Синхронизация с БД прошла успешно!').alertType('alert-success').mode(true);
@@ -214,21 +222,21 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             //self.scrolls.remove(src);
 
             init({
-                url: self.pagging().getPageUrl() + self.pagging().CurrentPage(),
+                url: self.pagging().getPageUrl() + self.pagging().currentPage(),
                 data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() }
             }, self);
 
-            self.alert().statusMsg('Перечень №' + src.NKRT() + ' успешно удален!').alertType('alert-success').mode(true);
+            self.alert().statusMsg('Перечень №' + src.nkrt() + ' успешно удален!').alertType('alert-success').mode(true);
         }, {
             url: typeof link === 'string' ? link : $(ev.target).attr('href'),
             type: "Post",
-            data: ko.mapping.toJSON({ 'asService': true, 'numberScroll': src.NKRT(), 'reportYear': moment(src.DTBUHOTCHET()).format('YYYY') }),
+            data: ko.mapping.toJSON({ 'asService': true, 'numberScroll': src.nkrt(), 'reportYear': moment(src.dtbuhotchet()).format('YYYY') }),
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 self.loadingState(false);
             },
             error: function () {
-                self.alert().statusMsg('Операция удаление перечня  №' + src.NKRT() + ' завершилось ошибкой!').alertType('alert-danger').mode(true);
+                self.alert().statusMsg('Операция удаление перечня  №' + src.nkrt() + ' завершилось ошибкой!').alertType('alert-danger').mode(true);
             }
         });
     }
@@ -243,7 +251,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             //update
             _updateSrcByKey(data);
 
-            self.alert().statusMsg('Перечень №' + curWrkSrc.NKRT() + ' успешно подтвержден!').alertType('alert-success').mode(true);
+            self.alert().statusMsg('Перечень №' + curWrkSrc.nkrt() + ' успешно подтвержден!').alertType('alert-success').mode(true);
         }, {
             //exist two mode of exec (by button click and url click)
             url: typeof link === 'string' ? link : $(ev.target).attr('href'),
@@ -251,7 +259,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             data: ko.mapping.toJSON({ 'asService': true }),
             beforeSend: function () { self.loadingState(true); },
             complete: function () { self.loadingState(false); curWrkSrc.proccessingState(false); },
-            error: function () { curWrkSrc.statusMsg('Прошизошла ошибка при подтверждение перечня! №' + curWrkSrc.NKRT()).alertType('alert-danger').mode(true); }
+            error: function () { curWrkSrc.statusMsg('Прошизошла ошибка при подтверждение перечня! №' + curWrkSrc.nkrt()).alertType('alert-danger').mode(true); }
         });
     }
 
@@ -264,7 +272,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         var reqLink = typeof link === 'string' ? link : $(ev.target).attr('href');
 
         //if confirmed
-        if (self.currScr().Confirmed()) {
+        if (self.currScr().confirmed()) {
             sd.init({
                 url: reqLink,
                 data: ko.mapping.toJSON({ "initialSizeItem": sd.rowsPerPage(), "asService": true, "filters": undefined }),
@@ -284,17 +292,20 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         }
     }
 
-    function addvanceFilters(dataContext) {
+    function addvancefilters(dataContext) {
         db.getScr(function (data) {
             //filters 
-            ko.mapping.fromJS(data,{} ,self.filters);
-            
-            containerRebind();
+            ko.mapping.fromJS(data, {}, self.filters);
+
+            //ko.utils.arrayForEach(data, function (item, index) {
+            //    self.filters.push(ko.mapping.fromJS(item));
+            //});
+
+            //containerRebind();
 
             //ko.applyBindings(appNomenclature.SrcVM.filters, $('#cutomsFilter').get(0));
             //Show modal
             self.searchModal(true);
-            
 
             self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
         }, {
@@ -376,6 +387,6 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         removeSrc: removeSrc,
         changeCountPerPage: changeCountPerPage,
         changePeriodMonth: changePeriodMonth,
-        addvanceFilters: addvanceFilters
+        addvancefilters: addvancefilters
     };
 }(jQuery, ko, appNomenclature.DataContext, appNomenclature.PeriodModalVM, appNomenclature.SrcDetailsVM));

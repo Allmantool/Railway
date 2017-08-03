@@ -5,16 +5,16 @@
 
         <div data-bind="with: $parent" class="col-lg-6 text-center" aria-label="...">
             <ul class="pager" style="margin-top: 0.6em;">
-                <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().CurrentPage() === 1 }">
-                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === 1 ? 1 : pagging().CurrentPage() - 1)},
+                <li data-bind="popover: { content: 'Назад'}, css: {disabled : pagging().currentPage() === 1 }">
+                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().currentPage() === 1 ? 1 : pagging().currentPage() - 1)},
                                   click: pagging().previousPage, clickBubble: false">
                         <span aria-hidden="true">&larr;</span>
                     </a>
                 </li>
-                <li data-bind="text: pagging().CurrentPage() + ' из ' + pagging().allPages().length"></li>
+                <li data-bind="text: pagging().currentPage() + ' из ' + pagging().allPages().length"></li>
 
-                <li data-bind="popover: { content: 'Вперед'}, css: {disabled : pagging().CurrentPage() === pagging().allPages().length}">
-                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().CurrentPage() === pagging().allPages() ? pagging().allPages() : pagging().CurrentPage() + 1)},
+                <li data-bind="popover: { content: 'Вперед'}, css: {disabled : pagging().currentPage() === pagging().allPages().length}">
+                    <a data-bind="attr: {'href': pagging().getPageUrl() + (pagging().currentPage() === pagging().allPages() ? pagging().allPages() : pagging().currentPage() + 1)},
                                   click: pagging().nextPage, clickBubble: false">
                         <span aria-hidden="true">&rarr;</span>
                     </a>

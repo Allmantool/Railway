@@ -1,4 +1,4 @@
-﻿@*@model IList<NaftanRailway.BLL.DTO.Guild18.ShippingInfoLineDTO>*@
+﻿@*@model IList<NaftanRailway.BLL.DTO.guild18.shippingInfoLineDTO>*@
 @{
 //var numberRow = @Model.Count();
 //var reportPeriod = (DateTime)@ViewBag.datePeriod;
@@ -45,39 +45,39 @@
                                         As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
                                          -->
                                         @*@Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
-                                        @Html.HiddenFor(x => x[indx].Shipping.id, Model[indx].Shipping.id)*@
+                                        @Html.HiddenFor(x => x[indx].shipping.id, Model[indx].shipping.id)*@
                                         <input type="checkbox" data-bind="checked: $data.IsSelected" />
                                     </td>
                                     <td>
-                                        @*@Html.HiddenFor(x => x[indx].Shipping.type_doc, Model[indx].Shipping.type_doc)
-                                        @Html.LabelFor(x => x[indx].Shipping.type_doc, (Model[indx].Shipping.type_doc == 1) ? "Отправка" : "Прибытие")*@
-                                        <label data-bind="text: $data.Shipping.type_doc() === 1 ? 'Отправка' : 'Прибытие' "></label>
+                                        @*@Html.HiddenFor(x => x[indx].shipping.type_doc, Model[indx].shipping.type_doc)
+                                        @Html.LabelFor(x => x[indx].shipping.type_doc, (Model[indx].shipping.type_doc == 1) ? "Отправка" : "Прибытие")*@
+                                        <label data-bind="text: $data.shipping.type_doc() === 1 ? 'Отправка' : 'Прибытие' "></label>
                                     </td>
                                     <td>
-                                        @*@if (Model[indx].Shipping.date_oper != null) {
-                                            @Html.HiddenFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value)
-                                            @Html.LabelFor(x => x[indx].Shipping.date_oper, Model[indx].Shipping.date_oper.Value.ToString("d MMM yyyy"))
+                                        @*@if (Model[indx].shipping.date_oper != null) {
+                                            @Html.HiddenFor(x => x[indx].shipping.date_oper, Model[indx].shipping.date_oper.Value)
+                                            @Html.LabelFor(x => x[indx].shipping.date_oper, Model[indx].shipping.date_oper.Value.ToString("d MMM yyyy"))
                                         }*@
-                                        <label data-bind="text: moment($data.Shipping.date_oper()).format('DD.MM.YYYY')"></label>
+                                        <label data-bind="text: moment($data.shipping.date_oper()).format('DD.MM.YYYY')"></label>
                                     </td>
                                     <td>
-                                        @*@for (var carriage = 0; carriage < Model[indx].WagonsNumbers.Count(); carriage++) {
-                                            @Html.HiddenFor(x => x[indx].WagonsNumbers[carriage].n_vag, @Model[indx].WagonsNumbers[carriage].n_vag)
+                                        @*@for (var carriage = 0; carriage < Model[indx].wagonsNumbers.Count(); carriage++) {
+                                            @Html.HiddenFor(x => x[indx].wagonsNumbers[carriage].n_vag, @Model[indx].wagonsNumbers[carriage].n_vag)
                                         }
-                                        @Html.LabelFor(x => x[indx].WagonsNumbers, @String.Join(", ", @Model[indx].WagonsNumbers.Select(x => x.n_vag)))*@
+                                        @Html.LabelFor(x => x[indx].wagonsNumbers, @String.Join(", ", @Model[indx].wagonsNumbers.Select(x => x.n_vag)))*@
                                         <label data-bind="text: $data.carriagesList()"></label>
                                     </td>
                                     <td class="small">
-                                        @*@Html.LabelFor(x => x[indx].CargoEtsngName.name, Model[indx].CargoEtsngName.name)*@
-                                        <label data-bind="text: $data.CargoEtsngName.name()"></label>
+                                        @*@Html.LabelFor(x => x[indx].etsng.name, Model[indx].etsng.name)*@
+                                        <label data-bind="text: $data.cargoEtsngName.name()"></label>
                                     </td>
                                     <td class="small">
-                                        @*@if (Model[indx].Shipping.type_doc == 1) {
-                                            @Html.LabelFor(x => x[indx].Shipping.nam_pol, Model[indx].Shipping.nam_pol)
+                                        @*@if (Model[indx].shipping.type_doc == 1) {
+                                            @Html.LabelFor(x => x[indx].shipping.nam_pol, Model[indx].shipping.nam_pol)
                                         } else {
-                                            @Html.LabelFor(x => x[indx].Shipping.nam_otpr, Model[indx].Shipping.nam_otpr)
+                                            @Html.LabelFor(x => x[indx].shipping.nam_otpr, Model[indx].shipping.nam_otpr)
                                         }*@
-                                        <label data-bind="text: $data.Shipping.type_doc() === 1 ? $data.Shipping.nam_pol(): $data.Shipping.nam_otpr()"></label>
+                                        <label data-bind="text: $data.shipping.type_doc() === 1 ? $data.shipping.nam_pol(): $data.shipping.nam_otpr()"></label>
                                     </td>
                                     <td class="small col-md-1">
                                         @*@Html.TextBoxFor(x => x[indx].Warehouse, Model[indx].Warehouse.ToString(), new { @class = "text-center form-control input-sm", type = "number" })*@

@@ -7,7 +7,9 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div data-bind="if: filters().length > 0" stlyle="display: inline-block;" id="cutomsFilter">
+                    <div data-bind="if: filters().length > 0" 
+                         stlyle="display: inline-block; font-size: .3em; font-family: Verdana, Arial, Helvetica, sans-serif;" 
+                         id="cutomsFilter">
                         @{ Html.RenderPartial("_FilterMenu"); }
                     </div>
                     <hr />

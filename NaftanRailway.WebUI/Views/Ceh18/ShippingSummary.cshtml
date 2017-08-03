@@ -1,7 +1,7 @@
 ﻿@*@model DispatchListViewModel*@
 @{
     Layout = null;
-    //var i = (Model.PagingInfo.CurrentPage - 1) * Model.PagingInfo.ItemsPerPage;
+    //var i = (Model.pagingInfo.currentPage - 1) * Model.pagingInfo.itemsPerPage;
 }
 <div id="categories" class="col-lg-2 hidden-xs">
     @{Html.RenderAction("MenuTypeOperations", "Navigation");}
@@ -9,8 +9,8 @@
 
 <div class="col-xs-12 col-lg-10">
     <!--body summary.cshtml -->
-    <div class="panel-group col-lg-12" id="AreaDispatchs">
-        @{Html.RenderPartial("Dispatchs");}
+    <div class="panel-group col-lg-12" id="Areadispatchs">
+        @{Html.RenderPartial("dispatchs");}
     </div>
 
     <!--pagging -->

@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="General\ADTests.cs" />
     <Compile Include="General\ClientServicesTests.cs" />
+    <Compile Include="General\HierarchyTree.cs" />
     <Compile Include="Nomenclature\UnitTestNomenclature .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rail\LINQ.cs" />

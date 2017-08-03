@@ -16,7 +16,7 @@ appRail.Dispach = function (data) {
 
     //check if we have information about shipping
     self.shInfoExists = ko.pureComputed(function () {
-        var shInfo = (ko.isObservable(self.VOtpr) ? ko.unwrap(self.VOtpr) : self.VOtpr);
+        var shInfo = (ko.isObservable(self.vOtpr) ? ko.unwrap(self.vOtpr) : self.vOtpr);
 
         var result = (shInfo === null ? false : true);
 
@@ -25,7 +25,7 @@ appRail.Dispach = function (data) {
 
     //dynamic change bootstrap glyphicon css
     self.directionGlyphicon = ko.pureComputed(function () {
-        var shInfo = ko.unwrap(self.VOtpr);
+        var shInfo = ko.unwrap(self.vOtpr);
 
         var result = 'glyphicon ' + (shInfo === null ? 'glyphicon-usd' : shInfo.oper() === 1 ? 'glyphicon-road' : 'glyphicon-home');
 
@@ -33,19 +33,19 @@ appRail.Dispach = function (data) {
     });
 
     self.fullNameSender = ko.pureComputed(function () {
-        var result = self.VOtpr.adr_otpr() + ' ' + self.VOtpr.nam_otpr();
+        var result = self.vOtpr.adr_otpr() + ' ' + self.vOtpr.nam_otpr();
 
         return result;
     });
 
     self.fullNameReceiver = ko.pureComputed(function () {
-        var result = self.VOtpr.adr_pol() + ' ' + self.VOtpr.nam_pol();
+        var result = self.vOtpr.adr_pol() + ' ' + self.vOtpr.nam_pol();
 
         return result;
     });
 
     self.carriageList = ko.pureComputed(function () {
-        var result = $.map(self.Vovs(), function (val, i) {
+        var result = $.map(self.vovs(), function (val, i) {
             return val.n_vag();
         });
 
@@ -53,7 +53,7 @@ appRail.Dispach = function (data) {
     });
 
     self.statementList = ko.pureComputed(function () {
-        var result = $.map(self.VPams(), function (val, i) {
+        var result = $.map(self.vPams(), function (val, i) {
             return val.nved();
         });
 
@@ -61,7 +61,7 @@ appRail.Dispach = function (data) {
     });
 
     self.actList = ko.pureComputed(function () {
-        var result = $.map(self.VAkts(), function (val, i) {
+        var result = $.map(self.vAkts(), function (val, i) {
             return val.nakt();
         });
 
@@ -69,7 +69,7 @@ appRail.Dispach = function (data) {
     });
 
     self.cardList = ko.pureComputed(function () {
-        var result = $.map(self.VKarts(), function (val, i) {
+        var result = $.map(self.vKarts(), function (val, i) {
             return val.num_kart();
         });
 
@@ -77,19 +77,18 @@ appRail.Dispach = function (data) {
     });
 
     self.scrollList = ko.pureComputed(function () {
-        var result = $.map(self.KNaftan(), function (val, i) {
-            return val.NKRT();
+        var result = $.map(self.kNaftan(), function (val, i) {
+            return val.nkrt();
         });
 
         return result.join(', ');
     });
 
     self.scrollListDate = ko.pureComputed(function () {
-        var result = $.map(self.KNaftan(), function (val, i) {
-            return moment(val.EndDate_PER()).format('DD.MM.YYYY');
+        var result = $.map(self.kNaftan(), function (val, i) {
+            return moment(val.endDate_PER()).format('DD.MM.YYYY');
         });
 
         return result.join(', ');
     });
-
 };

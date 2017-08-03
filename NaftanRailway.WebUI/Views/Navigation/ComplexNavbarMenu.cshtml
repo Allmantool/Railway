@@ -38,8 +38,8 @@
                                     placeholder = "Поиск",
                                     data_bind = "textinput: $root.invoice, " +
                                                 "jqAutoComplete : {" +
-                                                    "data: { ShippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }," +
-                                                    "url:'" + @Url.Action("SearchNumberShipping", "Ceh18") +
+                                                    "data: { shippingChoise: $root.invoice, ReportPeriod: moment($root.reportPeriod(),'01-MM-YYYY').format('01.MM.YYYY') }," +
+                                                    "url:'" + @Url.Action("SearchNumbershipping", "Ceh18") +
                                                 "'}, " +
                                                 "event : {" +
                                                     "dblclick: function (data, event) { $root.invoice (undefined); return; }, " +
@@ -78,11 +78,11 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-save-file"></span>Excel<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li data-bind="popover:{ content: 'Отчёт по цеху 18', placement: 'left'}">
-                                <a class="excelExport" data-bind="attr: {'href': '@Url.Action("Guild18", "Report", new { reportName = "krt_Naftan_Guild18Report"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Отчёт</a>
+                                <a class="excelExport" data-bind="attr: {'href': '@Url.Action("guild18", "Report", new { reportName = "krt_Naftan_guild18Report"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Отчёт</a>
                             </li>
                             <li data-bind="popover:{ content: 'Реестр первичных документов по цеху 18', placement: 'left'}">
                                 <a class="excelExport" 
-                                   data-bind="attr: {'href': '@Url.Action("Guild18", "Report", new { reportName = "krt_Naftan_RegisterGuild18"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Реестр</a>
+                                   data-bind="attr: {'href': '@Url.Action("guild18", "Report", new { reportName = "krt_Naftan_Registerguild18"  })/' + moment(appRail.DispatchsVM.reportPeriod()).format('01-MM-YYYY') }">Реестр</a>
                             </li>
                         </ul>
                     </li>

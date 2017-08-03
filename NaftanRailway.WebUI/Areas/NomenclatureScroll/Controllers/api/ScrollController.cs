@@ -4,6 +4,7 @@ using NaftanRailway.BLL.POCO;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Description;
+using WebApi.OutputCache.V2;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
     public class APIScrollController : ApiController {
@@ -29,6 +30,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         //[Route("customers/{customerId}/orders")]
         [HttpPost]
         [ResponseType(typeof(CheckListFilter))]
+        [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
         public IHttpActionResult GetAddvanceFilter() {
 
             var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();

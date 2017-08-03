@@ -265,13 +265,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             try {
                 result = new[] {
                     new CheckListFilter(
-                        _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null, x=> new { x.nkrt } )
+                        _engage.GetGroup<krt_Naftan_orc_sapod, object>(  x => new { x.id_kart, x.nkrt }, x=>x.tdoc == 4 && x.id_kart != null, x=> new { x.nkrt }, caсhe: true )
                                .ToDictionary(x=>x.First().id_kart?.ToString(), x=>x.First().nkrt)) {
                         FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x => x.id_kart ),
                         NameDescription = @"Накоп. Карточки"
                     },
                     new CheckListFilter(
-                        _engage.GetGroup<krt_Naftan, object>( x => new { x.KEYKRT, x.NKRT }, x => true, x => new { x.NKRT } )
+                        _engage.GetGroup<krt_Naftan, object>( x => new { x.KEYKRT, x.NKRT }, x => true, x => new { x.NKRT }, caсhe: true )
                             .ToDictionary( x => x.First().KEYKRT.ToString(), x => x.First().NKRT.ToString() )) {
                         FieldName = PredicateExtensions.GetPropName<krt_Naftan_orc_sapod> (x=>x.keykrt),
                         NameDescription = @"Перечни"

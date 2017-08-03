@@ -1,39 +1,39 @@
 ﻿<!-- ko if: $data.proccessingState() -->
 <tr class='load'>
-    <td class='text-center' data-bind="text:'Загрузка сборов перечня... №' + $data.NKRT(), attr:{'colspan':'17'}"></td>
+    <td class='text-center' data-bind="text:'Загрузка сборов перечня... №' + $data.nkrt(), attr:{'colspan':'17'}"></td>
 </tr>
 <!-- /ko -->
 
 <tr class="parent"
     data-bind="click: $root.chooseScr, clickBubble: $root.loadingState(),
-               css: {'success': Confirmed() === false,'info' : $root.currScr().KEYKRT() === $data.KEYKRT() }">
+               css: {'success': confirmed() === false,'info' : $root.currScr().keykrt() === $data.keykrt() }">
     <td>
-        <input data-bind="click: $root.chooseScr, checked: $root.currScr().KEYKRT(), checkedValue: KEYKRT()" type="radio" name="optionsRadios" />
+        <input data-bind="click: $root.chooseScr, checked: $root.currScr().keykrt(), checkedValue: keykrt()" type="radio" name="optionsRadios" />
     </td>
-    <td data-bind="text: $data.NKRT()" class="numberScroll"></td>
+    <td data-bind="text: $data.nkrt()" class="numberScroll"></td>
     <td>
         <img style="width: 24px; height: 24px"
-             data-bind="popover:{title: 'Статус обработки', content: ErrorState() === 1 ? 'Ok' : ErrorState() === 2 ? 'В карточке произведена корректировка' : ErrorState() === 0 ? 'Ошибка' : 'Не подтверждено', placement: 'right'},
-                attr: {'src': '@Url.Content("~/Content/Images/")' +  (ErrorState() === 1 ? 'good_or_tick.png' : ErrorState() === 2 ? 'repair.png' : ErrorState() === 0 ? 'no.png' : 'Unkomplete2.png'),
-                               'alt' : ErrorState() === 1 ? 'Ok' : ErrorState() === 2 ? 'tdoc = 0' : ErrorState() === 3 ? 'Ошибка' : 'Не подтверждено'}" />
+             data-bind="popover:{title: 'Статус обработки', content: errorState() === 1 ? 'Ok' : errorState() === 2 ? 'В карточке произведена корректировка' : errorState() === 0 ? 'Ошибка' : 'Не подтверждено', placement: 'right'},
+                attr: {'src': '@Url.Content("~/Content/Images/")' +  (errorState() === 1 ? 'good_or_tick.png' : errorState() === 2 ? 'repair.png' : errorState() === 0 ? 'no.png' : 'Unkomplete2.png'),
+                               'alt' : errorState() === 1 ? 'Ok' : errorState() === 2 ? 'tdoc = 0' : errorState() === 3 ? 'Ошибка' : 'Не подтверждено'}" />
     </td>
-    <td class="singCorrection"><span data-bind="css: {'glyphicon glyphicon-ok': $data.SignAdjustment_list()}"></span></td>
-    <td data-bind="popover: { content: P_TYPE() === 's' ? 'Провозные' : 'Дополнительные'}, text:P_TYPE()"></td>
-    <td data-bind="tooltip: { title: 'Изменить отчётный период?', selState:  $root.currScr().KEYKRT() === $data.KEYKRT() },
+    <td class="singCorrection"><span data-bind="css: {'glyphicon glyphicon-ok': $data.signAdjustment_list()}"></span></td>
+    <td data-bind="popover: { content: p_TYPE() === 's' ? 'Провозные' : 'Дополнительные'}, text:p_TYPE()"></td>
+    <td data-bind="tooltip: { title: 'Изменить отчётный период?', selState:  $root.currScr().keykrt() === $data.keykrt() },
                    click: $root.periodModal.active.bind($data,true),
-                   text: moment(DTBUHOTCHET()).format('MMMM YYYY'),
-                   css: { hover: $root.currScr().KEYKRT() === $data.KEYKRT() }"
+                   text: moment(dtbuhotchet()).format('MMMM YYYY'),
+                   css: { hover: $root.currScr().keykrt() === $data.keykrt() }"
         style="word-break: break-word; width: 1em;"></td>
-    <td data-bind="text: NTREB()"></td>
-    <td data-bind="text: moment(DTTREB()).format('DD.MM.YYYY')"></td>
-    <td data-bind="text: SMTREB().toLocaleString(['ban', 'id'])" class="currencyField text-right"></td>
-    <td data-bind="text: NDSTREB().toLocaleString(['ban', 'id'])" class="currencyField text-right"></td>
-    <td data-bind="text: moment(StartDate_PER()).format('DD.MM.YYYY')"></td>
-    <td data-bind="text: moment(EndDate_PER()).format('DD.MM.YYYY')"></td>
-    <td data-bind="text: Scroll_Sbor().split(',').join(', ')"></td>
-    <td data-bind="text: RecordCount()"></td>
-    <td data-bind="text: moment(DATE_OBRABOT()).format('DD.MM.YYYY HH:MM:SS')"></td>
-    <td><span data-bind="text: CounterVersion(), visible: CounterVersion() > 1"></span></td>
+    <td data-bind="text: ntreb()"></td>
+    <td data-bind="text: moment(dttreb()).format('DD.MM.YYYY')"></td>
+    <td data-bind="text: smtreb().toLocaleString(['ban', 'id'])" class="currencyField text-right"></td>
+    <td data-bind="text: ndstreb().toLocaleString(['ban', 'id'])" class="currencyField text-right"></td>
+    <td data-bind="text: moment(startDate_PER()).format('DD.MM.YYYY')"></td>
+    <td data-bind="text: moment(endDate_PER()).format('DD.MM.YYYY')"></td>
+    <td data-bind="text: scroll_Sbor().split(',').join(', ')"></td>
+    <td data-bind="text: recordCount()"></td>
+    <td data-bind="text: moment(datE_OBRABOT()).format('DD.MM.YYYY HH:MM:SS')"></td>
+    <td><span data-bind="text: counterVersion(), visible: counterVersion() > 1"></span></td>
     <td style="white-space: nowrap">
         <button data-bind="click: $root.viewScrDetails.bind($data,'@Url.Action("ScrollDetails", "Scroll")' + '/' + $data.srcKey()), clickBubble: false, popover:{content: 'Просмотреть сборы по перечню'}"
                 type="button" aria-label="info"
