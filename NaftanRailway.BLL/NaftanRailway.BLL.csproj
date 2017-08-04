@@ -85,6 +85,7 @@
     <Compile Include="DTO\Admin\UserDTO.cs" />
     <Compile Include="DTO\General\BrowserInfoDTO.cs" />
     <Compile Include="DTO\General\ITreeNode.cs" />
+    <Compile Include="DTO\General\TreeNodeBase.cs" />
     <Compile Include="DTO\Guild18\OverviewCarriageDTO.cs" />
     <Compile Include="DTO\Admin\RegistrationDTO.cs" />
     <Compile Include="DTO\Nomenclature\NomenclatureTreeNode.cs" />
