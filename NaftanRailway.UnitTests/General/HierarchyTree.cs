@@ -1,10 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
 using NaftanRailway.BLL.DTO.General;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -14,16 +17,36 @@ namespace NaftanRailway.UnitTests.General {
     /// Custom tree
     /// </summary>
     public class TreeNode : TreeNodeBase<TreeNode> {
+        public TreeNode() {
+
+        }
+
         public TreeNode(string name) : base(name) {
             Debug.Write(name);
         }
 
         protected override TreeNode MySelf => this;
+
+        [Key]
+        public long ElementId { get; set; }
         public string Label { get; set; }
         public string SearchKey { get; set; }
-        public int ChCount { get; set; }
+        public long ChCount { get; set; }
     }
 
+    //Moke context
+    public partial class NomenclatureEntities : DbContext {
+        public NomenclatureEntities() : base("name=EFConnection") {
+            //var dbCon = new DbConnection();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public virtual DbSet<krt_Naftan_orc_sapod> Charges { get; set; }
+        public virtual DbSet<krt_Naftan> Scrolls { get; set; }
+    }
 
     [TestClass]
     public class HierarchyTree {
@@ -49,9 +72,10 @@ namespace NaftanRailway.UnitTests.General {
 
         [TestMethod]
         public void SetUp() {
-            const int countGroup = 3;
-            var startPeriod = new DateTime(2015, 1, 1);
-            var serverName = "LOCALMACHINE";//"CPN8\HOMESERVER"
+            const int countGroup = 20;
+            var startPeriod = new DateTime(2017, 1, 1);
+            var serverName = @"DB2";//@"CPN8\HOMESERVER";//"LOCALMACHINE";
+            var dbName = @"NSD2";
 
             var hirearchyDict = new Dictionary<int, string>{
                 { 0, "Документ" },
@@ -61,9 +85,15 @@ namespace NaftanRailway.UnitTests.General {
                 { 15, "Сбор" }
             };
 
-            var conectString = ConfigurationManager.AppSettings["TestLocalConnection"] ??
-                $@"data source = {serverName}; initial catalog = Railway; integrated security = True; Trusted_Connection = Yes;";
+            var typeDocDict = new Dictionary<int, string> {
+                { 1, "Накладная" },
+                { 2, "Ведомость" },
+                { 3, "Акт" },
+                { 4, "Карточка" },
+            };
 
+            var conectString = ConfigurationManager.AppSettings["TestLocalConnection"] ??
+                $@"data source={serverName};initial catalog={dbName};integrated security=True;Trusted_Connection=Yes;";
 
             #region Query
             /* 04.08.2017
@@ -81,7 +111,8 @@ namespace NaftanRailway.UnitTests.General {
             //--Warning weakness!
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
-                SELECT  [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                SELECT  
+                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -91,9 +122,9 @@ namespace NaftanRailway.UnitTests.General {
 		            [typeDoc] = knos.tdoc,
 		            [docum] = knos.nomot,
                     [count] = COUNT(*)
-                FROM [unCharge] AS knos INNER JOIN [listOfCards] AS kn
+                FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id is not null AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
                 GROUP BY GROUPING SETS(
                         --(),
                         (kn.KEYKRT, kn.NKRT),
@@ -135,7 +166,7 @@ namespace NaftanRailway.UnitTests.General {
                 ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
             #endregion
 
-            IList<HierarchyDto> result = new List<HierarchyDto>();
+            IList<DataRow> result = new List<DataRow>();
             IList<TreeNode> tree = new List<TreeNode>();
 
             //Act
@@ -144,69 +175,185 @@ namespace NaftanRailway.UnitTests.General {
                 using (var adpt = new SqlDataAdapter(query, con)) {
                     try {
                         adpt.Fill(dt);
+                        result = dt.Select().ToList();
+                        //fill tree
+                        if (dt.Rows.Count > 0) tree = result.FillRecursive();
                     } catch (SqlException ex) {
-                        if (con.State == ConnectionState.Open) con.Close();
                         Debug.WriteLine($"Test throws exception: {ex.Message}");
-                    } finally {
                         if (con.State == ConnectionState.Open) con.Close();
-                        adpt.Dispose();
+                    } finally {
+                        if (con.State == ConnectionState.Open) con.Close(); adpt.Dispose();
                     }
                 }
-
-                //Arrange
-                Assert.IsTrue(dt.Rows.Count > 0);
-
-                if (dt.Rows.Count > 0) {
-                    result = dt.Select().ToList().Select(x => new HierarchyDto{
-                        Id = Convert.ToInt32(x["elementId"]),
-                        Label = x["label"].ToString(),
-                        SearchKey = x["searchkey"].ToString(),
-                        ParentId = Convert.ToInt32(x["parentId"]),
-                        LevelName = x["levelName"].ToString(),
-                        ChCount = Convert.ToInt32(x["count"])
-                    }).ToList();
-                }
             }
 
-            //fill tree
-            try {
-                tree = FillRecursive(result.ToList());
-            } catch (Exception ex) {
-                Debug.WriteLine($"Test throws exception: {ex.Message}");
-            }
+            var totalCardCount = tree.Sum(x => x.Children.Count());
+            var totalDocumCount = tree.Sum(x => x.Descendants().Where(node => node.Name == hirearchyDict[0]).Count());
+            var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.Name.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.ChCount).Count());
+            var documStartsWith = tree.SelectMany(x => x.Descendants()).Where(node => node.Label.StartsWith("01")).ToList();
+            var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[0]))
+                                     .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
+            var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[1]))
+                                    .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
+            //the table consists dublicated values id_kart/ nkrt
+            var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[3]))
+                                     .DistinctBy(x => new { x.SearchKey, x.Label })//.ToLookup(x=>x.SearchKey)
+                                     .ToDictionary(gr => gr.SearchKey, gr => gr.Label, StringComparer.OrdinalIgnoreCase);
 
+            // Arrange
+            Assert.IsTrue(totalCardCount > 0);
+            Assert.IsTrue(totalDocumCount > totalCardCount);
+            Assert.IsTrue(totalActCount > 0 && totalActCount < totalCardCount);
+            Assert.IsTrue(documStartsWith.Count() >= 0);
             Assert.IsTrue(result.Count > 0);
             Assert.IsTrue(tree.Count() == countGroup);
         }
 
-        private class HierarchyDto {
-            public int Id { get; set; }
-            public string Label { get; set; }
-            public int? ParentId { get; set; }
-            public string SearchKey { get; set; }
-            public string LevelName { get; set; }
-            public int ChCount { get; set; }
-        }
+        [TestMethod]
+        public void InitEF() {
+            const int countGroup = 20;
+            var startPeriod = new DateTime(2017, 1, 1);
 
+            #region Query
+            /* 04.08.2017
+            * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
+            *
+            * [elementId] - primary key
+            * [parentId] - parents element id
+            * [groupId] - group id
+            * [rankInGr] - element primary key in group
+            * [treeLevel] - height of tree
+            * [levelName] - custom group tree node name
+            * [searchkey] - key for search in plane (source table)
+            * [label] - description for rendering purpose
+            */
+            //--Warning weakness!
+            //--The order must be same in each aggregation functions
+            var query = $@";WITH grSubResult AS (
+                SELECT  
+                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
+                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
+                    --[level_card] = GROUPING(knos.id_kart),
+                    [scroll] = kn.NKRT, kn.KEYKRT,
+                    [card] = knos.NKRT, knos.id_kart,
+		            [typeDoc] = knos.tdoc,
+		            [docum] = knos.nomot,
+                    [count] = COUNT(*)
+                FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
+                    ON kn.KEYKRT = knos.keykrt
+                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                GROUP BY GROUPING SETS(
+                        --(),
+                        (kn.KEYKRT, kn.NKRT),
+		                --(kn.KEYKRT, kn.NKRT, knos.id_kart),
+                        (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
+		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
+		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
+	                )
+                )
+
+                SELECT
+                    [parentId] = CASE [treeLevel]
+					    WHEN 0 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 1 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart)
+					    WHEN 3 THEN MAX(elementId) OVER (PARTITION BY KEYKRT)
+					ELSE 0 END,
+	                [elementId], [groupId], [rankInGr], [treeLevel],
+	                [levelName] = CASE [treeLevel]
+					    WHEN 0 THEN N'Документ'
+					    WHEN 1 THEN N'Тип документа'
+					    WHEN 3 THEN N'Карточка'
+					    WHEN 7 THEN N'Перечень'
+					ELSE NULL END,
+	                [searchkey] = CASE [treeLevel]
+					    WHEN 0 THEN convert(nvarchar(max), [docum])
+					    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
+					    WHEN 3 THEN convert(nvarchar(max), [id_kart])
+					    WHEN 7 THEN convert(nvarchar(max), [keykrt])
+					ELSE NULL END,
+	                [label] = CASE [treeLevel]
+				        WHEN 0 THEN Convert(nvarchar(max), [docum])
+				        WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+				        WHEN 3 THEN [card]
+				        WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+				    ELSE NULL END,
+	                [count]
+                FROM grSubResult as gr
+                WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
+                ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+            #endregion
+
+            //map
+            try {
+                using (var ctx = new NomenclatureEntities()) {
+                    var result = ctx.Database.SqlQuery<TreeNode>(query).ToList();
+                    var tree = result.FillRecursive();
+                }
+            } catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// It's the class with specific method for working with hierarchy structure through LINQ
+    /// </summary>
+    public static class TreeExtenstions {
         /// <summary>
         /// It fills tree recursive (up to down)
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        private static List<TreeNode> FillRecursive(IList<HierarchyDto> rows, int parentId = 0) {
-            var subResult = rows.Where(x => x.ParentId.Equals(parentId));
+        public static List<TreeNode> FillRecursive(this IList<DataRow> rows, int parentId = 0) {
+            //top nodes
+            var roots = rows.Where(x => Convert.ToInt32(x["parentId"]) == parentId);
 
-            var result = subResult.Select(item => new TreeNode(item.LevelName) {
-                Id = item.Id,
-                Children = FillRecursive(rows, item.Id),
-                Label = item.Label,
-                SearchKey = item.SearchKey,
-                ChCount = item.ChCount
+            var result = roots.Select(item => new TreeNode(item["levelName"].ToString()) {
+                Id = Convert.ToInt32(item["elementId"]),
+                Children = FillRecursive(rows, Convert.ToInt32(item["elementId"])),
+                Label = item["label"].ToString(),
+                SearchKey = item["searchkey"].ToString(),
+                ChCount = Convert.ToInt32(item["count"]),
             }).ToList();
 
             return result;
         }
 
+        public static IEnumerable<TreeNode> Descendants(this TreeNode root) {
+            var nodes = new Stack<TreeNode>(new[] { root });
+
+            while (nodes.Any()) {
+                TreeNode node = nodes.Pop();
+
+                yield return node;
+
+                foreach (var n in node.Children) nodes.Push(n);
+            }
+        }
+
+        /// <summary>
+        /// It fills tree recursive (up to down) from node collection
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, int parentId = 0) {
+            //top nodes
+            var roots = rows.Where(x => x.Id == parentId);
+
+            var result = roots.Select(item => new TreeNode(item.Name) {
+                Id = item.Id,
+                Children = FillRecursive(rows, item.Id),
+                Label = item.Label,
+                SearchKey = item.SearchKey,
+                ChCount = item.ChCount,
+            }).ToList();
+
+            return result;
+        }
     }
 }

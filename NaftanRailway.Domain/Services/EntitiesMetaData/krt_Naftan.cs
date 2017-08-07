@@ -9,6 +9,8 @@ namespace NaftanRailway.Domain.Concrete.DbContexts.ORC
 
     internal class ObjMetaData
     {
+        [Key]
+        public long KEYKRT { get; set; }
         //[ScriptIgnore]
         //public virtual ICollection<krt_Naftan_orc_sapod> krt_Naftan_orc_sapod { get; set; }
 

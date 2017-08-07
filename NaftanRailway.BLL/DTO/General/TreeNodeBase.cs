@@ -16,6 +16,12 @@ namespace NaftanRailway.BLL.DTO.General {
 
         private readonly IList<T> _children = new List<T>();
 
+        /// <summary>
+        /// Requered for EF SqlQuery mapping
+        /// </summary>
+        public TreeNodeBase() {
+        }
+
         public TreeNodeBase(string name) {
             Name = name;
             Children = new List<T>();

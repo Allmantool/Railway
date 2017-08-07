@@ -92,7 +92,9 @@
     <Compile Include="DTO\Nomenclature\ScrollDetailDTO.cs" />
     <Compile Include="DTO\Nomenclature\ScrollLineDTO.cs" />
     <Compile Include="DTO\Admin\SecurityInfoLineDTO.cs" />
+    <Compile Include="DTO\Nomenclature\TreeNode.cs" />
     <Compile Include="POCO\CheckListFilter.cs" />
+    <Compile Include="Services\HierarchyTreeExtensions\TreeExtenstions.cs" />
     <Compile Include="Services\IoC\NinjectRegistrations.cs" />
     <Compile Include="Services\Mapping\AutoMapperBLLConfiguration.cs" />
     <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />

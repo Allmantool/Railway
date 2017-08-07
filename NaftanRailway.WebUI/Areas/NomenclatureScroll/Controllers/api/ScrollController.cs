@@ -1,7 +1,7 @@
 ﻿using log4net;
 using NaftanRailway.BLL.Abstract;
-using NaftanRailway.BLL.POCO;
-using System.Collections.Generic;
+using NaftanRailway.BLL.DTO.Nomenclature;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.OutputCache.V2;
@@ -29,16 +29,19 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         /// <returns></returns>
         //[Route("customers/{customerId}/orders")]
         [HttpPost]
-        [ResponseType(typeof(CheckListFilter))]
+        [ResponseType(typeof(TreeNode))]
         [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
-        public IHttpActionResult GetAddvanceFilter() {
+        //Disadvantage??
+        public async Task<IHttpActionResult> GetAddvanceFilter() {
 
-            var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
+            //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
+
+            var tree = await _bussinesEngage.getTreeStructure();
 
             //var response = new HttpResponseMessage();
             //response.Headers.Add("ContentType", "application/json");
 
-            return result.Count < 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(result);
+            return tree.Count < 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(tree);
         }
     }
 }

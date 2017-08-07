@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Text;
 using System.Data.Entity;
+using NaftanRailway.BLL.Services.HierarchyTreeExtensions;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public sealed class NomenclatureModule : Disposable, INomenclatureModule {
@@ -217,13 +218,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
@@ -310,29 +311,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                    filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
+                break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                    nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                    break;
+                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                break;
 
                 case @"KRT_Analys_ORC":
-                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                break;
 
                 default:
-                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
             }
 
             //generate url for ssrs
@@ -396,6 +397,115 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         protected override void DisposeCore() {
             _engage?.Dispose();
+        }
+
+        /// <summary>
+        /// It method converts flatted table to node hierarchy structure and return it
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IList<TreeNode>> getTreeStructure() {
+            const int countGroup = 20;
+            var startPeriod = new DateTime(2017, 1, 1);
+
+            IList<TreeNode> result = new List<TreeNode>();
+            IList<TreeNode> tree = new List<TreeNode>();
+
+            var hirearchyDict = new Dictionary<int, string>{
+                { 0, "Документ" },
+                { 1, "Тип документа" },
+                { 3, "Карточка" },
+                { 7, "Перечень" },
+                { 15, "Сбор" }
+            };
+
+            var typeDocDict = new Dictionary<int, string> {
+                { 1, "Накладная" },
+                { 2, "Ведомость" },
+                { 3, "Акт" },
+                { 4, "Карточка" },
+            };
+
+            #region Query
+            /* 04.08.2017
+            * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
+            *
+            * [elementId] - primary key
+            * [parentId] - parents element id
+            * [groupId] - group id
+            * [rankInGr] - element primary key in group
+            * [treeLevel] - height of tree
+            * [levelName] - custom group tree node name
+            * [searchkey] - key for search in plane (source table)
+            * [label] - description for rendering purpose
+            */
+            //--Warning weakness!
+            //--The order must be same in each aggregation functions
+            var query = $@";WITH grSubResult AS (
+                SELECT  
+                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
+                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
+                    --[level_card] = GROUPING(knos.id_kart),
+                    [scroll] = kn.NKRT, kn.KEYKRT,
+                    [card] = knos.NKRT, knos.id_kart,
+		            [typeDoc] = knos.tdoc,
+		            [docum] = knos.nomot,
+                    [count] = COUNT(*)
+                FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
+                    ON kn.KEYKRT = knos.keykrt
+                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                GROUP BY GROUPING SETS(
+                        --(),
+                        (kn.KEYKRT, kn.NKRT),
+		                --(kn.KEYKRT, kn.NKRT, knos.id_kart),
+                        (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
+		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
+		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
+	                )
+                )
+
+                SELECT
+                    [parentId] = CASE [treeLevel]
+					    WHEN 0 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 1 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart)
+					    WHEN 3 THEN MAX(elementId) OVER (PARTITION BY KEYKRT)
+					ELSE 0 END,
+	                [elementId], [groupId], [rankInGr], [treeLevel],
+	                [levelName] = CASE [treeLevel]
+					    WHEN 0 THEN N'Документ'
+					    WHEN 1 THEN N'Тип документа'
+					    WHEN 3 THEN N'Карточка'
+					    WHEN 7 THEN N'Перечень'
+					ELSE NULL END,
+	                [searchkey] = CASE [treeLevel]
+					    WHEN 0 THEN convert(nvarchar(max), [docum])
+					    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
+					    WHEN 3 THEN convert(nvarchar(max), [id_kart])
+					    WHEN 7 THEN convert(nvarchar(max), [keykrt])
+					ELSE NULL END,
+	                [label] = CASE [treeLevel]
+				        WHEN 0 THEN Convert(nvarchar(max), [docum])
+				        WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+				        WHEN 3 THEN [card]
+				        WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+				    ELSE NULL END,
+	                [count]
+                FROM grSubResult as gr
+                WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
+                ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+            #endregion
+
+            try {
+                using (_engage.Uow = new UnitOfWork()) {
+                    result = await _engage.Uow.Repository<TreeNode>().ActiveDbContext.Database.SqlQuery<TreeNode>(query).ToListAsync();
+                    if (result.Count > 0) tree = result.FillRecursive();
+                }
+            } catch (Exception ex) {
+                _engage.Log.DebugFormat("Exception: {0}", ex.Message);
+            }
+
+            return tree;
         }
     }
 }

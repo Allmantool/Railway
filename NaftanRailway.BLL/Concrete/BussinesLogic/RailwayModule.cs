@@ -280,7 +280,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     //для динамического соединения
                     var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
                     var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
-                    var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x =>$"'{x.n_vag}'")) : string.Empty;
+                    var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => $"'{x.n_vag}'")) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
