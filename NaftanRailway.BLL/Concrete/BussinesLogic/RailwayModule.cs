@@ -280,7 +280,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     //для динамического соединения
                     var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
                     var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
-                    var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => string.Format("'{0}'", x.n_vag))) : string.Empty;
+                    var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x =>$"'{x.n_vag}'")) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
@@ -437,7 +437,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             DateTime supremePeriod = DateTime.Today.AddDays(-10);
             DateTime currentMonth = DateTime.Today.AddDays(-15);
 
-            //code of goods that not nessary to finded
+            //code of goods that not necessary to funded
             var outSearch = new[] { "" };
 
             var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x =>
@@ -463,7 +463,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 return request == null ? String.Empty : request.name;
             };
 
-            //merge two object of the same type to one (we have 2 diffrent source)
+            //merge two object of the same type to one (we have 2 different source)
             var result = estimatedCarriages.Select(cr => new OverviewCarriageDTO() {
                 Carriage = cr,
                 Cargo = cargoName(cr.cod_gruz),

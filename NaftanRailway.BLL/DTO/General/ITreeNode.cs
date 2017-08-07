@@ -2,7 +2,7 @@
 
 namespace NaftanRailway.BLL.DTO.General {
     /// <summary>
-    /// The generic interface that represents node in a hierarchy tree 
+    /// The generic interface that represents node in a hierarchy tree
     /// (composite pattern)
     /// </summary>
     public interface ITreeNode<T> {

@@ -217,13 +217,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 
@@ -310,29 +310,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                    filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                break;
+                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                    break;
 
                 case @"KRT_Analys_ORC":
-                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 default:
-                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
             }
 
             //generate url for ssrs
@@ -388,7 +388,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public async Task LogExceptionAsync(Exception ex) {
-            // Note: this is going to run syncronously
+            // Note: this is going to run synchronously
             // because I didn't use async in the body.
             await Task.Run(() => { _engage.Log.Debug($"Exception during execution 'SyncWithOrc': {ex?.Message}"); });
             // Do something async here ...

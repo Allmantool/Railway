@@ -3,16 +3,18 @@ using System.Linq;
 
 namespace NaftanRailway.BLL.DTO.General {
     /// <summary>
-    /// it represents a generic abstract(base) class for hierarchy tree node implementions
+    /// it represents a generic abstract(base) class for hierarchy tree node implementation
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class TreeNodeBase<T> : ITreeNode<T> where T : class, ITreeNode<T> {
         /// <summary>
         /// It returns context ('this'). ('this' couldn't straight cast to type T).
-        /// Implemention in conrete class must override this property and to return
+        /// Implementation in concrete class must override this property and to return
         /// ( get { return this; } )
         /// </summary>
         protected abstract T MySelf { get; }
+
+        private readonly IList<T> _children = new List<T>();
 
         public TreeNodeBase(string name) {
             Name = name;
@@ -32,27 +34,20 @@ namespace NaftanRailway.BLL.DTO.General {
             get; set;
         }
         public IList<T> Children {
-            get;  set;
+            get { return _children; }
+            set { AddChildren(value); }
         }
 
-        public bool IsLeaf {
-            get {
-                return Children.Count == 0;
-            }
-        }
+        public bool IsLeaf => Children.Count == 0;
 
-        public bool IsRoot {
-            get {
-                return Parent == null;
-            }
-        }
+        public bool IsRoot => Parent == null;
 
         public void AddChild(T child) {
             child.Parent = MySelf;
-            Children.Add(child);
+            _children.Add(child);
         }
-        public void AddChildren(IEnumerable<T> children) {
-            foreach (T child in children)
+        public void AddChildren(IEnumerable<T> chNodes) {
+            foreach (T child in chNodes)
                 AddChild(child);
         }
 
@@ -85,7 +80,7 @@ namespace NaftanRailway.BLL.DTO.General {
         public string GetFullyQualifiedName() {
             if (Parent == null) return Name;
 
-            return string.Format("{0}.{1}", Parent.GetFullyQualifiedName(), Name);
+            return $"{Parent.GetFullyQualifiedName()}.{Name}";
         }
     }
 }
