@@ -22,15 +22,18 @@ namespace NaftanRailway.BLL.DTO.General {
         public TreeNodeBase() {
         }
 
-        public TreeNodeBase(string name) {
-            Name = name;
+        public TreeNodeBase(string levelName) {
+            LevelName = levelName;
             Children = new List<T>();
         }
 
-        public int Id {
+        public virtual long Id {
             get; set;
         }
-        public string Name {
+        /// <summary>
+        /// It's a custom description of level tree
+        /// </summary>
+        public string LevelName {
             get; private set;
         }
         /// <summary>
@@ -84,9 +87,9 @@ namespace NaftanRailway.BLL.DTO.General {
         /// </summary>
         /// <returns></returns>
         public string GetFullyQualifiedName() {
-            if (Parent == null) return Name;
+            if (Parent == null) return LevelName;
 
-            return $"{Parent.GetFullyQualifiedName()}.{Name}";
+            return $"{Parent.GetFullyQualifiedName()}.{ LevelName}";
         }
     }
 }

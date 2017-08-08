@@ -5,6 +5,7 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
@@ -17,9 +18,7 @@ namespace NaftanRailway.UnitTests.General {
     /// Custom tree
     /// </summary>
     public class TreeNode : TreeNodeBase<TreeNode> {
-        public TreeNode() {
-
-        }
+        public TreeNode() { }
 
         public TreeNode(string name) : base(name) {
             Debug.Write(name);
@@ -27,11 +26,15 @@ namespace NaftanRailway.UnitTests.General {
 
         protected override TreeNode MySelf => this;
 
-        [Key]
-        public long ElementId { get; set; }
+        [Key()/*, Column("id")*/]
+        public override long Id { get; set; }
+        public long ParentId { get; set; }
+        public long GroupId { get; set; }
+        public long RankInGr { get; set; }
+        public int TreeLevel { get; set; }
         public string Label { get; set; }
         public string SearchKey { get; set; }
-        public long ChCount { get; set; }
+        public int Count { get; set; }
     }
 
     //Moke context
@@ -99,7 +102,7 @@ namespace NaftanRailway.UnitTests.General {
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [elementId] - primary key
+            * [id] - primary key
             * [parentId] - parents element id
             * [groupId] - group id
             * [rankInGr] - element primary key in group
@@ -112,7 +115,7 @@ namespace NaftanRailway.UnitTests.General {
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -137,11 +140,11 @@ namespace NaftanRailway.UnitTests.General {
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(elementId) OVER (PARTITION BY KEYKRT)
+					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
+					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
 					ELSE 0 END,
-	                [elementId], [groupId], [rankInGr], [treeLevel],
+	                [id], [groupId], [rankInGr], [treeLevel],
 	                [levelName] = CASE [treeLevel]
 					    WHEN 0 THEN N'Документ'
 					    WHEN 1 THEN N'Тип документа'
@@ -188,15 +191,15 @@ namespace NaftanRailway.UnitTests.General {
             }
 
             var totalCardCount = tree.Sum(x => x.Children.Count());
-            var totalDocumCount = tree.Sum(x => x.Descendants().Where(node => node.Name == hirearchyDict[0]).Count());
-            var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.Name.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.ChCount).Count());
+            var totalDocumCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName == hirearchyDict[0]).Count());
+            var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.Count).Count());
             var documStartsWith = tree.SelectMany(x => x.Descendants()).Where(node => node.Label.StartsWith("01")).ToList();
-            var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[0]))
+            var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[0]))
                                      .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
-            var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[1]))
+            var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[1]))
                                     .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
             //the table consists dublicated values id_kart/ nkrt
-            var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.Name.Equals(hirearchyDict[3]))
+            var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[3]))
                                      .DistinctBy(x => new { x.SearchKey, x.Label })//.ToLookup(x=>x.SearchKey)
                                      .ToDictionary(gr => gr.SearchKey, gr => gr.Label, StringComparer.OrdinalIgnoreCase);
 
@@ -211,14 +214,14 @@ namespace NaftanRailway.UnitTests.General {
 
         [TestMethod]
         public void InitEF() {
-            const int countGroup = 20;
+            const int countGroup = 3;
             var startPeriod = new DateTime(2017, 1, 1);
 
             #region Query
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [elementId] - primary key
+            * [id] - primary key
             * [parentId] - parents element id
             * [groupId] - group id
             * [rankInGr] - element primary key in group
@@ -231,7 +234,7 @@ namespace NaftanRailway.UnitTests.General {
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -256,11 +259,11 @@ namespace NaftanRailway.UnitTests.General {
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(elementId) OVER (PARTITION BY KEYKRT)
+					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
+					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
 					ELSE 0 END,
-	                [elementId], [groupId], [rankInGr], [treeLevel],
+	                [id], [groupId], [rankInGr], [treeLevel],
 	                [levelName] = CASE [treeLevel]
 					    WHEN 0 THEN N'Документ'
 					    WHEN 1 THEN N'Тип документа'
@@ -288,6 +291,9 @@ namespace NaftanRailway.UnitTests.General {
             //map
             try {
                 using (var ctx = new NomenclatureEntities()) {
+
+                    var dbName = ctx.Database.Connection.Database;
+                    //list on nodes (flatted)
                     var result = ctx.Database.SqlQuery<TreeNode>(query).ToList();
                     var tree = result.FillRecursive();
                 }
@@ -313,11 +319,11 @@ namespace NaftanRailway.UnitTests.General {
             var roots = rows.Where(x => Convert.ToInt32(x["parentId"]) == parentId);
 
             var result = roots.Select(item => new TreeNode(item["levelName"].ToString()) {
-                Id = Convert.ToInt32(item["elementId"]),
-                Children = FillRecursive(rows, Convert.ToInt32(item["elementId"])),
+                Id = Convert.ToInt32(item["id"]),
+                Children = FillRecursive(rows, Convert.ToInt32(item["id"])),
                 Label = item["label"].ToString(),
                 SearchKey = item["searchkey"].ToString(),
-                ChCount = Convert.ToInt32(item["count"]),
+                Count = Convert.ToInt32(item["count"]),
             }).ToList();
 
             return result;
@@ -341,16 +347,21 @@ namespace NaftanRailway.UnitTests.General {
         /// <param name="rows"></param>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, int parentId = 0) {
+        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, long parentId = 0) {
             //top nodes
-            var roots = rows.Where(x => x.Id == parentId);
+            var roots = rows.Where(x => x.ParentId == parentId).ToList();
 
-            var result = roots.Select(item => new TreeNode(item.Name) {
+            //build hierarchy
+            var result = roots.Select(item => new TreeNode(item.LevelName) {
                 Id = item.Id,
                 Children = FillRecursive(rows, item.Id),
                 Label = item.Label,
                 SearchKey = item.SearchKey,
-                ChCount = item.ChCount,
+                Count = item.Count,
+                GroupId = item.GroupId,
+                ParentId = item.ParentId,
+                RankInGr = item.RankInGr,
+                TreeLevel = item.TreeLevel
             }).ToList();
 
             return result;

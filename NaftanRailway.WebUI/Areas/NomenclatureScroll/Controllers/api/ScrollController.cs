@@ -32,11 +32,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         [ResponseType(typeof(TreeNode))]
         [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
         //Disadvantage??
-        public async Task<IHttpActionResult> GetAddvanceFilter() {
+        public IHttpActionResult GetAddvanceFilter() {
 
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
 
-            var tree = await _bussinesEngage.getTreeStructure();
+            var tree = _bussinesEngage.getTreeStructure();
 
             //var response = new HttpResponseMessage();
             //response.Headers.Add("ContentType", "application/json");

@@ -106,7 +106,10 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         //work with options
         var defaults = {
             data: { "initialSizeItem": self.rowsPerPage(), "period": self.wrkSelPeriod() },
-            beforeSend: function () { self.loadingState(true); },
+            beforeSend: function () {
+                self.scrollDetails.viewWrong(false);
+                self.loadingState(true);
+            },
             complete: function () {
                 //firts initialization
                 if (opts === undefined) {
@@ -276,7 +279,10 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             sd.init({
                 url: reqLink,
                 data: ko.mapping.toJSON({ "initialSizeItem": sd.rowsPerPage(), "asService": true, "filters": undefined }),
-                beforeSend: function () { self.loadingState(true); },
+                beforeSend: function () {
+                    self.loadingState(true);
+                    self.scrollDetails.viewWrong(false);
+                },
                 complete: function () {
                     //load partial view
                     containerRebind({

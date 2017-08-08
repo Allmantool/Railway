@@ -22,7 +22,7 @@ appNomenclature.Charge = function (data, parent) {
     self.summa = ko.observable(self.summa()).extend({ keysbor: self.keysbor(), editable: { persiste: self.persist, editMode: _parent.editModal } });
     self.nds = ko.observable(self.nds()).extend({ keysbor: self.keysbor(), editable: { persiste: self.persist, editMode: _parent.editModal } });
 
-    self.textm = ko.observable(self.textm()).extend({ editable: { persiste: self.persist, editMode: _parent.editModal } });
+    self.textm = ko.observable(self.textm()).extend({ editable: { persiste: self.persist, editMode: _parent.editModal, onlyNumber: false } });
 
     self.date_raskr = ko.computed(function () {
         var result = self.vidsbr().toString().search(new RegExp('30[01]', 'i')) > -1 ?

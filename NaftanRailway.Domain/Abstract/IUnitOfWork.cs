@@ -8,6 +8,7 @@ namespace NaftanRailway.Domain.Abstract {
         ///     Active DbContext (current)
         /// </summary>
         DbContext ActiveContext { get; set; }
+        DbContext[] Contexts { get; }
 
         /// <summary>
         ///     General type repository

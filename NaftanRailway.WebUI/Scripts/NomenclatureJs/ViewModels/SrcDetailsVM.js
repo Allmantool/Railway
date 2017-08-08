@@ -143,9 +143,6 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
     }
 
     function syncWithDB(link, context) {
-        //save changes in extended observebles in edit mode (then automatically check to default state for edit mode => false)
-        context.persist(true);
-
         var defaults = {
             url: link,
             type: "Post",
@@ -156,6 +153,9 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
             complete: function () {
                 _parent.loadingState(false);
                 self.editModal(false);
+            },
+            error: function () {
+                _parent.alert().statusMsg('Операция cохранения! завершилась ошибкой').alertType('alert-danger').mode(true);
             }
             //fail: function (jqXHR, textStatus, errorThrow) {
             //    _parent.alert().statusMsg('Произошла ошибка! ' + textStatus).alertType('alert-danger').mode(true);
@@ -166,6 +166,8 @@ appNomenclature.SrcDetailsVM = (function ($, ko, db) {
         };
 
         db.getScr(function (opts) {
+            //save changes in extended observebles in edit mode (then automatically check to default state for edit mode => false)
+            context.persist(true);
             _parent.alert().statusMsg('Информация по сбору успешно изменена! ' + opts).alertType('alert-success').mode(true);
         }, defaults);
     }

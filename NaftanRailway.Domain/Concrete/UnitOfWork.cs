@@ -12,7 +12,6 @@ using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.Domain.Concrete {
     /*best approach that short live context (using)*/
-
     public class UnitOfWork : Disposable, IUnitOfWork {
         private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
 
@@ -42,7 +41,7 @@ namespace NaftanRailway.Domain.Concrete {
             SetUpContext();
         }
 
-        private DbContext[] Contexts { get; }
+        public DbContext[] Contexts { get; }
         public DbContext ActiveContext { get; set; }
 
         /// <summary>

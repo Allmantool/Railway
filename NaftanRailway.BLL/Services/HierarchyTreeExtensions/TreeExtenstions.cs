@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-
 namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
     /// <summary>
     /// It's the class with specific method for working with hierarchy structure through LINQ
@@ -21,10 +20,10 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
             var roots = rows.Where(x => Convert.ToInt32(x["parentId"]) == parentId);
 
             var result = roots.Select(item => new TreeNode(item["levelName"].ToString()) {
-                Id = Convert.ToInt32(item["elementId"]),
-                Children = FillRecursive(rows, Convert.ToInt32(item["elementId"])),
+                Id = Convert.ToInt32(item["Id"]),
+                Children = FillRecursive(rows, Convert.ToInt32(item["Id"])),
                 Label = item["label"].ToString(),
-                Searchkey = item["searchkey"].ToString(),
+                SearchKey = item["searchkey"].ToString(),
                 Count = Convert.ToInt32(item["count"]),
             }).ToList();
 
@@ -37,16 +36,21 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
         /// <param name="rows"></param>
         /// <param name="parentId"></param>
         /// <returns></returns>
-        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, int parentId = 0) {
+        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, long parentId = 0) {
             //top nodes
-            var roots = rows.Where(x => x.Id == parentId);
+            var roots = rows.Where(x => x.ParentId == parentId).ToList();
 
-            var result = roots.Select(item => new TreeNode(item.Name) {
+            //build hierarchy
+            var result = roots.Select(item => new TreeNode(item.LevelName) {
                 Id = item.Id,
                 Children = FillRecursive(rows, item.Id),
                 Label = item.Label,
-                Searchkey = item.Searchkey,
+                SearchKey = item.SearchKey,
                 Count = item.Count,
+                GroupId = item.GroupId,
+                ParentId = item.ParentId,
+                RankInGr = item.RankInGr,
+                TreeLevel = item.TreeLevel
             }).ToList();
 
             return result;

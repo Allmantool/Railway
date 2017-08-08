@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
@@ -24,6 +23,9 @@ namespace NaftanRailway.WebUI.Controllers {
     public abstract class BaseController : Controller {
         private readonly object _threadLock = new object();
         public static ILog Log { get; private set; }
+        public string ModelErrors {
+            get { return string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)); }
+        }
 
         /// <summary>
         /// current AD user

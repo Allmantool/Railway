@@ -6,8 +6,8 @@ namespace NaftanRailway.BLL.DTO.General {
     /// (composite pattern)
     /// </summary>
     public interface ITreeNode<T> {
-        int Id { get; set; }
-        string Name { get; }
+        long Id { get; set; }
+        string LevelName { get; }
         T Parent { get; set; }
         IList<T> Children { get;  }
 

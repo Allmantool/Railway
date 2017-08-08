@@ -179,6 +179,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 }
             }
 
+            Log.Debug($"EditCharge method isn't valid: {ModelErrors}.");
             return RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 

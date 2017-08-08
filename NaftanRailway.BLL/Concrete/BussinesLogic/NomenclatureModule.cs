@@ -139,10 +139,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
         public async Task<int> SyncWithOrc() {
             using (_engage.Uow = new UnitOfWork()) {
+
                 var result = 0;
 
                 try {
+
                     var db = _engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
+                    //underlying provider failed on open async issue
+                    db.Connection.Open();
                     db.CommandTimeout = 120;
 
                     result = await db.ExecuteSqlCommandAsync(TransactionalBehavior.EnsureTransaction, @"EXEC dbo.sp_UpdateKrt_Naftan");
@@ -182,8 +186,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="charge"></param>
         /// <returns></returns>
         public bool EditKrtNaftanOrcSapod(ScrollDetailDTO charge) {
-            using (_engage.Uow = new UnitOfWork()) {
-                try {
+            try {
+                using (_engage.Uow = new UnitOfWork()) {
                     //krt_Naftan_ORC_Sapod (check as correction)
                     var itemRow = _engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
                     _engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
@@ -204,13 +208,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     parentRow.ErrorState = 2;
 
                     _engage.Uow.Save();
-
-                } catch (Exception) {
-                    return false;
                 }
+            } catch (Exception ex) {
+                _engage.Log.Debug($"Method EditKrtNaftanOrcSapod throws exception: {ex.Message}.");
 
-                return true;
+                return false;
             }
+
+            return true;
         }
 
         public ScrollDetailDTO OperationOnScrollDetail(long key, EnumMenuOperation operation) {
@@ -403,7 +408,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public async Task<IList<TreeNode>> getTreeStructure() {
+        public IList<TreeNode> getTreeStructure() {
             const int countGroup = 20;
             var startPeriod = new DateTime(2017, 1, 1);
 
@@ -429,7 +434,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [elementId] - primary key
+            * [id] - primary key
             * [parentId] - parents element id
             * [groupId] - group id
             * [rankInGr] - element primary key in group
@@ -442,7 +447,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [elementId] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -467,11 +472,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(elementId) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(elementId) OVER (PARTITION BY KEYKRT)
+					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
+					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
 					ELSE 0 END,
-	                [elementId], [groupId], [rankInGr], [treeLevel],
+	                [id], [groupId], [rankInGr], [treeLevel],
 	                [levelName] = CASE [treeLevel]
 					    WHEN 0 THEN N'Документ'
 					    WHEN 1 THEN N'Тип документа'
@@ -498,9 +503,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             try {
                 using (_engage.Uow = new UnitOfWork()) {
-                    result = await _engage.Uow.Repository<TreeNode>().ActiveDbContext.Database.SqlQuery<TreeNode>(query).ToListAsync();
-                    if (result.Count > 0) tree = result.FillRecursive();
+                    var dbContext = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext;
+                    //issue => custom mark for appropriate dbContext. Main reason is we have multiply dbcontext, each for diffrent server
+                    //_engage.Uow.Contexts.Where(x => x.Database.Connection.Database == "NSD2").First()
+
+                    result = dbContext.Database.SqlQuery<TreeNode>(query).ToList();
                 }
+
+                if (result.Count > 0) tree = result.FillRecursive();
             } catch (Exception ex) {
                 _engage.Log.DebugFormat("Exception: {0}", ex.Message);
             }

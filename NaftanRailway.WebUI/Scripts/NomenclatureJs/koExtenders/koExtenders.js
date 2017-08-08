@@ -41,7 +41,8 @@ appNomenclature.CustExtend = (function ($, ko) {
         var originalState = ko.toJS(target), lastValue = ko.observable();
         var defaults = {
             editMode: ko.observable(true),
-            persiste: ko.observable(false)
+            persiste: ko.observable(false),
+            onlyNumber: ko.observable(true)
         };
 
         var $merged = $.extend(true, defaults, params);
@@ -64,8 +65,12 @@ appNomenclature.CustExtend = (function ($, ko) {
         var result = ko.computed({
             read: target,
             write: function (newValue) {
-                lastValue(newValue);
-                target(newValue);
+                //it's a bypass for issue with save without changes
+                var formatNumber = $merged.onlyNumber ? Number(newValue) : newValue;
+                var value = newValue === undefined ? target() : formatNumber;
+
+                lastValue(value);
+                target(value);
                 //$merged.persiste() ? target(newValue) : target();
 
                 //to default
