@@ -51,7 +51,8 @@ namespace NaftanRailway.WebUI {
                 .Include("~/Scripts/bootstrap.js",
                          "~/Scripts/bootstrap-datepicker.js",
                          "~/Content/locales/bootstrap-datepicker.ru.js",
-                         "~/Scripts/bootstrap-multiselect.js"));
+                         "~/Scripts/bootstrap-multiselect.js",
+                         "~/Scripts/tree.js"));
 
             //cnd link means replace all bundle ( in this case it will not valid = > because link to one file <> 3 links in bundle
             bundles.Add(new ScriptBundle("~/bundles/Knockout", "//ajax.aspnetcdn.com/ajax/knockout/knockout-{version}.js").NonOrdering()
@@ -96,7 +97,8 @@ namespace NaftanRailway.WebUI {
             #region CSS Bundles
 
             bundles.Add(new StyleBundle("~/Content/CSSbundle").NonOrdering()
-                .Include("~/Content/bootstrap.css",
+                .Include("~/Content/tree.css",
+                        "~/Content/bootstrap.css",
                          "~/Content/bootstrap-multiselect.css",
                          "~/Content/bootstrap-theme.css",
                          //"~/Content/bootstrap-datetimepicker.css",

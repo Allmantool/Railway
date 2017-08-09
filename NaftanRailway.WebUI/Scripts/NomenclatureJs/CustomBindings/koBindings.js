@@ -96,7 +96,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 orientation: "bottom auto",
                 forceParse: true,
                 container: 'body',//'#koContainer',
-                toggleActive: true,
+                toggleActive: true
                 //defaultViewDate: new Date( 2016, 4, 1)
             };
 
@@ -110,7 +110,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 }
 
                 ev.preventDefault();
-            });;
+            });
 
             //Custom disposal logic
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
@@ -132,7 +132,7 @@ appNomenclature.CustBundings = (function ($, ko) {
             var defaults = {
                 show: false,
                 keyboard: true,
-                backdrop: true,
+                backdrop: true
             };
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
@@ -197,7 +197,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 position: "fixed",
                 top: "50%",
                 width: "100%",
-                zIndex: 9999,
+                zIndex: 9999
             };
             //structure element
             $(element).css(style)
@@ -244,7 +244,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 inheritClass: false,
                 buttonText: function (options, select) {
                     return 'buttonText';
-                },
+                }
                 //onInitialized: function (select, container) {
                 //    alert('Initialized.');
                 //}
@@ -331,12 +331,12 @@ appNomenclature.CustBundings = (function ($, ko) {
 
     ko.bindingHandlers.scroll = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var self = this
+            var self = this;
 
             var defaults = {
                 selector: "arrowTop",
                 icon: "",
-                container: "body",
+                container: "body"
             };
 
             var $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
@@ -371,15 +371,15 @@ appNomenclature.CustBundings = (function ($, ko) {
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 $(window).off("scroll.ko.scroll");
                 $(window).off("resize.ko.scroll");
-                $(window).off("scroll.ko.scrollHandler")
+                $(window).off("scroll.ko.scrollHandler");
             });
-        },
+        }
     };
 
     //http://api.jqueryui.com/dialog/#option-show
     ko.bindingHandlers.jqDialog = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var self = this
+            var self = this;
             var valueUnwrapped = ko.unwrap(valueAccessor().state);
 
             var defaults = {
@@ -415,7 +415,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 if (ko.isObservable(observable)) {
                     observable(false);
                 }
-            });;
+            });
 
             // This will be called when the element is removed by Knockout or
             // if some other part of your code calls ko.removeNode(element)
@@ -446,11 +446,11 @@ appNomenclature.CustBundings = (function ($, ko) {
         init: function (element, valueAccessor) {
             $(element).on("keydown", function (event) {
                 // Allow: backspace, delete, tab, escape, and enter
-                if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 ||
+                if (event.keyCode === 46 || event.keyCode === 8 || event.keyCode === 9 || event.keyCode === 27 || event.keyCode === 13 ||
                     // Allow: Ctrl+A
-                    (event.keyCode == 65 && event.ctrlKey === true) ||
+                    (event.keyCode === 65 && event.ctrlKey === true) ||
                     // Allow: . ,
-                    (event.keyCode == 188 || event.keyCode == 190 || event.keyCode == 110) ||
+                    (event.keyCode === 188 || event.keyCode === 190 || event.keyCode === 110) ||
                     // Allow: home, end, left, right
                     (event.keyCode >= 35 && event.keyCode <= 39)) {
                     // let it happen, don't do anything
@@ -463,6 +463,98 @@ appNomenclature.CustBundings = (function ($, ko) {
                     }
                 }
             });
+        }
+    };
+
+    //http://gijgo.com/tree/demos/bootstrap-treeview-checkbox
+    ko.bindingHandlers.treeView = {
+        init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var self = this;
+            var valueUnwrapped = ko.unwrap(valueAccessor().state);
+
+            var defaults = {
+                //autoLoad: false,
+                //border: false,
+                //Width of the tree.
+                width: '30%',
+                cascadeCheck: false,
+                //Add checkbox for each node, if set to true.
+                checkboxes: false,
+                //Enables drag and drop functionality for each node.
+                dragAndDrop: false,
+                //The type of the node selection.
+                //If the type is set to multiple the user will be able to select more then one node in the tree.
+                //selectionType: 'single',//'multiple',
+                //Collapse icon definition.
+                icons: {
+                    expand: '<i class="glyphicon glyphicon-plus"></i>', //Expand icon definition.
+                    collapse: '<i class="glyphicon glyphicon-minus"></i>' //Collapse icon definition.
+                },
+                //Primary key field name.
+                primaryKey: 'id',
+                //Name of the source field, that indicates if the checkbox is checked.
+                //checkedField: 'checkedFieldName',
+                //Text field name.
+                textField: 'newTextName',
+                //Children field name.
+                //childrenField: 'myChildrenNode',
+                //The name of the UI library that is going to be in use.
+                //The css file for bootstrap should be manually included if you use bootstrap.
+                uiLibrary: 'bootstrap',
+                //Image url field name.
+                //imageUrlField: 'icon', //children: [ { text: 'USA', icon: 'http://gijgo.com/content/icons/usa-oval-icon.png' } ]
+                imageHtmlField: 'icon',
+                //Image css class field name.
+                imageCssClassField: 'faCssClass',
+                //The name of the icons library that is going to be in use. Currently we support Material Icons, Font Awesome and Glyphicons.
+                //If you use Bootstrap 3 as uiLibrary, then the iconsLibrary is set to Glyphicons by default.
+                //If you use Material Design as uiLibrary, then the iconsLibrary is set to Material Icons by default.
+                //The css files for Material Icons, Font Awesome or Glyphicons should be manually included to the page where the grid is in use.
+                iconsLibrary: 'fontawesome',
+                //The data source of tree.
+                //If set to string, then the tree is going to use this string as a url for ajax requests to the server.
+                //If set to object, then the tree is going to use this object as settings for the jquery ajax function.
+                //If set to array, then the tree is going to use the array as data for tree nodes.
+                dataSource: '/wroingSourceForTree' // it may be json
+                //click: function (event, ui) {
+                //    //valueAccessor().state(false);
+                //}
+            };
+
+            var $el = $(element), $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
+
+            //listen to close method
+            $el.tree($merged).on("click", function (ev, handler) {
+                var key = $(ev.target).closest("li").attr("data-id");
+                //var observable = valueAccessor().selectedItem;
+
+                //if (ko.isObservable(observable) && key >= 0) {
+                //    observable(key);
+                //}
+            });
+
+            // This will be called when the element is removed by Knockout or
+            // if some other part of your code calls ko.removeNode(element)
+            ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+                var $el = $(element);
+
+                //errase unexpected rendering on destroy processing
+                //$el.remove();
+                //$el.dialog('close');
+                //$el.dialog("destroy");
+            });
+        },
+        update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+            var value = valueAccessor().state;
+
+            var defauls = {
+            };
+
+            if (ko.utils.unwrapObservable(value)) {
+                //$(element).dialog('open');
+            } else {
+                //$(element).dialog('close');
+            }
         }
     };
 }(jQuery, ko));

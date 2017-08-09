@@ -408,9 +408,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public IList<TreeNode> getTreeStructure() {
-            const int countGroup = 20;
+        public IList<TreeNode> getTreeStructure(string typeDoc = null) {
+            const int countGroup = 25;
             var startPeriod = new DateTime(2017, 1, 1);
+            typeDoc = typeDoc ?? string.Join(", ", new[] { 7, 3 });
 
             IList<TreeNode> result = new List<TreeNode>();
             IList<TreeNode> tree = new List<TreeNode>();
@@ -497,7 +498,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 				    ELSE NULL END,
 	                [count]
                 FROM grSubResult as gr
-                WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
+                WHERE  [treeLevel] IN ( {typeDoc} ) and [groupId] <= {countGroup} 
                 ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
             #endregion
 

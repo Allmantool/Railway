@@ -20,6 +20,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
         filters: ko.observableArray(),
+        treeStructure: ko.observableArray(),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
         scrolls: ko.observableArray(),
@@ -28,7 +29,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         loadingState: ko.observable(false),
         SSRSMode: ko.observable(false),
         searchModal: ko.observable(false),
-        progressBar: ko.observable(new appNomenclature.ProgressBar())
+        progressBar: ko.observable(new appNomenclature.ProgressBar()),
+        selTreeNode: ko.observable()
     };
 
     /*Sestem extensation for Jquery unbinding*/
@@ -300,8 +302,11 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
 
     function addvancefilters(dataContext) {
         db.getScr(function (data) {
+
+            //tree
+            ko.mapping.fromJS(data, {}, self.treeStructure);
             //filters 
-            ko.mapping.fromJS(data, {}, self.filters);
+            //ko.mapping.fromJS(data, {}, self.filters);
 
             //ko.utils.arrayForEach(data, function (item, index) {
             //    self.filters.push(ko.mapping.fromJS(item));
@@ -324,6 +329,11 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             },
             error: function () { self.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
         });
+    }
+
+    //get tree array in json representation
+    function getTreeJson() {
+        return JSON.parse(ko.mapping.toJSON(self.treeStructure()));
     }
 
     //work with ajax replace (reaplace dom is leaded to lose binding)
@@ -381,6 +391,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkSelPeriod: self.wrkSelPeriod,
         SSRSMode: self.SSRSMode,
         filters: self.filters,
+        treeStructure: self.treeStructure,
+        //selTreeNode: self.selTreeNode,
 
         //behavior
         init: init,
@@ -393,6 +405,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         removeSrc: removeSrc,
         changeCountPerPage: changeCountPerPage,
         changePeriodMonth: changePeriodMonth,
-        addvancefilters: addvancefilters
+        addvancefilters: addvancefilters,
+        getTreeJson: getTreeJson
     };
 }(jQuery, ko, appNomenclature.DataContext, appNomenclature.PeriodModalVM, appNomenclature.SrcDetailsVM));
