@@ -524,13 +524,16 @@ appNomenclature.CustBundings = (function ($, ko) {
             var $el = $(element), $merged = $.extend({}, defaults, ko.unwrap(valueAccessor()));
 
             //listen to close method
-            $el.tree($merged).on("click", function (ev, handler) {
-                var key = $(ev.target).closest("li").attr("data-id");
-                //var observable = valueAccessor().selectedItem;
+            $el.tree($merged).on("select expand", function (ev, node, id) {
+                //var key = $(ev.target).closest("li").attr("data-id");
+                var idNode = valueAccessor().selIdNode;
 
-                //if (ko.isObservable(observable) && key >= 0) {
-                //    observable(key);
-                //}
+                if (ko.isObservable(idNode) && id >= 0) {
+                    //set id
+                    idNode(id);
+                }
+            }).on("collapse", function (ev, data, id) {
+
             });
 
             // This will be called when the element is removed by Knockout or
@@ -545,10 +548,9 @@ appNomenclature.CustBundings = (function ($, ko) {
             });
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var value = valueAccessor().state;
+            var value = valueAccessor().activeNode;
 
-            var defauls = {
-            };
+            var defauls = {};
 
             if (ko.utils.unwrapObservable(value)) {
                 //$(element).dialog('open');

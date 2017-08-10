@@ -12,6 +12,8 @@ var appNomenclature = window.appNomenclature || {};
 
 //REVEALING MODULE 
 appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
+    var self = this;
+
     /*** Data  ***/
     var self = {
         containerName: undefined,
@@ -30,7 +32,18 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         SSRSMode: ko.observable(false),
         searchModal: ko.observable(false),
         progressBar: ko.observable(new appNomenclature.ProgressBar()),
-        selTreeNode: ko.observable()
+        selIdNode: ko.observable(),//.extend({ deferred: true }),
+        currNode: ko.pureComputed(function () {
+            var id = Number(self.selIdNode());
+
+            if (id >= 0) {
+                var node = searchNode(undefined, Number(id));
+                return node;
+            }
+
+            //property selIdNode doesn't set
+            return;
+        })
     };
 
     /*Sestem extensation for Jquery unbinding*/
@@ -336,6 +349,25 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         return JSON.parse(ko.mapping.toJSON(self.treeStructure()));
     }
 
+    //search in tree with recursion
+    function searchNode(searchArray, key, cancellToken) {
+        var data = (searchArray === undefined) ? self.treeStructure() : searchArray;
+        var result;
+
+        $.each(data, function (indx, item) {
+            if (item.id() === key) {
+                result = item;
+                return false;//stop loop
+            };
+
+            //recursion by children ( it continues the loop until gets nessesary node)
+            result = result ? result : searchNode(item.children(), key);;
+            return true; // continue
+        });
+
+        return result;
+    }
+
     //work with ajax replace (reaplace dom is leaded to lose binding)
     function containerRebind(opts, ev) {
         self.loadingState(true);
@@ -392,7 +424,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         SSRSMode: self.SSRSMode,
         filters: self.filters,
         treeStructure: self.treeStructure,
-        //selTreeNode: self.selTreeNode,
+        selIdNode: self.selIdNode,
+        currNode: self.currNode,
 
         //behavior
         init: init,

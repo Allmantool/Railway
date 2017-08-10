@@ -411,7 +411,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         public IList<TreeNode> getTreeStructure(string typeDoc = null) {
             const int countGroup = 25;
             var startPeriod = new DateTime(2017, 1, 1);
-            typeDoc = typeDoc ?? string.Join(", ", new[] { 7, 3 });
+            typeDoc = typeDoc ?? string.Join(", ", new[] { 63, 31 });
 
             IList<TreeNode> result = new List<TreeNode>();
             IList<TreeNode> tree = new List<TreeNode>();
@@ -421,14 +421,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 { 1, "Тип документа" },
                 { 3, "Карточка" },
                 { 7, "Перечень" },
-                { 15, "Сбор" }
+                { 31, "Месяц" },
+                { 63, "Год" },
             };
 
             var typeDocDict = new Dictionary<int, string> {
                 { 1, "Накладная" },
                 { 2, "Ведомость" },
                 { 3, "Акт" },
-                { 4, "Карточка" },
+                { 4, "Карточка" }
             };
 
             #region Query
@@ -448,11 +449,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
-                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
+                    [id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [groupId] = DENSE_RANK() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC),
+                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [treeLevel] = GROUPING_ID( YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
                     --[level_card] = GROUPING(knos.id_kart),
+                    [period] =  CONVERT(DATE, N'01.' + CONVERT(NVARCHAR(2),MONTH(kn.DTBUHOTCHET)) + N'.' + CONVERT(NVARCHAR(4),YEAR(kn.DTBUHOTCHET)) ),
+                    [year] = YEAR(kn.DTBUHOTCHET),
+                    [month] = MONTH(kn.DTBUHOTCHET),
                     [scroll] = kn.NKRT, kn.KEYKRT,
                     [card] = knos.NKRT, knos.id_kart,
 		            [typeDoc] = knos.tdoc,
@@ -460,46 +464,56 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     [count] = COUNT(*)
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.id > 0 --AND kn.DTBUHOTCHET >= '{startPeriod:d}'
                 GROUP BY GROUPING SETS(
-                        --(),
-                        (kn.KEYKRT, kn.NKRT),
+                       --(),
+                        (YEAR(DTBUHOTCHET)),
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET)),
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT),
 		                --(kn.KEYKRT, kn.NKRT, knos.id_kart),
-                        (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
+		                (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
+		                (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
 	                )
                 )
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
-					ELSE 0 END,
-	                [id], [groupId], [rankInGr], [treeLevel],
-	                [levelName] = CASE [treeLevel]
-					    WHEN 0 THEN N'Документ'
-					    WHEN 1 THEN N'Тип документа'
-					    WHEN 3 THEN N'Карточка'
-					    WHEN 7 THEN N'Перечень'
-					ELSE NULL END,
-	                [searchkey] = CASE [treeLevel]
-					    WHEN 0 THEN convert(nvarchar(max), [docum])
-					    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
-					    WHEN 3 THEN convert(nvarchar(max), [id_kart])
-					    WHEN 7 THEN convert(nvarchar(max), [keykrt])
-					ELSE NULL END,
-	                [label] = CASE [treeLevel]
-				        WHEN 0 THEN Convert(nvarchar(max), [docum])
-				        WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
-				        WHEN 3 THEN [card]
-				        WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
-				    ELSE NULL END,
-	                [count]
+		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
+		            WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
+		            WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
+		            WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
+		            WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
+	            ELSE 0 END,
+	            [id], [groupId], [rankInGr], [treeLevel],
+	            [levelName] = CASE [treeLevel]
+		            WHEN 0 THEN N'Документ'
+		            WHEN 1 THEN N'Тип документа'
+		            WHEN 3 THEN N'Карточка'
+		            WHEN 7 THEN N'Перечень'
+		            WHEN 31 THEN N'Месяц'
+		            WHEN 63 THEN N'Год'
+	            ELSE NULL END,
+	            [searchkey] = CASE [treeLevel]
+		            WHEN 0 THEN convert(nvarchar(max), [docum])
+		            WHEN 1 THEN convert(nvarchar(max), [typeDoc])
+		            WHEN 3 THEN convert(nvarchar(max), [id_kart])
+		            WHEN 7 THEN convert(nvarchar(max), [keykrt])
+		            WHEN 31 THEN convert(nvarchar(max), [month])
+		            WHEN 63 THEN convert(nvarchar(max), [year])
+	            ELSE NULL END,
+	            [label] = CASE [treeLevel]
+		            WHEN 0 THEN Convert(nvarchar(max), [docum])
+		            WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+		            WHEN 3 THEN [card]
+		            WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+		            WHEN 31 THEN DATENAME(MONTH,[period])
+		            WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
+	            ELSE NULL END,
+	            [count]
                 FROM grSubResult as gr
-                WHERE  [treeLevel] IN ( {typeDoc} ) and [groupId] <= {countGroup} 
-                ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+                WHERE  [treeLevel] IN ( {typeDoc} )-- and [groupId] <= {countGroup} 
+                ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
             #endregion
 
             try {

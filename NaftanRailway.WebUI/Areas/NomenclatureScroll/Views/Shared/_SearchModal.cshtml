@@ -9,7 +9,8 @@
                 <div data-bind="if: treeStructure().length > 0" class="container-fluid" style="display: flex; height: 50em;">
                     <div data-bind="treeView: {
                                     dataSource: getTreeJson(),
-                                    textField: 'label'
+                                    textField: 'label',
+                                    selIdNode: selIdNode
                          }"
                          id="treeFilter"
                          style="overflow-y: scroll; height: 100%;">
