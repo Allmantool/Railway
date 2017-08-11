@@ -11,8 +11,8 @@
 var appNomenclature = window.appNomenclature || {};
 
 //REVEALING MODULE 
-appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
-    var self = this;
+appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
+    //var self = this;
 
     /*** Data  ***/
     var self = {
@@ -22,28 +22,16 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkSelPeriod: ko.observable(),
         alert: ko.observable(new appNomenclature.AlertMessage({ statusMsg: 'Инициализация' })),
         filters: ko.observableArray(),
-        treeStructure: ko.observableArray(),
         currScr: ko.observable(undefined),
         pagging: ko.observable(),
         scrolls: ko.observableArray(),
         periodModal: pm,
         scrollDetails: sd,
+        tree: tr,
         loadingState: ko.observable(false),
         SSRSMode: ko.observable(false),
         searchModal: ko.observable(false),
-        progressBar: ko.observable(new appNomenclature.ProgressBar()),
-        selIdNode: ko.observable(),//.extend({ deferred: true }),
-        currNode: ko.pureComputed(function () {
-            var id = Number(self.selIdNode());
-
-            if (id >= 0) {
-                var node = searchNode(undefined, Number(id));
-                return node;
-            }
-
-            //property selIdNode doesn't set
-            return;
-        })
+        progressBar: ko.observable(new appNomenclature.ProgressBar())
     };
 
     /*Sestem extensation for Jquery unbinding*/
@@ -128,6 +116,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             complete: function () {
                 //firts initialization
                 if (opts === undefined) {
+                    //bind
                     ko.applyBindings(appNomenclature.SrcVM);
                 }
 
@@ -317,7 +306,13 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         db.getScr(function (data) {
 
             //tree
-            ko.mapping.fromJS(data, {}, self.treeStructure);
+            //ko.mapping.fromJS(data, {}, self.tree.nodes);
+
+            self.tree.init(data, self);
+            //self.tree.nodes($.map(data, function (val, i) {
+            //    return new appNomenclature.TreeNode(val, self);
+            //}));
+
             //filters 
             //ko.mapping.fromJS(data, {}, self.filters);
 
@@ -342,30 +337,6 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
             },
             error: function () { self.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
         });
-    }
-
-    //get tree array in json representation
-    function getTreeJson() {
-        return JSON.parse(ko.mapping.toJSON(self.treeStructure()));
-    }
-
-    //search in tree with recursion
-    function searchNode(searchArray, key, cancellToken) {
-        var data = (searchArray === undefined) ? self.treeStructure() : searchArray;
-        var result;
-
-        $.each(data, function (indx, item) {
-            if (item.id() === key) {
-                result = item;
-                return false;//stop loop
-            };
-
-            //recursion by children ( it continues the loop until gets nessesary node)
-            result = result ? result : searchNode(item.children(), key);;
-            return true; // continue
-        });
-
-        return result;
     }
 
     //work with ajax replace (reaplace dom is leaded to lose binding)
@@ -423,9 +394,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         wrkSelPeriod: self.wrkSelPeriod,
         SSRSMode: self.SSRSMode,
         filters: self.filters,
-        treeStructure: self.treeStructure,
-        selIdNode: self.selIdNode,
-        currNode: self.currNode,
+        tree: self.tree,
 
         //behavior
         init: init,
@@ -439,6 +408,12 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd) {
         changeCountPerPage: changeCountPerPage,
         changePeriodMonth: changePeriodMonth,
         addvancefilters: addvancefilters,
-        getTreeJson: getTreeJson
     };
-}(jQuery, ko, appNomenclature.DataContext, appNomenclature.PeriodModalVM, appNomenclature.SrcDetailsVM));
+}(
+    jQuery,
+    ko,
+    appNomenclature.DataContext,
+    appNomenclature.PeriodModalVM,
+    appNomenclature.SrcDetailsVM,
+    appNomenclature.TreeVM
+));

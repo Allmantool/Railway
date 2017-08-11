@@ -424,6 +424,8 @@
     <Compile Include="ViewModels\EmailFormViewModel.cs" />
     <Compile Include="ViewModels\ExceptionViewModel.cs" />
     <Compile Include="ViewModels\ShippingInfoLineViewModel.cs" />
+    <Content Include="Content\tree.css" />
+    <Content Include="Content\tree.min.css" />
     <Content Include="ReadMe.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\AdminCSS\Chat.css" />
@@ -637,8 +639,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="Content\tree.css" />
-    <Content Include="Content\tree.min.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax">
@@ -896,11 +896,13 @@
     <Content Include="Scripts\NomenclatureJs\Models\AlertMessageModel.js" />
     <Content Include="Scripts\NomenclatureJs\Models\ChargeModel.js" />
     <Content Include="Scripts\NomenclatureJs\Models\ProgBarModel.js" />
+    <Content Include="Scripts\NomenclatureJs\Models\TreeNodeModel.js" />
     <Content Include="Scripts\NomenclatureJs\ViewModels\PeriodModalVM.js" />
     <Content Include="Scripts\NomenclatureJs\Models\PaginationModel.js" />
     <Content Include="Scripts\NomenclatureJs\Models\ScrollModel.js" />
     <Content Include="Scripts\NomenclatureJs\ViewModels\SrcDetailsVM.js" />
     <Content Include="Scripts\NomenclatureJs\MainVM.js" />
+    <Content Include="Scripts\NomenclatureJs\ViewModels\TreeVM.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\RailwayJs\CustomBindings\koBindings.js" />
     <Content Include="Scripts\RailwayJs\DataContext.js" />
