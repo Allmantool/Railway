@@ -13,6 +13,6 @@ appNomenclature.TreeNode = function (data, parent) {
 
     //get description for rendering purpose
     self.description = ko.pureComputed(function () {
-        return currNode().label() + ' (' + currNode().treeLevel() + ')';
-    });
+        return self.label() + ' (' + self.treeLevel() + ')';
+    }, self);
 };

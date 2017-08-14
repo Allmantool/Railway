@@ -470,7 +470,7 @@ appNomenclature.CustBundings = (function ($, ko) {
     ko.bindingHandlers.treeView = {
         init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var self = this;
-            var valueUnwrapped = ko.unwrap(valueAccessor().state);
+            //var valueUnwrapped = ko.unwrap(valueAccessor().state);
 
             var defaults = {
                 //autoLoad: false,
@@ -540,23 +540,64 @@ appNomenclature.CustBundings = (function ($, ko) {
             // if some other part of your code calls ko.removeNode(element)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
                 var $el = $(element);
-
-                //errase unexpected rendering on destroy processing
-                //$el.remove();
-                //$el.dialog('close');
-                //$el.dialog("destroy");
+                $el.tree('destroy');
             });
         },
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-            var value = valueAccessor().activeNode;
+            var defaults = {
+                //autoLoad: false,
+                //border: false,
+                //Width of the tree.
+                width: '30%',
+                cascadeCheck: false,
+                //Add checkbox for each node, if set to true.
+                checkboxes: false,
+                //Enables drag and drop functionality for each node.
+                dragAndDrop: false,
+                //The type of the node selection.
+                //If the type is set to multiple the user will be able to select more then one node in the tree.
+                //selectionType: 'single',//'multiple',
+                //Collapse icon definition.
+                icons: {
+                    expand: '<i class="glyphicon glyphicon-plus"></i>', //Expand icon definition.
+                    collapse: '<i class="glyphicon glyphicon-minus"></i>' //Collapse icon definition.
+                },
+                //Primary key field name.
+                primaryKey: 'id',
+                //Name of the source field, that indicates if the checkbox is checked.
+                //checkedField: 'checkedFieldName',
+                //Text field name.
+                textField: 'newTextName',
+                //Children field name.
+                //childrenField: 'myChildrenNode',
+                //The name of the UI library that is going to be in use.
+                //The css file for bootstrap should be manually included if you use bootstrap.
+                uiLibrary: 'bootstrap',
+                //Image url field name.
+                //imageUrlField: 'icon', //children: [ { text: 'USA', icon: 'http://gijgo.com/content/icons/usa-oval-icon.png' } ]
+                imageHtmlField: 'icon',
+                //Image css class field name.
+                imageCssClassField: 'faCssClass',
+                //The name of the icons library that is going to be in use. Currently we support Material Icons, Font Awesome and Glyphicons.
+                //If you use Bootstrap 3 as uiLibrary, then the iconsLibrary is set to Glyphicons by default.
+                //If you use Material Design as uiLibrary, then the iconsLibrary is set to Material Icons by default.
+                //The css files for Material Icons, Font Awesome or Glyphicons should be manually included to the page where the grid is in use.
+                iconsLibrary: 'fontawesome',
+                //The data source of tree.
+                //If set to string, then the tree is going to use this string as a url for ajax requests to the server.
+                //If set to object, then the tree is going to use this object as settings for the jquery ajax function.
+                //If set to array, then the tree is going to use the array as data for tree nodes.
+                dataSource: '/wroingSourceForTree' // it may be json
+                //click: function (event, ui) {
+                //    //valueAccessor().state(false);
+                //}
+            };
 
-            var defauls = {};
+            //The update function of a binding handler will run whenever the observables it accesses are updated
+            var value = ko.unwrap(valueAccessor());
+            var $el = $(element), $merged = $.extend({}, defaults, value);
 
-            if (ko.utils.unwrapObservable(value)) {
-                //$(element).dialog('open');
-            } else {
-                //$(element).dialog('close');
-            }
+            $el.tree($merged);
         }
     };
 }(jQuery, ko));

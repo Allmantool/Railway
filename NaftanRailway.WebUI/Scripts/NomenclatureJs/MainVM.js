@@ -407,7 +407,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
         removeSrc: removeSrc,
         changeCountPerPage: changeCountPerPage,
         changePeriodMonth: changePeriodMonth,
-        addvancefilters: addvancefilters,
+        addvancefilters: addvancefilters
     };
 }(
     jQuery,
