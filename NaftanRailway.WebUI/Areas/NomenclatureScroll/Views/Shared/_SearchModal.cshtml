@@ -1,16 +1,19 @@
 ﻿<div data-bind="modal: searchModal, visible: searchModal()" class="modal fade bs-example-modal-lg" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal">
     <div class="modal-dialog modal-lg" role="document">
         <div data-bind="" class="modal-content">
-            <div class="modal-header" style="background-color: #337AB7; padding:16px 16px; color:#FFF; border-bottom:2px dashed #337AB7;">
+            <div class="modal-header" style="text-align:center; background-color: #337AB7; padding:16px 16px; color:#FFF; border-bottom:2px dashed #337AB7;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 data-bind="text: 'Общее кол-во: ' + tree.nodes.length" class="text-center"></h4>
+                <!-- ko if: Number(appNomenclature.SrcVM.tree.activeId()) > 0-->
+                <h4>Node smart info:</h4>
+                <h5 data-bind="text: tree.currNode().description()"></h5>
+                <!-- /ko -->
             </div>
-            <div data-bind="if: tree.nodes.length > 0"class="modal-body">
+            <div data-bind="if: tree.nodes().length > 0" class="modal-body">
                 <div class="container-fluid" style="display: flex; height: 50em;">
                     <div data-bind="treeView: {
                                     dataSource: tree.getTreeJson(),
                                     textField: 'label',
-                                    selIdNode: tree.activeId()
+                                    selIdNode: tree.activeId
                          }"
                          id="treeFilter"
                          style="overflow-y: scroll; height: 100%;">
@@ -24,7 +27,7 @@
             </div>
             <div class="modal-footer" style="display: inline-block; text-align: right;">
                 <div class="input-group col-lg-4" style="float: left;">
-                    <span data-bind="text: 'Общее кол-во перечней: ' + tree.nodes.length" class="input-group-addon" id="addon"></span>
+                    <span data-bind="text: 'Общее кол-во перечней: ' + tree.nodes().length" class="input-group-addon" id="addon"></span>
                 </div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                 <button type="button" class="btn btn-primary">Выбрать</button>

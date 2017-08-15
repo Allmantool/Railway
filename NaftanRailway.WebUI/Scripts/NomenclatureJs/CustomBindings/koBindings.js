@@ -532,9 +532,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                     //set id
                     idNode(id);
                 }
-            }).on("collapse", function (ev, data, id) {
-
-            });
+            }).on("collapse", function (ev, data, id) {});
 
             // This will be called when the element is removed by Knockout or
             // if some other part of your code calls ko.removeNode(element)
@@ -543,6 +541,10 @@ appNomenclature.CustBundings = (function ($, ko) {
                 $el.tree('destroy');
             });
         },
+        //Initially when the binding is first evaluated (after the init function)
+        //Any time that an observable changes that was accessed as part of the the previous execution of the update function for this binding. 
+        //Bindings are implemented internally using computed observables, so any observables that have their value accessed create dependencies for the binding.
+        //Any time that another binding in the same data-bind attribute is triggered. This helps ensure things like the value is appropriate when the options are changed.
         update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
             var defaults = {
                 //autoLoad: false,
@@ -594,7 +596,7 @@ appNomenclature.CustBundings = (function ($, ko) {
             };
 
             //The update function of a binding handler will run whenever the observables it accesses are updated
-            var value = ko.unwrap(valueAccessor());
+            var value = ko.unwrap(valueAccessor()) || {};
             var $el = $(element), $merged = $.extend({}, defaults, value);
 
             $el.tree($merged);

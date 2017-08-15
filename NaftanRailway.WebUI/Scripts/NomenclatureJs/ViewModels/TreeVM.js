@@ -4,26 +4,60 @@
 var appNomenclature = window.appNomenclature || {};
 
 appNomenclature.TreeVM = (function ($, ko) {
-    var _parent, _deep = 0;
+    var _parent;
     /*** Data  ***/
     var self = {
+        fakeText: ko.observable(),
         activeId: ko.observable(),
         nodes: ko.observableArray([]),
         currNode: ko.pureComputed(function () {
             var id = Number(self.activeId());
 
             if (id >= 0) {
-                return searchNode(undefined, Number(id));
-            }
+                var node = searchNode(self.nodes(), Number(id));
+                //expand
+                expendNodes.call(this, node);
 
+                return node;
+            }
             //property selIdNode doesn't set
             return '';
-        }),
+        }).extend({ rateLimit: 10 }),
         //get tree array in json representation
         getTreeJson: ko.pureComputed(function () {
-            return JSON.parse(ko.mapping.toJSON(self.nodes()));
+            return JSON.parse(ko.mapping.toJSON(self.nodes));
         }).extend({ notify: 'always' })
     };
+
+    // go throught the loop and covert each node to appropriate type(class)
+    //Is it another iteration or  a first loop? always obserableArray
+    function _castToNode(data, destData) {
+        var _deep;
+        $.each(data, function (indx, item) {
+            _deep = 0;
+            //remove if item exists, convert to appropriate class and insert at the beginning of the array
+            //with this modus we'll need to rebind nodes array to Dom, a.e containerRebind in our case. 
+            //Alose footnote that we must use array without ().I mean we need use self.nodes (.children) instead self.nodes() and (.children())
+            var exist = ko.utils.arrayFirst(destData(), function (x) {
+                return (x.id() === item.id);
+            });
+
+            //if it's observable then convert to js
+            var node = exist ? ko.mapping.toJS(destData.remove(function (x) { return x.id() === item.id; })[0]) : item;
+
+            destData.push(new appNomenclature.TreeNode(node, _parent));
+
+            if (node.children.length > 0) {
+                //Because push methods adds a new item to the end of array.
+                var listIndex = destData().length - 1;
+                _deep++;
+                //recursive
+                _castToNode(node.children, destData()[listIndex].children);
+            }
+        });
+
+        return _deep;
+    }
 
     //recursive cast to appropriate type
     function init(data, parent) {
@@ -40,37 +74,21 @@ appNomenclature.TreeVM = (function ($, ko) {
         //        return new appNomenclature.TreeNode(optioins.data, parent);
         //    }
         //};
-
         //ko.mapping.fromJS(data, mappingOptions, self.nodes);
 
-        _castToNode(data);
+        console.log('Max height of tree is: ' + _castToNode(data, self.nodes));
 
         return self.nodes();
     }
 
-    // go throught the loop and covert each node to appropriate type(class)
-    function _castToNode(data, destData) {
-        //Is it another iteration or  a first loop?
-        destData = (destData === undefined) ? self.nodes() : destData;
-
-        $.each(data, function (indx, item) {
-            var node = new appNomenclature.TreeNode(item, _parent);
-            destData[indx] = node;//destData.push(node);
-
-            if (node.children().length > 0) {
-                _deep++;
-                //recursive
-                _castToNode(node.children(), destData[indx].children());
-            }
-            return true; //continue
-        });
-
-        return console.log('The tree deep is ' + _deep);
+    //add additional nodes to selected node
+    function expendNodes(data, destNode) {
+        console.log(data.description());
     }
 
     //search in tree with recursion
-    function searchNode(searchArray, key, cancellToken) {
-        var data = (searchArray === undefined) ? self.treeStructure() : searchArray;
+    function searchNode(data, key, cancellToken) {
+        //var data = (searchArray === undefined) ? self.nodes() : searchArray;
         var result;
 
         $.each(data, function (indx, item) {
@@ -87,11 +105,6 @@ appNomenclature.TreeVM = (function ($, ko) {
         return result;
     }
 
-    //get tree array in json representation
-    //function getTreeJson() {
-    //    return JSON.parse(ko.mapping.toJSON(self.nodes()));
-    //}
-
     /**** public API ***/
     return {
         activeId: self.activeId,
@@ -99,6 +112,7 @@ appNomenclature.TreeVM = (function ($, ko) {
 
         init: init,
         nodes: self.nodes,
-        getTreeJson: self.getTreeJson
+        getTreeJson: self.getTreeJson,
+        fakeText: self.fakeText
     };
 }(jQuery, ko));

@@ -304,11 +304,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
 
     function addvancefilters(dataContext) {
         db.getScr(function (data) {
-
-            //tree
-            //ko.mapping.fromJS(data, {}, self.tree.nodes);
-
-            self.tree.init(data, self);
+            var nodeCount = self.tree.init(data, self).length;
+            console.log("Program've recieved " + nodeCount + ' nodes.');
             //self.tree.nodes($.map(data, function (val, i) {
             //    return new appNomenclature.TreeNode(val, self);
             //}));
