@@ -98,7 +98,7 @@ namespace NaftanRailway.UnitTests.General {
             for (node = link.Last; node != null; node = node.Previous)
                 Console.Write(node.Value + "\t");
 
-            System.ValueType
+            
         }
     }
 }
