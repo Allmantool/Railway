@@ -5,12 +5,14 @@
 /// <reference path="../../knockout.mapping-latest.debug.js" />
 /// <reference path="~/Scripts/NomenclatureJs/DataContext.js" />
 /// <reference path="~/Scripts/NomenclatureJs/Models/ScrollModel.js" />
+/// <reference path="~/Scripts/moment.js" />
+/// <reference path="~/Scripts/knockout-3.4.2.debug.js" />
 "use strict";
 
 //namespace
 var appNomenclature = window.appNomenclature || {};
 
-//REVEALING MODULE 
+//REVEALING MODULE
 appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
     //var self = this;
 
@@ -34,7 +36,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
         progressBar: ko.observable(new appNomenclature.ProgressBar())
     };
 
-    /*Sestem extensation for Jquery unbinding*/
+    /*System extenuation for Jquery unbinding*/
     ko.unapplyBindings = function ($node, remove) {
         // unbind events
         $node.find("*").each(function () {
@@ -50,8 +52,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
     };
 
     /**** behaviors ***/
-    //private 
-    function _updateSrcByKey(rows) {
+    //private
+    function updateSrcByKey(rows) {
         var mappingOptions = {
             key: function (data) {
                 return ko.utils.unwrapObservable(data.keykrt);
@@ -77,6 +79,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
                     //break out loop
                     return false;
                 }
+                return false;
             });
 
             //insert
@@ -166,7 +169,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
         //ajax
         db.getScr(function (data) {
             //update
-            _updateSrcByKey(data);
+            updateSrcByKey(data);
             //hide modal + default
             self.periodModal.active(false).multiMode(false);
 
@@ -256,7 +259,7 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
 
         db.getScr(function (data) {
             //update
-            _updateSrcByKey(data);
+            updateSrcByKey(data);
 
             self.alert().statusMsg('Перечень №' + curWrkSrc.nkrt() + ' успешно подтвержден!').alertType('alert-success').mode(true);
         }, {
@@ -305,12 +308,12 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
     function addvancefilters(dataContext) {
         db.getScr(function (data) {
             var nodeCount = self.tree.init(data, self).length;
-            console.log("Program've recieved " + nodeCount + ' nodes.');
+            console.log("Program've received " + nodeCount + ' nodes.');
             //self.tree.nodes($.map(data, function (val, i) {
             //    return new appNomenclature.TreeNode(val, self);
             //}));
 
-            //filters 
+            //filters
             //ko.mapping.fromJS(data, {}, self.filters);
 
             //ko.utils.arrayForEach(data, function (item, index) {

@@ -29,15 +29,16 @@ appNomenclature.TreeVM = (function ($, ko) {
         }).extend({ notify: 'always' })
     };
 
-    // go throught the loop and covert each node to appropriate type(class)
+    // go through the loop and covert each node to appropriate type(class)
     //Is it another iteration or  a first loop? always obserableArray
-    function _castToNode(data, destData) {
-        var _deep;
+    function castToNode(data, destData) {
+        var deep;
         $.each(data, function (indx, item) {
-            _deep = 0;
+            //deep of this tree
+            deep = 0;
             //remove if item exists, convert to appropriate class and insert at the beginning of the array
-            //with this modus we'll need to rebind nodes array to Dom, a.e containerRebind in our case. 
-            //Alose footnote that we must use array without ().I mean we need use self.nodes (.children) instead self.nodes() and (.children())
+            //with this modus we'll need to rebind nodes array to Dom, a.e containerRebind in our case.
+            //Also footnote that we must use array without ().I mean we need use self.nodes (.children) instead self.nodes() and (.children())
             var exist = ko.utils.arrayFirst(destData(), function (x) {
                 return (x.id() === item.id);
             });
@@ -50,33 +51,31 @@ appNomenclature.TreeVM = (function ($, ko) {
             if (node.children.length > 0) {
                 //Because push methods adds a new item to the end of array.
                 var listIndex = destData().length - 1;
-                _deep++;
+                deep++;
                 //recursive
-                _castToNode(node.children, destData()[listIndex].children);
+                castToNode(node.children, destData()[listIndex].children);
             }
         });
 
-        return _deep;
+        return deep;
     }
 
     //recursive cast to appropriate type
     function init(data, parent) {
         //link to global VM
         _parent = parent;
-        //deep of this tree
-        var _deep = 0;
 
         //var mappingOptions = {
         //    key: function (data) {
         //        return ko.utils.unwrapObservable(data.id);
         //    },
-        //    create: function (optioins) {
+        //    create: function (options) {
         //        return new appNomenclature.TreeNode(optioins.data, parent);
         //    }
         //};
         //ko.mapping.fromJS(data, mappingOptions, self.nodes);
 
-        console.log('Max height of tree is: ' + _castToNode(data, self.nodes));
+        console.log('Max height of tree is: ' + castToNode(data, self.nodes));
 
         return self.nodes();
     }
@@ -87,7 +86,7 @@ appNomenclature.TreeVM = (function ($, ko) {
     }
 
     //search in tree with recursion
-    function searchNode(data, key, cancellToken) {
+    function searchNode(data, key) {
         //var data = (searchArray === undefined) ? self.nodes() : searchArray;
         var result;
 
@@ -97,7 +96,7 @@ appNomenclature.TreeVM = (function ($, ko) {
                 return false;//stop loop
             }
 
-            //recursion by children ( it continues the loop until gets nessesary node)
+            //recursion by children ( it continues the loop until gets necessary node)
             result = result ? result : searchNode(item.children(), key);
             return true; // continue (new iteration)
         });
