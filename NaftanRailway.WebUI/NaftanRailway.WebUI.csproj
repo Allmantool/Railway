@@ -789,6 +789,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\NomenclatureScroll\Views\Shared\_SearchModal.cshtml" />
+    <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\debug.pubxml" />
     <Content Include="Scripts\GeneralJs\_General.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />

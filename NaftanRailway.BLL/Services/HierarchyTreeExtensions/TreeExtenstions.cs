@@ -43,7 +43,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
             //build hierarchy
             var result = roots.Select(item => new TreeNode(item.LevelName) {
                 Id = item.Id,
-                Children = FillRecursive(rows, item.Id),
+                Children = FillRecursive(rows, item.Id).Count() < 1 ? new List<TreeNode>() { new TreeNode() } : FillRecursive(rows, item.Id),
                 Label = item.Label,
                 SearchKey = item.SearchKey,
                 Count = item.Count,

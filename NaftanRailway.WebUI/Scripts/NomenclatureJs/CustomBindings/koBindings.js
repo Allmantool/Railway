@@ -19,7 +19,7 @@ appNomenclature.CustBundings = (function ($, ko) {
                 container: "body",
                 animation: true,
                 placement: "top",
-                trigger: "hover",
+                trigger: "hover focus",
                 delay: { show: 500, hide: 100 },
                 selState: false
             };
