@@ -43,7 +43,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
             //build hierarchy
             var result = roots.Select(item => new TreeNode(item.LevelName) {
                 Id = item.Id,
-                Children = FillRecursive(rows, item.Id).Count() < 1 ? new List<TreeNode>() { new TreeNode() } : FillRecursive(rows, item.Id),
+                Children = !FillRecursive(rows, item.Id).Any() ? new List<TreeNode>() { new TreeNode() } : FillRecursive(rows, item.Id),
                 Label = item.Label,
                 SearchKey = item.SearchKey,
                 Count = item.Count,
@@ -57,7 +57,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
         }
 
         /// <summary>
-        /// Work throught stack
+        /// Work through stack
         /// </summary>
         /// <param name="root"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
             var nodes = new Stack<TreeNode>(new[] { root });
 
             while (nodes.Any()) {
-                TreeNode node = nodes.Pop();
+                var node = nodes.Pop();
 
                 yield return node;
 
