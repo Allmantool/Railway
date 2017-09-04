@@ -20,5 +20,9 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
         public string Label { get; set; }
         public string SearchKey { get; set; }
         public int Count { get; set; }
+        /// <summary>
+        /// Represent hierarchy key base on hashbyte
+        /// </summary>
+        public byte[] RootKey { get; set; }
     }
 }

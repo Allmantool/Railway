@@ -5,7 +5,6 @@ using NaftanRailway.BLL.DTO.Nomenclature;
 using NaftanRailway.BLL.POCO;
 using System.Linq.Expressions;
 using NaftanRailway.BLL.DTO.General;
-using log4net;
 using System.Threading.Tasks;
 
 namespace NaftanRailway.BLL.Abstract {
@@ -14,19 +13,19 @@ namespace NaftanRailway.BLL.Abstract {
         /// Get part of table
         /// </summary>
         /// <typeparam name="T">Type of table</typeparam>
-        /// <param name="mode">Type of table throughout enum</param>
         /// <param name="page"></param>
         /// <param name="initialSizeItem">item per page</param>
         /// <param name="recordCount"> return whole amount of rows</param>
+        /// <param name="predicate"></param>
         /// <returns></returns>
         IEnumerable<T> SkipTable<T>(int page, int initialSizeItem, out long recordCount, Expression<Func<T, bool>> predicate);
 
         IEnumerable<CheckListFilter> InitNomenclatureDetailMenu(long key);
-        IEnumerable<CheckListFilter> initGlobalSearchFilters();
+        IEnumerable<CheckListFilter> InitGlobalSearchFilters();
 
-        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page, 
+        IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page,
                                                                    int initialSizeItem, out long recordCount, bool viewWrong = false);
-        IList<TreeNode> getTreeStructure(string typeDoc = null);
+        IList<TreeNode> GetTreeStructure(string typeDoc = null, byte[] rootKey = null);
 
         /// <summary>
         /// Update linked filters base on src entity (table)
@@ -37,7 +36,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// <returns></returns>
         bool UpdateRelatingFilters(ScrollLineDTO scroll, ref IList<CheckListFilter> filters, EnumTypeFilterMenu typeFilter);
 
-        Task<Tuple<byte[], string>> GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName, 
+        Task<Tuple<byte[], string>> GetNomenclatureReports(BrowserInfoDTO brInfo, int numberScroll, int reportYear, string serverName,
                                       string folderName, string reportName,
                                       string defaultParameters = @"rs:Format=Excel");
 
@@ -55,7 +54,7 @@ namespace NaftanRailway.BLL.Abstract {
         /// Change Reporting date
         /// </summary>
         /// <param name="period"></param>
-        /// <param name="numberScroll"></param>
+        /// <param name="keyScroll"></param>
         /// <param name="multiChange"></param>
         /// <returns></returns>
         IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true);

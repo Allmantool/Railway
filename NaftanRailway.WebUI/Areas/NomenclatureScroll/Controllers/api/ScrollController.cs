@@ -36,7 +36,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
 
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
 
-            var tree = _bussinesEngage.getTreeStructure();
+            var tree = _bussinesEngage.GetTreeStructure();
 
             //var response = new HttpResponseMessage();
             //response.Headers.Add("ContentType", "application/json");

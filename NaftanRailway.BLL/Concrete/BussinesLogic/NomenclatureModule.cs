@@ -223,13 +223,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 
@@ -265,7 +265,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
         }
 
-        public IEnumerable<CheckListFilter> initGlobalSearchFilters() {
+        public IEnumerable<CheckListFilter> InitGlobalSearchFilters() {
             CheckListFilter[] result;
 
             try {
@@ -316,29 +316,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                filterParameters = string.Format(@"period={0}", selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                    filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
+                    break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                nameFile = string.Format(@"Бухгалтерский отчёт по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
+                    filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
+                    break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                break;
+                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                    break;
 
                 case @"KRT_Analys_ORC":
-                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 default:
-                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
             }
 
             //generate url for ssrs
@@ -408,10 +408,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public IList<TreeNode> getTreeStructure(string typeDoc = null) {
-            const int countGroup = 25;
-            var startPeriod = new DateTime(2017, 1, 1);
-            typeDoc = typeDoc ?? string.Join(", ", new[] { 63, 31 });
+        public IList<TreeNode> GetTreeStructure(string typeDoc = null, byte[] rootKey = null) {
+            typeDoc = typeDoc ?? string.Join(", ", new[] { 63 });
 
             IList<TreeNode> result = new List<TreeNode>();
             IList<TreeNode> tree = new List<TreeNode>();
@@ -444,11 +442,19 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             * [levelName] - custom group tree node name
             * [searchkey] - key for search in plane (source table)
             * [label] - description for rendering purpose
+            * [rootKey] - hierarchyid base on hashbyte
             */
             //--Warning weakness!
             //--The order must be same in each aggregation functions
-            var query = $@";WITH grSubResult AS (
-                SELECT  
+            var query = $@"
+            Declare @tree TABLE(
+	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
+	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
+	            [count] BIGINT,			[rootKey] varbinary(8000) primary key
+            );
+
+            ;WITH grSubResult AS (
+                SELECT
                     [id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
@@ -461,10 +467,19 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     [card] = knos.NKRT, knos.id_kart,
 		            [typeDoc] = knos.tdoc,
 		            [docum] = knos.nomot,
-                    [count] = COUNT(*)
+                    [count] = COUNT(*),
+                    [rootKey] = HASHBYTES('md5',
+			            ISNULL(Convert(nvarchar(4),YEAR(DTBUHOTCHET)),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(2),MONTH(kn.DTBUHOTCHET)),N'') +
+			            ISNULL(N'-->' + convert(nvarchar(20), kn.KEYKRT), N'') +
+			            ISNULL(N'-->' + convert(nvarchar(10), kn.NKRT), N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.id_kart),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nkrt),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(1), knos.tdoc), N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nomot), N''))
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0 --AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.id > 0
                 GROUP BY GROUPING SETS(
                        --(),
                         (YEAR(DTBUHOTCHET)),
@@ -477,6 +492,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 	                )
                 )
 
+                Insert into @tree
                 SELECT
                     [parentId] = CASE [treeLevel]
 		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
@@ -495,31 +511,33 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 		            WHEN 63 THEN N'Год'
 	            ELSE NULL END,
 	            [searchkey] = CASE [treeLevel]
-		            WHEN 0 THEN convert(nvarchar(max), [docum])
-		            WHEN 1 THEN convert(nvarchar(max), [typeDoc])
-		            WHEN 3 THEN convert(nvarchar(max), [id_kart])
-		            WHEN 7 THEN convert(nvarchar(max), [keykrt])
-		            WHEN 31 THEN convert(nvarchar(max), [month])
-		            WHEN 63 THEN convert(nvarchar(max), [year])
+		            WHEN 0 THEN convert(nvarchar(25), [docum])
+		            WHEN 1 THEN convert(nvarchar(25), [typeDoc])
+		            WHEN 3 THEN convert(nvarchar(25), [id_kart])
+		            WHEN 7 THEN convert(nvarchar(25), [keykrt])
+		            WHEN 31 THEN convert(nvarchar(25), [month])
+		            WHEN 63 THEN convert(nvarchar(25), [year])
 	            ELSE NULL END,
 	            [label] = CASE [treeLevel]
-		            WHEN 0 THEN Convert(nvarchar(max), [docum])
+		            WHEN 0 THEN Convert(nvarchar(25), [docum])
 		            WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
 		            WHEN 3 THEN [card]
 		            WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
 		            WHEN 31 THEN DATENAME(MONTH,[period])
 		            WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
 	            ELSE NULL END,
-	            [count]
+	            [count], [rootKey]
                 FROM grSubResult as gr
-                WHERE  [treeLevel] IN ( {typeDoc} )-- and [groupId] <= {countGroup} 
-                ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+                WHERE  [treeLevel] IN ( {typeDoc} )
+                ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
+
+            select * from @tree " + (rootKey == null ? "" : $@"where = (select id from @tree where [rootKey] = {rootKey});");
             #endregion
 
             try {
                 using (_engage.Uow = new UnitOfWork()) {
                     var dbContext = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext;
-                    //issue => custom mark for appropriate dbContext. Main reason is we have multiply dbcontext, each for diffrent server
+                    //issue => custom mark for appropriate dbContext. Main reason is we have multiply dbcontext, each for different server
                     //_engage.Uow.Contexts.Where(x => x.Database.Connection.Database == "NSD2").First()
 
                     result = dbContext.Database.SqlQuery<TreeNode>(query).ToList();
