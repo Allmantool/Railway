@@ -14,15 +14,12 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
         [Key()/*, Column("id")*/]
         public override long Id { get; set; }
         public long ParentId { get; set; }
-        public long GroupId { get; set; }
-        public long RankInGr { get; set; }
-        public int TreeLevel { get; set; }
+        public int GroupId { get; set; }
+        public int RankInGr { get; set; }
+        public short TreeLevel { get; set; }
         public string Label { get; set; }
         public string SearchKey { get; set; }
-        public int Count { get; set; }
-        /// <summary>
-        /// Represent hierarchy key base on hashbyte
-        /// </summary>
+        public long Count { get; set; }
         public byte[] RootKey { get; set; }
     }
 }

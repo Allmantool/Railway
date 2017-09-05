@@ -1,7 +1,6 @@
 ﻿using log4net;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.DTO.Nomenclature;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.OutputCache.V2;
@@ -31,17 +30,16 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         [HttpPost]
         [ResponseType(typeof(TreeNode))]
         [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
+        //[Route("api/APIScroll")]
+        //[Route("api/APIScroll/{typeDoc}/{rootKey}")]
         //Disadvantage??
-        public IHttpActionResult GetAddvanceFilter() {
-
+        public IHttpActionResult ExpandTree(string typeDoc = null, string rootKey = null) {
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
+            var tree = _bussinesEngage.GetTreeStructure(typeDoc, rootKey);
 
-            var tree = _bussinesEngage.GetTreeStructure();
-
+            return tree.Count < 0 ? (IHttpActionResult)BadRequest("No Nodes Found") : Ok(tree);
             //var response = new HttpResponseMessage();
             //response.Headers.Add("ContentType", "application/json");
-
-            return tree.Count < 0 ? (IHttpActionResult)BadRequest("No Product Found") : Ok(tree);
         }
     }
 }

@@ -223,13 +223,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
@@ -316,29 +316,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                    filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
-                    break;
+                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
+                break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                    nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
-                    filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
-                    break;
+                nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
+                filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
+                break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                    break;
+                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                break;
 
                 case @"KRT_Analys_ORC":
-                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                break;
 
                 default:
-                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
             }
 
             //generate url for ssrs
@@ -408,9 +408,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public IList<TreeNode> GetTreeStructure(string typeDoc = null, byte[] rootKey = null) {
+        public IList<TreeNode> GetTreeStructure(string typeDoc = null, string rootKey = null) {
+            //byte[] rootKey = Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B")
             typeDoc = typeDoc ?? string.Join(", ", new[] { 63 });
-
+            
             IList<TreeNode> result = new List<TreeNode>();
             IList<TreeNode> tree = new List<TreeNode>();
 
@@ -531,7 +532,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 WHERE  [treeLevel] IN ( {typeDoc} )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree " + (rootKey == null ? "" : $@"where = (select id from @tree where [rootKey] = {rootKey});");
+            select * from @tree " + (rootKey == null ? "" : $@"where [parentId] = (select id from @tree where [rootKey] = {rootKey});");
             #endregion
 
             try {
@@ -543,7 +544,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     result = dbContext.Database.SqlQuery<TreeNode>(query).ToList();
                 }
 
-                if (result.Count > 0) tree = result.FillRecursive();
+                tree = (result.Count > 0 && rootKey == null) ? result.FillRecursive() : result;
             } catch (Exception ex) {
                 _engage.Log.DebugFormat("Exception: {0}", ex.Message);
             }

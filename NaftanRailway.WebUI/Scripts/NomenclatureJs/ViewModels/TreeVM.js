@@ -3,7 +3,7 @@
 //namespace
 var appNomenclature = window.appNomenclature || {};
 
-appNomenclature.TreeVM = (function ($, ko) {
+appNomenclature.TreeVM = (function ($, ko, db) {
     var _parent;
     /*** Data  ***/
     var self = {
@@ -83,6 +83,20 @@ appNomenclature.TreeVM = (function ($, ko) {
     //add additional nodes to selected node
     function expendNodes(data, destNode) {
         console.log(data.description());
+
+        db.getScr(function (data) {
+            console.log("Program've received " + nodeCount + ' nodes.');
+
+        }, {
+            url: "/api/APIScroll/",
+            type: "Post",
+            data: ko.mapping.toJSON({ 'asService': true, 'typeDoc': data.treeLevel(), 'rootKey': data.rootKey() }),
+            beforeSend: function () { _parent.loadingState(true); },
+            complete: function () {
+                _parent.loadingState(false);
+            },
+            error: function () { _parent.alert().statusMsg('К сожалению не удалось получить данные от сервиса!').alertType('alert-danger').mode(true); }
+        });
     }
 
     //search in tree with recursion
@@ -114,4 +128,4 @@ appNomenclature.TreeVM = (function ($, ko) {
         getTreeJson: self.getTreeJson,
         fakeText: self.fakeText
     };
-}(jQuery, ko));
+}(jQuery, ko, appNomenclature.DataContext));

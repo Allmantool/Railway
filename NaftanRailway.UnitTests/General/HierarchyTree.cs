@@ -12,6 +12,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace NaftanRailway.UnitTests.General {
     /// <summary>
@@ -29,12 +30,13 @@ namespace NaftanRailway.UnitTests.General {
         [Key()/*, Column("id")*/]
         public override long Id { get; set; }
         public long ParentId { get; set; }
-        public long GroupId { get; set; }
-        public long RankInGr { get; set; }
-        public int TreeLevel { get; set; }
+        public int GroupId { get; set; }
+        public int RankInGr { get; set; }
+        public short TreeLevel { get; set; }
         public string Label { get; set; }
         public string SearchKey { get; set; }
-        public int Count { get; set; }
+        public long Count { get; set; }
+        public byte[] RootKey { get; set; }
     }
 
     //Moke context
@@ -214,8 +216,9 @@ namespace NaftanRailway.UnitTests.General {
 
         [TestMethod]
         public void InitEF() {
-            const int countGroup = 3;
-            var startPeriod = new DateTime(2017, 1, 1);
+            byte[] rootKey = null; //Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B");//Byte.Parse("0xE2E7E8B3878D0B7897E01E049C5CD89B");
+            var typeDoc = string.Join(", ", new[] { 63 });
+            //var startPeriod = new DateTime(2017, 1, 1);
 
             #region Query
             /* 04.08.2017
@@ -229,69 +232,101 @@ namespace NaftanRailway.UnitTests.General {
             * [levelName] - custom group tree node name
             * [searchkey] - key for search in plane (source table)
             * [label] - description for rendering purpose
+            * [rootKey] - hierarchyid base on hashbyte
             */
             //--Warning weakness!
             //--The order must be same in each aggregation functions
-            var query = $@";WITH grSubResult AS (
-                SELECT  
-                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
-                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
+            var query = $@"
+            Declare @tree TABLE(
+	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
+	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
+	            [count] BIGINT,			[rootKey] varbinary(8000) primary key
+            );
+
+            ;WITH grSubResult AS (
+                SELECT
+                    [id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [groupId] = DENSE_RANK() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC),
+                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [treeLevel] = GROUPING_ID( YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
                     --[level_card] = GROUPING(knos.id_kart),
+                    [period] =  CONVERT(DATE, N'01.' + CONVERT(NVARCHAR(2),MONTH(kn.DTBUHOTCHET)) + N'.' + CONVERT(NVARCHAR(4),YEAR(kn.DTBUHOTCHET)) ),
+                    [year] = YEAR(kn.DTBUHOTCHET),
+                    [month] = MONTH(kn.DTBUHOTCHET),
                     [scroll] = kn.NKRT, kn.KEYKRT,
                     [card] = knos.NKRT, knos.id_kart,
 		            [typeDoc] = knos.tdoc,
 		            [docum] = knos.nomot,
-                    [count] = COUNT(*)
+                    [count] = COUNT(*),
+                    [rootKey] = HASHBYTES('md5',
+			            ISNULL(Convert(nvarchar(4),YEAR(DTBUHOTCHET)),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(2),MONTH(kn.DTBUHOTCHET)),N'') +
+			            ISNULL(N'-->' + convert(nvarchar(20), kn.KEYKRT), N'') +
+			            ISNULL(N'-->' + convert(nvarchar(10), kn.NKRT), N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.id_kart),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nkrt),N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(1), knos.tdoc), N'') +
+			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nomot), N''))
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.id > 0
                 GROUP BY GROUPING SETS(
-                        --(),
-                        (kn.KEYKRT, kn.NKRT),
+                       --(),
+                        (YEAR(DTBUHOTCHET)),
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET)),
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT),
 		                --(kn.KEYKRT, kn.NKRT, knos.id_kart),
-                        (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
+                        (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
+		                (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
+		                (YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
 	                )
                 )
 
+                Insert into @tree
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
-					ELSE 0 END,
-	                [id], [groupId], [rankInGr], [treeLevel],
-	                [levelName] = CASE [treeLevel]
-					    WHEN 0 THEN N'Документ'
-					    WHEN 1 THEN N'Тип документа'
-					    WHEN 3 THEN N'Карточка'
-					    WHEN 7 THEN N'Перечень'
-					ELSE NULL END,
-	                [searchkey] = CASE [treeLevel]
-					    WHEN 0 THEN convert(nvarchar(max), [docum])
-					    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
-					    WHEN 3 THEN convert(nvarchar(max), [id_kart])
-					    WHEN 7 THEN convert(nvarchar(max), [keykrt])
-					ELSE NULL END,
-	                [label] = CASE [treeLevel]
-				        WHEN 0 THEN Convert(nvarchar(max), [docum])
-				        WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
-				        WHEN 3 THEN [card]
-				        WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
-				    ELSE NULL END,
-	                [count]
+		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
+		            WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
+		            WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
+		            WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
+		            WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
+	            ELSE 0 END,
+	            [id], [groupId], [rankInGr], [treeLevel],
+	            [levelName] = CASE [treeLevel]
+		            WHEN 0 THEN N'Документ'
+		            WHEN 1 THEN N'Тип документа'
+		            WHEN 3 THEN N'Карточка'
+		            WHEN 7 THEN N'Перечень'
+		            WHEN 31 THEN N'Месяц'
+		            WHEN 63 THEN N'Год'
+	            ELSE NULL END,
+	            [searchkey] = CASE [treeLevel]
+		            WHEN 0 THEN convert(nvarchar(25), [docum])
+		            WHEN 1 THEN convert(nvarchar(25), [typeDoc])
+		            WHEN 3 THEN convert(nvarchar(25), [id_kart])
+		            WHEN 7 THEN convert(nvarchar(25), [keykrt])
+		            WHEN 31 THEN convert(nvarchar(25), [month])
+		            WHEN 63 THEN convert(nvarchar(25), [year])
+	            ELSE NULL END,
+	            [label] = CASE [treeLevel]
+		            WHEN 0 THEN Convert(nvarchar(25), [docum])
+		            WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+		            WHEN 3 THEN [card]
+		            WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+		            WHEN 31 THEN DATENAME(MONTH,[period])
+		            WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
+	            ELSE NULL END,
+	            [count], [rootKey]
                 FROM grSubResult as gr
-                WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
-                ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+                WHERE  [treeLevel] IN ( {typeDoc} )
+                ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
+
+            select * from @tree" + (rootKey == null ? ";" : $@" where [parentId] = (select id from @tree where [rootKey] = {Encoding.ASCII.GetString(rootKey)});");
             #endregion
 
             //map
             try {
                 using (var ctx = new NomenclatureEntities()) {
-
                     var dbName = ctx.Database.Connection.Database;
                     //list on nodes (flatted)
                     var result = ctx.Database.SqlQuery<TreeNode>(query).ToList();
