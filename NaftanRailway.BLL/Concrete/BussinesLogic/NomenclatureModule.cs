@@ -223,13 +223,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                return row;
+                    return row;
                 case EnumMenuOperation.Edit:
-                return row;
+                    return row;
                 case EnumMenuOperation.Delete:
-                return row;
+                    return row;
                 default:
-                return row;
+                    return row;
             }
         }
 
@@ -316,29 +316,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
-                break;
+                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                    filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
+                    break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
-                filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
-                break;
+                    nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
+                    filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
+                    break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                break;
+                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                    break;
 
                 case @"KRT_Analys_ORC":
-                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                break;
+                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                    break;
 
                 default:
-                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                break;
+                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                    break;
             }
 
             //generate url for ssrs
@@ -408,7 +408,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public IList<TreeNode> GetTreeStructure(int? typeDoc = 63, string rootKey = null) {
+        public IList<TreeNode> GetTreeStructure(int typeDoc = 63, string rootKey = null) {
             //byte[] rootKey = Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B")
             var hierarchyDict = new Dictionary<int, string>{
                 { 0, "Документ" },
@@ -427,13 +427,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             };
 
             //anonymous methods in a generalized and simple way
-            Func<IEnumerable<int>> getTopTwo = () => hierarchyDict.OrderByDescending(x => x.Key)
+            Func<IEnumerable<int>> getTopTwo = () => hierarchyDict
+                            .OrderByDescending(x => x.Key)
                             .Where(x => x.Key <= typeDoc)
-                            .Select(x => x.Key).Take(2);
+                            .Select(x => x.Key)
+                            .Take(2);
 
             var sqlIn = string.Join(", ", getTopTwo.Invoke());
 
-            IList<TreeNode> tree = new List<TreeNode>(), result = new List<TreeNode>();
+            IList<TreeNode> tree = new List<TreeNode>();
 
             #region Query
             /* 04.08.2017
@@ -541,6 +543,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             #endregion
 
             try {
+                IList<TreeNode> result;
                 using (_engage.Uow = new UnitOfWork()) {
                     var dbContext = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext;
                     //issue => custom mark for appropriate dbContext. Main reason is we have multiply dbcontext, each for different server

@@ -25,7 +25,7 @@ namespace NaftanRailway.BLL.Abstract {
 
         IEnumerable<ScrollDetailDTO> ApplyNomenclatureDetailFilter(long key, IList<CheckListFilter> filters, int page,
                                                                    int initialSizeItem, out long recordCount, bool viewWrong = false);
-        IList<TreeNode> GetTreeStructure(int? typeDoc, string rootKey = null);
+        IList<TreeNode> GetTreeStructure(int typeDoc = 63, string rootKey = null);
 
         /// <summary>
         /// Update linked filters base on src entity (table)

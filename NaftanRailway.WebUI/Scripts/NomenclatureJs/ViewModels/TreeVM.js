@@ -85,7 +85,7 @@ appNomenclature.TreeVM = (function ($, ko, db) {
         console.log(data.description());
 
         db.getScr(function (data) {
-            console.log("Program've received " + nodeCount + ' nodes.');
+            console.log("Program've received " + data.length + ' nodes.');
 
         }, {
             url: "/api/APIScroll/",

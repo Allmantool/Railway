@@ -9,10 +9,10 @@ using WebApi.OutputCache.V2;
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
     //[RouteArea("Member")]
     //[RoutePrefix("member")]
-    public class APIScrollController : ApiController {
+    public class ApiScrollController : ApiController {
         private readonly INomenclatureModule _bussinesEngage;
 
-        public APIScrollController(INomenclatureModule bussinesEngage, ILog log) {
+        public ApiScrollController(INomenclatureModule bussinesEngage, ILog log) {
             _bussinesEngage = bussinesEngage;
         }
 
@@ -33,15 +33,9 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         [Route("api/APIScroll/{typeDoc}/{rootKey}")]
         [Route("api/APIScroll")]
         [HttpPost]
-        public IHttpActionResult ExpandTree(string typeDoc = null, string rootKey = null) {
+        public IHttpActionResult ExpandTree([FromBody] int? typeDoc = null, [FromBody] string rootKey = null) {
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
-            int? result = null;
-
-            if (typeDoc != null) {
-                 result = int.Parse(typeDoc);
-            }
-
-            var tree = _bussinesEngage.GetTreeStructure(result, rootKey);
+            var tree = (typeDoc == null) ? _bussinesEngage.GetTreeStructure(rootKey: rootKey) : _bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
 
             var response = new HttpResponseMessage();
             response.Headers.Add("ContentType", "application/json");
