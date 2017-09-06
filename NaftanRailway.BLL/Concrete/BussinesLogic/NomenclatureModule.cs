@@ -408,14 +408,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// It method converts flatted table to node hierarchy structure and return it
         /// </summary>
         /// <returns></returns>
-        public IList<TreeNode> GetTreeStructure(string typeDoc = null, string rootKey = null) {
+        public IList<TreeNode> GetTreeStructure(int? typeDoc = 63, string rootKey = null) {
             //byte[] rootKey = Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B")
-            typeDoc = typeDoc ?? string.Join(", ", new[] { 63 });
-            
-            IList<TreeNode> result = new List<TreeNode>();
-            IList<TreeNode> tree = new List<TreeNode>();
-
-            var hirearchyDict = new Dictionary<int, string>{
+            var hierarchyDict = new Dictionary<int, string>{
                 { 0, "Документ" },
                 { 1, "Тип документа" },
                 { 3, "Карточка" },
@@ -430,6 +425,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 { 3, "Акт" },
                 { 4, "Карточка" }
             };
+
+            //anonymous methods in a generalized and simple way
+            Func<IEnumerable<int>> getTopTwo = () => hierarchyDict.OrderByDescending(x => x.Key)
+                            .Where(x => x.Key <= typeDoc)
+                            .Select(x => x.Key).Take(2);
+
+            var sqlIn = string.Join(", ", getTopTwo.Invoke());
+
+            IList<TreeNode> tree = new List<TreeNode>(), result = new List<TreeNode>();
 
             #region Query
             /* 04.08.2017
@@ -451,7 +455,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Declare @tree TABLE(
 	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
-	            [count] BIGINT,			[rootKey] varbinary(8000) primary key
+	            [count] BIGINT,			[rootKey] varbinary(1000) primary key
             );
 
             ;WITH grSubResult AS (
@@ -529,10 +533,11 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 	            ELSE NULL END,
 	            [count], [rootKey]
                 FROM grSubResult as gr
-                WHERE  [treeLevel] IN ( {typeDoc} )
+                WHERE  [treeLevel] IN ( { sqlIn } )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree " + (rootKey == null ? "" : $@"where [parentId] = (select id from @tree where [rootKey] = {rootKey});");
+            select * from @tree" + (rootKey == null ? "" : $@" where [parentId] = (select id from @tree where [rootKey] = {rootKey})") +
+            " Order by [searchkey] desc";
             #endregion
 
             try {

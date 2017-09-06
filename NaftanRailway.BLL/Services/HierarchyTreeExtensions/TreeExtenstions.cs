@@ -50,7 +50,8 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
                 GroupId = item.GroupId,
                 ParentId = item.ParentId,
                 RankInGr = item.RankInGr,
-                TreeLevel = item.TreeLevel
+                TreeLevel = item.TreeLevel,
+                RootKey = item.RootKey
             }).ToList();
 
             return result;

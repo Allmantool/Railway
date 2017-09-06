@@ -240,7 +240,7 @@ namespace NaftanRailway.UnitTests.General {
             Declare @tree TABLE(
 	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
-	            [count] BIGINT,			[rootKey] varbinary(8000) primary key
+	            [count] BIGINT,			[rootKey] varbinary(1000) primary key
             );
 
             ;WITH grSubResult AS (
@@ -331,10 +331,14 @@ namespace NaftanRailway.UnitTests.General {
                     //list on nodes (flatted)
                     var result = ctx.Database.SqlQuery<TreeNode>(query).ToList();
                     var tree = result.FillRecursive();
+
+                    Assert.IsNotNull(Encoding.ASCII.GetString(result[0].RootKey));
                 }
             } catch (Exception ex) {
                 Debug.WriteLine(ex.Message);
             }
+
+            
 
         }
     }

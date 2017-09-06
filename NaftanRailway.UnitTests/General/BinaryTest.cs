@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace NaftanRailway.UnitTests.General {
     /// <summary>
@@ -98,7 +100,25 @@ namespace NaftanRailway.UnitTests.General {
             for (node = link.Last; node != null; node = node.Previous)
                 Console.Write(node.Value + "\t");
 
-            
+
+        }
+
+        /// <summary>
+        /// it checks work of json formatter with binary array
+        /// </summary>
+        [TestMethod]
+        public void BinaryJSON() {
+            var binary = Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B");
+
+            var strConvertion = String.Empty; // binary.ToString("X2");
+
+            for (int i = 0; i < binary.Length; i++) {
+                strConvertion += binary[i].ToString("X2") + " ";  //// <<<--- Here is the problem
+            }
+
+            var stringJson =  JsonConvert.SerializeObject(binary);
+
+            Assert.IsNotNull(binary);
         }
     }
 }
