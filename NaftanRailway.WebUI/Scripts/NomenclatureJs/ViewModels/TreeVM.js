@@ -1,4 +1,5 @@
-﻿"use strict";
+﻿/// <reference path="../jquery-1.11.3.js" />
+"use strict";
 
 //namespace
 var appNomenclature = window.appNomenclature || {};
@@ -88,9 +89,9 @@ appNomenclature.TreeVM = (function ($, ko, db) {
             console.log("Program've received " + data.length + ' nodes.');
 
         }, {
-            url: "/api/APIScroll/",
-            type: "Post",
-            data: ko.mapping.toJSON({ 'asService': true, 'typeDoc': data.treeLevel(), 'rootKey': data.rootKey() }),
+            url: "/api/APIScroll/" + data.treeLevel() + '/' + data.rootKey(),
+            type: "Get",
+            //data: ko.mapping.toJSON({ 'typeDoc': data.treeLevel(), 'rootKey': data.rootKey() }),
             beforeSend: function () { _parent.loadingState(true); },
             complete: function () {
                 _parent.loadingState(false);
@@ -100,6 +101,8 @@ appNomenclature.TreeVM = (function ($, ko, db) {
     }
 
     //search in tree with recursion
+    //data - source for search
+    //key - some indification indication
     function searchNode(data, key) {
         //var data = (searchArray === undefined) ? self.nodes() : searchArray;
         var result;

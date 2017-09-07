@@ -32,8 +32,8 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
         [Route("api/APIScroll/{typeDoc}/{rootKey}")]
         [Route("api/APIScroll")]
-        [HttpPost]
-        public IHttpActionResult ExpandTree([FromBody] int? typeDoc = null, [FromBody] string rootKey = null) {
+        [HttpGet]
+        public IHttpActionResult ExpandTree(int? typeDoc = null, string rootKey = null) {
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
             var tree = (typeDoc == null) ? _bussinesEngage.GetTreeStructure(rootKey: rootKey) : _bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
 

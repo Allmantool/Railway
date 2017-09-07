@@ -12,3 +12,8 @@ DEBUG 2017-06-22 14:41:14,191 271045ms ScrollController       Reports           
 DEBUG 2017-09-06 23:09:53,944 12868ms BussinesEngage         xceptionAsync>b__0 - Exception during execution 'SyncWithOrc': Не удалось найти хранимую процедуру "dbo.sp_UpdateKrt_Naftan".
 DEBUG 2017-09-06 23:10:00,133 19057ms BussinesEngage         xceptionAsync>b__0 - Exception during execution 'SyncWithOrc': Не удалось найти хранимую процедуру "dbo.sp_UpdateKrt_Naftan".
 DEBUG 2017-09-06 23:10:18,339 37263ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции ")".
+DEBUG 2017-09-07 11:56:19,612 109788ms BussinesEngage         GetTreeStructure   - Exception: Недопустимое имя столбца "some value".
+DEBUG 2017-09-07 11:57:13,437 163614ms BussinesEngage         GetTreeStructure   - Exception: Недопустимое имя столбца "985U5Q69BLah6wDxrGVFKg==".
+DEBUG 2017-09-07 11:57:38,970 189146ms BussinesEngage         GetTreeStructure   - Exception: Недопустимое имя столбца "985U5Q69BLah6wDxrGVFKg==".
+DEBUG 2017-09-07 11:57:46,412 196589ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции "U5Q69BLah6wDxrGVFKg".
+DEBUG 2017-09-07 12:01:05,393 395570ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции "U5Q69BLah6wDxrGVFKg".
