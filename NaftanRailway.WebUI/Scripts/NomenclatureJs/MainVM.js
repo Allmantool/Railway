@@ -329,8 +329,8 @@ appNomenclature.SrcVM = (function ($, ko, db, pm, sd, tr) {
             self.alert().statusMsg('Фильтры актуальны!').alertType('alert-success').mode(true);
         }, {
             url: "/api/APIScroll/",
-            type: "Post",
-            data: ko.mapping.toJSON({ 'asService': true }),
+            type: "Get",
+            //data: ko.mapping.toJSON({ 'asService': true }),
             beforeSend: function () { self.loadingState(true); },
             complete: function () {
                 self.loadingState(false);
