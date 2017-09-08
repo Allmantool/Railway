@@ -17,3 +17,4 @@ DEBUG 2017-09-07 11:57:13,437 163614ms BussinesEngage         GetTreeStructure  
 DEBUG 2017-09-07 11:57:38,970 189146ms BussinesEngage         GetTreeStructure   - Exception: Недопустимое имя столбца "985U5Q69BLah6wDxrGVFKg==".
 DEBUG 2017-09-07 11:57:46,412 196589ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции "U5Q69BLah6wDxrGVFKg".
 DEBUG 2017-09-07 12:01:05,393 395570ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции "U5Q69BLah6wDxrGVFKg".
+DEBUG 2017-09-08 09:09:07,404 822047ms BussinesEngage         GetTreeStructure   - Exception: Недопустимое имя столбца "text".
