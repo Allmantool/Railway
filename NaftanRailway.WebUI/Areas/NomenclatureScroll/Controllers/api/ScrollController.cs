@@ -18,20 +18,18 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
 
         //public HttpResponseMessage GetScroll() {
         //    var result = true;
-
         //    var msgResponse = result ? new HttpResponseMessage(HttpStatusCode.NotFound) : new HttpResponseMessage(HttpStatusCode.OK);
-
         //    return msgResponse;
         //}
-        
+
         /// <summary>
         /// Get filters DTO for advance searching
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(TreeNode))]
-        [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
+        //[CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
         //[Route("api/APIScroll")]
-        [Route("api/APIScroll/{typeDoc:int?}/{rootKey?}")]
+        [Route("api/DocTree/{typeDoc:int?}/{rootKey?}")]
         [HttpGet]
         public IHttpActionResult GetExpandTree(int? typeDoc = null, string rootKey = null) {
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();

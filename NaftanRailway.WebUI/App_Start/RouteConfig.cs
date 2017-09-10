@@ -16,7 +16,7 @@ namespace NaftanRailway.WebUI {
             routes.RouteExistingFiles = false;
 
             //attribute routing
-            //routes.MapMvcAttributeRoutes();
+            routes.MapMvcAttributeRoutes();
 
             /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}", new StopRoutingHandler());
