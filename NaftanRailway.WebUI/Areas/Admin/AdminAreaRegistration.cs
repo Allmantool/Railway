@@ -4,6 +4,7 @@ namespace NaftanRailway.WebUI.Areas.Admin {
     public class AdminAreaRegistration : AreaRegistration {
         public override string AreaName {
             get {
+                //GlobalConfiguration.Configuration.MapHttpAttributeRoutes();
                 return "Admin";
             }
         }

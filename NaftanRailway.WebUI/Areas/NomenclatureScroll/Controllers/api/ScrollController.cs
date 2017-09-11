@@ -1,14 +1,14 @@
 ﻿using log4net;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.DTO.Nomenclature;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebApi.OutputCache.V2;
 
 namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
-    //[RouteArea("Member")]
-    //[RoutePrefix("member")]
+    [RoutePrefix("api")]
     public class ApiScrollController : ApiController {
         private readonly INomenclatureModule _bussinesEngage;
 
@@ -27,17 +27,23 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         /// </summary>
         /// <returns></returns>
         [ResponseType(typeof(TreeNode))]
-        //[CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
-        //[Route("api/APIScroll")]
-        [Route("api/DocTree/{typeDoc:int?}/{rootKey?}")]
-        [HttpGet]
+        [CacheOutput(ClientTimeSpan = 5000, ServerTimeSpan = 5000)]
+        [HttpGet, Route("DocTree/{typeDoc:int:min(0)?}/{rootKey?}")]
         public IHttpActionResult GetExpandTree(int? typeDoc = null, string rootKey = null) {
+            //if (rootKey.Length == 0) {
+            //    var message = new HttpResponseMessage(HttpStatusCode.BadRequest) {
+            //        Content = new StringContent("We cannot use empty rootKey")
+            //    };
+            //    throw new HttpResponseException(message);
+            //}
+
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
             var tree = (typeDoc == null) ? _bussinesEngage.GetTreeStructure(rootKey: rootKey) : _bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
 
             var response = new HttpResponseMessage();
             response.Headers.Add("ContentType", "application/json");
 
+            //return Ok($"TypeDoc: {typeDoc ?? 0}, rootKey: {rootKey?? " empty"}");
             return tree.Count < 0 ? (IHttpActionResult)BadRequest("No Nodes Found") : Ok(tree);
         }
     }

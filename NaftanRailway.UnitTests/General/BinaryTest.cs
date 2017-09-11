@@ -108,6 +108,8 @@ namespace NaftanRailway.UnitTests.General {
         /// </summary>
         [TestMethod]
         public void BinaryJSON() {
+            var result = CreateMD5("DfmmC/HdLhyS7ypSKUrSvQ==");
+            var binaryFromJsonString = Encoding.ASCII.GetBytes("4ufos4eNC3iX4B4EnFzYmw ==");
             var binary = Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B");
 
             var strConvertion = String.Empty; // binary.ToString("X2");
@@ -116,9 +118,26 @@ namespace NaftanRailway.UnitTests.General {
                 strConvertion += binary[i].ToString("X2") + " ";  //// <<<--- Here is the problem
             }
 
-            var stringJson =  JsonConvert.SerializeObject(binary);
+            var stringJson = JsonConvert.SerializeObject(binary);
 
             Assert.IsNotNull(binary);
+        }
+
+
+        public static string CreateMD5(string input = "4ufos4eNC3iX4B4EnFzYmw ==") {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create()) {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++) {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+
+                return sb.ToString();
+            }
         }
     }
 }

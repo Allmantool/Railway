@@ -418,6 +418,7 @@
     <Compile Include="Infrastructure\ExceptionHandling\TextHandler.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextLogger.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
+    <Compile Include="Infrastructure\JsonConverter\ByteArrayConverter.cs" />
     <Compile Include="Infrastructure\SessionStateHelper.cs" />
     <Compile Include="Infrastructure\TypeConversion\Demo.cs" />
     <Compile Include="Startup.cs" />

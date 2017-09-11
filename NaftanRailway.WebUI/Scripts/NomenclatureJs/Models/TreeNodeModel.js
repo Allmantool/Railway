@@ -13,6 +13,10 @@ appNomenclature.TreeNode = function (data, parent) {
 
     //get description for rendering purpose
     self.description = ko.pureComputed(function () {
-        return self.levelName() + ': ' + self.label() + ' (Height: ' + self.treeLevel() + '). Children count: ' + self.children().length + '. Total charge count: ' + self.count();
+        return self.levelName() + ': ' + self.label()
+                + ' (Height: ' + self.treeLevel() + ')'
+                + '. Children count: ' + self.children().length
+                + '. Total charge count: ' + self.count()
+                + '. Hash: ' + self.rootKey();
     }, self);
 };

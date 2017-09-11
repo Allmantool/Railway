@@ -89,7 +89,7 @@ appNomenclature.TreeVM = (function ($, ko, db) {
             console.log("Program've received " + data.length + ' nodes.');
 
         }, {
-            url: "/api/APIScroll/" + data.treeLevel() + '/' + data.rootKey(),
+            url: "/api/DocTree/" + data.treeLevel() + '/' + data.rootKey(),
             type: "Get",
             //data: ko.mapping.toJSON({ 'typeDoc': data.treeLevel(), 'rootKey': data.rootKey() }),
             beforeSend: function () { _parent.loadingState(true); },

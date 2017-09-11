@@ -538,7 +538,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 WHERE  [treeLevel] IN ( { sqlIn } )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree" + (rootKey == null ? "" : $@" where [parentId] = (select id from @tree where [rootKey] = {rootKey})") +
+            select * from @tree" + (rootKey == null ? "" : $@" where [parentId] = (select id from @tree where [rootKey] = N'{rootKey}')") +
             " Order by [searchkey] desc";
             #endregion
 

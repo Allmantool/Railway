@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI {
              */
             routes.RouteExistingFiles = false;
 
-            //attribute routing
+            //attribute routing MVC5
             routes.MapMvcAttributeRoutes();
 
             /*make the routing system less inclusive and prevent URLs from being evaluated against routes*/

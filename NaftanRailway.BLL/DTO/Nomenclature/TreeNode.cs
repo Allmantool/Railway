@@ -1,5 +1,6 @@
 ﻿using NaftanRailway.BLL.DTO.General;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace NaftanRailway.BLL.DTO.Nomenclature {
     public class TreeNode : TreeNodeBase<TreeNode> {
@@ -21,5 +22,9 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
         public string SearchKey { get; set; }
         public long Count { get; set; }
         public byte[] RootKey { get; set; }
+        /// <summary>
+        /// Return byte array instead of base64String()
+        /// </summary>
+        //public int[] ByteArray { get { return RootKey.Select(b => (int)b).ToArray(); } }
     }
 }

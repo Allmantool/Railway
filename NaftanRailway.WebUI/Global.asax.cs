@@ -17,13 +17,12 @@ namespace NaftanRailway.WebUI {
         /// Also we have ability set different type of configuration throughout different bootstraper class (convention => name may be different)
         /// </summary>
         protected void Application_Start() {
-            //Attribute Routing in MVC5
-            //routes.MapMvcAttributeRoutes();
-
-            AreaRegistration.RegisterAllAreas();
-
+            //Config WebAPI(2)
             GlobalConfiguration.Configure(WebApiConfig.Register);
             //WebApiConfig.Register(GlobalConfiguration.Configuration);
+
+            //Order is verty important (if i reverse areaRegistration with WebApiConfig => WebAPI 2 attributeRouting won't work
+            AreaRegistration.RegisterAllAreas();
 
             // This method call registers all filters
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -48,7 +47,7 @@ namespace NaftanRailway.WebUI {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             //registration custom binding providers with links to vm
-            ModelBinders.Binders.Add(typeof(SessionStorage), new StorageTableModelBinder());
+            //ModelBinders.Binders.Add(typeof(SessionStorage), new StorageTableModelBinder());
             //ModelBinders.Binders.Add(typeof(InputMenuViewModel), new InputMenuModelBinder());
 
             //MVC4 Quick Tip #3–Removing the XML Formatter from ASP.Net Web API
