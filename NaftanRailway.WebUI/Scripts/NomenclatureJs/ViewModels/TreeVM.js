@@ -30,8 +30,8 @@ appNomenclature.TreeVM = (function ($, ko, db) {
         }).extend({ notify: 'always' })
     };
 
-    // go through the loop and covert each node to appropriate type(class)
-    //Is it another iteration or  a first loop? always obserableArray
+    // go through the loop and convert each node to appropriate type(class)
+    //Is it another iteration or a first loop? always obserableArray
     function castToNode(data, destData) {
         var deep;
         $.each(data, function (indx, item) {
@@ -82,14 +82,17 @@ appNomenclature.TreeVM = (function ($, ko, db) {
     }
 
     //add additional nodes to selected node
-    function expendNodes(data, destNode) {
+    function expendNodes(data, params) {
         console.log(data.description());
 
-        db.getScr(function (data) {
+        //retrieve nodes
+        db.getScr(function (data, param) {
             console.log("Program've received " + data.length + ' nodes.');
 
+            var parentNode = searchNode(self.nodes(), Number(data[0].parentId));
+            var deep = castToNode(data, parentNode.children);
         }, {
-            url: "/api/DocTree/" + data.treeLevel() + '/' + data.rootKey(),
+            url: "/api/DocTree/" + data.treeLevel() + '/' + data.strKey(),
             type: "Get",
             //data: ko.mapping.toJSON({ 'typeDoc': data.treeLevel(), 'rootKey': data.rootKey() }),
             beforeSend: function () { _parent.loadingState(true); },

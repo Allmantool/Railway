@@ -223,13 +223,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             switch (operation) {
                 case EnumMenuOperation.Join:
-                    return row;
+                return row;
                 case EnumMenuOperation.Edit:
-                    return row;
+                return row;
                 case EnumMenuOperation.Delete:
-                    return row;
+                return row;
                 default:
-                    return row;
+                return row;
             }
         }
 
@@ -316,29 +316,29 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //dictionary name/title file (!Tips: required complex solution in case of scalability)
             switch (reportName) {
                 case @"krt_Naftan_Gu12":
-                    nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
-                    filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
-                    break;
+                nameFile = string.Format(@"Расшифровка сбора 099 за {0} месяц", CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selScroll.DTBUHOTCHET.Month));
+                filterParameters = $@"period={selScroll.DTBUHOTCHET.Date}";
+                break;
 
                 case @"krt_Naftan_BookkeeperReport":
-                    nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
-                    filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
-                    break;
+                nameFile = $@"Бухгалтерский отчёт по переченю №{numberScroll}.xls";
+                filterParameters = $@"nkrt={numberScroll}&year={reportYear}";
+                break;
 
                 case @"krt_Naftan_act_of_Reconciliation":
-                    nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
-                    filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
-                    break;
+                nameFile = string.Format(@"Реестр электронного представления перечней ОРЦ за {0} {1} года.xls", selScroll.DTBUHOTCHET.ToString("MMMM"), selScroll.DTBUHOTCHET.Year);
+                filterParameters = string.Format(@"month={0}&year={1}", selScroll.DTBUHOTCHET.Month, selScroll.DTBUHOTCHET.Year);
+                break;
 
                 case @"KRT_Analys_ORC":
-                    nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
-                    break;
+                nameFile = string.Format(@"Отчёт Анализа ЭСЧФ по перечню №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"key={0}&startDate={1}", selScroll.KEYKRT, selScroll.DTBUHOTCHET.Date);
+                break;
 
                 default:
-                    nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
-                    filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
-                    break;
+                nameFile = string.Format(@"Отчёт о ошибках по переченю №{0}.xls", numberScroll);
+                filterParameters = string.Format(@"nkrt={0}&year={1}", numberScroll, reportYear);
+                break;
             }
 
             //generate url for ssrs
@@ -457,7 +457,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             Declare @tree TABLE(
 	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
-	            [count] BIGINT,			[rootKey] varbinary(1000) primary key
+	            [count] BIGINT,			[rootKey] varbinary(1000) primary key,                  [strKey] NVARCHAR(MAX)
             );
 
             ;WITH grSubResult AS (
@@ -500,45 +500,46 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                 )
 
                 Insert into @tree
-                SELECT
-                    [parentId] = CASE [treeLevel]
-		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
-		            WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
-		            WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
-		            WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
-		            WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
-	            ELSE 0 END,
-	            [id], [groupId], [rankInGr], [treeLevel],
-	            [levelName] = CASE [treeLevel]
-		            WHEN 0 THEN N'Документ'
-		            WHEN 1 THEN N'Тип документа'
-		            WHEN 3 THEN N'Карточка'
-		            WHEN 7 THEN N'Перечень'
-		            WHEN 31 THEN N'Месяц'
-		            WHEN 63 THEN N'Год'
-	            ELSE NULL END,
-	            [searchkey] = CASE [treeLevel]
-		            WHEN 0 THEN convert(nvarchar(25), [docum])
-		            WHEN 1 THEN convert(nvarchar(25), [typeDoc])
-		            WHEN 3 THEN convert(nvarchar(25), [id_kart])
-		            WHEN 7 THEN convert(nvarchar(25), [keykrt])
-		            WHEN 31 THEN convert(nvarchar(25), [month])
-		            WHEN 63 THEN convert(nvarchar(25), [year])
-	            ELSE NULL END,
-	            [label] = CASE [treeLevel]
-		            WHEN 0 THEN Convert(nvarchar(25), [docum])
-		            WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
-		            WHEN 3 THEN [card]
-		            WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
-		            WHEN 31 THEN DATENAME(MONTH,[period])
-		            WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
-	            ELSE NULL END,
-	            [count], [rootKey]
+                    SELECT
+                        [parentId] = CASE [treeLevel]
+		                WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
+		                WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
+		                WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
+		                WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
+		                WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
+	                ELSE 0 END,
+	                [id], [groupId], [rankInGr], [treeLevel],
+	                [levelName] = CASE [treeLevel]
+		                WHEN 0 THEN N'Документ'
+		                WHEN 1 THEN N'Тип документа'
+		                WHEN 3 THEN N'Карточка'
+		                WHEN 7 THEN N'Перечень'
+		                WHEN 31 THEN N'Месяц'
+		                WHEN 63 THEN N'Год'
+	                ELSE NULL END,
+	                [searchkey] = CASE [treeLevel]
+		                WHEN 0 THEN convert(nvarchar(25), [docum])
+		                WHEN 1 THEN convert(nvarchar(25), [typeDoc])
+		                WHEN 3 THEN convert(nvarchar(25), [id_kart])
+		                WHEN 7 THEN convert(nvarchar(25), [keykrt])
+		                WHEN 31 THEN convert(nvarchar(25), [month])
+		                WHEN 63 THEN convert(nvarchar(25), [year])
+	                ELSE NULL END,
+	                [label] = CASE [treeLevel]
+		                WHEN 0 THEN Convert(nvarchar(25), [docum])
+		                WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+		                WHEN 3 THEN [card]
+		                WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+		                WHEN 31 THEN DATENAME(MONTH,[period])
+		                WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
+	                ELSE NULL END,
+	                [count], [rootKey],
+                    [strKey] = N'0x' + cast(N'' as xml).value('xs:hexBinary(sql:column(""rootKey"") )', 'nvarchar(max)')
                 FROM grSubResult as gr
                 WHERE  [treeLevel] IN ( { sqlIn } )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree" + (rootKey == null ? "" : $@" where [parentId] = (select id from @tree where [rootKey] = N'{rootKey}')") +
+            select * from @tree" + (rootKey == null ? "" : $@" where [parentId] = (select id from @tree where [rootKey] = {rootKey})") +
             " Order by [searchkey] desc";
             #endregion
 

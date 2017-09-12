@@ -17,6 +17,7 @@ appNomenclature.TreeNode = function (data, parent) {
                 + ' (Height: ' + self.treeLevel() + ')'
                 + '. Children count: ' + self.children().length
                 + '. Total charge count: ' + self.count()
-                + '. Hash: ' + self.rootKey();
+                + '. Base64: ' + self.rootKey()
+                + '. Byte Hash: ' + self.strKey();
     }, self);
 };

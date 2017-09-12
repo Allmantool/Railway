@@ -532,13 +532,18 @@ appNomenclature.CustBundings = (function ($, ko) {
                     //set id
                     idNode(id);
                 }
-            }).on("collapse", function (ev, data, id) {});
+            }).on("collapse", function (ev, data, id) { })
+              .on("dataBound", function (ev, data) { });
 
             // This will be called when the element is removed by Knockout or
             // if some other part of your code calls ko.removeNode(element)
             ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-                var $el = $(element);
-                $el.tree('destroy');
+                var $tree = $(element).tree;
+
+                //unbind event handlers
+                $tree.off('collapse dataBound select expand');
+
+                $tree('destroy');
             });
         },
         //Initially when the binding is first evaluated (after the init function)
@@ -599,7 +604,16 @@ appNomenclature.CustBundings = (function ($, ko) {
             var value = ko.unwrap(valueAccessor()) || {};
             var $el = $(element), $merged = $.extend({}, defaults, value);
 
-            $el.tree($merged);
+            var $tree = $el.tree($merged);
+
+            //Render data in the tree
+            $tree.render(value.dataSource);
+            //$tree.reload();
+
+            //ata	        {object}	The node data.
+            //parentNode	{object}	Parent node as jquery object.
+            //position	    {Number}	Position where the new node need to be added.
+            $tree.addNode({ text: 'New Node' });
         }
     };
 }(jQuery, ko));

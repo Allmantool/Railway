@@ -24,6 +24,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
                 Children = FillRecursive(rows, Convert.ToInt32(item["Id"])),
                 Label = item["label"].ToString(),
                 SearchKey = item["searchkey"].ToString(),
+                StrKey = item["strKey"].ToString(),
                 Count = Convert.ToInt32(item["count"]),
             }).ToList();
 
@@ -43,7 +44,7 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
             //build hierarchy
             var result = roots.Select(item => new TreeNode(item.LevelName) {
                 Id = item.Id,
-                Children = !FillRecursive(rows, item.Id).Any() ? new List<TreeNode>() { new TreeNode() } : FillRecursive(rows, item.Id),
+                Children = /*!FillRecursive(rows, item.Id).Any() ? new List<TreeNode>() { new TreeNode() } :*/ FillRecursive(rows, item.Id),
                 Label = item.Label,
                 SearchKey = item.SearchKey,
                 Count = item.Count,
@@ -51,7 +52,8 @@ namespace NaftanRailway.BLL.Services.HierarchyTreeExtensions {
                 ParentId = item.ParentId,
                 RankInGr = item.RankInGr,
                 TreeLevel = item.TreeLevel,
-                RootKey = item.RootKey
+                RootKey = item.RootKey,
+                StrKey = item.StrKey
             }).ToList();
 
             return result;

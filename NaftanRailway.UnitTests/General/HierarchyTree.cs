@@ -38,6 +38,7 @@ namespace NaftanRailway.UnitTests.General {
         public string SearchKey { get; set; }
         public long Count { get; set; }
         public byte[] RootKey { get; set; }
+        public string StrKey { get; set; }
         /// <summary>
         /// Return byte array instead of base64String()
         /// </summary>
@@ -245,7 +246,7 @@ namespace NaftanRailway.UnitTests.General {
             Declare @tree TABLE(
 	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
-	            [count] BIGINT,			[rootKey] varbinary(1000) primary key
+	            [count] BIGINT,			[rootKey] varbinary(1000) primary key,                  [strKey] NVARCHAR(MAX)
             );
 
             ;WITH grSubResult AS (
@@ -321,7 +322,8 @@ namespace NaftanRailway.UnitTests.General {
 		            WHEN 31 THEN DATENAME(MONTH,[period])
 		            WHEN 63 THEN CONVERT(NVARCHAR(4),[year])
 	            ELSE NULL END,
-	            [count], [rootKey]
+	            [count], [rootKey],
+                [strKey] = '0x' + cast('' as xml).value('xs:hexBinary(sql:column(""rootKey"") )', 'varchar(max)')
                 FROM grSubResult as gr
                 WHERE  [treeLevel] IN ( {typeDoc} )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
