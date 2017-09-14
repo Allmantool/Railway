@@ -415,6 +415,12 @@
     <Compile Include="Infrastructure\CashWebApiAttribute\CacheWebApiAttribute.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\ExceptionContext.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\ExceptionHandlerContext.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\ExceptionLogger.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\ExceptionLoggerContext.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\IExceptionHandler.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\IExceptionLogger.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextHandler.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextLogger.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />

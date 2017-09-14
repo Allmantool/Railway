@@ -18,7 +18,8 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// </summary>
     public class ExceptionFilterAttribute : HandleErrorAttribute {// FilterAttribute, IExceptionFilter
         /// <summary>
-        /// Called when an unhandled exception arises
+        /// Called when an unhandled exception arises. 
+        /// Exception filters are the easiest solution for processing the subset unhandled exceptions related to a specific action or controller.
         /// </summary>
         /// <param name="filterContext">Derived from ControllerContext
         /// Useful ControllerContext prop:
@@ -78,7 +79,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
                     Modules = modules.AllKeys
                             .Select(x => new Tuple<string, string>(x.StartsWith("__Dynamic") ? string.Format("Dynamic: {0},{1},{2}", x.Split('_', ',')[3], x.Split('_', ',')[4], x.Split('_', ',')[5]) : x, modules[x].GetType().Name))
                             .OrderBy(x => x.Item1).ToArray()
-            };
+                };
 
                 filterContext.Result = (new ViewResult() {
                     ViewName = "Errors",
