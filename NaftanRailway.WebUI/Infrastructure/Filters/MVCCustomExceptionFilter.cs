@@ -16,7 +16,7 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
     /// *the action method itself
     /// *when the action result is executed
     /// </summary>
-    public class ExceptionFilterAttribute : HandleErrorAttribute {// FilterAttribute, IExceptionFilter
+    public class MVCCustomExceptionFilter : HandleErrorAttribute {// FilterAttribute, IExceptionFilter
         /// <summary>
         /// Called when an unhandled exception arises. 
         /// Exception filters are the easiest solution for processing the subset unhandled exceptions related to a specific action or controller.

@@ -89,6 +89,7 @@ namespace NaftanRailway.WebUI {
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e) {
             Exception exception = Server.GetLastError();
+
             if (exception is HttpUnhandledException) {
                 exception = exception.InnerException;
             }

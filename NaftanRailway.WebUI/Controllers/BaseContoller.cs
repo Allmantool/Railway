@@ -161,5 +161,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
             return File(win1251.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
         }
+
+        //protected override void OnException(ExceptionContext filterContext) { }
     }
 }

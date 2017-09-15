@@ -3,6 +3,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
 using NaftanRailway.WebUI.Infrastructure.ExceptionHandling;
+using NaftanRailway.WebUI.Infrastructure.Filters;
 
 namespace NaftanRailway.WebUI {
     public static class WebApiConfig {
@@ -42,12 +43,16 @@ namespace NaftanRailway.WebUI {
             jsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
 
             //add global filters
-            //config.Filters.Add(new filter);
+            config.Filters.Add(new WebApi2CustomExceptionFilter());
 
             //plural maybe
-            //config.Services.Add(typeof(IExceptionLogger), new TextLogger());
+            //To use this class in our Web API service, we need to register it.
+            //In the WebApiConfig file (or whatever file you are using to configure the service) 
+            //we need to replace the default ExceptionLogger which Web API automatically adds to the services with our own implementation:
+            config.Services.Replace(typeof(IExceptionLogger), new UnhandledExceptionLogger());
+
             //only one maybe
-            //config.Services.Replace(typeof(IExceptionHandler), new TextHandler());
+            config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());
         }
     }
 }

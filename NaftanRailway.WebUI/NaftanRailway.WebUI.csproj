@@ -416,14 +416,12 @@
     <Compile Include="Infrastructure\DI\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\DI\NinjectDependencyScope.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\ExceptionContext.cs" />
-    <Compile Include="Infrastructure\ExceptionHandling\ExceptionHandlerContext.cs" />
-    <Compile Include="Infrastructure\ExceptionHandling\ExceptionLogger.cs" />
-    <Compile Include="Infrastructure\ExceptionHandling\ExceptionLoggerContext.cs" />
-    <Compile Include="Infrastructure\ExceptionHandling\IExceptionHandler.cs" />
-    <Compile Include="Infrastructure\ExceptionHandling\IExceptionLogger.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\GlobalExceptionHandler.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextHandler.cs" />
     <Compile Include="Infrastructure\ExceptionHandling\TextLogger.cs" />
+    <Compile Include="Infrastructure\ExceptionHandling\UnhandledExceptionLogger.cs" />
     <Compile Include="Infrastructure\Filters\AuthorizeADFilter.cs" />
+    <Compile Include="Infrastructure\Filters\WebApi2CustomExceptionFilter.cs" />
     <Compile Include="Infrastructure\JsonConverter\ByteArrayConverter.cs" />
     <Compile Include="Infrastructure\SessionStateHelper.cs" />
     <Compile Include="Infrastructure\TypeConversion\Demo.cs" />
@@ -521,7 +519,7 @@
     <Compile Include="Infrastructure\ModelBinders\InfoLineModelBinder.cs" />
     <Compile Include="Infrastructure\ModelBinders\InputMenuModelBinder.cs" />
     <Compile Include="Infrastructure\ModelBinders\StorageTableModelBinder.cs" />
-    <Compile Include="Infrastructure\Filters\ExceptionFilter.cs" />
+    <Compile Include="Infrastructure\Filters\MVCCustomExceptionFilter.cs" />
     <Compile Include="Infrastructure\Filters\FileDownloadCompleteFilter.cs" />
     <Compile Include="Infrastructure\Filters\JsonNetActionFilter.cs" />
     <Compile Include="Infrastructure\JsonNetResult.cs" />
@@ -799,17 +797,19 @@
     <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\debug.pubxml" />
     <Content Include="Scripts\GeneralJs\_General.js" />
-    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.1.1.js" />
-    <Content Include="Scripts\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Scripts\jquery-migrate-3.0.0.js" />
     <Content Include="Scripts\jquery-migrate-3.0.0.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery.cookie-1.4.1.min.js" />
     <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
@@ -967,8 +967,6 @@
     <Content Include="Views\Account\SingUp.cshtml" />
     <Content Include="Views\HttpError\NotAuthorized.cshtml" />
     <Content Include="Views\Ceh18\_EstimatedModal.cshtml" />
-    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\knockout.validation.min.js.map" />
   </ItemGroup>
   <ItemGroup>
