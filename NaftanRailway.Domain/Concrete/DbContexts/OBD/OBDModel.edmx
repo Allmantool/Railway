@@ -5,798 +5,240 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OBDEntities.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_02_podhod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_02_podhod">
-          <Key>
-            <PropertyRef Name="n_vag" />
-          </Key>
-          <Property Name="n_vag" Type="char" MaxLength="8" Nullable="false" />
-          <Property Name="pr_kach" Type="smallint" />
-          <Property Name="ks" Type="int" />
-          <Property Name="roliki" Type="smallint" />
-          <Property Name="massa_t" Type="int" />
-          <Property Name="st_nazn" Type="char" MaxLength="5" />
-          <Property Name="kod_etsng" Type="char" MaxLength="5" />
-          <Property Name="kod_pol" Type="char" MaxLength="4" />
-          <Property Name="os_ot1" Type="smallint" />
-          <Property Name="os_ot2" Type="smallint" />
-          <Property Name="os_ot3" Type="smallint" />
-          <Property Name="kol_plomb" Type="smallint" />
-          <Property Name="kont_gr" Type="smallint" />
-          <Property Name="kont_por" Type="smallint" />
-          <Property Name="kod_stik" Type="char" MaxLength="5" />
-          <Property Name="prim" Type="char" MaxLength="6" />
-          <Property Name="date_oper_v" Type="datetime" />
-          <Property Name="it_stfor" Type="char" MaxLength="4" />
-          <Property Name="it_npp" Type="char" MaxLength="3" />
-          <Property Name="it_stnaz" Type="char" MaxLength="4" />
-          <Property Name="oper" Type="smallint" />
-          <Property Name="kod_stan_oper" Type="char" MaxLength="6" />
-          <Property Name="date_oper_t" Type="datetime" />
-          <Property Name="sroch_voz" Type="varchar" MaxLength="30" />
-          <Property Name="pr_v" Type="smallint" />
-          <Property Name="pr_sobst" Type="smallint" />
-          <Property Name="cod_algng" Type="char" MaxLength="8" />
-          <Property Name="n_otpr" Type="char" MaxLength="8" />
-          <Property Name="n_kont" Type="char" MaxLength="11" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_akt' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_akt">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="kodls" Type="char" MaxLength="2" />
-          <Property Name="nakt" Type="char" MaxLength="6" />
-          <Property Name="dakt" Type="datetime" />
-          <Property Name="kodkl" Type="char" MaxLength="6" />
-          <Property Name="nkrt" Type="char" MaxLength="6" />
-          <Property Name="id_kart" Type="int" />
-          <Property Name="state" Type="int" />
-          <Property Name="pr_external_work" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_akt_vag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_akt_vag">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_akt" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="id_akt" Type="int" Nullable="false" />
-          <Property Name="nomvag" Type="char" MaxLength="12" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_kart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_kart">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="uni_kart" Type="char" MaxLength="10" />
-          <Property Name="num_kart" Type="char" MaxLength="6" />
-          <Property Name="cod_stan" Type="char" MaxLength="6" />
-          <Property Name="date_okrt" Type="datetime" />
-          <Property Name="cod_pl" Type="char" MaxLength="6" />
-          <Property Name="nod_pl" Type="smallint" />
-          <Property Name="mfo" Type="char" MaxLength="9" />
-          <Property Name="rash" Type="char" MaxLength="13" />
-          <Property Name="num_plat_por" Type="int" />
-          <Property Name="date_plat_por" Type="datetime" />
-          <Property Name="type_kart" Type="smallint" />
-          <Property Name="cod_ls" Type="char" MaxLength="2" />
-          <Property Name="num_dogovor" Type="char" MaxLength="10" />
-          <Property Name="cod_currency" Type="char" MaxLength="3" />
-          <Property Name="summa" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="state" Type="bigint" />
-          <Property Name="num_fdu93" Type="varchar" MaxLength="40" />
-          <Property Name="date_fdu93" Type="datetime" />
-          <Property Name="pr_external_work" Type="int" />
-          <Property Name="state_dbf" Type="bigint" />
-          <Property Name="date_zkrt" Type="datetime" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_nach' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_nach">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_kart" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="id_kart" Type="int" Nullable="false" />
-          <Property Name="id_otpr" Type="int" />
-          <Property Name="uni_otpr" Type="char" MaxLength="10" />
-          <Property Name="cod_kl" Type="char" MaxLength="6" />
-          <Property Name="nod_kl" Type="smallint" />
-          <Property Name="type_doc" Type="int" />
-          <Property Name="oper" Type="smallint" />
-          <Property Name="cod_sbor" Type="char" MaxLength="6" />
-          <Property Name="date_raskr" Type="datetime" />
-          <Property Name="num_doc" Type="char" MaxLength="8" />
-          <Property Name="cena" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="kol" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="summa" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="cod_currency" Type="char" MaxLength="3" />
-          <Property Name="num_kart_sd" Type="char" MaxLength="3" />
-          <Property Name="textm" Type="ntext" />
-          <Property Name="id_ed" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_o_v' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_o_v">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_otpr" />
-          </Key>
-          <Property Name="id" Type="bigint" Nullable="false" />
-          <Property Name="id_otpr" Type="int" Nullable="false" />
-          <Property Name="n_vag" Type="varchar" MaxLength="8" />
-          <Property Name="prov" Type="smallint" />
-          <Property Name="texn" Type="smallint" />
-          <Property Name="massa" Type="int" />
-          <Property Name="prim" Type="varchar" MaxLength="30" />
-          <Property Name="pr_zam" Type="smallint" />
-          <Property Name="cod_vidot" Type="smallint" />
-          <Property Name="ves_n_ob" Type="int" />
-          <Property Name="n_sx" Type="smallint" />
-          <Property Name="npp" Type="smallint" />
-          <Property Name="n_vag_p" Type="char" MaxLength="12" />
-          <Property Name="pr_v_k" Type="smallint" />
-          <Property Name="cod_gruz_old" Type="char" MaxLength="6" />
-          <Property Name="sobs" Type="smallint" />
-          <Property Name="cod_negab" Type="char" MaxLength="4" />
-          <Property Name="poluchatel" Type="char" MaxLength="20" />
-          <Property Name="nom_scheme1" Type="char" MaxLength="3" />
-          <Property Name="nom_scheme2" Type="char" MaxLength="3" />
-          <Property Name="n_ob_in_tara" Type="bit" />
-          <Property Name="cod_stan_nazn" Type="char" MaxLength="6" />
-          <Property Name="proveren_tara" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_v" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_pl_v" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_pl_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_pereadr_prib" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_pereadr_prov_prib" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="ndspl_pereadr_prib" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="ndspl_pereadr_prov_prib" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_otpr" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_prov_otpr" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_pereadr" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_pereadr_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="ndspl_pereadr" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="ndspl_pereadr_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="poniz_kof_tp" Type="numeric" Precision="18" Scale="3" />
-          <Property Name="pr_skid" Type="smallint" />
-          <Property Name="num_tel_is_tar" Type="char" MaxLength="15" />
-          <Property Name="kol_vag_metan" Type="int" />
-          <Property Name="is_print" Type="bit" />
-          <Property Name="kof_skid" Type="numeric" Precision="18" Scale="4" />
-          <Property Name="is_skid" Type="bit" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_OPER_ASUS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_OPER_ASUS">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" Nullable="false" />
-          <Property Name="obj_id" Type="bigint" />
-          <Property Name="id_vag" Type="bigint" />
-          <Property Name="cod_oper" Type="char" MaxLength="2" />
-          <Property Name="time_oper" Type="datetime" />
-          <Property Name="plase_oper" Type="char" MaxLength="5" />
-          <Property Name="ord_num" Type="int" />
-          <Property Name="in_vgn" Type="char" MaxLength="8" />
-          <Property Name="cod_sbs" Type="int" />
-          <Property Name="ves_gruz" Type="numeric" Precision="12" Scale="3" />
-          <Property Name="st_destn" Type="varchar" MaxLength="6" />
-          <Property Name="pnt_targt" Type="char" MaxLength="5" />
-          <Property Name="pnt_destn" Type="char" MaxLength="5" />
-          <Property Name="cod_gruz" Type="char" MaxLength="6" />
-          <Property Name="cod_grpl" Type="char" MaxLength="4" />
-          <Property Name="grpd_v" Type="numeric" Precision="12" Scale="3" />
-          <Property Name="plomb" Type="smallint" />
-          <Property Name="primech" Type="varchar" MaxLength="15" />
-          <Property Name="state" Type="smallint" />
-          <Property Name="proc_state" Type="smallint" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_otpr' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_otpr">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="state" Type="int" />
-          <Property Name="n_visas" Type="bigint" />
-          <Property Name="num_zag" Type="char" MaxLength="12" />
-          <Property Name="uni_otpr" Type="char" MaxLength="10" />
-          <Property Name="stan_oper" Type="char" MaxLength="6" />
-          <Property Name="oper" Type="smallint" />
-          <Property Name="date_oper" Type="datetime" />
-          <Property Name="n_otpr" Type="char" MaxLength="8" />
-          <Property Name="vid_doc" Type="smallint" />
-          <Property Name="cod_vidot" Type="smallint" />
-          <Property Name="cod_v_soob" Type="smallint" />
-          <Property Name="skor" Type="smallint" />
-          <Property Name="date_p" Type="datetime" />
-          <Property Name="date_o" Type="datetime" />
-          <Property Name="cod_st_otpr" Type="char" MaxLength="6" />
-          <Property Name="cod_coun_otpr" Type="smallint" />
-          <Property Name="cod_kl_otpr" Type="char" MaxLength="20" />
-          <Property Name="nod_kl_otpr" Type="smallint" />
-          <Property Name="cod_st_nazn" Type="char" MaxLength="6" />
-          <Property Name="cod_coun_nazn" Type="smallint" />
-          <Property Name="cod_klient_pol" Type="char" MaxLength="20" />
-          <Property Name="nod_kl_pol" Type="smallint" />
-          <Property Name="rast_bel" Type="int" />
-          <Property Name="cod_currency" Type="char" MaxLength="3" />
-          <Property Name="cod_o_mas" Type="smallint" />
-          <Property Name="pogr" Type="char" MaxLength="1" />
-          <Property Name="paragr" Type="char" MaxLength="2" />
-          <Property Name="glava" Type="char" MaxLength="2" />
-          <Property Name="g6" Type="varchar" MaxLength="300" />
-          <Property Name="cena" Type="numeric" Precision="16" Scale="2" />
-          <Property Name="shema" Type="smallint" />
-          <Property Name="plata" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="rod_ps" Type="char" MaxLength="4" />
-          <Property Name="cod_vidras" Type="smallint" />
-          <Property Name="cod_vidrab" Type="smallint" />
-          <Property Name="g4" Type="text" />
-          <Property Name="g16" Type="char" MaxLength="34" />
-          <Property Name="codrsd" Type="char" MaxLength="10" />
-          <Property Name="g8" Type="varchar" MaxLength="350" />
-          <Property Name="g91" Type="varchar" MaxLength="189" />
-          <Property Name="cod_adm_o" Type="smallint" />
-          <Property Name="cod_adm_n" Type="smallint" />
-          <Property Name="date_dostav" Type="datetime" />
-          <Property Name="massa_rasch" Type="int" />
-          <Property Name="g5" Type="varchar" MaxLength="200" />
-          <Property Name="g11" Type="text" />
-          <Property Name="g18" Type="varchar" MaxLength="52" />
-          <Property Name="g19" Type="varchar" MaxLength="32" />
-          <Property Name="g20" Type="varchar" MaxLength="143" />
-          <Property Name="g26" Type="varchar" MaxLength="72" />
-          <Property Name="g1" Type="varchar" MaxLength="250" />
-          <Property Name="cod_tvk_etsng" Type="char" MaxLength="6" />
-          <Property Name="cod_tvk_algng" Type="char" MaxLength="8" />
-          <Property Name="massa_otpr" Type="int" />
-          <Property Name="cod_upak" Type="smallint" />
-          <Property Name="tvg_k_mest" Type="smallint" />
-          <Property Name="tvg_tara" Type="smallint" />
-          <Property Name="tvk_zn_otpr" Type="char" MaxLength="10" />
-          <Property Name="rem_isk_tarif" Type="varchar" MaxLength="30" />
-          <Property Name="tiptarif" Type="varchar" MaxLength="10" />
-          <Property Name="dogovor_kl_kl" Type="varchar" MaxLength="50" />
-          <Property Name="cod_st_sort_kont" Type="char" MaxLength="6" />
-          <Property Name="cod_plat" Type="char" MaxLength="8" />
-          <Property Name="name_plat" Type="varchar" MaxLength="140" />
-          <Property Name="nod_plat" Type="smallint" />
-          <Property Name="type_doc" Type="int" />
-          <Property Name="vid_vag_pf" Type="smallint" />
-          <Property Name="container_train" Type="smallint" />
-          <Property Name="cod_tip_tar" Type="int" />
-          <Property Name="pl_provoz" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_pl_provoz" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_pl_prov" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_dsb" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_pl_dsb" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_all" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_pr_ot" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_prov_ot" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_prib_tranzit" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pl_ot_tran" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="pr_nds_pl_provoz" Type="int" />
-          <Property Name="pr_nds_dsb" Type="int" />
-          <Property Name="k_usr_br" Type="numeric" Precision="18" Scale="8" />
-          <Property Name="k_rur_br" Type="numeric" Precision="18" Scale="8" />
-          <Property Name="tp_stavka" Type="numeric" Precision="18" Scale="4" />
-          <Property Name="g8_1" Type="varchar" MaxLength="125" />
-          <Property Name="adr_kl_1000" Type="varchar" MaxLength="200" />
-          <Property Name="fio_kl_1000" Type="varchar" MaxLength="200" />
-          <Property Name="ves_one_places" Type="numeric" Precision="18" Scale="3" />
-          <Property Name="vidkoforrr" Type="int" />
-          <Property Name="extract_passport" Type="bit" />
-          <Property Name="stan_izlom0" Type="char" MaxLength="6" />
-          <Property Name="stan_izlom1" Type="char" MaxLength="6" />
-          <Property Name="stan_izlom2" Type="char" MaxLength="6" />
-          <Property Name="kof_tp" Type="numeric" Precision="7" Scale="4" />
-          <Property Name="nds_tp" Type="numeric" Precision="7" Scale="4" />
-          <Property Name="g8_stik" Type="varchar" MaxLength="50" />
-          <Property Name="pogr_ves" Type="numeric" Precision="18" Scale="6" />
-          <Property Name="save_dispatcher_g20" Type="bit" />
-          <Property Name="num_doc_reforwarding" Type="char" MaxLength="8" />
-          <Property Name="stan_transfer" Type="char" MaxLength="6" />
-          <Property Name="rate_divide_scales" Type="smallint" />
-          <Property Name="rem_vid_ras" Type="varchar" MaxLength="200" />
-          <Property Name="rem_skidki" Type="varchar" MaxLength="200" />
-          <Property Name="skidka" Type="smallint" />
-          <Property Name="kof_skid" Type="numeric" Precision="18" Scale="4" />
-          <Property Name="pr_external_work" Type="int" />
-          <Property Name="adr_otpr" Type="varchar" MaxLength="250" />
-          <Property Name="adr_pol" Type="varchar" MaxLength="250" />
-          <Property Name="nam_otpr" Type="varchar" MaxLength="140" />
-          <Property Name="nam_pol" Type="varchar" MaxLength="140" />
-          <Property Name="fio_tk" Type="varchar" MaxLength="15" />
-          <Property Name="id_plant" Type="char" MaxLength="36" />
-          <Property Name="class_dan" Type="char" MaxLength="3" />
-          <Property Name="num_oon" Type="smallint" />
-          <Property Name="num_dan_kart" Type="smallint" />
-          <Property Name="id_mes_plan" Type="int" />
-          <Property Name="return_empty_vag" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="nds_return_empty" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="prib_return_empty" Type="numeric" Precision="18" Scale="2" />
-          <Property Name="eid" Type="bigint" />
-          <Property Name="eid_zag" Type="bigint" />
-          <Property Name="cim_nam_otpr" Type="varchar" MaxLength="255" />
-          <Property Name="cim_adr_otpr" Type="varchar" MaxLength="200" />
-          <Property Name="cim_nam_pol" Type="varchar" MaxLength="255" />
-          <Property Name="cim_adr_pol" Type="varchar" MaxLength="200" />
-          <Property Name="cim_num_dog_exporter" Type="varchar" MaxLength="60" />
-          <Property Name="cim_app_doc" Type="varchar" MaxLength="600" />
-          <Property Name="cim_inter_code_station" Type="char" MaxLength="6" />
-          <Property Name="cim_code_country" Type="smallint" />
-          <Property Name="cim_place_reception" Type="varchar" MaxLength="250" />
-          <Property Name="cim_is_app_smgs" Type="bit" />
-          <Property Name="cim_transhipment" Type="varchar" MaxLength="200" />
-          <Property Name="cim_carrierStatement" Type="varchar" MaxLength="200" />
-          <Property Name="cim_place_delivery" Type="varchar" MaxLength="255" />
-          <Property Name="cim_other_carriers" Type="varchar" MaxLength="200" />
-          <Property Name="cim_contract_carrier" Type="varchar" MaxLength="200" />
-          <Property Name="cim_routes" Type="varchar" MaxLength="1000" />
-          <Property Name="cim_g6" Type="varchar" MaxLength="20" />
-          <Property Name="cim_g14_1" Type="char" MaxLength="2" />
-          <Property Name="cim_g14_2" Type="varchar" MaxLength="20" />
-          <Property Name="cim_g18Line" Type="varchar" MaxLength="24" />
-          <Property Name="cim_g18Per" Type="varchar" MaxLength="24" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_pam' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_pam">
-          <Key>
-            <PropertyRef Name="id_ved" />
-          </Key>
-          <Property Name="id_ved" Type="int" Nullable="false" />
-          <Property Name="id_ved_dbf" Type="char" MaxLength="11" />
-          <Property Name="kodls" Type="char" MaxLength="2" />
-          <Property Name="nved" Type="char" MaxLength="6" />
-          <Property Name="dved" Type="datetime" />
-          <Property Name="dzakr" Type="datetime" />
-          <Property Name="kodkl" Type="char" MaxLength="6" />
-          <Property Name="ndog" Type="varchar" MaxLength="20" />
-          <Property Name="r_oba" Type="numeric" Precision="18" Scale="3" />
-          <Property Name="pr_put" Type="smallint" />
-          <Property Name="put" Type="char" MaxLength="6" />
-          <Property Name="pr_lok" Type="smallint" />
-          <Property Name="pr_lokf" Type="smallint" />
-          <Property Name="prlokub" Type="smallint" />
-          <Property Name="pr_razg" Type="smallint" />
-          <Property Name="nkrt" Type="char" MaxLength="6" />
-          <Property Name="id_kart" Type="int" />
-          <Property Name="n_tab" Type="smallint" />
-          <Property Name="v_ob" Type="smallint" />
-          <Property Name="nper" Type="char" MaxLength="3" />
-          <Property Name="state" Type="int" />
-          <Property Name="pr_external_work" Type="int" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="v_pam_vag">
-          <Key>
-            <PropertyRef Name="id_vag" />
-            <PropertyRef Name="id_ved" />
-          </Key>
-          <Property Name="id_vag" Type="int" Nullable="false" />
-          <Property Name="id_ved" Type="int" Nullable="false" />
-          <Property Name="npam" Type="char" MaxLength="5" />
-          <Property Name="npp" Type="smallint" />
-          <Property Name="nomvag" Type="char" MaxLength="8" />
-          <Property Name="sob_s" Type="char" MaxLength="2" />
-          <Property Name="sob_v" Type="smallint" />
-          <Property Name="sogl" Type="char" MaxLength="1" />
-          <Property Name="tipvag" Type="smallint" />
-          <Property Name="kodgr" Type="char" MaxLength="6" />
-          <Property Name="kodop" Type="smallint" />
-          <Property Name="d_pod" Type="datetime" />
-          <Property Name="d_vig" Type="datetime" />
-          <Property Name="d_ok" Type="datetime" />
-          <Property Name="d_ub" Type="datetime" />
-          <Property Name="t_man" Type="int" />
-          <Property Name="t_nor" Type="int" />
-          <Property Name="t_dop" Type="int" />
-          <Property Name="krat" Type="numeric" Precision="18" Scale="3" />
-          <Property Name="prim" Type="varchar" MaxLength="77" />
-          <Property Name="prob" Type="int" />
-          <Property Name="prsvnor" Type="int" />
-          <Property Name="id_otpr1" Type="int" />
-          <Property Name="id_otpr2" Type="int" />
-          <Property Name="no_plat_podach" Type="int" />
-        </EntityType>
-        <EntityContainer Name="OBDEntitiesStoreContainer">
-          <EntitySet Name="v_02_podhod" EntityType="Self.v_02_podhod" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_02_podhod].[n_vag] AS [n_vag], 
-    [v_02_podhod].[pr_kach] AS [pr_kach], 
-    [v_02_podhod].[ks] AS [ks], 
-    [v_02_podhod].[roliki] AS [roliki], 
-    [v_02_podhod].[massa_t] AS [massa_t], 
-    [v_02_podhod].[st_nazn] AS [st_nazn], 
-    [v_02_podhod].[kod_etsng] AS [kod_etsng], 
-    [v_02_podhod].[kod_pol] AS [kod_pol], 
-    [v_02_podhod].[os_ot1] AS [os_ot1], 
-    [v_02_podhod].[os_ot2] AS [os_ot2], 
-    [v_02_podhod].[os_ot3] AS [os_ot3], 
-    [v_02_podhod].[kol_plomb] AS [kol_plomb], 
-    [v_02_podhod].[kont_gr] AS [kont_gr], 
-    [v_02_podhod].[kont_por] AS [kont_por], 
-    [v_02_podhod].[kod_stik] AS [kod_stik], 
-    [v_02_podhod].[prim] AS [prim], 
-    [v_02_podhod].[date_oper_v] AS [date_oper_v], 
-    [v_02_podhod].[it_stfor] AS [it_stfor], 
-    [v_02_podhod].[it_npp] AS [it_npp], 
-    [v_02_podhod].[it_stnaz] AS [it_stnaz], 
-    [v_02_podhod].[oper] AS [oper], 
-    [v_02_podhod].[kod_stan_oper] AS [kod_stan_oper], 
-    [v_02_podhod].[date_oper_t] AS [date_oper_t], 
-    [v_02_podhod].[sroch_voz] AS [sroch_voz], 
-    [v_02_podhod].[pr_v] AS [pr_v], 
-    [v_02_podhod].[pr_sobst] AS [pr_sobst], 
-    [v_02_podhod].[cod_algng] AS [cod_algng], 
-    [v_02_podhod].[n_otpr] AS [n_otpr], 
-    [v_02_podhod].[n_kont] AS [n_kont]
-    FROM [dbo].[v_02_podhod] AS [v_02_podhod]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_akt" EntityType="Self.v_akt" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_akt].[id] AS [id], 
-    [v_akt].[kodls] AS [kodls], 
-    [v_akt].[nakt] AS [nakt], 
-    [v_akt].[dakt] AS [dakt], 
-    [v_akt].[kodkl] AS [kodkl], 
-    [v_akt].[nkrt] AS [nkrt], 
-    [v_akt].[id_kart] AS [id_kart], 
-    [v_akt].[state] AS [state], 
-    [v_akt].[pr_external_work] AS [pr_external_work]
-    FROM [dbo].[v_akt] AS [v_akt]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_akt_vag" EntityType="Self.v_akt_vag" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_akt_vag].[id] AS [id], 
-    [v_akt_vag].[id_akt] AS [id_akt], 
-    [v_akt_vag].[nomvag] AS [nomvag]
-    FROM [dbo].[v_akt_vag] AS [v_akt_vag]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_kart" EntityType="Self.v_kart" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_kart].[id] AS [id], 
-    [v_kart].[uni_kart] AS [uni_kart], 
-    [v_kart].[num_kart] AS [num_kart], 
-    [v_kart].[cod_stan] AS [cod_stan], 
-    [v_kart].[date_okrt] AS [date_okrt], 
-    [v_kart].[cod_pl] AS [cod_pl], 
-    [v_kart].[nod_pl] AS [nod_pl], 
-    [v_kart].[mfo] AS [mfo], 
-    [v_kart].[rash] AS [rash], 
-    [v_kart].[num_plat_por] AS [num_plat_por], 
-    [v_kart].[date_plat_por] AS [date_plat_por], 
-    [v_kart].[type_kart] AS [type_kart], 
-    [v_kart].[cod_ls] AS [cod_ls], 
-    [v_kart].[num_dogovor] AS [num_dogovor], 
-    [v_kart].[cod_currency] AS [cod_currency], 
-    [v_kart].[summa] AS [summa], 
-    [v_kart].[state] AS [state], 
-    [v_kart].[num_fdu93] AS [num_fdu93], 
-    [v_kart].[date_fdu93] AS [date_fdu93], 
-    [v_kart].[pr_external_work] AS [pr_external_work], 
-    [v_kart].[state_dbf] AS [state_dbf], 
-    [v_kart].[date_zkrt] AS [date_zkrt]
-    FROM [dbo].[v_kart] AS [v_kart]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_nach" EntityType="Self.v_nach" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_nach].[id] AS [id], 
-    [v_nach].[id_kart] AS [id_kart], 
-    [v_nach].[id_otpr] AS [id_otpr], 
-    [v_nach].[uni_otpr] AS [uni_otpr], 
-    [v_nach].[cod_kl] AS [cod_kl], 
-    [v_nach].[nod_kl] AS [nod_kl], 
-    [v_nach].[type_doc] AS [type_doc], 
-    [v_nach].[oper] AS [oper], 
-    [v_nach].[cod_sbor] AS [cod_sbor], 
-    [v_nach].[date_raskr] AS [date_raskr], 
-    [v_nach].[num_doc] AS [num_doc], 
-    [v_nach].[cena] AS [cena], 
-    [v_nach].[kol] AS [kol], 
-    [v_nach].[summa] AS [summa], 
-    [v_nach].[nds] AS [nds], 
-    [v_nach].[cod_currency] AS [cod_currency], 
-    [v_nach].[num_kart_sd] AS [num_kart_sd], 
-    [v_nach].[textm] AS [textm], 
-    [v_nach].[id_ed] AS [id_ed]
-    FROM [dbo].[v_nach] AS [v_nach]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_o_v" EntityType="Self.v_o_v" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_o_v].[id] AS [id], 
-    [v_o_v].[id_otpr] AS [id_otpr], 
-    [v_o_v].[n_vag] AS [n_vag], 
-    [v_o_v].[prov] AS [prov], 
-    [v_o_v].[texn] AS [texn], 
-    [v_o_v].[massa] AS [massa], 
-    [v_o_v].[prim] AS [prim], 
-    [v_o_v].[pr_zam] AS [pr_zam], 
-    [v_o_v].[cod_vidot] AS [cod_vidot], 
-    [v_o_v].[ves_n_ob] AS [ves_n_ob], 
-    [v_o_v].[n_sx] AS [n_sx], 
-    [v_o_v].[npp] AS [npp], 
-    [v_o_v].[n_vag_p] AS [n_vag_p], 
-    [v_o_v].[pr_v_k] AS [pr_v_k], 
-    [v_o_v].[cod_gruz_old] AS [cod_gruz_old], 
-    [v_o_v].[sobs] AS [sobs], 
-    [v_o_v].[cod_negab] AS [cod_negab], 
-    [v_o_v].[poluchatel] AS [poluchatel], 
-    [v_o_v].[nom_scheme1] AS [nom_scheme1], 
-    [v_o_v].[nom_scheme2] AS [nom_scheme2], 
-    [v_o_v].[n_ob_in_tara] AS [n_ob_in_tara], 
-    [v_o_v].[cod_stan_nazn] AS [cod_stan_nazn], 
-    [v_o_v].[proveren_tara] AS [proveren_tara], 
-    [v_o_v].[pl_v] AS [pl_v], 
-    [v_o_v].[pl_prov] AS [pl_prov], 
-    [v_o_v].[nds_pl_v] AS [nds_pl_v], 
-    [v_o_v].[nds_pl_prov] AS [nds_pl_prov], 
-    [v_o_v].[pl_pereadr_prib] AS [pl_pereadr_prib], 
-    [v_o_v].[pl_pereadr_prov_prib] AS [pl_pereadr_prov_prib], 
-    [v_o_v].[ndspl_pereadr_prib] AS [ndspl_pereadr_prib], 
-    [v_o_v].[ndspl_pereadr_prov_prib] AS [ndspl_pereadr_prov_prib], 
-    [v_o_v].[pl_otpr] AS [pl_otpr], 
-    [v_o_v].[pl_prov_otpr] AS [pl_prov_otpr], 
-    [v_o_v].[pl_pereadr] AS [pl_pereadr], 
-    [v_o_v].[pl_pereadr_prov] AS [pl_pereadr_prov], 
-    [v_o_v].[ndspl_pereadr] AS [ndspl_pereadr], 
-    [v_o_v].[ndspl_pereadr_prov] AS [ndspl_pereadr_prov], 
-    [v_o_v].[poniz_kof_tp] AS [poniz_kof_tp], 
-    [v_o_v].[pr_skid] AS [pr_skid], 
-    [v_o_v].[num_tel_is_tar] AS [num_tel_is_tar], 
-    [v_o_v].[kol_vag_metan] AS [kol_vag_metan], 
-    [v_o_v].[is_print] AS [is_print], 
-    [v_o_v].[kof_skid] AS [kof_skid], 
-    [v_o_v].[is_skid] AS [is_skid]
-    FROM [dbo].[v_o_v] AS [v_o_v]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_OPER_ASUS" EntityType="Self.v_OPER_ASUS" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_OPER_ASUS].[id] AS [id], 
-    [v_OPER_ASUS].[obj_id] AS [obj_id], 
-    [v_OPER_ASUS].[id_vag] AS [id_vag], 
-    [v_OPER_ASUS].[cod_oper] AS [cod_oper], 
-    [v_OPER_ASUS].[time_oper] AS [time_oper], 
-    [v_OPER_ASUS].[plase_oper] AS [plase_oper], 
-    [v_OPER_ASUS].[ord_num] AS [ord_num], 
-    [v_OPER_ASUS].[in_vgn] AS [in_vgn], 
-    [v_OPER_ASUS].[cod_sbs] AS [cod_sbs], 
-    [v_OPER_ASUS].[ves_gruz] AS [ves_gruz], 
-    [v_OPER_ASUS].[st_destn] AS [st_destn], 
-    [v_OPER_ASUS].[pnt_targt] AS [pnt_targt], 
-    [v_OPER_ASUS].[pnt_destn] AS [pnt_destn], 
-    [v_OPER_ASUS].[cod_gruz] AS [cod_gruz], 
-    [v_OPER_ASUS].[cod_grpl] AS [cod_grpl], 
-    [v_OPER_ASUS].[grpd_v] AS [grpd_v], 
-    [v_OPER_ASUS].[plomb] AS [plomb], 
-    [v_OPER_ASUS].[primech] AS [primech], 
-    [v_OPER_ASUS].[state] AS [state], 
-    [v_OPER_ASUS].[proc_state] AS [proc_state]
-    FROM [dbo].[v_OPER_ASUS] AS [v_OPER_ASUS]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_otpr" EntityType="Self.v_otpr" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_otpr].[id] AS [id], 
-    [v_otpr].[state] AS [state], 
-    [v_otpr].[n_visas] AS [n_visas], 
-    [v_otpr].[num_zag] AS [num_zag], 
-    [v_otpr].[uni_otpr] AS [uni_otpr], 
-    [v_otpr].[stan_oper] AS [stan_oper], 
-    [v_otpr].[oper] AS [oper], 
-    [v_otpr].[date_oper] AS [date_oper], 
-    [v_otpr].[n_otpr] AS [n_otpr], 
-    [v_otpr].[vid_doc] AS [vid_doc], 
-    [v_otpr].[cod_vidot] AS [cod_vidot], 
-    [v_otpr].[cod_v_soob] AS [cod_v_soob], 
-    [v_otpr].[skor] AS [skor], 
-    [v_otpr].[date_p] AS [date_p], 
-    [v_otpr].[date_o] AS [date_o], 
-    [v_otpr].[cod_st_otpr] AS [cod_st_otpr], 
-    [v_otpr].[cod_coun_otpr] AS [cod_coun_otpr], 
-    [v_otpr].[cod_kl_otpr] AS [cod_kl_otpr], 
-    [v_otpr].[nod_kl_otpr] AS [nod_kl_otpr], 
-    [v_otpr].[cod_st_nazn] AS [cod_st_nazn], 
-    [v_otpr].[cod_coun_nazn] AS [cod_coun_nazn], 
-    [v_otpr].[cod_klient_pol] AS [cod_klient_pol], 
-    [v_otpr].[nod_kl_pol] AS [nod_kl_pol], 
-    [v_otpr].[rast_bel] AS [rast_bel], 
-    [v_otpr].[cod_currency] AS [cod_currency], 
-    [v_otpr].[cod_o_mas] AS [cod_o_mas], 
-    [v_otpr].[pogr] AS [pogr], 
-    [v_otpr].[paragr] AS [paragr], 
-    [v_otpr].[glava] AS [glava], 
-    [v_otpr].[g6] AS [g6], 
-    [v_otpr].[cena] AS [cena], 
-    [v_otpr].[shema] AS [shema], 
-    [v_otpr].[plata] AS [plata], 
-    [v_otpr].[rod_ps] AS [rod_ps], 
-    [v_otpr].[cod_vidras] AS [cod_vidras], 
-    [v_otpr].[cod_vidrab] AS [cod_vidrab], 
-    [v_otpr].[g4] AS [g4], 
-    [v_otpr].[g16] AS [g16], 
-    [v_otpr].[codrsd] AS [codrsd], 
-    [v_otpr].[g8] AS [g8], 
-    [v_otpr].[g91] AS [g91], 
-    [v_otpr].[cod_adm_o] AS [cod_adm_o], 
-    [v_otpr].[cod_adm_n] AS [cod_adm_n], 
-    [v_otpr].[date_dostav] AS [date_dostav], 
-    [v_otpr].[massa_rasch] AS [massa_rasch], 
-    [v_otpr].[g5] AS [g5], 
-    [v_otpr].[g11] AS [g11], 
-    [v_otpr].[g18] AS [g18], 
-    [v_otpr].[g19] AS [g19], 
-    [v_otpr].[g20] AS [g20], 
-    [v_otpr].[g26] AS [g26], 
-    [v_otpr].[g1] AS [g1], 
-    [v_otpr].[cod_tvk_etsng] AS [cod_tvk_etsng], 
-    [v_otpr].[cod_tvk_algng] AS [cod_tvk_algng], 
-    [v_otpr].[massa_otpr] AS [massa_otpr], 
-    [v_otpr].[cod_upak] AS [cod_upak], 
-    [v_otpr].[tvg_k_mest] AS [tvg_k_mest], 
-    [v_otpr].[tvg_tara] AS [tvg_tara], 
-    [v_otpr].[tvk_zn_otpr] AS [tvk_zn_otpr], 
-    [v_otpr].[rem_isk_tarif] AS [rem_isk_tarif], 
-    [v_otpr].[tiptarif] AS [tiptarif], 
-    [v_otpr].[dogovor_kl_kl] AS [dogovor_kl_kl], 
-    [v_otpr].[cod_st_sort_kont] AS [cod_st_sort_kont], 
-    [v_otpr].[cod_plat] AS [cod_plat], 
-    [v_otpr].[name_plat] AS [name_plat], 
-    [v_otpr].[nod_plat] AS [nod_plat], 
-    [v_otpr].[type_doc] AS [type_doc], 
-    [v_otpr].[vid_vag_pf] AS [vid_vag_pf], 
-    [v_otpr].[container_train] AS [container_train], 
-    [v_otpr].[cod_tip_tar] AS [cod_tip_tar], 
-    [v_otpr].[pl_provoz] AS [pl_provoz], 
-    [v_otpr].[nds_pl_provoz] AS [nds_pl_provoz], 
-    [v_otpr].[pl_prov] AS [pl_prov], 
-    [v_otpr].[nds_pl_prov] AS [nds_pl_prov], 
-    [v_otpr].[pl_dsb] AS [pl_dsb], 
-    [v_otpr].[nds_pl_dsb] AS [nds_pl_dsb], 
-    [v_otpr].[pl_all] AS [pl_all], 
-    [v_otpr].[pl_pr_ot] AS [pl_pr_ot], 
-    [v_otpr].[pl_prov_ot] AS [pl_prov_ot], 
-    [v_otpr].[pl_prib_tranzit] AS [pl_prib_tranzit], 
-    [v_otpr].[pl_ot_tran] AS [pl_ot_tran], 
-    [v_otpr].[pr_nds_pl_provoz] AS [pr_nds_pl_provoz], 
-    [v_otpr].[pr_nds_dsb] AS [pr_nds_dsb], 
-    [v_otpr].[k_usr_br] AS [k_usr_br], 
-    [v_otpr].[k_rur_br] AS [k_rur_br], 
-    [v_otpr].[tp_stavka] AS [tp_stavka], 
-    [v_otpr].[g8_1] AS [g8_1], 
-    [v_otpr].[adr_kl_1000] AS [adr_kl_1000], 
-    [v_otpr].[fio_kl_1000] AS [fio_kl_1000], 
-    [v_otpr].[ves_one_places] AS [ves_one_places], 
-    [v_otpr].[vidkoforrr] AS [vidkoforrr], 
-    [v_otpr].[extract_passport] AS [extract_passport], 
-    [v_otpr].[stan_izlom0] AS [stan_izlom0], 
-    [v_otpr].[stan_izlom1] AS [stan_izlom1], 
-    [v_otpr].[stan_izlom2] AS [stan_izlom2], 
-    [v_otpr].[kof_tp] AS [kof_tp], 
-    [v_otpr].[nds_tp] AS [nds_tp], 
-    [v_otpr].[g8_stik] AS [g8_stik], 
-    [v_otpr].[pogr_ves] AS [pogr_ves], 
-    [v_otpr].[save_dispatcher_g20] AS [save_dispatcher_g20], 
-    [v_otpr].[num_doc_reforwarding] AS [num_doc_reforwarding], 
-    [v_otpr].[stan_transfer] AS [stan_transfer], 
-    [v_otpr].[rate_divide_scales] AS [rate_divide_scales], 
-    [v_otpr].[rem_vid_ras] AS [rem_vid_ras], 
-    [v_otpr].[rem_skidki] AS [rem_skidki], 
-    [v_otpr].[skidka] AS [skidka], 
-    [v_otpr].[kof_skid] AS [kof_skid], 
-    [v_otpr].[pr_external_work] AS [pr_external_work], 
-    [v_otpr].[adr_otpr] AS [adr_otpr], 
-    [v_otpr].[adr_pol] AS [adr_pol], 
-    [v_otpr].[nam_otpr] AS [nam_otpr], 
-    [v_otpr].[nam_pol] AS [nam_pol], 
-    [v_otpr].[fio_tk] AS [fio_tk], 
-    [v_otpr].[id_plant] AS [id_plant], 
-    [v_otpr].[class_dan] AS [class_dan], 
-    [v_otpr].[num_oon] AS [num_oon], 
-    [v_otpr].[num_dan_kart] AS [num_dan_kart], 
-    [v_otpr].[id_mes_plan] AS [id_mes_plan], 
-    [v_otpr].[return_empty_vag] AS [return_empty_vag], 
-    [v_otpr].[nds_return_empty] AS [nds_return_empty], 
-    [v_otpr].[prib_return_empty] AS [prib_return_empty], 
-    [v_otpr].[eid] AS [eid], 
-    [v_otpr].[eid_zag] AS [eid_zag], 
-    [v_otpr].[cim_nam_otpr] AS [cim_nam_otpr], 
-    [v_otpr].[cim_adr_otpr] AS [cim_adr_otpr], 
-    [v_otpr].[cim_nam_pol] AS [cim_nam_pol], 
-    [v_otpr].[cim_adr_pol] AS [cim_adr_pol], 
-    [v_otpr].[cim_num_dog_exporter] AS [cim_num_dog_exporter], 
-    [v_otpr].[cim_app_doc] AS [cim_app_doc], 
-    [v_otpr].[cim_inter_code_station] AS [cim_inter_code_station], 
-    [v_otpr].[cim_code_country] AS [cim_code_country], 
-    [v_otpr].[cim_place_reception] AS [cim_place_reception], 
-    [v_otpr].[cim_is_app_smgs] AS [cim_is_app_smgs], 
-    [v_otpr].[cim_transhipment] AS [cim_transhipment], 
-    [v_otpr].[cim_carrierStatement] AS [cim_carrierStatement], 
-    [v_otpr].[cim_place_delivery] AS [cim_place_delivery], 
-    [v_otpr].[cim_other_carriers] AS [cim_other_carriers], 
-    [v_otpr].[cim_contract_carrier] AS [cim_contract_carrier], 
-    [v_otpr].[cim_routes] AS [cim_routes], 
-    [v_otpr].[cim_g6] AS [cim_g6], 
-    [v_otpr].[cim_g14_1] AS [cim_g14_1], 
-    [v_otpr].[cim_g14_2] AS [cim_g14_2], 
-    [v_otpr].[cim_g18Line] AS [cim_g18Line], 
-    [v_otpr].[cim_g18Per] AS [cim_g18Per]
-    FROM [dbo].[v_otpr] AS [v_otpr]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_pam" EntityType="Self.v_pam" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_pam].[id_ved] AS [id_ved], 
-    [v_pam].[id_ved_dbf] AS [id_ved_dbf], 
-    [v_pam].[kodls] AS [kodls], 
-    [v_pam].[nved] AS [nved], 
-    [v_pam].[dved] AS [dved], 
-    [v_pam].[dzakr] AS [dzakr], 
-    [v_pam].[kodkl] AS [kodkl], 
-    [v_pam].[ndog] AS [ndog], 
-    [v_pam].[r_oba] AS [r_oba], 
-    [v_pam].[pr_put] AS [pr_put], 
-    [v_pam].[put] AS [put], 
-    [v_pam].[pr_lok] AS [pr_lok], 
-    [v_pam].[pr_lokf] AS [pr_lokf], 
-    [v_pam].[prlokub] AS [prlokub], 
-    [v_pam].[pr_razg] AS [pr_razg], 
-    [v_pam].[nkrt] AS [nkrt], 
-    [v_pam].[id_kart] AS [id_kart], 
-    [v_pam].[n_tab] AS [n_tab], 
-    [v_pam].[v_ob] AS [v_ob], 
-    [v_pam].[nper] AS [nper], 
-    [v_pam].[state] AS [state], 
-    [v_pam].[pr_external_work] AS [pr_external_work]
-    FROM [dbo].[v_pam] AS [v_pam]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="v_pam_vag" EntityType="Self.v_pam_vag" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [v_pam_vag].[id_vag] AS [id_vag], 
-    [v_pam_vag].[id_ved] AS [id_ved], 
-    [v_pam_vag].[npam] AS [npam], 
-    [v_pam_vag].[npp] AS [npp], 
-    [v_pam_vag].[nomvag] AS [nomvag], 
-    [v_pam_vag].[sob_s] AS [sob_s], 
-    [v_pam_vag].[sob_v] AS [sob_v], 
-    [v_pam_vag].[sogl] AS [sogl], 
-    [v_pam_vag].[tipvag] AS [tipvag], 
-    [v_pam_vag].[kodgr] AS [kodgr], 
-    [v_pam_vag].[kodop] AS [kodop], 
-    [v_pam_vag].[d_pod] AS [d_pod], 
-    [v_pam_vag].[d_vig] AS [d_vig], 
-    [v_pam_vag].[d_ok] AS [d_ok], 
-    [v_pam_vag].[d_ub] AS [d_ub], 
-    [v_pam_vag].[t_man] AS [t_man], 
-    [v_pam_vag].[t_nor] AS [t_nor], 
-    [v_pam_vag].[t_dop] AS [t_dop], 
-    [v_pam_vag].[krat] AS [krat], 
-    [v_pam_vag].[prim] AS [prim], 
-    [v_pam_vag].[prob] AS [prob], 
-    [v_pam_vag].[prsvnor] AS [prsvnor], 
-    [v_pam_vag].[id_otpr1] AS [id_otpr1], 
-    [v_pam_vag].[id_otpr2] AS [id_otpr2], 
-    [v_pam_vag].[no_plat_podach] AS [no_plat_podach]
-    FROM [dbo].[v_pam_vag] AS [v_pam_vag]</DefiningQuery>
-          </EntitySet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="OBDModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="OBDModelEntitiesStoreContainer">
+    <EntitySet Name="v_karts" EntityType="OBDModelEntities.Store.v_karts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_nachs" EntityType="OBDModelEntities.Store.v_nachs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_o_vs" EntityType="OBDModelEntities.Store.v_o_vs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_OPER_ASUSs" EntityType="OBDModelEntities.Store.v_OPER_ASUSs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_otprs" EntityType="OBDModelEntities.Store.v_otprs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_pams" EntityType="OBDModelEntities.Store.v_pams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_pam_vags" EntityType="OBDModelEntities.Store.v_pam_vags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_akts" EntityType="OBDModelEntities.Store.v_akts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_akt_vags" EntityType="OBDModelEntities.Store.v_akt_vags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="v_02_podhods" EntityType="OBDModelEntities.Store.v_02_podhods" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="v_kartv_nach" Association="OBDModelEntities.Store.v_kartv_nach">
+      <End Role="v_kart" EntitySet="v_karts" />
+      <End Role="v_nach" EntitySet="v_nachs" />
+    </AssociationSet>
+    <AssociationSet Name="v_otprv_o_v" Association="OBDModelEntities.Store.v_otprv_o_v">
+      <End Role="v_otpr" EntitySet="v_otprs" />
+      <End Role="v_o_v" EntitySet="v_o_vs" />
+    </AssociationSet>
+    <AssociationSet Name="v_aktv_akt_vag" Association="OBDModelEntities.Store.v_aktv_akt_vag">
+      <End Role="v_akt" EntitySet="v_akts" />
+      <End Role="v_akt_vag" EntitySet="v_akt_vags" />
+    </AssociationSet>
+    <AssociationSet Name="v_pamv_pam_vag" Association="OBDModelEntities.Store.v_pamv_pam_vag">
+      <End Role="v_pam" EntitySet="v_pams" />
+      <End Role="v_pam_vag" EntitySet="v_pam_vags" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="v_karts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="num_kart" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="date_okrt" Type="datetime" Nullable="true" />
+    <Property Name="cod_pl" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="type_kart" Type="smallint" Nullable="true" />
+    <Property Name="cod_ls" Type="char" Nullable="true" MaxLength="2" />
+    <Property Name="summa" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="state" Type="bigint" Nullable="true" />
+    <Property Name="date_fdu93" Type="datetime" Nullable="true" />
+    <Property Name="date_zkrt" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_nachs">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_kart" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_kart" Type="int" Nullable="false" />
+    <Property Name="id_otpr" Type="int" Nullable="true" />
+    <Property Name="cod_kl" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="type_doc" Type="int" Nullable="true" />
+    <Property Name="oper" Type="smallint" Nullable="true" />
+    <Property Name="cod_sbor" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="date_raskr" Type="datetime" Nullable="true" />
+    <Property Name="num_doc" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="cena" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="kol" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="summa" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="nds" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="textm" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="id_ed" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_o_vs">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_otpr" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="id_otpr" Type="int" Nullable="false" />
+    <Property Name="n_vag" Type="varchar" Nullable="true" MaxLength="8" />
+    <Property Name="massa" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_OPER_ASUSs">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" />
+    <Property Name="obj_id" Type="bigint" Nullable="true" />
+    <Property Name="id_vag" Type="bigint" Nullable="true" />
+    <Property Name="cod_oper" Type="char" Nullable="true" MaxLength="2" />
+    <Property Name="time_oper" Type="datetime" Nullable="true" />
+    <Property Name="in_vgn" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="ves_gruz" Type="decimal" Nullable="true" Precision="12" Scale="3" />
+    <Property Name="plomb" Type="smallint" Nullable="true" />
+    <Property Name="primech" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="cod_grpl" Type="char" Nullable="true" MaxLength="4" />
+    <Property Name="cod_gruz" Type="char" Nullable="true" MaxLength="6" />
+  </EntityType>
+  <EntityType Name="v_otprs">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="state" Type="int" Nullable="true" />
+    <Property Name="oper" Type="smallint" Nullable="true" />
+    <Property Name="date_oper" Type="datetime" Nullable="true" />
+    <Property Name="n_otpr" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="cod_kl_otpr" Type="char" Nullable="true" MaxLength="20" />
+    <Property Name="cod_klient_pol" Type="char" Nullable="true" MaxLength="20" />
+    <Property Name="g6" Type="varchar" Nullable="true" MaxLength="300" />
+    <Property Name="g4" Type="varchar(max)" Nullable="true" />
+    <Property Name="g16" Type="char" Nullable="true" MaxLength="34" />
+    <Property Name="g8" Type="varchar" Nullable="true" MaxLength="350" />
+    <Property Name="g11" Type="varchar(max)" Nullable="true" />
+    <Property Name="cod_tvk_etsng" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="cod_tvk_algng" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="massa_otpr" Type="int" Nullable="true" />
+    <Property Name="name_plat" Type="varchar" Nullable="true" MaxLength="140" />
+    <Property Name="type_doc" Type="int" Nullable="true" />
+    <Property Name="adr_otpr" Type="varchar" Nullable="true" MaxLength="250" />
+    <Property Name="adr_pol" Type="varchar" Nullable="true" MaxLength="250" />
+    <Property Name="nam_otpr" Type="varchar" Nullable="true" MaxLength="140" />
+    <Property Name="nam_pol" Type="varchar" Nullable="true" MaxLength="140" />
+    <Property Name="fio_tk" Type="varchar" Nullable="true" MaxLength="15" />
+    <Property Name="eid" Type="bigint" Nullable="true" />
+    <Property Name="eid_zag" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_pams">
+    <Key>
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="nved" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="dved" Type="datetime" Nullable="true" />
+    <Property Name="dzakr" Type="datetime" Nullable="true" />
+    <Property Name="kodkl" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="nkrt" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="id_kart" Type="int" Nullable="true" />
+    <Property Name="state" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_pam_vags">
+    <Key>
+      <PropertyRef Name="id_vag" />
+      <PropertyRef Name="id_ved" />
+    </Key>
+    <Property Name="id_vag" Type="int" Nullable="false" />
+    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="nomvag" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="kodgr" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="kodop" Type="smallint" Nullable="true" />
+    <Property Name="d_pod" Type="datetime" Nullable="true" />
+    <Property Name="d_ub" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="v_akts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="kodls" Type="char" Nullable="true" MaxLength="2" />
+    <Property Name="dakt" Type="datetime" Nullable="true" />
+    <Property Name="kodkl" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="nkrt" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="id_kart" Type="int" Nullable="true" />
+    <Property Name="state" Type="int" Nullable="true" />
+    <Property Name="nakt" Type="char" Nullable="true" MaxLength="6" />
+  </EntityType>
+  <EntityType Name="v_akt_vags">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="id_akt" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id_akt" Type="int" Nullable="false" />
+    <Property Name="nomvag" Type="char" Nullable="true" MaxLength="12" />
+  </EntityType>
+  <EntityType Name="v_02_podhods">
+    <Key>
+      <PropertyRef Name="n_vag" />
+    </Key>
+    <Property Name="n_vag" Type="char" Nullable="false" MaxLength="8" />
+    <Property Name="massa_t" Type="int" Nullable="true" />
+    <Property Name="st_nazn" Type="char" Nullable="true" MaxLength="5" />
+    <Property Name="kod_etsng" Type="char" Nullable="true" MaxLength="5" />
+    <Property Name="kod_pol" Type="char" Nullable="true" MaxLength="4" />
+    <Property Name="prim" Type="char" Nullable="true" MaxLength="6" />
+    <Property Name="date_oper_v" Type="datetime" Nullable="true" />
+    <Property Name="oper" Type="smallint" Nullable="true" />
+    <Property Name="n_otpr" Type="char" Nullable="true" MaxLength="8" />
+    <Property Name="pr_v" Type="smallint" Nullable="false" />
+    <Property Name="kod_stan_oper" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date_oper_t" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="v_kartv_nach">
+    <End Role="v_kart" Type="OBDModelEntities.Store.v_karts" Multiplicity="1" />
+    <End Role="v_nach" Type="OBDModelEntities.Store.v_nachs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_kart">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_nach">
+        <PropertyRef Name="id_kart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="v_otprv_o_v">
+    <End Role="v_otpr" Type="OBDModelEntities.Store.v_otprs" Multiplicity="1" />
+    <End Role="v_o_v" Type="OBDModelEntities.Store.v_o_vs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_otpr">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_o_v">
+        <PropertyRef Name="id_otpr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="v_aktv_akt_vag">
+    <End Role="v_akt" Type="OBDModelEntities.Store.v_akts" Multiplicity="1" />
+    <End Role="v_akt_vag" Type="OBDModelEntities.Store.v_akt_vags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_akt">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="v_akt_vag">
+        <PropertyRef Name="id_akt" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="v_pamv_pam_vag">
+    <End Role="v_pam" Type="OBDModelEntities.Store.v_pams" Multiplicity="1" />
+    <End Role="v_pam_vag" Type="OBDModelEntities.Store.v_pam_vags" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="v_pam">
+        <PropertyRef Name="id_ved" />
+      </Principal>
+      <Dependent Role="v_pam_vag">
+        <PropertyRef Name="id_ved" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="OBDModelEntities" Alias="Self" annotation:UseStrongSpatialTypes="false"
@@ -1054,173 +496,172 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="OBDEntitiesStoreContainer" CdmEntityContainer="OBDEntities">
-          <EntitySetMapping Name="v_karts">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_kart">
-              <MappingFragment StoreEntitySet="v_kart">
-                <ScalarProperty Name="date_zkrt" ColumnName="date_zkrt" />
-                <ScalarProperty Name="date_fdu93" ColumnName="date_fdu93" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="summa" ColumnName="summa" />
-                <ScalarProperty Name="cod_ls" ColumnName="cod_ls" />
-                <ScalarProperty Name="type_kart" ColumnName="type_kart" />
-                <ScalarProperty Name="cod_pl" ColumnName="cod_pl" />
-                <ScalarProperty Name="date_okrt" ColumnName="date_okrt" />
-                <ScalarProperty Name="num_kart" ColumnName="num_kart" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_nachs">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_nach">
-              <MappingFragment StoreEntitySet="v_nach">
-                <ScalarProperty Name="id_ed" ColumnName="id_ed" />
-                <ScalarProperty Name="textm" ColumnName="textm" />
-                <ScalarProperty Name="nds" ColumnName="nds" />
-                <ScalarProperty Name="summa" ColumnName="summa" />
-                <ScalarProperty Name="kol" ColumnName="kol" />
-                <ScalarProperty Name="cena" ColumnName="cena" />
-                <ScalarProperty Name="num_doc" ColumnName="num_doc" />
-                <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
-                <ScalarProperty Name="cod_sbor" ColumnName="cod_sbor" />
-                <ScalarProperty Name="oper" ColumnName="oper" />
-                <ScalarProperty Name="type_doc" ColumnName="type_doc" />
-                <ScalarProperty Name="cod_kl" ColumnName="cod_kl" />
-                <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
-                <ScalarProperty Name="id_kart" ColumnName="id_kart" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_o_vs">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_o_v">
-              <MappingFragment StoreEntitySet="v_o_v">
-                <ScalarProperty Name="massa" ColumnName="massa" />
-                <ScalarProperty Name="n_vag" ColumnName="n_vag" />
-                <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_OPER_ASUSs">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_OPER_ASUS">
-              <MappingFragment StoreEntitySet="v_OPER_ASUS">
-                <ScalarProperty Name="cod_gruz" ColumnName="cod_gruz" />
-                <ScalarProperty Name="cod_grpl" ColumnName="cod_grpl" />
-                <ScalarProperty Name="primech" ColumnName="primech" />
-                <ScalarProperty Name="plomb" ColumnName="plomb" />
-                <ScalarProperty Name="ves_gruz" ColumnName="ves_gruz" />
-                <ScalarProperty Name="in_vgn" ColumnName="in_vgn" />
-                <ScalarProperty Name="time_oper" ColumnName="time_oper" />
-                <ScalarProperty Name="cod_oper" ColumnName="cod_oper" />
-                <ScalarProperty Name="id_vag" ColumnName="id_vag" />
-                <ScalarProperty Name="obj_id" ColumnName="obj_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_otprs">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_otpr">
-              <MappingFragment StoreEntitySet="v_otpr">
-                <ScalarProperty Name="eid_zag" ColumnName="eid_zag" />
-                <ScalarProperty Name="eid" ColumnName="eid" />
-                <ScalarProperty Name="fio_tk" ColumnName="fio_tk" />
-                <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
-                <ScalarProperty Name="nam_otpr" ColumnName="nam_otpr" />
-                <ScalarProperty Name="adr_pol" ColumnName="adr_pol" />
-                <ScalarProperty Name="adr_otpr" ColumnName="adr_otpr" />
-                <ScalarProperty Name="type_doc" ColumnName="type_doc" />
-                <ScalarProperty Name="name_plat" ColumnName="name_plat" />
-                <ScalarProperty Name="massa_otpr" ColumnName="massa_otpr" />
-                <ScalarProperty Name="cod_tvk_algng" ColumnName="cod_tvk_algng" />
-                <ScalarProperty Name="cod_tvk_etsng" ColumnName="cod_tvk_etsng" />
-                <ScalarProperty Name="g11" ColumnName="g11" />
-                <ScalarProperty Name="g8" ColumnName="g8" />
-                <ScalarProperty Name="g16" ColumnName="g16" />
-                <ScalarProperty Name="g4" ColumnName="g4" />
-                <ScalarProperty Name="g6" ColumnName="g6" />
-                <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
-                <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
-                <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
-                <ScalarProperty Name="date_oper" ColumnName="date_oper" />
-                <ScalarProperty Name="oper" ColumnName="oper" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_pams">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_pam">
-              <MappingFragment StoreEntitySet="v_pam">
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="id_kart" ColumnName="id_kart" />
-                <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-                <ScalarProperty Name="kodkl" ColumnName="kodkl" />
-                <ScalarProperty Name="dzakr" ColumnName="dzakr" />
-                <ScalarProperty Name="dved" ColumnName="dved" />
-                <ScalarProperty Name="nved" ColumnName="nved" />
-                <ScalarProperty Name="id_ved" ColumnName="id_ved" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_pam_vags">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_pam_vag">
-              <MappingFragment StoreEntitySet="v_pam_vag">
-                <ScalarProperty Name="d_ub" ColumnName="d_ub" />
-                <ScalarProperty Name="d_pod" ColumnName="d_pod" />
-                <ScalarProperty Name="kodop" ColumnName="kodop" />
-                <ScalarProperty Name="kodgr" ColumnName="kodgr" />
-                <ScalarProperty Name="nomvag" ColumnName="nomvag" />
-                <ScalarProperty Name="id_ved" ColumnName="id_ved" />
-                <ScalarProperty Name="id_vag" ColumnName="id_vag" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_akts">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_akt">
-              <MappingFragment StoreEntitySet="v_akt">
-                <ScalarProperty Name="nakt" ColumnName="nakt" />
-                <ScalarProperty Name="state" ColumnName="state" />
-                <ScalarProperty Name="id_kart" ColumnName="id_kart" />
-                <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-                <ScalarProperty Name="kodkl" ColumnName="kodkl" />
-                <ScalarProperty Name="dakt" ColumnName="dakt" />
-                <ScalarProperty Name="kodls" ColumnName="kodls" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_akt_vags">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_akt_vag">
-              <MappingFragment StoreEntitySet="v_akt_vag">
-                <ScalarProperty Name="nomvag" ColumnName="nomvag" />
-                <ScalarProperty Name="id_akt" ColumnName="id_akt" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="v_02_podhods">
-            <EntityTypeMapping TypeName="OBDModelEntities.v_02_podhod">
-              <MappingFragment StoreEntitySet="v_02_podhod">
-                <ScalarProperty Name="date_oper_t" ColumnName="date_oper_t" />
-                <ScalarProperty Name="kod_stan_oper" ColumnName="kod_stan_oper" />
-                <ScalarProperty Name="pr_v" ColumnName="pr_v" />
-                <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
-                <ScalarProperty Name="oper" ColumnName="oper" />
-                <ScalarProperty Name="date_oper_v" ColumnName="date_oper_v" />
-                <ScalarProperty Name="prim" ColumnName="prim" />
-                <ScalarProperty Name="kod_pol" ColumnName="kod_pol" />
-                <ScalarProperty Name="kod_etsng" ColumnName="kod_etsng" />
-                <ScalarProperty Name="st_nazn" ColumnName="st_nazn" />
-                <ScalarProperty Name="massa_t" ColumnName="massa_t" />
-                <ScalarProperty Name="n_vag" ColumnName="n_vag" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OBDModelEntitiesStoreContainer" CdmEntityContainer="OBDEntities">
+    <EntitySetMapping Name="v_karts">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_kart)">
+        <MappingFragment StoreEntitySet="v_karts">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="num_kart" ColumnName="num_kart" />
+          <ScalarProperty Name="date_okrt" ColumnName="date_okrt" />
+          <ScalarProperty Name="cod_pl" ColumnName="cod_pl" />
+          <ScalarProperty Name="type_kart" ColumnName="type_kart" />
+          <ScalarProperty Name="cod_ls" ColumnName="cod_ls" />
+          <ScalarProperty Name="summa" ColumnName="summa" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="date_fdu93" ColumnName="date_fdu93" />
+          <ScalarProperty Name="date_zkrt" ColumnName="date_zkrt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_nachs">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_nach)">
+        <MappingFragment StoreEntitySet="v_nachs">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="cod_kl" ColumnName="cod_kl" />
+          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="cod_sbor" ColumnName="cod_sbor" />
+          <ScalarProperty Name="date_raskr" ColumnName="date_raskr" />
+          <ScalarProperty Name="num_doc" ColumnName="num_doc" />
+          <ScalarProperty Name="cena" ColumnName="cena" />
+          <ScalarProperty Name="kol" ColumnName="kol" />
+          <ScalarProperty Name="summa" ColumnName="summa" />
+          <ScalarProperty Name="nds" ColumnName="nds" />
+          <ScalarProperty Name="textm" ColumnName="textm" />
+          <ScalarProperty Name="id_ed" ColumnName="id_ed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_o_vs">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_o_v)">
+        <MappingFragment StoreEntitySet="v_o_vs">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="n_vag" ColumnName="n_vag" />
+          <ScalarProperty Name="massa" ColumnName="massa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_OPER_ASUSs">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_OPER_ASUS)">
+        <MappingFragment StoreEntitySet="v_OPER_ASUSs">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="obj_id" ColumnName="obj_id" />
+          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="cod_oper" ColumnName="cod_oper" />
+          <ScalarProperty Name="time_oper" ColumnName="time_oper" />
+          <ScalarProperty Name="in_vgn" ColumnName="in_vgn" />
+          <ScalarProperty Name="ves_gruz" ColumnName="ves_gruz" />
+          <ScalarProperty Name="plomb" ColumnName="plomb" />
+          <ScalarProperty Name="primech" ColumnName="primech" />
+          <ScalarProperty Name="cod_grpl" ColumnName="cod_grpl" />
+          <ScalarProperty Name="cod_gruz" ColumnName="cod_gruz" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_otprs">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_otpr)">
+        <MappingFragment StoreEntitySet="v_otprs">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="date_oper" ColumnName="date_oper" />
+          <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+          <ScalarProperty Name="cod_kl_otpr" ColumnName="cod_kl_otpr" />
+          <ScalarProperty Name="cod_klient_pol" ColumnName="cod_klient_pol" />
+          <ScalarProperty Name="g6" ColumnName="g6" />
+          <ScalarProperty Name="g4" ColumnName="g4" />
+          <ScalarProperty Name="g16" ColumnName="g16" />
+          <ScalarProperty Name="g8" ColumnName="g8" />
+          <ScalarProperty Name="g11" ColumnName="g11" />
+          <ScalarProperty Name="cod_tvk_etsng" ColumnName="cod_tvk_etsng" />
+          <ScalarProperty Name="cod_tvk_algng" ColumnName="cod_tvk_algng" />
+          <ScalarProperty Name="massa_otpr" ColumnName="massa_otpr" />
+          <ScalarProperty Name="name_plat" ColumnName="name_plat" />
+          <ScalarProperty Name="type_doc" ColumnName="type_doc" />
+          <ScalarProperty Name="adr_otpr" ColumnName="adr_otpr" />
+          <ScalarProperty Name="adr_pol" ColumnName="adr_pol" />
+          <ScalarProperty Name="nam_otpr" ColumnName="nam_otpr" />
+          <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
+          <ScalarProperty Name="fio_tk" ColumnName="fio_tk" />
+          <ScalarProperty Name="eid" ColumnName="eid" />
+          <ScalarProperty Name="eid_zag" ColumnName="eid_zag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_pams">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_pam)">
+        <MappingFragment StoreEntitySet="v_pams">
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="nved" ColumnName="nved" />
+          <ScalarProperty Name="dved" ColumnName="dved" />
+          <ScalarProperty Name="dzakr" ColumnName="dzakr" />
+          <ScalarProperty Name="kodkl" ColumnName="kodkl" />
+          <ScalarProperty Name="nkrt" ColumnName="nkrt" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="state" ColumnName="state" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_pam_vags">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_pam_vag)">
+        <MappingFragment StoreEntitySet="v_pam_vags">
+          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="nomvag" ColumnName="nomvag" />
+          <ScalarProperty Name="kodgr" ColumnName="kodgr" />
+          <ScalarProperty Name="kodop" ColumnName="kodop" />
+          <ScalarProperty Name="d_pod" ColumnName="d_pod" />
+          <ScalarProperty Name="d_ub" ColumnName="d_ub" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_akts">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_akt)">
+        <MappingFragment StoreEntitySet="v_akts">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="kodls" ColumnName="kodls" />
+          <ScalarProperty Name="dakt" ColumnName="dakt" />
+          <ScalarProperty Name="kodkl" ColumnName="kodkl" />
+          <ScalarProperty Name="nkrt" ColumnName="nkrt" />
+          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="nakt" ColumnName="nakt" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_akt_vags">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_akt_vag)">
+        <MappingFragment StoreEntitySet="v_akt_vags">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_akt" ColumnName="id_akt" />
+          <ScalarProperty Name="nomvag" ColumnName="nomvag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="v_02_podhods">
+      <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_02_podhod)">
+        <MappingFragment StoreEntitySet="v_02_podhods">
+          <ScalarProperty Name="n_vag" ColumnName="n_vag" />
+          <ScalarProperty Name="massa_t" ColumnName="massa_t" />
+          <ScalarProperty Name="st_nazn" ColumnName="st_nazn" />
+          <ScalarProperty Name="kod_etsng" ColumnName="kod_etsng" />
+          <ScalarProperty Name="kod_pol" ColumnName="kod_pol" />
+          <ScalarProperty Name="prim" ColumnName="prim" />
+          <ScalarProperty Name="date_oper_v" ColumnName="date_oper_v" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="n_otpr" ColumnName="n_otpr" />
+          <ScalarProperty Name="pr_v" ColumnName="pr_v" />
+          <ScalarProperty Name="kod_stan_oper" ColumnName="kod_stan_oper" />
+          <ScalarProperty Name="date_oper_t" ColumnName="date_oper_t" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -1234,7 +675,7 @@ warning 6002: The table/view 'OBD.dbo.v_pam_vag' does not have a primary key def
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

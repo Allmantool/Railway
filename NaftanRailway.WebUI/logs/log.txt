@@ -24,3 +24,9 @@ DEBUG 2017-09-11 08:25:27,002 43707ms BussinesEngage         GetTreeStructure   
 DEBUG 2017-09-11 08:49:05,684 51949ms BussinesEngage         GetTreeStructure   - Exception: The underlying provider failed on Open.
 DEBUG 2017-09-11 09:10:26,441 51034ms BussinesEngage         GetTreeStructure   - Exception: The underlying provider failed on Open.
 DEBUG 2017-09-11 10:30:32,699 279257ms BussinesEngage         GetTreeStructure   - Exception: Неправильный синтаксис около конструкции ")".
+DEBUG 2017-10-04 09:49:07,680 28765ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.
+DEBUG 2017-10-04 09:49:08,122 29207ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.
+DEBUG 2017-10-04 09:49:27,561 48646ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.
+DEBUG 2017-10-04 09:49:27,863 48948ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.
+DEBUG 2017-10-04 10:08:04,507 83942ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.
+DEBUG 2017-10-04 10:08:04,780 84214ms AuthorizationEngage    AdminPrincipal     - Исключение при попытке работы с AD: The server could not be contacted.

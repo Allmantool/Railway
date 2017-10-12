@@ -1,6 +1,5 @@
 ﻿/// <reference path="../jquery-1.11.3.js" />
 /// <reference path="../jquery-2.2.4.js" />
-/// <reference path="../jquery-3.4.2.debug.js" />
 'use strict';
 //namespace
 var appAdmin = window.appAdmin || {};
@@ -65,6 +64,7 @@ appAdmin.Engage = (function ($, ko, db, hub) {
                 self.message("");
             }
         }
+
         console.log('user Offline');
     }
 

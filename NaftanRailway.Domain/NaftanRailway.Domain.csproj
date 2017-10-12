@@ -63,9 +63,8 @@
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
-    <Reference Include="MoreLinq, Version=2.6.20831.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.2.7.0\lib\net40\MoreLinq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MoreLinq, Version=2.8.21218.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.8.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -280,6 +279,7 @@
       <DependentUpon>ModelMesplan.edmx</DependentUpon>
       <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.sql" />
     <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ModelMesplan.edmx</DependentUpon>
@@ -290,6 +290,7 @@
       <DependentUpon>OBDModel.edmx</DependentUpon>
       <LastGenOutput>OBDModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Concrete\DbContexts\OBD\OBDModel.edmx.sql" />
     <Content Include="Concrete\DbContexts\OBD\OBDModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>OBDModel.edmx</DependentUpon>
@@ -300,6 +301,7 @@
       <DependentUpon>ORCModel.edmx</DependentUpon>
       <LastGenOutput>ORCModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Concrete\DbContexts\ORC\ORCModel.edmx.sql" />
     <Content Include="Concrete\DbContexts\ORC\ORCModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ORCModel.edmx</DependentUpon>
