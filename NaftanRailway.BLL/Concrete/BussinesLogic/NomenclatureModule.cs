@@ -125,9 +125,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
 
             using (_engage.Uow = new UnitOfWork()) {
-                krt_Naftan chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                var chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
 
-                //Cascading delete rows in  krt_Naftan_orc_sapod (set up on .odmx model)
+                //Cascading delete rows in  krt_Naftan_orc_sapod (set up on .edmx model)
                 _engage.Uow.Repository<krt_Naftan>().Delete(chRecord);
 
                 _engage.Uow.Save();

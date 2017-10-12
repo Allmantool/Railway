@@ -320,7 +320,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_orc_sbor_orc_krt">
-          <End Role="orc_krt" Type="Self.orc_krt" Multiplicity="1" />
+          <End Role="orc_krt" Type="Self.orc_krt" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="orc_sbor" Type="Self.orc_sbor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="orc_krt">
