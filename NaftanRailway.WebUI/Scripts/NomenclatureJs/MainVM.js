@@ -1,12 +1,12 @@
-﻿/// <reference path="../../jquery-1.11.3.js" />
-/// <reference path="../../knockout-3.4.0.debug.js" />
-/// <reference path="../../knockout-3.4.0.js" />
-/// <reference path="../../knockout.mapping-latest.js" />
-/// <reference path="../../knockout.mapping-latest.debug.js" />
-/// <reference path="~/Scripts/NomenclatureJs/DataContext.js" />
-/// <reference path="~/Scripts/NomenclatureJs/Models/ScrollModel.js" />
-/// <reference path="~/Scripts/moment.js" />
-/// <reference path="~/Scripts/knockout-3.4.2.debug.js" />
+﻿/// <reference path="../jquery-1.11.3.js" />
+/// <reference path="../knockout-3.4.2.debug.js" />
+/// <reference path="../knockout-3.4.2.js" />
+/// <reference path="../knockout.mapping-latest.js" />
+/// <reference path="../knockout.mapping-latest.debug.js" />
+/// <reference path="../NomenclatureJs/DataContext.js" />
+/// <reference path="../NomenclatureJs/Models/ScrollModel.js" />
+/// <reference path="../moment.js" />
+/// <reference path="../knockout-3.4.2.debug.js" />
 "use strict";
 
 //namespace
