@@ -121,6 +121,5 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="excludeFieds"></param>
         /// <param name="enableDetectChanges"></param>
         void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true);
-
     }
 }
