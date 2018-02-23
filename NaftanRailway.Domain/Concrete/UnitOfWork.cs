@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
@@ -76,13 +77,13 @@ namespace NaftanRailway.Domain.Concrete {
 
         public void Save() {
             //TransactionScore score = new TransactionScore(); //old style
-            using (var transaction = ActiveContext.Database.BeginTransaction()) {
+            using (var transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot)) {
                 try {
                     //ActiveContext.ChangeTracker.DetectChanges();
                     ActiveContext.SaveChanges();
                     transaction.Commit();
                 } catch (DbUpdateConcurrencyException ex) {
-                    Console.WriteLine("Optimistic Concurrency exception occurred. Transaction will be rollbacked. Message: " + ex.Message);
+                    Console.WriteLine("Optimistic Concurrency exception occurred. Transaction will be roll backed. Message: " + ex.Message);
                     transaction.Rollback();
 
                     throw new Exception("Error occurred in save method (Uow)");
