@@ -15,7 +15,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IGeneralRepository<T> Repository<T>() where T : class;
+        IGeneralRepository<T> GetRepository<T>() where T : class;
 
         /// <summary>
         ///     Save method

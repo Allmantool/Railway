@@ -230,9 +230,9 @@ namespace NaftanRailway.Domain.Concrete {
             list.ForEach(operations);
         }
 
-        protected override void DisposeCore() {
-            if (ActiveDbContext != null)
-                ActiveDbContext.Dispose();
+        protected override void DisposeCore()
+        {
+            ActiveDbContext?.Dispose();
         }
     }
 }

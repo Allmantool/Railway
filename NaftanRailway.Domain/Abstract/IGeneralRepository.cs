@@ -13,16 +13,16 @@ namespace NaftanRailway.Domain.Abstract {
         DbContext ActiveDbContext { get; set; }
 
         /// <summary>
-        ///     Get all or filter result
+        /// Get all or filter result.
         /// </summary>
-        /// <param name="predicate">Func = IEnumarable, Expression = IQueryable</param>
+        /// <param name="predicate"> Func = IEnumarable, Expression = IQueryable</param>
         /// <param name="enableDetectChanges"></param>
         /// <param name="enableTracking"></param>
         /// <returns></returns>
         IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
 
         /// <summary>
-        ///     Get single entity
+        /// Get single entity.
         /// </summary>
         /// <param name="predicate"></param>
         /// <param name="enableDetectChanges"></param>

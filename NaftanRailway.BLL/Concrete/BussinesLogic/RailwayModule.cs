@@ -182,9 +182,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     //type_doc 2 =>one transaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
                     //in memory because not all method support entity to sql => more easy do it in memory
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-                                         join vp in _engage.Uow.Repository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
-                                         join vn in _engage.Uow.Repository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                         join vp in _engage.Uow.GetRepository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
+                                         join vn in _engage.Uow.GetRepository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on vp.id_kart equals vn.id_kart
                                          select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x => new krt_Guild18 {
@@ -201,7 +201,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
                     //065
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.Repository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false) join vn in _engage.Uow.Repository<v_nach>()
+                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false) join vn in _engage.Uow.GetRepository<v_nach>()
                                          .Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
                                              new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
                                          select new { vpv.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
@@ -220,9 +220,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
                     ////type_doc 3 =>one transaction (one request per one dbcontext)
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vav in _engage.Uow.Repository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-                                         join va in _engage.Uow.Repository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
-                                         join vn in _engage.Uow.Repository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                        result.AddRange((from vav in _engage.Uow.GetRepository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
+                                         join va in _engage.Uow.GetRepository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
+                                         join vn in _engage.Uow.GetRepository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on va.id_kart equals vn.id_kart
                                          select new { va.id, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x =>
@@ -278,13 +278,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 using (_engage.Uow = new UnitOfWork()) {
                     //для динамического соединения
-                    var sapodConn = "[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
-                    var orcConn = "[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
+                    var sapodConn = "[" + _engage.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
+                    var orcConn = "[" + _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
                     var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => $"'{x.n_vag}'")) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
-                    var result = _engage.Uow.Repository<krt_Guild18>().ActiveDbContext.Database.SqlQuery<krt_Guild18>(@"
+                    var result = _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.SqlQuery<krt_Guild18>(@"
                     WITH SubResutl AS (
                         /*Doc from Invoices*/
                         SELECT @reportPeriod AS [reportPeriod],     vn.[id] AS [idSapod],     null AS [idScroll], null AS [scrollColl],
@@ -358,10 +358,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         //Add or Delete
                         foreach (var entity in result) {
                             var e = entity;
-                            var item = _engage.Uow.Repository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
+                            var item = _engage.Uow.GetRepository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
                             entity.id = (item == null) ? 0 : item.id;
-                            _engage.Uow.Repository<krt_Guild18>().Merge(entity);
+                            _engage.Uow.GetRepository<krt_Guild18>().Merge(entity);
                         }
 
                         _engage.Uow.Save();
@@ -379,7 +379,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         public bool DeleteInvoice(DateTime reportPeriod, int? idInvoice) {
             using (_engage.Uow = new UnitOfWork()) {
                 try {
-                    _engage.Uow.Repository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false);
+                    _engage.Uow.GetRepository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false);
                 } catch (Exception) {
                     return false;
                 }
@@ -421,7 +421,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             } else {
                 //one transaction (one request per one dbcontext)
                 using (_engage.Uow = new UnitOfWork()) {
-                    result = (from sh in delivery join e in _engage.Uow.Repository<etsng>().Get_all(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
+                    result = (from sh in delivery join e in _engage.Uow.GetRepository<etsng>().Get_all(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
                               select new ShippingInfoLineDTO() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
