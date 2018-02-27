@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
@@ -77,7 +78,6 @@ namespace NaftanRailway.Domain.Concrete
 
         public void Save()
         {
-            // TransactionScore score = new TransactionScore(); //old style
             using (var transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot))
             {
                 try
@@ -89,10 +89,16 @@ namespace NaftanRailway.Domain.Concrete
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
-                    Console.WriteLine("Optimistic concurrency exception occurred. Transaction will be roll backed. Message: " + ex.Message);
+                    var entry = ex.Entries.Single();
+                    var clientEntry = entry.Entity;
+                    var databaseEntry = entry.GetDatabaseValues().ToObject();
+
                     transaction.Rollback();
 
-                    throw new Exception("Error occurred during saving (Unit of work)");
+                    throw new OptimisticConcurrencyException("Optimistic concurrency exception occurred during saving operation (Unit of work)." +
+                                                             $"Transaction was rolled backed. Message: {ex.Message}." +
+                                                             $"Database type: {databaseEntry}." +
+                                                             $"Client type: {clientEntry}.");
                 }
             }
         }

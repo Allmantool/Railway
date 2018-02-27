@@ -8,9 +8,6 @@ using NaftanRailway.BLL.Abstract;
 using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
-    /// <summary>
-    /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
-    /// </summary>
     public sealed class BussinesEngage : Disposable, IBussinesEngage {
         public ILog Log { get; }
         public IUnitOfWork Uow { get; set; }

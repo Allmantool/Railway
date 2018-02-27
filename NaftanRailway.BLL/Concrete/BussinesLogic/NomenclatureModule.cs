@@ -85,21 +85,25 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="msgError"></param>
         /// <param name="numberScroll"></param>
         public IEnumerable<ScrollLineDTO> AddKrtNaftan(int numberScroll, int reportYear, out string msgError) {
-            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear)
+                .Select(x => x.KEYKRT)
+                .SingleOrDefault();
+
             using (_engage.Uow = new UnitOfWork()) {
                 try {
-                    SqlParameter parm = new SqlParameter() {
+                    var parm = new SqlParameter() {
                         ParameterName = "@ErrId",
                         SqlDbType = SqlDbType.TinyInt,
                         Direction = ParameterDirection.Output
                     };
+
                     //set active context => depend on type of entity
                     var db = _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                     //Confirmed
-                    krt_Naftan chRecord = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    var chRecord = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == key);
                     //_engage.Uow.Repository<krt_Naftan>().Edit(chRecord);
 
                     //Uow.Repository<krt_Naftan>().Edit(chRecord);
@@ -109,7 +113,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
 
                     msgError = "";
-                    //write state
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
 
                     _engage.Uow.Save();
