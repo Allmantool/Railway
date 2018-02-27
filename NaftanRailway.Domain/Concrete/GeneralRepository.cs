@@ -199,6 +199,11 @@ namespace NaftanRailway.Domain.Concrete
             ActiveDbContext.Configuration.AutoDetectChangesEnabled = true;
         }
 
+        public bool Exists(object primaryKey)
+        {
+            return _dbSet.Find(primaryKey) != null;
+        }
+
         public void Delete<TK>(TK key, bool enableDetectChanges = true)
         {
             _dbSet.Remove(Find(key, enableDetectChanges));

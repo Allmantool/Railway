@@ -7,6 +7,7 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
@@ -19,6 +20,8 @@ namespace NaftanRailway.Domain.Concrete
     {
         public DbContext[] Contexts { get; }
         public DbContext ActiveContext { get; set; }
+
+        private DbContextTransaction _transaction = null;
 
         private Dictionary<Type, IDisposable> _mapRepositories;
 
@@ -78,38 +81,50 @@ namespace NaftanRailway.Domain.Concrete
 
         public void Save()
         {
-            using (var transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot))
+            try
             {
-                try
-                {
-                    ActiveContext.ChangeTracker.DetectChanges();
-                    ActiveContext.SaveChanges();
+                ActiveContext.ChangeTracker.DetectChanges();
+                ActiveContext.SaveChanges();
 
-                    transaction.Commit();
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    var entry = ex.Entries.Single();
-                    var clientEntry = entry.Entity;
-                    var databaseEntry = entry.GetDatabaseValues().ToObject();
+                _transaction.Commit();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                var clientEntry = entry.Entity;
+                var databaseEntry = entry.GetDatabaseValues().ToObject();
 
-                    transaction.Rollback();
+                _transaction.Rollback();
 
-                    throw new OptimisticConcurrencyException("Optimistic concurrency exception occurred during saving operation (Unit of work)." +
-                                                             $"Transaction was rolled backed. Message: {ex.Message}." +
-                                                             $"Database type: {databaseEntry}." +
-                                                             $"Client type: {clientEntry}.");
-                }
+                throw new OptimisticConcurrencyException(
+                    "Optimistic concurrency exception occurred during saving operation (Unit of work)." +
+                    $"Transaction was rolled backed. Message: {ex.Message}." +
+                    $"Database type: {databaseEntry}." +
+                    $"Client type: {clientEntry}.");
+            }
+            finally
+            {
+                _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
         }
 
         public async Task SaveAsync()
         {
-            using (var transaction = ActiveContext.Database.BeginTransaction())
+            try
             {
-                await ActiveContext.SaveChangesAsync();
-                transaction.Commit();
+                await ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
+            catch (Exception ex)
+            {
+                _transaction.Rollback();
+
+                throw new OptimisticConcurrencyException(
+                    "Optimistic concurrency exception occurred during saving async operation (Unit of work)." +
+                    $"Message: {ex.Message}");
+            }
+
+
+            _transaction.Commit();
         }
 
         /// <summary>
@@ -127,6 +142,8 @@ namespace NaftanRailway.Domain.Concrete
             }
 
             _mapRepositories = new Dictionary<Type, IDisposable>();
+
+            _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
         private void ContextLog()
@@ -142,6 +159,7 @@ namespace NaftanRailway.Domain.Concrete
         protected override void DisposeCore()
         {
             ActiveContext?.Dispose();
+            Dispose();
         }
     }
 }

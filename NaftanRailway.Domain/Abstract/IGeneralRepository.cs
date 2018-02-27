@@ -114,12 +114,14 @@ namespace NaftanRailway.Domain.Abstract {
         void Merge(IEnumerable<T> entityColl, bool enableDetectChanges = true);
 
         /// <summary>
-        ///     Merge on predicate
+        /// Merge on predicate.
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="predicate"></param>
         /// <param name="excludeFieds"></param>
         /// <param name="enableDetectChanges"></param>
         void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true);
+
+        bool Exists(object primaryKey);
     }
 }
