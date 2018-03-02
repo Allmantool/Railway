@@ -8,9 +8,6 @@ using NaftanRailway.BLL.Abstract;
 using log4net;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
-    /// <summary>
-    /// Класс отвечающий за формирование безнесс объектов (содержащий бизнес логику приложения)
-    /// </summary>
     public sealed class BussinesEngage : Disposable, IBussinesEngage {
         public ILog Log { get; }
         public IUnitOfWork Uow { get; set; }
@@ -24,13 +21,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// </summary>
         public IEnumerable<T> GetTable<T, TKey>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TKey>> orderPredicate = null, bool caсhe = false, bool tracking = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return (orderPredicate == null) ? Uow.Repository<T>().Get_all(predicate, caсhe, tracking).ToList() : Uow.Repository<T>().Get_all(predicate, caсhe, tracking).OrderByDescending(orderPredicate).ToList();
+                return (orderPredicate == null) ? Uow.GetRepository<T>().Get_all(predicate, caсhe, tracking).ToList() : Uow.GetRepository<T>().Get_all(predicate, caсhe, tracking).OrderByDescending(orderPredicate).ToList();
             }
         }
 
         public long GetCountRows<T>(Expression<Func<T, bool>> predicate = null) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(predicate, false, false).Count();
+                return Uow.GetRepository<T>().Get_all(predicate, false, false).Count();
             }
         }
 
@@ -54,7 +51,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         //}
         public IEnumerable<T> GetSkipRows<T, TKey>(int page, int size, Expression<Func<T, TKey>> orderPredicate, Expression<Func<T, bool>> filterPredicate = null, bool caсhe = false) where T : class {
             using (Uow = new UnitOfWork()) {
-                return Uow.Repository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
+                return Uow.GetRepository<T>().Get_all(filterPredicate, caсhe).OrderByDescending(orderPredicate).Skip((page - 1) * size).Take(size).ToList();
             }
         }
 
@@ -71,7 +68,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             using (Uow = new UnitOfWork()) {
                 IList<IGrouping<TKey, T>> result;
                 try {
-                    result = Uow.Repository<T>().Get_all(filterPredicate, caсhe)
+                    result = Uow.GetRepository<T>().Get_all(filterPredicate, caсhe)
                         .OrderBy(orderPredicate ?? groupPredicate)
                         .GroupBy(groupPredicate)
                         .ToList();

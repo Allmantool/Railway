@@ -1,119 +1,165 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NaftanRailway.Domain.Abstract;
 using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
-namespace NaftanRailway.Domain.Concrete {
-    /*best approach that short live context (using)*/
-    public class UnitOfWork : Disposable, IUnitOfWork {
-        private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
+namespace NaftanRailway.Domain.Concrete
+{
+    public class UnitOfWork : Disposable, IUnitOfWork
+    {
+        public DbContext[] Contexts { get; }
+        public DbContext ActiveContext { get; set; }
 
-        /// <summary>
-        ///     Create UOW per request with requirer dbContexts by default
-        /// </summary>
-        public UnitOfWork() {
-            Contexts = new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
+        private DbContextTransaction _transaction = null;
+
+        private Dictionary<Type, IDisposable> _mapRepositories;
+
+        public UnitOfWork()
+        {
+            Contexts = new DbContext[]
+            {
+                new OBDEntities(),
+                new MesplanEntities(),
+                new ORCEntities()
+            };
             SetUpContext();
         }
 
-        /// <summary>
-        ///     Constructor with specific dbContext
-        /// </summary>
-        /// <param name="context"></param>
-        public UnitOfWork(DbContext context) {
+        public UnitOfWork(DbContext context)
+        {
             ActiveContext = context;
             SetUpContext();
         }
 
-        /// <summary>
-        ///     Ninject (Dependency Injection). Pass a custom set of dbContext
-        /// </summary>
-        /// <param name="contexts"></param>
-        public UnitOfWork(params DbContext[] contexts) {
+        public UnitOfWork(params DbContext[] contexts)
+        {
             Contexts = contexts;// new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
             SetUpContext();
         }
 
-        public DbContext[] Contexts { get; }
-        public DbContext ActiveContext { get; set; }
+        public IGeneralRepository<T> GetRepository<T>() where T : class
+        {
+            if (_mapRepositories.TryGetValue(typeof(T), out var repo))
+            {
+                return repo as IGeneralRepository<T>;
+            }
 
-        /// <summary>
-        ///     Collection repositories
-        ///     Return repositories if it's in collection repositories, if not add in collection with specific dbcontext
-        ///     Definition active dbcontext (depend on type of entity)
-        /// </summary>
-        public IGeneralRepository<T> Repository<T>() where T : class {
-            if (_repositories.Keys.Contains(typeof(T)))
-                return _repositories[typeof(T)] as IGeneralRepository<T>;
-
-            //check exist entity in context(through metadata (reflection) in objectContext)
             if (Contexts != null)
-                foreach (var contextItem in Contexts) {
-                    var metaWorkspace = ((IObjectContextAdapter)contextItem).ObjectContext.MetadataWorkspace;
-                    //reflection (search by name in object metadata)
-                    if (metaWorkspace.GetItems<EntityType>(DataSpace.CSpace).Any(w => w.Name == typeof(T).Name)) {
+            {
+                foreach (var contextItem in Contexts)
+                {
+                    if (((IObjectContextAdapter)contextItem)
+                        .ObjectContext
+                        .MetadataWorkspace
+                        .GetItems<EntityType>(DataSpace.CSpace)
+                        .Any(w => w.Name == typeof(T).Name))
+                    {
                         ActiveContext = contextItem;
-                        /*log for EF6 dbcontext in output window (debug mode)*/
-                        //ActiveContext.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
-                        //ActiveContext.Database.Log = message => Trace.Write(message);
-                        //ActiveContext.Database.Log = (Console.WriteLine);
+                        ContextLog();
+
                         break;
                     }
                 }
-            //add new repositories
-            IGeneralRepository<T> repo = new GeneralRepository<T>(ActiveContext);
-            _repositories.Add(typeof(T), repo);
+            }
 
-            return repo;
+            repo = new GeneralRepository<T>(ActiveContext);
+            _mapRepositories.Add(typeof(T), repo);
+
+            return (IGeneralRepository<T>)repo;
         }
 
-        public void Save() {
-            //TransactionScore score = new TransactionScore(); //old style
-            using (var transaction = ActiveContext.Database.BeginTransaction()) {
-                try {
-                    //ActiveContext.ChangeTracker.DetectChanges();
-                    ActiveContext.SaveChanges();
-                    transaction.Commit();
-                } catch (DbUpdateConcurrencyException ex) {
-                    Console.WriteLine("Optimistic Concurrency exception occurred. Transaction will be rollbacked. Message: " + ex.Message);
-                    transaction.Rollback();
+        public void Save()
+        {
+            try
+            {
+                ActiveContext.ChangeTracker.DetectChanges();
+                ActiveContext.SaveChanges();
 
-                    throw new Exception("Error occurred in save method (Uow)");
-                }
+                _transaction.Commit();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                var clientEntry = entry.Entity;
+                var databaseEntry = entry.GetDatabaseValues().ToObject();
+
+                _transaction.Rollback();
+
+                throw new OptimisticConcurrencyException(
+                    "Optimistic concurrency exception occurred during saving operation (Unit of work)." +
+                    $"Transaction was rolled backed. Message: {ex.Message}." +
+                    $"Database type: {databaseEntry}." +
+                    $"Client type: {clientEntry}.");
+            }
+            finally
+            {
+                _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
         }
 
-        public async Task SaveAsync() {
-            using (var transaction = ActiveContext.Database.BeginTransaction()) {
-                await ActiveContext.SaveChangesAsync();
-
-                transaction.Commit();
+        public async Task SaveAsync()
+        {
+            try
+            {
+                await ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
+            catch (Exception ex)
+            {
+                _transaction.Rollback();
+
+                throw new OptimisticConcurrencyException(
+                    "Optimistic concurrency exception occurred during saving async operation (Unit of work)." +
+                    $"Message: {ex.Message}");
+            }
+
+
+            _transaction.Commit();
         }
 
         /// <summary>
-        ///     Configuration setting of exist contexts
+        /// Configuration setting of exist contexts.
         /// </summary>
         /// <param name="lazyLoading"></param>
         /// <param name="proxy"></param>
-        private void SetUpContext(bool lazyLoading = false, bool proxy = true) {
-            /*Отключает Lazy loading необходим для Json (для сериализации entity to json*/
-            foreach (var item in Contexts) {
+        private void SetUpContext(bool lazyLoading = false, bool proxy = true)
+        {
+            /* Disable Lazy loading (for entity to json) */
+            foreach (var item in Contexts)
+            {
                 item.Configuration.LazyLoadingEnabled = lazyLoading;
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
+
+            _mapRepositories = new Dictionary<Type, IDisposable>();
+
+            _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
-        protected override void DisposeCore() {
+        private void ContextLog()
+        {
             if (ActiveContext != null)
-                ActiveContext.Dispose();
+            {
+                ActiveContext.Database.Log = (s => Debug.WriteLine(s));
+                ActiveContext.Database.Log = message => Trace.Write(message);
+                ActiveContext.Database.Log = (Console.WriteLine);
+            }
+        }
+
+        protected override void DisposeCore()
+        {
+            ActiveContext?.Dispose();
+            Dispose();
         }
     }
 }

@@ -85,21 +85,25 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="msgError"></param>
         /// <param name="numberScroll"></param>
         public IEnumerable<ScrollLineDTO> AddKrtNaftan(int numberScroll, int reportYear, out string msgError) {
-            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
+            var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear)
+                .Select(x => x.KEYKRT)
+                .SingleOrDefault();
+
             using (_engage.Uow = new UnitOfWork()) {
                 try {
-                    SqlParameter parm = new SqlParameter() {
+                    var parm = new SqlParameter() {
                         ParameterName = "@ErrId",
                         SqlDbType = SqlDbType.TinyInt,
                         Direction = ParameterDirection.Output
                     };
+
                     //set active context => depend on type of entity
-                    var db = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
+                    var db = _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().ActiveDbContext.Database;
                     db.CommandTimeout = 120;
                     db.ExecuteSqlCommand(@"EXEC @ErrId = dbo.[sp_fill_krt_Naftan_orc_sapod] @KEYKRT", new SqlParameter("@KEYKRT", key), parm);
 
                     //Confirmed
-                    krt_Naftan chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                    var chRecord = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == key);
                     //_engage.Uow.Repository<krt_Naftan>().Edit(chRecord);
 
                     //Uow.Repository<krt_Naftan>().Edit(chRecord);
@@ -109,7 +113,6 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
 
                     msgError = "";
-                    //write state
                     chRecord.ErrorState = Convert.ToByte((byte)parm.Value);
 
                     _engage.Uow.Save();
@@ -125,10 +128,10 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var key = _engage.GetTable<krt_Naftan, long>(x => x.NKRT == numberScroll && x.DTBUHOTCHET.Year == reportYear).Select(x => x.KEYKRT).First();
 
             using (_engage.Uow = new UnitOfWork()) {
-                var chRecord = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == key);
+                var chRecord = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == key);
 
                 //Cascading delete rows in  krt_Naftan_orc_sapod (set up on .edmx model)
-                _engage.Uow.Repository<krt_Naftan>().Delete(chRecord);
+                _engage.Uow.GetRepository<krt_Naftan>().Delete(chRecord);
 
                 _engage.Uow.Save();
 
@@ -144,7 +147,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
                 try {
 
-                    var db = _engage.Uow.Repository<krt_Naftan>().ActiveDbContext.Database;
+                    var db = _engage.Uow.GetRepository<krt_Naftan>().ActiveDbContext.Database;
                     //underlying provider failed on open async issue
                     db.Connection.Open();
                     db.CommandTimeout = 120;
@@ -171,7 +174,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             using (_engage.Uow = new UnitOfWork()) {
                 try {
                     //add to tracking (for update only change property)
-                    _engage.Uow.Repository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
+                    _engage.Uow.GetRepository<krt_Naftan>().Edit(listRecords, x => x.DTBUHOTCHET = period);
                     _engage.Uow.Save();
                     return Mapper.Map<IEnumerable<ScrollLineDTO>>(listRecords);
                 } catch (Exception) {
@@ -189,8 +192,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             try {
                 using (_engage.Uow = new UnitOfWork()) {
                     //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = _engage.Uow.Repository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
-                    _engage.Uow.Repository<krt_Naftan_orc_sapod>().Edit(itemRow);
+                    var itemRow = _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
+                    _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().Edit(itemRow);
 
                     //update only necessary properties (exist method whole update method)
                     itemRow.nds = charge.nds;
@@ -202,8 +205,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     itemRow.ErrorState = 2;
 
                     //krt_Naftan (check as correction)
-                    var parentRow = _engage.Uow.Repository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
-                    _engage.Uow.Repository<krt_Naftan>().Edit(parentRow);
+                    var parentRow = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
+                    _engage.Uow.GetRepository<krt_Naftan>().Edit(parentRow);
                     //mark as edit
                     parentRow.ErrorState = 2;
 
@@ -546,7 +549,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             try {
                 IList<TreeNode> result;
                 using (_engage.Uow = new UnitOfWork()) {
-                    var dbContext = _engage.Uow.Repository<krt_Naftan_orc_sapod>().ActiveDbContext;
+                    var dbContext = _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().ActiveDbContext;
                     //issue => custom mark for appropriate dbContext. Main reason is we have multiply dbcontext, each for different server
                     //_engage.Uow.Contexts.Where(x => x.Database.Connection.Database == "NSD2").First()
 
