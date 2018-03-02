@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using MoreLinq;
-using NaftanRailway.Domain.Abstract;
-
-namespace NaftanRailway.Domain.Concrete
+﻿namespace NaftanRailway.Domain.Concrete
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+    using MoreLinq;
+    using NaftanRailway.Domain.Abstract;
+
     public class GeneralRepository<T> : Disposable, IGeneralRepository<T> where T : class
     {
         private readonly DbSet<T> _dbSet;
 
         public DbContext ActiveDbContext { get; set; }
 
-        //Set up active DbContext
         public GeneralRepository(DbContext context)
         {
             ActiveDbContext = context;
@@ -34,7 +33,7 @@ namespace NaftanRailway.Domain.Concrete
         /// </param>
         /// <param name="enableTracking"></param>
         /// <returns></returns>
-        public IQueryable<T> Get_all(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)
         {
             /*//sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
@@ -260,7 +259,7 @@ namespace NaftanRailway.Domain.Concrete
             list.ForEach(operations);
         }
 
-        protected override void DisposeCore()
+        protected override void ExtenstionDispose()
         {
             ActiveDbContext?.Dispose();
         }

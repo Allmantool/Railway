@@ -403,7 +403,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             // Do something async here ...
         }
 
-        protected override void DisposeCore() {
+        protected override void ExtenstionDispose() {
             _engage?.Dispose();
         }
 

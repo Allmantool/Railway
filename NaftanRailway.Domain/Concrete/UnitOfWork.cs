@@ -1,56 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Core;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-
-namespace NaftanRailway.Domain.Concrete
+﻿namespace NaftanRailway.Domain.Concrete
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Entity;
+    using System.Data.Entity.Core;
+    using System.Data.Entity.Core.Metadata.Edm;
+    using System.Data.Entity.Infrastructure;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using NaftanRailway.Domain.Abstract;
+    using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+    using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+    using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+
     public class UnitOfWork : Disposable, IUnitOfWork
     {
-        public DbContext[] Contexts { get; }
-        public DbContext ActiveContext { get; set; }
+        private DbContextTransaction transaction = null;
 
-        private DbContextTransaction _transaction = null;
-
-        private Dictionary<Type, IDisposable> _mapRepositories;
+        private Dictionary<Type, IDisposable> mapRepositories;
 
         public UnitOfWork()
         {
-            Contexts = new DbContext[]
+            this.Contexts = new DbContext[]
             {
                 new OBDEntities(),
                 new MesplanEntities(),
                 new ORCEntities()
             };
-            SetUpContext();
+
+            this.SetUpContext();
         }
 
         public UnitOfWork(DbContext context)
         {
-            ActiveContext = context;
-            SetUpContext();
+            this.ActiveContext = context;
+            this.SetUpContext();
         }
 
         public UnitOfWork(params DbContext[] contexts)
         {
-            Contexts = contexts;// new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
-            SetUpContext();
+            this.Contexts = contexts;
+
+            this.SetUpContext();
         }
+
+        public DbContext[] Contexts { get; }
+
+        public DbContext ActiveContext { get; set; }
 
         public IGeneralRepository<T> GetRepository<T>() where T : class
         {
-            if (_mapRepositories.TryGetValue(typeof(T), out var repo))
+            if (this.mapRepositories.TryGetValue(typeof(T), out var repo))
             {
                 return repo as IGeneralRepository<T>;
             }
@@ -65,8 +68,8 @@ namespace NaftanRailway.Domain.Concrete
                         .GetItems<EntityType>(DataSpace.CSpace)
                         .Any(w => w.Name == typeof(T).Name))
                     {
-                        ActiveContext = contextItem;
-                        ContextLog();
+                        this.ActiveContext = contextItem;
+                        this.ContextLog();
 
                         break;
                     }
@@ -74,7 +77,7 @@ namespace NaftanRailway.Domain.Concrete
             }
 
             repo = new GeneralRepository<T>(ActiveContext);
-            _mapRepositories.Add(typeof(T), repo);
+            this.mapRepositories.Add(typeof(T), repo);
 
             return (IGeneralRepository<T>)repo;
         }
@@ -86,7 +89,7 @@ namespace NaftanRailway.Domain.Concrete
                 ActiveContext.ChangeTracker.DetectChanges();
                 ActiveContext.SaveChanges();
 
-                _transaction.Commit();
+                this.transaction.Commit();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -94,7 +97,7 @@ namespace NaftanRailway.Domain.Concrete
                 var clientEntry = entry.Entity;
                 var databaseEntry = entry.GetDatabaseValues().ToObject();
 
-                _transaction.Rollback();
+                this.transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving operation (Unit of work)." +
@@ -104,7 +107,7 @@ namespace NaftanRailway.Domain.Concrete
             }
             finally
             {
-                _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+                this.transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
         }
 
@@ -116,7 +119,7 @@ namespace NaftanRailway.Domain.Concrete
             }
             catch (Exception ex)
             {
-                _transaction.Rollback();
+                this.transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving async operation (Unit of work)." +
@@ -124,7 +127,7 @@ namespace NaftanRailway.Domain.Concrete
             }
 
 
-            _transaction.Commit();
+            this.transaction.Commit();
         }
 
         /// <summary>
@@ -141,9 +144,9 @@ namespace NaftanRailway.Domain.Concrete
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
 
-            _mapRepositories = new Dictionary<Type, IDisposable>();
+            this.mapRepositories = new Dictionary<Type, IDisposable>();
 
-            _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+            this.transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
         private void ContextLog()
@@ -156,7 +159,7 @@ namespace NaftanRailway.Domain.Concrete
             }
         }
 
-        protected override void DisposeCore()
+        protected override void ExtenstionDispose()
         {
             ActiveContext?.Dispose();
             Dispose();
