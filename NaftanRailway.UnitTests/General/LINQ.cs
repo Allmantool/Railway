@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
+using FluentAssertions;
 
 namespace NaftanRailway.UnitTests.General
 {
@@ -30,6 +31,23 @@ namespace NaftanRailway.UnitTests.General
 
             var dests = xdoc.Descendants("Child1");
             Assert.AreEqual(dests.Count(), 2);
+        }
+
+        [TestMethod]
+        public void Delete_IEnumerable()
+        {
+            // Arrange.
+            var enumerableCollection = Enumerable.Range(1, 10);
+
+            // Act.
+            var countAtStart = enumerableCollection.ToList().Count;
+
+            enumerableCollection = enumerableCollection.Where( i => i != 1);
+
+            var countAtEnd = enumerableCollection.ToList().Count;
+
+            // Assert.
+            countAtEnd.Should().BeLessThan(countAtStart);
         }
     }
 }
