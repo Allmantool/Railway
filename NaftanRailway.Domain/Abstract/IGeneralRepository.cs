@@ -5,10 +5,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace NaftanRailway.Domain.Abstract {
-    public interface IGeneralRepository<T> : IDisposable {
+namespace NaftanRailway.Domain.Abstract
+{
+    /// <summary>
+    /// The GeneralRepository interface.
+    /// </summary>
+    /// <typeparam name="T">
+    /// </typeparam>
+    public interface IGeneralRepository<T> : IDisposable
+    {
         /// <summary>
-        ///     Actual working dbContext
+        /// Gets actual working dbContext.
         /// </summary>
         DbContext ActiveDbContext { get; set; }
 
@@ -39,11 +46,11 @@ namespace NaftanRailway.Domain.Abstract {
         /// <summary>
         ///     Add general entity
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">The instance of entity.</param>
         /// <param name="enableDetectChanges">
         ///     Snapshot change detection takes a copy of every entity in the system when they are
         ///     added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to
-        ///     see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is
+        ///     see any changes. This occurs by calling the DetectChanges method. What is important to know about DetectChanges is
         ///     that it has to go through all of your tracked entities each time its called, so the more stuff you have in your
         ///     context the longer it takes to traverse.
         /// </param>
@@ -73,7 +80,7 @@ namespace NaftanRailway.Domain.Abstract {
         /// <param name="enableDetectChanges">
         ///     Snapshot change detection takes a copy of every entity in the system when they are
         ///     added to the Entity Framework tracking graph. Then as entities change each entity is compared to its snapshot to
-        ///     see any changes. This occurs by calling the DetectChanges method. Whats important to know about DetectChanges is
+        ///     see any changes. This occurs by calling the DetectChanges method. What is important to know about DetectChanges is
         ///     that it has to go through all of your tracked entities each time its called, so the more stuff you have in your
         ///     context the longer it takes to traverse.
         /// </param>
