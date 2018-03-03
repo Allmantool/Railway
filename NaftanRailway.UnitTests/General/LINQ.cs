@@ -1,17 +1,17 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Xml.Linq;
-using FluentAssertions;
-
-namespace NaftanRailway.UnitTests.General
+﻿namespace NaftanRailway.UnitTests.General
 {
+    using System.Linq;
+    using System.Xml.Linq;
+    using FluentAssertions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class Linq
     {
         [TestMethod]
         public void Xml()
         {
-            //XElement root = XElement.Load("PurchaseOrders.xml");
+            // XElement root = XElement.Load("PurchaseOrders.xml");
             XElement xdoc = XElement.Parse(@"
                 <Root>  
                   <Child1>  
@@ -40,9 +40,10 @@ namespace NaftanRailway.UnitTests.General
             var enumerableCollection = Enumerable.Range(1, 10);
 
             // Act.
-            var countAtStart = enumerableCollection.ToList().Count;
+            var collection = enumerableCollection.ToList();
+            var countAtStart = collection.ToList().Count;
 
-            enumerableCollection = enumerableCollection.Where( i => i != 1);
+            enumerableCollection = collection.Where( i => i != 1);
 
             var countAtEnd = enumerableCollection.ToList().Count;
 

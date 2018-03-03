@@ -110,14 +110,14 @@
     <Compile Include="General\ADTests.cs" />
     <Compile Include="General\BinaryTest.cs" />
     <Compile Include="General\ClientServicesTests.cs" />
-    <Compile Include="General\HierarchyTree.cs" />
-    <Compile Include="General\Solid.cs" />
+    <Compile Include="General\HierarchyTree\HierarchyTree.cs" />
+    <Compile Include="General\HierarchyTree\TreeExtenstions.cs" />
+    <Compile Include="Nomenclature\UnitTestNomenclature.cs" />
+    <Compile Include="SOLID\Account.cs" />
+    <Compile Include="SOLID\MicroAccount.cs" />
+    <Compile Include="SOLID\Rectangle.cs" />
     <Compile Include="General\StructureTests.cs" />
     <Compile Include="General\LINQ.cs" />
-    <Compile Include="Nomenclature\UnitTestNomenclature .cs" />
-    <Compile Include="Patterns\AbstractFactory.cs" />
-    <Compile Include="Patterns\Builder.cs" />
-    <Compile Include="Patterns\FactoryMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rail\LINQ.cs" />
   </ItemGroup>

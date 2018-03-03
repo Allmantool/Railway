@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text;
-using Newtonsoft.Json;
+﻿namespace NaftanRailway.UnitTests.General {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Newtonsoft.Json;
 
-namespace NaftanRailway.UnitTests.General {
-    /// <summary>
-    /// Summary description for BinaryTest
-    /// </summary>
     [TestClass]
     public class BinaryTest {
         [TestMethod]
