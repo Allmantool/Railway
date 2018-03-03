@@ -51,16 +51,17 @@
 
         public DbContext ActiveContext { get; set; }
 
-        public IGeneralRepository<T> GetRepository<T>() where T : class
+        public IRepository<T> GetRepository<T>()
+            where T : class
         {
             if (this.mapRepositories.TryGetValue(typeof(T), out var repo))
             {
-                return repo as IGeneralRepository<T>;
+                return repo as IRepository<T>;
             }
 
-            if (Contexts != null)
+            if (this.Contexts != null)
             {
-                foreach (var contextItem in Contexts)
+                foreach (var contextItem in this.Contexts)
                 {
                     if (((IObjectContextAdapter)contextItem)
                         .ObjectContext
@@ -76,18 +77,18 @@
                 }
             }
 
-            repo = new GeneralRepository<T>(ActiveContext);
+            repo = new Repository<T>(this.ActiveContext);
             this.mapRepositories.Add(typeof(T), repo);
 
-            return (IGeneralRepository<T>)repo;
+            return (IRepository<T>)repo;
         }
 
         public void Save()
         {
             try
             {
-                ActiveContext.ChangeTracker.DetectChanges();
-                ActiveContext.SaveChanges();
+                this.ActiveContext.ChangeTracker.DetectChanges();
+                this.ActiveContext.SaveChanges();
 
                 this.transaction.Commit();
             }
@@ -107,7 +108,7 @@
             }
             finally
             {
-                this.transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+                this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
         }
 
@@ -115,7 +116,7 @@
         {
             try
             {
-                await ActiveContext.SaveChangesAsync(CancellationToken.None);
+                await this.ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
             catch (Exception ex)
             {
@@ -126,19 +127,19 @@
                     $"Message: {ex.Message}");
             }
 
-
             this.transaction.Commit();
         }
 
-        /// <summary>
-        /// Configuration setting of exist contexts.
-        /// </summary>
-        /// <param name="lazyLoading"></param>
-        /// <param name="proxy"></param>
+        protected override void ExtenstionDispose()
+        {
+            this.ActiveContext?.Dispose();
+            this.Dispose();
+        }
+
         private void SetUpContext(bool lazyLoading = false, bool proxy = true)
         {
             /* Disable Lazy loading (for entity to json) */
-            foreach (var item in Contexts)
+            foreach (var item in this.Contexts)
             {
                 item.Configuration.LazyLoadingEnabled = lazyLoading;
                 item.Configuration.ProxyCreationEnabled = proxy;
@@ -146,23 +147,17 @@
 
             this.mapRepositories = new Dictionary<Type, IDisposable>();
 
-            this.transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+            this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
         private void ContextLog()
         {
-            if (ActiveContext != null)
+            if (this.ActiveContext != null)
             {
-                ActiveContext.Database.Log = (s => Debug.WriteLine(s));
-                ActiveContext.Database.Log = message => Trace.Write(message);
-                ActiveContext.Database.Log = (Console.WriteLine);
+                this.ActiveContext.Database.Log = s => Debug.WriteLine(s);
+                this.ActiveContext.Database.Log = message => Trace.Write(message);
+                this.ActiveContext.Database.Log = Console.WriteLine;
             }
-        }
-
-        protected override void ExtenstionDispose()
-        {
-            ActiveContext?.Dispose();
-            Dispose();
         }
     }
 }

@@ -10,7 +10,7 @@
 
         DbContext[] Contexts { get; }
 
-        IGeneralRepository<T> GetRepository<T>() where T : class;
+        IRepository<T> GetRepository<T>() where T : class;
 
         void Save();
 
