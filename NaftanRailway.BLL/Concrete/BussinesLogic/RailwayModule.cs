@@ -182,9 +182,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     //type_doc 2 =>one transaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
                     //in memory because not all method support entity to sql => more easy do it in memory
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-                                         join vp in _engage.Uow.GetRepository<v_pam>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
-                                         join vn in _engage.Uow.GetRepository<v_nach>().Get_all(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
+                                         join vp in _engage.Uow.GetRepository<v_pam>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
+                                         join vn in _engage.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on vp.id_kart equals vn.id_kart
                                          select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x => new krt_Guild18 {
@@ -201,8 +201,8 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
                     //065
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false) join vn in _engage.Uow.GetRepository<v_nach>()
-                                         .Get_all(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
+                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false) join vn in _engage.Uow.GetRepository<v_nach>()
+                                         .GetAll(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
                                              new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
                                          select new { vpv.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x =>
@@ -220,9 +220,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     }
                     ////type_doc 3 =>one transaction (one request per one dbcontext)
                     using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vav in _engage.Uow.GetRepository<v_akt_vag>().Get_all(x => shNumbers.Contains(x.nomvag), false)
-                                         join va in _engage.Uow.GetRepository<v_akt>().Get_all(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
-                                         join vn in _engage.Uow.GetRepository<v_nach>().Get_all(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                        result.AddRange((from vav in _engage.Uow.GetRepository<v_akt_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
+                                         join va in _engage.Uow.GetRepository<v_akt>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
+                                         join vn in _engage.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on va.id_kart equals vn.id_kart
                                          select new { va.id, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x =>
@@ -421,7 +421,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             } else {
                 //one transaction (one request per one dbcontext)
                 using (_engage.Uow = new UnitOfWork()) {
-                    result = (from sh in delivery join e in _engage.Uow.GetRepository<etsng>().Get_all(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
+                    result = (from sh in delivery join e in _engage.Uow.GetRepository<etsng>().GetAll(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
                               select new ShippingInfoLineDTO() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
@@ -475,7 +475,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             return result;
         }
 
-        protected override void DisposeCore() {
+        protected override void ExtenstionDispose() {
             _engage?.Dispose();
         }
     }

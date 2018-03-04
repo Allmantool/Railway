@@ -1,63 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Core;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using NaftanRailway.Domain.Abstract;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-
-namespace NaftanRailway.Domain.Concrete
+﻿namespace NaftanRailway.Domain.Concrete
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Entity;
+    using System.Data.Entity.Core;
+    using System.Data.Entity.Core.Metadata.Edm;
+    using System.Data.Entity.Infrastructure;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using NaftanRailway.Domain.Abstract;
+    using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+    using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+    using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+
     public class UnitOfWork : Disposable, IUnitOfWork
     {
-        public DbContext[] Contexts { get; }
-        public DbContext ActiveContext { get; set; }
+        private DbContextTransaction transaction = null;
 
-        private DbContextTransaction _transaction = null;
-
-        private Dictionary<Type, IDisposable> _mapRepositories;
+        private Dictionary<Type, IDisposable> mapRepositories;
 
         public UnitOfWork()
         {
-            Contexts = new DbContext[]
+            this.Contexts = new DbContext[]
             {
                 new OBDEntities(),
                 new MesplanEntities(),
                 new ORCEntities()
             };
-            SetUpContext();
+
+            this.SetUpContext();
         }
 
         public UnitOfWork(DbContext context)
         {
-            ActiveContext = context;
-            SetUpContext();
+            this.ActiveContext = context;
+            this.SetUpContext();
         }
 
         public UnitOfWork(params DbContext[] contexts)
         {
-            Contexts = contexts;// new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() };
-            SetUpContext();
+            this.Contexts = contexts;
+
+            this.SetUpContext();
         }
 
-        public IGeneralRepository<T> GetRepository<T>() where T : class
+        public DbContext[] Contexts { get; }
+
+        public DbContext ActiveContext { get; set; }
+
+        public IRepository<T> GetRepository<T>()
+            where T : class
         {
-            if (_mapRepositories.TryGetValue(typeof(T), out var repo))
+            if (this.mapRepositories.TryGetValue(typeof(T), out var repo))
             {
-                return repo as IGeneralRepository<T>;
+                return repo as IRepository<T>;
             }
 
-            if (Contexts != null)
+            if (this.Contexts != null)
             {
-                foreach (var contextItem in Contexts)
+                foreach (var contextItem in this.Contexts)
                 {
                     if (((IObjectContextAdapter)contextItem)
                         .ObjectContext
@@ -65,28 +69,28 @@ namespace NaftanRailway.Domain.Concrete
                         .GetItems<EntityType>(DataSpace.CSpace)
                         .Any(w => w.Name == typeof(T).Name))
                     {
-                        ActiveContext = contextItem;
-                        ContextLog();
+                        this.ActiveContext = contextItem;
+                        this.ContextLog();
 
                         break;
                     }
                 }
             }
 
-            repo = new GeneralRepository<T>(ActiveContext);
-            _mapRepositories.Add(typeof(T), repo);
+            repo = new Repository<T>(this.ActiveContext);
+            this.mapRepositories.Add(typeof(T), repo);
 
-            return (IGeneralRepository<T>)repo;
+            return (IRepository<T>)repo;
         }
 
         public void Save()
         {
             try
             {
-                ActiveContext.ChangeTracker.DetectChanges();
-                ActiveContext.SaveChanges();
+                this.ActiveContext.ChangeTracker.DetectChanges();
+                this.ActiveContext.SaveChanges();
 
-                _transaction.Commit();
+                this.transaction.Commit();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -94,7 +98,7 @@ namespace NaftanRailway.Domain.Concrete
                 var clientEntry = entry.Entity;
                 var databaseEntry = entry.GetDatabaseValues().ToObject();
 
-                _transaction.Rollback();
+                this.transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving operation (Unit of work)." +
@@ -104,7 +108,7 @@ namespace NaftanRailway.Domain.Concrete
             }
             finally
             {
-                _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+                this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
         }
 
@@ -112,54 +116,48 @@ namespace NaftanRailway.Domain.Concrete
         {
             try
             {
-                await ActiveContext.SaveChangesAsync(CancellationToken.None);
+                await this.ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
             catch (Exception ex)
             {
-                _transaction.Rollback();
+                this.transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving async operation (Unit of work)." +
                     $"Message: {ex.Message}");
             }
 
-
-            _transaction.Commit();
+            this.transaction.Commit();
         }
 
-        /// <summary>
-        /// Configuration setting of exist contexts.
-        /// </summary>
-        /// <param name="lazyLoading"></param>
-        /// <param name="proxy"></param>
+        protected override void ExtenstionDispose()
+        {
+            this.ActiveContext?.Dispose();
+            this.Dispose();
+        }
+
         private void SetUpContext(bool lazyLoading = false, bool proxy = true)
         {
             /* Disable Lazy loading (for entity to json) */
-            foreach (var item in Contexts)
+            foreach (var item in this.Contexts)
             {
                 item.Configuration.LazyLoadingEnabled = lazyLoading;
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
 
-            _mapRepositories = new Dictionary<Type, IDisposable>();
+            this.mapRepositories = new Dictionary<Type, IDisposable>();
 
-            _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+            this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
         private void ContextLog()
         {
-            if (ActiveContext != null)
+            if (this.ActiveContext != null)
             {
-                ActiveContext.Database.Log = (s => Debug.WriteLine(s));
-                ActiveContext.Database.Log = message => Trace.Write(message);
-                ActiveContext.Database.Log = (Console.WriteLine);
+                this.ActiveContext.Database.Log = s => Debug.WriteLine(s);
+                this.ActiveContext.Database.Log = message => Trace.Write(message);
+                this.ActiveContext.Database.Log = Console.WriteLine;
             }
-        }
-
-        protected override void DisposeCore()
-        {
-            ActiveContext?.Dispose();
-            Dispose();
         }
     }
 }
