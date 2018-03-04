@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IRepositoryFactory.cs" />
     <Compile Include="Abstract\IUnitOfWorkFactory.cs" />
     <Compile Include="Abstract\Repositories\IAddRepository.cs" />
     <Compile Include="Abstract\Repositories\IAsyncRepository.cs" />
@@ -211,6 +212,7 @@
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\Disposable.cs" />
+    <Compile Include="Concrete\EntityFrameworkRepositoryFactory.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Concrete\Repository.cs" />
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
