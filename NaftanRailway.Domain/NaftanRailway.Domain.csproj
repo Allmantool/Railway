@@ -101,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IUnitOfWorkFactory.cs" />
     <Compile Include="Abstract\Repositories\IAddRepository.cs" />
     <Compile Include="Abstract\Repositories\IAsyncRepository.cs" />
     <Compile Include="Abstract\IRepository.cs" />
@@ -109,9 +110,16 @@
     <Compile Include="Abstract\Repositories\IGetRepository.cs" />
     <Compile Include="Abstract\Repositories\IMergeRepository.cs" />
     <Compile Include="Abstract\Repositories\IUpdateRepository.cs" />
+    <Compile Include="Abstract\UnitOfWorks\IMesplanUnitOfWork.cs" />
+    <Compile Include="Concrete\ConfigurableDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Configuration\EtsngConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\etsng.cs">
       <DependentUpon>ModelMesplan.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWorkFactory.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -313,6 +321,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Concrete\DbContexts\OBD\Configuration\" />
+    <Folder Include="Concrete\DbContexts\OBD\Entities\" />
+    <Folder Include="Concrete\DbContexts\ORC\Configuration\" />
+    <Folder Include="Concrete\DbContexts\ORC\Entities\" />
     <Folder Include="Concrete\DbContexts\Security\" />
   </ItemGroup>
   <ItemGroup>
