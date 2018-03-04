@@ -88,13 +88,21 @@
             this.dbSet.Add(entity);
         }
 
-        public void Add(IEnumerable<T> entityColl, bool enableDetectChanges = true)
+        public void Add(IQueryable<T> entityColl, bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             this.dbSet.AddRange(entityColl);
         }
 
-        public void Upate(IQueryable<T> entities, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
+        public void Update(Expression<Func<T, bool>> predicate, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
+        {
+            this.Update(
+                this.GetAll(predicate),
+                operations,
+                enableDetectChanges);
+        }
+
+        public void Update(IQueryable<T> entities, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -107,13 +115,6 @@
             }
 
             entities.ForEach(x => this.Update(x, operations, enableDetectChanges));
-        }
-
-        public void Upate(Expression<Func<T, bool>> predicate, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
-        {
-            IQueryable<T> entities = this.GetAll(predicate);
-
-            this.Update(entities, operations, enableDetectChanges);
         }
 
         public void Update(T entity, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
@@ -137,14 +138,14 @@
             this.dbSet.AddOrUpdate(entity);
         }
 
-        public void Merge(IEnumerable<T> entityColl, bool enableDetectChanges = true)
+        public void Merge(IQueryable<T> entityColl, bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
             entityColl.ForEach(x => this.dbSet.AddOrUpdate(x));
         }
 
         // TODO: Merge only change values + exclude property (in develop)
-        public void Merge(T entity, Expression<Func<T, bool>> predicate, IEnumerable<string> excludeFieds, bool enableDetectChanges = true)
+        public void Merge(T entity, Expression<Func<T, bool>> predicate, IQueryable<string> excludeFieds, bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -203,7 +204,7 @@
             this.ActiveDbContext.Entry(entity).State = EntityState.Deleted;
         }
 
-        public void Delete(IEnumerable<T> entityColl, bool enableDetectChanges = true)
+        public void Delete(IQueryable<T> entityColl, bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 

@@ -9,8 +9,8 @@
     {
         void Update(T entity, IEnumerable<Action<T>> operations, bool enableDetectChanges = true);
 
-        void Upate(IQueryable<T> entities, IEnumerable<Action<T>> operations, bool enableDetectChanges = true);
+        void Update(IQueryable<T> entities, IEnumerable<Action<T>> operations, bool enableDetectChanges = true);
 
-        void Upate(Expression<Func<T, bool>> predicate, IEnumerable<Action<T>> operations, bool enableDetectChanges = true);
+        void Update(Expression<Func<T, bool>> predicate, IEnumerable<Action<T>> operations, bool enableDetectChanges = true);
     }
 }

@@ -184,25 +184,20 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic
             }
         }
 
-        /// <summary>
-        /// Change date all later records
-        /// </summary>
-        /// <param name="period"></param>
-        /// <param name="keyScroll"></param>
-        /// <param name="multiChange">Change single or multi date</param>
         public IEnumerable<ScrollLineDTO> ChangeBuhDate(DateTime period, long keyScroll, bool multiChange = true)
         {
-            var listRecords = multiChange
-                ? _engage.Uow.GetRepository<krt_Naftan>().GetAll(x => x.KEYKRT >= keyScroll)
-                : _engage.Uow.GetRepository<krt_Naftan>().GetAll(x => x.KEYKRT == keyScroll);
-
             using (_engage.Uow = new UnitOfWork())
             {
                 try
                 {
-                    _engage.Uow.GetRepository<krt_Naftan>().Update(
-                        listRecords,
-                        x => x.DTBUHOTCHET = period);
+                    var listRecords = multiChange
+                                          ? _engage.Uow.GetRepository<krt_Naftan>().GetAll(x => x.KEYKRT >= keyScroll)
+                                          : _engage.Uow.GetRepository<krt_Naftan>().GetAll(x => x.KEYKRT == keyScroll);
+
+                    _engage.Uow.GetRepository<krt_Naftan>()
+                        .Update(
+                            listRecords,
+                            new List<Action<krt_Naftan>> { x => x.DTBUHOTCHET = period });
 
                     _engage.Uow.Save();
 
@@ -226,28 +221,22 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic
             {
                 using (_engage.Uow = new UnitOfWork())
                 {
-                    //krt_Naftan_ORC_Sapod (check as correction)
-                    var itemRow = _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().Get(x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor);
+                    var conditions = new List<Action<krt_Naftan_orc_sapod>>
+                                         {
+                                             x => x.nds = charge.nds,
+                                             x => x.summa = charge.summa,
+                                             x => x.kol = charge.kol,
+                                             x => x.textm = charge.textm,
+                                             x => x.ErrorState = 2
+                                         };
 
-
-                    //update only necessary properties (exist method whole update method)
-                    itemRow.nds = charge.nds;
-                    itemRow.summa = charge.summa;
-                    itemRow.kol = charge.kol;
-                    itemRow.textm = charge.textm;
-
-                    //mark as edit
-                    itemRow.ErrorState = 2;
-
-                    // _engage.Uow.GetRepository<krt_Naftan_orc_sapod>().Update(
-                    //    Expression <Func<krt_Naftan_orc_sapod, bool>> = (x) => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor,
-                    //    new List<Action<krt_Naftan_orc_sapod>>{ x => x.nds = charge.nds});
-
-                    // krt_Naftan (check as correction)
-                    var parentRow = _engage.Uow.GetRepository<krt_Naftan>().Get(x => x.KEYKRT == charge.keykrt);
+                    _engage.Uow.GetRepository<krt_Naftan_orc_sapod>()
+                        .Update(
+                        x => x.keykrt == charge.keykrt && x.keysbor == charge.keysbor,
+                        conditions);
 
                     _engage.Uow.GetRepository<krt_Naftan>().Update(
-                        parentRow,
+                        x => x.KEYKRT == charge.keykrt,
                         new List<Action<krt_Naftan>> { x => x.ErrorState = 2 });
 
                     _engage.Uow.Save();

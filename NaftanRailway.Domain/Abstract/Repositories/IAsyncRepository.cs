@@ -1,4 +1,4 @@
-﻿namespace NaftanRailway.Domain.Abstract
+﻿namespace NaftanRailway.Domain.Abstract.Repositories
 {
     using System;
     using System.Linq.Expressions;

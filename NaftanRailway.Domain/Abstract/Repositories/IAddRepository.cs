@@ -1,6 +1,6 @@
 ﻿namespace NaftanRailway.Domain.Abstract.Repositories
 {
-    using System.Collections.Generic;
+    using System.Linq;
 
     public interface IAddRepository<T>
     {
@@ -17,6 +17,6 @@
         /// </param>
         void Add(T entity, bool enableDetectChanges = true);
 
-        void Add(IEnumerable<T> entityColl, bool enableDetectChanges = true);
+        void Add(IQueryable<T> entityColl, bool enableDetectChanges = true);
     }
 }
