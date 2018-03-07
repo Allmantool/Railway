@@ -1,10 +1,15 @@
 ﻿namespace NaftanRailway.BLL.Services.Specifications
 {
+    using System;
+    using System.Linq.Expressions;
+
     using NaftanRailway.BLL.Abstract.Specifications;
 
     public abstract class CompositeSpecification<T> : ISpecification<T>
     {
         public abstract bool IsSatisfiedBy(T entity);
+
+        public abstract Expression<Func<T, bool>> IsSatisfiedBy();
 
         public ISpecification<T> And(ISpecification<T> specification)
         {

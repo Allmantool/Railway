@@ -1,6 +1,7 @@
 ﻿namespace NaftanRailway.BLL.Services.Specifications
 {
     using System;
+    using System.Linq.Expressions;
 
     public class ExpressionSpecification<T> : CompositeSpecification<T>
     {
@@ -21,6 +22,11 @@
         public override bool IsSatisfiedBy(T entity)
         {
             return this.expression(entity);
+        }
+
+        public override Expression<Func<T, bool>> IsSatisfiedBy()
+        {
+            throw new NotImplementedException();
         }
     }
 }

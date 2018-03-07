@@ -1,5 +1,8 @@
 ﻿namespace NaftanRailway.BLL.Services.Specifications
 {
+    using System;
+    using System.Linq.Expressions;
+
     using NaftanRailway.BLL.Abstract.Specifications;
 
     public class OrSpecification<T> : CompositeSpecification<T>
@@ -18,6 +21,11 @@
         {
             return this.leftSpecification.IsSatisfiedBy(o)
                    || this.rightSpecification.IsSatisfiedBy(o);
+        }
+
+        public override Expression<Func<T, bool>> IsSatisfiedBy()
+        {
+            throw new NotImplementedException();
         }
     }
 }

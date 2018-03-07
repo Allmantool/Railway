@@ -1,5 +1,8 @@
 ﻿namespace NaftanRailway.BLL.Services.Specifications
 {
+    using System;
+    using System.Linq.Expressions;
+
     using NaftanRailway.BLL.Abstract.Specifications;
 
     public class NotSpecification<T> : CompositeSpecification<T>
@@ -14,6 +17,11 @@
         public override bool IsSatisfiedBy(T entity)
         {
             return !this.specification.IsSatisfiedBy(entity);
+        }
+
+        public override Expression<Func<T, bool>> IsSatisfiedBy()
+        {
+            throw new NotImplementedException();
         }
     }
 }
