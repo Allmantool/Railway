@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 
@@ -11,7 +11,7 @@ namespace NaftanRailway.BLL.DTO.Guild18 {
         //[Column(TypeName = "varchar")]
         private bool IsSelected { get; set; }
         public v_otpr VOtpr { get; set; }
-        public etsng Etsng { get; set; }
+        public Etsng Etsng { get; set; }
         public krt_Guild18 Guild18 { get; set; }
         public IEnumerable<v_o_v> Vovs { get; set; }
         public IEnumerable<v_pam> VPams { get; set; }

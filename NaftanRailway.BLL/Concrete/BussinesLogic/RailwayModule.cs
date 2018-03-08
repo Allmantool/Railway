@@ -7,10 +7,10 @@ using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.Services;
 using NaftanRailway.BLL.DTO.Guild18;
 using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 using NaftanRailway.Domain.Concrete.DbContexts.ORC;
 using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
 
 namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
@@ -54,12 +54,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             var vovSrc = this._engage.GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
             //var etsngPredicate = PredicateBuilder.New<etsng>(false);
-            var etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(PredicateBuilder.New<etsng>(false).DefaultExpression, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
-            var etsngSrc = this._engage.GetTable<etsng, int>(etsngPredicate).ToList();
+            var etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(PredicateBuilder.New<Etsng>(false).DefaultExpression, (current, value) => current.Or(v => v.Etsng1 == value)).Expand();
+            var etsngSrc = this._engage.GetTable<Etsng, int>(etsngPredicate).ToList();
 
             var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1
                           from item in g1.DefaultIfEmpty() where (item != null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
-                          join e in etsngSrc on item == null ? "" : item.cod_tvk_etsng equals e.etsng1 into g2
+                          join e in etsngSrc on item == null ? "" : item.cod_tvk_etsng equals e.Etsng1 into g2
                           from item2 in g2.DefaultIfEmpty()
                           select new ShippingDTO() {
                               VOtpr = item,
@@ -421,7 +421,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             } else {
                 //one transaction (one request per one dbcontext)
                 using (this._engage.Uow = new UnitOfWork()) {
-                    result = (from sh in delivery join e in this._engage.Uow.GetRepository<etsng>().GetAll(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
+                    result = (from sh in delivery join e in this._engage.Uow.GetRepository<Etsng>().GetAll(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.Etsng1
                               select new ShippingInfoLineDTO() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
@@ -458,9 +458,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //return cargo name
             Func<string, string> cargoName = (cod) => {
-                var request = this._engage.GetTable<etsng, int>(x => x.etsng1.Substring(0, 5) == cod).FirstOrDefault();
+                var request = this._engage.GetTable<Etsng, int>(x => x.Etsng1.Substring(0, 5) == cod).FirstOrDefault();
 
-                return request == null ? String.Empty : request.name;
+                return request == null ? String.Empty : request.Name;
             };
 
             //merge two object of the same type to one (we have 2 different source)

@@ -12,7 +12,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Abstract;
-    using DbContexts.Mesplan;
     using DbContexts.OBD;
     using DbContexts.ORC;
 
@@ -27,7 +26,6 @@
             this.Contexts = new DbContext[]
             {
                 new OBDEntities(),
-                new MesplanEntities(),
                 new ORCEntities()
             };
 

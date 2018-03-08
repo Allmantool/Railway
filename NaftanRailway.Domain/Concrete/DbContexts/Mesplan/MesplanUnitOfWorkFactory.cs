@@ -1,9 +1,8 @@
-﻿using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Configurations;
-
-namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
+﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
 {
     using Abstract;
     using Abstract.UnitOfWorks;
+    using Configurations;
 
     public class MesplanUnitOfWorkFactory : IUnitOfWorkFactory<IMesplanUnitOfWork>
     {

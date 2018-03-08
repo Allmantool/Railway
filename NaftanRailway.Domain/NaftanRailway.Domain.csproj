@@ -116,27 +116,9 @@
     <Compile Include="Concrete\ConfigurableDbContext.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\Configurations\EtsngConfiguration.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
-    <Compile Include="Concrete\DbContexts\Mesplan\etsng.cs">
-      <DependentUpon>ModelMesplan.tt</DependentUpon>
-    </Compile>
     <Compile Include="Concrete\DbContexts\Mesplan\MesplanDbContext.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWork.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWorkFactory.cs" />
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Concrete\DbContexts\OBD\Configurations\VPodhodConfiguration.cs" />
     <Compile Include="Concrete\DbContexts\OBD\Entities\VPodhod.cs" />
     <Compile Include="Concrete\DbContexts\OBD\ObdDbContext.cs" />
@@ -228,7 +210,6 @@
     <Compile Include="Concrete\Repository.cs" />
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
     <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
-    <Compile Include="Services\EntitiesMetaData\etsng.cs" />
     <Compile Include="Services\EntitiesMetaData\v_akt_vag.cs" />
     <Compile Include="Services\EntitiesMetaData\v_o_v.cs" />
     <Compile Include="Services\EntitiesMetaData\v_pam.cs" />
@@ -243,14 +224,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="app.config" />
-    <None Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.diagram">
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-    </None>
     <EntityDeploy Include="Concrete\DbContexts\OBD\OBDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
@@ -296,17 +270,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-      <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
-    </Content>
     <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.sql" />
-    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-      <LastGenOutput>ModelMesplan.cs</LastGenOutput>
-    </Content>
     <Content Include="Concrete\DbContexts\OBD\OBDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>OBDModel.edmx</DependentUpon>
