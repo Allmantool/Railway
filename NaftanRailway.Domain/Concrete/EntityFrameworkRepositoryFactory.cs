@@ -6,8 +6,7 @@
     using System.Data.Entity.Core.Metadata.Edm;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
-
-    using NaftanRailway.Domain.Abstract;
+    using Abstract;
 
     public class EntityFrameworkRepositoryFactory<T> : IRepositoryFactory<IRepository<T>, T>
         where T : class

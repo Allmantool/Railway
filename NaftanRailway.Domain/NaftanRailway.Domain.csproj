@@ -218,10 +218,7 @@
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
     <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
     <Compile Include="Services\EntitiesMetaData\etsng.cs" />
-    <Compile Include="Services\EntitiesMetaData\krt_Naftan.cs" />
-    <Compile Include="Services\EntitiesMetaData\krt_Naftan_orc_sapod.cs" />
     <Compile Include="Services\EntitiesMetaData\v_akt_vag.cs" />
-    <Compile Include="Services\EntitiesMetaData\v_otpr.cs" />
     <Compile Include="Services\EntitiesMetaData\v_o_v.cs" />
     <Compile Include="Services\EntitiesMetaData\v_pam.cs" />
     <Compile Include="Services\EntitiesMetaData\v_pam_vag.cs" />

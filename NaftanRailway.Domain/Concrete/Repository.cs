@@ -8,9 +8,8 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Abstract;
     using MoreLinq;
-
-    using NaftanRailway.Domain.Abstract;
 
     public class Repository<T> : Disposable, IRepository<T>
         where T : class
@@ -25,7 +24,10 @@
 
         public DbContext ActiveDbContext { get; set; }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)
+        public IQueryable<T> GetAll(
+            Expression<Func<T, bool>> predicate = null,
+            bool enableDetectChanges = true,
+            bool enableTracking = true)
         {
             /* Sync data in Db & EF (if change not tracking for EF)
                 ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
@@ -43,7 +45,10 @@
             return result;
         }
 
-        public T Get(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)
+        public T Get(
+            Expression<Func<T, bool>> predicate = null,
+            bool enableDetectChanges = true,
+            bool enableTracking = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -56,7 +61,10 @@
             return result;
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true)
+        public async Task<T> GetAsync(
+            Expression<Func<T, bool>> predicate = null,
+            bool enableDetectChanges = true,
+            bool enableTracking = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -94,7 +102,10 @@
             this.dbSet.AddRange(entityColl);
         }
 
-        public void Update(Expression<Func<T, bool>> predicate, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
+        public void Update(
+            Expression<Func<T, bool>> predicate,
+            IEnumerable<Action<T>> operations,
+            bool enableDetectChanges = true)
         {
             this.Update(
                 this.GetAll(predicate),
@@ -102,7 +113,10 @@
                 enableDetectChanges);
         }
 
-        public void Update(IQueryable<T> entities, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
+        public void Update(
+            IQueryable<T> entities,
+            IEnumerable<Action<T>> operations,
+            bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -117,7 +131,10 @@
             entities.ForEach(x => this.Update(x, operations, enableDetectChanges));
         }
 
-        public void Update(T entity, IEnumerable<Action<T>> operations, bool enableDetectChanges = true)
+        public void Update(
+            T entity,
+            IEnumerable<Action<T>> operations,
+            bool enableDetectChanges = true)
         {
             operations.ForEach(o => o(entity));
 
@@ -144,21 +161,19 @@
             entityColl.ForEach(x => this.dbSet.AddOrUpdate(x));
         }
 
-        // TODO: Merge only change values + exclude property (in develop)
-        public void Merge(T entity, Expression<Func<T, bool>> predicate, IQueryable<string> excludeFieds, bool enableDetectChanges = true)
+        public void Merge(
+            T entity,
+            Expression<Func<T, bool>> predicate,
+            IQueryable<string> excludeFieds,
+            bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
-            // (Engage.Uow.ActiveContext.Entry(x).Property(p => p.DTBUHOTCHET).IsModified = true
             if (this.dbSet.Any(predicate.Compile()))
             {
                 // connection scenario http://www.entityframeworktutorial.net/update-entity-in-entity-framework.aspx
                 var item = this.dbSet.Where(predicate).First();
                 DbEntityEntry entry = this.ActiveDbContext.Entry(item);
-                // foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds)) {
-                // entry.CurrentValues.;
-                // }
-
 
                 foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds))
                 {

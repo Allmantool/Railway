@@ -2,7 +2,7 @@
 {
     using System.Data.Entity;
 
-    using NaftanRailway.Domain.Abstract.Repositories;
+    using Repositories;
 
     /// <summary>
     /// The Repository interface.

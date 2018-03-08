@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data.Common;
-using System.Data.Entity.Infrastructure.Interception;
-using System.Diagnostics;
+﻿namespace NaftanRailway.Domain.Services.DbConfigurations {
+    using System;
+    using System.Data.Common;
+    using System.Data.Entity.Infrastructure.Interception;
+    using System.Diagnostics;
 
-namespace NaftanRailway.Domain.Services.DbConfigurations {
     /// <summary>
     ///     More flexible logging for EF6 then Database.Log
     ///     http://www.mortenanderson.net/logging-sql-statements-in-entity-framework-with-interception
