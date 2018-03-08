@@ -12,7 +12,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
         private readonly INomenclatureModule _bussinesEngage;
 
         public ApiScrollController(INomenclatureModule bussinesEngage, ILog log) {
-            _bussinesEngage = bussinesEngage;
+            this._bussinesEngage = bussinesEngage;
         }
 
         //public HttpResponseMessage GetScroll() {
@@ -37,13 +37,13 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
             //}
 
             //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
-            var tree = (typeDoc == null) ? _bussinesEngage.GetTreeStructure(rootKey: rootKey) : _bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
+            var tree = (typeDoc == null) ? this._bussinesEngage.GetTreeStructure(rootKey: rootKey) : this._bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
 
             var response = new HttpResponseMessage();
             response.Headers.Add("ContentType", "application/json");
 
             //return Ok($"TypeDoc: {typeDoc ?? 0}, rootKey: {rootKey?? " empty"}");
-            return tree.Count < 0 ? (IHttpActionResult)BadRequest("No Nodes Found") : Ok(tree);
+            return tree.Count < 0 ? (IHttpActionResult)this.BadRequest("No Nodes Found") : this.Ok(tree);
         }
     }
 }

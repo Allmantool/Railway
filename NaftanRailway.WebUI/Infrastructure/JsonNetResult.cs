@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Infrastructure {
         public JsonSerializerSettings Settings { get; private set; }
 
         public JsonNetResult() {
-            Settings = new JsonSerializerSettings {
+            this.Settings = new JsonSerializerSettings {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 //DateFormatString = "dd.MM.yyyy"
@@ -28,19 +28,19 @@ namespace NaftanRailway.WebUI.Infrastructure {
 
             HttpResponseBase response = context.HttpContext.Response;
 
-            if (ContentEncoding != null)
-                response.ContentEncoding = ContentEncoding;
+            if (this.ContentEncoding != null)
+                response.ContentEncoding = this.ContentEncoding;
 
-            if (Data == null)
+            if (this.Data == null)
                 return;
 
-            response.ContentType = string.IsNullOrEmpty(ContentType) ? "application/json" : ContentType;
+            response.ContentType = string.IsNullOrEmpty(this.ContentType) ? "application/json" : this.ContentType;
             response.ContentEncoding = Encoding.UTF8;
 
-            var scriptSerializer = JsonSerializer.Create(Settings);
+            var scriptSerializer = JsonSerializer.Create(this.Settings);
 
             //Serialize the data to the Output stream of the response
-            scriptSerializer.Serialize(response.Output, Data);
+            scriptSerializer.Serialize(response.Output, this.Data);
         }
     }
 }

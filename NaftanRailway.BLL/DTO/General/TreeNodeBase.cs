@@ -23,8 +23,8 @@ namespace NaftanRailway.BLL.DTO.General {
         }
 
         public TreeNodeBase(string levelName) {
-            LevelName = levelName;
-            Children = new List<T>();
+            this.LevelName = levelName;
+            this.Children = new List<T>();
         }
 
         public virtual long Id {
@@ -43,21 +43,21 @@ namespace NaftanRailway.BLL.DTO.General {
             get; set;
         }
         public IList<T> Children {
-            get { return _children; }
-            set { AddChildren(value); }
+            get { return this._children; }
+            set { this.AddChildren(value); }
         }
 
-        public bool IsLeaf => Children.Count == 0;
+        public bool IsLeaf => this.Children.Count == 0;
 
-        public bool IsRoot => Parent == null;
+        public bool IsRoot => this.Parent == null;
 
         public void AddChild(T child) {
-            child.Parent = MySelf;
-            _children.Add(child);
+            child.Parent = this.MySelf;
+            this._children.Add(child);
         }
         public void AddChildren(IEnumerable<T> chNodes) {
             foreach (T child in chNodes)
-                AddChild(child);
+                this.AddChild(child);
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace NaftanRailway.BLL.DTO.General {
         /// </summary>
         /// <returns></returns>
         public List<T> GetLeafNodes() {
-            return Children.Where(x => x.IsLeaf).ToList();
+            return this.Children.Where(x => x.IsLeaf).ToList();
         }
         public List<T> GetNonLeafNodes() {
-            return Children.Where(x => !x.IsLeaf).ToList();
+            return this.Children.Where(x => !x.IsLeaf).ToList();
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace NaftanRailway.BLL.DTO.General {
         /// </summary>
         /// <returns></returns>
         public T GetRootNode() {
-            if (Parent == null)
-                return MySelf;
+            if (this.Parent == null)
+                return this.MySelf;
 
-            return Parent.GetRootNode();
+            return this.Parent.GetRootNode();
         }
 
         /// <summary>
@@ -87,9 +87,9 @@ namespace NaftanRailway.BLL.DTO.General {
         /// </summary>
         /// <returns></returns>
         public string GetFullyQualifiedName() {
-            if (Parent == null) return LevelName;
+            if (this.Parent == null) return this.LevelName;
 
-            return $"{Parent.GetFullyQualifiedName()}.{ LevelName}";
+            return $"{this.Parent.GetFullyQualifiedName()}.{ this.LevelName}";
         }
     }
 }

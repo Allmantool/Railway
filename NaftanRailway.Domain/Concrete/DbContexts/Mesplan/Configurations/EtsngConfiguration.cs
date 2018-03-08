@@ -1,9 +1,8 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Configuration
+﻿using System.Data.Entity.ModelConfiguration;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
+
+namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Configurations
 {
-    using System.Data.Entity.ModelConfiguration;
-
-    using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
-
     public class EtsngConfiguration : EntityTypeConfiguration<Etsng>
     {
         public EtsngConfiguration()

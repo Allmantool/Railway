@@ -16,7 +16,7 @@ namespace NaftanRailway.BLL.Services {
         /// list shipingInfo lines
         /// </summary>
         public IEnumerable<ShippingInfoLineDTO> Lines {
-            get { return _linesCollection; }
+            get { return this._linesCollection; }
         }
 
         [Required]
@@ -25,12 +25,12 @@ namespace NaftanRailway.BLL.Services {
         public DateTime ReportPeriod { get; set; }
 
         public SessionStorage() {
-            _linesCollection = new List<ShippingInfoLineDTO>();
-            ReportPeriod = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+            this._linesCollection = new List<ShippingInfoLineDTO>();
+            this.ReportPeriod = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
         }
         public SessionStorage(DateTime reportPeriod) {
-            _linesCollection = new List<ShippingInfoLineDTO>();
-            ReportPeriod = reportPeriod;
+            this._linesCollection = new List<ShippingInfoLineDTO>();
+            this.ReportPeriod = reportPeriod;
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace NaftanRailway.BLL.Services {
         /// </summary>
         /// <param name="documentPack"></param>
         public void Additem(ShippingInfoLineDTO documentPack) {
-            ShippingInfoLineDTO line = _linesCollection.FirstOrDefault(sh => sh.Shipping.id == documentPack.Shipping.id);
+            ShippingInfoLineDTO line = this._linesCollection.FirstOrDefault(sh => sh.Shipping.id == documentPack.Shipping.id);
 
             if (line == null) {
-                _linesCollection.Add(documentPack);
+                this._linesCollection.Add(documentPack);
             }
         }
 
@@ -49,7 +49,7 @@ namespace NaftanRailway.BLL.Services {
         /// Clear storage
         /// </summary>
         public void Clear() {
-            _linesCollection.Clear();
+            this._linesCollection.Clear();
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace NaftanRailway.BLL.Services {
         /// </summary>
         /// <param name="line"></param>
         public void SaveLine(ShippingInfoLineDTO line) {
-            if (_linesCollection.Any(m => m.Shipping.id == line.Shipping.id)) {
-                RemoveLine(line);
+            if (this._linesCollection.Any(m => m.Shipping.id == line.Shipping.id)) {
+                this.RemoveLine(line);
             }
 
-            Additem(line);
+            this.Additem(line);
         }
 
         public void RemoveLine(ShippingInfoLineDTO shipping) {

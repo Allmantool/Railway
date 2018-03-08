@@ -1,8 +1,9 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
+﻿using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Configurations;
+
+namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
 {
-    using NaftanRailway.Domain.Abstract;
-    using NaftanRailway.Domain.Abstract.UnitOfWorks;
-    using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Configuration;
+    using Abstract;
+    using Abstract.UnitOfWorks;
 
     public class MesplanUnitOfWorkFactory : IUnitOfWorkFactory<IMesplanUnitOfWork>
     {
@@ -16,7 +17,7 @@
         public IMesplanUnitOfWork Create()
         {
             var databaseContext = new MesplanDbContext(
-                _connectionString,
+                this._connectionString,
                 builder =>
                 {
                     builder.Configurations.Add(new EtsngConfiguration());

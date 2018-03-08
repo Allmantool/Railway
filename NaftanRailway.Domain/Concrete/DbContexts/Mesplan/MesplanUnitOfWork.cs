@@ -2,7 +2,7 @@
 {
     using System.Data.Entity;
 
-    using NaftanRailway.Domain.Abstract.UnitOfWorks;
+    using Abstract.UnitOfWorks;
 
     public class MesplanUnitOfWork : UnitOfWork, IMesplanUnitOfWork
     {

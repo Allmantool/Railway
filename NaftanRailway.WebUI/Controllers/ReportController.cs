@@ -49,15 +49,15 @@ namespace NaftanRailway.WebUI.Controllers {
             //Changing "attach;" to "inline;" will cause the file to open in the browser instead of the browser prompting to save the file.
             //encode the filename parameter of Content-Disposition header in HTTP (for support different browser)
             string contentDisposition;
-            if (Request.Browser.Browser == "IE" &&
-                ((new[] { "7.0", "8.0" }).Contains(Request.Browser.Version)))
+            if (this.Request.Browser.Browser == "IE" &&
+                ((new[] { "7.0", "8.0" }).Contains(this.Request.Browser.Version)))
                 contentDisposition = "attachment; filename=" + Uri.EscapeDataString(nameFile);
-            else if (Request.Browser.Browser == "Safari")
+            else if (this.Request.Browser.Browser == "Safari")
                 contentDisposition = "attachment; filename=" + nameFile;
             else
                 contentDisposition = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(nameFile);
 
-            Response.AddHeader("Content-Disposition", contentDisposition);
+            this.Response.AddHeader("Content-Disposition", contentDisposition);
 
             /*System administrator can't resolve problem with old report (Kerberos don't work on domain folder) UseDefaultCredentials = true */
             using (var handler = new HttpClientHandler { Credentials = new CredentialCache { { new Uri("http://db2"), @"ntlm", new NetworkCredential(@"CPN", @"1111", @"LAN") } } })
@@ -75,10 +75,10 @@ namespace NaftanRailway.WebUI.Controllers {
 
             if (data.Length > 0) {
                 //For js spinner and complete download callback
-                Response.Cookies.Clear();
-                Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
+                this.Response.Cookies.Clear();
+                this.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
-                return File(data, @"application/vnd.ms-excel");
+                return this.File(data, @"application/vnd.ms-excel");
             }
 
             return new EmptyResult();

@@ -112,8 +112,9 @@
     <Compile Include="Abstract\Repositories\IMergeRepository.cs" />
     <Compile Include="Abstract\Repositories\IUpdateRepository.cs" />
     <Compile Include="Abstract\UnitOfWorks\IMesplanUnitOfWork.cs" />
+    <Compile Include="Abstract\UnitOfWorks\IObdUnitOfWork.cs" />
     <Compile Include="Concrete\ConfigurableDbContext.cs" />
-    <Compile Include="Concrete\DbContexts\Mesplan\Configuration\EtsngConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Configurations\EtsngConfiguration.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\etsng.cs">
       <DependentUpon>ModelMesplan.tt</DependentUpon>
@@ -136,6 +137,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelMesplan.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\OBD\Configurations\VPodhodConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\VPodhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdDbContext.cs" />
     <Compile Include="Concrete\DbContexts\OBD\OBDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -151,6 +155,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWorkFactory.cs" />
     <Compile Include="Concrete\DbContexts\OBD\v_02_podhod.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
@@ -181,6 +187,8 @@
     <Compile Include="Concrete\DbContexts\OBD\v_pam_vag.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\ORC\Configurations\KrtGuild18Configuration.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\Entities\KrtGuild18.cs" />
     <Compile Include="Concrete\DbContexts\ORC\krt_Guild18.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
@@ -190,6 +198,9 @@
     <Compile Include="Concrete\DbContexts\ORC\krt_Naftan_orc_sapod.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\ORC\OrcDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWorkFactory.cs" />
     <Compile Include="Concrete\DbContexts\ORC\ORCModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -319,13 +330,7 @@
       <LastGenOutput>ORCModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Concrete\DbContexts\OBD\Configuration\" />
-    <Folder Include="Concrete\DbContexts\OBD\Entities\" />
-    <Folder Include="Concrete\DbContexts\ORC\Configuration\" />
-    <Folder Include="Concrete\DbContexts\ORC\Entities\" />
-    <Folder Include="Concrete\DbContexts\Security\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />

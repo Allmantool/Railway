@@ -15,15 +15,15 @@ namespace NaftanRailway.BLL.Services.IoC {
         /// used for registering types into container
         /// </summary>
         public override void Load() {
-            Bind<IBussinesEngage>().To<BussinesEngage>();
-            Bind<IRailwayModule>().To<RailwayModule>();
-            Bind<INomenclatureModule>().To<NomenclatureModule>();
-            Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
+            this.Bind<IBussinesEngage>().To<BussinesEngage>();
+            this.Bind<IRailwayModule>().To<RailwayModule>();
+            this.Bind<INomenclatureModule>().To<NomenclatureModule>();
+            this.Bind<IAuthorizationEngage>().To<AuthorizationEngage>();
             //log4Net
             //Bind<ILog>().ToMethod(context => LogManager.GetLogger(context.Request.Target.Member.DeclaringType));
             //_kernel.Bind<ISessionStorage>().To<SessionStorage>();
 
-            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",
+            this.Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument("contexts",
                 new DbContext[] { new OBDEntities(), new MesplanEntities(), new ORCEntities() });
         }
     }
