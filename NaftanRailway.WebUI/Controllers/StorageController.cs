@@ -5,10 +5,10 @@ using NaftanRailway.BLL.Abstract;
 namespace NaftanRailway.WebUI.Controllers {
     //[Authorize]
     public class StorageController : Controller {
-        private readonly IBussinesEngage _bussinesEngage;
+        private readonly IBussinesProvider _bussinesProvider;
         
-        public StorageController(IBussinesEngage bussinesEngage) {
-            _bussinesEngage = bussinesEngage;
+        public StorageController(IBussinesProvider bussinesProvider) {
+            _bussinesProvider = bussinesProvider;
         }
         
         /// <summary>
@@ -34,14 +34,14 @@ namespace NaftanRailway.WebUI.Controllers {
         public RedirectToRouteResult AddRow(ISessionStorage storage, int id, string returnUrl) {
             //ShippingInfoLine line = storage.Lines.FirstOrDefault(sh => sh.Shipping.id == id);
             //if (line == null) {
-            //    v_otpr shipping = _bussinesEngage.GetTable<v_otpr,bool>(x=>x.id == id).FirstOrDefault();
+            //    v_otpr shipping = _bussinesProvider.GetTable<v_otpr,bool>(x=>x.id == id).FirstOrDefault();
 
             //    if (shipping != null) {
             //        //temp variant(time period)
             //        storage.ReportPeriod = shipping.date_oper ?? DateTime.Today;
 
             //        short recordCount;
-            //        //ShippingInfoLine packDocument = _bussinesEngage.PackDocuments(shipping.n_otpr, out recordCount);
+            //        //ShippingInfoLine packDocument = _bussinesProvider.PackDocuments(shipping.n_otpr, out recordCount);
 
             //        //storage.AddItem(packDocument);
             //    }

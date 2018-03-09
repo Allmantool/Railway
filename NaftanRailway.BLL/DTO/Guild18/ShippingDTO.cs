@@ -19,11 +19,11 @@ namespace NaftanRailway.BLL.DTO.Guild18 {
         public IEnumerable<v_kart> VKarts { get; set; }
         public IEnumerable<krt_Naftan> KNaftan { get; set; }
         public ShippingDTO() {
-            IsSelected = true;
+            this.IsSelected = true;
         }
 
         public override string ToString() {
-            return VOtpr.nam_otpr;
+            return this.VOtpr.nam_otpr;
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using NaftanRailway.BLL.Services;
-using NaftanRailway.BLL.DTO.Guild18;
+﻿namespace NaftanRailway.BLL.Abstract {
+    using System;
+    using System.Collections.Generic;
+    using DTO.Guild18;
+    using Services;
 
-namespace NaftanRailway.BLL.Abstract {
     public interface IRailwayModule : IDisposable {
-        bool DeleteInvoice(DateTime reportPeriod, Nullable<int> idInvoice);
+        bool DeleteInvoice(DateTime reportPeriod, int? idInvoice);
 
         bool UpdateExists(DateTime reportPeriod);
 

@@ -18,7 +18,7 @@ namespace NaftanRailway.BLL.DTO.Guild18 {
         public int Warehouse { get; set; }
 
         public ShippingInfoLineDTO() {
-            IsSelected = true;
+            this.IsSelected = true;
         }
     }
 }

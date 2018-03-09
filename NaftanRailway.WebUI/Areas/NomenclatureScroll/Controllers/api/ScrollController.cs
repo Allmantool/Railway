@@ -36,7 +36,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers.api {
             //    throw new HttpResponseException(message);
             //}
 
-            //var result = (IList<CheckListFilter>)_bussinesEngage.initGlobalSearchFilters();
+            //var result = (IList<CheckListFilter>)_bussinesProvider.initGlobalSearchFilters();
             var tree = (typeDoc == null) ? _bussinesEngage.GetTreeStructure(rootKey: rootKey) : _bussinesEngage.GetTreeStructure(typeDoc.Value, rootKey);
 
             var response = new HttpResponseMessage();

@@ -21,11 +21,11 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         public PartialViewResult MenuTypeOperations(SessionStorage storage, InputMenuViewModel menuView, string operationCategory = null) {
             //reload page (save select report date)
-            //menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
+            //menuView.ReportPeriod = _bussinesProvider.SyncActualDate(storage, menuView.ReportPeriod);
 
             //Передаем динамические типы операций
             //menuView.SelectedOperCategory = operationCategory;
-            //menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);
+            //menuView.TypesOfOperation = _bussinesProvider.GetTypeOfOpers(menuView.ReportPeriod);
 
             return PartialView("FlexMenu");
         }

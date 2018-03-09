@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using LinqKit;
-using NaftanRailway.BLL.Abstract;
-using NaftanRailway.BLL.Services;
-using NaftanRailway.BLL.DTO.Guild18;
-using NaftanRailway.Domain.Concrete;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-using NaftanRailway.BLL.Services.ExpressionTreeExtensions;
+﻿namespace NaftanRailway.BLL.Concrete.BussinesLogic {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+    using System.Linq;
+    using Abstract;
+    using Domain.Concrete;
+    using Domain.Concrete.DbContexts.Mesplan;
+    using Domain.Concrete.DbContexts.OBD;
+    using Domain.Concrete.DbContexts.ORC;
+    using DTO.Guild18;
+    using LinqKit;
+    using Services;
+    using Services.ExpressionTreeExtensions;
 
-namespace NaftanRailway.BLL.Concrete.BussinesLogic {
     public class RailwayModule : Disposable, IRailwayModule {
-        private readonly IBussinesEngage _engage;
+        private readonly IBussinesProvider _provider;
 
-        public RailwayModule(IBussinesEngage engage) {
-            _engage = engage;
+        public RailwayModule(IBussinesProvider provider) {
+            this._provider = provider;
         }
 
         /// <summary>
@@ -31,12 +31,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <returns></returns>
         public IEnumerable<ShippingDTO> ShippingsViews(EnumOperationType operationCategory, DateTime chooseDate, int page, int pageSize, out short recordCount) {
             //exit when empty result (decrease count server query)
-            if (_engage.GetCountRows<krt_Guild18>(x => x.reportPeriod == chooseDate) == 0) {
+            if (this._provider.GetCountRows<krt_Guild18>(x => x.reportPeriod == chooseDate) == 0) {
                 recordCount = 0;
                 return new List<ShippingDTO>();
             }
             //linq to object(etsng) copy in memory (because EF don't support two dbcontext work together, resolve through expression tree maybe)
-            var wrkData = _engage.GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
+            var wrkData = this._provider.GetTable<krt_Guild18, int>(x => x.reportPeriod == chooseDate).ToList();
 
             //dispatch
             var kg18Src = wrkData.GroupBy(x => new { x.reportPeriod, x.idDeliviryNote, x.warehouse })
@@ -46,16 +46,16 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //v_otpr
             var votprPredicate = PredicateBuilder.New<v_otpr>(false).DefaultExpression.And(x => ((x.oper == (short)operationCategory) || operationCategory == EnumOperationType.All) && x.state == 32 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol)));
             votprPredicate = kg18Src.Select(x => x.Key.idDeliviryNote).Aggregate(votprPredicate, (current, value) => current.Or(e => e.id == value && ((e.oper == (short)operationCategory) || operationCategory == EnumOperationType.All))).Expand();
-            var voSrc = _engage.GetTable<v_otpr, int>(votprPredicate).ToList();
+            var voSrc = this._provider.GetTable<v_otpr, int>(votprPredicate).ToList();
             recordCount = (short)voSrc.Count();
             //v_o_v
             //var vovPredicate = PredicateBuilder.New<v_o_v>(false).DefaultExpression;
             var vovPredicate = voSrc.Select(x => x.id).Aggregate(PredicateBuilder.New<v_o_v>(false).DefaultExpression, (current, value) => current.Or(v => v.id_otpr == value)).Expand();
-            var vovSrc = _engage.GetTable<v_o_v, int>(vovPredicate).ToList();
+            var vovSrc = this._provider.GetTable<v_o_v, int>(vovPredicate).ToList();
             //etsng
             //var etsngPredicate = PredicateBuilder.New<etsng>(false);
             var etsngPredicate = voSrc.Select(x => x.cod_tvk_etsng).Aggregate(PredicateBuilder.New<etsng>(false).DefaultExpression, (current, value) => current.Or(v => v.etsng1 == value)).Expand();
-            var etsngSrc = _engage.GetTable<etsng, int>(etsngPredicate).ToList();
+            var etsngSrc = this._provider.GetTable<etsng, int>(etsngPredicate).ToList();
 
             var result = (from kg in kg18Src join vo in voSrc on kg.Key.idDeliviryNote equals vo.id into g1
                           from item in g1.DefaultIfEmpty() where (item != null && item.oper == (short)operationCategory) || operationCategory == EnumOperationType.All
@@ -64,19 +64,19 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                           select new ShippingDTO() {
                               VOtpr = item,
                               Vovs = vovSrc.Where(x => (x != null) && x.id_otpr == (item == null ? 0 : item.id)),
-                              VPams = _engage.GetTable<v_pam, int>(PredicateBuilder.New<v_pam>().DefaultExpression.And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
+                              VPams = this._provider.GetTable<v_pam, int>(PredicateBuilder.New<v_pam>().DefaultExpression.And(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_pam, int>("id_ved",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 2).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
-                              VAkts = _engage.GetTable<v_akt, int>(PredicateBuilder.New<v_akt>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
+                              VAkts = this._provider.GetTable<v_akt, int>(PredicateBuilder.New<v_akt>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.kodkl) && x.state == 32)
                                 .And(PredicateExtensions.InnerContainsPredicate<v_akt, int>("id",
                                     wrkData.Where(x => x.reportPeriod == chooseDate && x.idDeliviryNote == (item != null ? item.id : 0) && x.type_doc == 3).Select(y => y.idSrcDocument != null ? (int)y.idSrcDocument : 0))).Expand())
                                 .ToList(),
-                              VKarts = _engage.GetTable<v_kart, int>(PredicateBuilder.New<v_kart>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
+                              VKarts = this._provider.GetTable<v_kart, int>(PredicateBuilder.New<v_kart>().DefaultExpression.And(x => new[] { "3494", "349402" }.Contains(x.cod_pl))
                                 .And(PredicateExtensions.InnerContainsPredicate<v_kart, int>("id",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idCard != null ? (int)y.idCard : 0))).Expand())
                                 .ToList(),
-                              KNaftan = _engage.GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
+                              KNaftan = this._provider.GetTable<krt_Naftan, int>(PredicateExtensions.InnerContainsPredicate<krt_Naftan, long>("keykrt",
                                     wrkData.Where(z => z.reportPeriod == chooseDate && z.idDeliviryNote == (item != null ? item.id : (int?)null)).Select(y => y.idScroll != null ? (long)y.idScroll : 0)))
                                 .ToList(),
                               Etsng = item2,
@@ -96,9 +96,9 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="chooseDate"></param>
         /// <returns></returns>
         public List<short> GetTypeOfOpers(DateTime chooseDate) {
-            var wrkDispatch = _engage.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).Select(y => y.First().idDeliviryNote);
+            var wrkDispatch = this._provider.GetGroup<krt_Guild18, int>(x => (int)x.idDeliviryNote, x => x.reportPeriod == chooseDate && x.idDeliviryNote != null).Select(y => y.First().idDeliviryNote);
 
-            var result = _engage.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32
+            var result = this._provider.GetGroup<v_otpr, short>(x => (short)x.oper, x => x.state == 32
                                 && (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))
                                 && wrkDispatch.Contains(x.id) && x.oper != null).Select(x => x.First().oper.Value).ToList();
 
@@ -134,13 +134,13 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             IEnumerable<string> result;
 
             try {
-                result = _engage.GetGroup<v_nach, string>(x => x.num_doc,
+                result = this._provider.GetGroup<v_nach, string>(x => x.num_doc,
                                     x => x.num_doc.StartsWith(templShNumber)
                                         && (new[] { "3494", "349402" }.Contains(x.cod_kl))
                                         && x.type_doc == 1 && (x.date_raskr >= startDate && x.date_raskr <= endDate))
                                 .Select(x => x.First().num_doc).OrderByDescending(x => x).Take(10);
             } catch (Exception ex) {
-                _engage.Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
+                this._provider.Log.DebugFormat($"AutoComplete method throws exception: {ex.Message}.");
                 throw;
             }
 
@@ -160,7 +160,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             try {
                 //type_doc 1 => one transaction (one request per one dbcontext)
-                List<krt_Guild18> result = (from item in preview join vn in _engage.GetTable<v_nach, int>(PredicateBuilder.New<v_nach>().DefaultExpression
+                List<krt_Guild18> result = (from item in preview join vn in this._provider.GetTable<v_nach, int>(PredicateBuilder.New<v_nach>().DefaultExpression
                                             .And(x => x.type_doc == 1 && new[] { "3494", "349402" }.Contains(x.cod_kl))
                                       .And(PredicateExtensions.InnerContainsPredicate<v_nach, int?>("id_otpr", preview.Select(x => (int?)x.Shipping.id))).Expand())
                               on item.Shipping.id equals vn.id_otpr
@@ -174,17 +174,17 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                                 rateVAT = Math.Round((decimal)(vn.nds / vn.summa), 2),
                                                 codeType = new[] { 166, 173, 300, 301, 344 }.Contains(Convert.ToInt32(vn.cod_sbor.Split(new[] { '.', ',' })[0])),
                                                 idCard = vn.id_kart,
-                                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
+                                                idScroll = this._provider.GetGroup<krt_Naftan_orc_sapod, long>(x => x.keykrt, x => x.id_kart == vn.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                             }).ToList();
 
                 foreach (var dispatch in preview) {
                     var shNumbers = dispatch.WagonsNumbers.Select(x => x.n_vag).ToList();
                     //type_doc 2 =>one transaction (one request per one dbcontext) (type 2 and type_doc 4 (065))
                     //in memory because not all method support entity to sql => more easy do it in memory
-                    using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
-                                         join vp in _engage.Uow.GetRepository<v_pam>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
-                                         join vn in _engage.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                    using (this._provider.Uow = new UnitOfWork()) {
+                        result.AddRange((from vpv in this._provider.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
+                                         join vp in this._provider.Uow.GetRepository<v_pam>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dved > startDate && x.dved < endDate, false) on vpv.id_ved equals vp.id_ved
+                                         join vn in this._provider.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 2 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on vp.id_kart equals vn.id_kart
                                          select new { vp.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x => new krt_Guild18 {
@@ -196,12 +196,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                 sum = (decimal)(x.summa + x.nds),
                                 idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                 codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
+                                idScroll = this._provider.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                             }));
                     }
                     //065
-                    using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vpv in _engage.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false) join vn in _engage.Uow.GetRepository<v_nach>()
+                    using (this._provider.Uow = new UnitOfWork()) {
+                        result.AddRange((from vpv in this._provider.Uow.GetRepository<v_pam_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false) join vn in this._provider.Uow.GetRepository<v_nach>()
                                          .GetAll(x => x.type_doc == 4 && x.cod_sbor == "065" && new[] { "3494", "349402" }.Contains(x.cod_kl) && x.date_raskr > startDate && x.date_raskr < endDate, false) on
                                              new { p1 = vpv.d_pod, p2 = vpv.d_ub } equals new { p1 = vn.date_raskr, p2 = vn.date_raskr }
                                          select new { vpv.id_ved, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
@@ -215,14 +215,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                     sum = (decimal)(x.summa + x.nds),
                                     idCard = x.id_kart, rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
+                                    idScroll = this._provider.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                 }));
                     }
                     ////type_doc 3 =>one transaction (one request per one dbcontext)
-                    using (_engage.Uow = new UnitOfWork()) {
-                        result.AddRange((from vav in _engage.Uow.GetRepository<v_akt_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
-                                         join va in _engage.Uow.GetRepository<v_akt>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
-                                         join vn in _engage.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
+                    using (this._provider.Uow = new UnitOfWork()) {
+                        result.AddRange((from vav in this._provider.Uow.GetRepository<v_akt_vag>().GetAll(x => shNumbers.Contains(x.nomvag), false)
+                                         join va in this._provider.Uow.GetRepository<v_akt>().GetAll(x => x.state == 32 && new[] { "3494", "349402" }.Contains(x.kodkl) && x.dakt > startDate && x.dakt < endDate, false) on vav.id_akt equals va.id
+                                         join vn in this._provider.Uow.GetRepository<v_nach>().GetAll(x => x.type_doc == 3 && new[] { "3494", "349402" }.Contains(x.cod_kl), false)
                                              on va.id_kart equals vn.id_kart
                                          select new { va.id, vn.cod_sbor, vn.summa, vn.nds, vn.id_kart }).Distinct().ToList()
                             .Select(x =>
@@ -236,12 +236,12 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                                     idCard = x.id_kart,
                                     rateVAT = Math.Round((decimal)(x.nds / x.summa), 2),
                                     codeType = new[] { "166", "173", "300", "301", "344" }.Contains(x.cod_sbor.Split(new[] { '.', ',' })[0]),
-                                    idScroll = _engage.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
+                                    idScroll = this._provider.GetGroup<krt_Naftan_orc_sapod, long>(y => y.keykrt, z => z.id_kart == x.id_kart).Select(y => y.First().keykrt).FirstOrDefault()
                                 }));
 
                     }
                     //luggage (type_doc 0 or 4)
-                    result.AddRange(_engage.GetTable<krt_Naftan_orc_sapod, long>(x => new[] { 611, 629, 125 }.Contains(x.vidsbr) && x.dt.Month == reportPeriod.Month && x.dt.Year == reportPeriod.Year).ToList()
+                    result.AddRange(this._provider.GetTable<krt_Naftan_orc_sapod, long>(x => new[] { 611, 629, 125 }.Contains(x.vidsbr) && x.dt.Month == reportPeriod.Month && x.dt.Year == reportPeriod.Year).ToList()
                         .Select(x => new krt_Guild18 {
                             reportPeriod = reportPeriod,
                             type_doc = x.tdoc,
@@ -276,15 +276,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             foreach (var dispatch in preview) {
                 var temp = dispatch;
 
-                using (_engage.Uow = new UnitOfWork()) {
+                using (this._provider.Uow = new UnitOfWork()) {
                     //для динамического соединения
-                    var sapodConn = "[" + _engage.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
-                    var orcConn = "[" + _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
+                    var sapodConn = "[" + this._provider.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.DataSource + @"].[" + this._provider.Uow.GetRepository<v_otpr>().ActiveDbContext.Database.Connection.Database + @"]";
+                    var orcConn = "[" + this._provider.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.DataSource + @"].[" + this._provider.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.Connection.Database + @"]";
                     var carriages = (temp.WagonsNumbers.Any()) ? string.Join(",", temp.WagonsNumbers.Select(x => $"'{x.n_vag}'")) : string.Empty;
 
                     //Для mapping требуется точное совпадение имен и типов столбцов
                     //Выбираем с какой стороны работать (сервер) по сущности
-                    var result = _engage.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.SqlQuery<krt_Guild18>(@"
+                    var result = this._provider.Uow.GetRepository<krt_Guild18>().ActiveDbContext.Database.SqlQuery<krt_Guild18>(@"
                     WITH SubResutl AS (
                         /*Doc from Invoices*/
                         SELECT @reportPeriod AS [reportPeriod],     vn.[id] AS [idSapod],     null AS [idScroll], null AS [scrollColl],
@@ -358,16 +358,16 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                         //Add or Delete
                         foreach (var entity in result) {
                             var e = entity;
-                            var item = _engage.Uow.GetRepository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
+                            var item = this._provider.Uow.GetRepository<krt_Guild18>().Get(x => x.reportPeriod == reportPeriod && x.idSapod == e.idSapod && x.scrollColl == e.scrollColl && x.idScroll == e.idScroll && x.idDeliviryNote == e.idDeliviryNote);
 
                             entity.id = (item == null) ? 0 : item.id;
-                            _engage.Uow.GetRepository<krt_Guild18>().Merge(entity);
+                            this._provider.Uow.GetRepository<krt_Guild18>().Merge(entity);
                         }
 
-                        _engage.Uow.Save();
+                        this._provider.Uow.Save();
 
                     } catch (Exception ex) {
-                        _engage.Log.DebugFormat("Exception: {0}", ex.Message);
+                        this._provider.Log.DebugFormat("Exception: {0}", ex.Message);
                         return false;
                     }
                 }
@@ -377,15 +377,15 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         public bool DeleteInvoice(DateTime reportPeriod, int? idInvoice) {
-            using (_engage.Uow = new UnitOfWork()) {
+            using (this._provider.Uow = new UnitOfWork()) {
                 try {
-                    _engage.Uow.GetRepository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false);
+                    this._provider.Uow.GetRepository<krt_Guild18>().Delete(x => x.reportPeriod == reportPeriod && x.idDeliviryNote == idInvoice, false);
                 } catch (Exception) {
                     return false;
                 }
                 //Some way to see generate SQL code
                 //var sql = ((System.Data.Entity.Core.Objects.ObjectQuery)query).ToTraceString();
-                _engage.Uow.Save();
+                this._provider.Uow.Save();
             }
             return true;
         }
@@ -396,14 +396,14 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         /// <param name="reportPeriod"></param>
         /// <returns></returns>
         public bool UpdateExists(DateTime reportPeriod) {
-            var dataRows = _engage.GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x => new { x.idDeliviryNote, x.warehouse })
+            var dataRows = this._provider.GetTable<krt_Guild18, int?>(x => x.reportPeriod == reportPeriod && x.idDeliviryNote != null).GroupBy(x => new { x.idDeliviryNote, x.warehouse })
                 .Select(y => new ShippingInfoLineDTO() {
-                    Shipping = _engage.GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
-                    WagonsNumbers = _engage.GetTable<v_o_v, int>(x => x.id_otpr == y.Key.idDeliviryNote).ToList(),
+                    Shipping = this._provider.GetTable<v_otpr, int>(x => x.id == y.Key.idDeliviryNote).First(),
+                    WagonsNumbers = this._provider.GetTable<v_o_v, int>(x => x.id_otpr == y.Key.idDeliviryNote).ToList(),
                     Warehouse = (int)y.Key.warehouse
                 }).ToList();
 
-            PackDocSql(reportPeriod, dataRows);
+            this.PackDocSql(reportPeriod, dataRows);
 
             return true;
         }
@@ -413,19 +413,19 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             DateTime endDate = dateOper.AddMonths(1).AddDays(5);
             IEnumerable<ShippingInfoLineDTO> result = new List<ShippingInfoLineDTO>();
 
-            var delivery = _engage.GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
+            var delivery = this._provider.GetTable<v_otpr, int>(x => x.n_otpr == deliveryNote && x.state == 32 && x.date_oper >= startDate && x.date_oper <= endDate &&
                (new[] { "3494", "349402" }.Contains(x.cod_kl_otpr) || new[] { "3494", "349402" }.Contains(x.cod_klient_pol))).ToList();
 
             if (!delivery.Any()) {
                 recordCount = 0;
             } else {
                 //one transaction (one request per one dbcontext)
-                using (_engage.Uow = new UnitOfWork()) {
-                    result = (from sh in delivery join e in _engage.Uow.GetRepository<etsng>().GetAll(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
+                using (this._provider.Uow = new UnitOfWork()) {
+                    result = (from sh in delivery join e in this._provider.Uow.GetRepository<etsng>().GetAll(enableDetectChanges: false) on sh.cod_tvk_etsng equals e.etsng1
                               select new ShippingInfoLineDTO() {
                                   Shipping = sh,
                                   CargoEtsngName = e,
-                                  WagonsNumbers = _engage.GetTable<v_o_v, int>(x => x.id_otpr == sh.id).ToList(),
+                                  WagonsNumbers = this._provider.GetTable<v_o_v, int>(x => x.id_otpr == sh.id).ToList(),
                               }).ToList();
                 }
                 recordCount = (short)result.Count();
@@ -440,7 +440,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
             //code of goods that not necessary to funded
             var outSearch = new[] { "" };
 
-            var estimatedCarriages = _engage.GetTable<v_OPER_ASUS, int>(x =>
+            var estimatedCarriages = this._provider.GetTable<v_OPER_ASUS, int>(x =>
                     x.time_oper >= supremePeriod &&
                     x.cod_oper == "01" &&
                     x.cod_grpl == "3494" &&
@@ -449,7 +449,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
                     !x.cod_gruz.StartsWith("421")
                ).OrderByDescending(x => x.time_oper).ToList();
 
-            var estimatedAltCarriages = _engage.GetTable<v_02_podhod, DateTime?>(x =>
+            var estimatedAltCarriages = this._provider.GetTable<v_02_podhod, DateTime?>(x =>
                     x.date_oper_v >= currentMonth &&
                     x.kod_pol == "3494" &&
                     !outSearch.Contains(x.kod_etsng) &&
@@ -458,7 +458,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
 
             //return cargo name
             Func<string, string> cargoName = (cod) => {
-                var request = _engage.GetTable<etsng, int>(x => x.etsng1.Substring(0, 5) == cod).FirstOrDefault();
+                var request = this._provider.GetTable<etsng, int>(x => x.etsng1.Substring(0, 5) == cod).FirstOrDefault();
 
                 return request == null ? String.Empty : request.name;
             };
@@ -476,7 +476,7 @@ namespace NaftanRailway.BLL.Concrete.BussinesLogic {
         }
 
         protected override void ExtenstionDispose() {
-            _engage?.Dispose();
+            this._provider?.Dispose();
         }
     }
 }

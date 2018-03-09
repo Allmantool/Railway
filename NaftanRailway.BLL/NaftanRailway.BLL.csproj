@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAuthorizationEngage.cs" />
-    <Compile Include="Abstract\IBussinesEngage.cs" />
+    <Compile Include="Abstract\IBussinesProvider.cs" />
     <Compile Include="Abstract\INomenclatureModule.cs" />
     <Compile Include="Abstract\IRailwayModule.cs" />
     <Compile Include="Abstract\ISessionStorage.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Services\HierarchyTreeExtensions\TreeExtenstions.cs" />
     <Compile Include="Services\IoC\NinjectRegistrations.cs" />
     <Compile Include="Services\Mapping\AutoMapperBLLConfiguration.cs" />
-    <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />
+    <Compile Include="Concrete\BussinesLogic\BussinesProvider.cs" />
     <Compile Include="Services\EnumOperationType.cs" />
     <Compile Include="Concrete\BussinesLogic\NomenclatureModule.cs" />
     <Compile Include="Concrete\BussinesLogic\RailwayModule.cs" />

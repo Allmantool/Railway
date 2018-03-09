@@ -40,7 +40,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
             if (Request.IsAjaxRequest() && ModelState.IsValid) {
                 long recordCount;
 
-                //await _bussinesEngage.SyncWithOrc();
+                //await _bussinesProvider.SyncWithOrc();
 
                 //period = period ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                 //if period == null => all records

@@ -3,7 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
-    using NaftanRailway.BLL.Abstract.Specifications;
+    using Abstract.Specifications;
 
     public abstract class CompositeSpecification<T> : ISpecification<T>
     {
