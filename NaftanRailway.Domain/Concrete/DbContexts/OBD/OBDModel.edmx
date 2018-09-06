@@ -5,7 +5,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="OBDModelEntities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OBDModelEntities.Store" Alias="Self" ProvIder="System.Data.SqlClient" ProvIderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="OBDModelEntitiesStoreContainer">
     <EntitySet Name="v_karts" EntityType="OBDModelEntities.Store.v_karts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="v_nachs" EntityType="OBDModelEntities.Store.v_nachs" store:Type="Tables" Schema="dbo" />
@@ -36,9 +36,9 @@
   </EntityContainer>
   <EntityType Name="v_karts">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="num_kart" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="date_okrt" Type="datetime" Nullable="true" />
     <Property Name="cod_pl" Type="char" Nullable="true" MaxLength="6" />
@@ -51,12 +51,12 @@
   </EntityType>
   <EntityType Name="v_nachs">
     <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="id_kart" />
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Id_kart" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="id_kart" Type="int" Nullable="false" />
-    <Property Name="id_otpr" Type="int" Nullable="true" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id_kart" Type="int" Nullable="false" />
+    <Property Name="Id_otpr" Type="int" Nullable="true" />
     <Property Name="cod_kl" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="type_doc" Type="int" Nullable="true" />
     <Property Name="oper" Type="smallint" Nullable="true" />
@@ -68,25 +68,25 @@
     <Property Name="summa" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="nds" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="textm" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="id_ed" Type="int" Nullable="true" />
+    <Property Name="Id_ed" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="v_o_vs">
     <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="id_otpr" />
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Id_otpr" />
     </Key>
-    <Property Name="id" Type="bigint" Nullable="false" />
-    <Property Name="id_otpr" Type="int" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Id_otpr" Type="int" Nullable="false" />
     <Property Name="n_vag" Type="varchar" Nullable="true" MaxLength="8" />
     <Property Name="massa" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="v_OPER_ASUSs">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="bigint" Nullable="false" />
-    <Property Name="obj_id" Type="bigint" Nullable="true" />
-    <Property Name="id_vag" Type="bigint" Nullable="true" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="obj_Id" Type="bigint" Nullable="true" />
+    <Property Name="Id_vag" Type="bigint" Nullable="true" />
     <Property Name="cod_oper" Type="char" Nullable="true" MaxLength="2" />
     <Property Name="time_oper" Type="datetime" Nullable="true" />
     <Property Name="in_vgn" Type="char" Nullable="true" MaxLength="8" />
@@ -98,9 +98,9 @@
   </EntityType>
   <EntityType Name="v_otprs">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="state" Type="int" Nullable="true" />
     <Property Name="oper" Type="smallint" Nullable="true" />
     <Property Name="date_oper" Type="datetime" Nullable="true" />
@@ -122,29 +122,29 @@
     <Property Name="nam_otpr" Type="varchar" Nullable="true" MaxLength="140" />
     <Property Name="nam_pol" Type="varchar" Nullable="true" MaxLength="140" />
     <Property Name="fio_tk" Type="varchar" Nullable="true" MaxLength="15" />
-    <Property Name="eid" Type="bigint" Nullable="true" />
-    <Property Name="eid_zag" Type="bigint" Nullable="true" />
+    <Property Name="eId" Type="bigint" Nullable="true" />
+    <Property Name="eId_zag" Type="bigint" Nullable="true" />
   </EntityType>
   <EntityType Name="v_pams">
     <Key>
-      <PropertyRef Name="id_ved" />
+      <PropertyRef Name="Id_ved" />
     </Key>
-    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="Id_ved" Type="int" Nullable="false" />
     <Property Name="nved" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="dved" Type="datetime" Nullable="true" />
     <Property Name="dzakr" Type="datetime" Nullable="true" />
     <Property Name="kodkl" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="nkrt" Type="char" Nullable="true" MaxLength="6" />
-    <Property Name="id_kart" Type="int" Nullable="true" />
+    <Property Name="Id_kart" Type="int" Nullable="true" />
     <Property Name="state" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="v_pam_vags">
     <Key>
-      <PropertyRef Name="id_vag" />
-      <PropertyRef Name="id_ved" />
+      <PropertyRef Name="Id_vag" />
+      <PropertyRef Name="Id_ved" />
     </Key>
-    <Property Name="id_vag" Type="int" Nullable="false" />
-    <Property Name="id_ved" Type="int" Nullable="false" />
+    <Property Name="Id_vag" Type="int" Nullable="false" />
+    <Property Name="Id_ved" Type="int" Nullable="false" />
     <Property Name="nomvag" Type="char" Nullable="true" MaxLength="8" />
     <Property Name="kodgr" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="kodop" Type="smallint" Nullable="true" />
@@ -153,24 +153,24 @@
   </EntityType>
   <EntityType Name="v_akts">
     <Key>
-      <PropertyRef Name="id" />
+      <PropertyRef Name="Id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="kodls" Type="char" Nullable="true" MaxLength="2" />
     <Property Name="dakt" Type="datetime" Nullable="true" />
     <Property Name="kodkl" Type="char" Nullable="true" MaxLength="6" />
     <Property Name="nkrt" Type="char" Nullable="true" MaxLength="6" />
-    <Property Name="id_kart" Type="int" Nullable="true" />
+    <Property Name="Id_kart" Type="int" Nullable="true" />
     <Property Name="state" Type="int" Nullable="true" />
     <Property Name="nakt" Type="char" Nullable="true" MaxLength="6" />
   </EntityType>
   <EntityType Name="v_akt_vags">
     <Key>
-      <PropertyRef Name="id" />
-      <PropertyRef Name="id_akt" />
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Id_akt" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="id_akt" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id_akt" Type="int" Nullable="false" />
     <Property Name="nomvag" Type="char" Nullable="true" MaxLength="12" />
   </EntityType>
   <EntityType Name="v_02_podhods">
@@ -195,10 +195,10 @@
     <End Role="v_nach" Type="OBDModelEntities.Store.v_nachs" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="v_kart">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="v_nach">
-        <PropertyRef Name="id_kart" />
+        <PropertyRef Name="Id_kart" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -207,10 +207,10 @@
     <End Role="v_o_v" Type="OBDModelEntities.Store.v_o_vs" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="v_otpr">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="v_o_v">
-        <PropertyRef Name="id_otpr" />
+        <PropertyRef Name="Id_otpr" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -219,10 +219,10 @@
     <End Role="v_akt_vag" Type="OBDModelEntities.Store.v_akt_vags" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="v_akt">
-        <PropertyRef Name="id" />
+        <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="v_akt_vag">
-        <PropertyRef Name="id_akt" />
+        <PropertyRef Name="Id_akt" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -231,10 +231,10 @@
     <End Role="v_pam_vag" Type="OBDModelEntities.Store.v_pam_vags" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="v_pam">
-        <PropertyRef Name="id_ved" />
+        <PropertyRef Name="Id_ved" />
       </Principal>
       <Dependent Role="v_pam_vag">
-        <PropertyRef Name="id_ved" />
+        <PropertyRef Name="Id_ved" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -275,9 +275,9 @@
         </EntityContainer>
         <EntityType Name="v_kart">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="num_kart" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="date_okrt" Type="DateTime" Precision="3" />
           <Property Name="cod_pl" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
@@ -292,12 +292,12 @@
         </EntityType>
         <EntityType Name="v_nach">
           <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_kart" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_kart" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="id_kart" Type="Int32" Nullable="false" />
-          <Property Name="id_otpr" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id_kart" Type="Int32" Nullable="false" />
+          <Property Name="Id_otpr" Type="Int32" />
           <Property Name="cod_kl" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="type_doc" Type="Int32" />
           <Property Name="oper" Type="Int16" />
@@ -309,17 +309,17 @@
           <Property Name="summa" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="nds" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="textm" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="id_ed" Type="Int32" />
+          <Property Name="Id_ed" Type="Int32" />
           <NavigationProperty Name="v_kart" Relationship="OBDModelEntities.v_kartv_nach" FromRole="v_nach"
                               ToRole="v_kart" />
         </EntityType>
         <EntityType Name="v_o_v">
           <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_otpr" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_otpr" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="id_otpr" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="Id_otpr" Type="Int32" Nullable="false" />
           <Property Name="n_vag" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="massa" Type="Int32" />
           <NavigationProperty Name="v_otpr" Relationship="OBDModelEntities.v_otprv_o_v" FromRole="v_o_v"
@@ -327,11 +327,11 @@
         </EntityType>
         <EntityType Name="v_OPER_ASUS">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="obj_id" Type="Int64" />
-          <Property Name="id_vag" Type="Int64" />
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="obj_Id" Type="Int64" />
+          <Property Name="Id_vag" Type="Int64" />
           <Property Name="cod_oper" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="time_oper" Type="DateTime" Precision="3" />
           <Property Name="in_vgn" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
@@ -343,9 +343,9 @@
         </EntityType>
         <EntityType Name="v_otpr">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="state" Type="Int32" />
           <Property Name="oper" Type="Int16" />
           <Property Name="date_oper" Type="DateTime" Precision="3" />
@@ -367,32 +367,32 @@
           <Property Name="nam_otpr" Type="String" MaxLength="140" FixedLength="false" Unicode="false" />
           <Property Name="nam_pol" Type="String" MaxLength="140" FixedLength="false" Unicode="false" />
           <Property Name="fio_tk" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="eid" Type="Int64" />
-          <Property Name="eid_zag" Type="Int64" />
+          <Property Name="eId" Type="Int64" />
+          <Property Name="eId_zag" Type="Int64" />
           <NavigationProperty Name="v_o_v" Relationship="OBDModelEntities.v_otprv_o_v" FromRole="v_otpr" ToRole="v_o_v" />
         </EntityType>
         <EntityType Name="v_pam">
           <Key>
-            <PropertyRef Name="id_ved" />
+            <PropertyRef Name="Id_ved" />
           </Key>
-          <Property Name="id_ved" Type="Int32" Nullable="false" />
+          <Property Name="Id_ved" Type="Int32" Nullable="false" />
           <Property Name="nved" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="dved" Type="DateTime" Precision="3" />
           <Property Name="dzakr" Type="DateTime" Precision="3" />
           <Property Name="kodkl" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="nkrt" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
-          <Property Name="id_kart" Type="Int32" />
+          <Property Name="Id_kart" Type="Int32" />
           <Property Name="state" Type="Int32" />
           <NavigationProperty Name="v_pam_vag" Relationship="OBDModelEntities.v_pamv_pam_vag" FromRole="v_pam"
                               ToRole="v_pam_vag" />
         </EntityType>
         <EntityType Name="v_pam_vag">
           <Key>
-            <PropertyRef Name="id_vag" />
-            <PropertyRef Name="id_ved" />
+            <PropertyRef Name="Id_vag" />
+            <PropertyRef Name="Id_ved" />
           </Key>
-          <Property Name="id_vag" Type="Int32" Nullable="false" />
-          <Property Name="id_ved" Type="Int32" Nullable="false" />
+          <Property Name="Id_vag" Type="Int32" Nullable="false" />
+          <Property Name="Id_ved" Type="Int32" Nullable="false" />
           <Property Name="nomvag" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
           <Property Name="kodgr" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="kodop" Type="Int16" />
@@ -403,14 +403,14 @@
         </EntityType>
         <EntityType Name="v_akt">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="kodls" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="dakt" Type="DateTime" Precision="3" />
           <Property Name="kodkl" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="nkrt" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
-          <Property Name="id_kart" Type="Int32" />
+          <Property Name="Id_kart" Type="Int32" />
           <Property Name="state" Type="Int32" />
           <NavigationProperty Name="v_akt_vag" Relationship="OBDModelEntities.v_aktv_akt_vag" FromRole="v_akt"
                               ToRole="v_akt_vag" />
@@ -418,11 +418,11 @@
         </EntityType>
         <EntityType Name="v_akt_vag">
           <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="id_akt" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Id_akt" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="id_akt" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id_akt" Type="Int32" Nullable="false" />
           <Property Name="nomvag" Type="String" MaxLength="12" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="v_akt" Relationship="OBDModelEntities.v_aktv_akt_vag" FromRole="v_akt_vag"
                               ToRole="v_akt" />
@@ -432,10 +432,10 @@
           <End Type="OBDModelEntities.v_nach" Role="v_nach" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="v_kart">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="v_nach">
-              <PropertyRef Name="id_kart" />
+              <PropertyRef Name="Id_kart" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -444,10 +444,10 @@
           <End Type="OBDModelEntities.v_o_v" Role="v_o_v" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="v_otpr">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="v_o_v">
-              <PropertyRef Name="id_otpr" />
+              <PropertyRef Name="Id_otpr" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -456,10 +456,10 @@
           <End Type="OBDModelEntities.v_akt_vag" Role="v_akt_vag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="v_akt">
-              <PropertyRef Name="id" />
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="v_akt_vag">
-              <PropertyRef Name="id_akt" />
+              <PropertyRef Name="Id_akt" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -468,10 +468,10 @@
           <End Type="OBDModelEntities.v_pam_vag" Role="v_pam_vag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="v_pam">
-              <PropertyRef Name="id_ved" />
+              <PropertyRef Name="Id_ved" />
             </Principal>
             <Dependent Role="v_pam_vag">
-              <PropertyRef Name="id_ved" />
+              <PropertyRef Name="Id_ved" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -501,7 +501,7 @@
     <EntitySetMapping Name="v_karts">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_kart)">
         <MappingFragment StoreEntitySet="v_karts">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="num_kart" ColumnName="num_kart" />
           <ScalarProperty Name="date_okrt" ColumnName="date_okrt" />
           <ScalarProperty Name="cod_pl" ColumnName="cod_pl" />
@@ -517,9 +517,9 @@
     <EntitySetMapping Name="v_nachs">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_nach)">
         <MappingFragment StoreEntitySet="v_nachs">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
-          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_kart" ColumnName="Id_kart" />
+          <ScalarProperty Name="Id_otpr" ColumnName="Id_otpr" />
           <ScalarProperty Name="cod_kl" ColumnName="cod_kl" />
           <ScalarProperty Name="type_doc" ColumnName="type_doc" />
           <ScalarProperty Name="oper" ColumnName="oper" />
@@ -531,15 +531,15 @@
           <ScalarProperty Name="summa" ColumnName="summa" />
           <ScalarProperty Name="nds" ColumnName="nds" />
           <ScalarProperty Name="textm" ColumnName="textm" />
-          <ScalarProperty Name="id_ed" ColumnName="id_ed" />
+          <ScalarProperty Name="Id_ed" ColumnName="Id_ed" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="v_o_vs">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_o_v)">
         <MappingFragment StoreEntitySet="v_o_vs">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_otpr" ColumnName="id_otpr" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_otpr" ColumnName="Id_otpr" />
           <ScalarProperty Name="n_vag" ColumnName="n_vag" />
           <ScalarProperty Name="massa" ColumnName="massa" />
         </MappingFragment>
@@ -548,9 +548,9 @@
     <EntitySetMapping Name="v_OPER_ASUSs">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_OPER_ASUS)">
         <MappingFragment StoreEntitySet="v_OPER_ASUSs">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="obj_id" ColumnName="obj_id" />
-          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="obj_Id" ColumnName="obj_Id" />
+          <ScalarProperty Name="Id_vag" ColumnName="Id_vag" />
           <ScalarProperty Name="cod_oper" ColumnName="cod_oper" />
           <ScalarProperty Name="time_oper" ColumnName="time_oper" />
           <ScalarProperty Name="in_vgn" ColumnName="in_vgn" />
@@ -565,7 +565,7 @@
     <EntitySetMapping Name="v_otprs">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_otpr)">
         <MappingFragment StoreEntitySet="v_otprs">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="state" ColumnName="state" />
           <ScalarProperty Name="oper" ColumnName="oper" />
           <ScalarProperty Name="date_oper" ColumnName="date_oper" />
@@ -587,21 +587,21 @@
           <ScalarProperty Name="nam_otpr" ColumnName="nam_otpr" />
           <ScalarProperty Name="nam_pol" ColumnName="nam_pol" />
           <ScalarProperty Name="fio_tk" ColumnName="fio_tk" />
-          <ScalarProperty Name="eid" ColumnName="eid" />
-          <ScalarProperty Name="eid_zag" ColumnName="eid_zag" />
+          <ScalarProperty Name="eId" ColumnName="eId" />
+          <ScalarProperty Name="eId_zag" ColumnName="eId_zag" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="v_pams">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_pam)">
         <MappingFragment StoreEntitySet="v_pams">
-          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="Id_ved" ColumnName="Id_ved" />
           <ScalarProperty Name="nved" ColumnName="nved" />
           <ScalarProperty Name="dved" ColumnName="dved" />
           <ScalarProperty Name="dzakr" ColumnName="dzakr" />
           <ScalarProperty Name="kodkl" ColumnName="kodkl" />
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="Id_kart" ColumnName="Id_kart" />
           <ScalarProperty Name="state" ColumnName="state" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -609,8 +609,8 @@
     <EntitySetMapping Name="v_pam_vags">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_pam_vag)">
         <MappingFragment StoreEntitySet="v_pam_vags">
-          <ScalarProperty Name="id_vag" ColumnName="id_vag" />
-          <ScalarProperty Name="id_ved" ColumnName="id_ved" />
+          <ScalarProperty Name="Id_vag" ColumnName="Id_vag" />
+          <ScalarProperty Name="Id_ved" ColumnName="Id_ved" />
           <ScalarProperty Name="nomvag" ColumnName="nomvag" />
           <ScalarProperty Name="kodgr" ColumnName="kodgr" />
           <ScalarProperty Name="kodop" ColumnName="kodop" />
@@ -622,12 +622,12 @@
     <EntitySetMapping Name="v_akts">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_akt)">
         <MappingFragment StoreEntitySet="v_akts">
-          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="kodls" ColumnName="kodls" />
           <ScalarProperty Name="dakt" ColumnName="dakt" />
           <ScalarProperty Name="kodkl" ColumnName="kodkl" />
           <ScalarProperty Name="nkrt" ColumnName="nkrt" />
-          <ScalarProperty Name="id_kart" ColumnName="id_kart" />
+          <ScalarProperty Name="Id_kart" ColumnName="Id_kart" />
           <ScalarProperty Name="state" ColumnName="state" />
           <ScalarProperty Name="nakt" ColumnName="nakt" />
         </MappingFragment>
@@ -636,8 +636,8 @@
     <EntitySetMapping Name="v_akt_vags">
       <EntityTypeMapping TypeName="IsTypeOf(OBDModelEntities.v_akt_vag)">
         <MappingFragment StoreEntitySet="v_akt_vags">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="id_akt" ColumnName="id_akt" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Id_akt" ColumnName="Id_akt" />
           <ScalarProperty Name="nomvag" ColumnName="nomvag" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -672,10 +672,10 @@
     </Connection>
     <Options>
       <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="ValIdateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="UseLegacyProvIder" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

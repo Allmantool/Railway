@@ -11,7 +11,7 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
 
         protected override TreeNode MySelf => this;
 
-        [Key()/*, Column("id")*/]
+        [Key()/*, Column("Id")*/]
         public override long Id { get; set; }
         public long ParentId { get; set; }
         public int GroupId { get; set; }

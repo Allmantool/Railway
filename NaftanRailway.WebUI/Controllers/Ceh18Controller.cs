@@ -19,7 +19,7 @@ namespace NaftanRailway.WebUI.Controllers {
         private readonly IRailwayModule _bussinesEngage;
 
         public Ceh18Controller(IRailwayModule bussinesEngage, ILog logger) : base(logger) {
-            _bussinesEngage = bussinesEngage;
+            this._bussinesEngage = bussinesEngage;
         }
 
         /// <summary>
@@ -34,27 +34,27 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, short pageSize = 9, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
                 short recordCount;
-                menuView.ReportPeriod = _bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
+                menuView.ReportPeriod = this._bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
                 //temp resolve (In some reason default binding not parse json to enum from queryString collection)
-                var typeOfOperation = Request.QueryString["operationCategory"] == String.Empty ? (int)EnumOperationType.All : Int32.Parse(Request.QueryString["operationCategory"]);
+                var typeOfOperation = this.Request.QueryString["operationCategory"] == String.Empty ? (int)EnumOperationType.All : Int32.Parse(this.Request.QueryString["operationCategory"]);
 
                 var model = new DispatchListViewModel() {
-                    Dispatchs = _bussinesEngage.ShippingsViews((EnumOperationType)typeOfOperation, menuView.ReportPeriod, page, pageSize, out recordCount),
-                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount, RoutingDictionary = Request.RequestContext.RouteData.Values },
+                    Dispatchs = this._bussinesEngage.ShippingsViews((EnumOperationType)typeOfOperation, menuView.ReportPeriod, page, pageSize, out recordCount),
+                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount, RoutingDictionary = this.Request.RequestContext.RouteData.Values },
                 };
 
                 //tips: consider use web api mechanism instead of mvc implementation
                 if (asService) {
-                    return Json(model, JsonRequestBehavior.AllowGet);
+                    return this.Json(model, JsonRequestBehavior.AllowGet);
                 }
 
-                return PartialView("ShippingSummary", model);
+                return this.PartialView("ShippingSummary", model);
             }
 
-            return View();
+            return this.View();
         }
 
         /// <summary>
@@ -65,12 +65,12 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult Index(InputMenuViewModel menuView, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
                 short recordCount;
-                var result = _bussinesEngage.ShippingPreview(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
+                var result = this._bussinesEngage.ShippingPreview(menuView.ShippingChoise, menuView.ReportPeriod, out recordCount);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
+                    return this.Json(result, JsonRequestBehavior.DenyGet);
                 }
             }
 
@@ -85,9 +85,9 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         public JsonResult SearchNumberShipping(InputMenuViewModel menuView) {
 
-            var result = _bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, menuView.ReportPeriod);
+            var result = this._bussinesEngage.AutoCompleteShipping(menuView.ShippingChoise, menuView.ReportPeriod);
 
-            return Json(result, JsonRequestBehavior.DenyGet);
+            return this.Json(result, JsonRequestBehavior.DenyGet);
         }
 
         /// <summary>
@@ -96,13 +96,13 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult AddDocumentsInfo(SessionStorage storage, DateTime reportPeriod, IList<ShippingInfoLineDTO> docInfo, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
-                var result = _bussinesEngage.PackDocSql(reportPeriod, docInfo);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid && asService) {
+                var result = this._bussinesEngage.PackDocSql(reportPeriod, docInfo);
 
-                return Json(result, JsonRequestBehavior.DenyGet);
+                return this.Json(result, JsonRequestBehavior.DenyGet);
             }
 
-            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
+            return this.Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
 
         /// <summary>
@@ -116,25 +116,25 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid && asService) {
                 //TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
-                var result = _bussinesEngage.DeleteInvoice(reportPeriod, idInvoice);
+                var result = this._bussinesEngage.DeleteInvoice(reportPeriod, idInvoice);
 
-                return Json(result, JsonRequestBehavior.DenyGet);
+                return this.Json(result, JsonRequestBehavior.DenyGet);
             }
 
-            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
+            return this.Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
 
         [HttpPost]
         public ActionResult UpdateExists(SessionStorage storage, DateTime reportPeriod, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
-                var result = _bussinesEngage.UpdateExists(reportPeriod);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid && asService) {
+                var result = this._bussinesEngage.UpdateExists(reportPeriod);
 
-                return Json(result, JsonRequestBehavior.DenyGet);
+                return this.Json(result, JsonRequestBehavior.DenyGet);
             }
 
-            return Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
+            return this.Index(storage, new InputMenuViewModel() { ReportPeriod = reportPeriod }, asService: asService);
         }
 
         /// <summary>
@@ -144,9 +144,9 @@ namespace NaftanRailway.WebUI.Controllers {
         [HttpPost]
         //[NonAction]
         public JsonResult Overview() {
-            var result = _bussinesEngage.EstimatedCarrieages();
+            var result = this._bussinesEngage.EstimatedCarrieages();
 
-            return Json(result, JsonRequestBehavior.DenyGet);
+            return this.Json(result, JsonRequestBehavior.DenyGet);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace NaftanRailway.WebUI.ViewModels {
         public int Warehouse { get; set; }
 
         public ShippingInfoLine() {
-            IsSelected = true;
+            this.IsSelected = true;
         }
     }
 }

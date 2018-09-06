@@ -12,24 +12,24 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
         private readonly IAuthorizationEngage _authLogic;
 
         public AdminController(IAuthorizationEngage authLogic) {
-            _authLogic = authLogic;
+            this._authLogic = authLogic;
         }
 
         [ResponseType(typeof(ADUserDTO))]
         public IHttpActionResult GetAdminPrincipal() {
-            var result = _authLogic.AdminPrincipal(User.Identity.Name);
+            var result = this._authLogic.AdminPrincipal(this.User.Identity.Name);
 
-            return Ok(result);
+            return this.Ok(result);
         }
 
         //responseType for documentation page
         [ResponseType(typeof(ADUserDTO))]
         public IHttpActionResult GetGroupMembers(string id) {
-            var result = _authLogic.GetMembers(id);
+            var result = this._authLogic.GetMembers(id);
 
-            if (result == null) return NotFound();
+            if (result == null) return this.NotFound();
 
-            return Ok(result);
+            return this.Ok(result);
         }
 
         private IHttpActionResult GetConnStrings() {
@@ -39,7 +39,7 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers.api {
                 configData.Add(cs.Name, string.Format(@"{0} {1}", cs.ProviderName, cs.ConnectionString));
             }
 
-            return Ok(configData);
+            return this.Ok(configData);
         }
     }
 }

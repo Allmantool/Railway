@@ -7,8 +7,8 @@
         private readonly object disposeLockМarker = new object();
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="Disposable"/> class. 
-        /// This makes sense when cleanup is not urgent and hastening it 
+        /// Finalizes an instance of the <see cref="Disposable"/> class.
+        /// This makes sense when cleanup is not urgent and hastening it
         /// by calling Dispose is more of an optimization than a necessity.
         /// </summary>
         ~Disposable()

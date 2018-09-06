@@ -6,11 +6,11 @@ namespace NaftanRailway.WebUI.Hubs {
         private readonly IKernel _container;
 
         public HubActivator(IKernel container) {
-            _container = container;
+            this._container = container;
         }
 
         public IHub Create(HubDescriptor descriptor) {
-            return (IHub)_container.GetService(descriptor.HubType);
+            return (IHub)this._container.GetService(descriptor.HubType);
         }
     }
 }

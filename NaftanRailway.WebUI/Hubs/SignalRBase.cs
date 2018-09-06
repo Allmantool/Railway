@@ -9,7 +9,7 @@ namespace NaftanRailway.WebUI.Hubs {
             () => GlobalHost.ConnectionManager.GetHubContext<THub>()
         );
         protected IHubContext Hub {
-            get { return _hub.Value; }
+            get { return this._hub.Value; }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace NaftanRailway.WebUI.Areas.Admin.Controllers {
 
         public ActionResult ADStructure() {
 
-            return View(model: CurrentADUser);
+            return this.View(model: this.CurrentADUser);
         }
     }
 }

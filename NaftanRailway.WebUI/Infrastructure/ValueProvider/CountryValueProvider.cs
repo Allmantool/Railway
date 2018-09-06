@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Infrastructure.ValueProvider {
         value that is safe to display as part of an HTML page. The final parameter is the culture information that relates to the 
         value; I have specified the InvariantCulture.*/
         public ValueProviderResult GetValue(string key) {
-            if(ContainsPrefix(key)) {
+            if(this.ContainsPrefix(key)) {
                 return new ValueProviderResult("USA", "USA",
                     CultureInfo.InvariantCulture);
             } else {

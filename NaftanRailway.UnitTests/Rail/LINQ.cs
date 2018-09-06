@@ -20,9 +20,9 @@
             public string Location { get; set; }
 
             public Person(int id, string name, string location) {
-                Id = id;
-                Name = name;
-                Location = location;
+                this.Id = id;
+                this.Name = name;
+                this.Location = location;
             }
         };
 

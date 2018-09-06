@@ -32,7 +32,7 @@
 
         protected override TreeNode MySelf => this;
 
-        [Key()/*, Column("id")*/]
+        [Key()/*, Column("Id")*/]
         public override long Id { get; set; }
 
         public long ParentId { get; set; }
@@ -56,7 +56,7 @@
         /// <summary>
         /// Return byte array instead of base64String()
         /// </summary>
-        public int[] ByteArray { get { return RootKey.Select(b => (int)b).ToArray(); } }
+        public int[] ByteArray { get { return this.RootKey.Select(b => (int)b).ToArray(); } }
     }
 
     public partial class NomenclatureEntities : DbContext
@@ -131,9 +131,9 @@
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [id] - primary key
-            * [parentId] - parents element id
-            * [groupId] - group id
+            * [Id] - primary key
+            * [parentId] - parents element Id
+            * [groupId] - group Id
             * [rankInGr] - element primary key in group
             * [treeLevel] - height of tree
             * [levelName] - custom group tree node name
@@ -144,7 +144,7 @@
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [Id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -156,7 +156,7 @@
                     [count] = COUNT(*)
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.Id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
                 GROUP BY GROUPING SETS(
                         --(),
                         (kn.KEYKRT, kn.NKRT),
@@ -169,11 +169,11 @@
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 0 THEN MAX(Id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
 					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
+					    WHEN 3 THEN MAX(Id) OVER (PARTITION BY KEYKRT)
 					ELSE 0 END,
-	                [id], [groupId], [rankInGr], [treeLevel],
+	                [Id], [groupId], [rankInGr], [treeLevel],
 	                [levelName] = CASE [treeLevel]
 					    WHEN 0 THEN N'Документ'
 					    WHEN 1 THEN N'Тип документа'
@@ -261,9 +261,9 @@
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [id] - primary key
-            * [parentId] - parents element id
-            * [groupId] - group id
+            * [Id] - primary key
+            * [parentId] - parents element Id
+            * [groupId] - group Id
             * [rankInGr] - element primary key in group
             * [treeLevel] - height of tree
             * [levelName] - custom group tree node name
@@ -276,14 +276,14 @@
             // --The order must be same in each aggregation functions
             var query = $@"
             Declare @tree TABLE(
-	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
+	            [parentId] BIGINT,		[Id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
 	            [count] BIGINT,			[rootKey] varbinary(1000) primary key,                  [strKey] NVARCHAR(MAX)
             );
 
             ;WITH grSubResult AS (
                 SELECT
-                    [id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [Id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID( YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -307,7 +307,7 @@
 			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nomot), N''))
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0
+                WHERE knos.tdoc > 0 AND knos.Id > 0
                 GROUP BY GROUPING SETS(
                        --(),
                         (YEAR(DTBUHOTCHET)),
@@ -323,13 +323,13 @@
                 Insert into @tree
                 SELECT
                     [parentId] = CASE [treeLevel]
-		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
-		            WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
-		            WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
-		            WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
-		            WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
+		            WHEN 0 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
+		            WHEN 1 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
+		            WHEN 3 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT)
+		            WHEN 7 THEN MAX(Id) OVER (PARTITION BY [year], [month])
+		            WHEN 31 THEN MAX(Id) OVER (PARTITION BY [year])
 	            ELSE 0 END,
-	            [id], [groupId], [rankInGr], [treeLevel],
+	            [Id], [groupId], [rankInGr], [treeLevel],
 	            [levelName] = CASE [treeLevel]
 		            WHEN 0 THEN N'Документ'
 		            WHEN 1 THEN N'Тип документа'
@@ -360,7 +360,7 @@
                 WHERE  [treeLevel] IN ( {typeDoc} )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree" + (rootKey == null ? ";" : $@" where [parentId] = (select id from @tree where [rootKey] = {Encoding.ASCII.GetString(rootKey)});");
+            select * from @tree" + (rootKey == null ? ";" : $@" where [parentId] = (select Id from @tree where [rootKey] = {Encoding.ASCII.GetString(rootKey)});");
             #endregion
 
             // map

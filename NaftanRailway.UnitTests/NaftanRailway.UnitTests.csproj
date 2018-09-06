@@ -113,7 +113,10 @@
     <Compile Include="General\ClientServicesTests.cs" />
     <Compile Include="General\HierarchyTree\HierarchyTree.cs" />
     <Compile Include="General\HierarchyTree\TreeExtenstions.cs" />
+    <Compile Include="General\Solid.cs" />
     <Compile Include="Nomenclature\UnitTestNomenclature.cs" />
+    <Compile Include="Patterns\Builder.cs" />
+    <Compile Include="Patterns\FactoryMethod.cs" />
     <Compile Include="SOLID\Account.cs" />
     <Compile Include="SOLID\MicroAccount.cs" />
     <Compile Include="SOLID\Rectangle.cs" />

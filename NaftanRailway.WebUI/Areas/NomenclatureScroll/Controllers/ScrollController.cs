@@ -25,7 +25,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
     public class ScrollController : BaseController {
         private readonly INomenclatureModule _bussinesEngage;
         public ScrollController(INomenclatureModule bussinesEngage, ILog log) : base(log) {
-            _bussinesEngage = bussinesEngage;
+            this._bussinesEngage = bussinesEngage;
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpGet, OutputCache(CacheProfile = "AllEvents")]
         //[ActionName("Enumerate")]
         public ActionResult Index(DateTime? period = null, int page = 1, bool asService = false, ushort initialSizeItem = 15) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
                 long recordCount;
 
                 //await _bussinesEngage.SyncWithOrc();
@@ -47,29 +47,29 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
                 Expression<Func<ScrollLineDTO, bool>> predicate = x => x.DTBUHOTCHET == period || ((period == null) == true);
 
                 var result = new IndexMV() {
-                    ListKrtNaftan = _bussinesEngage.SkipTable(page, initialSizeItem, out recordCount, predicate),
+                    ListKrtNaftan = this._bussinesEngage.SkipTable(page, initialSizeItem, out recordCount, predicate),
                     ReportPeriod = DateTime.Now,
                     PagingInfo = new PagingInfo {
                         CurrentPage = page,
                         ItemsPerPage = initialSizeItem,
                         TotalItems = recordCount,
-                        RoutingDictionary = Request.RequestContext.RouteData.Values
+                        RoutingDictionary = this.Request.RequestContext.RouteData.Values
                     },
-                    RangePeriod = _bussinesEngage.GetListPeriod()
+                    RangePeriod = this._bussinesEngage.GetListPeriod()
                 };
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                    return this.Json(result, JsonRequestBehavior.AllowGet);
                 }
 
-                return PartialView("_AjaxTableKrtNaftan", result);
+                return this.PartialView("_AjaxTableKrtNaftan", result);
             }
 
             //Base controller info
-            ViewBag.UserName = CurrentADUser.FullName;
-            ViewBag.BrowserInfo = BrowserInfo;
+            this.ViewBag.UserName = this.CurrentADUser.FullName;
+            this.ViewBag.BrowserInfo = this.BrowserInfo;
 
-            return View();
+            return this.View();
         }
 
         /// <summary>
@@ -78,34 +78,34 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// </summary>
         /// <returns></returns>
         public ActionResult ScrollDetails(int numberScroll, int reportYear, IList<CheckListFilter> filters, int page = 1, int initialSizeItem = 20, bool viewWrong = false, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var findKrt = _bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                var findKrt = this._bussinesEngage.GetNomenclatureByNumber(numberScroll, reportYear);
 
                 if (findKrt != null) {
                     long recordCount;
-                    var chargeRows = _bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount, viewWrong);
+                    var chargeRows = this._bussinesEngage.ApplyNomenclatureDetailFilter(findKrt.KEYKRT, filters, page, initialSizeItem, out recordCount, viewWrong);
 
                     var result = new DetailModelView() {
                         Scroll = findKrt,
-                        Filters = filters ?? _bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
+                        Filters = filters ?? this._bussinesEngage.InitNomenclatureDetailMenu(findKrt.KEYKRT),
                         PagingInfo = new PagingInfo {
                             CurrentPage = page,
                             ItemsPerPage = initialSizeItem,
                             TotalItems = recordCount,
-                            RoutingDictionary = Request.RequestContext.RouteData.Values
+                            RoutingDictionary = this.Request.RequestContext.RouteData.Values
                         },
                         ListDetails = chargeRows
                     };
 
                     if (asService) {
-                        return Json(result, JsonRequestBehavior.AllowGet);
+                        return this.Json(result, JsonRequestBehavior.AllowGet);
                     } else {
-                        return PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);
+                        return this.PartialView("_AjaxTableKrtNaftan_ORC_SAPOD", result);
                     }
                 }
             }
 
-            return RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
+            return this.RedirectToAction("Index", "Scroll", new RouteValueDictionary() { { "page", page } });
         }
 
         /// <summary>
@@ -117,17 +117,17 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpPost]
         public ActionResult ChangeDate(PeriodModalMV model, bool asService = false) {
             //Custom value provider binding => TryUpdateModel(model, new FormValueProvider(ControllerContext));
-            if (Request.IsAjaxRequest()) {
-                var result = _bussinesEngage.ChangeBuhDate(model.Period, model.Item.KEYKRT, model.Multimode);
+            if (this.Request.IsAjaxRequest()) {
+                var result = this._bussinesEngage.ChangeBuhDate(model.Period, model.Item.KEYKRT, model.Multimode);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
+                    return this.Json(result, JsonRequestBehavior.DenyGet);
                 }
 
-                return PartialView("_KrtNaftanRows", result);
+                return this.PartialView("_KrtNaftanRows", result);
             }
 
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
+            return this.RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -136,12 +136,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> AdmitScroll(bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                await _bussinesEngage.SyncWithOrc();
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                await this._bussinesEngage.SyncWithOrc();
 
-                return Index(asService: asService);
+                return this.Index(asService: asService);
             }
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
+            return this.RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -154,48 +154,48 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public ActionResult Confirmed(int numberScroll, int reportYear, bool asService = false) {
             string msgError = "";
 
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var result = _bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                var result = this._bussinesEngage.AddKrtNaftan(numberScroll, reportYear, out msgError);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
+                    return this.Json(result, JsonRequestBehavior.DenyGet);
                 }
 
-                return PartialView("_KrtNaftanRows", result);
+                return this.PartialView("_KrtNaftanRows", result);
             }
 
-            TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
+            this.TempData["message"] = String.Format(@"Ошибка добавления переченя № {0}. {1}", numberScroll, msgError);
 
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
+            return this.RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         [HttpPost]
         public ActionResult EditCharge(ScrollDetailDTO charge, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var result = _bussinesEngage.EditKrtNaftanOrcSapod(charge);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                var result = this._bussinesEngage.EditKrtNaftanOrcSapod(charge);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
+                    return this.Json(result, JsonRequestBehavior.DenyGet);
                 }
             }
 
-            Log.Debug($"EditCharge method isn't valid: {ModelErrors}.");
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
+            Log.Debug($"EditCharge method isn't valid: {this.ModelErrors}.");
+            return this.RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         [HttpPost]
         public ActionResult Delete(int numberScroll, int reportYear, bool asService = false) {
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var result = _bussinesEngage.DeleteNomenclature(numberScroll, reportYear);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                var result = this._bussinesEngage.DeleteNomenclature(numberScroll, reportYear);
 
                 if (asService) {
-                    return Json(result, JsonRequestBehavior.DenyGet);
+                    return this.Json(result, JsonRequestBehavior.DenyGet);
                 }
 
-                return PartialView("_KrtNaftanRows", result);
+                return this.PartialView("_KrtNaftanRows", result);
             }
 
-            return RedirectToAction("Index", "Scroll", new { page = 1 });
+            return this.RedirectToAction("Index", "Scroll", new { page = 1 });
         }
 
         /// <summary>
@@ -209,11 +209,11 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         public async Task<ActionResult> Reports(string reportName, int numberScroll, int reportYear) {
             const string serverName = @"DB2";
             const string folderName = @"Orders";
-            var browsInfo = new BrowserInfoDTO() { Name = Request.Browser.Browser, Version = Request.Browser.Version };
+            var browsInfo = new BrowserInfoDTO() { Name = this.Request.Browser.Browser, Version = this.Request.Browser.Version };
 
             //link to SSRS buil-in repors (default for integer)
             if (numberScroll == 0 || reportYear == 0) {
-                return View("Reports", (object)string.Format(
+                return this.View("Reports", (object)string.Format(
                     @"http://{0}/ReportServer/Pages/ReportViewer.aspx?/{1}/{2}&{3}",
                     serverName, folderName, reportName,
                     @"rs:Command=Render")
@@ -222,20 +222,20 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
 
             //get report with parameters
             try {
-                var typle = await _bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, folderName, reportName);
+                var typle = await this._bussinesEngage.GetNomenclatureReports(browsInfo, numberScroll, reportYear, serverName, folderName, reportName);
                 //name file (with encoding)
-                Response.AddHeader("Content-Disposition", typle.Item2);
+                this.Response.AddHeader("Content-Disposition", typle.Item2);
                 //For js spinner and complete download callback
-                Response.Cookies.Clear();
-                Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
+                this.Response.Cookies.Clear();
+                this.Response.AppendCookie(new HttpCookie("SSRSfileDownloadToken", "true"));
 
-                return File(typle.Item1, @"application/vnd.ms-excel");
+                return this.File(typle.Item1, @"application/vnd.ms-excel");
             } catch (Exception exc) {
                 //TempData[@"message"] = (@"Невозможно вывести отчёт. Ошибка! Возможно не указан перечень: " + exc.Message);
                 Log.DebugFormat(@"Ошибка при получении отчёта {0}. Oшибка: {1}", reportName, exc.Message);
 
                 //it returns log txt file with error description
-                return GetLog();
+                return this.GetLog();
             }
         }
 
@@ -248,12 +248,12 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         [HttpPost]
         public ActionResult GeneralCorrection(EnumMenuOperation operation, long feeKey) {
 
-            if (Request.IsAjaxRequest() && ModelState.IsValid) {
-                var result = _bussinesEngage.OperationOnScrollDetail(feeKey, operation);
+            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
+                var result = this._bussinesEngage.OperationOnScrollDetail(feeKey, operation);
 
                 switch (operation) {
                     //case EnumMenuOperation.Join: return PartialView("_JoinRowsModal", result);
-                    case EnumMenuOperation.Edit: return PartialView("_EditRowsModal");
+                    case EnumMenuOperation.Edit: return this.PartialView("_EditRowsModal");
                     case EnumMenuOperation.Delete: break;
                     default: return new EmptyResult();
                 }

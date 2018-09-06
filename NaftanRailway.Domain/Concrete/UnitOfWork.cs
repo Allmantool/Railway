@@ -11,10 +11,9 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using NaftanRailway.Domain.Abstract;
-    using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
-    using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-    using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+    using Abstract;
+    using DbContexts.OBD;
+    using DbContexts.ORC;
 
     public class UnitOfWork : Disposable, IUnitOfWork
     {
@@ -27,7 +26,6 @@
             this.Contexts = new DbContext[]
             {
                 new OBDEntities(),
-                new MesplanEntities(),
                 new ORCEntities()
             };
 

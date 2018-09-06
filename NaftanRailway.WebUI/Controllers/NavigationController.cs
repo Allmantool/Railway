@@ -9,7 +9,7 @@ namespace NaftanRailway.WebUI.Controllers {
         private readonly IRailwayModule _bussinesEngage;
 
         public NavigationController(IRailwayModule bussinesEngage, ILog logger) : base(logger) {
-            _bussinesEngage = bussinesEngage;
+            this._bussinesEngage = bussinesEngage;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //menuView.SelectedOperCategory = operationCategory;
             //menuView.TypesOfOperation = _bussinesEngage.GetTypeOfOpers(menuView.ReportPeriod);
 
-            return PartialView("FlexMenu");
+            return this.PartialView("FlexMenu");
         }
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace NaftanRailway.WebUI.Controllers {
             menuView.ReportPeriod = storage.ReportPeriod;
 
             //Base controller info
-            ViewBag.UserName = CurrentADUser.Name;
-            ViewBag.BrowserInfo = BrowserInfo;
+            this.ViewBag.UserName = this.CurrentADUser.Name;
+            this.ViewBag.BrowserInfo = this.BrowserInfo;
 
-            return PartialView("ComplexNavbarMenu", menuView);
+            return this.PartialView("ComplexNavbarMenu", menuView);
         }
     }
 }
