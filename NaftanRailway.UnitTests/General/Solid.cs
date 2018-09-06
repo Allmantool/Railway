@@ -6,7 +6,7 @@ namespace NaftanRailway.UnitTests.General {
         public virtual int Height { get; set; }
 
         public int GetArea() {
-            return Width * Height;
+            return this.Width * this.Height;
         }
     }
 
@@ -108,7 +108,7 @@ namespace NaftanRailway.UnitTests.General {
 
         private void PreCondition() {
             Account acc = new MicroAccount();
-            InitializeAccount(acc);
+            this.InitializeAccount(acc);
 
             Console.Read();
         }
@@ -131,7 +131,7 @@ namespace NaftanRailway.UnitTests.General {
             Account acc = new MicroAccount();
 
             //get result without bonus
-            CalculateInterest(acc);
+            this.CalculateInterest(acc);
 
             Console.Read();
         }

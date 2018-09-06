@@ -8,7 +8,7 @@ namespace NaftanRailway.WebUI.Areas.NomenclatureScroll.Controllers {
         /// <returns></returns>
         [HttpGet]
         public ActionResult Index() {
-            return View();
+            return this.View();
         }
 
     }

@@ -15,7 +15,7 @@ namespace NaftanRailway.WebUI.Hubs {
         private readonly IAuthorizationEngage _authLogic;
 
         public AdminHub(IAuthorizationEngage authLogic) {
-            _authLogic = authLogic;
+            this._authLogic = authLogic;
         }
 
         public void Send(string message) {
@@ -23,12 +23,12 @@ namespace NaftanRailway.WebUI.Hubs {
                 MsgText = message,
                 SendTime = DateTime.Now,
                 User = new UserDTO() {
-                    Name = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName,
-                    ConnectionId = Context.ConnectionId
+                    Name = this._authLogic.AdminPrincipal(this.Context.User.Identity.Name).FullName,
+                    ConnectionId = this.Context.ConnectionId
                 }
             };
 
-            Clients.All.newMessage(msg);
+            this.Clients.All.newMessage(msg);
             //Clients.Caller.doWork();
             //Clients.Others.doWork();
             //Clients.Users("Rob").doWork();
@@ -36,8 +36,8 @@ namespace NaftanRailway.WebUI.Hubs {
 
         // Подключение нового пользователя
         public override Task OnConnected() {
-            var id = Context.ConnectionId;
-            var principalName = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName;
+            var id = this.Context.ConnectionId;
+            var principalName = this._authLogic.AdminPrincipal(this.Context.User.Identity.Name).FullName;
 
             if (Users.All(x => x.ConnectionId != id)) {
                 Users.Add(new UserDTO {
@@ -46,18 +46,18 @@ namespace NaftanRailway.WebUI.Hubs {
                 });
 
                 // Посылаем сообщение текущему пользователю
-                Clients.Caller.onConnected(id, principalName, Users);
+                this.Clients.Caller.onConnected(id, principalName, Users);
                  
                 // Посылаем сообщение всем пользователям, кроме текущего
-                Clients.AllExcept(id).onNewUserConnected(id, principalName);
+                this.Clients.AllExcept(id).onNewUserConnected(id, principalName);
             }
 
             return base.OnConnected();
         }
 
         public override Task OnReconnected() {
-            var id = Context.ConnectionId;
-            var principalName = _authLogic.AdminPrincipal(Context.User.Identity.Name).FullName;
+            var id = this.Context.ConnectionId;
+            var principalName = this._authLogic.AdminPrincipal(this.Context.User.Identity.Name).FullName;
 
             if (Users.All(x => x.ConnectionId != id)) {
                 Users.Add(new UserDTO {
@@ -66,10 +66,10 @@ namespace NaftanRailway.WebUI.Hubs {
                 });
 
                 // Посылаем сообщение текущему пользователю
-                Clients.Caller.onConnected(id, principalName, Users);
+                this.Clients.Caller.onConnected(id, principalName, Users);
 
                 // Посылаем сообщение всем пользователям, кроме текущего
-                Clients.AllExcept(id).onNewUserConnected(id, principalName);
+                this.Clients.AllExcept(id).onNewUserConnected(id, principalName);
             }
 
             return base.OnConnected();
@@ -77,13 +77,13 @@ namespace NaftanRailway.WebUI.Hubs {
 
         // Отключение пользователя
         public override Task OnDisconnected(bool stopCalled) {
-            var id = Context.ConnectionId;
+            var id = this.Context.ConnectionId;
             var item = Users.FirstOrDefault(x => x.ConnectionId == id);
 
             if (item != null) {
                 Users.Remove(item);
                 //client side
-                Clients.All.onUserDisconnected(id, item.Name);
+                this.Clients.All.onUserDisconnected(id, item.Name);
             }
 
             return base.OnDisconnected(stopCalled);

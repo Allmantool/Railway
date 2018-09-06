@@ -46,7 +46,7 @@ namespace NaftanRailway.UnitTests.Patterns {
         abstract class BreadBuilder {
             public Bread Bread { get; private set; }
             public void CreateBread() {
-                Bread = new Bread();
+                this.Bread = new Bread();
             }
             public abstract void SetFlour();
             public abstract void SetSalt();
@@ -92,12 +92,12 @@ namespace NaftanRailway.UnitTests.Patterns {
             public override string ToString() {
                 StringBuilder sb = new StringBuilder();
 
-                if (Flour != null)
-                    sb.Append(Flour.Sort + "\n");
-                if (Salt != null)
+                if (this.Flour != null)
+                    sb.Append(this.Flour.Sort + "\n");
+                if (this.Salt != null)
                     sb.Append("Соль \n");
-                if (Additives != null)
-                    sb.Append("Добавки: " + Additives.Name + " \n");
+                if (this.Additives != null)
+                    sb.Append("Добавки: " + this.Additives.Name + " \n");
 
                 return sb.ToString();
             }

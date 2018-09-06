@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan;
+using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
 using NaftanRailway.Domain.Concrete.DbContexts.OBD;
 
 namespace NaftanRailway.BLL.DTO.Guild18 {
@@ -13,12 +13,12 @@ namespace NaftanRailway.BLL.DTO.Guild18 {
 
         public IList<v_o_v> WagonsNumbers { get; set; }
 
-        public etsng CargoEtsngName { get; set; }
+        public Etsng CargoEtsngName { get; set; }
 
         public int Warehouse { get; set; }
 
         public ShippingInfoLineDTO() {
-            IsSelected = true;
+            this.IsSelected = true;
         }
     }
 }

@@ -57,7 +57,7 @@ namespace NaftanRailway.WebUI {
             AutoMapperBLLConfiguration.Configure();
 
             //https://github.com/doceandyou/Log4Net
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(this.Server.MapPath("~/Web.config")));
 
             /* Initialize simpleMembership
             * Install-Package Microsoft.AspNet.WebHelpers
@@ -88,7 +88,7 @@ namespace NaftanRailway.WebUI {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Application_Error(object sender, EventArgs e) {
-            Exception exception = Server.GetLastError();
+            Exception exception = this.Server.GetLastError();
 
             if (exception is HttpUnhandledException) {
                 exception = exception.InnerException;
@@ -112,7 +112,7 @@ namespace NaftanRailway.WebUI {
             AppStateHelper.Set(AppStateKeys.ONLINE, currentValue + 1);
             AppStateHelper.SetMultiple(new Dictionary<AppStateKeys, object> {
                 { AppStateKeys.LAST_REQUEST_TIME, HttpContext.Current.Timestamp },
-                { AppStateKeys.LAST_REQUEST_URL, Request.RawUrl }
+                { AppStateKeys.LAST_REQUEST_URL, this.Request.RawUrl }
             });
         }
 
@@ -122,7 +122,7 @@ namespace NaftanRailway.WebUI {
             AppStateHelper.Set(AppStateKeys.ONLINE, currentValue - 1);
             AppStateHelper.SetMultiple(new Dictionary<AppStateKeys, object> {
                 { AppStateKeys.LAST_REQUEST_TIME, HttpContext.Current.Timestamp },
-                { AppStateKeys.LAST_REQUEST_URL, Request.RawUrl }
+                { AppStateKeys.LAST_REQUEST_URL, this.Request.RawUrl }
             });
         }
     }

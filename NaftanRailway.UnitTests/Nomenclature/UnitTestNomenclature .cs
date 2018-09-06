@@ -167,7 +167,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
 
                 //ConcurrentQueue doesn't support build-in indexer
                 var index = 0;
-                var tasks = queue.Take(110).Select(async (i) => await RunStoredProc(i, index++));
+                var tasks = queue.Take(110).Select(async (i) => await this.RunStoredProc(i, index++));
                 var sequence = tasks;
 
                 while (sequence.Any()) {
@@ -269,7 +269,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 long scollNumbParam;
 
                 while (queue.TryDequeue(out scollNumbParam)) {
-                    await RunStoredProc(conn, connection, scollNumbParam);
+                    await this.RunStoredProc(conn, connection, scollNumbParam);
                     Debug.WriteLine($"Connection[{connection}]: {conn.ClientConnectionId}");
                     Debug.WriteLine($"Connection[{connection}].State: {conn.State}");
                 }

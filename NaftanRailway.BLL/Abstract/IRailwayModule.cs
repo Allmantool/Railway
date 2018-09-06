@@ -5,7 +5,7 @@ using NaftanRailway.BLL.DTO.Guild18;
 
 namespace NaftanRailway.BLL.Abstract {
     public interface IRailwayModule : IDisposable {
-        bool DeleteInvoice(DateTime reportPeriod, Nullable<int> idInvoice);
+        bool DeleteInvoice(DateTime reportPeriod, int? idInvoice);
 
         bool UpdateExists(DateTime reportPeriod);
 

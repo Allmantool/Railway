@@ -188,11 +188,11 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
             ParameterExpression _param;
 
             public CustomExpVisitor(ParameterExpression param) {
-                _param = param;
+                this._param = param;
             }
 
             protected override Expression VisitParameter(ParameterExpression node) {
-                return _param;
+                return this._param;
             }
 
             protected override Expression VisitMember(MemberExpression node) {
@@ -202,7 +202,7 @@ namespace NaftanRailway.BLL.Services.ExpressionTreeExtensions {
                     var memberName = node.Member.Name;
                     var otherMember = typeof(T).GetProperty(memberName);
 
-                    memberExpression = Expression.Property(Visit(node.Expression), otherMember);
+                    memberExpression = Expression.Property(this.Visit(node.Expression), otherMember);
 
                     return memberExpression;
                 } else {

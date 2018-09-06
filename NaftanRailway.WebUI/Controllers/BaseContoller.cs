@@ -24,7 +24,7 @@ namespace NaftanRailway.WebUI.Controllers {
         private readonly object _threadLock = new object();
         public static ILog Log { get; private set; }
         public string ModelErrors {
-            get { return string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)); }
+            get { return string.Join(" | ", this.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)); }
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace NaftanRailway.WebUI.Controllers {
         /// </summary>
         public ADUserDTO CurrentADUser {
             get {
-                string identity = User.Identity.Name;
+                string identity = this.User.Identity.Name;
                 var defObj = new ADUserDTO { Name = "Anonymous", Description = "Information not found" };
 
                 //delegate
@@ -55,7 +55,7 @@ namespace NaftanRailway.WebUI.Controllers {
 
                 try {
                     //Home station without AD
-                    if (Request.IsLocal) {
+                    if (this.Request.IsLocal) {
                         using (var ctx = new PrincipalContext(ContextType.Machine) { }) {
                             return func(ctx);
                         }
@@ -75,7 +75,7 @@ namespace NaftanRailway.WebUI.Controllers {
         }
 
         public string BrowserInfo {
-            get { return GetBrowserInfo(); }
+            get { return this.GetBrowserInfo(); }
         }
 
         public BaseController(ILog logger) {
@@ -84,8 +84,8 @@ namespace NaftanRailway.WebUI.Controllers {
 
         //Summarize information about user and environment
         private string GetBrowserInfo() {
-            var browser = Request.Browser;
-            var userName = User.Identity.Name;
+            var browser = this.Request.Browser;
+            var userName = this.User.Identity.Name;
             var totalOnlineUsers = (int)AppStateHelper.Get(AppStateKeys.ONLINE, 0);
 
             var result = String.Format(
@@ -105,7 +105,7 @@ namespace NaftanRailway.WebUI.Controllers {
              browser.IsMobileDevice,
              browser.MobileDeviceManufacturer,
              browser.MobileDeviceModel,
-             string.Format("{0} ({1})", CurrentADUser.Name, CurrentADUser.EmailAddress),
+             string.Format("{0} ({1})", this.CurrentADUser.Name, this.CurrentADUser.EmailAddress),
              userName.Length == 0 ? "" : string.Format("({0})", userName.Replace(@"\", "&#92;")),
              totalOnlineUsers,
              Environment.Version.ToString(),
@@ -121,12 +121,12 @@ namespace NaftanRailway.WebUI.Controllers {
             Encoding win1251 = Encoding.GetEncoding("windows-1251");
 
             var txt = String.Empty;
-            var serverPath = Server.MapPath("~/") ?? HostingEnvironment.ApplicationPhysicalPath;
+            var serverPath = this.Server.MapPath("~/") ?? HostingEnvironment.ApplicationPhysicalPath;
             var logpath = Path.Combine(serverPath, @"logs\log.txt");
 
             //await Task.Run(() => {
             try {
-                lock (_threadLock) {
+                lock (this._threadLock) {
                     //CreateDirectory create all needed subfolders
                     if (!System.IO.File.Exists(logpath)) {
                         Directory.CreateDirectory(Path.Combine(serverPath, @"logs\"));
@@ -146,11 +146,11 @@ namespace NaftanRailway.WebUI.Controllers {
                         Inline = false,
                     };
 
-                    Response.AppendHeader("Content-Disposition", cd.ToString());
+                    this.Response.AppendHeader("Content-Disposition", cd.ToString());
                 }
             } catch (Exception ex) {
                 txt = String.Format("Возникло исключение: {3}{0}{3}Server.MapPath(~/): \"{1}\"{3}HostingEnvironment.ApplicationPhysicalPath: \"{2}\"{3}",
-                    ex.Message, Server.MapPath("~/"),
+                    ex.Message, this.Server.MapPath("~/"),
                     HostingEnvironment.ApplicationPhysicalPath,
                     Environment.NewLine
                 );
@@ -159,7 +159,7 @@ namespace NaftanRailway.WebUI.Controllers {
             }
             //});
 
-            return File(win1251.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
+            return this.File(win1251.GetBytes(txt), @"text/plain"/*, "Лог.txt"*/);
         }
 
         //protected override void OnException(ExceptionContext filterContext) { }

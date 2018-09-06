@@ -160,7 +160,7 @@ namespace NaftanRailway.UnitTests.General {
                             Sam = gr.SamAccountName,
                             Sid = gr.Sid,
                             Guid = gr.Guid ?? new Guid(),
-                            Users = GetMembers(gr.Name).ToList()
+                            Users = this.GetMembers(gr.Name).ToList()
                         }).ToList()
                     };
             }

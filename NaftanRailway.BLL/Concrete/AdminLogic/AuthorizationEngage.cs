@@ -56,7 +56,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                         };
                 }
             } catch (Exception ex) {
-                Log.DebugFormat(@"Исключение при попытке работы с AD: {0}", ex.Message);
+                this.Log.DebugFormat(@"Исключение при попытке работы с AD: {0}", ex.Message);
             }
             return user;
         }
@@ -114,7 +114,7 @@ namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
                     return limit == 0 ? group.FirstOrDefault().Users.ToList() : group.FirstOrDefault().Users.ToList().Take(limit);
                 }
             } catch (Exception ex) {
-                Log.DebugFormat(@"Исключение при попытке работы с AD: {0}", ex.Message);
+                this.Log.DebugFormat(@"Исключение при попытке работы с AD: {0}", ex.Message);
                 return new[] { new ADUserDTO() { Name = "Unknown" } };
             }
         }

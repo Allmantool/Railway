@@ -16,20 +16,20 @@ namespace NaftanRailway.WebUI.Controllers {
             //throw new HttpException(404, "Not found");
             //var modules = HttpContext.ApplicationInstance.Modules;
 
-            Response.StatusCode = 404;
-            return View();
+            this.Response.StatusCode = 404;
+            return this.View();
         }
 
         public ActionResult Forbidden() {
-            return RedirectToAction("NotFound");
+            return this.RedirectToAction("NotFound");
         }
 
         public ActionResult ServerCrash() {
-            Response.StatusCode = 500;
+            this.Response.StatusCode = 500;
 
             //var result = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : "#";
 
-            return View();
+            return this.View();
         }
 
         public ActionResult NotAuthorized() {
@@ -44,29 +44,29 @@ namespace NaftanRailway.WebUI.Controllers {
             //    return View(model: CurrentADUser.Name);
             //}
             var sender = new EmailFormViewModel() {
-                FromEmail = CurrentADUser.EmailAddress,
-                FromName = CurrentADUser.FullName,
+                FromEmail = this.CurrentADUser.EmailAddress,
+                FromName = this.CurrentADUser.FullName,
             };
 
-            return View(model: sender);
+            return this.View(model: sender);
         }
 
         //[HttpPost]
         public FileContentResult DiagnosticLog() {
-            return GetLog();
+            return this.GetLog();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendMail(EmailFormViewModel model) {
 
-            if (ModelState.IsValid) {
+            if (this.ModelState.IsValid) {
                 var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
 
                 using (var message = new MailMessage())
                 using (var smtp = new SmtpClient() { UseDefaultCredentials = true }) {
                     message.To.Add(new MailAddress("P.Chizhikov@naftan.by"));  // replace with valid value
-                    message.From = new MailAddress(CurrentADUser.EmailAddress);  // replace with valid value
+                    message.From = new MailAddress(this.CurrentADUser.EmailAddress);  // replace with valid value
                     message.Subject = "Proposal to add right";
                     message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
                     message.IsBodyHtml = true;
@@ -81,10 +81,10 @@ namespace NaftanRailway.WebUI.Controllers {
                         Debug.Write(ex.Message);
                     }
 
-                    return Json(model, JsonRequestBehavior.AllowGet);
+                    return this.Json(model, JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return this.Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }
