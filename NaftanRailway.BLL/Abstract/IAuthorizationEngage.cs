@@ -1,8 +1,8 @@
-﻿using NaftanRailway.BLL.DTO.Admin;
-using System;
-using System.Collections.Generic;
+﻿namespace NaftanRailway.BLL.Abstract {
+    using System;
+    using System.Collections.Generic;
+    using NaftanRailway.BLL.DTO.Admin;
 
-namespace NaftanRailway.BLL.Abstract {
     public interface IAuthorizationEngage : IDisposable {
         ADUserDTO AdminPrincipal(string identity, bool isLocal = false);
 
