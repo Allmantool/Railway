@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NaftanRailway.Domain</RootNamespace>
     <AssemblyName>NaftanRailway.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>http://localhost/NaftanRailway.Domain/</PublishUrl>
     <Install>true</Install>
@@ -224,7 +224,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="app.config" />
     <EntityDeploy Include="Concrete\DbContexts\OBD\OBDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
