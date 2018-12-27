@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NaftanRailway.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("naftan")]
+[assembly: AssemblyCompany("Home")]
 [assembly: AssemblyProduct("NaftanRailway.Domain")]
-[assembly: AssemblyCopyright("Copyright © naftan 2015")]
+[assembly: AssemblyCopyright("Copyright © Home 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
