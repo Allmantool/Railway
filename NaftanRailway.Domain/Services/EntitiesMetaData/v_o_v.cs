@@ -4,14 +4,14 @@
     {
         public v_o_v()
         {
-            IsSelected = true;
+            this.IsSelected = true;
         }
 
         public bool IsSelected { get; }
 
         public override string ToString()
         {
-            return n_vag;
+            return this.n_vag;
         }
     }
 }

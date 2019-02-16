@@ -11,7 +11,7 @@ namespace NaftanRailway.WebUI.Infrastructure.DI {
         private readonly IKernel _kernel;
 
         public NinjectDependencyResolver(IKernel kernel) {
-            _kernel = kernel;
+            this._kernel = kernel;
         }
 
         public IDependencyScope BeginScope() {
@@ -19,11 +19,11 @@ namespace NaftanRailway.WebUI.Infrastructure.DI {
         }
 
         public object GetService(Type serviceType) {
-            return _kernel.TryGet(serviceType);
+            return this._kernel.TryGet(serviceType);
         }
 
         public IEnumerable<object> GetServices(Type serviceType) {
-            return _kernel.GetAll(serviceType);
+            return this._kernel.GetAll(serviceType);
         }
 
         public void Dispose() {

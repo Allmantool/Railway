@@ -11,14 +11,14 @@ namespace NaftanRailway.WebUI.Infrastructure.RoutesConstraint {
         private readonly string _requiredUserAgent;
  
         public UserAgentConstraint(string agentParam) {
-            _requiredUserAgent = agentParam;
+            this._requiredUserAgent = agentParam;
         }
     //Match if request from specific browser-agent
         public bool Match(HttpContextBase httpContext, Route route, string parameterName,
                           RouteValueDictionary values, RouteDirection routeDirection) {
  
             return httpContext.Request.UserAgent != null &&
-                httpContext.Request.UserAgent.Contains(_requiredUserAgent);
+                httpContext.Request.UserAgent.Contains(this._requiredUserAgent);
         }
     }
 }

@@ -12,19 +12,19 @@ namespace NaftanRailway.WebUI.Infrastructure.Filters {
 
         public AuthorizeADAttribute() {
             //avoid null reference exception
-            Groups = string.Empty;
-            DenyUsers = string.Empty;
+            this.Groups = string.Empty;
+            this.DenyUsers = string.Empty;
         }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext) {
             if (base.AuthorizeCore(httpContext)) {
                 /* Return true immediately if the authorization is not locked down to any particular AD group */
-                if (String.IsNullOrEmpty(Groups))
+                if (String.IsNullOrEmpty(this.Groups))
                     return true;
 
                 // Get the AD groups
-                var groups = Groups.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                List<string> users = DenyUsers.ToLower().Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var groups = this.Groups.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                List<string> users = this.DenyUsers.ToLower().Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 string identity = httpContext.User.Identity.Name;
 
                 //deny user

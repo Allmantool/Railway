@@ -1,21 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.SqlClient;
-using System.Data;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System;
-using System.Configuration;
-using System.Linq;
-using System.Collections.Concurrent;
+﻿
 
 namespace NaftanRailway.UnitTests.Nomenclature {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class UnitTestNomenclature {
         [TestMethod]
         public async Task ParallelSqlMethod() {
             Task scropeTasks = null;
             const int batchSize = 40;
-            //const int maxCountConn = 30;
 
             long[] keys = {
                 #region inputArray
@@ -159,15 +159,9 @@ namespace NaftanRailway.UnitTests.Nomenclature {
 
                 var queue = new ConcurrentQueue<long>(keys);
 
-                //Task[] dividedByConn =
-                //Enumerable
-                //.Range(0, maxCountConn)
-                //.Select(i => Task.Run<Task>(() => RunConnection(i, queue)).Unwrap())
-                //.ToArray();
-
-                //ConcurrentQueue doesn't support build-in indexer
+                // ConcurrentQueue doesn't support build-in indexer
                 var index = 0;
-                var tasks = queue.Take(110).Select(async (i) => await RunStoredProc(i, index++));
+                var tasks = queue.Take(110).Select(async (i) => await this.RunStoredProc(i, index++));
                 var sequence = tasks;
 
                 while (sequence.Any()) {
@@ -179,8 +173,8 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                     await scropeTasks;
                 }
 
-                //scropeTasks = Task.WhenAll(tasks);
-                //await scropeTasks;
+                // scropeTasks = Task.WhenAll(tasks);
+                // await scropeTasks;
 
                 watch.Stop();
                 TimeSpan ts = watch.Elapsed;
@@ -191,32 +185,23 @@ namespace NaftanRailway.UnitTests.Nomenclature {
 
                 Debug.WriteLine("IsFaulted: " + (scropeTasks != null && scropeTasks.IsFaulted));
                 if (scropeTasks?.Exception != null)
+                {
                     foreach (var inx in scropeTasks.Exception.InnerExceptions) {
                         Debug.WriteLine("Ex. description: " + inx.Message);
                     }
+                }
             }
 
             Assert.AreEqual(1, 1);
         }
 
         private async Task RunStoredProc(long scrollNumbParam, int index) {
-            //string connectionString = ConfigurationManager.ConnectionStrings["TestLocalConnection"].ConnectionString;
+            // string connectionString = ConfigurationManager.ConnectionStrings["TestLocalConnection"].ConnectionString;
             const string strStoredProcName = @"[dbo].[sp_syncExchDbs]";
             string connString = string.Format(
                 @"data source={0};initial catalog={1};integrated security={2};Trusted_Connection={3};Max Pool Size={4};Pooling={5};
                 Connection Lifetime={6};Connection Timeout={7};MultipleActiveResultSets={8}",
                 @"CPN8\HOMESERVER", @"Railway", @"True", @"Yes", @"150", @"True", @"0", @"0", @"True");
-
-            //var connBuilder = new SqlConnectionStringBuilder() {
-            //    DataSource = @"CPN8\HOMESERVER",
-            //    InitialCatalog = @"Railway",
-            //    IntegratedSecurity = true,
-            //    TrustServerCertificate = true,
-            //    Pooling = true, MinPoolSize = 30, MaxPoolSize = 150,
-            //    ConnectTimeout = 0,
-            //    LoadBalanceTimeout = 0,
-            //    MultipleActiveResultSets = false
-            //};
 
             using (var conn = new SqlConnection(/*connBuilder.ConnectionString*/connString)) {
 
@@ -229,7 +214,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
 
                 using (var cmd = new SqlCommand(strStoredProcName, conn) { CommandTimeout = 0, CommandType = CommandType.StoredProcedure }) {
                     // add one or more parameters
-                    //cmd.Parameters.AddWithValue("@KEYKRT", scroll);
+                    // cmd.Parameters.AddWithValue("@KEYKRT", scroll);
 
                     SqlParameter scrParam = new SqlParameter() {
                         ParameterName = "@KEYKRT",
@@ -248,7 +233,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                     cmd.Parameters.Add(param);
 
                     Debug.WriteLine(@"Start of Processing: " + scrollNumbParam);
-                    //var result = await cmd.ExecuteScalarAsync();
+                    // var result = await cmd.ExecuteScalarAsync();
 
                     await cmd.ExecuteNonQueryAsync();//.ConfigureAwait(false);
                     Debug.WriteLine($@"End of Processing: {scrollNumbParam} with result: {cmd.Parameters["@statusMsg"].Value}");
@@ -269,7 +254,7 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 long scollNumbParam;
 
                 while (queue.TryDequeue(out scollNumbParam)) {
-                    await RunStoredProc(conn, connection, scollNumbParam);
+                    await this.RunStoredProc(conn, connection, scollNumbParam);
                     Debug.WriteLine($"Connection[{connection}]: {conn.ClientConnectionId}");
                     Debug.WriteLine($"Connection[{connection}].State: {conn.State}");
                 }
@@ -289,9 +274,9 @@ namespace NaftanRailway.UnitTests.Nomenclature {
                 };
                 cmd.Parameters.Add(scrParam);
 
-                Debug.WriteLine($"Connection[{connection}] Start of Proccesing: " + scollNumbParam);
+                Debug.WriteLine($"Connection[{connection}] Start of Processing: " + scollNumbParam);
                 await cmd.ExecuteNonQueryAsync();
-                Debug.WriteLine($"Connection[{connection}] End of Proccesing: " + scollNumbParam);
+                Debug.WriteLine($"Connection[{connection}] End of Processing: " + scollNumbParam);
             }
         }
     }

@@ -1,19 +1,20 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
-using NaftanRailway.BLL.DTO.General;
-using System.Net.Mail;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace NaftanRailway.UnitTests.General {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Mail;
+    using System.Text;
+    using System.Threading.Tasks;
+    using BLL.DTO.General;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NaftanRailway.UnitTests.General {
     [TestClass]
     public class ClientServicesTests {
         private readonly object _threadLock = new object();
+
         [TestMethod]
         public void ReportWebClient() {
             const string serverName = @"db2";

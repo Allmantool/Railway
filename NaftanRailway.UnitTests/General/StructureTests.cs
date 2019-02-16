@@ -1,9 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace NaftanRailway.UnitTests.General {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NaftanRailway.UnitTests.General {
     [TestClass]
     public class StructureTests {
         [TestMethod]

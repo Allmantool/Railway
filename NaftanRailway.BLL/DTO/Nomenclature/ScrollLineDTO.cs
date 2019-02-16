@@ -5,9 +5,9 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
         public int NKRT { get; set; }
         public int NTREB { get; set; }
         public System.DateTime DTBUHOTCHET { get; set; }
-        public Nullable<System.DateTime> DTTREB { get; set; }
-        public Nullable<System.DateTime> DTOPEN { get; set; }
-        public Nullable<System.DateTime> DTCLOSE { get; set; }
+        public DateTime? DTTREB { get; set; }
+        public DateTime? DTOPEN { get; set; }
+        public DateTime? DTCLOSE { get; set; }
         public decimal SMTREB { get; set; }
         public decimal NDSTREB { get; set; }
         public short U_KOD { get; set; }
@@ -20,7 +20,7 @@ namespace NaftanRailway.BLL.DTO.Nomenclature {
         public bool SignAdjustment_list { get; set; }
         public string Scroll_Sbor { get; set; }
         public bool Confirmed { get; set; }
-        public Nullable<byte> ErrorState { get; set; }
+        public byte? ErrorState { get; set; }
         public string ErrorMsg { get; set; }
         public byte CounterVersion { get; set; }
     }

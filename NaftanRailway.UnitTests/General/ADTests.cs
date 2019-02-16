@@ -1,16 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using NaftanRailway.BLL.Abstract;
-using NaftanRailway.BLL.DTO.Admin;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
+﻿
 
 namespace NaftanRailway.UnitTests.General {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.DirectoryServices.AccountManagement;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+    using BLL.Abstract;
+    using BLL.DTO.Admin;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Moq;
+
     /// <summary>
     /// Troubleshoot 1355 doesn't get access to domain.
     /// Can't visit doamins not trusting to you domain
@@ -28,48 +30,14 @@ namespace NaftanRailway.UnitTests.General {
 
                 for (int i = 0; i < 15; i++) {
                     // create your domain context
-                    //IEnumerable<ADUserDTO> users;
                     PrincipalContext ctx = null;
                     using (ctx = new PrincipalContext(ctxType, hostDomain)) {
                         // define a "query-by-example" principal - here, we search for a GroupPrincipal
                         var qbeGroup = new GroupPrincipal(ctx) { Name = "*Sharepoint*" };
-                        //UserPrincipal qbeUser = new UserPrincipal(ctx) { Name = searchName/*, SamAccountName = "cpn"*/ };
-                        //ADUserDTO user = null;
                         var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
                         // create your principal searcher passing in the QBE principal
                         PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = qbeGroup };
-                        //PrincipalSearcher srchUsers = new PrincipalSearcher() { QueryFilter = qbeUser };
-
-                        //users = (srchUsers.FindAll()).Select(x => (UserPrincipal)x).Select(userPrincipal => new ADUserDTO {
-                        //    FullName = userPrincipal.Name,
-                        //    EmailAddress = userPrincipal.EmailAddress,
-                        //    IdEmp = userPrincipal.EmployeeId == null ? 0 : int.Parse(userPrincipal.EmployeeId),
-                        //    Description = userPrincipal.Description,
-                        //    IsEnable = userPrincipal.Enabled ?? false,
-                        //    Phone = userPrincipal.VoiceTelephoneNumber,
-                        //    Server = userPrincipal.Context.ConnectedServer,
-                        //    GivenName = userPrincipal.GivenName,
-                        //    MiddleName = userPrincipal.MiddleName,
-                        //    Surname = userPrincipal.Surname,
-                        //    DistinguishedName = userPrincipal.DistinguishedName,
-                        //    HomeDirector = userPrincipal.HomeDirectory,
-                        //    HomeDrive = userPrincipal.HomeDrive,
-                        //    DisplayName = userPrincipal.DisplayName,
-                        //    Sam = userPrincipal.SamAccountName,
-                        //    Guid = userPrincipal.Guid ?? new Guid(),
-                        //    Sid = userPrincipal.Sid,
-                        //    PrincipalName = userPrincipal.UserPrincipalName,
-                        //    Groups = userPrincipal.GetGroups().Select(gr => new ADGroupDTO {
-                        //        Name = gr.Name,
-                        //        Description = gr.Description,
-                        //        Sam = gr.SamAccountName,
-                        //        Sid = gr.Sid,
-                        //        Guid = gr.Guid ?? new Guid()
-                        //    }).ToList()
-                        //}).ToList();
-
-                        //ctx.Dispose();
 
                         var groups = srchGroups.FindAll().Select(x => new {
                             FullName = x.Name,
@@ -108,9 +76,6 @@ namespace NaftanRailway.UnitTests.General {
                             })
                         });
                     }
-                    //Assert.AreEqual(1, users.Count());
-                    //Debug.WriteLine("iteration: {0}, Count: {1}", i, users.Count());
-
                 }
             } catch (AppDomainUnloadedException appExc) {
                 Console.WriteLine(appExc);
@@ -135,6 +100,7 @@ namespace NaftanRailway.UnitTests.General {
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, @"lan/cpn");
 
                 if (userPrincipal != null)
+                {
                     user = new ADUserDTO {
                         FullName = userPrincipal.Name,
                         EmailAddress = userPrincipal.EmailAddress,
@@ -160,9 +126,10 @@ namespace NaftanRailway.UnitTests.General {
                             Sam = gr.SamAccountName,
                             Sid = gr.Sid,
                             Guid = gr.Guid ?? new Guid(),
-                            Users = GetMembers(gr.Name).ToList()
+                            Users = this.GetMembers(gr.Name).ToList()
                         }).ToList()
                     };
+                }
             }
 
             Assert.IsTrue(user != null);
@@ -185,11 +152,6 @@ namespace NaftanRailway.UnitTests.General {
                     Guid = x.Guid ?? new Guid(),
                     Sid = x.Sid,
                     Users = x.Members.OfType<UserPrincipal>().
-                      //Where(us => //us is UserPrincipal && us.UserPrincipalName != null &&
-                      //us.Context.Name == hostDomain &&
-                      //us.DistinguishedName.Contains("OU=Нафтан,OU=Учетные записи,DC=lan,DC=naftan,DC=by") //&&
-                      //us.Context.ConnectedServer.Contains(hostDomain)
-                      //).
                       Select(up => new ADUserDTO {
                           FullName = up.Name,
                           EmailAddress = up.EmailAddress,
@@ -256,16 +218,6 @@ namespace NaftanRailway.UnitTests.General {
             using (var ctx = new PrincipalContext(ctxType, hostDomain, container, ContextOptions.Negotiate/**/)) {
                 // create your principal searcher passing in the QBE principal
                 foreach (var item in listOfGroups) {
-                    //var fGroup = GroupPrincipal.FindByIdentity(ctx, item);
-                    //var srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = item } };
-
-                    //try {
-                    //    var usCount = fGroup.Members.OfType<UserPrincipal>().Where(x=>x.UserPrincipalName.Contains("Polymir")).Count();
-                    //    Debug.WriteLine(string.Format("Group {0}, Count user in group: {1}", fGroup.Name, usCount));
-                    //} catch (Exception ex) {
-                    //    Debug.WriteLine(string.Format("Group {0}, Exception: {1}", fGroup.Name, ex.Message));
-                    //}
-
                     PrincipalSearcher srchGroups = new PrincipalSearcher() { QueryFilter = new GroupPrincipal(ctx) { Name = item } };
 
                     var group = srchGroups.FindAll().OfType<GroupPrincipal>().Select(gr => new ADGroupDTO {
@@ -312,16 +264,14 @@ namespace NaftanRailway.UnitTests.General {
                     //var filter = group.Where(x => x.Name.Contains("Readers"));
                     try {
 
-                        Debug.WriteLine(string.Format("Group {0}, Total count user in current group: {1}", dto.Name, dto.Users == null ? 0 : dto.Users.Count()));
+                        Debug.WriteLine(
+                            $"Group {dto.Name}, Total count user in current group: {(dto.Users == null ? 0 : dto.Users.Count())}");
                     } catch (Exception ex) {
-                        Debug.WriteLine(string.Format("Group {0}, Exception: {1}", dto.Name, ex.Message));
+                        Debug.WriteLine($"Group {dto.Name}, Exception: {ex.Message}");
                     }
 
                     general.Add(dto);
                 }
-                //if (dto != null) {
-                //    var users = dto.Users.ToList();
-                //}
             }
         }
 
@@ -331,16 +281,18 @@ namespace NaftanRailway.UnitTests.General {
             // Get the AD groups
             var groups = string.Format("Rail_Developers, Domain Users, Internet_Users").Split(',').ToList();
 
-            var identity = "Lan/cpn";//httpContext.User.Identity.Name;
-                                     // Verify that the user is in the given AD group (if any)
+            var identity = "Lan/cpn";
 
-            //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
             using (var ctx = new PrincipalContext(ContextType.Domain)) {
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
                 foreach (var group in groups)
+                {
                     if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, @group))
+                    {
                         result = true;
+                    }
+                }
             }
 
             Assert.AreEqual(true, result);
@@ -366,10 +318,14 @@ namespace NaftanRailway.UnitTests.General {
                 //var userPrincipal = UserPrincipal.FindByIdentity(ctx, IdentityType.SamAccountName, identity);
                 var userPrincipal = UserPrincipal.FindByIdentity(ctx, identity);
 
-                //if exist any one group
+                // if exist any one group
                 foreach (var group in groups)
+                {
                     if (userPrincipal != null && userPrincipal.IsMemberOf(ctx, IdentityType.Name, group))
+                    {
                         IsAuth = true;
+                    }
+                }
             }
 
             Assert.AreEqual(true, IsAuth);
@@ -439,13 +395,13 @@ namespace NaftanRailway.UnitTests.General {
                 },
             };
 
-            //arrange
+            // arrange
             var engMock = new Mock<IAuthorizationEngage>();
             engMock.Setup(m => m.AdminPrincipal(It.IsAny<string>(), false)).Returns<ADUserDTO>(dto => dtoColl.FirstOrDefault());
 
-            //act
+            // act
 
-            //assert
+            // assert
 
         }
     }

@@ -23,7 +23,7 @@ namespace NaftanRailway.UnitTests.Patterns {
         public string Name { get; set; }
 
         public Developer(string n) {
-            Name = n;
+            this.Name = n;
         }
         // фабричный метод
         abstract public House Create();

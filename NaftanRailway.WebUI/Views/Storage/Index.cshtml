@@ -72,7 +72,7 @@
                 </td>
                 <td>
                     @using (Html.BeginForm("RemoveRow", "Storage")){
-                        @Html.Hidden("id", line.Shipping.id)
+                        @Html.Hidden("Id", line.Shipping.id)
                         @Html.HiddenFor(m => m.ReturnUrl)
                         <button type="submit" class="btn btn-xs btn-warning" id="searchBtn">
                                Удалить <span class="glyphicon glyphicon-trash"></span>

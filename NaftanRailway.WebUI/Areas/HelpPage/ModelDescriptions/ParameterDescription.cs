@@ -7,7 +7,7 @@ namespace NaftanRailway.WebUI.Areas.HelpPage.ModelDescriptions
     {
         public ParameterDescription()
         {
-            Annotations = new Collection<ParameterAnnotation>();
+            this.Annotations = new Collection<ParameterAnnotation>();
         }
 
         public Collection<ParameterAnnotation> Annotations { get; private set; }

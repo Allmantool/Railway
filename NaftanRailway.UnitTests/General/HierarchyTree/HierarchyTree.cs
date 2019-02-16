@@ -1,91 +1,112 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreLinq;
-using NaftanRailway.BLL.DTO.General;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Configuration;
-using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿namespace NaftanRailway.UnitTests.General
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Configuration;
+    using System.Data;
+    using System.Data.Entity;
+    using System.Data.SqlClient;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Text;
+    using BLL.DTO.General;
+    using Domain.Concrete.DbContexts.ORC;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MoreLinq;
 
-namespace NaftanRailway.UnitTests.General {
     /// <summary>
     /// Custom tree
     /// </summary>
-    public class TreeNode : TreeNodeBase<TreeNode> {
-        public TreeNode() {
+    public class TreeNode : TreeNodeBase<TreeNode>
+    {
+
+        public TreeNode()
+        {
         }
 
-        public TreeNode(string name) : base(name) {
+        public TreeNode(string name) : base(name)
+        {
             Debug.Write(name);
         }
 
         protected override TreeNode MySelf => this;
 
-        [Key()/*, Column("id")*/]
+        [Key()/*, Column("Id")*/]
         public override long Id { get; set; }
+
         public long ParentId { get; set; }
+
         public int GroupId { get; set; }
+
         public int RankInGr { get; set; }
+
         public short TreeLevel { get; set; }
+
         public string Label { get; set; }
+
         public string SearchKey { get; set; }
+
         public long Count { get; set; }
+
         public byte[] RootKey { get; set; }
+
         public string StrKey { get; set; }
+
         /// <summary>
         /// Return byte array instead of base64String()
         /// </summary>
-        public int[] ByteArray { get { return RootKey.Select(b => (int)b).ToArray(); } }
+        public int[] ByteArray { get { return this.RootKey.Select(b => (int)b).ToArray(); } }
     }
 
-    //Moke context
-    public partial class NomenclatureEntities : DbContext {
-        public NomenclatureEntities() : base("name=EFConnection") {
-            //var dbCon = new DbConnection();
+    public partial class NomenclatureEntities : DbContext
+    {
+        public NomenclatureEntities()
+            : base("name=EFConnection")
+        {
+            // var dbCon = new DbConnection();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
             base.OnModelCreating(modelBuilder);
         }
 
         public virtual DbSet<krt_Naftan_orc_sapod> Charges { get; set; }
+
         public virtual DbSet<krt_Naftan> Scrolls { get; set; }
     }
 
     [TestClass]
-    public class HierarchyTree {
+    public class HierarchyTree
+    {
         [TestMethod]
-        public void LinqHierarchy() {
-            var data = (new[]
+        public void LinqHierarchy()
+        {
+            var data = new[]
             {
                 new krt_Naftan_orc_sapod() {keykrt = 1, id_kart = 1, tdoc = 1},
                 new krt_Naftan_orc_sapod() {keykrt = 1, id_kart = 2, tdoc = 1},
                 new krt_Naftan_orc_sapod() {keykrt = 2, id_kart = 3, tdoc = 1},
                 new krt_Naftan_orc_sapod() {keykrt = 2, id_kart = 3, tdoc = 2},
-            }).AsQueryable();
+            }.AsQueryable();
 
-            //it stats work at the deepest level first and work up
             var groups = data.GroupBy(x => new { x.keykrt, x.id_kart, x.tdoc })
                              .GroupBy(x => new { x.Key.keykrt, x.Key.id_kart })
                              .GroupBy(x => new { x.Key.keykrt });
 
             Debug.WriteLine(groups.First().Key);              // will be an A value
             Debug.WriteLine(groups.First().First().First()); // will be an A, B, C group
-            //Assert.IsTrue(;
+
+            // Assert.IsTrue(;
         }
 
         [TestMethod]
-        public void SetUp() {
+        public void SetUp()
+        {
             const int countGroup = 20;
             var startPeriod = new DateTime(2017, 1, 1);
-            var serverName = @"DB2";//@"CPN8\HOMESERVER";//"LOCALMACHINE";
+            var serverName = @"DB2"; // @"CPN8\HOMESERVER";//"LOCALMACHINE";
             var dbName = @"NSD2";
 
             var hirearchyDict = new Dictionary<int, string>{
@@ -110,9 +131,9 @@ namespace NaftanRailway.UnitTests.General {
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [id] - primary key
-            * [parentId] - parents element id
-            * [groupId] - group id
+            * [Id] - primary key
+            * [parentId] - parents element Id
+            * [groupId] - group Id
             * [rankInGr] - element primary key in group
             * [treeLevel] - height of tree
             * [levelName] - custom group tree node name
@@ -123,7 +144,7 @@ namespace NaftanRailway.UnitTests.General {
             //--The order must be same in each aggregation functions
             var query = $@";WITH grSubResult AS (
                 SELECT  
-                    [id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [Id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -135,7 +156,7 @@ namespace NaftanRailway.UnitTests.General {
                     [count] = COUNT(*)
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+                WHERE knos.tdoc > 0 AND knos.Id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
                 GROUP BY GROUPING SETS(
                         --(),
                         (kn.KEYKRT, kn.NKRT),
@@ -148,11 +169,11 @@ namespace NaftanRailway.UnitTests.General {
 
                 SELECT
                     [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					    WHEN 0 THEN MAX(Id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
 					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(id) OVER (PARTITION BY KEYKRT)
+					    WHEN 3 THEN MAX(Id) OVER (PARTITION BY KEYKRT)
 					ELSE 0 END,
-	                [id], [groupId], [rankInGr], [treeLevel],
+	                [Id], [groupId], [rankInGr], [treeLevel],
 	                [levelName] = CASE [treeLevel]
 					    WHEN 0 THEN N'Документ'
 					    WHEN 1 THEN N'Тип документа'
@@ -181,32 +202,40 @@ namespace NaftanRailway.UnitTests.General {
             IList<TreeNode> tree = new List<TreeNode>();
 
             //Act
-            using (var dt = new DataTable()) {
+            using (var dt = new DataTable())
+            {
                 using (var con = new SqlConnection(conectString))
-                using (var adpt = new SqlDataAdapter(query, con)) {
-                    try {
+                using (var adpt = new SqlDataAdapter(query, con))
+                {
+                    try
+                    {
                         adpt.Fill(dt);
                         result = dt.Select().ToList();
-                        //fill tree
+
+                        // fill tree
                         if (dt.Rows.Count > 0) tree = result.FillRecursive();
-                    } catch (SqlException ex) {
+                    }
+                    catch (SqlException ex)
+                    {
                         Debug.WriteLine($"Test throws exception: {ex.Message}");
                         if (con.State == ConnectionState.Open) con.Close();
-                    } finally {
+                    }
+                    finally
+                    {
                         if (con.State == ConnectionState.Open) con.Close(); adpt.Dispose();
                     }
                 }
             }
 
             var totalCardCount = tree.Sum(x => x.Children.Count());
-            var totalDocumCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName == hirearchyDict[0]).Count());
+            var totalDocumCount = tree.Sum(x => x.Descendants().Count(node => node.LevelName == hirearchyDict[0]));
             var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.Count).Count());
             var documStartsWith = tree.SelectMany(x => x.Descendants()).Where(node => node.Label.StartsWith("01")).ToList();
             var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[0]))
                                      .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
             var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[1]))
                                     .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
-            //the table consists dublicated values id_kart/ nkrt
+
             var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[3]))
                                      .DistinctBy(x => new { x.SearchKey, x.Label })//.ToLookup(x=>x.SearchKey)
                                      .ToDictionary(gr => gr.SearchKey, gr => gr.Label, StringComparer.OrdinalIgnoreCase);
@@ -221,18 +250,20 @@ namespace NaftanRailway.UnitTests.General {
         }
 
         [TestMethod]
-        public void InitEF() {
+        public void InitEf()
+        {
             byte[] rootKey = null; //Encoding.ASCII.GetBytes("0xE2E7E8B3878D0B7897E01E049C5CD89B");//Byte.Parse("0xE2E7E8B3878D0B7897E01E049C5CD89B");
             var typeDoc = string.Join(", ", new[] { 63 });
-            //var startPeriod = new DateTime(2017, 1, 1);
+            var startPeriod = new DateTime(2017, 1, 1);
 
             #region Query
+
             /* 04.08.2017
             * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
             *
-            * [id] - primary key
-            * [parentId] - parents element id
-            * [groupId] - group id
+            * [Id] - primary key
+            * [parentId] - parents element Id
+            * [groupId] - group Id
             * [rankInGr] - element primary key in group
             * [treeLevel] - height of tree
             * [levelName] - custom group tree node name
@@ -240,18 +271,19 @@ namespace NaftanRailway.UnitTests.General {
             * [label] - description for rendering purpose
             * [rootKey] - hierarchyid base on hashbyte
             */
-            //--Warning weakness!
-            //--The order must be same in each aggregation functions
+
+            // --Warning weakness!
+            // --The order must be same in each aggregation functions
             var query = $@"
             Declare @tree TABLE(
-	            [parentId] BIGINT,		[id] BIGINT,				[groupId] INT,				[rankInGr] INT,
+	            [parentId] BIGINT,		[Id] BIGINT,				[groupId] INT,				[rankInGr] INT,
 	            [treeLevel] SMALLINT,	[levelName] NVARCHAR(30),   [searchkey] NVARCHAR(30),	[label] NVARCHAR(30),
 	            [count] BIGINT,			[rootKey] varbinary(1000) primary key,                  [strKey] NVARCHAR(MAX)
             );
 
             ;WITH grSubResult AS (
                 SELECT
-                    [id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+                    [Id] = ROW_NUMBER() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [groupId] = DENSE_RANK() OVER(ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC),
                     [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY YEAR(DTBUHOTCHET) DESC, MONTH(kn.DTBUHOTCHET) DESC, kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
                     [treeLevel] = GROUPING_ID( YEAR(DTBUHOTCHET), MONTH(kn.DTBUHOTCHET), kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
@@ -275,7 +307,7 @@ namespace NaftanRailway.UnitTests.General {
 			            ISNULL(N'-->' + Convert(nvarchar(10),knos.nomot), N''))
                 FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
                     ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.id > 0
+                WHERE knos.tdoc > 0 AND knos.Id > 0
                 GROUP BY GROUPING SETS(
                        --(),
                         (YEAR(DTBUHOTCHET)),
@@ -291,13 +323,13 @@ namespace NaftanRailway.UnitTests.General {
                 Insert into @tree
                 SELECT
                     [parentId] = CASE [treeLevel]
-		            WHEN 0 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
-		            WHEN 1 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
-		            WHEN 3 THEN MAX(id) OVER (PARTITION BY [year], [month], KEYKRT)
-		            WHEN 7 THEN MAX(id) OVER (PARTITION BY [year], [month])
-		            WHEN 31 THEN MAX(id) OVER (PARTITION BY [year])
+		            WHEN 0 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart, typeDoc)
+		            WHEN 1 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT, id_kart)
+		            WHEN 3 THEN MAX(Id) OVER (PARTITION BY [year], [month], KEYKRT)
+		            WHEN 7 THEN MAX(Id) OVER (PARTITION BY [year], [month])
+		            WHEN 31 THEN MAX(Id) OVER (PARTITION BY [year])
 	            ELSE 0 END,
-	            [id], [groupId], [rankInGr], [treeLevel],
+	            [Id], [groupId], [rankInGr], [treeLevel],
 	            [levelName] = CASE [treeLevel]
 		            WHEN 0 THEN N'Документ'
 		            WHEN 1 THEN N'Тип документа'
@@ -328,89 +360,27 @@ namespace NaftanRailway.UnitTests.General {
                 WHERE  [treeLevel] IN ( {typeDoc} )
                 ORDER BY [year] DESC, [month], KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;
 
-            select * from @tree" + (rootKey == null ? ";" : $@" where [parentId] = (select id from @tree where [rootKey] = {Encoding.ASCII.GetString(rootKey)});");
+            select * from @tree" + (rootKey == null ? ";" : $@" where [parentId] = (select Id from @tree where [rootKey] = {Encoding.ASCII.GetString(rootKey)});");
             #endregion
 
-            //map
-            try {
-                using (var ctx = new NomenclatureEntities()) {
+            // map
+            try
+            {
+                using (var ctx = new NomenclatureEntities())
+                {
                     var dbName = ctx.Database.Connection.Database;
-                    //list on nodes (flatted)
+
+                    // list on nodes (flatted)
                     var result = ctx.Database.SqlQuery<TreeNode>(query).ToList();
                     var tree = result.FillRecursive();
 
                     Assert.IsNotNull(Encoding.ASCII.GetString(result[0].RootKey));
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
-
-
-
-        }
-    }
-
-    /// <summary>
-    /// It's the class with specific method for working with hierarchy structure through LINQ
-    /// </summary>
-    public static class TreeExtenstions {
-        /// <summary>
-        /// It fills tree recursive (up to down)
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="parentId"></param>
-        /// <returns></returns>
-        public static List<TreeNode> FillRecursive(this IList<DataRow> rows, int parentId = 0) {
-            //top nodes
-            var roots = rows.Where(x => Convert.ToInt32(x["parentId"]) == parentId);
-
-            var result = roots.Select(item => new TreeNode(item["levelName"].ToString()) {
-                Id = Convert.ToInt32(item["id"]),
-                Children = FillRecursive(rows, Convert.ToInt32(item["id"])),
-                Label = item["label"].ToString(),
-                SearchKey = item["searchkey"].ToString(),
-                Count = Convert.ToInt32(item["count"]),
-            }).ToList();
-
-            return result;
-        }
-
-        public static IEnumerable<TreeNode> Descendants(this TreeNode root) {
-            var nodes = new Stack<TreeNode>(new[] { root });
-
-            while (nodes.Any()) {
-                TreeNode node = nodes.Pop();
-
-                yield return node;
-
-                foreach (var n in node.Children) nodes.Push(n);
-            }
-        }
-
-        /// <summary>
-        /// It fills tree recursive (up to down) from node collection
-        /// </summary>
-        /// <param name="rows"></param>
-        /// <param name="parentId"></param>
-        /// <returns></returns>
-        public static List<TreeNode> FillRecursive(this IList<TreeNode> rows, long parentId = 0) {
-            //top nodes
-            var roots = rows.Where(x => x.ParentId == parentId).ToList();
-
-            //build hierarchy
-            var result = roots.Select(item => new TreeNode(item.LevelName) {
-                Id = item.Id,
-                Children = FillRecursive(rows, item.Id),
-                Label = item.Label,
-                SearchKey = item.SearchKey,
-                Count = item.Count,
-                GroupId = item.GroupId,
-                ParentId = item.ParentId,
-                RankInGr = item.RankInGr,
-                TreeLevel = item.TreeLevel
-            }).ToList();
-
-            return result;
         }
     }
 }

@@ -45,7 +45,7 @@
                                         As the hidden input has the same name as the checkbox, then if the checkbox is unchecked you'll still get a 'false' sent to the server.
                                          -->
                                         @*@Html.CheckBoxFor(x => x[indx].IsSelected, new { type = "checkbox", @checked = "checked" })
-                                        @Html.HiddenFor(x => x[indx].shipping.id, Model[indx].shipping.id)*@
+                                        @Html.HiddenFor(x => x[indx].shipping.Id, Model[indx].shipping.Id)*@
                                         <input type="checkbox" data-bind="checked: $data.IsSelected" />
                                     </td>
                                     <td>

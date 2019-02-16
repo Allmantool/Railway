@@ -37,10 +37,10 @@ namespace NaftanRailway.BLL.POCO {
         /// Для данного объекта не определено беспараметрических конструкторов. (from .js)
         /// </summary>
         public CheckListFilter(IDictionary<string, string> keyVal) {
-            ValuesDictionary = keyVal;
+            this.ValuesDictionary = keyVal;
 
-            AllAvailableValues = ValuesDictionary.Values.Select(x => x);
-            CheckedValues = ValuesDictionary.Keys.Select(x => x);
+            this.AllAvailableValues = this.ValuesDictionary.Values.Select(x => x);
+            this.CheckedValues = this.ValuesDictionary.Keys.Select(x => x);
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace NaftanRailway.BLL.POCO {
         /// </summary>
         /// <returns></returns>
         public Expression<Func<T, bool>> FilterByField<T>() where T : class {
-            var predicate = CheckedValues.Aggregate(
+            var predicate = this.CheckedValues.Aggregate(
                 PredicateBuilder.New<T>(false).DefaultExpression,
-                (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(FieldName, innerItem))
+                (current, innerItem) => current.Or(PredicateExtensions.FilterByName<T>(this.FieldName, innerItem))
             );
 
             return predicate;

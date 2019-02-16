@@ -8,7 +8,7 @@ namespace NaftanRailway.WebUI.Controllers {
         private readonly IBussinesEngage _bussinesEngage;
         
         public StorageController(IBussinesEngage bussinesEngage) {
-            _bussinesEngage = bussinesEngage;
+            this._bussinesEngage = bussinesEngage;
         }
         
         /// <summary>
@@ -18,9 +18,9 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         public ViewResult Index(ISessionStorage storage, string returnUrl) {
-            return View(new SessionStorageViewModel {
+            return this.View(new SessionStorageViewModel {
                 Storage = storage,
-                ReturnUrl = returnUrl ?? (string)TempData["returnUrl"]
+                ReturnUrl = returnUrl ?? (string)this.TempData["returnUrl"]
             });
         }
         
@@ -46,9 +46,9 @@ namespace NaftanRailway.WebUI.Controllers {
             //        //storage.AddItem(packDocument);
             //    }
             //}
-            TempData["returnUrl"] = returnUrl;
+            this.TempData["returnUrl"] = returnUrl;
 
-            return RedirectToAction("Index");
+            return this.RedirectToAction("Index");
         }
         
         /// <summary>
@@ -66,7 +66,7 @@ namespace NaftanRailway.WebUI.Controllers {
             //    storage.RemoveLine(line.Shipping);
             //}
 
-            return RedirectToAction("Index", new { returnUrl });
+            return this.RedirectToAction("Index", new { returnUrl });
         }
         
         /// <summary>
@@ -76,15 +76,15 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         public PartialViewResult Summary(ISessionStorage storage, string returnUrl) {
-            ViewBag.returnUrl = returnUrl;
-            return PartialView(storage);
+            this.ViewBag.returnUrl = returnUrl;
+            return this.PartialView(storage);
         }
 
         [HttpGet]
         public ViewResult EditRow(ISessionStorage storage, int id, string returnUrl) {
             //ShippingInfoLine line = storage.Lines.FirstOrDefault(sh => sh.Shipping.id == id);
 
-            return View(new InfoLineViewModel() {
+            return this.View(new InfoLineViewModel() {
                 DocumentPackLine = null,
                 ReturnUrl = returnUrl
             });
@@ -100,14 +100,14 @@ namespace NaftanRailway.WebUI.Controllers {
         public ActionResult EditRow(ISessionStorage storage, InfoLineViewModel line) {
             //storage.Update(line.DocumentPackLine);
 
-            if (ModelState.IsValid) {
+            if (this.ModelState.IsValid) {
                 //storage.SaveLine(line.DocumentPackLine);
                 //TempData["message"] = string.Format("Отправка {0} успешно отредактирована", line.DocumentPackLine.Shipping.n_otpr);
 
-                return RedirectToAction("Index", new { line.ReturnUrl });
+                return this.RedirectToAction("Index", new { line.ReturnUrl });
             } else {
                 // there is something wrong with the data values + mistake
-                return View(line);
+                return this.View(line);
             }
         }
     }

@@ -40,7 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>6</LangVersion>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -61,8 +61,8 @@
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
-    <Reference Include="MoreLinq, Version=2.9.21302.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.2.9.0\lib\net40\MoreLinq.dll</HintPath>
+    <Reference Include="MoreLinq, Version=2.10.21623.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.10.0\lib\net40\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>True</Private>
@@ -101,26 +101,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IGeneralRepository.cs" />
+    <Compile Include="Abstract\IRepositoryFactory.cs" />
+    <Compile Include="Abstract\IUnitOfWorkFactory.cs" />
+    <Compile Include="Abstract\Repositories\IAddRepository.cs" />
+    <Compile Include="Abstract\Repositories\IAsyncRepository.cs" />
+    <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\IUnitOfWork.cs" />
-    <Compile Include="Concrete\DbContexts\Mesplan\etsng.cs">
-      <DependentUpon>ModelMesplan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Concrete\DbContexts\Mesplan\ModelMesplan.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Abstract\Repositories\IDeleteRepository.cs" />
+    <Compile Include="Abstract\Repositories\IGetRepository.cs" />
+    <Compile Include="Abstract\Repositories\IMergeRepository.cs" />
+    <Compile Include="Abstract\Repositories\IUpdateRepository.cs" />
+    <Compile Include="Abstract\UnitOfWorks\IMesplanUnitOfWork.cs" />
+    <Compile Include="Abstract\UnitOfWorks\IObdUnitOfWork.cs" />
+    <Compile Include="Concrete\ConfigurableDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Configurations\EtsngConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWorkFactory.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Configurations\VPodhodConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\VPodhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdDbContext.cs" />
     <Compile Include="Concrete\DbContexts\OBD\OBDModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,6 +137,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OBDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWorkFactory.cs" />
     <Compile Include="Concrete\DbContexts\OBD\v_02_podhod.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
@@ -166,6 +169,8 @@
     <Compile Include="Concrete\DbContexts\OBD\v_pam_vag.cs">
       <DependentUpon>OBDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\ORC\Configurations\KrtGuild18Configuration.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\Entities\KrtGuild18.cs" />
     <Compile Include="Concrete\DbContexts\ORC\krt_Guild18.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
@@ -175,6 +180,9 @@
     <Compile Include="Concrete\DbContexts\ORC\krt_Naftan_orc_sapod.cs">
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Concrete\DbContexts\ORC\OrcDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWorkFactory.cs" />
     <Compile Include="Concrete\DbContexts\ORC\ORCModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,15 +205,12 @@
       <DependentUpon>ORCModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Concrete\Disposable.cs" />
+    <Compile Include="Concrete\EntityFrameworkRepositoryFactory.cs" />
     <Compile Include="Concrete\UnitOfWork.cs" />
-    <Compile Include="Concrete\GeneralRepository.cs" />
+    <Compile Include="Concrete\Repository.cs" />
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
     <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
-    <Compile Include="Services\EntitiesMetaData\etsng.cs" />
-    <Compile Include="Services\EntitiesMetaData\krt_Naftan.cs" />
-    <Compile Include="Services\EntitiesMetaData\krt_Naftan_orc_sapod.cs" />
     <Compile Include="Services\EntitiesMetaData\v_akt_vag.cs" />
-    <Compile Include="Services\EntitiesMetaData\v_otpr.cs" />
     <Compile Include="Services\EntitiesMetaData\v_o_v.cs" />
     <Compile Include="Services\EntitiesMetaData\v_pam.cs" />
     <Compile Include="Services\EntitiesMetaData\v_pam_vag.cs" />
@@ -219,14 +224,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ORCModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelMesplan.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="app.config" />
-    <None Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.diagram">
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-    </None>
     <EntityDeploy Include="Concrete\DbContexts\OBD\OBDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>OBDModel.Designer.cs</LastGenOutput>
@@ -272,17 +270,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-      <LastGenOutput>ModelMesplan.Context.cs</LastGenOutput>
-    </Content>
     <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.sql" />
-    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelMesplan.edmx</DependentUpon>
-      <LastGenOutput>ModelMesplan.cs</LastGenOutput>
-    </Content>
     <Content Include="Concrete\DbContexts\OBD\OBDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>OBDModel.edmx</DependentUpon>
@@ -306,8 +294,10 @@
       <LastGenOutput>ORCModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Concrete\DbContexts\Security\" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
