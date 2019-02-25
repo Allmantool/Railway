@@ -2,7 +2,6 @@
 {
     using System;
     using System.Data.Entity;
-    using System.Diagnostics;
 
     public abstract class ConfigurableDbContext : DbContext
     {

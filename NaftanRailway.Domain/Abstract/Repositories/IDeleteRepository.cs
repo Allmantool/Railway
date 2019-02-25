@@ -5,6 +5,7 @@
     using System.Linq.Expressions;
 
     public interface IDeleteRepository<T>
+        where T : class, new()
     {
         void Delete(T entity, bool enableDetectChanges = true);
 

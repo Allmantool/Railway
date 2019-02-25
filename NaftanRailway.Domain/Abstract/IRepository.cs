@@ -1,13 +1,8 @@
 ﻿namespace NaftanRailway.Domain.Abstract
 {
     using System.Data.Entity;
-
     using Repositories;
 
-    /// <summary>
-    /// The Repository interface.
-    /// </summary>
-    /// <typeparam name="T"> Generic entity.</typeparam>
     public interface IRepository<T> :
         IAsyncRepository<T>,
         IGetRepository<T>,
@@ -15,6 +10,7 @@
         IDeleteRepository<T>,
         IUpdateRepository<T>,
         IMergeRepository<T>
+     where T : class, new()
     {
         DbContext ActiveDbContext { get; set; }
 

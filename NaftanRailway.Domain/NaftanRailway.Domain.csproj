@@ -50,6 +50,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -209,10 +210,6 @@
     <Compile Include="Concrete\Repository.cs" />
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
     <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
-    <Compile Include="Services\EntitiesMetaData\v_akt_vag.cs" />
-    <Compile Include="Services\EntitiesMetaData\v_o_v.cs" />
-    <Compile Include="Services\EntitiesMetaData\v_pam.cs" />
-    <Compile Include="Services\EntitiesMetaData\v_pam_vag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -295,7 +292,10 @@
       <LastGenOutput>ORCModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+    <Folder Include="EF6\" />
+  </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />

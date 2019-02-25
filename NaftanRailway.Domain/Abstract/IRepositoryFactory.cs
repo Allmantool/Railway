@@ -1,10 +1,8 @@
 ﻿namespace NaftanRailway.Domain.Abstract
 {
-    using System.Data.Entity;
-
-    public interface IRepositoryFactory<out TRepository, T>
-        where TRepository : IRepository<T>
+    public interface IRepositoryFactory<T>
+        where T : class, new()
     {
-        TRepository Create();
+        IRepository<T> Create();
     }
 }

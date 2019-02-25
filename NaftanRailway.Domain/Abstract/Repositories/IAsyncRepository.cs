@@ -5,8 +5,12 @@
     using System.Threading.Tasks;
 
     public interface IAsyncRepository<T>
+        where T : class, new()
     {
-        Task<T> GetAsync(Expression<Func<T, bool>> predicate = null, bool enableDetectChanges = true, bool enableTracking = true);
+        Task<T> GetAsync(
+            Expression<Func<T, bool>> predicate = null,
+            bool enableDetectChanges = true,
+            bool enableTracking = true);
 
         Task<T> FindAsync<TK>(TK key, bool enableDetectChanges = true);
     }

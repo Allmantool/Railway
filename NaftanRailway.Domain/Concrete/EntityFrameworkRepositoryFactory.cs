@@ -8,12 +8,16 @@
     using System.Linq;
     using Abstract;
 
-    public class EntityFrameworkRepositoryFactory<T> : IRepositoryFactory<IRepository<T>, T>
-        where T : class
+    public class EntityFrameworkRepositoryFactory<T> : IRepositoryFactory<T>
+        where T : class, new()
     {
         private readonly DbContext[] dbCtxCollection;
-
         private readonly Dictionary<Type, IDisposable> mapRepositories;
+
+        public EntityFrameworkRepositoryFactory()
+        {
+            this.mapRepositories = new Dictionary<Type, IDisposable>();
+        }
 
         public EntityFrameworkRepositoryFactory(DbContext[] dbCtxCollection)
         {

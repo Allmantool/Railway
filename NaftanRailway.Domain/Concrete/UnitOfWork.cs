@@ -50,7 +50,7 @@
         public DbContext ActiveContext { get; set; }
 
         public IRepository<T> GetRepository<T>()
-            where T : class
+            where T : class, new()
         {
             if (this.mapRepositories.TryGetValue(typeof(T), out var repo))
             {

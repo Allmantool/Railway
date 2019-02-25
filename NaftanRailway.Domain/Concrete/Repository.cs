@@ -12,7 +12,7 @@
     using MoreLinq;
 
     public class Repository<T> : Disposable, IRepository<T>
-        where T : class
+        where T : class, new()
     {
         private readonly DbSet<T> dbSet;
 
@@ -29,10 +29,6 @@
             bool enableDetectChanges = true,
             bool enableTracking = true)
         {
-            /* Sync data in Db & EF (if change not tracking for EF)
-                ((IObjectContextAdapter)_context).ObjectContext.Refresh(RefreshMode.StoreWins, _dbSet.Where(predicate));
-                _context.Entry(_dbSet.Where(predicate)).Reload(); EF 4.1+
-            */
 
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
 
@@ -138,13 +134,11 @@
         {
             operations.ForEach(o => o(entity));
 
-            // Do a database call to get the state
             var entry = this.ActiveDbContext.Entry(entity);
             var databaseValues = entry.GetDatabaseValues();
 
             foreach (var propertyName in databaseValues.PropertyNames)
             {
-                // Modify the specific property states only.
                 entry.Property(propertyName).IsModified = true;
             }
         }
@@ -171,16 +165,13 @@
 
             if (this.dbSet.Any(predicate.Compile()))
             {
-                // connection scenario http://www.entityframeworktutorial.net/update-entity-in-entity-framework.aspx
                 var item = this.dbSet.Where(predicate).First();
                 DbEntityEntry entry = this.ActiveDbContext.Entry(item);
 
                 foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds))
                 {
-                    // Get the old field value from the database.
                     var original = entry.GetDatabaseValues().GetValue<object>(propertyName);
 
-                    // Get the current value from posted edit page.
                     var current = entry.CurrentValues.GetValue<object>(propertyName);
 
                     if (!Equals(original, current))
