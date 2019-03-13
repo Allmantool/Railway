@@ -1,25 +1,24 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
+﻿namespace Railway.Domain.Concrete.DbContexts.OBD
 {
-    using Abstract;
-    using Abstract.UnitOfWorks;
-    using Configurations;
+    using Interfaces;
+    using Interfaces.UnitOfWorks;
 
     public class ObdUnitOfWorkFactory : IUnitOfWorkFactory<IObdUnitOfWork>
     {
-        private readonly string _connectionString;
+        private readonly string connectionString;
 
         public ObdUnitOfWorkFactory(string connectionString)
         {
-            _connectionString = connectionString;
+            this.connectionString = connectionString;
         }
 
         public IObdUnitOfWork Create()
         {
             var dbContext = new ObdDbContext(
-                this._connectionString,
+                this.connectionString,
                 builder =>
                 {
-                    builder.Configurations.Add(new VPodhodConfiguration());
+                    // builder.Configurations.Add();
                 });
 
             return new ObdUnitOfWork(dbContext);

@@ -1,9 +1,10 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.ORC
-{
-    using System.Data.Entity;
-    using Abstract.UnitOfWorks;
+﻿using System.Data.Entity;
+using Railway.Domain.EF6;
+using Railway.Domain.Interfaces.UnitOfWorks;
 
-    public class OrcUnitOfWork : UnitOfWork, IObdUnitOfWork
+namespace Railway.Domain.Concrete.DbContexts.ORC
+{
+    public class OrcUnitOfWork : EFUnitOfWork, IObdUnitOfWork
     {
         public OrcUnitOfWork(DbContext context)
             : base(context)

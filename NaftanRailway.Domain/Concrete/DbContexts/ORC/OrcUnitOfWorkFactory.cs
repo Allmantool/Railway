@@ -1,9 +1,9 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.ORC
-{
-    using Abstract;
-    using Abstract.UnitOfWorks;
-    using Configurations;
+﻿using Railway.Domain.Concrete.DbContexts.ORC.Configurations;
+using Railway.Domain.Interfaces;
+using Railway.Domain.Interfaces.UnitOfWorks;
 
+namespace Railway.Domain.Concrete.DbContexts.ORC
+{
     public class OrcUnitOfWorkFactory : IUnitOfWorkFactory<IObdUnitOfWork>
     {
         private readonly string _connectionString;

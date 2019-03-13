@@ -1,7 +1,7 @@
-﻿namespace NaftanRailway.Domain.Concrete
-{
-    using System;
+﻿using System;
 
+namespace Railway.Domain.Concrete
+{
     public class Disposable : IDisposable
     {
         private readonly object disposeLockМarker = new object();

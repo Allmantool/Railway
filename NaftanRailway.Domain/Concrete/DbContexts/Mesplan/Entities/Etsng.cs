@@ -1,4 +1,4 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities
+﻿namespace Railway.Domain.Concrete.DbContexts.Mesplan.Entities
 {
     public class Etsng
     {

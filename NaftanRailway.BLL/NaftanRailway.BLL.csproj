@@ -104,9 +104,9 @@
     <Compile Include="Services\ExpressionTreeExtensions\PredicateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NaftanRailway.Domain\NaftanRailway.Domain.csproj">
+    <ProjectReference Include="..\NaftanRailway.Domain\Railway.Domain.csproj">
       <Project>{09a80099-87fe-485f-bbd4-5cd5c6770bf8}</Project>
-      <Name>NaftanRailway.Domain</Name>
+      <Name>Railway.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

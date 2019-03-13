@@ -1,9 +1,9 @@
-﻿namespace NaftanRailway.Domain.Services.DbConfigurations {
-    using System;
-    using System.Data.Common;
-    using System.Data.Entity.Infrastructure.Interception;
-    using System.Diagnostics;
+﻿using System;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure.Interception;
+using System.Diagnostics;
 
+namespace Railway.Domain.Services.DbConfigurations {
     public class EfInterceptor : IDbCommandInterceptor {
         public void NonQueryExecuted(DbCommand command, DbCommandInterceptionContext<int> interceptionContext) {
             this.Log(string.Format(

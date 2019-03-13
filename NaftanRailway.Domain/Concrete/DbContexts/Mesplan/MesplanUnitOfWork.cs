@@ -1,10 +1,10 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
+﻿using System.Data.Entity;
+using Railway.Domain.EF6;
+using Railway.Domain.Interfaces.UnitOfWorks;
+
+namespace Railway.Domain.Concrete.DbContexts.Mesplan
 {
-    using System.Data.Entity;
-
-    using Abstract.UnitOfWorks;
-
-    public class MesplanUnitOfWork : UnitOfWork, IMesplanUnitOfWork
+    public class MesplanUnitOfWork : EFUnitOfWork, IMesplanUnitOfWork
     {
         public MesplanUnitOfWork(DbContext context)
             : base(context)

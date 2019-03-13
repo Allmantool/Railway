@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 
-[assembly: AssemblyTitle("NaftanRailway.Domain")]
+[assembly: AssemblyTitle("Railway.Domain")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Home")]
-[assembly: AssemblyProduct("NaftanRailway.Domain")]
-[assembly: AssemblyCopyright("Copyright © Home 2018")]
+[assembly: AssemblyProduct("Railway.Domain")]
+[assembly: AssemblyCopyright("Copyright © Home 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

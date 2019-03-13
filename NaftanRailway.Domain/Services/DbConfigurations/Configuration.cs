@@ -1,6 +1,6 @@
-﻿namespace NaftanRailway.Domain.Services.DbConfigurations {
-    using System.Data.Entity;
+﻿using System.Data.Entity;
 
+namespace Railway.Domain.Services.DbConfigurations {
     /// <summary>
     ///     More flexible logging for EF6 then Database.Log
     ///     !!!Warning!!!! It's possible Conflict with registration in web.config or body code (double log)
