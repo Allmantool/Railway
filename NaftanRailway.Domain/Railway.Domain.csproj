@@ -175,6 +175,10 @@
     <Content Include="Concrete\DbContexts\ORC\ORCModel.edmx.sql" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Railway.Core.Data.EF\Railway.Core.Data.EF.csproj">
+      <Project>{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}</Project>
+      <Name>Railway.Core.Data.EF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Railway.Core.Data\Railway.Core.Data.csproj">
       <Project>{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}</Project>
       <Name>Railway.Core.Data</Name>

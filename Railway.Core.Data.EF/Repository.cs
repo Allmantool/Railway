@@ -22,7 +22,7 @@ namespace Railway.Core.Data.EF
             this.dbSet = context.Set<T>();
         }
 
-        public DbContext ActiveDbContext { get; set; }
+        protected DbContext ActiveDbContext { get; set; }
 
         public IQueryable<T> GetAll(
             Expression<Func<T, bool>> predicate = null,
@@ -158,7 +158,7 @@ namespace Railway.Core.Data.EF
         public void Merge(
             T entity,
             Expression<Func<T, bool>> predicate,
-            IQueryable<string> excludeFieds,
+            IQueryable<string> excludeFields,
             bool enableDetectChanges = true)
         {
             this.ActiveDbContext.Configuration.AutoDetectChangesEnabled = enableDetectChanges;
@@ -168,7 +168,7 @@ namespace Railway.Core.Data.EF
                 var item = this.dbSet.Where(predicate).First();
                 DbEntityEntry entry = this.ActiveDbContext.Entry(item);
 
-                foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFieds))
+                foreach (var propertyName in entry.OriginalValues.PropertyNames.Except(excludeFields))
                 {
                     var original = entry.GetDatabaseValues().GetValue<object>(propertyName);
 

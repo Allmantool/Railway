@@ -1,5 +1,4 @@
-﻿
-namespace Railway.Core.Data.Interfaces.Builders
+﻿namespace Railway.Core.Data.Interfaces.Builders
 {
     using Repositories;
 

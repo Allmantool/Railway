@@ -8,14 +8,18 @@
         where T : class, new()
         where TDbContext : DbContext, new()
     {
+        private IRepository<T> _repository;
+
         public IRepository<T> Build()
         {
-            throw new System.NotImplementedException();
+            return _repository;
         }
 
         public IRepositoryBuilder<T, TDbContext> WithDbContext(TDbContext context)
         {
-            throw new System.NotImplementedException();
+            _repository = new Repository<T>(context);
+
+            return this;
         }
     }
 }

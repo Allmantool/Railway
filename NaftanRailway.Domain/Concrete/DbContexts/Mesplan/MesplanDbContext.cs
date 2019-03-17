@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data.Entity;
-using Railway.Domain.EF6;
-
-namespace Railway.Domain.Concrete.DbContexts.Mesplan
+﻿namespace Railway.Domain.Concrete.DbContexts.Mesplan
 {
+    using System;
+    using System.Data.Entity;
+    using EF6;
+
     public class MesplanDbContext : ConfigurableDbContext
     {
         public MesplanDbContext(string connectionString, Action<DbModelBuilder> configurationApplicator)

@@ -13,7 +13,7 @@
         void Merge(
             T entity,
             Expression<Func<T, bool>> predicate,
-            IQueryable<string> excludeFieds,
+            IQueryable<string> excludeFields,
             bool enableDetectChanges = true);
     }
 }

@@ -19,30 +19,30 @@
 
         public RepositoryFactory(IRepositoryBuilder<T, DbContext> repositoryBuilder, IEnumerable<DbContext> dbCtxCollection)
         {
-            this.typeName = typeof(T).Name;
-            this.mapRepositories = new Dictionary<string, IRepository<T>>();
+            typeName = typeof(T).Name;
+            mapRepositories = new Dictionary<string, IRepository<T>>();
             this.repositoryBuilder = repositoryBuilder;
             this.dbCtxCollection = dbCtxCollection;
         }
 
         public IRepository<T> Create()
         {
-            if (this.mapRepositories.TryGetValue(this.typeName, out var repo))
+            if (mapRepositories.TryGetValue(typeName, out var repo))
             {
                 return repo;
             }
 
-            if (this.dbCtxCollection != null)
+            if (dbCtxCollection != null)
             {
-                foreach (var contextItem in this.dbCtxCollection)
+                foreach (var contextItem in dbCtxCollection)
                 {
-                    if (this.IsEntityBelongsToDbContext(contextItem))
+                    if (IsEntityBelongsToDbContext(contextItem))
                     {
-                        repo = this.repositoryBuilder
+                        repo = repositoryBuilder
                             .WithDbContext(contextItem)
                             .Build();
 
-                        this.mapRepositories.Add(this.typeName, repo);
+                        mapRepositories.Add(typeName, repo);
 
                         break;
                     }
@@ -58,7 +58,7 @@
                         .ObjectContext
                         .MetadataWorkspace
                         .GetItems<EntityType>(DataSpace.CSpace)
-                        .Any(w => w.Name == this.typeName);
+                        .Any(w => w.Name == typeName);
         }
     }
 }

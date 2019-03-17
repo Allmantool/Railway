@@ -14,39 +14,39 @@
     using Interfaces;
     using Interfaces.Repositories;
 
-    public class EFUnitOfWork : Disposable, IUnitOfWork
+    public class UnitOfWork : Disposable, IUnitOfWork
     {
-        private DbContextTransaction transaction;
+        private DbContextTransaction _transaction;
 
-        private Dictionary<Type, IDisposable> mapRepositories;
+        private Dictionary<Type, IDisposable> _mapRepositories;
 
-        public EFUnitOfWork(DbContext context)
+        public UnitOfWork(DbContext context)
         {
-            this.ActiveContext = context;
-            this.SetUpContext();
+            ActiveContext = context;
+            SetUpContext();
         }
 
-        public EFUnitOfWork(params DbContext[] contexts)
+        public UnitOfWork(params DbContext[] contexts)
         {
-            this.Contexts = contexts;
-            this.SetUpContext();
+            Contexts = contexts;
+            SetUpContext();
         }
 
         public DbContext[] Contexts { get; }
 
-        public DbContext ActiveContext { get; set; }
+        protected DbContext ActiveContext { get; set; }
 
         public IRepository<T> GetRepository<T>()
             where T : class, new()
         {
-            if (this.mapRepositories.TryGetValue(typeof(T), out var repo))
+            if (_mapRepositories.TryGetValue(typeof(T), out var repo))
             {
                 return repo as IRepository<T>;
             }
 
-            if (this.Contexts != null)
+            if (Contexts != null)
             {
-                foreach (var contextItem in this.Contexts)
+                foreach (var contextItem in Contexts)
                 {
                     if (((IObjectContextAdapter)contextItem)
                         .ObjectContext
@@ -54,16 +54,16 @@
                         .GetItems<EntityType>(DataSpace.CSpace)
                         .Any(w => w.Name == typeof(T).Name))
                     {
-                        this.ActiveContext = contextItem;
-                        this.ContextLog();
+                        ActiveContext = contextItem;
+                        ContextLog();
 
                         break;
                     }
                 }
             }
 
-            repo = new Repository<T>(this.ActiveContext);
-            this.mapRepositories.Add(typeof(T), repo);
+            repo = new Repository<T>(ActiveContext);
+            _mapRepositories.Add(typeof(T), repo);
 
             return (IRepository<T>)repo;
         }
@@ -73,10 +73,10 @@
             int affectedRowsCount;
             try
             {
-                this.ActiveContext.ChangeTracker.DetectChanges();
-                affectedRowsCount = this.ActiveContext.SaveChanges();
+                ActiveContext.ChangeTracker.DetectChanges();
+                affectedRowsCount = ActiveContext.SaveChanges();
 
-                this.transaction.Commit();
+                _transaction.Commit();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -84,7 +84,7 @@
                 var clientEntry = entry.Entity;
                 var databaseEntry = entry.GetDatabaseValues().ToObject();
 
-                this.transaction.Rollback();
+                _transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving operation (Unit of work)." +
@@ -94,7 +94,7 @@
             }
             finally
             {
-                this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+                _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
 
             return affectedRowsCount;
@@ -105,49 +105,49 @@
             Task<int> affectedRowsCountAsync;
             try
             {
-                affectedRowsCountAsync = this.ActiveContext.SaveChangesAsync(CancellationToken.None);
+                affectedRowsCountAsync = ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
             catch (Exception ex)
             {
-                this.transaction.Rollback();
+                _transaction.Rollback();
 
                 throw new OptimisticConcurrencyException(
                     "Optimistic concurrency exception occurred during saving async operation (Unit of work)." +
                     $"Message: {ex.Message}");
             }
 
-            this.transaction.Commit();
+            _transaction.Commit();
 
             return await affectedRowsCountAsync;
         }
 
         protected override void ExtenstionDispose()
         {
-            this.ActiveContext?.Dispose();
-            this.Dispose();
+            ActiveContext?.Dispose();
+            Dispose();
         }
 
         private void SetUpContext(bool lazyLoading = false, bool proxy = true)
         {
             /* Disable Lazy loading (for entity to json) */
-            foreach (var item in this.Contexts)
+            foreach (var item in Contexts)
             {
                 item.Configuration.LazyLoadingEnabled = lazyLoading;
                 item.Configuration.ProxyCreationEnabled = proxy;
             }
 
-            this.mapRepositories = new Dictionary<Type, IDisposable>();
+            _mapRepositories = new Dictionary<Type, IDisposable>();
 
-            this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
+            _transaction = ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
         }
 
         private void ContextLog()
         {
-            if (this.ActiveContext != null)
+            if (ActiveContext != null)
             {
-                this.ActiveContext.Database.Log = s => Debug.WriteLine(s);
-                this.ActiveContext.Database.Log = message => Trace.Write(message);
-                this.ActiveContext.Database.Log = Console.WriteLine;
+                ActiveContext.Database.Log = s => Debug.WriteLine(s);
+                ActiveContext.Database.Log = message => Trace.Write(message);
+                ActiveContext.Database.Log = Console.WriteLine;
             }
         }
     }

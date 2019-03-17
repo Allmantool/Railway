@@ -8,14 +8,14 @@
 
         ~Disposable()
         {
-            this.Dispose(false);
+            Dispose(false);
         }
 
         private bool IsDisposed { get; set; }
 
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -25,14 +25,14 @@
 
         private void Dispose(bool disposing)
         {
-            lock (this.disposeLockMarker)
+            lock (disposeLockMarker)
             {
-                if (!this.IsDisposed && disposing)
+                if (!IsDisposed && disposing)
                 {
-                    this.ExtenstionDispose();
+                    ExtenstionDispose();
                 }
 
-                this.IsDisposed = true;
+                IsDisposed = true;
 
                 GC.SuppressFinalize(this);
             }
