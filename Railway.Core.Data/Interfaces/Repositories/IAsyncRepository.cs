@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-namespace Railway.Domain.Interfaces.Repositories
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
     public interface IAsyncRepository<T>
         where T : class, new()
     {

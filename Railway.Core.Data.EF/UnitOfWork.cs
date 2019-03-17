@@ -1,4 +1,4 @@
-﻿namespace Railway.Domain.EF6
+﻿namespace Railway.Core.Data.EF
 {
     using System;
     using System.Collections.Generic;
@@ -11,25 +11,14 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Concrete;
     using Interfaces;
+    using Interfaces.Repositories;
 
     public class EFUnitOfWork : Disposable, IUnitOfWork
     {
         private DbContextTransaction transaction;
 
         private Dictionary<Type, IDisposable> mapRepositories;
-
-        public EFUnitOfWork()
-        {
-            this.Contexts = new DbContext[]
-            {
-                new OBDEntities(),
-                new ORCEntities()
-            };
-
-            this.SetUpContext();
-        }
 
         public EFUnitOfWork(DbContext context)
         {
@@ -79,12 +68,13 @@
             return (IRepository<T>)repo;
         }
 
-        public void Save()
+        public int Save()
         {
+            int affectedRowsCount;
             try
             {
                 this.ActiveContext.ChangeTracker.DetectChanges();
-                this.ActiveContext.SaveChanges();
+                affectedRowsCount = this.ActiveContext.SaveChanges();
 
                 this.transaction.Commit();
             }
@@ -106,13 +96,16 @@
             {
                 this.transaction = this.ActiveContext.Database.BeginTransaction(IsolationLevel.Snapshot);
             }
+
+            return affectedRowsCount;
         }
 
-        public async Task SaveAsync()
+        public async Task<int> SaveAsync()
         {
+            Task<int> affectedRowsCountAsync;
             try
             {
-                await this.ActiveContext.SaveChangesAsync(CancellationToken.None);
+                affectedRowsCountAsync = this.ActiveContext.SaveChangesAsync(CancellationToken.None);
             }
             catch (Exception ex)
             {
@@ -124,6 +117,8 @@
             }
 
             this.transaction.Commit();
+
+            return await affectedRowsCountAsync;
         }
 
         protected override void ExtenstionDispose()

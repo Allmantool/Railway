@@ -1,7 +1,8 @@
-﻿namespace Railway.Domain.EF6.Builders
+﻿namespace Railway.Core.Data.EF.Builders
 {
     using System.Data.Entity;
-    using Interfaces;
+    using Railway.Core.Data.Interfaces.Builders;
+    using Interfaces.Repositories;
 
     public class EFRepositoryBuilder<T, TDbContext> : IRepositoryBuilder<T, TDbContext>
         where T : class, new()

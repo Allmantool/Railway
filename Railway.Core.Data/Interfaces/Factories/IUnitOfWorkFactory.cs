@@ -1,4 +1,4 @@
-﻿namespace Railway.Domain.Interfaces
+﻿namespace Railway.Core.Data.Interfaces.Factories
 {
     public interface IUnitOfWorkFactory<out TUnitOfWork>
         where TUnitOfWork : IUnitOfWork

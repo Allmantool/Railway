@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data.Entity;
-
-namespace Railway.Domain.EF6
+﻿namespace Railway.Domain.EF6
 {
+    using System;
+    using System.Data.Entity;
+
     public abstract class ConfigurableDbContext : DbContext
     {
         protected ConfigurableDbContext(string connectionString, Action<DbModelBuilder> configurationApplicator)

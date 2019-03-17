@@ -7,10 +7,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MoreLinq;
-using Railway.Domain.Concrete;
-using Railway.Domain.Interfaces;
+using Railway.Core.Data.Interfaces.Repositories;
 
-namespace Railway.Domain.EF6
+namespace Railway.Core.Data.EF
 {
     public class Repository<T> : Disposable, IRepository<T>
         where T : class, new()

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Railway.Domain.Interfaces.Repositories
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     public interface IDeleteRepository<T>
         where T : class, new()
     {

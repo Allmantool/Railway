@@ -1,11 +1,13 @@
-﻿namespace Railway.Domain.EF6.Factories
+﻿namespace Railway.Core.Data.EF.Factories
 {
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Core.Metadata.Edm;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
-    using Interfaces;
+    using Railway.Core.Data.Interfaces.Builders;
+    using Railway.Core.Data.Interfaces.Factories;
+    using Interfaces.Repositories;
 
     public class RepositoryFactory<T> : IRepositoryFactory<T>
         where T : class, new()

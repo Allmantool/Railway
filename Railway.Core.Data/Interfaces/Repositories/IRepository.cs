@@ -1,7 +1,4 @@
-﻿using System.Data.Entity;
-using Railway.Domain.Interfaces.Repositories;
-
-namespace Railway.Domain.Interfaces
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
     public interface IRepository<T> :
         IAsyncRepository<T>,
@@ -12,8 +9,6 @@ namespace Railway.Domain.Interfaces
         IMergeRepository<T>
      where T : class, new()
     {
-        DbContext ActiveDbContext { get; set; }
-
         bool Exists(object primaryKey);
     }
 }

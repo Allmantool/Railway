@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Railway.Domain.Interfaces.Repositories
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     public interface IUpdateRepository<T>
         where T : class, new()
     {

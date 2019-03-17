@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-
-namespace Railway.Domain.Interfaces.Repositories
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     public interface IMergeRepository<T>
     {
         void Merge(T entity, bool enableDetectChanges = true);

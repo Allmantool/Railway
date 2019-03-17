@@ -1,7 +1,7 @@
-﻿using System.Linq;
-
-namespace Railway.Domain.Interfaces.Repositories
+﻿namespace Railway.Core.Data.Interfaces.Repositories
 {
+    using System.Linq;
+
     public interface IAddRepository<in T>
         where T : class, new()
     {

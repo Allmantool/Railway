@@ -1,10 +1,10 @@
-﻿using System;
-
-namespace Railway.Domain.Concrete
+﻿namespace Railway.Core
 {
+    using System;
+
     public class Disposable : IDisposable
     {
-        private readonly object disposeLockМarker = new object();
+        private readonly object disposeLockMarker = new object();
 
         ~Disposable()
         {
@@ -25,7 +25,7 @@ namespace Railway.Domain.Concrete
 
         private void Dispose(bool disposing)
         {
-            lock (this.disposeLockМarker)
+            lock (this.disposeLockMarker)
             {
                 if (!this.IsDisposed && disposing)
                 {

@@ -1,6 +1,9 @@
-﻿namespace Railway.Domain.Interfaces
+﻿
+namespace Railway.Core.Data.Interfaces.Builders
 {
-    public interface IRepositoryBuilder<T, TDbContext>
+    using Repositories;
+
+    public interface IRepositoryBuilder<T, in TDbContext>
         where T : class, new()
         where TDbContext : class
     {

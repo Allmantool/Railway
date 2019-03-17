@@ -107,20 +107,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\NinjectConfiguration.cs" />
-    <Compile Include="Interfaces\IRepositoryBuilder.cs" />
-    <Compile Include="Interfaces\IRepositoryFactory.cs" />
-    <Compile Include="Interfaces\IUnitOfWorkFactory.cs" />
-    <Compile Include="Interfaces\Repositories\IAddRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IAsyncRepository.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Interfaces\Repositories\IDeleteRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IGetRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IMergeRepository.cs" />
-    <Compile Include="Interfaces\Repositories\IUpdateRepository.cs" />
     <Compile Include="Interfaces\UnitOfWorks\IMesplanUnitOfWork.cs" />
     <Compile Include="Interfaces\UnitOfWorks\IObdUnitOfWork.cs" />
-    <Compile Include="EF6\ConfigurableDbContext.cs" />
+    <Compile Include="ConfigurableDbContext.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\Configurations\EtsngConfiguration.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
     <Compile Include="Concrete\DbContexts\Mesplan\MesplanDbContext.cs" />
@@ -134,11 +123,6 @@
     <Compile Include="Concrete\DbContexts\ORC\OrcDbContext.cs" />
     <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWork.cs" />
     <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWorkFactory.cs" />
-    <Compile Include="Concrete\Disposable.cs" />
-    <Compile Include="EF6\Factories\RepositoryFactory.cs" />
-    <Compile Include="EF6\UnitOfWork.cs" />
-    <Compile Include="EF6\Repository.cs" />
-    <Compile Include="EF6\Builders\RepositoryBuilder.cs" />
     <Compile Include="Services\DbConfigurations\Configuration.cs" />
     <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,7 +174,12 @@
     <Content Include="Concrete\DbContexts\OBD\OBDModel.edmx.sql" />
     <Content Include="Concrete\DbContexts\ORC\ORCModel.edmx.sql" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Railway.Core.Data\Railway.Core.Data.csproj">
+      <Project>{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}</Project>
+      <Name>Railway.Core.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
