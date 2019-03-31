@@ -1,0 +1,28 @@
+{
+    "compileOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "compilerOptions" : {
+        "target": "es5",
+        "removeComments": true,
+        "outDir": "js/",
+        "sourceMap": true,
+        "outFile": "src/dist/main.js",
+        "watch": true,
+        "plugins": [
+            { 
+                "name": "typescript-tslint-plugin",
+                "alwaysShowRuleFailuresAsWarnings": false,
+                "ignoreDefinitionFiles": true,
+                "configFile": "tslint.json",
+                "suppressWhileTypeErrorsPresent": false,
+                "mockTypeScriptVersion": false
+             }
+          ]
+    },
+    "exclude":[
+        "wwwroot",
+        "node_modules"
+    ],
+}
