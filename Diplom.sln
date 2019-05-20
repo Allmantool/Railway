@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.Domain", "NaftanRailway.Domain\NaftanRailway.Domain.csproj", "{09A80099-87FE-485F-BBD4-5CD5C6770BF8}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.BLL", "NaftanRailway.BLL\NaftanRailway.BLL.csproj", "{96800E14-17B0-4478-9666-863335CDE44B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.UnitTests", "NaftanRailway.UnitTests\NaftanRailway.UnitTests.csproj", "{0E03420A-E69E-4158-974C-52A8EE85AC86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C681E41-650E-406A-B568-FC75AF951AD1}
 	EndGlobalSection
 EndGlobal
