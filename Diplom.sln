@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Domain", "NaftanRailway.Domain\Railway.Domain.csproj", "{09A80099-87FE-485F-BBD4-5CD5C6770BF8}"
 EndProject
@@ -28,6 +28,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{87AAB47F-1C68-4AF1-8389-86DCCE050B38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data.EF.Tests", "Railway.Core.Data.EF.Tests\Railway.Core.Data.EF.Tests.csproj", "{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +68,10 @@ Global
 		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
