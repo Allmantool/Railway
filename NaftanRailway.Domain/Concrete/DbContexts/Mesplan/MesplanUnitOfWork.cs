@@ -1,10 +1,9 @@
-﻿using System.Data.Entity;
-using Railway.Core.Data.EF;
-using Railway.Domain.EF6;
-using Railway.Domain.Interfaces.UnitOfWorks;
-
-namespace Railway.Domain.Concrete.DbContexts.Mesplan
+﻿namespace Railway.Domain.Concrete.DbContexts.Mesplan
 {
+    using System.Data.Entity;
+    using Railway.Core.Data.EF;
+    using Railway.Domain.Interfaces.UnitOfWorks;
+
     public class MesplanUnitOfWork : UnitOfWork, IMesplanUnitOfWork
     {
         public MesplanUnitOfWork(DbContext context)

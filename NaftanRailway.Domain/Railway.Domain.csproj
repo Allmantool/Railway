@@ -183,6 +183,10 @@
       <Project>{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}</Project>
       <Name>Railway.Core.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Railway.Core\Railway.Core.csproj">
+      <Project>{4E75426A-2821-4F35-938C-2C7072BAA2AD}</Project>
+      <Name>Railway.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
