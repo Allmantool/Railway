@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using Railway.Core.Data.Interfaces.Repositories;
 namespace Railway.Core.Data.EF
 {
     public class Repository<T> : Disposable, IRepository<T>
-        where T : class, new()
+        where T : class
     {
         private readonly DbSet<T> dbSet;
 
@@ -191,6 +192,37 @@ namespace Railway.Core.Data.EF
         public bool Exists(object primaryKey)
         {
             return this.dbSet.Find(primaryKey) != null;
+        }
+
+        public int ExecuteSql(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null)
+        {
+            var db = ActiveDbContext.Database;
+            db.CommandTimeout = 120;
+
+            return db.ExecuteSqlCommand(sql, sqlParameters);
+        }
+
+        public async Task<int> ExecuteSqlAsync(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null)
+        {
+            var db = ActiveDbContext.Database;
+            db.CommandTimeout = 120;
+
+            return await db.ExecuteSqlCommandAsync(sql, sqlParameters);
+        }
+
+        public IEnumerable<T> SqlQuery<T>(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null)
+        {
+            var db = ActiveDbContext.Database;
+            db.CommandTimeout = 120;
+
+            return db.SqlQuery<T>(sql, sqlParameters);
+        }
+
+        public string GetCurrentConnection()
+        {
+            var db = ActiveDbContext.Database;
+
+            return $"[@{db.Connection.DataSource}].[@{db.Connection.Database}]";
         }
 
         public void Delete<TK>(TK key, bool enableDetectChanges = true)

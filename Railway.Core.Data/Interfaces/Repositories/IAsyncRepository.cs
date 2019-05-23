@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     public interface IAsyncRepository<T>
-        where T : class, new()
+        where T : class
     {
         Task<T> GetAsync(
             Expression<Func<T, bool>> predicate = null,

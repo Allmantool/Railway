@@ -134,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NaftanRailway.BLL\NaftanRailway.BLL.csproj">
-      <Project>{96800E14-17B0-4478-9666-863335CDE44B}</Project>
+      <Project>{96800e14-17b0-4478-9666-863335cde44b}</Project>
       <Name>NaftanRailway.BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\NaftanRailway.Domain\Railway.Domain.csproj">

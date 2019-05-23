@@ -1,4 +1,6 @@
-﻿namespace Railway.Domain.EF6
+﻿using System.Diagnostics;
+
+namespace Railway.Domain.EF6
 {
     using System;
     using System.Data.Entity;

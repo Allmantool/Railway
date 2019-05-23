@@ -1,4 +1,6 @@
-﻿namespace Railway.Domain.Concrete.DbContexts.OBD
+﻿using Railway.Core.Data.Interfaces.Factories;
+
+namespace Railway.Domain.Concrete.DbContexts.OBD
 {
     using Interfaces;
     using Interfaces.UnitOfWorks;

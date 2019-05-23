@@ -106,6 +106,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\DbContexts\OBD\Configurations\VPodhodConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\VPodhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_02_podhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_akt.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_akt_vag.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_kart.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_nach.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_OPER_ASUS.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_otpr.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_o_v.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_pam.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_pam_vag.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_DetailsProgress.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Guild18.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan_orc_sapod.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\orc_krt.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\orc_sbor.cs" />
     <Compile Include="Configuration\NinjectConfiguration.cs" />
     <Compile Include="Interfaces\UnitOfWorks\IMesplanUnitOfWork.cs" />
     <Compile Include="Interfaces\UnitOfWorks\IObdUnitOfWork.cs" />
@@ -191,6 +209,10 @@
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concrete\DbContexts\OBD\Configuration\" />
+    <Folder Include="Concrete\DbContexts\Security\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

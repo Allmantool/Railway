@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
 
     public interface IUpdateRepository<T>
-        where T : class, new()
+        where T : class
     {
         void Update(
             T entity,

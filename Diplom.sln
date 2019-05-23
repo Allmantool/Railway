@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.BLL", "Naftan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.UnitTests", "NaftanRailway.UnitTests\NaftanRailway.UnitTests.csproj", "{0E03420A-E69E-4158-974C-52A8EE85AC86}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A742B5A1-EE37-472A-A5E7-5219C9A4359A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{A742B5A1-EE37-472A-A5E7-5219C9A4359A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7F703CC5-E68E-4B25-94C3-35FE4B64C1DF}"
 EndProject
@@ -28,7 +28,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{87AAB47F-1C68-4AF1-8389-86DCCE050B38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data.EF.Tests", "Railway.Core.Data.EF.Tests\Railway.Core.Data.EF.Tests.csproj", "{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}"
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

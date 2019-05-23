@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
 
     public interface IGetRepository<T>
-        where T : class, new()
+        where T : class
     {
         IQueryable<T> GetAll(
             Expression<Func<T, bool>> predicate = null,

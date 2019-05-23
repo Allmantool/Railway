@@ -3,7 +3,7 @@
     using System.Linq;
 
     public interface IAddRepository<in T>
-        where T : class, new()
+        where T : class
     {
         void Add(T entity, bool enableDetectChanges = true);
 

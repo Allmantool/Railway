@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using NaftanRailway.Domain.Concrete.DbContexts.Mesplan.Entities;
-using NaftanRailway.Domain.Concrete.DbContexts.OBD;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+using Railway.Domain.Concrete.DbContexts.Mesplan.Entities;
+using Railway.Domain.Concrete.DbContexts.OBD.Entities;
+using Railway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.BLL.DTO.Guild18 {
     /// <summary>

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
+using log4net;
 using NaftanRailway.BLL.Abstract;
 using NaftanRailway.BLL.DTO.Admin;
-using System.Collections.Generic;
-using log4net;
 
-namespace NaftanRailway.BLL.Concrete.AuthorizationLogic {
+namespace NaftanRailway.BLL.Concrete.AdminLogic {
     public class AuthorizationEngage : IAuthorizationEngage {
         public ILog Log { get; private set; }
 

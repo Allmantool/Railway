@@ -34,10 +34,10 @@
 
         public DbContext[] Contexts { get; }
 
-        protected DbContext ActiveContext { get; set; }
+        public DbContext ActiveContext { get; set; }
 
         public IRepository<T> GetRepository<T>()
-            where T : class, new()
+            where T : class
         {
             if (_mapRepositories.TryGetValue(typeof(T), out var repo))
             {

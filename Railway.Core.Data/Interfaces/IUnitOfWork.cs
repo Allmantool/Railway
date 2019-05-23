@@ -7,7 +7,7 @@ namespace Railway.Core.Data.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IRepository<T> GetRepository<T>()
-            where T : class, new();
+            where T : class;
 
         int Save();
 

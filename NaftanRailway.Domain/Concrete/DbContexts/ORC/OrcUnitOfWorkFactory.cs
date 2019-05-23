@@ -1,5 +1,5 @@
-﻿using Railway.Domain.Concrete.DbContexts.ORC.Configurations;
-using Railway.Domain.Interfaces;
+﻿using Railway.Core.Data.Interfaces.Factories;
+using Railway.Domain.Concrete.DbContexts.ORC.Configurations;
 using Railway.Domain.Interfaces.UnitOfWorks;
 
 namespace Railway.Domain.Concrete.DbContexts.ORC

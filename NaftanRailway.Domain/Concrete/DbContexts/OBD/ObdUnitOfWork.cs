@@ -1,8 +1,8 @@
 ﻿namespace Railway.Domain.Concrete.DbContexts.OBD
 {
     using System.Data.Entity;
-    using Railway.Core.Data.EF;
-    using Railway.Domain.Interfaces.UnitOfWorks;
+    using Core.Data.EF;
+    using Interfaces.UnitOfWorks;
 
     public class ObdUnitOfWork : UnitOfWork, IObdUnitOfWork
     {
