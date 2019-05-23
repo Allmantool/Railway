@@ -1,4 +1,4 @@
-﻿namespace NaftanRailway.BLL.DTO.Security {
+﻿namespace NaftanRailway.BLL.DTO.Admin {
     /// <summary>
     /// One info row(line)
     /// </summary>

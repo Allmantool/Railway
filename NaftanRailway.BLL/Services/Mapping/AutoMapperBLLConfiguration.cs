@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using NaftanRailway.BLL.DTO.Nomenclature;
-using NaftanRailway.Domain.Concrete.DbContexts.ORC;
+using Railway.Domain.Concrete.DbContexts.ORC;
 
 namespace NaftanRailway.BLL.Services.Mapping {
     public class AutoMapperBLLConfiguration {
