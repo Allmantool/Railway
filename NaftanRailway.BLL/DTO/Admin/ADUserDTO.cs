@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Principal;
+﻿namespace NaftanRailway.BLL.DTO.Admin {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Security.Principal;
 
-namespace NaftanRailway.BLL.DTO.Admin {
     /// <summary>
     /// Data transfer object for AD user principal
     /// </summary>

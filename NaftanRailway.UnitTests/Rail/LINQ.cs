@@ -1,11 +1,12 @@
-﻿namespace NaftanRailway.UnitTests.Rail {
+﻿using Railway.Domain.Concrete.DbContexts.ORC;
+
+namespace NaftanRailway.UnitTests.Rail {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using BLL.POCO;
     using BLL.Services.ExpressionTreeExtensions;
-    using Domain.Concrete.DbContexts.ORC;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

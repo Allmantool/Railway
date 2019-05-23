@@ -1,4 +1,4 @@
-﻿namespace NaftanRailway.Domain.Services.DbConfigurations {
+﻿namespace Railway.Domain.Services.DbConfigurations {
     using System.Data.Entity;
 
     /// <summary>

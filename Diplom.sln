@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.Domain", "NaftanRailway.Domain\NaftanRailway.Domain.csproj", "{09A80099-87FE-485F-BBD4-5CD5C6770BF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Domain", "NaftanRailway.Domain\Railway.Domain.csproj", "{09A80099-87FE-485F-BBD4-5CD5C6770BF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.WebUI", "NaftanRailway.WebUI\NaftanRailway.WebUI.csproj", "{0105C9BB-6CF3-407F-AF3F-97EBE21C35D8}"
 EndProject
@@ -11,7 +11,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.BLL", "Naftan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaftanRailway.UnitTests", "NaftanRailway.UnitTests\NaftanRailway.UnitTests.csproj", "{0E03420A-E69E-4158-974C-52A8EE85AC86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroServices", "MicroServices", "{A742B5A1-EE37-472A-A5E7-5219C9A4359A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7F703CC5-E68E-4B25-94C3-35FE4B64C1DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data", "Railway.Core.Data\Railway.Core.Data.csproj", "{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data.EF", "Railway.Core.Data.EF\Railway.Core.Data.EF.csproj", "{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core", "Railway.Core\Railway.Core.csproj", "{4E75426A-2821-4F35-938C-2C7072BAA2AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2D353A93-2E31-4989-BD77-E1A8EEC7AD62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F90F005C-F3BB-45F0-8A1F-0F5F045F80E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{87AAB47F-1C68-4AF1-8389-86DCCE050B38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data.EF.Tests", "Railway.Core.Data.EF.Tests\Railway.Core.Data.EF.Tests.csproj", "{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +53,22 @@ Global
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E03420A-E69E-4158-974C-52A8EE85AC86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E75426A-2821-4F35-938C-2C7072BAA2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E75426A-2821-4F35-938C-2C7072BAA2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E75426A-2821-4F35-938C-2C7072BAA2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E75426A-2821-4F35-938C-2C7072BAA2AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,7 +77,15 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{32F96FB6-54C0-48F5-B1CD-67DDD75082B2} = {7F703CC5-E68E-4B25-94C3-35FE4B64C1DF}
+		{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0} = {7F703CC5-E68E-4B25-94C3-35FE4B64C1DF}
+		{4E75426A-2821-4F35-938C-2C7072BAA2AD} = {7F703CC5-E68E-4B25-94C3-35FE4B64C1DF}
+		{F90F005C-F3BB-45F0-8A1F-0F5F045F80E3} = {2D353A93-2E31-4989-BD77-E1A8EEC7AD62}
+		{87AAB47F-1C68-4AF1-8389-86DCCE050B38} = {2D353A93-2E31-4989-BD77-E1A8EEC7AD62}
+		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF} = {F90F005C-F3BB-45F0-8A1F-0F5F045F80E3}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3C681E41-650E-406A-B568-FC75AF951AD1}
+		SolutionGuid = {C5AE74EE-2D76-4190-B1A8-722B8A2BEEEE}
 	EndGlobalSection
 EndGlobal

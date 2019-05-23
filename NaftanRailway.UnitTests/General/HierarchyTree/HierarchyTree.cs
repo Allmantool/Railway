@@ -1,4 +1,7 @@
-﻿namespace NaftanRailway.UnitTests.General
+﻿using NaftanRailway.BLL.DTO.General;
+using Railway.Domain.Concrete.DbContexts.ORC;
+
+namespace NaftanRailway.UnitTests.General
 {
     using System;
     using System.Collections.Generic;
@@ -10,8 +13,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Text;
-    using BLL.DTO.General;
-    using Domain.Concrete.DbContexts.ORC;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;
 
@@ -20,7 +21,6 @@
     /// </summary>
     public class TreeNode : TreeNodeBase<TreeNode>
     {
-
         public TreeNode()
         {
         }

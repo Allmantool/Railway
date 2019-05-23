@@ -45,8 +45,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="LinqKit, Version=1.1.12.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
-      <HintPath>..\packages\LinqKit.1.1.12\lib\net45\LinqKit.dll</HintPath>
+    <Reference Include="LinqKit, Version=1.1.15.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -54,6 +54,9 @@
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="QueryBuilder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SqlKata.1.0.0-beta-411\lib\net45\QueryBuilder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -70,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAuthorizationEngage.cs" />
-    <Compile Include="Abstract\IBussinesEngage.cs" />
+    <Compile Include="Abstract\IBusinessProvider.cs" />
     <Compile Include="Abstract\INomenclatureModule.cs" />
     <Compile Include="Abstract\IRailwayModule.cs" />
     <Compile Include="Abstract\ISessionStorage.cs" />
@@ -93,20 +96,38 @@
     <Compile Include="Services\HierarchyTreeExtensions\TreeExtenstions.cs" />
     <Compile Include="Services\IoC\NinjectRegistrations.cs" />
     <Compile Include="Services\Mapping\AutoMapperBLLConfiguration.cs" />
-    <Compile Include="Concrete\BussinesLogic\BussinesEngage.cs" />
+    <Compile Include="Concrete\BusinessLogic\BusinessProvider.cs" />
     <Compile Include="Services\EnumOperationType.cs" />
-    <Compile Include="Concrete\BussinesLogic\NomenclatureModule.cs" />
-    <Compile Include="Concrete\BussinesLogic\RailwayModule.cs" />
+    <Compile Include="Concrete\BusinessLogic\NomenclatureModule.cs" />
+    <Compile Include="Concrete\BusinessLogic\RailwayModule.cs" />
     <Compile Include="DTO\Guild18\ShippingDTO.cs" />
     <Compile Include="DTO\Guild18\ShippingInfoLineDTO.cs" />
     <Compile Include="Services\SessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExpressionTreeExtensions\PredicateExtensions.cs" />
+    <Compile Include="Services\Specifications\AndSpecification.cs" />
+    <Compile Include="Services\Specifications\CompositeSpecification.cs" />
+    <Compile Include="Abstract\Specifications\ISpecification.cs" />
+    <Compile Include="Services\Specifications\ExpressionSpecification.cs" />
+    <Compile Include="Services\Specifications\NotSpecification.cs" />
+    <Compile Include="Services\Specifications\OrSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NaftanRailway.Domain\NaftanRailway.Domain.csproj">
+    <ProjectReference Include="..\NaftanRailway.Domain\Railway.Domain.csproj">
       <Project>{09a80099-87fe-485f-bbd4-5cd5c6770bf8}</Project>
-      <Name>NaftanRailway.Domain</Name>
+      <Name>Railway.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Railway.Core.Data.EF\Railway.Core.Data.EF.csproj">
+      <Project>{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}</Project>
+      <Name>Railway.Core.Data.EF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Railway.Core.Data\Railway.Core.Data.csproj">
+      <Project>{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}</Project>
+      <Name>Railway.Core.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Railway.Core\Railway.Core.csproj">
+      <Project>{4E75426A-2821-4F35-938C-2C7072BAA2AD}</Project>
+      <Name>Railway.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

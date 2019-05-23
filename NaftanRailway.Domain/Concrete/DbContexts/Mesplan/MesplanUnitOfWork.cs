@@ -1,8 +1,8 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.Mesplan
+﻿namespace Railway.Domain.Concrete.DbContexts.Mesplan
 {
     using System.Data.Entity;
-
-    using Abstract.UnitOfWorks;
+    using Railway.Core.Data.EF;
+    using Railway.Domain.Interfaces.UnitOfWorks;
 
     public class MesplanUnitOfWork : UnitOfWork, IMesplanUnitOfWork
     {
