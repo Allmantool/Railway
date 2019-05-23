@@ -116,9 +116,9 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <returns></returns>
         [HttpPost]
         public ActionResult DeleteDocInfo(SessionStorage storage, DateTime reportPeriod, int? idInvoice, bool asService = false) {
-            if (this.Request.IsAjaxRequest() && this.ModelState.IsValid && asService) {
-                //TempData["message"] = (_bussinesEngage.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
-                var result = this._bussinesEngage.DeleteInvoice(reportPeriod, idInvoice);
+            if (Request.IsAjaxRequest() && ModelState.IsValid && asService) {
+                //TempData["message"] = (_businessProvider.DeleteInvoice(reportPeriod, idInvoice)) ? "Успех" : "Неудача";
+                var result = _bussinesEngage.DeleteInvoice(reportPeriod, idInvoice);
 
                 return this.Json(result, JsonRequestBehavior.DenyGet);
             }

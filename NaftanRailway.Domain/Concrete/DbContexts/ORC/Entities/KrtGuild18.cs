@@ -1,7 +1,7 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.ORC.Entities
-{
-    using System;
+﻿using System;
 
+namespace Railway.Domain.Concrete.DbContexts.ORC.Entities
+{
     public class KrtGuild18
     {
         public DateTime reportPeriod { get; set; }

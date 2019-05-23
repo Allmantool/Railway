@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using NaftanRailway.BLL.DTO.Security;
+using NaftanRailway.BLL.DTO.Admin;
 
 namespace NaftanRailway.Domain.BusinessModels.AuthorizationLogic {
     public class RegistrationViewModel {

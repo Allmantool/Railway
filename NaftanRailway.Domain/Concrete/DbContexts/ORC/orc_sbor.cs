@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NaftanRailway.Domain.Concrete.DbContexts.ORC
+namespace Railway.Domain.Concrete.DbContexts.ORC
 {
     using System;
     using System.Collections.Generic;

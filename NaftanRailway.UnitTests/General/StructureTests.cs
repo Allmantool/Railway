@@ -1,13 +1,16 @@
-﻿namespace NaftanRailway.UnitTests.General {
+﻿namespace NaftanRailway.UnitTests.General
+{
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class StructureTests {
+    public class StructureTests
+    {
         [TestMethod]
-        public void DictTest() {
+        public void DictTest()
+        {
             var hierarchyDict = new Dictionary<int, string>{
                 { 0, "Документ" },
                 { 1, "Тип документа" },
@@ -30,6 +33,22 @@
 
             sqlIn = string.Join(", ", getTopTwo.Invoke("Документ"));
             Assert.AreEqual("0", sqlIn);
+        }
+
+        [TestMethod]
+        public void IteratorsAndStructure()
+        {
+            IEnumerable<int> list = new List<int> { 1, 2, 3 };
+
+            var x = new
+            {
+                Items = list.GetEnumerator()
+            };
+
+            while (x.Items.MoveNext())
+            {
+                Console.WriteLine(x.Items);
+            }
         }
     }
 }

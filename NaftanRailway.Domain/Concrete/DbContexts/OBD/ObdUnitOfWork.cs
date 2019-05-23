@@ -1,7 +1,8 @@
-﻿namespace NaftanRailway.Domain.Concrete.DbContexts.OBD
+﻿namespace Railway.Domain.Concrete.DbContexts.OBD
 {
     using System.Data.Entity;
-    using Abstract.UnitOfWorks;
+    using Core.Data.EF;
+    using Interfaces.UnitOfWorks;
 
     public class ObdUnitOfWork : UnitOfWork, IObdUnitOfWork
     {

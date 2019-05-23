@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{09A80099-87FE-485F-BBD4-5CD5C6770BF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Railway.Domain</RootNamespace>
+    <AssemblyName>Railway.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>http://localhost/Railway.Domain/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.3</LangVersion>
+    <CodeAnalysisRuleSet>Railway.Domain.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>Railway.Domain.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MoreLinq, Version=3.1.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.1.0\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Concrete\DbContexts\OBD\Configurations\VPodhodConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\VPodhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_02_podhod.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_akt.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_akt_vag.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_kart.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_nach.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_OPER_ASUS.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_otpr.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_o_v.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_pam.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\Entities\v_pam_vag.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_DetailsProgress.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Guild18.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\krt_Naftan_orc_sapod.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\orc_krt.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\orc_sbor.cs" />
+    <Compile Include="Configuration\NinjectConfiguration.cs" />
+    <Compile Include="Interfaces\UnitOfWorks\IMesplanUnitOfWork.cs" />
+    <Compile Include="Interfaces\UnitOfWorks\IObdUnitOfWork.cs" />
+    <Compile Include="ConfigurableDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Configurations\EtsngConfiguration.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\Entities\Etsng.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\Mesplan\MesplanUnitOfWorkFactory.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\OBD\ObdUnitOfWorkFactory.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\Configurations\KrtGuild18Configuration.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\Entities\KrtGuild18.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcDbContext.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWork.cs" />
+    <Compile Include="Concrete\DbContexts\ORC\OrcUnitOfWorkFactory.cs" />
+    <Compile Include="Services\DbConfigurations\Configuration.cs" />
+    <Compile Include="Services\DbConfigurations\EFInterceptor .cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Railway.Domain.ruleset" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.10.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2008 Express Edition</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Concrete\DbContexts\Mesplan\ModelMesplan.edmx.sql" />
+    <Content Include="Concrete\DbContexts\OBD\OBDModel.edmx.sql" />
+    <Content Include="Concrete\DbContexts\ORC\ORCModel.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Railway.Core.Data.EF\Railway.Core.Data.EF.csproj">
+      <Project>{6C6DA63E-8A8D-4D1E-8DE0-856A53DCF1E0}</Project>
+      <Name>Railway.Core.Data.EF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Railway.Core.Data\Railway.Core.Data.csproj">
+      <Project>{32F96FB6-54C0-48F5-B1CD-67DDD75082B2}</Project>
+      <Name>Railway.Core.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Railway.Core\Railway.Core.csproj">
+      <Project>{4E75426A-2821-4F35-938C-2C7072BAA2AD}</Project>
+      <Name>Railway.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concrete\DbContexts\OBD\Configuration\" />
+    <Folder Include="Concrete\DbContexts\Security\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

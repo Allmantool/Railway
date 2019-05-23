@@ -1,6 +1,8 @@
-﻿
+﻿using NaftanRailway.BLL.Abstract;
+using NaftanRailway.BLL.DTO.Admin;
 
-namespace NaftanRailway.UnitTests.General {
+namespace NaftanRailway.UnitTests.General
+{
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -8,8 +10,6 @@ namespace NaftanRailway.UnitTests.General {
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
-    using BLL.Abstract;
-    using BLL.DTO.Admin;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
 

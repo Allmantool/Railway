@@ -1,4 +1,5 @@
 ﻿using NaftanRailway.Domain.Concrete.DbContexts.OBD;
+using Railway.Domain.Concrete.DbContexts.OBD.Entities;
 
 namespace NaftanRailway.BLL.DTO.Guild18 {
     public class OverviewCarriageDTO {
