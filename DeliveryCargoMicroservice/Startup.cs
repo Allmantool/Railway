@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DeliveryCargoMicroservice
+namespace Railway.DeliveryCargo.API
 {
     public class Startup
     {

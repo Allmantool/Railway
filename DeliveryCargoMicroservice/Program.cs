@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DeliveryCargoMicroservice
+namespace Railway.DeliveryCargo.API
 {
     public class Program
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DeliveryCargoMicroservice.Controllers
+namespace Railway.DeliveryCargo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
