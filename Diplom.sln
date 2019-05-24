@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.Core.Data.EF.Tests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Railway.UI", "Railway.UI\Railway.UI.csproj", "{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeliveryCargo", "DeliveryCargo", "{3E2B3E22-E23E-4929-8945-AE9FDFDF7FB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryCargoMicroservice", "DeliveryCargoMicroservice\DeliveryCargoMicroservice.csproj", "{0045AAA5-3DFB-474A-9ED2-BB94766F10CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,10 @@ Global
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{044AB3DF-841C-43B0-9127-BF8EDD3EBF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0045AAA5-3DFB-474A-9ED2-BB94766F10CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0045AAA5-3DFB-474A-9ED2-BB94766F10CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0045AAA5-3DFB-474A-9ED2-BB94766F10CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0045AAA5-3DFB-474A-9ED2-BB94766F10CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +92,8 @@ Global
 		{F90F005C-F3BB-45F0-8A1F-0F5F045F80E3} = {2D353A93-2E31-4989-BD77-E1A8EEC7AD62}
 		{87AAB47F-1C68-4AF1-8389-86DCCE050B38} = {2D353A93-2E31-4989-BD77-E1A8EEC7AD62}
 		{0FFC09CD-E8DE-4103-AFE7-25CD536F44BF} = {F90F005C-F3BB-45F0-8A1F-0F5F045F80E3}
+		{3E2B3E22-E23E-4929-8945-AE9FDFDF7FB9} = {A742B5A1-EE37-472A-A5E7-5219C9A4359A}
+		{0045AAA5-3DFB-474A-9ED2-BB94766F10CF} = {3E2B3E22-E23E-4929-8945-AE9FDFDF7FB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5AE74EE-2D76-4190-B1A8-722B8A2BEEEE}
