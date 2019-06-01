@@ -25,28 +25,38 @@ namespace NaftanRailway.WebUI.Controllers {
         /// <summary>
         /// Main page with summary information
         /// </summary>
-        /// <param name="storage">session storage</param>
-        /// <param name="menuView">input menu</param>
-        /// <param name="operationCategory">filter category</param>
-        /// <param name="page">current page</param>
-        /// <param name="pageSize"></param>
-        /// <param name="asService"></param>
-        /// <returns></returns>
         [HttpGet]
-        public ActionResult Index(SessionStorage storage, InputMenuViewModel menuView, EnumOperationType operationCategory = EnumOperationType.All, short page = 1, short pageSize = 9, bool asService = false) {
+        public ActionResult Index(
+            SessionStorage storage,
+            InputMenuViewModel menuView,
+            EnumOperationType operationCategory = EnumOperationType.All,
+            short page = 1,
+            short pageSize = 9,
+            bool asService = false) {
+
             if (this.Request.IsAjaxRequest() && this.ModelState.IsValid) {
-                short recordCount;
                 menuView.ReportPeriod = this._bussinesEngage.SyncActualDate(storage, menuView.ReportPeriod);
 
-                //temp resolve (In some reason default binding not parse json to enum from queryString collection)
-                var typeOfOperation = this.Request.QueryString["operationCategory"] == String.Empty ? (int)EnumOperationType.All : Int32.Parse(this.Request.QueryString["operationCategory"]);
+                var typeOfOperation = this.Request.QueryString["operationCategory"] == string.Empty
+                    ? (int)EnumOperationType.All
+                    : int.Parse(this.Request.QueryString["operationCategory"]);
 
-                var model = new DispatchListViewModel() {
-                    Dispatchs = this._bussinesEngage.ShippingsViews((EnumOperationType)typeOfOperation, menuView.ReportPeriod, page, pageSize, out recordCount),
-                    PagingInfo = new PagingInfo() { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = recordCount, RoutingDictionary = this.Request.RequestContext.RouteData.Values },
+                var model = new DispatchListViewModel {
+                    Dispatchs = this._bussinesEngage.ShippingsViews(
+                        (EnumOperationType)typeOfOperation,
+                        menuView.ReportPeriod,
+                        page,
+                        pageSize,
+                        out var recordCount),
+                    PagingInfo = new PagingInfo
+                    {
+                        CurrentPage = page,
+                        ItemsPerPage = pageSize,
+                        TotalItems = recordCount,
+                        RoutingDictionary = this.Request.RequestContext.RouteData.Values
+                    },
                 };
 
-                //tips: consider use web api mechanism instead of mvc implementation
                 if (asService) {
                     return this.Json(model, JsonRequestBehavior.AllowGet);
                 }
