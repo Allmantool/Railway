@@ -210,12 +210,12 @@ namespace Railway.Core.Data.EF
             return await db.ExecuteSqlCommandAsync(sql, sqlParameters);
         }
 
-        public IEnumerable<T> SqlQuery<T>(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null)
+        public IEnumerable<TEntity> SqlQuery<TEntity>(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null)
         {
             var db = ActiveDbContext.Database;
             db.CommandTimeout = 120;
 
-            return db.SqlQuery<T>(sql, sqlParameters);
+            return db.SqlQuery<TEntity>(sql, sqlParameters);
         }
 
         public string GetCurrentConnection()
