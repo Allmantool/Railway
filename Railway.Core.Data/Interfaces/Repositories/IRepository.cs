@@ -16,7 +16,7 @@ namespace Railway.Core.Data.Interfaces.Repositories
         bool Exists(object primaryKey);
         int ExecuteSql(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null);
         Task<int> ExecuteSqlAsync(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null);
-        IEnumerable<T> SqlQuery<T>(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null);
+        IEnumerable<TEntity> SqlQuery<TEntity>(string sql, IReadOnlyCollection<SqlParameter> sqlParameters = null);
 
         //TODO: MOve to more appropriate class
         string GetCurrentConnection();
