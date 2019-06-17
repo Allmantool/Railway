@@ -1,16 +1,12 @@
 ﻿using LibOwin;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Railway.DeliveryCargo.Infrastructure.Core;
 
 namespace Railway.DeliveryCargo.Infrastructure
 {
-    using AppFunc = Func<IDictionary<string, object>, Task>;
-
-    public class RequestLogging
+    public class RequestLoggingMiddleware
     {
-        public static AppFunc Middleware(AppFunc next, ILogger log)
+        public static AppFunc Invoke(AppFunc next, ILogger log)
         {
             return async env =>
             {

@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using LibOwin;
+using Railway.DeliveryCargo.Infrastructure.Core;
 using Railway.DeliveryCargo.Infrastructure.Core.Consts;
 using Serilog.Context;
 
 namespace Railway.DeliveryCargo.Infrastructure
 {
-    using AppFunc = Func<IDictionary<string, object>, Task>;
-
-    public class CorrelationToken
+    public class CorrelationTokenMiddleware
     {
-        public static AppFunc Middleware(AppFunc next)
+        public static AppFunc Invoke(AppFunc next)
         {
             return async env =>
             {
