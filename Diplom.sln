@@ -43,7 +43,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1BBF9309-5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Railway.DeliveryCargo.Data.EF", "Railway.DeliveryCargo.Data.EF\Railway.DeliveryCargo.Data.EF.csproj", "{7AD96726-18CF-4ED2-A65F-5A0D590FD183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railway.DeliveryCargo.Infrastructure", "Railway.DeliveryCargo.Infrastructure\Railway.DeliveryCargo.Infrastructure.csproj", "{8E05A774-6FAA-43B3-8BA7-247F09535892}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Railway.DeliveryCargo.Infrastructure", "Railway.DeliveryCargo.Infrastructure\Railway.DeliveryCargo.Infrastructure.csproj", "{8E05A774-6FAA-43B3-8BA7-247F09535892}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{D749FF49-3838-42FA-8138-F27EEFE05A24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jenkins", "Jenkins", "{F91CC9C7-DE9F-468A-9D63-781ADA079BDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +129,7 @@ Global
 		{1BBF9309-5727-4BA2-82FC-DC17D092FFCE} = {3E2B3E22-E23E-4929-8945-AE9FDFDF7FB9}
 		{7AD96726-18CF-4ED2-A65F-5A0D590FD183} = {1BBF9309-5727-4BA2-82FC-DC17D092FFCE}
 		{8E05A774-6FAA-43B3-8BA7-247F09535892} = {3E2B3E22-E23E-4929-8945-AE9FDFDF7FB9}
+		{F91CC9C7-DE9F-468A-9D63-781ADA079BDE} = {D749FF49-3838-42FA-8138-F27EEFE05A24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5AE74EE-2D76-4190-B1A8-722B8A2BEEEE}
