@@ -100,7 +100,7 @@
                     var result = command.ExecuteScalar();
 
                     return result == DBNull.Value
-                        ? default(T)
+                        ? default
                         : (T)result;
                 }
             }
@@ -122,7 +122,7 @@
                     var result = await command.ExecuteScalarAsync();
 
                     return result == DBNull.Value
-                        ? default(T)
+                        ? default
                         : (T)result;
                 }
             }
