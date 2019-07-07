@@ -5,6 +5,7 @@ using Railway.DeliveryCargo.Domain;
 
 namespace Railway.DeliveryCargo.API.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class DeliveriesController : ControllerBase
     {

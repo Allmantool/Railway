@@ -45,7 +45,10 @@ namespace Railway.DeliveryCargo.API
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseMvc(routeBuilder =>
+            {
+                routeBuilder.MapRoute("api_default", "{controller}/{action}/{id?}");
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
