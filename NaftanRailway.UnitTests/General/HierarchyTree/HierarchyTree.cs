@@ -101,153 +101,153 @@ namespace NaftanRailway.UnitTests.General
             // Assert.IsTrue(;
         }
 
-        [TestMethod]
-        public void SetUp()
-        {
-            const int countGroup = 20;
-            var startPeriod = new DateTime(2017, 1, 1);
-            var serverName = @"DB2"; // @"CPN8\HOMESERVER";//"LOCALMACHINE";
-            var dbName = @"NSD2";
+     //   [TestMethod]
+     //   public void SetUp()
+     //   {
+     //       const int countGroup = 20;
+     //       var startPeriod = new DateTime(2017, 1, 1);
+     //       var serverName = @"DB2"; // @"CPN8\HOMESERVER";//"LOCALMACHINE";
+     //       var dbName = @"NSD2";
 
-            var hirearchyDict = new Dictionary<int, string>{
-                { 0, "Документ" },
-                { 1, "Тип документа" },
-                { 3, "Карточка" },
-                { 7, "Перечень" },
-                { 15, "Сбор" }
-            };
+     //       var hirearchyDict = new Dictionary<int, string>{
+     //           { 0, "Документ" },
+     //           { 1, "Тип документа" },
+     //           { 3, "Карточка" },
+     //           { 7, "Перечень" },
+     //           { 15, "Сбор" }
+     //       };
 
-            var typeDocDict = new Dictionary<int, string> {
-                { 1, "Накладная" },
-                { 2, "Ведомость" },
-                { 3, "Акт" },
-                { 4, "Карточка" },
-            };
+     //       var typeDocDict = new Dictionary<int, string> {
+     //           { 1, "Накладная" },
+     //           { 2, "Ведомость" },
+     //           { 3, "Акт" },
+     //           { 4, "Карточка" },
+     //       };
 
-            var conectString = ConfigurationManager.AppSettings["TestLocalConnection"] ??
-                $@"data source={serverName};initial catalog={dbName};integrated security=True;Trusted_Connection=Yes;";
+     //       var conectString = ConfigurationManager.AppSettings["TestLocalConnection"] ??
+     //           $@"data source={serverName};initial catalog={dbName};integrated security=True;Trusted_Connection=Yes;";
 
-            #region Query
-            /* 04.08.2017
-            * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
-            *
-            * [Id] - primary key
-            * [parentId] - parents element Id
-            * [groupId] - group Id
-            * [rankInGr] - element primary key in group
-            * [treeLevel] - height of tree
-            * [levelName] - custom group tree node name
-            * [searchkey] - key for search in plane (source table)
-            * [label] - description for rendering purpose
-            */
-            //--Warning weakness!
-            //--The order must be same in each aggregation functions
-            var query = $@";WITH grSubResult AS (
-                SELECT  
-                    [Id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
-                    [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
-                    [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
-                    --[level_card] = GROUPING(knos.id_kart),
-                    [scroll] = kn.NKRT, kn.KEYKRT,
-                    [card] = knos.NKRT, knos.id_kart,
-		            [typeDoc] = knos.tdoc,
-		            [docum] = knos.nomot,
-                    [count] = COUNT(*)
-                FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
-                    ON kn.KEYKRT = knos.keykrt
-                WHERE knos.tdoc > 0 AND knos.Id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
-                GROUP BY GROUPING SETS(
-                        --(),
-                        (kn.KEYKRT, kn.NKRT),
-		                --(kn.KEYKRT, kn.NKRT, knos.id_kart),
-                        (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
-		                (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
-	                )
-                )
+     //       #region Query
+     //       /* 04.08.2017
+     //       * It query converts flatted table to hierarchy table (The hierarchy deep is defined by group predicate)
+     //       *
+     //       * [Id] - primary key
+     //       * [parentId] - parents element Id
+     //       * [groupId] - group Id
+     //       * [rankInGr] - element primary key in group
+     //       * [treeLevel] - height of tree
+     //       * [levelName] - custom group tree node name
+     //       * [searchkey] - key for search in plane (source table)
+     //       * [label] - description for rendering purpose
+     //       */
+     //       //--Warning weakness!
+     //       //--The order must be same in each aggregation functions
+     //       var query = $@";WITH grSubResult AS (
+     //           SELECT  
+     //               [Id] = ROW_NUMBER() OVER(ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+     //               [groupId] = DENSE_RANK() OVER(ORDER BY kn.KEYKRT DESC),
+     //               [rankInGr] = RANK() OVER(partition by kn.KEYKRT ORDER BY kn.KEYKRT DESC, knos.id_kart desc, knos.tdoc desc, knos.nomot desc),
+     //               [treeLevel] = GROUPING_ID(kn.KEYKRT, kn.NKRT, knos.id_kart, knos.tdoc, knos.nomot),
+     //               --[level_card] = GROUPING(knos.id_kart),
+     //               [scroll] = kn.NKRT, kn.KEYKRT,
+     //               [card] = knos.NKRT, knos.id_kart,
+		   //         [typeDoc] = knos.tdoc,
+		   //         [docum] = knos.nomot,
+     //               [count] = COUNT(*)
+     //           FROM [dbo].[krt_Naftan_orc_sapod] AS knos INNER JOIN [dbo].[krt_Naftan] AS kn
+     //               ON kn.KEYKRT = knos.keykrt
+     //           WHERE knos.tdoc > 0 AND knos.Id > 0 AND kn.DTBUHOTCHET >= '{startPeriod:d}'
+     //           GROUP BY GROUPING SETS(
+     //                   --(),
+     //                   (kn.KEYKRT, kn.NKRT),
+		   //             --(kn.KEYKRT, kn.NKRT, knos.id_kart),
+     //                   (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt),
+		   //             (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc),
+		   //             (kn.KEYKRT, kn.NKRT, knos.id_kart, knos.nkrt, knos.tdoc, knos.nomot)
+	    //            )
+     //           )
 
-                SELECT
-                    [parentId] = CASE [treeLevel]
-					    WHEN 0 THEN MAX(Id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
-					    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
-					    WHEN 3 THEN MAX(Id) OVER (PARTITION BY KEYKRT)
-					ELSE 0 END,
-	                [Id], [groupId], [rankInGr], [treeLevel],
-	                [levelName] = CASE [treeLevel]
-					    WHEN 0 THEN N'Документ'
-					    WHEN 1 THEN N'Тип документа'
-					    WHEN 3 THEN N'Карточка'
-					    WHEN 7 THEN N'Перечень'
-					ELSE NULL END,
-	                [searchkey] = CASE [treeLevel]
-					    WHEN 0 THEN convert(nvarchar(max), [docum])
-					    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
-					    WHEN 3 THEN convert(nvarchar(max), [id_kart])
-					    WHEN 7 THEN convert(nvarchar(max), [keykrt])
-					ELSE NULL END,
-	                [label] = CASE [treeLevel]
-				        WHEN 0 THEN Convert(nvarchar(max), [docum])
-				        WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
-				        WHEN 3 THEN [card]
-				        WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
-				    ELSE NULL END,
-	                [count]
-                FROM grSubResult as gr
-                WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
-                ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
-            #endregion
+     //           SELECT
+     //               [parentId] = CASE [treeLevel]
+					//    WHEN 0 THEN MAX(Id) OVER (PARTITION BY KEYKRT, id_kart, typeDoc)
+					//    WHEN 1 THEN MAX(id) OVER (PARTITION BY KEYKRT, id_kart)
+					//    WHEN 3 THEN MAX(Id) OVER (PARTITION BY KEYKRT)
+					//ELSE 0 END,
+	    //            [Id], [groupId], [rankInGr], [treeLevel],
+	    //            [levelName] = CASE [treeLevel]
+					//    WHEN 0 THEN N'Документ'
+					//    WHEN 1 THEN N'Тип документа'
+					//    WHEN 3 THEN N'Карточка'
+					//    WHEN 7 THEN N'Перечень'
+					//ELSE NULL END,
+	    //            [searchkey] = CASE [treeLevel]
+					//    WHEN 0 THEN convert(nvarchar(max), [docum])
+					//    WHEN 1 THEN convert(nvarchar(max), [typeDoc])
+					//    WHEN 3 THEN convert(nvarchar(max), [id_kart])
+					//    WHEN 7 THEN convert(nvarchar(max), [keykrt])
+					//ELSE NULL END,
+	    //            [label] = CASE [treeLevel]
+				 //       WHEN 0 THEN Convert(nvarchar(max), [docum])
+				 //       WHEN 1 THEN Case [typeDoc] when 1 then N'Накладная' when 2 then N'Ведомость' when 3 then N'Акт' Else N'Карточка' End
+				 //       WHEN 3 THEN [card]
+				 //       WHEN 7 THEN CONVERT(NVARCHAR(10),[scroll])
+				 //   ELSE NULL END,
+	    //            [count]
+     //           FROM grSubResult as gr
+     //           WHERE [groupId] <= {countGroup} --  and [treeLevel] IN ( 1, 0)
+     //           ORDER BY KEYKRT DESC, id_kart desc, gr.[typeDoc] desc, [docum] desc;";
+     //       #endregion
 
-            IList<DataRow> result = new List<DataRow>();
-            IList<TreeNode> tree = new List<TreeNode>();
+     //       IList<DataRow> result = new List<DataRow>();
+     //       IList<TreeNode> tree = new List<TreeNode>();
 
-            //Act
-            using (var dt = new DataTable())
-            {
-                using (var con = new SqlConnection(conectString))
-                using (var adpt = new SqlDataAdapter(query, con))
-                {
-                    try
-                    {
-                        adpt.Fill(dt);
-                        result = dt.Select().ToList();
+     //       //Act
+     //       using (var dt = new DataTable())
+     //       {
+     //           using (var con = new SqlConnection(conectString))
+     //           using (var adpt = new SqlDataAdapter(query, con))
+     //           {
+     //               try
+     //               {
+     //                   adpt.Fill(dt);
+     //                   result = dt.Select().ToList();
 
-                        // fill tree
-                        if (dt.Rows.Count > 0) tree = result.FillRecursive();
-                    }
-                    catch (SqlException ex)
-                    {
-                        Debug.WriteLine($"Test throws exception: {ex.Message}");
-                        if (con.State == ConnectionState.Open) con.Close();
-                    }
-                    finally
-                    {
-                        if (con.State == ConnectionState.Open) con.Close(); adpt.Dispose();
-                    }
-                }
-            }
+     //                   // fill tree
+     //                   if (dt.Rows.Count > 0) tree = result.FillRecursive();
+     //               }
+     //               catch (SqlException ex)
+     //               {
+     //                   Debug.WriteLine($"Test throws exception: {ex.Message}");
+     //                   if (con.State == ConnectionState.Open) con.Close();
+     //               }
+     //               finally
+     //               {
+     //                   if (con.State == ConnectionState.Open) con.Close(); adpt.Dispose();
+     //               }
+     //           }
+     //       }
 
-            var totalCardCount = tree.Sum(x => x.Children.Count());
-            var totalDocumCount = tree.Sum(x => x.Descendants().Count(node => node.LevelName == hirearchyDict[0]));
-            var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.Count).Count());
-            var documStartsWith = tree.SelectMany(x => x.Descendants()).Where(node => node.Label.StartsWith("01")).ToList();
-            var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[0]))
-                                     .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
-            var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[1]))
-                                    .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
+     //       var totalCardCount = tree.Sum(x => x.Children.Count());
+     //       var totalDocumCount = tree.Sum(x => x.Descendants().Count(node => node.LevelName == hirearchyDict[0]));
+     //       var totalActCount = tree.Sum(x => x.Descendants().Where(node => node.LevelName.Equals(hirearchyDict[1]) && node.Label.Equals(typeDocDict[3])).Select(act => act.Count).Count());
+     //       var documStartsWith = tree.SelectMany(x => x.Descendants()).Where(node => node.Label.StartsWith("01")).ToList();
+     //       var documDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[0]))
+     //                                .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
+     //       var typeDocDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[1]))
+     //                               .DistinctBy(x => new { x.SearchKey, x.Label }).ToDictionary(gr => gr.SearchKey, gr => gr.Label);
 
-            var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[3]))
-                                     .DistinctBy(x => new { x.SearchKey, x.Label })//.ToLookup(x=>x.SearchKey)
-                                     .ToDictionary(gr => gr.SearchKey, gr => gr.Label, StringComparer.OrdinalIgnoreCase);
+     //       var cardDictFilter = tree.SelectMany(x => x.Descendants()).Where(node => node.LevelName.Equals(hirearchyDict[3]))
+     //                                .DistinctBy(x => new { x.SearchKey, x.Label })//.ToLookup(x=>x.SearchKey)
+     //                                .ToDictionary(gr => gr.SearchKey, gr => gr.Label, StringComparer.OrdinalIgnoreCase);
 
-            // Arrange
-            Assert.IsTrue(totalCardCount > 0);
-            Assert.IsTrue(totalDocumCount > totalCardCount);
-            Assert.IsTrue(totalActCount > 0 && totalActCount < totalCardCount);
-            Assert.IsTrue(documStartsWith.Count() >= 0);
-            Assert.IsTrue(result.Count > 0);
-            Assert.IsTrue(tree.Count() == countGroup);
-        }
+     //       // Arrange
+     //       Assert.IsTrue(totalCardCount > 0);
+     //       Assert.IsTrue(totalDocumCount > totalCardCount);
+     //       Assert.IsTrue(totalActCount > 0 && totalActCount < totalCardCount);
+     //       Assert.IsTrue(documStartsWith.Count() >= 0);
+     //       Assert.IsTrue(result.Count > 0);
+     //       Assert.IsTrue(tree.Count() == countGroup);
+     //   }
 
         [TestMethod]
         public void InitEf()
