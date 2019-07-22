@@ -940,7 +940,6 @@ ui-docketingPortal/.vscode/
 ui-docketingPortal/reports/
 ui-docketingPortal/src/test.gen.ts
 *.dll
-*.png
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
