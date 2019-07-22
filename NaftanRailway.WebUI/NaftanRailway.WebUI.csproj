@@ -105,53 +105,14 @@
     <WarningLevel>4</WarningLevel>
     <PublishDatabaseSettings>
       <Objects>
-        <ObjectGroup Name="ORCEntities-развертывание" Order="1">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=.%3bInitial Catalog=RailwayDb%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\ORCEntities-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="OBDEntities-развертывание" Order="2">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=.%3bInitial Catalog=RailwayDb%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\OBDEntities-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="MesplanEntities-развертывание" Order="3">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=.%3bInitial Catalog=RailwayDb%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\MesplanEntities-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="SessionDbContext-развертывание" Order="4">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=.%3bInitial Catalog=SessionDb%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\SessionDbContext-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="SecurityConnection-развертывание" Order="5">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=|DataDirectory|\SimpleMemberShipDb.sdf%3bPersist Security Info=True" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\SecurityConnection-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="SimpleMemberShipDbEntities-развертывание" Order="6">
-          <Destination Path="" />
-          <Object Type="dbFullSql">
-            <PreSource Path="Data Source=|DataDirectory|\SimpleMemberShipDb.sdf" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Release\AutoScripts\SimpleMemberShipDbEntities-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
       </Objects>
     </PublishDatabaseSettings>
     <PackageAsSingleFile>true</PackageAsSingleFile>
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>7.0</LangVersion>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
+    <IncludeAppPool>true</IncludeAppPool>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
