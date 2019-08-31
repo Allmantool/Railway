@@ -5,13 +5,24 @@
 // Modifying this file may result in difficulties when upgrading the package.
 // All types are internal. Add a LIBOWIN_PUBLIC compilation symbol to make them public.
 
-namespace LibOwin.Infrastructure
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
+using System;
+using System;
+using System.Collections;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
+namespace Railway.DeliveryCargo.Infrastructure.Core
+{
     internal static partial class Constants
     {
         internal const string Https = "HTTPS";
@@ -867,22 +878,6 @@ namespace LibOwin.Infrastructure
             return string.IsNullOrWhiteSpace(localPort) ? localIpAddress : (localIpAddress + ":" + localPort);
         }
     }
-}
-
-namespace LibOwin
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Security.Principal;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using LibOwin.Infrastructure;
 
 #if LIBOWIN_PUBLIC
 
@@ -1290,8 +1285,8 @@ namespace LibOwin
                 return _value;
             }
             else if ((index = _value.IndexOf(':')) >= 0
-                && index < _value.Length - 1
-                && _value.IndexOf(':', index + 1) >= 0)
+                     && index < _value.Length - 1
+                     && _value.IndexOf(':', index + 1) >= 0)
             {
                 // IPv6 without brackets ::1 is the only type of host with 2 or more colons
                 return "[" + _value + "]";
@@ -1326,8 +1321,8 @@ namespace LibOwin
                     // IPv6 in brackets [::1], maybe with port
                 }
                 else if ((index = uriComponent.IndexOf(':')) >= 0
-                    && index < uriComponent.Length - 1
-                    && uriComponent.IndexOf(':', index + 1) >= 0)
+                         && index < uriComponent.Length - 1
+                         && uriComponent.IndexOf(':', index + 1) >= 0)
                 {
                     // IPv6 without brackets ::1 is the only type of host with 2 or more colons
                 }
@@ -2910,9 +2905,9 @@ namespace LibOwin
                 // Check conservatively for safe characters. See http://www.ietf.org/rfc/rfc3986.txt
                 bool safeChar =
                     (('a' <= c && c <= 'z')
-                    || ('A' <= c && c <= 'Z')
-                    || ('0' <= c && c <= '9')
-                    || c == '/' || c == '-' || c == '_');
+                     || ('A' <= c && c <= 'Z')
+                     || ('0' <= c && c <= '9')
+                     || c == '/' || c == '-' || c == '_');
                 if (!safeChar)
                 {
                     return true;
@@ -3488,13 +3483,13 @@ namespace LibOwin
             {
                 rejectPredicate = value =>
                     value.StartsWith(key + "=", StringComparison.OrdinalIgnoreCase) &&
-                        value.IndexOf("domain=" + options.Domain, StringComparison.OrdinalIgnoreCase) != -1;
+                    value.IndexOf("domain=" + options.Domain, StringComparison.OrdinalIgnoreCase) != -1;
             }
             else if (pathHasValue)
             {
                 rejectPredicate = value =>
                     value.StartsWith(key + "=", StringComparison.OrdinalIgnoreCase) &&
-                        value.IndexOf("path=" + options.Path, StringComparison.OrdinalIgnoreCase) != -1;
+                    value.IndexOf("path=" + options.Path, StringComparison.OrdinalIgnoreCase) != -1;
             }
             else
             {
