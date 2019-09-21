@@ -1,9 +1,8 @@
-﻿using LibOwin;
-using Microsoft.Extensions.Logging;
-using Railway.DeliveryCargo.Infrastructure.Core;
-
-namespace Railway.DeliveryCargo.Infrastructure
+﻿namespace Railway.DeliveryCargo.Infrastructure
 {
+    using Microsoft.Extensions.Logging;
+    using Railway.DeliveryCargo.Infrastructure.Core;
+
     public class RequestLoggingMiddleware
     {
         public static AppFunc Invoke(AppFunc next, ILogger log)
